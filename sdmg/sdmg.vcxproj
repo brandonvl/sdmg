@@ -76,7 +76,23 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Size.cpp" />
+    <ClCompile Include="SpriteMapSurface.cpp" />
+    <ClCompile Include="StaticSurface.cpp" />
+    <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="SurfaceManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Size.h" />
+    <ClInclude Include="SpriteMapSurface.h" />
+    <ClInclude Include="StaticSurface.h" />
+    <ClInclude Include="Surface.h" />
+    <ClInclude Include="SurfaceManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
