@@ -11,11 +11,12 @@ const float M2P = 20;
 const float P2M = 1 / M2P;
 b2World* world;
 SDL_Surface* screen;
+SDL_Window *window;
 
 void putPixel(SDL_Surface* dest, int x, int y, int r, int g, int b)
 {
 	//      std::cout << x << " " << y << std::endl;
-	if (x >= 0 && x<dest->w && y >= 0 && y<dest->h)
+	if (x >= 0 && x < dest->w && y >= 0 && y < dest->h)
 		((Uint32*)dest->pixels)[y*dest->pitch / 4 + x] = SDL_MapRGB(dest->format, r, g, b);
 }
 
@@ -31,14 +32,14 @@ void drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 	int tmp;
 	bool step;
 
-	step = abs(y1 - y0)>abs(x1 - x0);
+	step = abs(y1 - y0) > abs(x1 - x0);
 	if (step)
 	{
 		swapValue(x0, y0);
 		swapValue(x1, y1);
 	}
 
-	if (x0>x1)
+	if (x0 > x1)
 	{
 		swapValue(x1, x0);
 		swapValue(y1, y0);
@@ -46,8 +47,8 @@ void drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
 	float error = 0.0;
 	float y = y0;
 	float roundError = (float)abs(y1 - y0) / (x1 - x0);
-	int ystep = (y1>y0 ? 1 : -1);
-	for (int i = x0; i<x1; i++)
+	int ystep = (y1 > y0 ? 1 : -1);
+	for (int i = x0; i < x1; i++)
 	{
 		if (step)
 			putPixel(dest, y, i, 255, 255, 255);
@@ -92,8 +93,8 @@ b2Body* addRect(int x, int y, int w, int h, bool dyn = true)
 
 void drawSquare(b2Vec2* points, b2Vec2 center, float angle)
 {
-	for (int i = 0; i<4; i++)
-		drawLine(screen, points[i].x*M2P, points[i].y*M2P, points[(i + 1)>3 ? 0 : (i + 1)].x*M2P, points[(i + 1)>3 ? 0 : (i + 1)].y*M2P);
+	for (int i = 0; i < 4; i++)
+		drawLine(screen, points[i].x*M2P, points[i].y*M2P, points[(i + 1) > 3 ? 0 : (i + 1)].x*M2P, points[(i + 1) > 3 ? 0 : (i + 1)].y*M2P);
 }
 
 
@@ -110,7 +111,7 @@ void display()
 	b2Vec2 points[4];
 	while (tmp)
 	{
-		for (int i = 0; i<4; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			points[i] = ((b2PolygonShape*)tmp->GetFixtureList()->GetShape())->GetVertex(i);
 			rotateTranslate(points[i], tmp->GetWorldCenter(), tmp->GetAngle());
@@ -119,10 +120,17 @@ void display()
 		tmp = tmp->GetNext();
 	}
 }
-int main2(int argc, char** argv)
+
+int main(int argc, char** argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	//screen = SDL_SetVideoMode(640, 480, 32, SDL_SWSURFACE);
+	window = SDL_CreateWindow("Mijn Schermpje", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+	
+	screen = SDL_GetWindowSurface(window);
+
+
+
 	Uint32 start;
 	SDL_Event event;
 	bool running = true;
@@ -154,89 +162,12 @@ int main2(int argc, char** argv)
 		display();
 		world->Step(1.0 / 30.0, 8, 3);      //update
 		//SDL_Flip(screen);
-		if (1000.0 / 30>SDL_GetTicks() - start)
+		//SDL_RenderPresent(renderer);
+		SDL_UpdateWindowSurface(window);
+
+		if (1000.0 / 30 > SDL_GetTicks() - start)
 			SDL_Delay(1000.0 / 30 - (SDL_GetTicks() - start));
 	}
 	SDL_Quit();
 	return 0;
-}
-
-*/
-int mainasd(int argc, char **argv)
-{
-
-	b2Vec2 gravity(0.0f, -5.0f);
-	b2World world(gravity);
-
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
-
-
-	b2Body* groundBody = world.CreateBody(&groundBodyDef);
-
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(50.0f, 10.0f);
-
-	groundBody->CreateFixture(&groundBox, 0.0f);
-
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0.0f, 4.0f);
-	b2Body* body = world.CreateBody(&bodyDef);
-
-
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
-
-
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-
-
-	body->CreateFixture(&fixtureDef);
-
-	float32 time = 100.0f;
-
-	float32 timeStep = 1.0f / time;
-	int32 velocityIterations = 6;
-	int32 positionIterations = 2;
-
-	
-	int count = 0;
-	auto previous = std::chrono::high_resolution_clock::now();
-
-
-
-	while (count < time)
-	{
-		//long long ms = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - previous).count();
-
-		//float sd = 1000.0f / ms;
-		//timeStep = 1.0f / sd;
-
-		world.Step(timeStep, velocityIterations, positionIterations);
-		b2Vec2 position = body->GetPosition();
-		float32 angle = body->GetAngle();
-		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-
-
-		//previous = std::chrono::high_resolution_clock::now();
-
-		count++;
-	}
-	
-	/*
-	for (int32 i = 0; i < 60; ++i)
-	{
-		world.Step(timeStep, velocityIterations, positionIterations);
-		b2Vec2 position = body->GetPosition();
-		float32 angle = body->GetAngle();
-		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-	}
-	*/
-
-	std::cin.get();
-	return 0;
-}
+}*/
