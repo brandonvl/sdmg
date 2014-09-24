@@ -1,11 +1,12 @@
 #include <iostream>
 #include "sdl\include\SDL.h"
-#include "lib\box2d\Box2D.h"
+#include "Box2D\Box2D.h"
+
 
 int main(int argc, char **argv)
 {
 
-	b2Vec2 gravity(0.0f, -10.0f);
+	b2Vec2 gravity(0.0f, -5.0f);
 	b2World world(gravity);
 
 	b2BodyDef groundBodyDef;
