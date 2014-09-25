@@ -3,6 +3,7 @@
 #include "sdl\include\SDL.h"
 #include <iostream>
 #include <map>
+#include <cmath>  
 
 b2World *_world;
 float M2P, P2M;
@@ -59,6 +60,11 @@ void World::setGravity(b2Vec2 gravtiy)
 	_world->SetGravity(gravtiy);
 }
 
+b2Vec2 World::getGravity()
+{
+	return _world->GetGravity();
+}
+
 void World::step(float32 timeStep, int32 velocityIterations, int32 positionIterators)
 {
 	//_world->step(timeStep, 8, 3);
@@ -113,9 +119,10 @@ b2Body* World::addKinecticBody(int x, int y, int w, int h, int right, int down)
 
 	body->SetLinearVelocity(b2Vec2(right, down));
 
-	body->SetUserData("kinectic-horizontal");
+	// b2Vec2 *vec = new b2Vec2(bodydef->position.x, bodydef->position.x * 2);
 
-	
+	body->SetUserData(new b2Vec2(bodydef->position.x, bodydef->position.x * 2));
+
 	return body;
 }
 
@@ -146,6 +153,33 @@ void World::renderBodies(SDL_Renderer *renderer)
 		b2Vec2 *vec = (*_boxSizes)[tmp];
 		r.w = vec->x * M2P;
 		r.h = vec->y * M2P;
+
+
+		if (tmp->GetType() == b2_kinematicBody) {
+
+			b2Vec2 *vec = static_cast<b2Vec2*>(tmp->GetUserData());
+			
+			if (tmp->GetPosition().x >= vec->y)
+			{
+				tmp->SetLinearVelocity(b2Vec2(-tmp->GetLinearVelocity().x, 0.0));
+			}
+			else if (tmp->GetPosition().x <= vec->x)
+			{
+				tmp->SetLinearVelocity(b2Vec2(std::abs(tmp->GetLinearVelocity().x), 0.0));
+			}
+			/*
+			tmp->GetPosition().x >=
+
+			int xSpeed : Number = tmp->GetLinearVelocity()->x;
+			int xPos : Number = tmp->GetWorldCenter()->x*worldScale;
+			if ((xPos<10 && xSpeed<0) || (xPos>630 && xSpeed>0)) {
+				xSpeed *= -1;
+				tmp->SetLinearVelocity(new b2Vec2(xSpeed, 0));
+			}
+			*/
+		}
+
+
 
 		// Render rect
 		SDL_RenderFillRect(renderer, &r);

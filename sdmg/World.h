@@ -13,6 +13,7 @@ public:
 	void renderBodies(SDL_Renderer *renderer);
 	void step(float32 timeStep, int32 velocityIterations, int32 positionIterators);
 	void setGravity(b2Vec2 gravity);
+	b2Vec2 getGravity();
 	int getWidth();
 	int getHeight();
 };

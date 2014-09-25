@@ -12,7 +12,7 @@ Level1::~Level1()
 
 void Level1::loadLevel(World *world)
 {
-	world->setGravity(b2Vec2(0.0, 20.0));
+	world->setGravity(b2Vec2(0.0, 100.0));
 
 	world->addBody(world->getWidth() / 2, world->getHeight() - 50, world->getWidth(), 30, false);
 

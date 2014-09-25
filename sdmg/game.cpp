@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 
 	// _world->addBody(_world->getWidth() / 2, _world->getHeight() - 50, _world->getWidth(), 30, false);
 
-	_player = new Player(50, 50, 20, 3, _world->addBody(_world->getWidth() / 2, _world->getHeight() - 50, 50, 50, true));
+	_player = new Player(50, 50, 20, _world->getGravity().y / 15, _world->addBody(_world->getWidth() / 2, _world->getHeight() - 50, 50, 50, true));
 
 
 
