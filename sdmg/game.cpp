@@ -1,135 +1,66 @@
-#include <iostream>
-#include <time.h>
-#include <chrono>
-#include "sdl\include\SDL.h"
 #include "Box2D\Box2D.h"
+#include "sdl\include\SDL.h"
+#include "Level1.h"
+#include "Player.h"
+#include "World.h"
+#include <map>
+#include <iostream>
 
-/*
-const int WIDTH = 640;
-const int HEIGHT = 480;
-const float M2P = 20;
-const float P2M = 1 / M2P;
-b2World* world;
-SDL_Surface* screen;
+SDL_Window *_window;
+SDL_Renderer *_renderer;
+Player *_player;
+World *_world;
+bool running;
 
-void putPixel(SDL_Surface* dest, int x, int y, int r, int g, int b)
+void initSDL()
 {
-	//      std::cout << x << " " << y << std::endl;
-	if (x >= 0 && x<dest->w && y >= 0 && y<dest->h)
-		((Uint32*)dest->pixels)[y*dest->pitch / 4 + x] = SDL_MapRGB(dest->format, r, g, b);
-}
+	int SDL_Init(SDL_INIT_EVERYTHING);
+	_window = SDL_CreateWindow("Six Developers Make a Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _world->getWidth(), _world->getHeight(), SDL_WINDOW_SHOWN);
+	// Setup renderer
+	_renderer = SDL_CreateRenderer(_window, 0, SDL_RENDERER_ACCELERATED);
 
-void swapValue(int& a, int& b)
-{
-	int tmp = a;
-	a = b;
-	b = tmp;
-}
-
-void drawLine(SDL_Surface* dest, int x0, int y0, int x1, int y1)
-{
-	int tmp;
-	bool step;
-
-	step = abs(y1 - y0)>abs(x1 - x0);
-	if (step)
-	{
-		swapValue(x0, y0);
-		swapValue(x1, y1);
-	}
-
-	if (x0>x1)
-	{
-		swapValue(x1, x0);
-		swapValue(y1, y0);
-	}
-	float error = 0.0;
-	float y = y0;
-	float roundError = (float)abs(y1 - y0) / (x1 - x0);
-	int ystep = (y1>y0 ? 1 : -1);
-	for (int i = x0; i<x1; i++)
-	{
-		if (step)
-			putPixel(dest, y, i, 255, 255, 255);
-		else
-			putPixel(dest, i, y, 255, 255, 255);
-		error += roundError;
-		if (error >= 0.5)
-		{
-			y += ystep;
-			error -= 1;
-		}
-	}
-}
-
-void rotateTranslate(b2Vec2& vector, const b2Vec2& center, float angle)
-{
-	b2Vec2 tmp;
-	tmp.x = vector.x*cos(angle) - vector.y*sin(angle);
-	tmp.y = vector.x*sin(angle) + vector.y*cos(angle);
-	vector = tmp + center;
+	// _boxSizes = new std::map<b2Body*, b2Vec2*>;
 }
 
 
-b2Body* addRect(int x, int y, int w, int h, bool dyn = true)
+void handleInput()
 {
-	b2BodyDef bodydef;
-	bodydef.position.Set(x*P2M, y*P2M);
-	if (dyn)
-		bodydef.type = b2_dynamicBody;
-	b2Body* body = world->CreateBody(&bodydef);
-
-	b2PolygonShape shape;
-	shape.SetAsBox(P2M*w / 2, P2M*h / 2);
-
-	b2FixtureDef fixturedef;
-	fixturedef.shape = &shape;
-	fixturedef.density = 1.0;
-	body->CreateFixture(&fixturedef);
-
-	return nullptr;
 }
 
-void drawSquare(b2Vec2* points, b2Vec2 center, float angle)
+int main(int argc, char **argv)
 {
-	for (int i = 0; i<4; i++)
-		drawLine(screen, points[i].x*M2P, points[i].y*M2P, points[(i + 1)>3 ? 0 : (i + 1)].x*M2P, points[(i + 1)>3 ? 0 : (i + 1)].y*M2P);
-}
+	// _world = new World(b2Vec2(0.0, 9.81));
+	_world = new World(b2Vec2(0.0, 25.0));
+
+	Level1 *level1 = new Level1();
+	level1->loadLevel(_world);
+
+	// _world->addBody(_world->getWidth() / 2, _world->getHeight() - 50, _world->getWidth(), 30, false);
+
+	_player = new Player(50, 50, 20, 3, _world->addBody(_world->getWidth() / 2, _world->getHeight() - 50, 50, 50, true));
 
 
-void init()
-{
-	world = new b2World(b2Vec2(0.0, 9.81));
-	addRect(WIDTH / 2, HEIGHT - 50, WIDTH, 30, false);
-}
 
-void display()
-{
-	SDL_FillRect(screen, NULL, 0);
-	b2Body* tmp = world->GetBodyList();
-	b2Vec2 points[4];
-	while (tmp)
-	{
-		for (int i = 0; i<4; i++)
-		{
-			points[i] = ((b2PolygonShape*)tmp->GetFixtureList()->GetShape())->GetVertex(i);
-			rotateTranslate(points[i], tmp->GetWorldCenter(), tmp->GetAngle());
-		}
-		drawSquare(points, tmp->GetWorldCenter(), tmp->GetAngle());
-		tmp = tmp->GetNext();
-	}
-}
-int main2(int argc, char** argv)
-{
-	SDL_Init(SDL_INIT_EVERYTHING);
-	//screen = SDL_SetVideoMode(640, 480, 32, SDL_SWSURFACE);
+	initSDL();
+
+	float32 time = 60.0f;
+	float32 timeStep = 1.0f / time;
+
 	Uint32 start;
 	SDL_Event event;
-	bool running = true;
-	init();
+	running = true;
 	while (running)
 	{
+		// Set render color to red ( background will be rendered in this color )
+		SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+		// Clear winow
+		SDL_RenderClear(_renderer);
+
 		start = SDL_GetTicks();
+		handleInput();
+
+
+
 		while (SDL_PollEvent(&event))
 		{
 			switch (event.type)
@@ -143,100 +74,77 @@ int main2(int argc, char** argv)
 				case SDLK_ESCAPE:
 					running = false;
 					break;
+				case SDLK_RIGHT:
+					_player->move(1);
+					break;
+				case SDLK_LEFT:
+					_player->move(-1);
+					break;
+				case SDLK_SPACE:
+					_player->jump();
+					break;
 				}
 				break;
-			case SDL_MOUSEBUTTONDOWN:
-				addRect(event.button.x, event.button.y, 20, 20, true);
+			case SDL_KEYUP:
+
+
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_LEFT:
+					_player->move(0);
+					break;
+				case SDLK_RIGHT:
+					_player->move(0);
+					break;
+				}
 				break;
 
+			case SDL_MOUSEBUTTONDOWN:
+				_world->addBody(event.button.x, event.button.y, 20, 20, true);
+				break;
+			default:
+				// _player->move(0);
+				break;
 			}
 		}
-		display();
-		world->Step(1.0 / 30.0, 8, 3);      //update
-		//SDL_Flip(screen);
-		if (1000.0 / 30>SDL_GetTicks() - start)
+
+
+		SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+
+		_world->step(timeStep, 8, 3);
+
+		_world->renderBodies(_renderer);
+
+		SDL_RenderPresent(_renderer);
+
+		if (1000.0 / 30 > SDL_GetTicks() - start)
 			SDL_Delay(1000.0 / 30 - (SDL_GetTicks() - start));
 	}
 	SDL_Quit();
-	return 0;
-}
 
-*/
-int mainasd(int argc, char **argv)
-{
+	return EXIT_SUCCESS;
 
-	b2Vec2 gravity(0.0f, -5.0f);
-	b2World world(gravity);
-
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
-
-
-	b2Body* groundBody = world.CreateBody(&groundBodyDef);
-
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(50.0f, 10.0f);
-
-	groundBody->CreateFixture(&groundBox, 0.0f);
-
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0.0f, 4.0f);
-	b2Body* body = world.CreateBody(&bodyDef);
-
-
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
-
-
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-
-
-	body->CreateFixture(&fixtureDef);
-
-	float32 time = 100.0f;
-
-	float32 timeStep = 1.0f / time;
-	int32 velocityIterations = 6;
-	int32 positionIterations = 2;
-
-	
-	int count = 0;
-	auto previous = std::chrono::high_resolution_clock::now();
-
-
-
-	while (count < time)
-	{
-		//long long ms = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - previous).count();
-
-		//float sd = 1000.0f / ms;
-		//timeStep = 1.0f / sd;
-
-		world.Step(timeStep, velocityIterations, positionIterations);
-		b2Vec2 position = body->GetPosition();
-		float32 angle = body->GetAngle();
-		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-
-
-		//previous = std::chrono::high_resolution_clock::now();
-
-		count++;
-	}
-	
 	/*
-	for (int32 i = 0; i < 60; ++i)
-	{
-		world.Step(timeStep, velocityIterations, positionIterations);
-		b2Vec2 position = body->GetPosition();
-		float32 angle = body->GetAngle();
-		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-	}
-	*/
 
-	std::cin.get();
-	return 0;
+	// Creat a rect at pos ( 50, 50 ) that's 50 pixels wide and 50 pixels high.
+	SDL_Rect r;
+	r.x = 50;
+	r.y = 50;
+	r.w = 50;
+	r.h = 50;
+
+	// Set render color to blue ( rect will be rendered in this color )
+	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+	// Render rect
+	SDL_RenderFillRect(renderer, &r);
+
+	// Render the rect to the screen
+	SDL_RenderPresent(renderer);
+
+	// Wait for 5 sec
+	SDL_Delay(5000);
+	SDL_DestroyWindow(window);
+	SDL_Quit();
+	*/
 }
