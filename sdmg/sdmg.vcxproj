@@ -44,11 +44,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib;$(ProjectDir)lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -76,7 +77,91 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="actions\JumpAction.cpp" />
+    <ClCompile Include="actions\LeftWalkAction.cpp" />
+    <ClCompile Include="actions\MenuDownAction.cpp" />
+    <ClCompile Include="actions\MenuSelectAction.cpp" />
+    <ClCompile Include="actions\MenuUpAction.cpp" />
+    <ClCompile Include="actions\RightWalkAction.cpp" />
+    <ClCompile Include="engine\audio\AudioEngine.cpp" />
+    <ClCompile Include="engine\drawing\DrawEngine.cpp" />
+    <ClCompile Include="engine\drawing\Rectangle.cpp" />
+    <ClCompile Include="engine\drawing\SpriteMapSurface.cpp" />
+    <ClCompile Include="engine\drawing\StaticSurface.cpp" />
+    <ClCompile Include="engine\Engine.cpp" />
+    <ClCompile Include="engine\GameBase.cpp" />
+    <ClCompile Include="engine\GameObject.cpp" />
+    <ClCompile Include="engine\GameObjectFactory.cpp" />
+    <ClCompile Include="engine\GameStateManager.cpp" />
+    <ClCompile Include="engine\GameTime.cpp" />
+    <ClCompile Include="engine\input\InputDeviceBinding.cpp" />
+    <ClCompile Include="engine\input\InputEngine.cpp" />
+    <ClCompile Include="engine\MovableGameObject.cpp" />
+    <ClCompile Include="engine\physics\PhysicsEngine.cpp" />
+    <ClCompile Include="engine\World.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="gamestates\CharacterSelectionState.cpp" />
+    <ClCompile Include="gamestates\GameOverState.cpp" />
+    <ClCompile Include="gamestates\IntroState.cpp" />
+    <ClCompile Include="gamestates\LevelSelectionState.cpp" />
+    <ClCompile Include="gamestates\LoadingState.cpp" />
+    <ClCompile Include="gamestates\MainMenuState.cpp" />
+    <ClCompile Include="gamestates\MenuState.cpp" />
+    <ClCompile Include="gamestates\PauseState.cpp" />
+    <ClCompile Include="gamestates\PlayState.cpp" />
+    <ClCompile Include="gamestates\SelectionState.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="model\AICharacter.cpp" />
+    <ClCompile Include="model\Character.cpp" />
+    <ClCompile Include="model\Item.cpp" />
+    <ClCompile Include="model\Platform.cpp" />
+    <ClCompile Include="model\Weapon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="actions\JumpAction.h" />
+    <ClInclude Include="actions\LeftWalkAction.h" />
+    <ClInclude Include="actions\MenuDownAction.h" />
+    <ClInclude Include="actions\MenuSelectAction.h" />
+    <ClInclude Include="actions\MenuUpAction.h" />
+    <ClInclude Include="actions\RightWalkAction.h" />
+    <ClInclude Include="engine\audio\AudioEngine.h" />
+    <ClInclude Include="engine\Direction.h" />
+    <ClInclude Include="engine\drawing\DrawEngine.h" />
+    <ClInclude Include="engine\drawing\Rectangle.h" />
+    <ClInclude Include="engine\drawing\SpriteMapSurface.h" />
+    <ClInclude Include="engine\drawing\StaticSurface.h" />
+    <ClInclude Include="engine\drawing\Surface.h" />
+    <ClInclude Include="engine\Engine.h" />
+    <ClInclude Include="engine\Flags.h" />
+    <ClInclude Include="engine\GameBase.h" />
+    <ClInclude Include="engine\GameObject.h" />
+    <ClInclude Include="engine\GameObjectFactory.h" />
+    <ClInclude Include="engine\GameState.h" />
+    <ClInclude Include="engine\GameStateManager.h" />
+    <ClInclude Include="engine\GameTime.h" />
+    <ClInclude Include="engine\input\Action.h" />
+    <ClInclude Include="engine\input\InputDeviceBinding.h" />
+    <ClInclude Include="engine\input\InputEngine.h" />
+    <ClInclude Include="engine\MovableGameObject.h" />
+    <ClInclude Include="engine\physics\PhysicsEngine.h" />
+    <ClInclude Include="engine\World.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="gamestates\CharacterSelectionState.h" />
+    <ClInclude Include="gamestates\GameOverState.h" />
+    <ClInclude Include="gamestates\IntroState.h" />
+    <ClInclude Include="gamestates\LevelSelectionState.h" />
+    <ClInclude Include="gamestates\LoadingState.h" />
+    <ClInclude Include="gamestates\MainMenuState.h" />
+    <ClInclude Include="gamestates\MenuState.h" />
+    <ClInclude Include="gamestates\PauseState.h" />
+    <ClInclude Include="gamestates\PlayState.h" />
+    <ClInclude Include="gamestates\SelectionState.h" />
+    <ClInclude Include="model\AICharacter.h" />
+    <ClInclude Include="model\Character.h" />
+    <ClInclude Include="model\CharacterState.h" />
+    <ClInclude Include="model\Item.h" />
+    <ClInclude Include="model\Platform.h" />
+    <ClInclude Include="model\Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

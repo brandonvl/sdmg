@@ -13,10 +13,306 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\actions">
+      <UniqueIdentifier>{5e24c187-e31c-42c7-b569-6df34a938b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\model">
+      <UniqueIdentifier>{0a3a4dbf-05a7-46bc-a9af-4e63d6fdd0a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine">
+      <UniqueIdentifier>{29323887-866b-4423-ad2e-7b41fe06ad29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gamestates">
+      <UniqueIdentifier>{59782ecc-f706-4a8d-8f16-b9b323776627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\audio">
+      <UniqueIdentifier>{a68436c5-2751-4fc5-96b1-2c7400ef1fbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\drawing">
+      <UniqueIdentifier>{d1eae4ab-a653-4eb7-afdb-451ba0901621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\input">
+      <UniqueIdentifier>{3878fb6b-254c-4b33-97fe-378382e70c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\physics">
+      <UniqueIdentifier>{f822fc03-f48d-4d25-a775-3f489fd3e21b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\actions">
+      <UniqueIdentifier>{d428b716-324f-4e5a-8018-bc4f38479a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{550bdeee-a486-4e65-997c-5cdd40355a98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine">
+      <UniqueIdentifier>{9b3f3f98-359d-444f-aeb5-5eba681bd081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gamestates">
+      <UniqueIdentifier>{220cac51-c139-4ba9-9bf4-385fe4b982e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\audio">
+      <UniqueIdentifier>{7a3c2d2a-a313-4484-906f-9065e1293b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\drawing">
+      <UniqueIdentifier>{c3f93732-958f-46ce-8af2-c30d1739b8e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\input">
+      <UniqueIdentifier>{90248200-07e5-43e0-b317-804a5158813a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\physics">
+      <UniqueIdentifier>{bdc1cfa9-ed1a-4962-b5a9-f156a9640d2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LeftWalkAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\JumpAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\MenuDownAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\MenuSelectAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\MenuUpAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\RightWalkAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="model\AICharacter.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Character.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Item.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Platform.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Weapon.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\CharacterSelectionState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\GameOverState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\IntroState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\MainMenuState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\MenuState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\PauseState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\PlayState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\SelectionState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\audio\AudioEngine.cpp">
+      <Filter>Source Files\engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\DrawEngine.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Engine.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameBase.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameObject.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameObjectFactory.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameStateManager.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameTime.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\MovableGameObject.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\World.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\PhysicsEngine.cpp">
+      <Filter>Source Files\engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\InputEngine.cpp">
+      <Filter>Source Files\engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\InputDeviceBinding.cpp">
+      <Filter>Source Files\engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\Rectangle.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\SpriteMapSurface.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\StaticSurface.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LevelSelectionState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\JumpAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\LeftWalkAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\MenuDownAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\MenuSelectAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\MenuUpAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\RightWalkAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\CharacterSelectionState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\IntroState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\MainMenuState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\MenuState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\PauseState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\PlayState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\SelectionState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="model\AICharacter.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Character.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Item.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Platform.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\CharacterState.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Weapon.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\AudioEngine.h">
+      <Filter>Header Files\engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\DrawEngine.h">
+      <Filter>Header Files\engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\Rectangle.h">
+      <Filter>Header Files\engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\SpriteMapSurface.h">
+      <Filter>Header Files\engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\StaticSurface.h">
+      <Filter>Header Files\engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\Surface.h">
+      <Filter>Header Files\engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\InputDeviceBinding.h">
+      <Filter>Header Files\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\InputEngine.h">
+      <Filter>Header Files\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Action.h">
+      <Filter>Header Files\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\PhysicsEngine.h">
+      <Filter>Header Files\engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\MovableGameObject.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\Direction.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\Engine.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\Flags.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\GameBase.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\GameObject.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\GameObjectFactory.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\GameState.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\GameStateManager.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\GameTime.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\World.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\GameOverState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LevelSelectionState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
