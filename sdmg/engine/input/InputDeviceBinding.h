@@ -19,11 +19,14 @@ namespace sdmg {
 		namespace input {
 			class InputDeviceBinding {
 			public:
-				void setKeyBinding(const SDL_Keycode &key, const Action *action);
+				InputDeviceBinding(MovableGameObject *gameObject);
+				~InputDeviceBinding();
+				void setKeyBinding(const SDL_Keycode keyCode, Action *action);
 				void clearBindings();
+				Action* createAction(const SDL_Keycode &keyCode);
 			private:
 				MovableGameObject *_gameObject;
-				std::map<SDL_Keycode, Action*> _keyBindings;
+				std::map<const SDL_Keycode, Action*> *_keyBindings;
 			};
 		}
 	}

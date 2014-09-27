@@ -21,11 +21,19 @@ namespace sdmg {
 		namespace input {
 			class InputEngine {
 			public:
-				void setDeviceBinding(std::string device, InputDeviceBinding binding);
+				InputEngine();
+				~InputEngine();
+				void setDeviceBinding(std::string device, InputDeviceBinding* binding);
 				void clearBindings();
 			private:
 				Engine *_engine;
-				std::map<std::string,InputDeviceBinding> _deviceBinding;
+				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
+				std::vector<Action*> *_actions;
+				bool _active;
+				SDL_Thread *_thread;
+				void initialize();
+				int waitForKeyInput(void *data);
+				void handleKey(std::string device, SDL_Keycode keyCode);
 			};
 		}
 	}
