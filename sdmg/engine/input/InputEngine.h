@@ -21,13 +21,11 @@ namespace sdmg {
 		namespace input {
 			class InputEngine {
 			public:
-				void addAction(Action action);
 				void setDeviceBinding(std::string device, InputDeviceBinding binding);
 				void clearBindings();
 			private:
 				Engine *_engine;
 				std::map<std::string,InputDeviceBinding> _deviceBinding;
-				std::vector<Action> _actions;
 			};
 		}
 	}

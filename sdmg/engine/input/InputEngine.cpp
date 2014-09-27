@@ -13,10 +13,6 @@
 namespace sdmg {
 	namespace engine {
 		namespace input {
-			void InputEngine::addAction(Action action) {
-			
-			}
-			
 			void InputEngine::setDeviceBinding(std::string device, InputDeviceBinding binding) {
 			
 			}

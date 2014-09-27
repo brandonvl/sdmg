@@ -23,7 +23,7 @@ namespace sdmg {
 				void clearBindings();
 			private:
 				MovableGameObject *_gameObject;
-				std::map<SDL_Keycode, Action> _keyBindings;
+				std::map<SDL_Keycode, Action*> _keyBindings;
 			};
 		}
 	}
