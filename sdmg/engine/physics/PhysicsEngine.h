@@ -9,6 +9,7 @@
 
 #pragma once
 
+class b2World;
 namespace sdmg {
 	namespace engine {
 		class Engine;
@@ -19,8 +20,10 @@ namespace sdmg {
 				void update();
 				void pause();
 				void resume();
+				void createWorld(const float leftGravity, const float downGravity);
 			private:
 				Engine *_engine;
+				b2World *_world;
 				bool _enabled;
 			};
 		}
