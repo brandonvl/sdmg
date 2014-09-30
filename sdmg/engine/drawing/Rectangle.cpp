@@ -13,6 +13,13 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
+			Rectangle::Rectangle(float x, float y, float width, float height) {
+				setX(x);
+				setY(y);
+				setWidth(width);
+				setHeight(height);
+			}
+
 			float Rectangle::getX() {
 				return _x;
 			}

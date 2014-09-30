@@ -9,12 +9,21 @@
 
 
 #include "Engine.h"
+#include "drawing\DrawEngine.h"
 #include "GameState.h"
 #include "GameTime.h"
 #include "GameBase.h"
 
 namespace sdmg {
 	namespace engine {
+		Engine::Engine() {
+			_drawEngine = new DrawEngine();
+		}
+
+		Engine::~Engine() {
+
+		}
+
 		void Engine::update(const GameState *gameState, const GameTime *gameTime) {
 		
 		}

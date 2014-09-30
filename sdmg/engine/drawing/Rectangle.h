@@ -14,6 +14,7 @@ namespace sdmg {
 		namespace drawing {
 			class Rectangle {
 			public:
+				Rectangle(float x, float y, float width, float height);
 				float getX();
 				void setX(float x);
 				float getY();
