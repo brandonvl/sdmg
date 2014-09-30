@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
 	Engine *engine = game->getEngine();
 	DrawEngine *draw = engine->getDrawEngine();
-	draw->load("chicken", "C:/Users/Niek Willems/Documents/GitHub/ChickenShooter/ChickenShooter/Images/chicken.png");
+	draw->load("chicken", "c:/data/cow.png");
 
 	game->start();
 	SDL_Quit();

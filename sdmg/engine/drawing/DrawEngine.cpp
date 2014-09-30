@@ -43,20 +43,18 @@ namespace sdmg {
 			
 			void DrawEngine::initialize() {
 				_surfaces = new std::map<std::string, Surface*>();
-				_window = SDL_CreateWindow("SDMG", 0, 0, 1280, 720, SDL_WINDOW_RESIZABLE);
+				_window = SDL_CreateWindow("SDMG", 50, 50, 1280, 720, SDL_WINDOW_FULLSCREEN);
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 			}
 
 			void DrawEngine::draw(std::string key, Rectangle rect) {
-				Surface *surface = _surfaces->at(key);
-				// Create texture from surface
-				SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface->getSDLSurface());
-				//SDL_FreeSurface(surface->getSDLSurface());
+				Surface *surface = (*_surfaces)[key];
 
-				// Render the current animation
+				SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface->getSDLSurface());
 				SDL_RenderCopy(_renderer, texture, NULL, NULL);
 				SDL_RenderPresent(_renderer);
-				SDL_Delay(500);
+
+				SDL_DestroyTexture(texture);
 			}
 			
 			void DrawEngine::draw(std::string key, int slice, Rectangle rect, float sliceWidth, float sliceHeight) {
