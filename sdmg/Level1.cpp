@@ -1,5 +1,6 @@
 #include "Level1.h"
 #include <World.h>
+#include "KinecticBody.h"
 
 Level1::Level1()
 {
@@ -21,9 +22,10 @@ void Level1::loadLevel(World *world)
 
 
 
-	world->addKinecticBody(100, 200, 50, 30, 0, 0);
-	world->addKinecticBody(200, 200, 50, 30, 20, 0);
-	world->addKinecticBody(900, 200, 50, 30, 0, 0);
 
+
+	world->addKinecticBody(800, 200, 200, 30, 20, 600, KinecticBody::Direction::Down);
+
+	world->addKinecticBody(200, 200, 200, 30, 20, 600, KinecticBody::Direction::Right);
 
 }

@@ -78,11 +78,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="KinecticBody.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KinecticBody.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="World.h" />

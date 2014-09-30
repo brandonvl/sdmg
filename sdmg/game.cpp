@@ -58,9 +58,7 @@ int main(int argc, char **argv)
 
 		start = SDL_GetTicks();
 		handleInput();
-
-
-
+		
 		while (SDL_PollEvent(&event))
 		{
 			switch (event.type)
@@ -103,7 +101,7 @@ int main(int argc, char **argv)
 				_world->addBody(event.button.x, event.button.y, 20, 20, true);
 				break;
 			default:
-				// _player->move(0);
+				//  _player->move(0);
 				break;
 			}
 		}

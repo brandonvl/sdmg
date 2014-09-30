@@ -1,34 +1,53 @@
 #include "World.h"
 #include "Box2D\Box2D.h"
 #include "sdl\include\SDL.h"
+#include "KinecticBody.h"
 #include <iostream>
 #include <map>
 #include <cmath>  
+#include <vector>
+
 
 b2World *_world;
 float M2P, P2M;
 const int WIDTH = 1280, HEIGHT = 720;
 std::map<b2Body*, b2Vec2*> *_boxSizes;
+std::map<b2Body*, KinecticBody*> *_kinecticBodies;
 
 class MyContactListener : public b2ContactListener
 {
 	virtual void BeginContact(b2Contact* contact) {
 		std::cout << "I'm Hit";
 
-		if (contact->GetFixtureA()->GetUserData() == "")
+		if (contact->GetFixtureA()->GetBody()->GetType() == b2_kinematicBody)
 		{
-
+			contact->GetFixtureB()->GetBody()->SetLinearVelocity(contact->GetFixtureA()->GetBody()->GetLinearVelocity());
+ 			KinecticBody *kinecticBody = static_cast<KinecticBody*>(contact->GetFixtureA()->GetBody()->GetUserData()); // (*_kinecticBodies)[tmp];
+			kinecticBody->addBody(contact->GetFixtureB()->GetBody(), contact->GetFixtureA()->GetBody()->GetLinearVelocity());
 		}
+
+		std::cout << contact->GetFixtureA() << " botst tegen " << contact->GetFixtureB() << std::endl;
+
+
 	}
 
 	virtual void EndContact(b2Contact* contact) {
+
+		if (contact->GetFixtureA()->GetBody()->GetType() == b2_kinematicBody)
+		{
+			KinecticBody *kinecticBody = static_cast<KinecticBody*>(contact->GetFixtureA()->GetBody()->GetUserData()); // (*_kinecticBodies)[tmp];
+			kinecticBody->removeBody(contact->GetFixtureB()->GetBody());
+		}
 	}
 
 	virtual void PreSolve(b2Contact* contact, const b2Manifold *oldManifold) {
+		//  std::cout << "PreSolve" << std::endl;
 	}
 
 	virtual void PostSolve(b2Contact* contact, const b2ContactImpulse *impulse) {
+		//  std::cout << "Postsolve" << std::endl;
 	}
+
 };
 
 MyContactListener *listener;
@@ -47,8 +66,8 @@ World::World(b2Vec2 gravtiy)
 	_world->SetContactListener(listener);
 	_world->SetContactFilter(filter);
 
-	_boxSizes = new std::map<b2Body*, b2Vec2*>;
-
+	_boxSizes = new std::map < b2Body*, b2Vec2* > ;
+	_kinecticBodies = new std::map < b2Body*, KinecticBody* > ;
 }
 
 World::~World()
@@ -96,7 +115,7 @@ b2Body* World::addBody(int x, int y, int w, int h, bool dyn)
 	return body;
 }
 
-b2Body* World::addKinecticBody(int x, int y, int w, int h, int right, int down)
+b2Body* World::addKinecticBody(int x, int y, int w, int h, int speed, int endpoint, KinecticBody::Direction direction)
 {
 	b2BodyDef *bodydef = new b2BodyDef();
 	bodydef->position.Set(x*P2M, y*P2M);
@@ -117,11 +136,28 @@ b2Body* World::addKinecticBody(int x, int y, int w, int h, int right, int down)
 	b2Vec2 *vec = new b2Vec2(P2M*w, P2M*h);
 	_boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));
 
-	body->SetLinearVelocity(b2Vec2(right, down));
+	KinecticBody *kinecticBody = new KinecticBody(new b2Vec2(x*P2M, y*P2M));
 
-	// b2Vec2 *vec = new b2Vec2(bodydef->position.x, bodydef->position.x * 2);
+	if (direction == KinecticBody::Direction::Right)
+	{
+		body->SetLinearVelocity(b2Vec2(speed, 0.0));
+		kinecticBody->setDirection(KinecticBody::Direction::Right);
+		kinecticBody->setEndLocation(new b2Vec2(endpoint*P2M, y*P2M));
+	}
+	else
+	{
+		body->SetLinearVelocity(b2Vec2(0.0, speed));
+		kinecticBody->setDirection(KinecticBody::Direction::Down);
+		kinecticBody->setEndLocation(new b2Vec2(x*P2M, endpoint*P2M));
+	}
 
-	body->SetUserData(new b2Vec2(bodydef->position.x, bodydef->position.x * 2));
+	KinecticBody::Direction dir = kinecticBody->GetDirection();
+
+	//kinecticBody->addBody(body);
+
+
+	body->SetUserData(kinecticBody);
+//	_kinecticBodies->insert(std::pair<b2Body*, KinecticBody*>(body, kinecticBody));
 
 	return body;
 }
@@ -154,32 +190,59 @@ void World::renderBodies(SDL_Renderer *renderer)
 		r.w = vec->x * M2P;
 		r.h = vec->y * M2P;
 
+		if (tmp->GetType() == b2_kinematicBody)
+		{
+			KinecticBody *kinecticBody = static_cast<KinecticBody*>(tmp->GetUserData()); // (*_kinecticBodies)[tmp];
 
-		if (tmp->GetType() == b2_kinematicBody) {
-
-			b2Vec2 *vec = static_cast<b2Vec2*>(tmp->GetUserData());
-			
-			if (tmp->GetPosition().x >= vec->y)
+			b2Vec2 *endpoint = kinecticBody->getEndLocation();
+			if (kinecticBody->GetDirection() == KinecticBody::Direction::Right)
 			{
-				tmp->SetLinearVelocity(b2Vec2(-tmp->GetLinearVelocity().x, 0.0));
+				if (tmp->GetPosition().x >= kinecticBody->getEndLocation()->x)
+				{
+					kinecticBody->setDirection(KinecticBody::Direction::Left);
+					b2Vec2 vec = b2Vec2(-tmp->GetLinearVelocity().x, 0.0);
+					kinecticBody->changeBodiesLinearVelocity(vec);
+					tmp->SetLinearVelocity(vec);
+				}
 			}
-			else if (tmp->GetPosition().x <= vec->x)
+			else if (kinecticBody->GetDirection() == KinecticBody::Direction::Left)
 			{
-				tmp->SetLinearVelocity(b2Vec2(std::abs(tmp->GetLinearVelocity().x), 0.0));
+				if (tmp->GetPosition().x <= kinecticBody->getStartLocation()->x)
+				{
+					kinecticBody->setDirection(KinecticBody::Direction::Right);
+					b2Vec2 vec = b2Vec2(std::abs(tmp->GetLinearVelocity().x), 0.0);
+					kinecticBody->changeBodiesLinearVelocity(vec);
+					tmp->SetLinearVelocity(vec);
+				}
 			}
-			/*
-			tmp->GetPosition().x >=
+			else if (kinecticBody->GetDirection() == KinecticBody::Direction::Down)
+			{
+				if (tmp->GetPosition().y >= kinecticBody->getEndLocation()->y)
+				{
+					kinecticBody->setDirection(KinecticBody::Direction::Up);
+					//tmp->SetLinearVelocity(b2Vec2(0.0, -tmp->GetLinearVelocity().y));
 
-			int xSpeed : Number = tmp->GetLinearVelocity()->x;
-			int xPos : Number = tmp->GetWorldCenter()->x*worldScale;
-			if ((xPos<10 && xSpeed<0) || (xPos>630 && xSpeed>0)) {
-				xSpeed *= -1;
-				tmp->SetLinearVelocity(new b2Vec2(xSpeed, 0));
+
+					b2Vec2 vec = b2Vec2(b2Vec2(0.0, -tmp->GetLinearVelocity().y));
+					kinecticBody->changeBodiesLinearVelocity(vec);
+					tmp->SetLinearVelocity(vec);
+				}
 			}
-			*/
+			else if (kinecticBody->GetDirection() == KinecticBody::Direction::Up)
+			{
+				if (tmp->GetPosition().y <= kinecticBody->getStartLocation()->y)
+				{
+					kinecticBody->setDirection(KinecticBody::Direction::Down);
+					//tmp->SetLinearVelocity(b2Vec2(0.0, std::abs(tmp->GetLinearVelocity().y)));
+
+
+
+					b2Vec2 vec = b2Vec2(b2Vec2(0.0, std::abs(tmp->GetLinearVelocity().y)));
+					kinecticBody->changeBodiesLinearVelocity(vec);
+					tmp->SetLinearVelocity(vec);
+				}
+			}
 		}
-
-
 
 		// Render rect
 		SDL_RenderFillRect(renderer, &r);
@@ -188,6 +251,7 @@ void World::renderBodies(SDL_Renderer *renderer)
 		tmp = tmp->GetNext();
 	}
 }
+
 
 int World::getWidth()
 {

@@ -11,5 +11,8 @@ public:
 	void move(int direction);
 	void jump();
 	void setBody(b2Body *body);
+	void setPlatformVelocityX(float platformVelocityX);
+private:
+	b2Body *_body;
+	float _width, _height, _horizontalSpeed, _verticalSpeed, _platformVelocityX;
 };
-
