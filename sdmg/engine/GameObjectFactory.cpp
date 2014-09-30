@@ -13,12 +13,27 @@
 
 namespace sdmg {
 	namespace engine {
+		GameObjectFactory *GameObjectFactory::_instance = 0;
+
+		GameObjectFactory::GameObjectFactory() {
+
+		}
+
+		GameObjectFactory::~GameObjectFactory() {
+
+		}
+
 		void GameObjectFactory::create(std::string key) {
 		
 		}
 				
 		void GameObjectFactory::giveIdentifier(GameObject *gameObject) {
 		
+		}
+
+		GameObjectFactory* GameObjectFactory::getInstance() {
+			if (!_instance) _instance = new GameObjectFactory();			
+			return _instance;
 		}
 		
 	}

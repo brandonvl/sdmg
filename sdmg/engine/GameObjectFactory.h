@@ -17,15 +17,14 @@ namespace sdmg {
 		class GameObjectFactory {
 		public:
 			void create(std::string key);
-			static GameObjectFactory& getInstance() {
-				static GameObjectFactory instance;
-				return instance;
-			}
+			static GameObjectFactory* getInstance();
 		private:
+			GameObjectFactory();
+			virtual ~GameObjectFactory();
+			static GameObjectFactory *_instance;
 			int _gameObjectIdentifier;
 			std::map<std::string,GameObject*> *_gameObjectHolder;
 			void giveIdentifier(GameObject *gameObject);
-			GameObjectFactory();
 		};
 	}
 }
