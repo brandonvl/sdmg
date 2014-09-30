@@ -17,6 +17,16 @@ namespace sdmg {
 		void MovableGameObject::update(GameTime *gameTime, GameBase *game) {
 		
 		}
+
+		Speed MovableGameObject::getSpeed()
+		{
+			return _speed;
+		}
+
+		void MovableGameObject::setSpeed(Speed speed)
+		{
+			_speed = speed;
+		}
 		
 	}
 }

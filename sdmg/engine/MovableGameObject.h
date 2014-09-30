@@ -15,13 +15,19 @@ namespace sdmg {
 		class GameTime;
 		class GameBase;
 		enum class Direction;
+		struct Speed
+		{
+			float horizontal, vertical;
+		};
 
 		class MovableGameObject : public GameObject {
 		public:
+			void setSpeed(Speed speed);
 			void update(GameTime *gameTime, GameBase *game);
+			Speed getSpeed();
 		private:
-			float _speed;
 			Direction _direction;
+			Speed _speed;
 		};
 	}
 }

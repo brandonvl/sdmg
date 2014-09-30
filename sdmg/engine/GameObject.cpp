@@ -33,6 +33,5 @@ namespace sdmg {
 			// TODO: create the body
 			return _body;
 		}
-		
 	}
 }

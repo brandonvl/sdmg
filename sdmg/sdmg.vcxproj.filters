@@ -180,6 +180,9 @@
     <ClCompile Include="gamestates\LevelSelectionState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
+    <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp">
+      <Filter>Source Files\engine\physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="gamestates\LevelSelectionState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h">
+      <Filter>Header Files\engine\physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
