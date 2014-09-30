@@ -8,19 +8,27 @@
 //
 
 #pragma once
-#include <stack>
+#include <vector>
 
 namespace sdmg {
 	namespace engine {
 		class GameState;
+		class GameBase;
 
 		class GameStateManager {
 		public:
-			GameState* close();
-			void open(GameState *gameState);
+			void init(GameBase *engine);
+			void cleanup();
+			void changeState(GameState *state);
+			void pushState(GameState *state);
+			void popState();
+
+			void handleEvents();
 			void update();
+			void draw();
 		private:
-			std::stack<GameState*> _currentStates;
+			std::vector<GameState*> _states;
+			GameBase *engine;
 		};
 	}
 }

@@ -16,7 +16,22 @@ namespace sdmg {
 	namespace gamestates {
 		class IntroState : public GameState {
 		public:
-			void update(GameTime *gameTime);
+			void init();
+			void cleanup();
+
+			void pause();
+			void resume();
+
+			void handleEvents(GameBase *game);
+			void update(GameBase *game);
+			void draw(GameBase *game);
+			static IntroState* getInstance() {
+				return &_instance;
+			}
+		protected:
+			IntroState() { }
+		private:
+			static IntroState _instance;
 		};
 	}
 }

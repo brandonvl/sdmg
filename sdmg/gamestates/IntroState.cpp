@@ -12,8 +12,41 @@
 
 namespace sdmg {
 	namespace gamestates {
-		void IntroState::update(GameTime *gameTime) {
-		
+		IntroState IntroState::_instance;
+
+		void IntroState::init()
+		{
+
+		}
+
+		void IntroState::cleanup()
+		{
+
+		}
+
+		void IntroState::pause()
+		{
+
+		}
+
+		void IntroState::resume()
+		{
+
+		}
+
+		void IntroState::handleEvents(GameBase *game)
+		{
+
+		}
+
+		void IntroState::update(GameBase *game)
+		{
+
+		}
+
+		void IntroState::draw(GameBase *game)
+		{
+
 		}
 		
 	}

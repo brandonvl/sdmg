@@ -13,18 +13,6 @@
 
 namespace sdmg {
 	namespace engine {
-		GameState* GameStateManager::close() {
-			_currentStates.pop();
-			return _currentStates.top();			
-		}
-		
-		void GameStateManager::open(GameState *gameState) {
-		
-		}
-		
-		void GameStateManager::update() {
-		
-		}
 		
 	}
 }
