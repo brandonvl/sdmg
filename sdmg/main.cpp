@@ -19,12 +19,11 @@ int main(int argc, char **argv)
 	std::cin.get();
 	Game *game = new Game();
 
-	Engine *engine = game->getEngine();
-	DrawEngine *draw = engine->getDrawEngine();
-	draw->load("chicken", "c:/data/cow.png");
+	//Engine *engine = game->getEngine();
+	//DrawEngine *draw = engine->getDrawEngine();
+	//draw->load("chicken", "c:/data/cow.png");
 
 	game->start();
 	SDL_Quit();
-
 	return 0;
 }

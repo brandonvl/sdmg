@@ -43,7 +43,7 @@ namespace sdmg {
 			
 			void DrawEngine::initialize() {
 				_surfaces = new std::map<std::string, Surface*>();
-				_window = SDL_CreateWindow("SDMG", 50, 50, 1280, 720, SDL_WINDOW_FULLSCREEN);
+				_window = SDL_CreateWindow("SDMG", 50, 50, 1280, 720, 0);
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 			}
 

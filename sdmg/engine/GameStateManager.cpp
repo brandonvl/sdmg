@@ -31,66 +31,67 @@ namespace sdmg {
 			if (!_states.empty()) {
 				for (auto item : _states)
 				{
-					delete item;
+					item->cleanup(*_engine);
+					//delete item;
 				}
 			}
 		}
 
-		void GameStateManager::changeState(GameState *state)
+		void GameStateManager::changeState(GameState &state)
 		{
 			// cleanup the current state
 			if (!_states.empty()) {
-				_states.back()->cleanup();
+				_states.back()->cleanup(*_engine);
 				_states.pop_back();
 			}
 
 			// store and init the new state
-			_states.push_back(state);
-			_states.back()->init();
+			_states.push_back(&state);
+			_states.back()->init(*_engine);
 		}
 
-		void GameStateManager::pushState(GameState *state)
+		void GameStateManager::pushState(GameState &state)
 		{
 			// pause current state
 			if (!_states.empty()) {
-				_states.back()->pause();
+				_states.back()->pause(*_engine);
 			}
 
 			// store and init the new state
-			_states.push_back(state);
-			_states.back()->init();
+			_states.push_back(&state);
+			_states.back()->init(*_engine);
 		}
 
 		void GameStateManager::popState()
 		{
 			// cleanup the current state
 			if (!_states.empty()) {
-				_states.back()->cleanup();
+				_states.back()->cleanup(*_engine);
 				_states.pop_back();
 			}
 
 			// resume previous state
 			if (!_states.empty()) {
-				_states.back()->resume();
+				_states.back()->resume(*_engine);
 			}
 		}
 
 		void GameStateManager::handleEvents()
 		{
 			// let the state handle events
-			_states.back()->handleEvents(_engine,_engine->_gameTime);
+			_states.back()->handleEvents(*_engine,*_engine->_gameTime);
 		}
 
 		void GameStateManager::update()
 		{
 			// let the state update the game
-			_states.back()->update(_engine, _engine->_gameTime);
+			_states.back()->update(*_engine, *_engine->_gameTime);
 		}
 
 		void GameStateManager::draw()
 		{
 			// let the state draw the screen
-			_states.back()->draw(_engine, _engine->_gameTime);
+			_states.back()->draw(*_engine, *_engine->_gameTime);
 		}
 	}
 }
