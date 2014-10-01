@@ -46,6 +46,7 @@ namespace sdmg {
 			void DrawEngine::unloadAll() {
 				std::map<std::string, Surface*>::iterator itr = _surfaces->begin();
 				while (itr != _surfaces->end()) {
+					delete itr->second;
 					_surfaces->erase(itr++);
 				}
 			}
