@@ -25,11 +25,7 @@ namespace sdmg {
 			World* getWorld();
 			void internalDraw();
 			Engine* getEngine();
-<<<<<<< HEAD
-			GameStateManager* getStateManager();
-=======
-			GameStateManager *getGameStateManager();
->>>>>>> origin/master
+			GameStateManager *getStateManager() { return _gameStateManager; };
 		protected:
 			virtual void update(GameState *gameState, GameTime *gameTime) = 0;
 			virtual void draw(GameState *gameState, GameTime *gameTime) = 0;
@@ -42,12 +38,10 @@ namespace sdmg {
 			World *_world;
 			void internalUpdate();
 			void doGameLoop();
-<<<<<<< HEAD
+			void internalInitialize();
 
 			friend class GameStateManager;
-=======
-			void internalInitialize();
->>>>>>> origin/master
+			
 		};
 	}
 }
