@@ -14,23 +14,19 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			Surface::Surface(const std::string path) : _sliceWidth(0), _sliceHeight(0) {
-				load(path);
+			Surface::Surface(const std::string path, SDL_Renderer *renderer) : _sliceWidth(0), _sliceHeight(0) {
+				load(path, renderer);
 			}
 
-			Surface::Surface(const std::string path, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight) {
-				load(path);
-
-				if (_surface) {
-					_maxSliceIndex = (_surface->w / _sliceWidth) * (_surface->h / _sliceHeight) - 1;
-				}
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight) {
+				load(path, renderer);
 			}
 
 			Surface::~Surface() {
-				SDL_FreeSurface(_surface);
+				SDL_DestroyTexture(_texture);
 			}
 
-			void Surface::load(std::string path) {
+			void Surface::load(std::string path, SDL_Renderer *renderer) {
 				// Initialize SDL_image with PNG loading flags
 				int pngFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(pngFlags) & pngFlags))
@@ -38,14 +34,24 @@ namespace sdmg {
 				else
 				{
 					// Load image at specified path
-					_surface = IMG_Load(path.c_str());
-					if (_surface == NULL)
-						printf("Unable to load image %s\n", path.c_str());			
+					SDL_Surface *surface = IMG_Load(path.c_str());
+					if (surface != NULL) {
+						_width = surface->w;
+						_height = surface->h;
+						_texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+						if (_sliceWidth > 0 && _sliceHeight > 0) {
+							_maxSliceIndex = (surface->w / _sliceWidth) * (surface->h / _sliceHeight) - 1;
+						}
+
+						SDL_FreeSurface(surface);
+					}
+					else printf("Unable to load image %s\n", path.c_str());			
 				}
 			}
 
-			SDL_Surface* Surface::getSDLSurface() {
-				return _surface;
+			SDL_Texture *Surface::getSDLTexture() {
+				return _texture;
 			}
 
 			SDL_Rect Surface::getSliceRect(int sliceIndex) {
@@ -57,7 +63,7 @@ namespace sdmg {
 						sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
 					}
 										
-					int slicesPerRow = _surface->w / _sliceWidth;
+					int slicesPerRow = _width / _sliceWidth;
 					int rowIndex = floor(sliceIndex / slicesPerRow);
 					int colIndex = sliceIndex - rowIndex * slicesPerRow;
 					
@@ -68,8 +74,8 @@ namespace sdmg {
 					return rect;
 				}
 				else {
-					rect.w = _surface->w;
-					rect.h = _surface->h;
+					rect.w = _width;
+					rect.h = _height;
 					return rect;
 				}
 			}

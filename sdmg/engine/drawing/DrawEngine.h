@@ -41,8 +41,6 @@ namespace sdmg {
 				int _curRenderer;
 				std::map<std::string, Surface*> *_surfaces;
 				void initialize();
-				
-				void execDraw(SDL_Surface *surface, SDL_Rect *srcRect, SDL_Rect *dstRect);
 			};
 		}
 	}

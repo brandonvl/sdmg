@@ -24,14 +24,14 @@ namespace sdmg {
 
 			void DrawEngine::load(std::string key, std::string path) {
 				// Create new Surface from specified path
-				Surface *surface = new Surface(path);
+				Surface *surface = new Surface(path, _renderer);
 				// Add Surface to _surfaces map
 				_surfaces->insert(std::pair<std::string, Surface*>(key, surface));
 			}
 
 			void DrawEngine::loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight) {
 				// Create new Surface from specified path
-				Surface *surface = new Surface(path, sliceWidth, sliceHeight);
+				Surface *surface = new Surface(path, _renderer, sliceWidth, sliceHeight);
 				// Add Surface to _surfaces map
 				_surfaces->insert(std::pair<std::string, Surface*>(key, surface));
 			}
@@ -57,20 +57,12 @@ namespace sdmg {
 			}
 
 			void DrawEngine::draw(std::string key, Rectangle rect) {
-				
-				execDraw((*_surfaces)[key]->getSDLSurface(), NULL, &rect.toSDLRect());
+				SDL_RenderCopy(_renderer, (*_surfaces)[key]->getSDLTexture(), NULL, &rect.toSDLRect());
 			}
 			
 			void DrawEngine::draw(std::string key, Rectangle rect, int slice) {
 				Surface *surface = (*_surfaces)[key];
-				execDraw(surface->getSDLSurface(), &surface->getSliceRect(slice), &rect.toSDLRect());
-			}
-
-			void DrawEngine::execDraw(SDL_Surface *surface, SDL_Rect *srcRect, SDL_Rect *dstRect) {
-				SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
-
-				SDL_RenderCopy(_renderer, texture, srcRect, dstRect);
-				SDL_DestroyTexture(texture);
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &rect.toSDLRect());
 			}
 
 			void DrawEngine::prepareForDraw() {
