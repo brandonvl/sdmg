@@ -9,6 +9,7 @@
 
 #pragma once
 #include "..\..\sdl\include\SDL.h"
+#include <string>
 
 namespace sdmg {
 	namespace engine {
@@ -16,10 +17,14 @@ namespace sdmg {
 			class Rectangle;
 
 			class Surface {
+
 			public:
-				virtual void draw(SDL_Renderer *renderer, Rectangle *rectangle) = 0;
+				Surface(std::string path);
+				virtual ~Surface();
+
+				SDL_Surface* getSDLSurface();
 			private:
-				SDL_Surface _surface;
+				SDL_Surface *_surface;
 				Rectangle *_rectangle;
 			};
 		}

@@ -171,14 +171,11 @@
     <ClCompile Include="engine\drawing\Rectangle.cpp">
       <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
-    <ClCompile Include="engine\drawing\SpriteMapSurface.cpp">
-      <Filter>Source Files\engine\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\drawing\StaticSurface.cpp">
-      <Filter>Source Files\engine\drawing</Filter>
-    </ClCompile>
     <ClCompile Include="gamestates\LevelSelectionState.cpp">
       <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\Surface.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -252,12 +249,6 @@
       <Filter>Header Files\engine\drawing</Filter>
     </ClInclude>
     <ClInclude Include="engine\drawing\Rectangle.h">
-      <Filter>Header Files\engine\drawing</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\drawing\SpriteMapSurface.h">
-      <Filter>Header Files\engine\drawing</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\drawing\StaticSurface.h">
       <Filter>Header Files\engine\drawing</Filter>
     </ClInclude>
     <ClInclude Include="engine\drawing\Surface.h">

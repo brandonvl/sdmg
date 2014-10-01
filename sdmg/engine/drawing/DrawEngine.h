@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include "sdl\include\SDL.h"
+#include "Rectangle.h"
 
 namespace sdmg {
 	namespace engine {
@@ -20,16 +21,20 @@ namespace sdmg {
 			class Surface;
 
 			class DrawEngine {
+
 			public:
-				void loadSpriteMap(std::string key, std::string path);
-				void loadStaticImage(std::string key, std::string path);
+				DrawEngine();
+				virtual ~DrawEngine();
+				void load(std::string key, std::string path);
 				void unload(std::string key);
 				void unloadAll();
+				void draw(std::string key, Rectangle rect);
+				void draw(std::string key, int slice, Rectangle rect, float sliceWidth, float sliceHeight);
 			private:
 				Engine *_engine;
 				SDL_Window *_window;
 				SDL_Renderer *_renderer;
-				std::map<std::string,Surface*> *_surfaces;
+				std::map<std::string, Surface*> *_surfaces;
 				void initialize();
 			};
 		}

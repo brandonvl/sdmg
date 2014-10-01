@@ -9,10 +9,16 @@
 
 #pragma once
 
+
+
 namespace sdmg {
 	namespace engine {
+		namespace drawing {
+			class DrawEngine;
+		}
+		using namespace sdmg::engine::drawing;
+
 		class PhysicsEngine;
-		class DrawEngine;
 		class AudioEngine;
 		class InputEngine;
 		class GameState;
@@ -21,6 +27,8 @@ namespace sdmg {
 
 		class Engine {
 		public:
+			Engine();
+			virtual ~Engine();
 			void update(const GameState *gameState, const GameTime *gameTime);
 			GameBase* getGame();
 			PhysicsEngine* getPhysicsEngine();

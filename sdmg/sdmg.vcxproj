@@ -86,8 +86,7 @@
     <ClCompile Include="engine\audio\AudioEngine.cpp" />
     <ClCompile Include="engine\drawing\DrawEngine.cpp" />
     <ClCompile Include="engine\drawing\Rectangle.cpp" />
-    <ClCompile Include="engine\drawing\SpriteMapSurface.cpp" />
-    <ClCompile Include="engine\drawing\StaticSurface.cpp" />
+    <ClCompile Include="engine\drawing\Surface.cpp" />
     <ClCompile Include="engine\Engine.cpp" />
     <ClCompile Include="engine\GameBase.cpp" />
     <ClCompile Include="engine\GameObject.cpp" />
@@ -128,8 +127,6 @@
     <ClInclude Include="engine\Direction.h" />
     <ClInclude Include="engine\drawing\DrawEngine.h" />
     <ClInclude Include="engine\drawing\Rectangle.h" />
-    <ClInclude Include="engine\drawing\SpriteMapSurface.h" />
-    <ClInclude Include="engine\drawing\StaticSurface.h" />
     <ClInclude Include="engine\drawing\Surface.h" />
     <ClInclude Include="engine\Engine.h" />
     <ClInclude Include="engine\Flags.h" />

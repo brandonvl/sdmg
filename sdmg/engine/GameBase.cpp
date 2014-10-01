@@ -14,12 +14,25 @@
 #include "GameStateManager.h"
 #include "GameTime.h"
 #include "GameState.h"
+#include "sdl\include\SDL.h"
+#include "drawing\DrawEngine.h"
 
 namespace sdmg {
 	namespace engine {
+		GameBase::GameBase() {
+			internalInitialize();
+		}
+
 		void GameBase::start() {
 			_running = true;
-			doGameLoop();			
+			doGameLoop();		
+		}
+
+		void GameBase::internalInitialize() {
+			_gameTime = new GameTime();
+			_world = new World();
+			_gameStateManager = new GameStateManager();
+			_engine = new Engine();
 		}
 		
 		void GameBase::stop() {
@@ -31,11 +44,7 @@ namespace sdmg {
 		}
 		
 		void GameBase::internalDraw() {
-			
-		}
-		
-		void GameBase::internalInitialize() {
-		
+			_engine->getDrawEngine()->draw("chicken", Rectangle(0, 0, 100, 100));
 		}
 		
 		Engine* GameBase::getEngine() {
@@ -47,11 +56,31 @@ namespace sdmg {
 		}
 
 		void GameBase::doGameLoop() {
+			SDL_Event event;
 			while (_running) {
-				internalUpdate();
 				internalDraw();
+				if (SDL_PollEvent(&event))
+				{
+					if (event.type == SDL_QUIT)
+					{
+						_running = false;
+					}
+
+					if (event.type == SDL_KEYDOWN)
+					{
+						switch (event.key.keysym.sym)
+						{
+						case SDLK_ESCAPE:
+							_running = false;
+							break;
+						}
+					}
+				}
 			}
 		}
 		
+		GameStateManager *GameBase::getGameStateManager() {
+			return _gameStateManager;
+		}
 	}
 }
