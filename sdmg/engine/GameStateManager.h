@@ -20,8 +20,8 @@ namespace sdmg {
 			GameStateManager(GameBase *engine);
 			virtual ~GameStateManager();
 			void cleanup();
-			void changeState(GameState *state);
-			void pushState(GameState *state);
+			void changeState(GameState &state);
+			void pushState(GameState &state);
 			void popState();
 
 			void handleEvents();

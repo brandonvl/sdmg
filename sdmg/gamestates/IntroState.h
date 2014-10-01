@@ -20,22 +20,22 @@ namespace sdmg {
 		
 		class IntroState : public GameState {
 		public:
-			void init();
-			void cleanup();
+			void init(GameBase &game);
+			void cleanup(GameBase &game);
 
-			void pause();
-			void resume();
+			void pause(GameBase &game);
+			void resume(GameBase &game);
 
-			void handleEvents(GameBase *game, GameTime *gameTime);
-			void update(GameBase *game, GameTime *gameTime);
-			void draw(GameBase *game, GameTime *gameTime);
-			static IntroState* getInstance() {
-				return &_instance;
+			void handleEvents(GameBase &game, GameTime &gameTime);
+			void update(GameBase &game, GameTime &gameTime);
+			void draw(GameBase &game, GameTime &gameTime);
+			static IntroState& getInstance() {
+				static IntroState _instance;
+				return _instance;
 			}
 		protected:
 			IntroState() { }
 		private:
-			static IntroState _instance;
 		};
 	}
 }

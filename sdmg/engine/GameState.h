@@ -19,18 +19,18 @@ namespace sdmg {
 
 		class GameState {
 		public:
-			virtual void init() = 0;
-			virtual void cleanup() = 0;
+			virtual void init(GameBase &game) = 0;
+			virtual void cleanup(GameBase &game) = 0;
 
-			virtual void pause() = 0;
-			virtual void resume() = 0;
+			virtual void pause(GameBase &game) = 0;
+			virtual void resume(GameBase &game) = 0;
 
-			virtual void handleEvents(GameBase *game, GameTime *gameTime) = 0;
-			virtual void update(GameBase *game, GameTime *gameTime) = 0;
-			virtual void draw(GameBase *game, GameTime *gameTime) = 0;
+			virtual void handleEvents(GameBase &game, GameTime &gameTime) = 0;
+			virtual void update(GameBase &game, GameTime &gameTime) = 0;
+			virtual void draw(GameBase &game, GameTime &gameTime) = 0;
 
-			void changeState(GameBase *game, GameState *state) {
-				game->getStateManager()->changeState(state);
+			void changeState(GameBase &game, GameState &state) {
+				game.getStateManager()->changeState(state);
 			}
 
 		protected:

@@ -16,6 +16,7 @@
 #include "GameState.h"
 #include "sdl\include\SDL.h"
 #include "drawing\DrawEngine.h"
+#include "gamestates\IntroState.h"
 
 namespace sdmg {
 	namespace engine {
@@ -25,6 +26,7 @@ namespace sdmg {
 
 		void GameBase::start() {
 			_running = true;
+			_gameStateManager->changeState(gamestates::IntroState::getInstance());
 			doGameLoop();		
 		}
 
@@ -56,9 +58,9 @@ namespace sdmg {
 		}
 
 		void GameBase::doGameLoop() {
-			SDL_Event event;
+			//SDL_Event event;
 			while (_running) {
-				internalDraw();
+				/*internalDraw();
 				if (SDL_PollEvent(&event))
 				{
 					if (event.type == SDL_QUIT)
@@ -75,8 +77,12 @@ namespace sdmg {
 							break;
 						}
 					}
-				}
+				}*/
+				_gameStateManager->handleEvents();
+				_gameStateManager->update();
+				_gameStateManager->draw();
 			}
+			_gameStateManager->cleanup();
 		}
 	}
 }

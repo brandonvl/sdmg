@@ -8,44 +8,71 @@
 //
 
 #include "IntroState.h"
+#include "engine\Engine.h"
+#include "engine\drawing\DrawEngine.h"
+#include "LoadingState.h"
 
 namespace sdmg {
 	namespace gamestates {
-		IntroState IntroState::_instance;
 
-		void IntroState::init()
+		void IntroState::init(GameBase &game)
 		{
-
+			game.getEngine()->getDrawEngine()->load("surprise", R"(assets\surprise.png)");
+			std::cout << "Initing IntroState ... " << std::endl;
 		}
 
-		void IntroState::cleanup()
+		void IntroState::cleanup(GameBase &game)
 		{
-
+			std::cout << "Cleaning up IntroState ... " << std::endl;
+			game.getEngine()->getDrawEngine()->unload("surprise");
 		}
 
-		void IntroState::pause()
+		void IntroState::pause(GameBase &game)
 		{
-
+			std::cout << "Pausing IntroState ... " << std::endl;
 		}
 
-		void IntroState::resume()
+		void IntroState::resume(GameBase &game)
 		{
-
+			std::cout << "Resuming IntroState ... " << std::endl;
 		}
 
-		void IntroState::handleEvents(GameBase *game, GameTime *gameTime)
+		void IntroState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
+			//std::cout << "Handling events IntroState ... " << std::endl;
+			SDL_Event event;
+			if (SDL_PollEvent(&event))
+			{
+				if (event.type == SDL_QUIT)
+				{
+					game.stop();
+				}
 
+				if (event.type == SDL_KEYDOWN)
+				{
+					switch (event.key.keysym.sym)
+					{
+					case SDLK_ESCAPE:
+						game.stop();
+						break;
+					case SDLK_1:
+						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
+						changeState(game, LoadingState::getInstance());
+						break;
+					}
+				}
+			}
 		}
 
-		void IntroState::update(GameBase *game, GameTime *gameTime)
+		void IntroState::update(GameBase &game, GameTime &gameTime)
 		{
-
+			//std::cout << "Updating IntroState ... " << std::endl;
 		}
 
-		void IntroState::draw(GameBase *game, GameTime *gameTime)
+		void IntroState::draw(GameBase &game, GameTime &gameTime)
 		{
-
+			game.getEngine()->getDrawEngine()->draw("surprise", Rectangle(0, 0, 266, 330));
+			//std::cout << "Draw IntroState ... " << std::endl;
 		}
 		
 	}
