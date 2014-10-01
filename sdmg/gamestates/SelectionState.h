@@ -16,7 +16,22 @@ namespace sdmg {
 	namespace gamestates {
 		class SelectionState : public MenuState {
 		public:
-			void update(GameTime *gameTime);
+			virtual void init(GameBase &game);
+			virtual void cleanup(GameBase &game);
+
+			virtual void pause(GameBase &game);
+			virtual void resume(GameBase &game);
+
+			virtual void handleEvents(GameBase &game, GameTime &gameTime);
+			virtual void update(GameBase &game, GameTime &gameTime);
+			virtual void draw(GameBase &game, GameTime &gameTime);
+			static SelectionState& getInstance() {
+				static SelectionState _instance;
+				return _instance;
+			}
+		protected:
+			SelectionState() { }
+		private:
 		};
 	}
 }

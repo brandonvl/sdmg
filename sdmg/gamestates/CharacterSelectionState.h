@@ -13,14 +13,25 @@
 using namespace sdmg::engine;
 
 namespace sdmg {
-	namespace engine {
-		class GameTime;
-	}
-
 	namespace gamestates {
 		class CharacterSelectionState : public SelectionState {
 		public:
-			void update(GameTime *gameTime);
+			void init(GameBase &game);
+			void cleanup(GameBase &game);
+
+			void pause(GameBase &game);
+			void resume(GameBase &game);
+
+			void handleEvents(GameBase &game, GameTime &gameTime);
+			void update(GameBase &game, GameTime &gameTime);
+			void draw(GameBase &game, GameTime &gameTime);
+			static CharacterSelectionState& getInstance() {
+				static CharacterSelectionState _instance;
+				return _instance;
+			}
+		protected:
+			CharacterSelectionState() { }
+		private:
 		};
 	}
 }

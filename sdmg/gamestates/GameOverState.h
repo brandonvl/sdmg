@@ -16,7 +16,22 @@ namespace sdmg {
 	namespace gamestates {
 		class GameOverState : public GameState {
 		public:
-			void update(GameTime *gameTime);
+			void init(GameBase &game);
+			void cleanup(GameBase &game);
+
+			void pause(GameBase &game);
+			void resume(GameBase &game);
+
+			void handleEvents(GameBase &game, GameTime &gameTime);
+			void update(GameBase &game, GameTime &gameTime);
+			void draw(GameBase &game, GameTime &gameTime);
+			static GameOverState& getInstance() {
+				static GameOverState _instance;
+				return _instance;
+			}
+		protected:
+			GameOverState() { }
+		private:
 		};
 	}
 }

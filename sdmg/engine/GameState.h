@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "GameBase.h"
 #include "GameStateManager.h"
+#include "GameBase.h"
 #include "GameTime.h"
 #include <iostream>
 
