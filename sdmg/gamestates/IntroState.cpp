@@ -8,7 +8,6 @@
 //
 
 #include "IntroState.h"
-#include "engine\GameTime.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -34,17 +33,17 @@ namespace sdmg {
 
 		}
 
-		void IntroState::handleEvents(GameBase *game)
+		void IntroState::handleEvents(GameBase *game, GameTime *gameTime)
 		{
 
 		}
 
-		void IntroState::update(GameBase *game)
+		void IntroState::update(GameBase *game, GameTime *gameTime)
 		{
 
 		}
 
-		void IntroState::draw(GameBase *game)
+		void IntroState::draw(GameBase *game, GameTime *gameTime)
 		{
 
 		}

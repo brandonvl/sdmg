@@ -8,12 +8,16 @@
 //
 
 #pragma once
+
 #include "engine\GameState.h"
 
 using namespace sdmg::engine;
 
+
+
 namespace sdmg {
 	namespace gamestates {
+		
 		class IntroState : public GameState {
 		public:
 			void init();
@@ -22,9 +26,9 @@ namespace sdmg {
 			void pause();
 			void resume();
 
-			void handleEvents(GameBase *game);
-			void update(GameBase *game);
-			void draw(GameBase *game);
+			void handleEvents(GameBase *game, GameTime *gameTime);
+			void update(GameBase *game, GameTime *gameTime);
+			void draw(GameBase *game, GameTime *gameTime);
 			static IntroState* getInstance() {
 				return &_instance;
 			}

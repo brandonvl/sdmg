@@ -17,7 +17,8 @@ namespace sdmg {
 
 		class GameStateManager {
 		public:
-			void init(GameBase *engine);
+			GameStateManager(GameBase *engine);
+			virtual ~GameStateManager();
 			void cleanup();
 			void changeState(GameState *state);
 			void pushState(GameState *state);
@@ -28,7 +29,7 @@ namespace sdmg {
 			void draw();
 		private:
 			std::vector<GameState*> _states;
-			GameBase *engine;
+			GameBase *_engine;
 		};
 	}
 }

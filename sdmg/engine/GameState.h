@@ -11,10 +11,11 @@
 
 #include "GameBase.h"
 #include "GameStateManager.h"
+#include "GameTime.h"
+#include <iostream>
 
 namespace sdmg {
 	namespace engine {
-		class GameTime;
 
 		class GameState {
 		public:
@@ -24,9 +25,9 @@ namespace sdmg {
 			virtual void pause() = 0;
 			virtual void resume() = 0;
 
-			virtual void handleEvents(GameBase *game) = 0;
-			virtual void update(GameBase *game) = 0;
-			virtual void draw(GameBase *game) = 0;
+			virtual void handleEvents(GameBase *game, GameTime *gameTime) = 0;
+			virtual void update(GameBase *game, GameTime *gameTime) = 0;
+			virtual void draw(GameBase *game, GameTime *gameTime) = 0;
 
 			void changeState(GameBase *game, GameState *state) {
 				game->getStateManager()->changeState(state);
