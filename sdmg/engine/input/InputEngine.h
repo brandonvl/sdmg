@@ -10,6 +10,7 @@
 #pragma once
 #include "Action.h"
 #include "InputDeviceBinding.h"
+#include "Joystick.h"
 #include <string>
 #include <map>
 #include <vector>
@@ -30,10 +31,14 @@ namespace sdmg {
 				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
 				std::vector<Action*> *_actions;
 				bool _active;
+				SDL_Event _event;
 				SDL_Thread *_thread;
+				const int JOYSTICK_DEAD_ZONE = 8000;
+				std::map<Uint8, Joystick> Joysticks;
 				void initialize();
 				int waitForKeyInput(void *data);
 				void handleKey(std::string device, SDL_Keycode keyCode);
+				void findJoysticks(void);
 			};
 		}
 	}
