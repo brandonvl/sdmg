@@ -11,6 +11,10 @@
 
 namespace sdmg {
 	namespace engine {
+		GameTime::GameTime() {
+			_start = std::chrono::high_resolution_clock::now();
+		}
+
 		void GameTime::update() {
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 		}
@@ -24,6 +28,10 @@ namespace sdmg {
 			auto curTime = std::chrono::high_resolution_clock::now();
 			return std::chrono::duration_cast<std::chrono::seconds>(curTime - _start).count();
 		}
-		
+
+		long long GameTime::getTotalMilisecondsRunning() {
+			auto curTime = std::chrono::high_resolution_clock::now();
+			return std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _start).count();
+		}
 	}
 }

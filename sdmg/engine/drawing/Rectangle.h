@@ -9,6 +9,8 @@
 
 #pragma once
 
+class SDL_Rect;
+
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
@@ -23,6 +25,7 @@ namespace sdmg {
 				void setWidth(float width);
 				float getHeight();
 				void setHeight(float height);
+				SDL_Rect toSDLRect();
 			private:
 				float _x;
 				float _y;

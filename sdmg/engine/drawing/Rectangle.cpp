@@ -9,6 +9,7 @@
 
 
 #include "Rectangle.h"
+#include "..\..\sdl\include\SDL.h"
 
 namespace sdmg {
 	namespace engine {
@@ -51,7 +52,16 @@ namespace sdmg {
 			void Rectangle::setHeight(float height) {
 				_height = height;
 			}
-			
+
+			SDL_Rect Rectangle::toSDLRect() {
+				SDL_Rect rect;
+				rect.x = _x;
+				rect.y = _y;
+				rect.w = _width;
+				rect.h = _height;		
+				
+				return rect;
+			}			
 		}
 	}
 }

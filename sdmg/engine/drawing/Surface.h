@@ -19,13 +19,18 @@ namespace sdmg {
 			class Surface {
 
 			public:
-				Surface(std::string path);
+				Surface(const std::string path);
+				Surface(const std::string path, const float sliceWidth, const float sliceHeight);
 				virtual ~Surface();
 
 				SDL_Surface* getSDLSurface();
+				SDL_Rect getSliceRect(int sliceIndex);
 			private:
 				SDL_Surface *_surface;
-				Rectangle *_rectangle;
+				const float _sliceWidth, _sliceHeight;
+				int _maxSliceIndex;
+
+				void load(std::string path);
 			};
 		}
 	}

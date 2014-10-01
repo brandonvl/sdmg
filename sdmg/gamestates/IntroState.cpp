@@ -18,6 +18,7 @@ namespace sdmg {
 		void IntroState::init(GameBase &game)
 		{
 			game.getEngine()->getDrawEngine()->load("surprise", R"(assets\surprise.png)");
+			game.getEngine()->getDrawEngine()->loadMap("explosion", R"(assets\explosion.png)", 64, 64);
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
 
@@ -71,7 +72,12 @@ namespace sdmg {
 
 		void IntroState::draw(GameBase &game, GameTime &gameTime)
 		{
+			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("surprise", Rectangle(0, 0, 266, 330));
+
+			// simple sprite animation
+			game.getEngine()->getDrawEngine()->draw("explosion", Rectangle(300, 300, 64, 64), gameTime.getTotalMilisecondsRunning() / 100);
+			game.getEngine()->getDrawEngine()->render();
 			//std::cout << "Draw IntroState ... " << std::endl;
 		}
 		

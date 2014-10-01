@@ -28,10 +28,19 @@ namespace sdmg {
 				// Add Surface to _surfaces map
 				_surfaces->insert(std::pair<std::string, Surface*>(key, surface));
 			}
+
+			void DrawEngine::loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight) {
+				// Create new Surface from specified path
+				Surface *surface = new Surface(path, sliceWidth, sliceHeight);
+				// Add Surface to _surfaces map
+				_surfaces->insert(std::pair<std::string, Surface*>(key, surface));
+			}
 			
 			void DrawEngine::unload(std::string key) {
-				if (_surfaces->find(key) != _surfaces->end())
+				if (_surfaces->find(key) != _surfaces->end()) {
+					delete (*_surfaces)[key];
 					_surfaces->erase(key);
+				}
 			}
 			
 			void DrawEngine::unloadAll() {
@@ -48,17 +57,30 @@ namespace sdmg {
 			}
 
 			void DrawEngine::draw(std::string key, Rectangle rect) {
-				Surface *surface = (*_surfaces)[key];
-
-				SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface->getSDLSurface());
-				SDL_RenderCopy(_renderer, texture, NULL, NULL);
-				SDL_RenderPresent(_renderer);
-
-				SDL_DestroyTexture(texture);
+				
+				execDraw((*_surfaces)[key]->getSDLSurface(), NULL, &rect.toSDLRect());
 			}
 			
-			void DrawEngine::draw(std::string key, int slice, Rectangle rect, float sliceWidth, float sliceHeight) {
+			void DrawEngine::draw(std::string key, Rectangle rect, int slice) {
+				Surface *surface = (*_surfaces)[key];
+				execDraw(surface->getSDLSurface(), &surface->getSliceRect(slice), &rect.toSDLRect());
+			}
 
+			void DrawEngine::execDraw(SDL_Surface *surface, SDL_Rect *srcRect, SDL_Rect *dstRect) {
+				SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
+
+				SDL_RenderCopy(_renderer, texture, srcRect, dstRect);
+				SDL_DestroyTexture(texture);
+			}
+
+			void DrawEngine::prepareForDraw() {
+				// clear renderer
+				SDL_RenderClear(_renderer);
+			}
+
+			void DrawEngine::render() {
+				// render
+				SDL_RenderPresent(_renderer);
 			}
 		}
 	}

@@ -14,9 +14,11 @@ namespace sdmg {
 	namespace engine {
 		class GameTime {
 		public:
+			GameTime();
 			void update();
 			long long getElapsedSinceLastUpdate();
 			long getTotalSecondsRunning();
+			long long getTotalMilisecondsRunning();
 		private:
 			std::chrono::high_resolution_clock::time_point _start;
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
