@@ -16,10 +16,7 @@ using namespace sdmg;
 
 int main(int argc, char **argv)
 {
-<<<<<<< HEAD
-
 	std::cin.get();
-=======
 	Game *game = new Game();
 
 	Engine *engine = game->getEngine();
@@ -28,7 +25,5 @@ int main(int argc, char **argv)
 
 	game->start();
 	SDL_Quit();
-
->>>>>>> origin/master
 	return 0;
 }

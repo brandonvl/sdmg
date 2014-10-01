@@ -31,7 +31,7 @@ namespace sdmg {
 		void GameBase::internalInitialize() {
 			_gameTime = new GameTime();
 			_world = new World();
-			_gameStateManager = new GameStateManager();
+			_gameStateManager = new GameStateManager(this);
 			_engine = new Engine();
 		}
 		
@@ -77,10 +77,6 @@ namespace sdmg {
 					}
 				}
 			}
-		}
-		
-		GameStateManager *GameBase::getGameStateManager() {
-			return _gameStateManager;
 		}
 	}
 }
