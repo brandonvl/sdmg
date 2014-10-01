@@ -9,8 +9,17 @@
 
 using namespace sdmg;
 
+#include "engine\GameBase.h"
+#include "engine\GameStateManager.h"
+#include "engine\GameState.h"
+#include "gamestates\IntroState.h"
+
 int main(int argc, char **argv)
 {
+<<<<<<< HEAD
+
+	std::cin.get();
+=======
 	Game *game = new Game();
 
 	Engine *engine = game->getEngine();
@@ -20,5 +29,6 @@ int main(int argc, char **argv)
 	game->start();
 	SDL_Quit();
 
+>>>>>>> origin/master
 	return 0;
 }
