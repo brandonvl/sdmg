@@ -30,19 +30,38 @@ namespace sdmg {
 				_active = true;
 
 				// start thread, something like;
-				//_thread = SDL_CreateThread(waitForKeyInput, "InputThread", (void*)NULL);
+				//_thread = SDL_CreateThread(waitForKeyInput, "InputThread",(void *)NULL);
 			}
 
 			int InputEngine::waitForKeyInput(void *data) {
 				// on keyboard input execute handle key, providing the device the key is pressed 
 				// from and the keycode of the key that is pressed
 
-				// Some kind while-loop ?
+
 				while (_active) {
-					// Some kind of querying on keyboard states ?
+
+					findJoysticks();
+
+					//Events
+					if (SDL_PollEvent(&_event))
+					{
+						if (_event.type == SDL_QUIT)
+						{
+							_active = false;
+						}
+
+						if (_event.type == SDL_KEYDOWN)
+						{
+							handleKey("Keyboard", _event.key.keysym.sym);
+						}
+						else if (_event.type == SDL_JOYBUTTONDOWN || _event.type == SDL_JOYAXISMOTION)
+						{
+							// ?? Button != KeyCode
+							//handleKey(Joysticks[_event.cdevice.which].Name, _event.cbutton);
+						}
+					}
 				}
 
-				// Not sure if must?
 				return 0;
 			}
 
@@ -67,7 +86,27 @@ namespace sdmg {
 			void InputEngine::clearBindings() {
 				_deviceBindings->clear();
 			}
-			
+
+			// find joysticks and add to map
+			void InputEngine::findJoysticks(void)
+			{
+				for (int i = 0; i < SDL_NumJoysticks(); i++)
+				{
+					if (SDL_IsGameController(i))
+					{
+						if (!Joysticks[i].Stick)
+						{
+							Joysticks[i].ID = i;
+							Joysticks[i].Stick = SDL_JoystickOpen(i);
+							if (Joysticks[i].Stick)
+							{
+								const char *joystick_name = SDL_JoystickName(Joysticks[i].Stick);
+								Joysticks[i].Name = joystick_name ? joystick_name : "Joystick";
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
