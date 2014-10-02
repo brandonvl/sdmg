@@ -119,6 +119,7 @@
     <ClCompile Include="model\Item.cpp" />
     <ClCompile Include="model\Platform.cpp" />
     <ClCompile Include="model\Weapon.cpp" />
+    <ClCompile Include="engine\drawing\TextSurface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="model\Item.h" />
     <ClInclude Include="model\Platform.h" />
     <ClInclude Include="model\Weapon.h" />
+    <ClInclude Include="engine\drawing\TextSurface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

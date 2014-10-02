@@ -189,6 +189,9 @@
     <ClCompile Include="engine\input\Joystick.cpp">
       <Filter>Header Files\engine\input</Filter>
     </ClCompile>
+    <ClCompile Include="engine\drawing\TextSurface.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="engine\input\Joystick.h">
       <Filter>Source Files\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\TextSurface.h">
+      <Filter>Header Files\engine\drawing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
