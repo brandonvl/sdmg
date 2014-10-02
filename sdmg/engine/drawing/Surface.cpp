@@ -98,7 +98,7 @@ namespace sdmg {
 			}
 
 			SDL_Texture *Surface::getSDLTexture(int sliceIndex) {
-				if (sliceIndex > _maxSliceIndex) {
+				if (sliceIndex >= _maxSliceIndex) {
 					sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
 				}
 
