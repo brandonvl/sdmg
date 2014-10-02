@@ -24,10 +24,12 @@ namespace sdmg {
 	namespace model {
 		class Character : public MovableGameObject {
 		public:
+			Character();
+			virtual ~Character();
 			void update(GameTime *gameTime, GameBase *game);
 		private:
 			Weapon *_currentWeapon;
-			std::vector<Weapon> _weapons;
+			std::vector<Weapon*> _weapons;
 			float _speed;
 			Direction _direction;
 			CharacterState _state;

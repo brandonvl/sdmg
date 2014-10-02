@@ -12,8 +12,18 @@
 
 namespace sdmg {
 	namespace engine {
+		GameObject::GameObject()
+		{
+
+		}
+
+		GameObject::~GameObject()
+		{
+
+		}
+
 		void GameObject::setId(int id) {
-		
+			_size = Size(0, 0);
 		}
 		
 		int GameObject::getId() {
@@ -24,6 +34,11 @@ namespace sdmg {
 			return _spriteName;
 		}
 		
+		void GameObject::setBody(b2Body *body)
+		{
+			_body = body;
+		}
+
 		b2Body* GameObject::getBody() {
 			return _body;
 		}
@@ -33,6 +48,30 @@ namespace sdmg {
 			// TODO: create the body
 			return _body;
 		}
-		
+
+		Size GameObject::getSize()
+		{
+			return _size;
+		}
+
+		void GameObject::setSize(Size size)
+		{
+			_size = size;
+		}
+
+		void GameObject::setSize(int width, int height)
+		{
+			_size = Size(width, height);
+		}
+
+		int GameObject::getWidth()
+		{
+			return _size.width;
+		}
+
+		int GameObject::getHeight()
+		{
+			return _size.height;
+		}
 	}
 }

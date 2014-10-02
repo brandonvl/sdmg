@@ -180,6 +180,15 @@
     <ClCompile Include="Joystick.cpp">
       <Filter>Source Files\engine\input</Filter>
     </ClCompile>
+    <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp">
+      <Filter>Source Files\engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\KinematicBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\ContactListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -305,11 +314,22 @@
     <ClInclude Include="gamestates\LevelSelectionState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Joystick.h">
       <Filter>Header Files\engine\input</Filter>
+=======
+    <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h">
+      <Filter>Header Files\engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\KinematicBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\ContactListener.h">
+      <Filter>Header Files</Filter>
+>>>>>>> origin/physicsEngine
     </ClInclude>
   </ItemGroup>
 </Project>

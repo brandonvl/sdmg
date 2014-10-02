@@ -21,6 +21,8 @@ namespace sdmg {
 	namespace model {
 		class Platform : public GameObject {
 		public:
+			Platform();
+			virtual ~Platform();
 			void update(GameTime *gameTime, GameBase *game);
 		};
 	}

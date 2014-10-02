@@ -14,6 +14,13 @@
 
 namespace sdmg {
 	namespace model {
+		Character::Character()
+		{
+
+		}
+
+		Character::~Character() { }
+
 		void Character::update(GameTime *gameTime, GameBase *game) {
 		
 		}
