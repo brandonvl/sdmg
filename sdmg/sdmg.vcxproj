@@ -101,6 +101,7 @@
     <ClCompile Include="engine\physics\KinematicBody.cpp" />
     <ClCompile Include="engine\physics\PhysicsEngine.cpp" />
     <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp" />
+    <ClCompile Include="engine\util\FileParser.cpp" />
     <ClCompile Include="engine\World.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="gamestates\CharacterSelectionState.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="engine\physics\KinematicBody.h" />
     <ClInclude Include="engine\physics\PhysicsEngine.h" />
     <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h" />
+    <ClInclude Include="engine\util\FileParser.h" />
     <ClInclude Include="engine\World.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="gamestates\CharacterSelectionState.h" />

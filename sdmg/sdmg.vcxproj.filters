@@ -64,6 +64,9 @@
     <Filter Include="Source Files\engine\util">
       <UniqueIdentifier>{0c20421c-9028-4eaa-9e42-3c7469e9e5d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\engine\util">
+      <UniqueIdentifier>{c7844baf-d3ae-4cf4-813e-63b35ae480f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -191,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="engine\input\Joystick.cpp">
       <Filter>Header Files\engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\util\FileParser.cpp">
+      <Filter>Source Files\engine\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="engine\input\Joystick.h">
       <Filter>Source Files\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\FileParser.h">
+      <Filter>Header Files\engine\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
