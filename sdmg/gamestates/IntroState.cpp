@@ -14,6 +14,7 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "model\Platform.h"
 #include "model\Character.h"
+#include "factories\CharacterFactory.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -26,21 +27,11 @@ namespace sdmg {
 			_platform->setSize(1091, 94);
 			pe->addBody(80 + 1091 / 2, 616 + 94 / 2, 1091, 94 - 15, false, _platform);
 
-			_character = new model::Character();
-			_character->setSize(110.06, 143.25);
-			_character->setDirection(MovableGameObject::Direction::RIGHT);
-			_character->setSpeed(20, 1);//pe->getWorldGravity().y / 30);
-			pe->addBody(100 + 110 / 2, 10, 110, 143, true, _character);
+			_character = factories::CharacterFactory::create("nivek", game);
 
 			pe->resume();
 			
 			DrawEngine *de = game.getEngine()->getDrawEngine();
-
-			de->loadMap(_character, MovableGameObject::State::WALKING, R"(assets\nivek\walking.png)", 440.25, 573, .25);
-			de->loadMap(_character, MovableGameObject::State::IDLE, R"(assets\nivek\idle.png)", 393.125, 548, .25);
-			de->loadMap(_character, MovableGameObject::State::JUMPING, R"(assets\nivek\jumping.png)", 462.2, 622, .25);
-			de->loadMap(_character, MovableGameObject::State::FORWARD_ROLL, R"(assets\nivek\forward_roll.png)", 761.14, 608, .25);
-			
 			de->load(_platform, R"(assets\platform.png)");
 			de->load("background", R"(assets\background.png)");
 

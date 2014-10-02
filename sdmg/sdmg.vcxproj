@@ -103,6 +103,7 @@
     <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp" />
     <ClCompile Include="engine\util\FileParser.cpp" />
     <ClCompile Include="engine\World.cpp" />
+    <ClCompile Include="factories\CharacterFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="gamestates\CharacterSelectionState.cpp" />
     <ClCompile Include="gamestates\GameOverState.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h" />
     <ClInclude Include="engine\util\FileParser.h" />
     <ClInclude Include="engine\World.h" />
+    <ClInclude Include="factories\CharacterFactory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="gamestates\CharacterSelectionState.h" />
     <ClInclude Include="gamestates\GameOverState.h" />

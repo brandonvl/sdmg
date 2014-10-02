@@ -1,5 +1,4 @@
 #include "FileParser.h"
-#include <fstream>
 #include <iostream>
 #include <sstream>
 
@@ -15,37 +14,44 @@ namespace sdmg {
 			{
 			}
 
-			void FileParser::load(std::string path) {
+			bool FileParser::load(std::string path) {
 				char ch;
-				fstream fin(path, fstream::in);
+				_fin = fstream(path, fstream::in);
 
-				bool valueMode = false, stringValue = false, stringFinished = false;
+				if (_fin.is_open()) {
+					bool valueMode = false, stringValue = false, stringFinished = false;
 
-				std::string name, value;
+					std::string name, value;
 
-				while (fin >> noskipws >> ch) {
+					while (_fin >> noskipws >> ch) {
 
-					if (!valueMode) {
-						if (ch != '=') name += ch;
-						else valueMode = true;
-					}
-					else {
-						if (ch == '"' && value.size() == 0) stringValue = true;
-						else if (ch == '"' && stringValue) stringFinished = true;
-						else if (ch == '\n') {
-							handle(name, value, valueMode, stringValue, stringFinished);
+						if (!valueMode) {
+							if (ch != '=') name += ch;
+							else valueMode = true;
 						}
-						else if ((ch == '"' && !stringValue) || stringFinished) throw exception("Unexpected " + ch);
-						else value += ch;
+						else {
+							if (ch == '"' && value.size() == 0) stringValue = true;
+							else if (ch == '"' && stringValue) stringFinished = true;
+							else if (ch == '\n') {
+								if (!handle(name, value, valueMode, stringValue, stringFinished)) return false;
+							}
+							else if ((ch == '"' && !stringValue) || stringFinished) return false;
+							else value += ch;
+						}
 					}
-				}
 
-				handle(name, value, valueMode, stringValue, stringFinished);
+					if (!handle(name, value, valueMode, stringValue, stringFinished)) return false;
+
+					_fin.close();
+
+					return true;
+				}
+				else return false;
 			}
 
-			void FileParser::handle(std::string &name, std::string &value, bool &valueMode, bool &stringValue, bool &stringFinished) {
+			bool FileParser::handle(std::string &name, std::string &value, bool &valueMode, bool &stringValue, bool &stringFinished) {
 				if (stringValue) {
-					if (!stringFinished) throw exception("String not closed");
+					if (!stringFinished) return false;
 					_stringMap.insert(std::make_pair(name, value));
 				}
 				else {
