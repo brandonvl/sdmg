@@ -97,6 +97,8 @@
     <ClCompile Include="engine\input\InputDeviceBinding.cpp" />
     <ClCompile Include="engine\input\InputEngine.cpp" />
     <ClCompile Include="engine\MovableGameObject.cpp" />
+    <ClCompile Include="engine\physics\ContactListener.cpp" />
+    <ClCompile Include="engine\physics\KinematicBody.cpp" />
     <ClCompile Include="engine\physics\PhysicsEngine.cpp" />
     <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp" />
     <ClCompile Include="engine\World.cpp" />
@@ -144,6 +146,8 @@
     <ClInclude Include="engine\input\InputDeviceBinding.h" />
     <ClInclude Include="engine\input\InputEngine.h" />
     <ClInclude Include="engine\MovableGameObject.h" />
+    <ClInclude Include="engine\physics\ContactListener.h" />
+    <ClInclude Include="engine\physics\KinematicBody.h" />
     <ClInclude Include="engine\physics\PhysicsEngine.h" />
     <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h" />
     <ClInclude Include="engine\World.h" />

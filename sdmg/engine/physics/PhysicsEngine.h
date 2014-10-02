@@ -9,6 +9,8 @@
 
 #pragma once
 #include <map>
+#include <vector>
+#include "engine\physics\KinematicBody.h"
 
 class b2World;
 class b2Body;
@@ -18,9 +20,11 @@ namespace sdmg {
 		class Engine;
 		class GameObject;
 		class MovableGameObject;
+		//  class KinematicBody;
 
 		namespace physics {
 			class PhysicsEngineActionHandler;
+			class ContactListener;
 
 			class PhysicsEngine {
 			public:
@@ -30,8 +34,11 @@ namespace sdmg {
 				void pause();
 				void resume();
 				void moveBody();
+				b2Body *getBodyList();
 				void setWorldGravity(const float leftGravity, const float downGravity);
+				b2Vec2 getWorldGravity();
 				b2Body *addBody(int x, int y, int w, int h, bool dyn, GameObject *object);
+				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
 				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK };
 				void doAction(MovableGameObject *object, Action action);
 			private:
@@ -40,8 +47,10 @@ namespace sdmg {
 				bool _enabled;
 				const float _M2P = 20.0f;
 				const float _P2M = 1.0f / _M2P;
+				std::vector<b2Body*> *_kinematicBodies;
+				ContactListener *_contactListener;
+				b2ContactFilter *_contactFilter;
 				PhysicsEngineActionHandler *_actionHandler;
-
 
 				typedef void(PhysicsEngineActionHandler::*ActionFunction)(MovableGameObject*);
 				void addAction(Action action, ActionFunction function);

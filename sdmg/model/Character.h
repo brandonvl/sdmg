@@ -24,6 +24,8 @@ namespace sdmg {
 	namespace model {
 		class Character : public MovableGameObject {
 		public:
+			Character();
+			virtual ~Character();
 			void update(GameTime *gameTime, GameBase *game);
 		private:
 			Weapon *_currentWeapon;

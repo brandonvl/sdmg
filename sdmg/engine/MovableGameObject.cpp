@@ -14,8 +14,15 @@
 
 namespace sdmg {
 	namespace engine {
+		MovableGameObject::MovableGameObject()
+		{
+
+		}
+
+		MovableGameObject::~MovableGameObject() { }
+
 		void MovableGameObject::update(GameTime *gameTime, GameBase *game) {
-		
+			_speed = Speed(0.0f, 0.0f);
 		}
 
 		Speed MovableGameObject::getSpeed()
@@ -23,10 +30,25 @@ namespace sdmg {
 			return _speed;
 		}
 
+
+		float MovableGameObject::getHorizontalSpeed()
+		{
+			return _speed.horizontal;
+		}
+
+		float MovableGameObject::getVerticalSpeed()
+		{
+			return _speed.vertical;
+		}
+
 		void MovableGameObject::setSpeed(Speed speed)
 		{
 			_speed = speed;
 		}
-		
+
+		void MovableGameObject::setSpeed(float horizontalSpeed, float verticalSpeed)
+		{
+			_speed = Speed(horizontalSpeed, verticalSpeed);
+		}
 	}
 }

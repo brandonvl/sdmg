@@ -14,6 +14,8 @@
 #include "engine\World.h"
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
+#include "engine\physics\ContactListener.h"
+#include "engine\physics\KinematicBody.h"
 #include "Box2D\Box2D.h"
 #include "PhysicsEngineActionHandler.h"
 
@@ -25,6 +27,11 @@ namespace sdmg {
 			{
 				_world = new b2World(b2Vec2(0.0f, 0.0f));
 				_actionHandler = new PhysicsEngineActionHandler();
+				_contactListener = new ContactListener();
+				_contactFilter = new b2ContactFilter();
+				_world->SetContactListener(_contactListener);
+				_world->SetContactFilter(_contactFilter);
+
 				initializeActions();
 			}
 
@@ -32,7 +39,26 @@ namespace sdmg {
 
 			void PhysicsEngine::update() {
 				if (_enabled)
-					_world->Step(1 / 60, 8, 3);
+				{
+					_world->Step(1.0f / 60.0f, 8, 3);
+					// checkKinematicBodies();
+				}
+			}
+
+			b2Body *PhysicsEngine::getBodyList()
+			{
+				return _world->GetBodyList();
+			}
+
+			void checkKinematicBodies()
+			{
+				/*
+				for (auto i = _kinematicBodies->begin(); i != _kinematicBodies->end(); i++)
+				{
+					KinematicBody kinematicBody = static_cast<KinematicBody*>((*i)->GetUserData());
+					kinematicBody->checkDirectionChange();
+				}
+				*/
 			}
 			
 			void PhysicsEngine::pause() {
@@ -41,6 +67,11 @@ namespace sdmg {
 			
 			void PhysicsEngine::resume() {
 				_enabled = true;
+			}
+
+			b2Vec2 PhysicsEngine::getWorldGravity()
+			{
+				return _world->GetGravity();
 			}
 
 			void PhysicsEngine::setWorldGravity(const float leftGravity, const float downGravity)
@@ -57,7 +88,7 @@ namespace sdmg {
 				b2Body *body = _world->CreateBody(bodydef);
 
 				body->SetFixedRotation(true);
-				bodydef->userData = &body;
+				// bodydef->userData = &body;
 
 				b2PolygonShape *shape = new b2PolygonShape();
 				shape->SetAsBox(_P2M*w / 2, _P2M*h / 2);
@@ -68,12 +99,55 @@ namespace sdmg {
 				body->CreateFixture(fixturedef);
 
 				body->SetUserData(object);
+				object->setBody(body);
 
 				const float32 *objectx;
 				objectx = &body->GetPosition().x;
 
 				//  b2Vec2 *vec = new b2Vec2(P2M*w, P2M*h);
 				//  _boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));
+
+				return body;
+			}
+
+			b2Body* PhysicsEngine::addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction)
+			{
+				b2BodyDef *bodydef = new b2BodyDef();
+				bodydef->position.Set(x*_P2M, y*_P2M);
+				bodydef->type = b2_kinematicBody;
+				b2Body* body = _world->CreateBody(bodydef);
+
+				body->SetFixedRotation(true);
+
+				b2PolygonShape *shape = new b2PolygonShape();
+				shape->SetAsBox(_P2M*w / 2, _P2M*h / 2);
+
+				b2FixtureDef *fixturedef = new b2FixtureDef();
+				fixturedef->shape = shape;
+				fixturedef->density = 1.0f;
+				body->CreateFixture(fixturedef);
+
+				b2Vec2 *vec = new b2Vec2(_P2M*w, _P2M*h);
+				//  _boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));
+
+				KinematicBody *kinematicBody = new KinematicBody(new b2Vec2(x*_P2M, y*_P2M));
+
+				if (direction == KinematicBody::Direction::Right)
+				{
+					body->SetLinearVelocity(b2Vec2(speed, 0.0));
+					kinematicBody->setDirection(KinematicBody::Direction::Right);
+					kinematicBody->setEndLocation(new b2Vec2(endpoint*_P2M, y*_P2M));
+				}
+				else
+				{
+					body->SetLinearVelocity(b2Vec2(0.0, speed));
+					kinematicBody->setDirection(KinematicBody::Direction::Down);
+					kinematicBody->setEndLocation(new b2Vec2(x*_P2M, endpoint*_P2M));
+				}
+
+				KinematicBody::Direction dir = kinematicBody->GetDirection();
+
+				body->SetUserData(kinematicBody);
 
 				return body;
 			}

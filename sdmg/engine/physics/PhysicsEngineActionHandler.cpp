@@ -26,18 +26,23 @@ namespace sdmg {
 
 			void PhysicsEngineActionHandler::moveLeft(MovableGameObject *obj) {
 				std::cout << "Naar links gaan" << std::endl;
+				obj->getBody()->SetLinearVelocity(b2Vec2(obj->getHorizontalSpeed() * -1, obj->getBody()->GetLinearVelocity().y));
+
 			}
 
 			void PhysicsEngineActionHandler::moveRight(MovableGameObject *obj) {
-				std::cout << "Naar rechts gaan" << std::endl;
+				obj->getBody()->SetLinearVelocity(b2Vec2(obj->getHorizontalSpeed(), obj->getBody()->GetLinearVelocity().y));
 			}
 
 			void PhysicsEngineActionHandler::idle(MovableGameObject *obj) {
-				std::cout << "Nergens heen gaan" << std::endl;
+				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
 			}
 
 			void PhysicsEngineActionHandler::jump(MovableGameObject *obj) {
-				std::cout << "Springen met die banaan" << std::endl;
+				b2Vec2 jumpImpulse(0.0f, -(obj->getBody()->GetMass() * obj->getVerticalSpeed()));
+				//_body->ApplyLinearImpulse(jumpImpulse, _body->GetWorldCenter(), true);
+
+				obj->getBody()->SetLinearVelocity(jumpImpulse);
 			}
 
 			void PhysicsEngineActionHandler::shortAttack(MovableGameObject *obj) {

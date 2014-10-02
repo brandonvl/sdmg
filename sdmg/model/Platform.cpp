@@ -16,6 +16,13 @@ using namespace sdmg::engine;
 
 namespace sdmg {
 	namespace model {
+		Platform::Platform()
+		{
+
+		}
+
+		Platform::~Platform() { }
+
 		void Platform::update(GameTime *gameTime, GameBase *game) {
 		
 		}
