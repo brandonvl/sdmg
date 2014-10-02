@@ -29,6 +29,8 @@ namespace sdmg {
 
 		class GameObject {
 		public:
+			enum class State { WALKING_LEFT, WALKING_RIGHT, RUNNING, JUMPING };
+
 			GameObject();
 			virtual ~GameObject();
 			void setId(int id);
@@ -45,11 +47,15 @@ namespace sdmg {
 			void setLocation(const float32 *x, const float32 *y);
 			float getX();
 			float getY();
+			State getState();
+			void setState(State state);
+
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
 		private:
 			int _id;
 			Flags _flags;
+			State _state;
 			std::string _spriteName;
 			b2Body *_body;
 			Size _size;

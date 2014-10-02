@@ -25,7 +25,6 @@ namespace sdmg {
 
 
 			void PhysicsEngineActionHandler::moveLeft(MovableGameObject *obj) {
-				std::cout << "Naar links gaan" << std::endl;
 				obj->getBody()->SetLinearVelocity(b2Vec2(obj->getHorizontalSpeed() * -1, obj->getBody()->GetLinearVelocity().y));
 
 			}

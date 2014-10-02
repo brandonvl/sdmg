@@ -111,10 +111,7 @@ namespace sdmg {
 
 				body->SetUserData(object);
 				object->setBody(body);
-
-				const float32 *objectx;
-				objectx = &body->GetPosition().x;
-
+				
 				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
 				//  b2Vec2 *vec = new b2Vec2(P2M*w, P2M*h);

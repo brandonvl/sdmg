@@ -35,8 +35,8 @@ namespace sdmg {
 
 			//pe->addBody()
 
-			game.getEngine()->getDrawEngine()->loadMap("nivek", R"(assets\nivek.png)", 440.25, 573);
-			game.getEngine()->getDrawEngine()->load("platform", R"(assets\platform.png)");
+			game.getEngine()->getDrawEngine()->loadMap(_character, R"(assets\nivek.png)", 440.25, 573);
+			game.getEngine()->getDrawEngine()->load(_platform, R"(assets\platform.png)");
 			game.getEngine()->getDrawEngine()->load("background", R"(assets\background.png)");
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
@@ -103,19 +103,13 @@ namespace sdmg {
 		void IntroState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			
 
 			game.getEngine()->getDrawEngine()->draw("background", Rectangle(0, 0, 1280, 720));
 			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
-			game.getEngine()->getDrawEngine()->draw("platform", Rectangle((_platform->getX() * 20.0f) - 1091 / 2, (_platform->getY() * 20.0f) - 94 / 2 - 15, 1091, 94));
-			game.getEngine()->getDrawEngine()->draw("nivek", Rectangle((_character->getX() * 20.0f) - 110.06 / 2, (_character->getY() * 20.0f) - 142.25 / 2, 110.06, 143.25), gameTime.getTotalMilisecondsRunning() / 100);
+			game.getEngine()->getDrawEngine()->draw(_platform, Rectangle((_platform->getX() * 20.0f) - 1091 / 2, (_platform->getY() * 20.0f) - 94 / 2 - 15, 1091, 94));
+			game.getEngine()->getDrawEngine()->draw(_character, Rectangle((_character->getX() * 20.0f) - 110.06 / 2, (_character->getY() * 20.0f) - 142.25 / 2, 110.06, 143.25), gameTime.getTotalMilisecondsRunning() / 100);
 
-			//game.getEngine()->getDrawEngine()->draw("nivek", Rectangle(280, 10, 219, 286.5), gameTime.getTotalMilisecondsRunning() / 100);
-
-			// simple sprite animation
-			//game.getEngine()->getDrawEngine()->draw("explosion", Rectangle(200, 150, 64, 64), gameTime.getTotalMilisecondsRunning() / 100);
 			game.getEngine()->getDrawEngine()->render();
-			//std::cout << "Draw IntroState ... " << std::endl;
 		}
 		
 	}

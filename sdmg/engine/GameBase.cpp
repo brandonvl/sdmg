@@ -60,27 +60,11 @@ namespace sdmg {
 		void GameBase::doGameLoop() {
 			//SDL_Event event;
 			while (_running) {
-				/*internalDraw();
-				if (SDL_PollEvent(&event))
-				{
-					if (event.type == SDL_QUIT)
-					{
-						_running = false;
-					}
-
-					if (event.type == SDL_KEYDOWN)
-					{
-						switch (event.key.keysym.sym)
-						{
-						case SDLK_ESCAPE:
-							_running = false;
-							break;
-						}
-					}
-				}*/
 				_gameStateManager->handleEvents();
 				_gameStateManager->update();
 				_gameStateManager->draw();
+
+				_gameTime->update();
 			}
 			_gameStateManager->cleanup();
 		}
