@@ -29,8 +29,6 @@ namespace sdmg {
 
 		class GameObject {
 		public:
-			enum class State { WALKING, RUNNING, JUMPING, IDLE, FORWARD_ROLL };
-			enum class Direction { LEFT, UP, DOWN, RIGHT };
 
 			GameObject();
 			virtual ~GameObject();
@@ -48,18 +46,14 @@ namespace sdmg {
 			void setLocation(const float32 *x, const float32 *y);
 			float getX();
 			float getY();
-			State getState();
-			void setState(State state);
-			Direction getDirection();
-			void setDirection(Direction direction);
+			float getPixelX();
+			float getPixelY();
 
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
 		private:
 			int _id;
 			Flags _flags;
-			State _state;
-			Direction _direction;
 			std::string _spriteName;
 			b2Body *_body;
 			Size _size;

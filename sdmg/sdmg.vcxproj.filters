@@ -61,6 +61,9 @@
     <Filter Include="Source Files\engine\physics">
       <UniqueIdentifier>{bdc1cfa9-ed1a-4962-b5a9-f156a9640d2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\engine\util">
+      <UniqueIdentifier>{0c20421c-9028-4eaa-9e42-3c7469e9e5d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

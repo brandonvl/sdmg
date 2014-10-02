@@ -16,7 +16,7 @@ namespace sdmg {
 	namespace engine {
 		MovableGameObject::MovableGameObject()
 		{
-
+			_state = State::IDLE;
 		}
 
 		MovableGameObject::~MovableGameObject() { }
@@ -50,5 +50,11 @@ namespace sdmg {
 		{
 			_speed = Speed(horizontalSpeed, verticalSpeed);
 		}
+
+		MovableGameObject::State MovableGameObject::getState() { return _state; }
+		void MovableGameObject::setState(State state) { _state = state; }
+
+		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
+		void MovableGameObject::setDirection(Direction direction) { _direction = direction; }
 	}
 }
