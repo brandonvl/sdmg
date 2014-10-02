@@ -14,6 +14,8 @@
 #include "Rectangle.h"
 #include <vector>
 
+class b2Body;
+
 namespace sdmg {
 	namespace engine {
 		class Engine;
@@ -32,6 +34,7 @@ namespace sdmg {
 				void unloadAll();
 				void draw(std::string key, Rectangle rect);
 				void draw(std::string key, Rectangle rect, int slice);
+				void drawBodies(b2Body *body);
 				void prepareForDraw();
 				void render();
 			private:

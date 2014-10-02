@@ -10,6 +10,9 @@
 
 #include "Engine.h"
 #include "drawing\DrawEngine.h"
+#include "physics\PhysicsEngine.h"
+#include "input\InputEngine.h"
+#include "audio\AudioEngine.h"
 #include "GameState.h"
 #include "GameTime.h"
 #include "GameBase.h"
@@ -18,6 +21,9 @@ namespace sdmg {
 	namespace engine {
 		Engine::Engine() {
 			_drawEngine = new DrawEngine();
+			_physicsEngine = new PhysicsEngine();
+			_inputEngine = new InputEngine();
+			_audioEngine = new AudioEngine();
 		}
 
 		Engine::~Engine() {
@@ -25,7 +31,7 @@ namespace sdmg {
 		}
 
 		void Engine::update(const GameState *gameState, const GameTime *gameTime) {
-		
+			
 		}
 		
 		GameBase* Engine::getGame() {

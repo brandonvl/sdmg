@@ -16,6 +16,7 @@
 #include "engine\MovableGameObject.h"
 #include "engine\physics\ContactListener.h"
 #include "engine\physics\KinematicBody.h"
+#include "engine\GameTime.h"
 #include "Box2D\Box2D.h"
 #include "PhysicsEngineActionHandler.h"
 
@@ -31,6 +32,8 @@ namespace sdmg {
 				_contactFilter = new b2ContactFilter();
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
+				_step = 1.0f / 60.0f;
+				_lastUpdate = std::chrono::high_resolution_clock::now();
 
 				initializeActions();
 			}
@@ -40,8 +43,16 @@ namespace sdmg {
 			void PhysicsEngine::update() {
 				if (_enabled)
 				{
-					_world->Step(1.0f / 60.0f, 8, 3);
-					// checkKinematicBodies();
+					auto curTime = std::chrono::high_resolution_clock::now();
+					float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
+
+					_lastUpdate = curTime;
+					_accumulator += diff;
+
+					while (_accumulator > _step) {
+						_world->Step(_step, 8, 3);
+						_accumulator -= _step;
+					}
 				}
 			}
 
@@ -103,6 +114,8 @@ namespace sdmg {
 
 				const float32 *objectx;
 				objectx = &body->GetPosition().x;
+
+				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
 				//  b2Vec2 *vec = new b2Vec2(P2M*w, P2M*h);
 				//  _boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));

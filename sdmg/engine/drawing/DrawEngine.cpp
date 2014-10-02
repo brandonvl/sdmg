@@ -10,6 +10,8 @@
 
 #include "DrawEngine.h"
 #include "Surface.h"
+#include <Box2D\Box2D.h>
+#include "engine\GameObject.h"
 
 namespace sdmg {
 	namespace engine {
@@ -74,6 +76,27 @@ namespace sdmg {
 			void DrawEngine::render() {
 				// render
 				SDL_RenderPresent(_renderer);
+			}
+
+			void DrawEngine::drawBodies(b2Body *body) {
+				b2Vec2 leftUpperPoint;
+
+				while (body) {
+					SDL_Rect r;
+					GameObject *object = static_cast<GameObject*>(body->GetUserData());
+
+					leftUpperPoint = ((b2PolygonShape*)body->GetFixtureList()->GetShape())->GetVertex(0);
+					leftUpperPoint += body->GetWorldCenter();
+
+					r.x = leftUpperPoint.x * 20.0f;
+					r.y = leftUpperPoint.y * 20.0f;
+					r.w = object->getWidth();
+					r.h = object->getHeight();
+					
+					SDL_RenderFillRect(_renderer, &r);
+
+					body = body->GetNext();
+				}
 			}
 		}
 	}

@@ -16,6 +16,11 @@ using namespace sdmg::engine;
 
 
 namespace sdmg {
+	namespace model {
+		class Platform;
+		class Character;
+	}
+
 	namespace gamestates {
 		
 		class IntroState : public GameState {
@@ -36,6 +41,8 @@ namespace sdmg {
 		protected:
 			IntroState() { }
 		private:
+			model::Character *_character;
+			model::Platform *_platform;
 		};
 	}
 }

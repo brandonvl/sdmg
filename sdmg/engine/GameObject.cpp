@@ -59,9 +59,22 @@ namespace sdmg {
 			_size = size;
 		}
 
-		void GameObject::setSize(int width, int height)
+		void GameObject::setSize(float width, float height)
 		{
 			_size = Size(width, height);
+		}
+
+		void GameObject::setLocation(const float32 *x, const float32 *y) {
+			_x = x;
+			_y = y;
+		}
+		
+		float GameObject::getX() {
+			return *_x;
+		}
+
+		float GameObject::getY() {
+			return *_y;
 		}
 
 		int GameObject::getWidth()

@@ -19,12 +19,12 @@ namespace sdmg {
 		struct Size
 		{
 			Size::Size() { }
-			Size::Size(int width, int height)
+			Size::Size(float width, float height)
 			{
 				this->width = width;
 				this->height = height;
 			}
-			int width, height;
+			float width, height;
 		};
 
 		class GameObject {
@@ -41,7 +41,10 @@ namespace sdmg {
 			int getWidth();
 			int getHeight();
 			void setSize(Size size);
-			void setSize(int width, int height);
+			void setSize(float width, float height);
+			void setLocation(const float32 *x, const float32 *y);
+			float getX();
+			float getY();
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
 		private:
@@ -50,6 +53,7 @@ namespace sdmg {
 			std::string _spriteName;
 			b2Body *_body;
 			Size _size;
+			const float32 *_x, *_y;
 		};
 	}
 }

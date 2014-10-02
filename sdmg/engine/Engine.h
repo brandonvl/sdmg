@@ -13,14 +13,17 @@
 
 namespace sdmg {
 	namespace engine {
-		namespace drawing {
-			class DrawEngine;
-		}
-		using namespace sdmg::engine::drawing;
+		
+		namespace drawing { class DrawEngine; }
+		namespace physics { class PhysicsEngine; }
+		namespace audio { class AudioEngine; }
+		namespace input { class InputEngine; }
 
-		class PhysicsEngine;
-		class AudioEngine;
-		class InputEngine;
+		using namespace sdmg::engine::drawing;
+		using namespace sdmg::engine::physics;
+		using namespace sdmg::engine::audio;
+		using namespace sdmg::engine::input;
+		
 		class GameState;
 		class GameTime;
 		class GameBase;

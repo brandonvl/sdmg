@@ -11,6 +11,7 @@
 #include <map>
 #include <vector>
 #include "engine\physics\KinematicBody.h"
+#include <chrono>
 
 class b2World;
 class b2Body;
@@ -20,6 +21,7 @@ namespace sdmg {
 		class Engine;
 		class GameObject;
 		class MovableGameObject;
+		class GameTime;
 		//  class KinematicBody;
 
 		namespace physics {
@@ -51,6 +53,9 @@ namespace sdmg {
 				ContactListener *_contactListener;
 				b2ContactFilter *_contactFilter;
 				PhysicsEngineActionHandler *_actionHandler;
+
+				std::chrono::high_resolution_clock::time_point _lastUpdate;
+				float _step, _accumulator;
 
 				typedef void(PhysicsEngineActionHandler::*ActionFunction)(MovableGameObject*);
 				void addAction(Action action, ActionFunction function);

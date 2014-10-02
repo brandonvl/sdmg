@@ -33,8 +33,8 @@ namespace sdmg {
 		void GameBase::internalInitialize() {
 			_gameTime = new GameTime();
 			_world = new World();
-			_gameStateManager = new GameStateManager(this);
 			_engine = new Engine();
+			_gameStateManager = new GameStateManager(this);
 		}
 		
 		void GameBase::stop() {
