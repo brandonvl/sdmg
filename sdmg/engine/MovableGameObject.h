@@ -28,6 +28,9 @@ namespace sdmg {
 
 		class MovableGameObject : public GameObject {
 		public:
+			enum class State { WALKING, RUNNING, JUMPING, IDLE, FORWARD_ROLL };
+			enum class Direction { LEFT, UP, DOWN, RIGHT };
+
 			MovableGameObject();
 			virtual ~MovableGameObject();
 			void setSpeed(Speed speed);
@@ -36,9 +39,15 @@ namespace sdmg {
 			float getHorizontalSpeed();
 			float getVerticalSpeed();
 			Speed getSpeed();
+
+			State getState();
+			void setState(State state);
+			Direction getDirection();
+			void setDirection(Direction direction);
 		private:
 			Direction _direction;
 			Speed _speed;
+			State _state;
 		};
 	}
 }

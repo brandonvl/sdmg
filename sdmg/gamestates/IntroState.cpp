@@ -28,7 +28,7 @@ namespace sdmg {
 
 			_character = new model::Character();
 			_character->setSize(110.06, 143.25);
-			_character->setDirection(GameObject::Direction::RIGHT);
+			_character->setDirection(MovableGameObject::Direction::RIGHT);
 			_character->setSpeed(20, 1);//pe->getWorldGravity().y / 30);
 			pe->addBody(100 + 110 / 2, 10, 110, 143, true, _character);
 
@@ -36,10 +36,10 @@ namespace sdmg {
 			
 			DrawEngine *de = game.getEngine()->getDrawEngine();
 
-			de->loadMap(_character, GameObject::State::WALKING, R"(assets\nivek\walking.png)", 440.25, 573, .25);
-			de->loadMap(_character, GameObject::State::IDLE, R"(assets\nivek\idle.png)", 393.125, 548, .25);
-			de->loadMap(_character, GameObject::State::JUMPING, R"(assets\nivek\jumping.png)", 462.2, 622, .25);
-			de->loadMap(_character, GameObject::State::FORWARD_ROLL, R"(assets\nivek\forward_roll.png)", 761.14, 608, .25);
+			de->loadMap(_character, MovableGameObject::State::WALKING, R"(assets\nivek\walking.png)", 440.25, 573, .25);
+			de->loadMap(_character, MovableGameObject::State::IDLE, R"(assets\nivek\idle.png)", 393.125, 548, .25);
+			de->loadMap(_character, MovableGameObject::State::JUMPING, R"(assets\nivek\jumping.png)", 462.2, 622, .25);
+			de->loadMap(_character, MovableGameObject::State::FORWARD_ROLL, R"(assets\nivek\forward_roll.png)", 761.14, 608, .25);
 			
 			de->load(_platform, R"(assets\platform.png)");
 			de->load("background", R"(assets\background.png)");
@@ -87,24 +87,24 @@ namespace sdmg {
 						changeState(game, LoadingState::getInstance());
 						break;
 					case SDLK_LEFT:
-						_character->setDirection(GameObject::Direction::LEFT);
-						_character->setState(GameObject::State::WALKING);
+						_character->setDirection(MovableGameObject::Direction::LEFT);
+						_character->setState(MovableGameObject::State::WALKING);
 						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVELEFT);
 						break;
 					case SDLK_RIGHT:
-						_character->setDirection(GameObject::Direction::RIGHT);
-						_character->setState(GameObject::State::WALKING);
+						_character->setDirection(MovableGameObject::Direction::RIGHT);
+						_character->setState(MovableGameObject::State::WALKING);
 						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVERIGHT);
 						break;
 					case SDLK_SPACE:
-						if (_character->getState() != GameObject::State::JUMPING) {
-							_character->setState(GameObject::State::JUMPING);
+						if (_character->getState() != MovableGameObject::State::JUMPING) {
+							_character->setState(MovableGameObject::State::JUMPING);
 							game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::JUMP);
 						}
 						break;
 					case SDLK_r:
-						_character->setState(GameObject::State::FORWARD_ROLL);
-						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVERIGHT);
+						_character->setState(MovableGameObject::State::FORWARD_ROLL);
+						game.getEngine()->getPhysicsEngine()->doAction(_character, _character->getDirection() == MovableGameObject::Direction::RIGHT ? PhysicsEngine::Action::MOVERIGHT : PhysicsEngine::Action::MOVELEFT);
 						break;
 					}
 				}
@@ -115,7 +115,7 @@ namespace sdmg {
 					case SDLK_LEFT:
 					case SDLK_RIGHT:
 					case SDLK_SPACE:
-						_character->setState(GameObject::State::IDLE);
+						_character->setState(MovableGameObject::State::IDLE);
 						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
 						break;
 					}

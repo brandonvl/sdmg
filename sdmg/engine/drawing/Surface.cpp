@@ -27,7 +27,8 @@ namespace sdmg {
 			}
 
 			Surface::~Surface() {
-				SDL_DestroyTexture(_texture);
+				for each (SDL_Texture *texture in _textures)
+					SDL_DestroyTexture(texture);
 			}
 
 			void Surface::load(std::string path, SDL_Renderer *renderer) {
@@ -40,12 +41,17 @@ namespace sdmg {
 					// Load image at specified path
 					SDL_Surface *surface = IMG_Load(path.c_str());
 					if (surface != NULL) {
-						_width = surface->w;
-						_height = surface->h;
-						_texture = SDL_CreateTextureFromSurface(renderer, surface);
 
+						
 						if (_sliceWidth > 0 && _sliceHeight > 0) {
-							_maxSliceIndex = (surface->w / _sliceWidth) * (surface->h / _sliceHeight);
+
+							loadMap(surface, renderer);
+						}
+						else {
+
+							_width = surface->w;
+							_height = surface->h;
+							_textures.push_back(SDL_CreateTextureFromSurface(renderer, surface));
 						}
 
 						if (_renderWidth == 0) _renderWidth = surface->w;
@@ -57,10 +63,49 @@ namespace sdmg {
 				}
 			}
 
-			SDL_Texture *Surface::getSDLTexture() {
-				return _texture;
+			void Surface::loadMap(SDL_Surface *surface, SDL_Renderer *renderer) {
+				SDL_Rect srcRect, dstRect;
+
+				_maxSliceIndex = (surface->w / _sliceWidth) * (surface->h / _sliceHeight);
+
+				dstRect.x = 0;
+				dstRect.y = 0;
+				dstRect.w = _sliceWidth;
+				dstRect.h = _sliceHeight;
+
+				int slicesPerRow = surface->w / _sliceWidth;
+				
+				for (int i = 0; i < _maxSliceIndex; i++) {
+					SDL_Surface *tmpSurface = SDL_CreateRGBSurface(0, _sliceWidth, _sliceHeight, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+
+					int rowIndex = floor(i / slicesPerRow);
+					int colIndex = i - rowIndex * i;
+
+					srcRect.x = _sliceWidth * colIndex;
+					srcRect.y = _sliceHeight * rowIndex;
+					srcRect.w = _sliceWidth;
+					srcRect.h = _sliceHeight;
+
+					SDL_BlitSurface(surface, &srcRect, tmpSurface, &dstRect);
+					_textures.push_back(SDL_CreateTextureFromSurface(renderer, tmpSurface));
+
+					SDL_FreeSurface(tmpSurface);
+				}
 			}
 
+			SDL_Texture *Surface::getSDLTexture() {
+				return _textures[0];
+			}
+
+			SDL_Texture *Surface::getSDLTexture(int sliceIndex) {
+				if (sliceIndex > _maxSliceIndex) {
+					sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
+				}
+
+				return _textures[sliceIndex];
+			}
+
+			/*
 			SDL_Rect Surface::getSliceRect(int sliceIndex) {
 				SDL_Rect rect;
 
@@ -86,6 +131,7 @@ namespace sdmg {
 					return rect;
 				}
 			}
+			*/
 
 			float Surface::getRenderWidth() { return _renderWidth; }
 			float Surface::getRenderHeight() { return _renderHeight; }

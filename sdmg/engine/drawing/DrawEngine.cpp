@@ -13,6 +13,7 @@
 #include "TextSurface.h"
 #include <Box2D\Box2D.h>
 #include "engine\GameObject.h"
+#include "engine\MovableGameObject.h"
 
 namespace sdmg {
 	namespace engine {
@@ -53,20 +54,20 @@ namespace sdmg {
 				_objectSurfaces->insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
-			void DrawEngine::loadMap(GameObject *gameObject, GameObject::State state, std::string path, float sliceWidth, float sliceHeight) {
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight) {
 				loadMap(gameObject, state, path, sliceWidth, sliceHeight, sliceWidth, sliceHeight);
 			}
 
-			void DrawEngine::loadMap(GameObject *gameObject, GameObject::State state, std::string path, float sliceWidth, float sliceHeight, float scale) {
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float scale) {
 				loadMap(gameObject, state, path, sliceWidth, sliceHeight, sliceWidth * scale, sliceHeight * scale);
 			}
 
-			void DrawEngine::loadMap(GameObject *gameObject, GameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight) {
-				std::map<GameObject::State, Surface*> *surfaceMap;
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight) {
+				std::map<MovableGameObject::State, Surface*> *surfaceMap;
 
 				if (_objectStateSurfaces->count(gameObject)) surfaceMap = (*_objectStateSurfaces)[gameObject];
 				else {
-					surfaceMap = new std::map<GameObject::State, Surface*>;
+					surfaceMap = new std::map<MovableGameObject::State, Surface*>;
 					_objectStateSurfaces->insert(std::make_pair(gameObject, surfaceMap));
 				}
 
@@ -96,8 +97,8 @@ namespace sdmg {
 				_windowWidth = 720;
 				_surfaces = new std::map<std::string, Surface*>;
 				_objectSurfaces = new std::map<GameObject*, Surface*>;
-				_objectStateSurfaces = new std::map<GameObject*, std::map<GameObject::State, Surface*>*>;
 				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowHeight, _windowWidth, 0);
+				_objectStateSurfaces = new std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>;
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 			}
 
@@ -118,17 +119,17 @@ namespace sdmg {
 			
 			void DrawEngine::draw(std::string key, float x, float y, int slice) {
 				Surface *surface = (*_surfaces)[key];
-				SDL_RenderCopy(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::draw(GameObject *gameObject, float x, float y, int slice) {
 				Surface *surface = (*_objectSurfaces)[gameObject];
-				SDL_RenderCopy(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
-			void DrawEngine::draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice) {
+			void DrawEngine::draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, float x, float y, int slice) {
 				Surface *surface = (*(*_objectStateSurfaces)[gameObject])[state];
-				SDL_RenderCopyEx(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == GameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+				SDL_RenderCopyEx(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == MovableGameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 			}
 
 			void DrawEngine::drawText(std::string text, Rectangle &rec) {

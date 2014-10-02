@@ -10,6 +10,7 @@
 #pragma once
 #include "..\..\sdl\include\SDL.h"
 #include <string>
+#include <vector>
 
 namespace sdmg {
 	namespace engine {
@@ -25,19 +26,22 @@ namespace sdmg {
 				virtual ~Surface();
 
 				//SDL_Surface* getSDLSurface();
-				SDL_Rect getSliceRect(int sliceIndex);
+				//SDL_Rect getSliceRect(int sliceIndex);
 				SDL_Texture *getSDLTexture();
+				SDL_Texture *getSDLTexture(int sliceIndex);
 
 				float getRenderHeight();
 				float getRenderWidth();
 			private:
 				//SDL_Surface *_surface;
-				SDL_Texture *_texture;
+				//SDL_Texture *_texture;
 				float _width, _height, _renderWidth, _renderHeight;
 				const float _sliceWidth, _sliceHeight;
 				int _maxSliceIndex;
+				std::vector<SDL_Texture*> _textures;
 
 				void load(std::string path, SDL_Renderer *renderer);
+				void loadMap(SDL_Surface *surface, SDL_Renderer *renderer);
 			};
 		}
 	}

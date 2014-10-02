@@ -14,7 +14,6 @@ namespace sdmg {
 	namespace engine {
 		GameObject::GameObject()
 		{
-			_state = State::IDLE;
 		}
 
 		GameObject::~GameObject()
@@ -77,6 +76,9 @@ namespace sdmg {
 			return *_y;
 		}
 
+		float GameObject::getPixelX() { return *_x * 20.0f; }
+		float GameObject::getPixelY() { return *_y * 20.0f; }
+
 		int GameObject::getWidth()
 		{
 			return _size.width;
@@ -86,11 +88,5 @@ namespace sdmg {
 		{
 			return _size.height;
 		}
-
-		GameObject::State GameObject::getState() { return _state; }
-		void GameObject::setState(State state) { _state = state; }
-
-		GameObject::Direction GameObject::getDirection() { return _direction; }
-		void GameObject::setDirection(Direction direction) { _direction = direction; }
 	}
 }
