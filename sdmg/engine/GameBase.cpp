@@ -46,7 +46,7 @@ namespace sdmg {
 		}
 		
 		void GameBase::internalDraw() {
-			_engine->getDrawEngine()->draw("chicken", Rectangle(0, 0, 100, 100));
+
 		}
 		
 		Engine* GameBase::getEngine() {

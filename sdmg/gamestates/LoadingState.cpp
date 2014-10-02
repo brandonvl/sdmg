@@ -72,7 +72,7 @@ namespace sdmg {
 		void LoadingState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("cowboy", Rectangle(0, 0, 400, 400));
+			game.getEngine()->getDrawEngine()->draw("cowboy", 0, 0);
 			game.getEngine()->getDrawEngine()->render();
 			//std::cout << "Draw LoadingState ... " << std::endl;
 		}

@@ -71,7 +71,7 @@ namespace sdmg {
 
 		void PlayState::draw(GameBase &game, GameTime &gameTime)
 		{
-			game.getEngine()->getDrawEngine()->draw("surprise", Rectangle(0, 0, 266, 330));
+			game.getEngine()->getDrawEngine()->draw("surprise", 0, 0);
 			//std::cout << "Draw IntroState ... " << std::endl;
 		}
 

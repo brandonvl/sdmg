@@ -18,7 +18,11 @@ namespace sdmg {
 				load(path, renderer);
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight) {
+				load(path, renderer);
+			}
+
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight) {
 				load(path, renderer);
 			}
 
@@ -41,8 +45,11 @@ namespace sdmg {
 						_texture = SDL_CreateTextureFromSurface(renderer, surface);
 
 						if (_sliceWidth > 0 && _sliceHeight > 0) {
-							_maxSliceIndex = (surface->w / _sliceWidth) * (surface->h / _sliceHeight) - 1;
+							_maxSliceIndex = (surface->w / _sliceWidth) * (surface->h / _sliceHeight);
 						}
+
+						if (_renderWidth == 0) _renderWidth = surface->w;
+						if (_renderHeight == 0) _renderHeight = surface->h;
 
 						SDL_FreeSurface(surface);
 					}
@@ -79,6 +86,9 @@ namespace sdmg {
 					return rect;
 				}
 			}
+
+			float Surface::getRenderWidth() { return _renderWidth; }
+			float Surface::getRenderHeight() { return _renderHeight; }
 		}
 	}
 }

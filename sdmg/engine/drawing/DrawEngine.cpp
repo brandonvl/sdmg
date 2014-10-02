@@ -52,6 +52,29 @@ namespace sdmg {
 				_objectSurfaces->insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
+			void DrawEngine::loadMap(GameObject *gameObject, GameObject::State state, std::string path, float sliceWidth, float sliceHeight) {
+				loadMap(gameObject, state, path, sliceWidth, sliceHeight, sliceWidth, sliceHeight);
+			}
+
+			void DrawEngine::loadMap(GameObject *gameObject, GameObject::State state, std::string path, float sliceWidth, float sliceHeight, float scale) {
+				loadMap(gameObject, state, path, sliceWidth, sliceHeight, sliceWidth * scale, sliceHeight * scale);
+			}
+
+			void DrawEngine::loadMap(GameObject *gameObject, GameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight) {
+				std::map<GameObject::State, Surface*> *surfaceMap;
+
+				if (_objectStateSurfaces->count(gameObject)) surfaceMap = (*_objectStateSurfaces)[gameObject];
+				else {
+					surfaceMap = new std::map<GameObject::State, Surface*>;
+					_objectStateSurfaces->insert(std::make_pair(gameObject, surfaceMap));
+				}
+
+				// Create new Surface from specified path
+				Surface *surface = new Surface(path, _renderer, sliceWidth, sliceHeight, renderWidth, renderHeight);
+				// Add Surface to _surfaces map				
+				surfaceMap->insert(std::make_pair(state, surface));
+			}
+
 			void DrawEngine::unload(std::string key) {
 				if (_surfaces->find(key) != _surfaces->end()) {
 					delete (*_surfaces)[key];
@@ -70,26 +93,39 @@ namespace sdmg {
 			void DrawEngine::initialize() {
 				_surfaces = new std::map<std::string, Surface*>;
 				_objectSurfaces = new std::map<GameObject*, Surface*>;
+				_objectStateSurfaces = new std::map<GameObject*, std::map<GameObject::State, Surface*>*>;
 				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 			}
 
-			void DrawEngine::draw(std::string key, Rectangle rect) {
-				SDL_RenderCopy(_renderer, (*_surfaces)[key]->getSDLTexture(), NULL, &rect.toSDLRect());
+			void DrawEngine::draw(std::string key) {
+				Surface *surface = (*_surfaces)[key];
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, nullptr);
 			}
 
-			void DrawEngine::draw(GameObject *gameObject, Rectangle rect) {
-				SDL_RenderCopy(_renderer, (*_objectSurfaces)[gameObject]->getSDLTexture(), NULL, &rect.toSDLRect());
+			void DrawEngine::draw(std::string key, float x, float y) {
+				Surface *surface = (*_surfaces)[key];
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
+			}
+
+			void DrawEngine::draw(GameObject *gameObject, float x, float y) {
+				Surface *surface = (*_objectSurfaces)[gameObject];
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 			
-			void DrawEngine::draw(std::string key, Rectangle rect, int slice) {
+			void DrawEngine::draw(std::string key, float x, float y, int slice) {
 				Surface *surface = (*_surfaces)[key];
-				SDL_RenderCopy(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &rect.toSDLRect());
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
-			void DrawEngine::draw(GameObject *gameObject, Rectangle rect, int slice) {
+			void DrawEngine::draw(GameObject *gameObject, float x, float y, int slice) {
 				Surface *surface = (*_objectSurfaces)[gameObject];
-				SDL_RenderCopy(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &rect.toSDLRect());
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
+			}
+
+			void DrawEngine::draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice) {
+				Surface *surface = (*(*_objectStateSurfaces)[gameObject])[state];
+				SDL_RenderCopyEx(_renderer, surface->getSDLTexture(), &surface->getSliceRect(slice), &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == GameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 			}
 
 			void DrawEngine::prepareForDraw() {

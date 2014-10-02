@@ -16,7 +16,7 @@ namespace sdmg {
 	namespace model {
 		Character::Character()
 		{
-
+			
 		}
 
 		Character::~Character() { }
