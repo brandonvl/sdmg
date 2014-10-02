@@ -19,6 +19,7 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->load("surprise", R"(assets\surprise.png)");
 			game.getEngine()->getDrawEngine()->loadMap("explosion", R"(assets\explosion.png)", 64, 64);
+			game.getEngine()->getDrawEngine()->loadMap("nivek", R"(assets\nivek.png)", 440.25, 573);
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
 
@@ -74,9 +75,10 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("surprise", Rectangle(0, 0, 266, 330));
+			game.getEngine()->getDrawEngine()->draw("nivek", Rectangle(280, 10, 219, 286.5), gameTime.getTotalMilisecondsRunning() / 100);
 
 			// simple sprite animation
-			game.getEngine()->getDrawEngine()->draw("explosion", Rectangle(300, 300, 64, 64), gameTime.getTotalMilisecondsRunning() / 100);
+			game.getEngine()->getDrawEngine()->draw("explosion", Rectangle(200, 150, 64, 64), gameTime.getTotalMilisecondsRunning() / 100);
 			game.getEngine()->getDrawEngine()->render();
 			//std::cout << "Draw IntroState ... " << std::endl;
 		}
