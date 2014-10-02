@@ -10,6 +10,7 @@
 
 #include "DrawEngine.h"
 #include "Surface.h"
+#include "TextSurface.h"
 #include <Box2D\Box2D.h>
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
@@ -92,10 +93,12 @@ namespace sdmg {
 			}
 			
 			void DrawEngine::initialize() {
+				_windowHeight = 1280;
+				_windowWidth = 720;
 				_surfaces = new std::map<std::string, Surface*>;
 				_objectSurfaces = new std::map<GameObject*, Surface*>;
+				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowHeight, _windowWidth, 0);
 				_objectStateSurfaces = new std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>;
-				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 			}
 
@@ -129,6 +132,11 @@ namespace sdmg {
 				SDL_RenderCopyEx(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == MovableGameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 			}
 
+			void DrawEngine::drawText(std::string text, Rectangle &rec) {
+				TextSurface *tSurface = new TextSurface({ 1, 3, 14 }, { 0, 0, 255 }, text, _renderer);
+				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &rec.toSDLRect());
+			}
+
 			void DrawEngine::prepareForDraw() {
 				// clear renderer
 				SDL_RenderClear(_renderer);
@@ -158,6 +166,14 @@ namespace sdmg {
 
 					body = body->GetNext();
 				}
+			}
+
+			int DrawEngine::getWindowHeight() {
+				return _windowHeight;
+			}
+
+			int DrawEngine::getWindowWidth() {
+				return _windowWidth;
 			}
 		}
 	}

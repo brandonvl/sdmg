@@ -43,6 +43,8 @@ namespace sdmg {
 			
 			de->load(_platform, R"(assets\platform.png)");
 			de->load("background", R"(assets\background.png)");
+
+
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
 
@@ -136,6 +138,8 @@ namespace sdmg {
 			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 			game.getEngine()->getDrawEngine()->draw(_platform, (_platform->getX() * 20.0f) - 1091 / 2, (_platform->getY() * 20.0f) - 94 / 2 - 15);
 			game.getEngine()->getDrawEngine()->draw(_character, _character->getState(), _character->getDirection(), (_character->getX() * 20.0f) - 110.06 / 2, (_character->getY() * 20.0f) - 142.25 / 2, gameTime.getTotalMilisecondsRunning() / 100);
+
+			game.getEngine()->getDrawEngine()->drawText("SDMG!", Rectangle(99, 214, 100, 50));
 
 			game.getEngine()->getDrawEngine()->render();
 		}

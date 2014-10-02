@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include "sdl\include\SDL.h"
+#include "sdl\include\SDL_ttf.h"
 #include "Rectangle.h"
 #include <vector>
 #include "engine\GameObject.h"
@@ -45,10 +46,15 @@ namespace sdmg {
 				void draw(GameObject *gameObject, float x, float y);
 				void draw(std::string key, float x, float y, int slice);
 				void draw(GameObject *gameObject, float x, float y, int slice);
+				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
+				void drawText(std::string text, Rectangle &rec);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, float x, float y, int slice);
 				void drawBodies(b2Body *body);
 				void prepareForDraw();
 				void render();
+
+				int getWindowHeight();
+				int getWindowWidth();
 			private:
 				Engine *_engine;
 				SDL_Window *_window;
@@ -58,6 +64,8 @@ namespace sdmg {
 				std::map<GameObject*, Surface*> *_objectSurfaces;
 				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*> *_objectStateSurfaces;
 				void initialize();
+				int _windowHeight;
+				int _windowWidth;
 			};
 		}
 	}

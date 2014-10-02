@@ -197,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="engine\util\FileParser.cpp">
       <Filter>Source Files\engine\util</Filter>
+	</ClCompile>
+    <ClCompile Include="engine\drawing\TextSurface.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="engine\util\FileParser.h">
       <Filter>Header Files\engine\util</Filter>
+	</ClInclude>
+    <ClInclude Include="engine\drawing\TextSurface.h">
+      <Filter>Header Files\engine\drawing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
