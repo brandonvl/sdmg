@@ -90,10 +90,21 @@ namespace sdmg {
 				_world->SetGravity(b2Vec2(leftGravity, downGravity));
 			}
 
+
+			b2Body *PhysicsEngine::addBody(GameObject *object)
+			{
+				return addBody(object, false);
+			}
+
+			b2Body *PhysicsEngine::addBody(MovableGameObject *object)
+			{
+				return addBody(object, true);
+			}
+
 			b2Body *PhysicsEngine::addBody(int x, int y, int w, int h, bool dyn, GameObject *object)
 			{
 				b2BodyDef *bodydef = new b2BodyDef();
-				bodydef->position.Set(x*_P2M, y*_P2M);
+				bodydef->position.Set(x * _P2M, y * _P2M);
 				if (dyn)
 					bodydef->type = b2_dynamicBody;
 				b2Body *body = _world->CreateBody(bodydef);
@@ -102,7 +113,37 @@ namespace sdmg {
 				// bodydef->userData = &body;
 
 				b2PolygonShape *shape = new b2PolygonShape();
-				shape->SetAsBox(_P2M*w / 2, _P2M*h / 2);
+				shape->SetAsBox(_P2M * w / 2, _P2M * h / 2);
+
+				b2FixtureDef *fixturedef = new b2FixtureDef();
+				fixturedef->shape = shape;
+				fixturedef->density = 1.0f;
+				body->CreateFixture(fixturedef);
+
+				body->SetUserData(object);
+				object->setBody(body);
+
+				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
+
+				//  b2Vec2 *vec = new b2Vec2(P2M*w, P2M*h);
+				//  _boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));
+
+				return body;
+			}
+
+			b2Body *PhysicsEngine::addBody(GameObject *object, bool dynamic)
+			{
+				b2BodyDef *bodydef = new b2BodyDef();
+				bodydef->position.Set(object->getX() * _P2M, object->getY() * _P2M);
+				if (dynamic)
+					bodydef->type = b2_dynamicBody;
+				b2Body *body = _world->CreateBody(bodydef);
+
+				body->SetFixedRotation(true);
+				// bodydef->userData = &body;
+
+				b2PolygonShape *shape = new b2PolygonShape();
+				shape->SetAsBox(_P2M * object->getWidth() / 2, _P2M * object->getHeight() / 2);
 
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
