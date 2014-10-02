@@ -46,7 +46,7 @@ namespace sdmg {
 				void draw(GameObject *gameObject, float x, float y);
 				void draw(std::string key, float x, float y, int slice);
 				void draw(GameObject *gameObject, float x, float y, int slice);
-				void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
+				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
 				void drawText(std::string text, Rectangle &rec);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, float x, float y, int slice);
 				void drawBodies(b2Body *body);
