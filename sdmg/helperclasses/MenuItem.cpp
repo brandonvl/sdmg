@@ -1,0 +1,5 @@
+namespace sdmg {
+	namespace helperclasses {
+
+	}
+}

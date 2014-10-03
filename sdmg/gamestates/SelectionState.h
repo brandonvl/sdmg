@@ -31,6 +31,7 @@ namespace sdmg {
 			}
 		protected:
 			SelectionState() { }
+			virtual void menuAction(MenuItem *item) override;
 		private:
 		};
 	}

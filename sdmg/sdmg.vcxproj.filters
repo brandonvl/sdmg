@@ -73,6 +73,18 @@
     <Filter Include="Source Files\factories">
       <UniqueIdentifier>{2f6a620d-8711-4076-a05c-49aeeddbf37b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\helperclasses">
+      <UniqueIdentifier>{45dea1e7-d206-4ca5-ab69-65cbeb2d5f50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\helperclasses">
+      <UniqueIdentifier>{a8c6550a-4274-49e5-b525-d962c81528d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\helperclasses\menuitems">
+      <UniqueIdentifier>{f44ddd91-20ae-482b-9916-3413093e359e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\helperclasses\menuitems">
+      <UniqueIdentifier>{052c3cde-1d21-4705-ac35-d179f0629060}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -209,6 +221,15 @@
     </ClCompile>
     <ClCompile Include="factories\CharacterFactory.cpp">
       <Filter>Source Files\factories</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp">
+      <Filter>Source Files\helperclasses\menuitems</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\Menu.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\MenuItem.cpp">
+      <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +379,15 @@
     </ClInclude>
     <ClInclude Include="factories\CharacterFactory.h">
       <Filter>Header Files\factories</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\menuitems\MenuTextItem.h">
+      <Filter>Header Files\helperclasses\menuitems</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\Menu.h">
+      <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\MenuItem.h">
+      <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

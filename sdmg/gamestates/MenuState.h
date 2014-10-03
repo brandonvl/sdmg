@@ -13,7 +13,14 @@
 using namespace sdmg::engine;
 
 namespace sdmg {
+
+	namespace helperclasses {
+		class Menu;
+		class MenuItem;
+	}
+
 	namespace gamestates {
+		using namespace sdmg::helperclasses;
 		class MenuState : public GameState {
 		public:
 			virtual void init(GameBase &game);
@@ -25,12 +32,14 @@ namespace sdmg {
 			virtual void handleEvents(GameBase &game, GameTime &gameTime);
 			virtual void update(GameBase &game, GameTime &gameTime);
 			virtual void draw(GameBase &game, GameTime &gameTime);
-			static MenuState& getInstance() {
+			/*static MenuState& getInstance() {
 				static MenuState _instance;
 				return _instance;
-			}
+			}*/
 		protected:
 			MenuState() { }
+			virtual void menuAction(MenuItem *item) = 0;
+			Menu *_menu;
 		private:
 		};
 	}

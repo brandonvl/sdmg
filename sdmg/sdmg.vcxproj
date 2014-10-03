@@ -115,6 +115,9 @@
     <ClCompile Include="gamestates\PauseState.cpp" />
     <ClCompile Include="gamestates\PlayState.cpp" />
     <ClCompile Include="gamestates\SelectionState.cpp" />
+    <ClCompile Include="helperclasses\Menu.cpp" />
+    <ClCompile Include="helperclasses\MenuItem.cpp" />
+    <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
@@ -166,6 +169,9 @@
     <ClInclude Include="gamestates\PauseState.h" />
     <ClInclude Include="gamestates\PlayState.h" />
     <ClInclude Include="gamestates\SelectionState.h" />
+    <ClInclude Include="helperclasses\Menu.h" />
+    <ClInclude Include="helperclasses\MenuItem.h" />
+    <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />

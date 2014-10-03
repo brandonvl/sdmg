@@ -9,22 +9,41 @@
 
 
 #include "MainMenuState.h"
+#include "PlayState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
+#include "helperclasses\Menu.h"
+#include "helperclasses\menuitems\MenuTextItem.h"
 
 namespace sdmg {
 	namespace gamestates {
+
+		void MainMenuState::menuAction(MenuItem *item)
+		{
+			std::string tag = item->getTag();
+
+			if(tag == "Play") {
+				changeState(*_game, PlayState::getInstance());
+			}
+			else if (tag == "Quit") {
+				_game->stop();
+			}
+		}
+
 		void MainMenuState::init(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->load("surprise", R"(assets\surprise.png)");
+			_game = &game;
+			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowHeight() / 2 - 75.0F, game.getEngine()->getDrawEngine()->getWindowWidth() / 2);
+			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Play", 150.0F, 50.0F, true));
+			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Quit", 150.0F, 50.0F, false));
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			std::cout << "Cleaning up IntroState ... " << std::endl;
-			game.getEngine()->getDrawEngine()->unload("surprise");
 		}
 
 		void MainMenuState::pause(GameBase &game)
@@ -59,6 +78,17 @@ namespace sdmg {
 						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
 						//changeState(game, LoadingState::getInstance());
 						break;
+					case SDLK_UP:
+						_menu->selectPrevious();
+						break;
+					case SDLK_DOWN:
+						_menu->selectNext();
+						break;
+
+					case SDLK_KP_ENTER:
+					case SDLK_RETURN:
+						menuAction(_menu->getSelectedMenuItem());
+						break;
 					}
 				}
 			}
@@ -71,8 +101,10 @@ namespace sdmg {
 
 		void MainMenuState::draw(GameBase &game, GameTime &gameTime)
 		{
-			game.getEngine()->getDrawEngine()->draw("surprise", 0, 0);
+			game.getEngine()->getDrawEngine()->prepareForDraw();
+			_menu->draw(&game);
 			//std::cout << "Draw IntroState ... " << std::endl;
+			game.getEngine()->getDrawEngine()->render();
 		}
 
 		

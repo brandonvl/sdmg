@@ -16,12 +16,13 @@ namespace sdmg {
 			TextSurface::TextSurface(SDL_Color fgColor, SDL_Color bgColor, std::string text, SDL_Renderer *renderer)
 			{
 				// Initialize SDL_ttf library
-				TTF_Init();
+				if (!TTF_WasInit())
+					TTF_Init();
 
-				_font = TTF_OpenFont("arial.ttf", 12);
+				_font = TTF_OpenFont("arial.ttf", 20);
 				_foregroundColor = fgColor;
 				_backgroundColor = bgColor;
-				SDL_Surface *surface = TTF_RenderText_Shaded(_font, text.c_str(), _foregroundColor, _backgroundColor);
+ 				SDL_Surface *surface = TTF_RenderText_Shaded(_font, text.c_str(), _foregroundColor, _backgroundColor);
 
 				_texture = SDL_CreateTextureFromSurface(renderer, surface);
 

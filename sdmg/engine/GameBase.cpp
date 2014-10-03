@@ -17,6 +17,8 @@
 #include "sdl\include\SDL.h"
 #include "drawing\DrawEngine.h"
 #include "gamestates\IntroState.h"
+#include "gamestates\MainMenuState.h"
+#include "gamestates\PlayState.h"
 
 namespace sdmg {
 	namespace engine {
@@ -26,7 +28,7 @@ namespace sdmg {
 
 		void GameBase::start() {
 			_running = true;
-			_gameStateManager->changeState(gamestates::IntroState::getInstance());
+			_gameStateManager->changeState(gamestates::MainMenuState::getInstance());
 			doGameLoop();		
 		}
 

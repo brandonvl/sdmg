@@ -17,7 +17,13 @@ namespace sdmg {
 		class GameTime;
 	}
 
+	namespace helperclasses {
+		class Menu;
+		class MenuItem;
+	}
+
 	namespace gamestates {
+		using namespace sdmg::helperclasses;
 		class MainMenuState : public MenuState {
 		public:
 			void init(GameBase &game);
@@ -35,7 +41,9 @@ namespace sdmg {
 			}
 		protected:
 			MainMenuState() { }
+			void menuAction(MenuItem *item) override;
 		private:
+			GameBase *_game;
 		};
 	}
 }
