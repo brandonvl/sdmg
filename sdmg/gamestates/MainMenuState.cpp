@@ -35,7 +35,7 @@ namespace sdmg {
 		{
 			_game = &game;
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowHeight() / 2 - 75.0F, game.getEngine()->getDrawEngine()->getWindowWidth() / 2);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 75.0F, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Play", 150.0F, 50.0F, true));
 			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Quit", 150.0F, 50.0F, false));
 			std::cout << "Initing IntroState ... " << std::endl;

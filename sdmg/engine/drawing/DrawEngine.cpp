@@ -93,11 +93,11 @@ namespace sdmg {
 			}
 			
 			void DrawEngine::initialize() {
-				_windowWidth = 720;
-				_windowHeight = 1280;
+				_windowWidth = 1280;
+				_windowHeight = 720;
 				_surfaces = new std::map<std::string, Surface*>;
 				_objectSurfaces = new std::map<GameObject*, Surface*>;
-				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowHeight, _windowWidth, 0);
+				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, 0);
 				_objectStateSurfaces = new std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>;
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 			}
