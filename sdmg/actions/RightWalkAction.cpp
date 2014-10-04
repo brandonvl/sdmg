@@ -9,17 +9,32 @@
 
 
 #include "RightWalkAction.h"
+#include "model\Character.h"
+#include "engine\MovableGameObject.h"
+#include "engine\GameBase.h"
+#include "engine\physics\PhysicsEngine.h"
+#include "engine\Engine.h"
 
 namespace sdmg {
 	namespace actions {
-		bool RightWalkAction::run() {
-			
-			// TODO: Implement action
+		RightWalkAction::RightWalkAction(Character *character) : CharacterAction(character) {}
+		RightWalkAction::RightWalkAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
+
+		bool RightWalkAction::run(engine::GameBase &game) {
+			if (_event.type == SDL_KEYDOWN) {
+				_character->setDirection(MovableGameObject::Direction::RIGHT);
+				_character->setState(MovableGameObject::State::WALKING);
+				game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVERIGHT);
+			}
+			else {
+				_character->setState(MovableGameObject::State::IDLE);
+				game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
+			}
 			return true;
 		}
 		
-		Action* RightWalkAction::create() {
-			return new RightWalkAction();
+		Action* RightWalkAction::create(SDL_Event &event) {
+			return new RightWalkAction(_character, event);
 		}
 		
 	}

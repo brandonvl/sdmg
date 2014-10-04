@@ -8,16 +8,17 @@
 //
 
 #pragma once
-#include "engine\input\Action.h"
-
-using namespace sdmg::engine::input;
+#include "CharacterAction.h"
 
 namespace sdmg {
 	namespace actions {
-		class RightWalkAction : public Action {
+		class RightWalkAction : public CharacterAction {
 		public:
-			bool run();
-			Action* create();
+			RightWalkAction(Character *character);
+			bool run(engine::GameBase &game) override;
+			Action* create(SDL_Event &event) override;
+		private:
+			RightWalkAction(Character *character, SDL_Event event);
 		};
 	}
 }

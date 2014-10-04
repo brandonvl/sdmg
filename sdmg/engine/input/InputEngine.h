@@ -26,18 +26,20 @@ namespace sdmg {
 				~InputEngine();
 				void setDeviceBinding(std::string device, InputDeviceBinding* binding);
 				void clearBindings();
+				void handleEvent(SDL_Event &event);
+				const std::vector<Action*> *getActions();
+				void runActions(GameBase &game);
 			private:
 				Engine *_engine;
 				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
 				std::vector<Action*> *_actions;
 				bool _active;
-				SDL_Event _event;
-				SDL_Thread *_thread;
+				//SDL_Event _event;
+				//SDL_Thread *_thread;
 				const int JOYSTICK_DEAD_ZONE = 8000;
 				std::map<Uint8, Joystick> Joysticks;
 				void initialize();
-				int waitForKeyInput(void *data);
-				void handleKey(std::string device, SDL_Keycode keyCode);
+				void handleKey(const std::string device, SDL_Event &event);
 				void findJoysticks(void);
 			};
 		}

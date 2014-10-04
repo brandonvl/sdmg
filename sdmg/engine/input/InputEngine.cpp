@@ -28,55 +28,39 @@ namespace sdmg {
 				_deviceBindings = new std::map<std::string, InputDeviceBinding*>;
 				_actions = new std::vector<Action*>;
 				_active = true;
-
-				// start thread, something like;
-				//_thread = SDL_CreateThread(waitForKeyInput, "InputThread",(void *)NULL);
 			}
 
-			int InputEngine::waitForKeyInput(void *data) {
-				// on keyboard input execute handle key, providing the device the key is pressed 
-				// from and the keycode of the key that is pressed
 
-
-				while (_active) {
-
-					findJoysticks();
-
-					//Events
-					if (SDL_PollEvent(&_event))
-					{
-						if (_event.type == SDL_QUIT)
-						{
-							_active = false;
-						}
-
-						if (_event.type == SDL_KEYDOWN)
-						{
-							handleKey("Keyboard", _event.key.keysym.sym);
-						}
-						else if (_event.type == SDL_JOYBUTTONDOWN || _event.type == SDL_JOYAXISMOTION)
-						{
-							// ?? Button != KeyCode
-							//handleKey(Joysticks[_event.cdevice.which].Name, _event.cbutton);
-						}
-					}
+			void InputEngine::handleEvent(SDL_Event &event) {
+				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+					handleKey("keyboard", event);
 				}
-
-				return 0;
 			}
 
-			void InputEngine::handleKey(std::string device, SDL_Keycode keyCode) {
+			const std::vector<Action*> *InputEngine::getActions() {
+				return _actions;
+			}
+
+			void InputEngine::runActions(GameBase &game) {
+				for each (Action *action in (*_actions)) {
+					action->run(game);					
+					delete action;
+				}
+				_actions->clear();
+			}
+
+			void InputEngine::handleKey(const std::string device, SDL_Event &event) {
 				// check if device binding exists
 				if (_deviceBindings->count(device)) {
 					// if found create and add action 
-					Action *action = (*_deviceBindings)[device]->createAction(keyCode);
+					Action *action = (*_deviceBindings)[device]->createAction(event);
 
 					if (action != nullptr) {
 						_actions->push_back(action);
 					}
 				}
 			}
-
+			
 			void InputEngine::setDeviceBinding(std::string device, InputDeviceBinding *binding) {
 				// check if device binding exists
 				if (_deviceBindings->count(device)) (*_deviceBindings)[device] = binding; // replace

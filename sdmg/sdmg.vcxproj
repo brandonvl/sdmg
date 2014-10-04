@@ -77,12 +77,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="actions\CharacterAction.cpp" />
     <ClCompile Include="actions\JumpAction.cpp" />
     <ClCompile Include="actions\LeftWalkAction.cpp" />
-    <ClCompile Include="actions\MenuDownAction.cpp" />
-    <ClCompile Include="actions\MenuSelectAction.cpp" />
-    <ClCompile Include="actions\MenuUpAction.cpp" />
     <ClCompile Include="actions\RightWalkAction.cpp" />
+    <ClCompile Include="actions\RollAction.cpp" />
     <ClCompile Include="engine\audio\AudioEngine.cpp" />
     <ClCompile Include="engine\drawing\DrawEngine.cpp" />
     <ClCompile Include="engine\drawing\Rectangle.cpp" />
@@ -127,12 +126,12 @@
     <ClCompile Include="engine\drawing\TextSurface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="actions\Actions.h" />
+    <ClInclude Include="actions\CharacterAction.h" />
     <ClInclude Include="actions\JumpAction.h" />
     <ClInclude Include="actions\LeftWalkAction.h" />
-    <ClInclude Include="actions\MenuDownAction.h" />
-    <ClInclude Include="actions\MenuSelectAction.h" />
-    <ClInclude Include="actions\MenuUpAction.h" />
     <ClInclude Include="actions\RightWalkAction.h" />
+    <ClInclude Include="actions\RollAction.h" />
     <ClInclude Include="engine\audio\AudioEngine.h" />
     <ClInclude Include="engine\Direction.h" />
     <ClInclude Include="engine\drawing\DrawEngine.h" />

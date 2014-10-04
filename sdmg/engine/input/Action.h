@@ -8,14 +8,21 @@
 //
 
 #pragma once
+#include "sdl\include\SDL.h"
 
 namespace sdmg {
 	namespace engine {
+		class GameBase;
+
 		namespace input {
 			class Action {
 			public:
-				virtual bool run() = 0;
-				virtual Action* create() = 0;
+				Action() {}
+				virtual bool run(GameBase &game) = 0;
+				virtual Action* create(SDL_Event &event) = 0;
+			protected:
+				SDL_Event _event;
+				Action(SDL_Event event) : _event(event) {}
 			};
 		}
 	}

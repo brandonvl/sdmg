@@ -16,6 +16,8 @@
 #include "model\Platform.h"
 #include "model\Character.h"
 #include "factories\CharacterFactory.h"
+#include "engine\input\InputEngine.h"
+#include "actions\Actions.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -34,6 +36,12 @@ namespace sdmg {
 			DrawEngine *de = game.getEngine()->getDrawEngine();
 			de->load(_platform, R"(assets\platform.png)");
 			de->load("background", R"(assets\background.png)");
+
+			InputDeviceBinding *binding = new InputDeviceBinding();
+			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction(_character));
+			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction(_character));
+			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction(_character));
+			game.getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 		}
 
 		void PlayState::cleanup(GameBase &game)
@@ -54,6 +62,22 @@ namespace sdmg {
 
 		void PlayState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
+			SDL_Event event;
+
+			while (SDL_PollEvent(&event))
+			{
+				switch (event.type) {
+				case SDL_KEYDOWN:
+				case SDL_KEYUP:
+					game.getEngine()->getInputEngine()->handleEvent(event);
+					break;
+				case SDL_QUIT:
+					game.stop();
+					break;
+				}
+			}
+
+			/*
 			//std::cout << "Handling events IntroState ... " << std::endl;
 			SDL_Event event;
 			if (SDL_PollEvent(&event))
@@ -74,45 +98,19 @@ namespace sdmg {
 						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
 						changeState(game, LoadingState::getInstance());
 						break;
-					case SDLK_LEFT:
-						_character->setDirection(MovableGameObject::Direction::LEFT);
-						_character->setState(MovableGameObject::State::WALKING);
-						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVELEFT);
-						break;
-					case SDLK_RIGHT:
-						_character->setDirection(MovableGameObject::Direction::RIGHT);
-						_character->setState(MovableGameObject::State::WALKING);
-						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVERIGHT);
-						break;
-					case SDLK_SPACE:
-						if (_character->getState() != MovableGameObject::State::JUMPING) {
-							_character->setState(MovableGameObject::State::JUMPING);
-							game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::JUMP);
-						}
-						break;
 					case SDLK_r:
 						_character->setState(MovableGameObject::State::FORWARD_ROLL);
 						game.getEngine()->getPhysicsEngine()->doAction(_character, _character->getDirection() == MovableGameObject::Direction::RIGHT ? PhysicsEngine::Action::MOVERIGHT : PhysicsEngine::Action::MOVELEFT);
 						break;
 					}
 				}
-
-				if (event.type == SDL_KEYUP) {
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_LEFT:
-					case SDLK_RIGHT:
-					case SDLK_SPACE:
-						_character->setState(MovableGameObject::State::IDLE);
-						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
-						break;
-					}
-				}
-			}
+			}*/
 		}
 
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
+			game.getEngine()->getInputEngine()->runActions(game);
+
 			//std::cout << "Updating IntroState ... " << std::endl;
 			game.getEngine()->getPhysicsEngine()->update();
 		}

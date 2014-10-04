@@ -15,6 +15,8 @@
 #include "engine\drawing\DrawEngine.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
+#include "engine\input\InputEngine.h"
+#include "actions\Actions.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -44,6 +46,7 @@ namespace sdmg {
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			std::cout << "Cleaning up IntroState ... " << std::endl;
+			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
 		void MainMenuState::pause(GameBase &game)
@@ -58,8 +61,8 @@ namespace sdmg {
 
 		void MainMenuState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
-			//std::cout << "Handling events IntroState ... " << std::endl;
 			SDL_Event event;
+
 			if (SDL_PollEvent(&event))
 			{
 				if (event.type == SDL_QUIT)
@@ -78,13 +81,12 @@ namespace sdmg {
 						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
 						//changeState(game, LoadingState::getInstance());
 						break;
-					case SDLK_UP:
-						_menu->selectPrevious();
-						break;
 					case SDLK_DOWN:
 						_menu->selectNext();
 						break;
-
+					case SDLK_UP:
+						_menu->selectPrevious();
+						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 						menuAction(_menu->getSelectedMenuItem());

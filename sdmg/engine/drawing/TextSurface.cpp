@@ -19,7 +19,9 @@ namespace sdmg {
 				if (!TTF_WasInit())
 					TTF_Init();
 
-				_font = TTF_OpenFont("arial.ttf", 20);
+				if (!_font)
+					_font = TTF_OpenFont("arial.ttf", 20);
+
 				_foregroundColor = fgColor;
 				_backgroundColor = bgColor;
  				SDL_Surface *surface = TTF_RenderText_Shaded(_font, text.c_str(), _foregroundColor, _backgroundColor);

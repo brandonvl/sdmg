@@ -99,15 +99,6 @@
     <ClCompile Include="actions\JumpAction.cpp">
       <Filter>Source Files\actions</Filter>
     </ClCompile>
-    <ClCompile Include="actions\MenuDownAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\MenuSelectAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\MenuUpAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
     <ClCompile Include="actions\RightWalkAction.cpp">
       <Filter>Source Files\actions</Filter>
     </ClCompile>
@@ -210,9 +201,6 @@
     <ClCompile Include="engine\physics\ContactListener.cpp">
       <Filter>Source Files\engine\physics</Filter>
     </ClCompile>
-    <ClCompile Include="engine\input\Joystick.cpp">
-      <Filter>Header Files\engine\input</Filter>
-    </ClCompile>
     <ClCompile Include="engine\util\FileParser.cpp">
       <Filter>Source Files\engine\util</Filter>
     </ClCompile>
@@ -231,21 +219,21 @@
     <ClCompile Include="helperclasses\MenuItem.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="actions\CharacterAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\Joystick.cpp">
+      <Filter>Source Files\engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\RollAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
     <ClInclude Include="actions\LeftWalkAction.h">
-      <Filter>Header Files\actions</Filter>
-    </ClInclude>
-    <ClInclude Include="actions\MenuDownAction.h">
-      <Filter>Header Files\actions</Filter>
-    </ClInclude>
-    <ClInclude Include="actions\MenuSelectAction.h">
-      <Filter>Header Files\actions</Filter>
-    </ClInclude>
-    <ClInclude Include="actions\MenuUpAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
     <ClInclude Include="actions\RightWalkAction.h">
@@ -368,9 +356,6 @@
     <ClInclude Include="engine\physics\KinematicBody.h">
       <Filter>Header Files\engine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="engine\input\Joystick.h">
-      <Filter>Source Files\engine\input</Filter>
-    </ClInclude>
     <ClInclude Include="engine\util\FileParser.h">
       <Filter>Header Files\engine\util</Filter>
     </ClInclude>
@@ -388,6 +373,18 @@
     </ClInclude>
     <ClInclude Include="helperclasses\MenuItem.h">
       <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\Actions.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\CharacterAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Joystick.h">
+      <Filter>Header Files\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\RollAction.h">
+      <Filter>Header Files\actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

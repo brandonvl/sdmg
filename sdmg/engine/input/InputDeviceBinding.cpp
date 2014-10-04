@@ -13,7 +13,7 @@
 namespace sdmg {
 	namespace engine {
 		namespace input {
-			InputDeviceBinding::InputDeviceBinding(MovableGameObject *gameObject) : _gameObject(gameObject) {
+			InputDeviceBinding::InputDeviceBinding() {
 				_keyBindings = new std::map<const SDL_Keycode, Action*>;
 			}
 
@@ -31,10 +31,10 @@ namespace sdmg {
 				_keyBindings->clear();
 			}
 			
-			Action* InputDeviceBinding::createAction(const SDL_Keycode &keyCode) {
+			Action* InputDeviceBinding::createAction(SDL_Event &action) {
 				// check if keycode exists, create and return the action
-				if (_keyBindings->count(keyCode)) {
-					return (*_keyBindings)[keyCode]->create();
+				if (_keyBindings->count(action.key.keysym.sym)) {
+					return (*_keyBindings)[action.key.keysym.sym]->create(action);
 				}
 				return nullptr;
 			}

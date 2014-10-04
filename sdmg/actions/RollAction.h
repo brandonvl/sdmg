@@ -1,8 +1,8 @@
 //
 //
 //  @ Project : SDMG
-//  @ File Name : JumpAction.h
-//  @ Date : 26-9-2014
+//  @ File Name : RollAction.h
+//  @ Date : 4-10-2014
 //  @ Author : 42IN13SAd
 //
 //
@@ -13,13 +13,15 @@
 
 namespace sdmg {
 	namespace actions {
-		class JumpAction : public CharacterAction {
+		class RollAction : public CharacterAction
+		{
 		public:
-			JumpAction(Character *character);
+			RollAction(Character *character);
 			bool run(engine::GameBase &game) override;
 			Action* create(SDL_Event &event) override;
 		private:
-			JumpAction(Character *character, SDL_Event event);
+			RollAction(Character *character, SDL_Event event);
 		};
+
 	}
 }
