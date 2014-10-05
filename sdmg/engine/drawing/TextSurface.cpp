@@ -13,14 +13,14 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			TextSurface::TextSurface(SDL_Color fgColor, SDL_Color bgColor, std::string text, SDL_Renderer *renderer)
+			TextSurface::TextSurface(SDL_Color fgColor, SDL_Color bgColor, std::string text, SDL_Renderer *renderer, std::string font, int fontSize)
 			{
 				// Initialize SDL_ttf library
 				if (!TTF_WasInit())
 					TTF_Init();
 
 				if (!_font)
-					_font = TTF_OpenFont("arial.ttf", 20);
+					_font = TTF_OpenFont(font.append(".ttf").c_str(), fontSize);
 
 				_foregroundColor = fgColor;
 				_backgroundColor = bgColor;
@@ -29,6 +29,7 @@ namespace sdmg {
 				_texture = SDL_CreateTextureFromSurface(renderer, surface);
 
 				SDL_FreeSurface(surface);
+				TTF_CloseFont(_font);
 			}
 
 			SDL_Texture* TextSurface::getSDLTexture() {

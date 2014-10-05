@@ -145,8 +145,8 @@ namespace sdmg {
 				SDL_RenderCopyEx(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == MovableGameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 			}
 
-			void DrawEngine::drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor) {
-				TextSurface *tSurface = new TextSurface(fgColor, bgColor, text, _renderer);
+			void DrawEngine::drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font, int fontSize) {
+				TextSurface *tSurface = new TextSurface(fgColor, bgColor, text, _renderer, font, fontSize);
 				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &rec.toSDLRect());
 			}
 
