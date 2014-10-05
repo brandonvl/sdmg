@@ -27,7 +27,8 @@ namespace sdmg {
 			pe->setWorldGravity(0.0f, 100.0f);
 			_platform = new model::Platform();
 			_platform->setSize(1091, 94);
-			pe->addBody(80 + 1091 / 2, 616 + 94 / 2, 1091, 94 - 15, false, _platform);
+			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
+			pe->addBody(_platform, 30, 35);
 
 			_character = factories::CharacterFactory::create("nivek", game);
 
@@ -41,6 +42,7 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction(_character));
 			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction(_character));
 			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction(_character));
+			binding->setKeyBinding(SDLK_r, new actions::RollAction(_character));
 			game.getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 		}
 
@@ -76,35 +78,6 @@ namespace sdmg {
 					break;
 				}
 			}
-
-			/*
-			//std::cout << "Handling events IntroState ... " << std::endl;
-			SDL_Event event;
-			if (SDL_PollEvent(&event))
-			{
-				if (event.type == SDL_QUIT)
-				{
-					game.stop();
-				}
-
-				if (event.type == SDL_KEYDOWN)
-				{
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_ESCAPE:
-						game.stop();
-						break;
-					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						changeState(game, LoadingState::getInstance());
-						break;
-					case SDLK_r:
-						_character->setState(MovableGameObject::State::FORWARD_ROLL);
-						game.getEngine()->getPhysicsEngine()->doAction(_character, _character->getDirection() == MovableGameObject::Direction::RIGHT ? PhysicsEngine::Action::MOVERIGHT : PhysicsEngine::Action::MOVELEFT);
-						break;
-					}
-				}
-			}*/
 		}
 
 		void PlayState::update(GameBase &game, GameTime &gameTime)
@@ -120,9 +93,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
 			game.getEngine()->getDrawEngine()->draw("background");
-			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
-			game.getEngine()->getDrawEngine()->draw(_platform, (_platform->getX() * 20.0f) - 1091 / 2, (_platform->getY() * 20.0f) - 94 / 2 - 15);
-			game.getEngine()->getDrawEngine()->draw(_character, _character->getState(), _character->getDirection(), (_character->getX() * 20.0f) - 110.06 / 2, (_character->getY() * 20.0f) - 142.25 / 2, gameTime.getTotalMilisecondsRunning() / 100);
+			game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
+			game.getEngine()->getDrawEngine()->draw(_platform);
+			game.getEngine()->getDrawEngine()->draw(_character, gameTime.getTotalMilisecondsRunning() / 100);
 
 			//game.getEngine()->getDrawEngine()->drawText("SDMG!", Rectangle(99, 214, 100, 50));
 

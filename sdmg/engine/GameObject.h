@@ -44,6 +44,7 @@ namespace sdmg {
 			void setSize(Size size);
 			void setSize(float width, float height);
 			void setLocation(const float32 *x, const float32 *y);
+			void setLocation(const float32 x, const float32 y);
 			float getX();
 			float getY();
 			float getPixelX();

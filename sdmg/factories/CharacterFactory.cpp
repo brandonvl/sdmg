@@ -18,10 +18,11 @@ namespace sdmg {
 				character->setSize(parser.getFloat("width"), parser.getFloat("height"));
 				character->setSpeed(parser.getFloat("horizontalSpeed"), parser.getFloat("verticalSpeed"));
 				character->setDirection(MovableGameObject::Direction::RIGHT);
+				character->setLocation(100 + 110 / 2, 10);
 
 				loadSpriteMap(character, name, game, parser);
 
-				game.getEngine()->getPhysicsEngine()->addBody(100 + 110 / 2, 10, 110, 143, true, character);
+				game.getEngine()->getPhysicsEngine()->addBody(character, 30, 25);
 
 				return character;
 			}

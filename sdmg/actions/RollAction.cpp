@@ -22,13 +22,8 @@ namespace sdmg {
 
 		bool RollAction::run(engine::GameBase &game) {
 			if (_event.type == SDL_KEYDOWN) {
-				_character->setDirection(MovableGameObject::Direction::LEFT);
-				_character->setState(MovableGameObject::State::WALKING);
-				game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVELEFT);
-			}
-			else {
-				_character->setState(MovableGameObject::State::IDLE);
-				game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
+				_character->setState(MovableGameObject::State::FORWARD_ROLL);
+				game.getEngine()->getPhysicsEngine()->doAction(_character, _character->getDirection() == MovableGameObject::Direction::RIGHT ? PhysicsEngine::Action::MOVERIGHT : PhysicsEngine::Action::MOVELEFT);
 			}
 			return true;
 		}

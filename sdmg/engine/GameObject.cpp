@@ -68,6 +68,11 @@ namespace sdmg {
 			_y = y;
 		}
 		
+		void GameObject::setLocation(const float32 x, const float32 y) {
+			_x = new float32(x);
+			_y = new float32(y);
+		}
+
 		float GameObject::getX() {
 			return *_x;
 		}

@@ -40,7 +40,9 @@ namespace sdmg {
 				void setWorldGravity(const float leftGravity, const float downGravity);
 				b2Vec2 getWorldGravity();
 				b2Body *addBody(GameObject *object);
+				b2Body *addBody(GameObject *object, float paddingX, float paddingY);
 				b2Body *addBody(MovableGameObject *object);
+				b2Body *addBody(MovableGameObject *object, float paddingX, float paddingY);
 				b2Body* addBody(int x, int y, int w, int h, bool dyn, GameObject *object);
 				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
 				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK };
@@ -56,7 +58,7 @@ namespace sdmg {
 				b2ContactFilter *_contactFilter;
 				PhysicsEngineActionHandler *_actionHandler;
 
-				b2Body *addBody(GameObject *object, bool dynamic);
+				b2Body *addBody(GameObject *object, bool dynamic, float paddingX, float paddingY);
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
 				float _step, _accumulator;

@@ -112,8 +112,11 @@ namespace sdmg {
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
-			void DrawEngine::draw(GameObject *gameObject, float x, float y) {
+			void DrawEngine::draw(GameObject *gameObject) {
 				Surface *surface = (*_objectSurfaces)[gameObject];
+				float x = gameObject->getPixelX() - (surface->getRenderWidth() / 2);
+				float y = gameObject->getPixelY() + (gameObject->getHeight() / 2) - surface->getRenderHeight();				
+
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 			
@@ -122,13 +125,23 @@ namespace sdmg {
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
-			void DrawEngine::draw(GameObject *gameObject, float x, float y, int slice) {
+			void DrawEngine::draw(GameObject *gameObject, int slice) {
 				Surface *surface = (*_objectSurfaces)[gameObject];
+				float x = gameObject->getPixelX() - (surface->getRenderWidth() / 2);
+				float y = gameObject->getPixelY() + (gameObject->getHeight() / 2) - surface->getRenderHeight();
+
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
-			void DrawEngine::draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, float x, float y, int slice) {
+			void DrawEngine::draw(MovableGameObject *gameObject, int slice) {
+				draw(gameObject, gameObject->getState(), gameObject->getDirection(), slice);
+			}
+
+			void DrawEngine::draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice) {
 				Surface *surface = (*(*_objectStateSurfaces)[gameObject])[state];
+				float x = gameObject->getPixelX() - (surface->getRenderWidth() / 2);
+				float y = gameObject->getPixelY() + (gameObject->getHeight() / 2) - surface->getRenderHeight();
+
 				SDL_RenderCopyEx(_renderer, surface->getSDLTexture(slice), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == MovableGameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 			}
 
@@ -157,8 +170,8 @@ namespace sdmg {
 					leftUpperPoint = ((b2PolygonShape*)body->GetFixtureList()->GetShape())->GetVertex(0);
 					leftUpperPoint += body->GetWorldCenter();
 
-					r.x = leftUpperPoint.x * 1.0f;
-					r.y = leftUpperPoint.y * 1.0f;
+					r.x = leftUpperPoint.x * 20.0f;
+					r.y = leftUpperPoint.y * 20.0f;
 					r.w = object->getWidth();
 					r.h = object->getHeight();
 					

@@ -93,12 +93,22 @@ namespace sdmg {
 
 			b2Body *PhysicsEngine::addBody(GameObject *object)
 			{
-				return addBody(object, false);
+				return addBody(object, false, 0, 0);
+			}
+
+			b2Body *PhysicsEngine::addBody(GameObject *object, float paddingX, float paddingY)
+			{
+				return addBody(object, false, paddingX, paddingY);
 			}
 
 			b2Body *PhysicsEngine::addBody(MovableGameObject *object)
 			{
-				return addBody(object, true);
+				return addBody(object, true, 0, 0);
+			}
+
+			b2Body *PhysicsEngine::addBody(MovableGameObject *object, float paddingX, float paddingY)
+			{
+				return addBody(object, true, paddingX, paddingY);
 			}
 
 			b2Body *PhysicsEngine::addBody(int x, int y, int w, int h, bool dyn, GameObject *object)
@@ -131,7 +141,7 @@ namespace sdmg {
 				return body;
 			}
 
-			b2Body *PhysicsEngine::addBody(GameObject *object, bool dynamic)
+			b2Body *PhysicsEngine::addBody(GameObject *object, bool dynamic, float paddingX, float paddingY)
 			{
 				b2BodyDef *bodydef = new b2BodyDef();
 				bodydef->position.Set(object->getX() * _P2M, object->getY() * _P2M);
@@ -143,6 +153,8 @@ namespace sdmg {
 				// bodydef->userData = &body;
 
 				b2PolygonShape *shape = new b2PolygonShape();
+
+				// padding hier ergens inbouwen?
 				shape->SetAsBox(_P2M * object->getWidth() / 2, _P2M * object->getHeight() / 2);
 
 				b2FixtureDef *fixturedef = new b2FixtureDef();

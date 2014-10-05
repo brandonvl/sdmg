@@ -14,7 +14,7 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			Surface::Surface(const std::string path, SDL_Renderer *renderer) : _sliceWidth(0), _sliceHeight(0) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer) : _sliceWidth(0), _sliceHeight(0), _renderWidth(0), _renderHeight(0) {
 				load(path, renderer);
 			}
 
@@ -54,8 +54,8 @@ namespace sdmg {
 							_textures.push_back(SDL_CreateTextureFromSurface(renderer, surface));
 						}
 
-						if (_renderWidth == 0) _renderWidth = surface->w;
-						if (_renderHeight == 0) _renderHeight = surface->h;
+						if (!_renderWidth) _renderWidth = surface->w;
+						if (!_renderHeight) _renderHeight = surface->h;
 
 						SDL_FreeSurface(surface);
 					}
@@ -104,34 +104,6 @@ namespace sdmg {
 
 				return _textures[sliceIndex];
 			}
-
-			/*
-			SDL_Rect Surface::getSliceRect(int sliceIndex) {
-				SDL_Rect rect;
-
-				if (_sliceWidth > 0 && _sliceHeight > 0) {
-
-					if (sliceIndex > _maxSliceIndex) {
-						sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
-					}
-										
-					int slicesPerRow = _width / _sliceWidth;
-					int rowIndex = floor(sliceIndex / slicesPerRow);
-					int colIndex = sliceIndex - rowIndex * slicesPerRow;
-					
-					rect.x = _sliceWidth * colIndex;
-					rect.y = _sliceHeight * rowIndex;
-					rect.w = _sliceWidth;
-					rect.h = _sliceHeight;
-					return rect;
-				}
-				else {
-					rect.w = _width;
-					rect.h = _height;
-					return rect;
-				}
-			}
-			*/
 
 			float Surface::getRenderWidth() { return _renderWidth; }
 			float Surface::getRenderHeight() { return _renderHeight; }
