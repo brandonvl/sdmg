@@ -10,19 +10,25 @@
 #include "Surface.h"
 #include "Rectangle.h"
 #include "..\..\sdl\include\SDL_image.h"
+#include "DrawEngine.h"
+#include "engine\GameObject.h"
 
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			Surface::Surface(const std::string path, SDL_Renderer *renderer) : _sliceWidth(0), _sliceHeight(0), _renderWidth(0), _renderHeight(0) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine) : _sliceWidth(0), _sliceHeight(0), _renderWidth(0), _renderHeight(0), _drawEngine(drawEngine) {
 				load(path, renderer);
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight), _drawEngine(drawEngine) {
 				load(path, renderer);
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _drawEngine(drawEngine) {
+				load(path, renderer);
+			}
+
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight, AnimationType animationType) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _animationType(animationType), _drawEngine(drawEngine) {
 				load(path, renderer);
 			}
 
@@ -97,12 +103,29 @@ namespace sdmg {
 				return _textures[0];
 			}
 
-			SDL_Texture *Surface::getSDLTexture(int sliceIndex) {
+			SDL_Texture *Surface::getSDLTexture(int sliceIndex, GameObject *gameObject, std::function<void()> anitimationCompletedCallback) {
 				if (sliceIndex >= _maxSliceIndex) {
-					sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
+					switch (_animationType) {
+					case AnimationType::HOLDLAST:
+						sliceIndex = _maxSliceIndex - 1;
+						break;
+					case AnimationType::ONCE:
+						sliceIndex = _maxSliceIndex - 1;
+						if (anitimationCompletedCallback != nullptr) 
+							anitimationCompletedCallback();
+						break;
+					default:
+						_drawEngine->resetStep(gameObject);
+						sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
+						break;
+					}
 				}
 
 				return _textures[sliceIndex];
+			}
+
+			SDL_Texture *Surface::getSDLTexture(int sliceIndex, GameObject *gameObject) {
+				return getSDLTexture(sliceIndex, gameObject, nullptr);
 			}
 
 			float Surface::getRenderWidth() { return _renderWidth; }

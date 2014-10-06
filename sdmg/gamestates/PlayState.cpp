@@ -28,7 +28,7 @@ namespace sdmg {
 			_platform = new model::Platform();
 			_platform->setSize(1091, 94);
 			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
-			pe->addBody(_platform, 30, 35);
+			pe->addBody(_platform, 30, 20);
 
 			_character = factories::CharacterFactory::create("nivek", game);
 
@@ -83,8 +83,7 @@ namespace sdmg {
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getInputEngine()->runActions(game);
-
-			//std::cout << "Updating IntroState ... " << std::endl;
+			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
 		}
 
@@ -93,9 +92,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
 			game.getEngine()->getDrawEngine()->draw("background");
-			game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
+			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->draw(_character, gameTime.getTotalMilisecondsRunning() / 100);
+			game.getEngine()->getDrawEngine()->drawSlice(_character);
 
 			//game.getEngine()->getDrawEngine()->drawText("SDMG!", Rectangle(99, 214, 100, 50));
 

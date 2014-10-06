@@ -18,11 +18,11 @@ namespace sdmg {
 				character->setSize(parser.getFloat("width"), parser.getFloat("height"));
 				character->setSpeed(parser.getFloat("horizontalSpeed"), parser.getFloat("verticalSpeed"));
 				character->setDirection(MovableGameObject::Direction::RIGHT);
-				character->setLocation(100 + 110 / 2, 10);
+				character->setLocation(105, 10);
 
 				loadSpriteMap(character, name, game, parser);
 
-				game.getEngine()->getPhysicsEngine()->addBody(character, 30, 25);
+				game.getEngine()->getPhysicsEngine()->addBody(character, 40, 10);
 
 				return character;
 			}
@@ -34,9 +34,9 @@ namespace sdmg {
 			float scale = parser.getFloat("scale");
 			std::string folder = "assets/" + name + "/";
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING, folder + "walking.png", 440.25, 573, scale);
-			drawEngine->loadMap(character, MovableGameObject::State::IDLE, folder + "idle.png", 393.125, 548, scale);
-			drawEngine->loadMap(character, MovableGameObject::State::JUMPING, folder + "jumping.png", 462.2, 622, scale);
-			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.png", 761.14, 608, scale);
+			drawEngine->loadMap(character, MovableGameObject::State::IDLE, folder + "idle.png", 394.25, 548, scale);
+			drawEngine->loadMap(character, MovableGameObject::State::JUMPING, folder + "jumping.png", 462.2, 622, scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.png", 761.14, 608, scale, Surface::AnimationType::ONCE);
 		}
 	}
 }

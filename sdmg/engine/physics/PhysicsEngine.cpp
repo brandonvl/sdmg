@@ -154,7 +154,6 @@ namespace sdmg {
 
 				b2PolygonShape *shape = new b2PolygonShape();
 
-				// padding hier ergens inbouwen?
 				shape->SetAsBox(_P2M * (object->getWidth() - paddingX) / 2, _P2M * (object->getHeight() - paddingY) / 2);
 
 				b2FixtureDef *fixturedef = new b2FixtureDef();
