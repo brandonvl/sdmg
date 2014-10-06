@@ -7,13 +7,13 @@
 //
 //
 
-
 #include "PhysicsEngine.h"
 #include "engine\Engine.h"
 #include "engine\GameBase.h"
 #include "engine\World.h"
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
+#include "model\MovablePlatform.h"
 #include "engine\physics\ContactListener.h"
 #include "engine\physics\KinematicBody.h"
 #include "engine\GameTime.h"
@@ -32,6 +32,7 @@ namespace sdmg {
 				_contactFilter = new b2ContactFilter();
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
+				_movablePlatforms = new std::vector < model::MovablePlatform*>();
 				_step = 1.0f / 60.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
@@ -53,6 +54,7 @@ namespace sdmg {
 						_world->Step(_step, 8, 3);
 						_accumulator -= _step;
 					}
+					checkMovablePlatforms();
 				}
 			}
 
@@ -61,15 +63,14 @@ namespace sdmg {
 				return _world->GetBodyList();
 			}
 
-			void checkKinematicBodies()
+
+			void PhysicsEngine::checkMovablePlatforms()
 			{
-				/*
-				for (auto i = _kinematicBodies->begin(); i != _kinematicBodies->end(); i++)
+				for (auto i = _movablePlatforms->begin(); i != _movablePlatforms->end(); i++)
 				{
-					KinematicBody kinematicBody = static_cast<KinematicBody*>((*i)->GetUserData());
-					kinematicBody->checkDirectionChange();
+					// model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
+					(*i)->checkDirectionChange();
 				}
-				*/
 			}
 			
 			void PhysicsEngine::pause() {
@@ -90,20 +91,19 @@ namespace sdmg {
 				_world->SetGravity(b2Vec2(leftGravity, downGravity));
 			}
 
-
 			b2Body *PhysicsEngine::addBody(GameObject *object)
 			{
 				return addBody(object, false, 0, 0);
 			}
 
-			b2Body *PhysicsEngine::addBody(GameObject *object, float paddingX, float paddingY)
-			{
-				return addBody(object, false, paddingX, paddingY);
-			}
-
 			b2Body *PhysicsEngine::addBody(MovableGameObject *object)
 			{
 				return addBody(object, true, 0, 0);
+			}
+
+			b2Body *PhysicsEngine::addBody(GameObject *object, float paddingX, float paddingY)
+			{
+				return addBody(object, false, paddingX, paddingY);
 			}
 
 			b2Body *PhysicsEngine::addBody(MovableGameObject *object, float paddingX, float paddingY)
@@ -173,6 +173,40 @@ namespace sdmg {
 				return body;
 			}
 
+			b2Body* PhysicsEngine::addKinematicBody(model::MovablePlatform *object)
+			{
+				b2BodyDef *bodydef = new b2BodyDef();
+				bodydef->position.Set(object->getStartLocationX() *_P2M, object->getStartLocationY() *_P2M);
+				bodydef->type = b2_kinematicBody;
+				b2Body* body = _world->CreateBody(bodydef);
+
+				body->SetFixedRotation(true);
+
+				b2PolygonShape *shape = new b2PolygonShape();
+				shape->SetAsBox(_P2M*object->getWidth() / 2, _P2M*object->getHeight() / 2);
+
+				b2FixtureDef *fixturedef = new b2FixtureDef();
+				fixturedef->shape = shape;
+				fixturedef->density = 1.0f;
+				body->CreateFixture(fixturedef);
+
+				if (object->getDirection() == MovableGameObject::Direction::RIGHT || object->getDirection() == MovableGameObject::Direction::DOWN)
+					body->SetLinearVelocity(b2Vec2(object->getSpeed().horizontal, object->getSpeed().vertical));
+				else if (object->getDirection() == MovableGameObject::Direction::LEFT || object->getDirection() == MovableGameObject::Direction::UP)
+					body->SetLinearVelocity(b2Vec2(-object->getSpeed().horizontal, -object->getSpeed().vertical));
+
+				body->SetUserData(object);
+				object->setBody(body);
+
+
+				// object->setLocation(b2Vec2(object->getStartLocationX() *_P2M, object->getStartLocationY() *_P2M));
+				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
+
+				_movablePlatforms->push_back(object);
+
+				return body;
+			}
+
 			b2Body* PhysicsEngine::addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction)
 			{
 				b2BodyDef *bodydef = new b2BodyDef();
@@ -195,16 +229,16 @@ namespace sdmg {
 
 				KinematicBody *kinematicBody = new KinematicBody(new b2Vec2(x*_P2M, y*_P2M));
 
-				if (direction == KinematicBody::Direction::Right)
+				if (direction == KinematicBody::Direction::RIGHT)
 				{
 					body->SetLinearVelocity(b2Vec2(speed, 0.0));
-					kinematicBody->setDirection(KinematicBody::Direction::Right);
+					kinematicBody->setDirection(KinematicBody::Direction::RIGHT);
 					kinematicBody->setEndLocation(new b2Vec2(endpoint*_P2M, y*_P2M));
 				}
 				else
 				{
 					body->SetLinearVelocity(b2Vec2(0.0, speed));
-					kinematicBody->setDirection(KinematicBody::Direction::Down);
+					kinematicBody->setDirection(KinematicBody::Direction::DOWN);
 					kinematicBody->setEndLocation(new b2Vec2(x*_P2M, endpoint*_P2M));
 				}
 

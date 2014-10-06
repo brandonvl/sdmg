@@ -52,11 +52,11 @@ namespace sdmg {
 
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
+			b2Body *_body;
 		private:
 			int _id;
 			Flags _flags;
 			std::string _spriteName;
-			b2Body *_body;
 			Size _size;
 			const float32 *_x, *_y;
 		};
