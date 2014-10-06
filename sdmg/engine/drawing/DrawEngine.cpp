@@ -161,19 +161,22 @@ namespace sdmg {
 			}
 
 			void DrawEngine::drawBodies(b2Body *body) {
-				b2Vec2 leftUpperPoint;
+				b2Vec2 leftUpperPoint, rightBottomPoint;
 
 				while (body) {
 					SDL_Rect r;
 					GameObject *object = static_cast<GameObject*>(body->GetUserData());
 
 					leftUpperPoint = ((b2PolygonShape*)body->GetFixtureList()->GetShape())->GetVertex(0);
+					rightBottomPoint = ((b2PolygonShape*)body->GetFixtureList()->GetShape())->GetVertex(2);
 					leftUpperPoint += body->GetWorldCenter();
+					rightBottomPoint += body->GetWorldCenter();
 
 					r.x = leftUpperPoint.x * 20.0f;
 					r.y = leftUpperPoint.y * 20.0f;
-					r.w = object->getWidth();
-					r.h = object->getHeight();
+
+					r.w = (rightBottomPoint.x - leftUpperPoint.x) * 20.0f;
+					r.h = (rightBottomPoint.y - leftUpperPoint.y) * 20.0f;
 					
 					SDL_RenderFillRect(_renderer, &r);
 
