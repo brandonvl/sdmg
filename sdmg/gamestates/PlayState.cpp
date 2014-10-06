@@ -30,7 +30,8 @@ namespace sdmg {
 			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
 			pe->addBody(_platform, 30, 20);
 
-			_character = factories::CharacterFactory::create("nivek", game);
+			_characters[0] = factories::CharacterFactory::create("nivek", game);
+			_characters[1] = factories::CharacterFactory::create("nivek", game);
 
 			pe->resume();
 
@@ -39,10 +40,16 @@ namespace sdmg {
 			de->load("background", R"(assets\background.png)");
 
 			InputDeviceBinding *binding = new InputDeviceBinding();
-			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction(_character));
-			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction(_character));
-			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction(_character));
-			binding->setKeyBinding(SDLK_r, new actions::RollAction(_character));
+			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction(_characters[0]));
+			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction(_characters[0]));
+			binding->setKeyBinding(SDLK_UP, new actions::JumpAction(_characters[0]));
+			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction(_characters[0]));
+
+
+			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction(_characters[1]));
+			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction(_characters[1]));
+			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction(_characters[1]));
+			binding->setKeyBinding(SDLK_r, new actions::RollAction(_characters[1]));
 			game.getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 		}
 
@@ -94,7 +101,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->drawSlice(_character);
+			game.getEngine()->getDrawEngine()->drawSlice(_characters[0]);
+			game.getEngine()->getDrawEngine()->drawSlice(_characters[1]);
 
 			//game.getEngine()->getDrawEngine()->drawText("SDMG!", Rectangle(99, 214, 100, 50));
 

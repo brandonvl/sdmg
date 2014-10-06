@@ -36,7 +36,7 @@ namespace sdmg {
 		protected:
 			PlayState() { }
 		private:
-			model::Character *_character;
+			model::Character *_characters[2];
 			model::Platform *_platform;
 		};
 	}
