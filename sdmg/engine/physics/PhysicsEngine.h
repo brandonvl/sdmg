@@ -11,18 +11,22 @@
 #include <map>
 #include <vector>
 #include "engine\physics\KinematicBody.h"
+// #include "model\MovablePlatform.h"
 #include <chrono>
 
 class b2World;
 class b2Body;
 
 namespace sdmg {
+	namespace model
+	{
+		class MovablePlatform;
+	}
 	namespace engine {
 		class Engine;
 		class GameObject;
 		class MovableGameObject;
 		class GameTime;
-		//  class KinematicBody;
 
 		namespace physics {
 			class PhysicsEngineActionHandler;
@@ -40,10 +44,11 @@ namespace sdmg {
 				void setWorldGravity(const float leftGravity, const float downGravity);
 				b2Vec2 getWorldGravity();
 				b2Body *addBody(GameObject *object);
-				b2Body *addBody(GameObject *object, float paddingX, float paddingY);
 				b2Body *addBody(MovableGameObject *object);
+				b2Body *addBody(GameObject *object, float paddingX, float paddingY);
 				b2Body *addBody(MovableGameObject *object, float paddingX, float paddingY);
 				b2Body* addBody(int x, int y, int w, int h, bool dyn, GameObject *object);
+				b2Body* addKinematicBody(model::MovablePlatform *object);
 				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
 				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK };
 				void doAction(MovableGameObject *object, Action action);
@@ -53,12 +58,13 @@ namespace sdmg {
 				bool _enabled;
 				const float _M2P = 20.0f;
 				const float _P2M = 1.0f / _M2P;
-				std::vector<b2Body*> *_kinematicBodies;
+				std::vector<model::MovablePlatform*> *_movablePlatforms;
 				ContactListener *_contactListener;
 				b2ContactFilter *_contactFilter;
 				PhysicsEngineActionHandler *_actionHandler;
 
 				b2Body *addBody(GameObject *object, bool dynamic, float paddingX, float paddingY);
+				void checkMovablePlatforms();
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
 				float _step, _accumulator;

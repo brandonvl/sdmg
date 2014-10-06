@@ -22,7 +22,7 @@ namespace sdmg {
 				KinematicBody(b2Vec2 *startLocation);
 				virtual ~KinematicBody();
 
-				enum class Direction { Up, Left, Down, Right, None };
+				enum class Direction { UP, LEFT, DOWN, RIGHT, NONE };
 
 				void setStartLocation(b2Vec2 *vec);
 				void setEndLocation(b2Vec2 *vec);

@@ -121,6 +121,7 @@
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
     <ClCompile Include="model\Item.cpp" />
+    <ClCompile Include="model\MovablePlatform.cpp" />
     <ClCompile Include="model\Platform.cpp" />
     <ClCompile Include="model\Weapon.cpp" />
     <ClCompile Include="engine\drawing\TextSurface.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />
     <ClInclude Include="model\Item.h" />
+    <ClInclude Include="model\MovablePlatform.h" />
     <ClInclude Include="model\Platform.h" />
     <ClInclude Include="model\Weapon.h" />
     <ClInclude Include="engine\drawing\TextSurface.h" />

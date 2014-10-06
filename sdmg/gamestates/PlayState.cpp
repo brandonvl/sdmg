@@ -14,6 +14,7 @@
 #include "LoadingState.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "model\Platform.h"
+#include "model\MovablePlatform.h"
 #include "model\Character.h"
 #include "factories\CharacterFactory.h"
 #include "engine\input\InputEngine.h"
@@ -32,6 +33,25 @@ namespace sdmg {
 
 			_characters[0] = factories::CharacterFactory::create("nivek", game);
 			_characters[1] = factories::CharacterFactory::create("nivek", game);
+			
+			/*    Kinematic Bodies
+			model::MovablePlatform *mpHor = new model::MovablePlatform();
+			mpHor->setSize(100, 30);
+			mpHor->setStartLocation(b2Vec2(300, 200));
+			mpHor->setEndLocation(b2Vec2(600, 200));
+			mpHor->setDirection(MovableGameObject::Direction::RIGHT);
+			mpHor->setSpeed(10.0f, 0.0f);
+			pe->addKinematicBody(mpHor);
+
+
+			model::MovablePlatform *mpVer = new model::MovablePlatform();
+			mpVer->setSize(100, 30);
+			mpVer->setStartLocation(b2Vec2(700, 200));
+			mpVer->setEndLocation(b2Vec2(700, 500));
+			mpVer->setDirection(MovableGameObject::Direction::UP);
+			mpVer->setSpeed(0.0f, 10.0f);
+			pe->addKinematicBody(mpVer);
+			*/
 
 			pe->resume();
 
