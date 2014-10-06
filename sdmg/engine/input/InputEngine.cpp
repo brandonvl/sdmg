@@ -7,7 +7,8 @@
 //
 //
 
-
+#include <iostream>
+#include <cmath>
 #include "InputEngine.h"
 #include "sdl\include\SDL.h"
 #include "sdl\include\SDL_thread.h"
@@ -17,6 +18,10 @@ namespace sdmg {
 		namespace input {
 			InputEngine::InputEngine() {
 				initialize();
+
+				// add controller mappings
+				SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
+				findJoysticks();
 			}
 
 			InputEngine::~InputEngine() {
@@ -34,6 +39,49 @@ namespace sdmg {
 			void InputEngine::handleEvent(SDL_Event &event) {
 				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
 					handleKey("keyboard", event);
+				}
+
+				if (event.type == SDL_CONTROLLERBUTTONUP || event.type == SDL_CONTROLLERBUTTONDOWN) {
+				    //TEST!
+					handleKey(Joysticks[event.cbutton.which].Name, event);
+				}
+
+				// !!!!!!!!!!!!!TEST!!!!!!!!!!!!!!!!
+				if (event.type == SDL_JOYAXISMOTION)
+				{
+					if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
+						
+						event.type = SDL_CONTROLLERBUTTONDOWN;
+
+						if (event.jaxis.axis == 0)
+						{
+							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+							{
+								// LEFT
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+							}
+							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+							{
+								// RIGHT
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+							}
+						}
+
+						if (event.jaxis.axis == 1)
+						{
+							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+							{
+								// DOWN
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+							}
+							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+							{
+								// UP
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_UP;
+							}
+						}
+					}
+					handleKey(Joysticks[event.cbutton.which].Name, event);
 				}
 			}
 
@@ -74,12 +122,16 @@ namespace sdmg {
 			// find joysticks and add to map
 			void InputEngine::findJoysticks(void)
 			{
+				// loop through joysticks
 				for (int i = 0; i < SDL_NumJoysticks(); i++)
 				{
+					// check if joystick is a mapped controller
 					if (SDL_IsGameController(i))
 					{
+						// check if null
 						if (!Joysticks[i].Stick)
 						{
+							// set values
 							Joysticks[i].ID = i;
 							Joysticks[i].Stick = SDL_JoystickOpen(i);
 							if (Joysticks[i].Stick)
