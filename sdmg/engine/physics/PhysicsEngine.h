@@ -51,6 +51,7 @@ namespace sdmg {
 				b2Body* addKinematicBody(model::MovablePlatform *object);
 				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
 				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK };
+				void registerAction(MovableGameObject *object);
 				void doAction(MovableGameObject *object, Action action);
 			private:
 				Engine *_engine;
@@ -59,6 +60,7 @@ namespace sdmg {
 				const float _M2P = 20.0f;
 				const float _P2M = 1.0f / _M2P;
 				std::vector<model::MovablePlatform*> *_movablePlatforms;
+				std::vector<MovableGameObject*>  *_movingGameObjects;
 				ContactListener *_contactListener;
 				b2ContactFilter *_contactFilter;
 				PhysicsEngineActionHandler *_actionHandler;

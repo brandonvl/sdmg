@@ -33,6 +33,7 @@ namespace sdmg {
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
 				_movablePlatforms = new std::vector < model::MovablePlatform*>();
+				_movingGameObjects = new std::vector<MovableGameObject*>();
 				_step = 1.0f / 60.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
@@ -63,16 +64,35 @@ namespace sdmg {
 				return _world->GetBodyList();
 			}
 
-
 			void PhysicsEngine::checkMovablePlatforms()
 			{
+				//Mooi comments
 				for (auto i = _movablePlatforms->begin(); i != _movablePlatforms->end(); i++)
 				{
 					// model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
 					(*i)->checkDirectionChange();
 				}
+				for (auto i = _movingGameObjects->begin(); i != _movingGameObjects->end(); i++)
+				{
+					MovableGameObject::State state = (*i)->getState();
+
+					switch (state)
+					{
+					case  MovableGameObject::State::IDLE:
+						_movingGameObjects->erase(i);
+						i--;
+						break;
+					case MovableGameObject::State::WALKING:
+
+						if ((*i)->getDirection() == MovableGameObject::Direction::LEFT)
+							doAction((*i), PhysicsEngine::Action::MOVELEFT);
+						else if ((*i)->getDirection() == MovableGameObject::Direction::RIGHT)
+							doAction((*i), PhysicsEngine::Action::MOVERIGHT);
+						break;
+					}
+				}
 			}
-			
+
 			void PhysicsEngine::pause() {
 				_enabled = false;
 			}
@@ -246,6 +266,11 @@ namespace sdmg {
 				body->SetUserData(kinematicBody);
 
 				return body;
+			}
+
+			void PhysicsEngine::registerAction(MovableGameObject *object)
+			{
+				_movingGameObjects->push_back(object);
 			}
 
 			void PhysicsEngine::doAction(MovableGameObject *object, PhysicsEngine::Action action)
