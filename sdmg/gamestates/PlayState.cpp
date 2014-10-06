@@ -31,8 +31,10 @@ namespace sdmg {
 			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
 			pe->addBody(_platform, 30, 20);
 
-			_characters[0] = factories::CharacterFactory::create("nivek", game);
-			_characters[1] = factories::CharacterFactory::create("nivek", game);
+			_characters[0] = factories::CharacterFactory::create("nivek", game, 1100, 10);
+			_characters[0]->setDirection(MovableGameObject::Direction::LEFT);
+
+			_characters[1] = factories::CharacterFactory::create("nivek", game, 150, 10);
 			
 			/*    Kinematic Bodies
 			model::MovablePlatform *mpHor = new model::MovablePlatform();

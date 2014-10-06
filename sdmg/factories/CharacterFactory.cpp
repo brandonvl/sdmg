@@ -8,7 +8,7 @@
 
 namespace sdmg {
 	namespace factories {
-		Character *CharacterFactory::create(const std::string name, engine::GameBase &game) {
+		Character *CharacterFactory::create(const std::string name, engine::GameBase &game, float xPosition, float yPosition) {
 
 			util::FileParser parser;
 
@@ -18,7 +18,7 @@ namespace sdmg {
 				character->setSize(parser.getFloat("width"), parser.getFloat("height"));
 				character->setSpeed(parser.getFloat("horizontalSpeed"), parser.getFloat("verticalSpeed"));
 				character->setDirection(MovableGameObject::Direction::RIGHT);
-				character->setLocation(105, 10);
+				character->setLocation(xPosition, yPosition);
 
 				loadSpriteMap(character, name, game, parser);
 
@@ -33,10 +33,11 @@ namespace sdmg {
 			DrawEngine *drawEngine = game.getEngine()->getDrawEngine();
 			float scale = parser.getFloat("scale");
 			std::string folder = "assets/" + name + "/";
-			drawEngine->loadMap(character, MovableGameObject::State::WALKING, folder + "walking.png", 440.25, 573, scale);
-			drawEngine->loadMap(character, MovableGameObject::State::IDLE, folder + "idle.png", 394.25, 548, scale);
-			drawEngine->loadMap(character, MovableGameObject::State::JUMPING, folder + "jumping.png", 462.2, 622, scale, Surface::AnimationType::HOLDLAST);
-			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.png", 761.14, 608, scale, Surface::AnimationType::ONCE);
+			
+			drawEngine->loadMap(character, MovableGameObject::State::WALKING, folder + "walking.png", parser.getArray("walking")[0], parser.getArray("walking")[1], scale);
+			drawEngine->loadMap(character, MovableGameObject::State::IDLE, folder + "idle.png", parser.getArray("idle")[0], parser.getArray("idle")[1], scale);
+			drawEngine->loadMap(character, MovableGameObject::State::JUMPING, folder + "jumping.png", parser.getArray("jumping")[0], parser.getArray("jumping")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.png", parser.getArray("forwardRoll")[0], parser.getArray("forwardRoll")[1], scale, Surface::AnimationType::ONCE);
 		}
 	}
 }

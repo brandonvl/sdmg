@@ -72,22 +72,26 @@ namespace sdmg {
 					// model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
 					(*i)->checkDirectionChange();
 				}
-				for (auto i = _movingGameObjects->begin(); i != _movingGameObjects->end(); i++)
+
+				for (int i = 0; i < _movingGameObjects->size(); i++)
 				{
-					MovableGameObject::State state = (*i)->getState();
+					MovableGameObject *gameObject = (*_movingGameObjects)[i];
+
+					MovableGameObject::State state = gameObject->getState();
 
 					switch (state)
 					{
 					case  MovableGameObject::State::IDLE:
-						_movingGameObjects->erase(i);
+						gameObject->getBody()->SetLinearVelocity(b2Vec2(0.0f, gameObject->getBody()->GetLinearVelocity().y));
+						_movingGameObjects->erase(_movingGameObjects->begin() + i);
 						i--;
 						break;
 					case MovableGameObject::State::WALKING:
 
-						if ((*i)->getDirection() == MovableGameObject::Direction::LEFT)
-							doAction((*i), PhysicsEngine::Action::MOVELEFT);
-						else if ((*i)->getDirection() == MovableGameObject::Direction::RIGHT)
-							doAction((*i), PhysicsEngine::Action::MOVERIGHT);
+						if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+							doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+						else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+							doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
 						break;
 					}
 				}

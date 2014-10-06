@@ -19,7 +19,9 @@ namespace sdmg {
 				_fin = fstream(path, fstream::in);
 
 				if (_fin.is_open()) {
-					bool valueMode = false, stringValue = false, stringFinished = false;
+
+					ValueType type = ValueType::NUMBER;
+					bool valueMode = false, isFinished = false;
 
 					std::string name, value;
 
@@ -30,17 +32,19 @@ namespace sdmg {
 							else valueMode = true;
 						}
 						else {
-							if (ch == '"' && value.size() == 0) stringValue = true;
-							else if (ch == '"' && stringValue) stringFinished = true;
+							if (ch == '"' && value.size() == 0) type = ValueType::STRING;
+							else if (ch == '"' && type == ValueType::STRING) isFinished = true;
+							else if (ch == '(' && value.size() == 0) type = ValueType::ARRAY;
+							else if (ch == ')' && type == ValueType::ARRAY) isFinished = true;
 							else if (ch == '\n') {
-								if (!handle(name, value, valueMode, stringValue, stringFinished)) return false;
+								if (!handle(name, value, valueMode, type, isFinished)) return false;
 							}
-							else if ((ch == '"' && !stringValue) || stringFinished) return false;
+							else if ((ch == '"' && type != ValueType::STRING) || isFinished) return false;
 							else value += ch;
 						}
 					}
 
-					if (!handle(name, value, valueMode, stringValue, stringFinished)) return false;
+					if (!handle(name, value, valueMode, type, isFinished)) return false;
 
 					_fin.close();
 
@@ -49,19 +53,40 @@ namespace sdmg {
 				else return false;
 			}
 
-			bool FileParser::handle(std::string &name, std::string &value, bool &valueMode, bool &stringValue, bool &stringFinished) {
-				if (stringValue) {
-					if (!stringFinished) return false;
+			bool FileParser::handle(std::string &name, std::string &value, bool &valueMode, ValueType &valueType, bool &isFinished) {
+				
+				
+				switch(valueType) {
+				case ValueType::STRING:
+					if (!isFinished) return false;
 					_stringMap.insert(std::make_pair(name, value));
-				}
-				else {
-					float f = std::atof(value.c_str());
-					_floatMap.insert(std::make_pair(name, f));
-				}
+					break;
+				case ValueType::ARRAY:
+				{
+					std::string tmpValue;
+					std::vector<float> arr;
 
+					for (int i = 0; i < value.length(); i++) {
+						if (value[i] == ','){
+							arr.push_back(std::atof(tmpValue.c_str()));
+							tmpValue.clear();
+						}
+						else tmpValue += value[i];
+					}
+
+					if (tmpValue.length() > 0) arr.push_back(std::atof(tmpValue.c_str()));
+
+					_arrayMap.insert(std::make_pair(name, arr));
+					break;
+				}
+				default:
+					_floatMap.insert(std::make_pair(name, std::atof(value.c_str())));
+					break;
+				}
+				
 				valueMode = false;
-				stringValue = false;
-				stringFinished = false;
+				valueType = ValueType::NUMBER;
+				isFinished = false;
 				name.clear();
 				value.clear();
 			}
@@ -76,6 +101,12 @@ namespace sdmg {
 				if (_floatMap.count(name))
 					return _floatMap[name];
 				return 0;
+			}
+
+			std::vector<float> FileParser::getArray(std::string name) {
+				if (_arrayMap.count(name))
+					return _arrayMap[name];
+				return vector<float>(0);
 			}
 		}
 	}
