@@ -34,7 +34,7 @@ namespace sdmg {
 			_characters[0] = factories::CharacterFactory::create("nivek", game, 1100, 10);
 			_characters[0]->setDirection(MovableGameObject::Direction::LEFT);
 
-			_characters[1] = factories::CharacterFactory::create("nivek", game, 150, 10);
+			_characters[1] = factories::CharacterFactory::create("fiat", game, 150, 10);
 			
 			/*    Kinematic Bodies
 			model::MovablePlatform *mpHor = new model::MovablePlatform();
