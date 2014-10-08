@@ -13,6 +13,7 @@ using namespace sdmg;
 #include "engine\GameStateManager.h"
 #include "engine\GameState.h"
 #include "gamestates\IntroState.h"
+#include "gamestates\LoadingState.h"
 
 int main(int argc, char **argv)
 {

@@ -108,6 +108,7 @@ namespace sdmg {
 				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, 0);
 				_objectStateSurfaces = new std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>;
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+				_textSurfaces = new std::map<std::string, TextSurface*>();
 				_step = 1.0f / 15.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 			}
@@ -164,9 +165,23 @@ namespace sdmg {
 				y = gameObject->getPixelY() + (fixtureHeight / 2) - surface->getRenderHeight();
 			}
 
-			void DrawEngine::drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font, int fontSize) {
-				TextSurface *tSurface = new TextSurface(fgColor, bgColor, text, _renderer, font, fontSize);
-				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &rec.toSDLRect());
+			void DrawEngine::loadText(std::string key, std::string text, SDL_Color fgColor, SDL_Color bgColor, std::string fontName, int fontSize) {
+				// Initialize SDL_ttf library
+				if (!TTF_WasInit())
+					TTF_Init();
+				// Create new font
+				TTF_Font *font = TTF_OpenFont(fontName.append(".ttf").c_str(), fontSize);
+				// Create new TextSurface
+				TextSurface *tSurface = new TextSurface(_renderer, text, fgColor, bgColor, font);
+				// Insert TextSurface
+				_textSurfaces->insert(std::pair<std::string, TextSurface*>(key, tSurface));
+				// Close font
+				TTF_CloseFont(font);
+			}
+
+			void DrawEngine::drawText(std::string key, float x, float y) {
+				TextSurface *tSurface = (*_textSurfaces)[key];
+				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::prepareForDraw() {

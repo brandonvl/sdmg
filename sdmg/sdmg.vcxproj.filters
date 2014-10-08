@@ -231,6 +231,9 @@
     <ClCompile Include="model\MovablePlatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="actions\RespawnAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="model\MovablePlatform.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\RespawnAction.h">
+      <Filter>Header Files\actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

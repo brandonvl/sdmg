@@ -24,6 +24,7 @@ namespace sdmg {
 	namespace gamestates {
 		void PlayState::init(GameBase &game)
 		{
+			/*
 			PhysicsEngine *pe = game.getEngine()->getPhysicsEngine();
 			pe->setWorldGravity(0.0f, 100.0f);
 			_platform = new model::Platform();
@@ -53,7 +54,6 @@ namespace sdmg {
 			mpVer->setDirection(MovableGameObject::Direction::UP);
 			mpVer->setSpeed(0.0f, 10.0f);
 			pe->addKinematicBody(mpVer);
-			*/
 
 			pe->resume();
 
@@ -73,6 +73,17 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction(_characters[1]));
 			binding->setKeyBinding(SDLK_r, new actions::RollAction(_characters[1]));
 			game.getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+			*/
+		}
+
+		void PlayState::setCharacters(std::vector<model::Character*> *characters)
+		{
+			_characters = characters;
+		}
+
+		void PlayState::setPlatform(model::Platform *platform)
+		{
+			_platform = platform;
 		}
 
 		void PlayState::cleanup(GameBase &game)
@@ -123,14 +134,12 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->drawSlice(_characters[0]);
-			game.getEngine()->getDrawEngine()->drawSlice(_characters[1]);
+			game.getEngine()->getDrawEngine()->drawSlice((*_characters)[0]);
+			game.getEngine()->getDrawEngine()->drawSlice((*_characters)[1]);
 
 			//game.getEngine()->getDrawEngine()->drawText("SDMG!", Rectangle(99, 214, 100, 50));
 
 			game.getEngine()->getDrawEngine()->render();
 		}
-
-		
 	}
 }

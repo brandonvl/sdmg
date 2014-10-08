@@ -10,6 +10,7 @@
 
 #include "MainMenuState.h"
 #include "PlayState.h"
+#include "LoadingState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -26,7 +27,8 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if(tag == "Play") {
-				changeState(*_game, PlayState::getInstance());
+				// changeState(*_game, PlayState::getInstance());
+				changeState(*_game, LoadingState::getInstance());
 			}
 			else if (tag == "Quit") {
 				_game->stop();
@@ -38,8 +40,14 @@ namespace sdmg {
 			_game = &game;
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 75.0F, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
-			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Play", 150.0F, 50.0F, true));
-			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Quit", 150.0F, 50.0F, false));
+			// Create menu item
+			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 150.0F, 50.0F, true);
+			play->loadText(_game, "play", "Play", "arial", 30);
+			_menu->addMenuItem(play);
+
+			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 150.0F, 50.0F, false);
+			quit->loadText(_game, "quit", "Quit", "arial", 30);
+			_menu->addMenuItem(quit);
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
 

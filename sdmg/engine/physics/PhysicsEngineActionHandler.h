@@ -26,6 +26,7 @@ namespace sdmg {
 				void shortAttack(MovableGameObject *obj);
 				void middleAttack(MovableGameObject *obj);
 				void longAttack(MovableGameObject *obj);
+				void respawn(MovableGameObject *obj);
 			};
 		}
 	}

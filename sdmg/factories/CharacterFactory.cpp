@@ -19,6 +19,7 @@ namespace sdmg {
 				character->setSpeed(parser.getFloat("horizontalSpeed"), parser.getFloat("verticalSpeed"));
 				character->setDirection(MovableGameObject::Direction::RIGHT);
 				character->setLocation(xPosition, yPosition);
+				character->setSpawnLocation(xPosition, yPosition);
 
 				loadSpriteMap(character, name, game, parser);
 

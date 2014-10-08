@@ -93,5 +93,22 @@ namespace sdmg {
 		{
 			return _size.height;
 		}
+
+
+		float GameObject::getSpawnLocationX()
+		{
+			return _spawnX;
+		}
+
+		float GameObject::getSpawnLocationY()
+		{
+			return _spawnY;
+		}
+
+		void GameObject::setSpawnLocation(const float x, const float y)
+		{
+			_spawnX = x;
+			_spawnY = y;
+		}
 	}
 }
