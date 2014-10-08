@@ -12,15 +12,22 @@ namespace sdmg {
 
 		void Menu::addMenuItem(MenuItem *item)
 		{
-			_menuItems.push_back(item);
+			/*_menuItems.push_back(item);
 
 			if (item->isSelected()) {
 
-				if (_selectedMenuItem != -1)
-					_menuItems[_selectedMenuItem]->setSelected(false);
+			if (_selectedMenuItem != -1)
+			_menuItems[_selectedMenuItem]->setSelected(false);
 
-				_selectedMenuItem = _menuItems.size() - 1;
+			_selectedMenuItem = _menuItems.size() - 1;
+			}*/
+
+			if (_menuItems.empty()) {
+				_selected = item;
+				_selected->setSelected();
 			}
+			_menuItems.push_back(item);
+
 		}
 
 		void Menu::removeMenuItem(MenuItem *item)
@@ -30,55 +37,72 @@ namespace sdmg {
 
 		void Menu::selectNext()
 		{
-			if (!_menuItems.empty())
+			/*if (!_menuItems.empty())
 			{
-				if (_selectedMenuItem == -1 || _selectedMenuItem == _menuItems.size() -1) {
+			if (_selectedMenuItem == -1 || _selectedMenuItem == _menuItems.size() -1) {
 
-					if (_selectedMenuItem != -1)
-						_menuItems[_selectedMenuItem]->setSelected(false);
+			if (_selectedMenuItem != -1)
+			_menuItems[_selectedMenuItem]->setSelected(false);
 
-					_selectedMenuItem = 0;
-					_menuItems[_selectedMenuItem]->setSelected();
-				}
-				else
-				{
-					_menuItems[_selectedMenuItem]->setSelected(false);
-					_selectedMenuItem++;
-					_menuItems[_selectedMenuItem]->setSelected();
+			_selectedMenuItem = 0;
+			_menuItems[_selectedMenuItem]->setSelected();
+			}
+			else
+			{
+			_menuItems[_selectedMenuItem]->setSelected(false);
+			_selectedMenuItem++;
+			_menuItems[_selectedMenuItem]->setSelected();
+			}
+			}*/
+			if (!_menuItems.empty()) {
+				for (auto i = _menuItems.begin(); i != _menuItems.end(); i++) {
+					_selected->setSelected(false);
+					_selected = *i == _selected ? *++i : *_menuItems.begin();
+					_selected->setSelected();
 				}
 			}
 		}
 
 		void Menu::selectPrevious()
 		{
-			if (!_menuItems.empty())
+			/*if (!_menuItems.empty())
 			{
-				if (_selectedMenuItem == -1 || _selectedMenuItem == 0) {
+			if (_selectedMenuItem == -1 || _selectedMenuItem == 0) {
 
-					if (_selectedMenuItem != -1)
-						_menuItems[_selectedMenuItem]->setSelected(false);
+			if (_selectedMenuItem != -1)
+			_menuItems[_selectedMenuItem]->setSelected(false);
 
-					_selectedMenuItem = _menuItems.size() - 1;
-					_menuItems[_selectedMenuItem]->setSelected();
+			_selectedMenuItem = _menuItems.size() - 1;
+			_menuItems[_selectedMenuItem]->setSelected();
+			}
+			else
+			{
+			_menuItems[_selectedMenuItem]->setSelected(false);
+			_selectedMenuItem--;
+			_menuItems[_selectedMenuItem]->setSelected();
+			}
+			}*/
+			if (!_menuItems.empty()) {
+				_menuItems.reverse();
+				for (auto i = _menuItems.begin(); i != _menuItems.end(); i++) {
+						_selected->setSelected(false);
+						_selected = *i == _selected ? *++i : *_menuItems.begin();
+						_selected->setSelected();
 				}
-				else
-				{
-					_menuItems[_selectedMenuItem]->setSelected(false);
-					_selectedMenuItem--;
-					_menuItems[_selectedMenuItem]->setSelected();
-				}
+				_menuItems.reverse();
 			}
 		}
-
+		
 		void Menu::draw(GameBase *engine)
 		{
 			float xOffSet = _startingX, yOffSet = _startingY;
 
-			for (auto item : _menuItems)
+			for (auto i : _menuItems)
 			{
-				item->draw(engine, xOffSet, yOffSet);
+				MenuItem *item = i;
+				i->draw(engine, xOffSet, yOffSet);
 
-				yOffSet += item->getHeight() + 1.0F;
+				yOffSet += i->getHeight() + 1.0F;
 			}
 		}
 	}

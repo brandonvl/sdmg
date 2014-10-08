@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <list>
 
 namespace sdmg {
 	namespace engine {
@@ -12,7 +12,7 @@ namespace sdmg {
 		class Menu
 		{
 		public:
-			Menu(const float x, const float y) : _startingX(x), _startingY(y),_selectedMenuItem(-1) { };
+			Menu(const float x, const float y) : _startingX(x), _startingY(y) { };
 			virtual ~Menu();
 			void draw(GameBase *engine);
 			void addMenuItem(MenuItem *item);
@@ -20,13 +20,14 @@ namespace sdmg {
 			void selectNext();
 			void selectPrevious();
 			//void doAction();
-			MenuItem *getSelectedMenuItem() { return _menuItems[_selectedMenuItem]; }
+			MenuItem *getSelectedMenuItem() { return _selected; }
 		private:
-			std::vector<MenuItem*> _menuItems;
+			std::list<MenuItem*> _menuItems;
 			float _startingX;
 			float _startingY;
-			int _selectedMenuItem;
+			MenuItem *_selected;
 		};
+
 	}
 }
 
