@@ -50,15 +50,21 @@ namespace sdmg {
 			float getPixelX();
 			float getPixelY();
 
+			float getSpawnLocationX();
+			float getSpawnLocationY();
+			void setSpawnLocation(const float x, const float y);
+
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
 			b2Body *_body;
+			b2Vec2 *_spawnLocation;
 		private:
 			int _id;
 			Flags _flags;
 			std::string _spriteName;
 			Size _size;
 			const float32 *_x, *_y;
+			float _spawnX, _spawnY;
 		};
 	}
 }

@@ -114,10 +114,10 @@ namespace sdmg {
 
 			_characters = new std::vector<Character*>(2);
 
-			(*_characters)[0] = factories::CharacterFactory::create("nivek", *_game, 1100, 10);
+			(*_characters)[0] = factories::CharacterFactory::create("nivek", *_game, 1100, -100);
 			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
 
-			(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, 10);
+			(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, -100);
 
 			/*    Kinematic Bodies
 			model::MovablePlatform *mpHor = new model::MovablePlatform();
@@ -149,12 +149,14 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_KP_1, new actions::RespawnAction((*_characters)[0]));
 
 
 			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_q, new actions::RespawnAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 
 			_isLoaded = true;

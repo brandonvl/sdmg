@@ -50,7 +50,7 @@ namespace sdmg {
 				b2Body* addBody(int x, int y, int w, int h, bool dyn, GameObject *object);
 				b2Body* addKinematicBody(model::MovablePlatform *object);
 				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
-				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK };
+				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK, RESPAWN };
 				void registerAction(MovableGameObject *object);
 				void doAction(MovableGameObject *object, Action action);
 			private:
@@ -66,7 +66,7 @@ namespace sdmg {
 				PhysicsEngineActionHandler *_actionHandler;
 
 				b2Body *addBody(GameObject *object, bool dynamic, float paddingX, float paddingY);
-				void checkMovablePlatforms();
+				void checkMovableBodies();
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
 				float _step, _accumulator;

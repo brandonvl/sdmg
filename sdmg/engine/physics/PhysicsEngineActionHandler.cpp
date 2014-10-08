@@ -55,6 +55,14 @@ namespace sdmg {
 			void PhysicsEngineActionHandler::longAttack(MovableGameObject *obj) {
 
 			}
+
+			void PhysicsEngineActionHandler::respawn(MovableGameObject *obj)
+			{
+				//obj->getBody()->getf
+				obj->getBody()->SetTransform(b2Vec2(obj->getSpawnLocationX() / 20.0f, obj->getSpawnLocationY() / 20.0f), obj->getBody()->GetAngle());
+				obj->setState(MovableGameObject::State::IDLE);
+				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, -1.0f));
+			}
 		}
 	}
 }

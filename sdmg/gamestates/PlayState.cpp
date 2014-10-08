@@ -141,7 +141,5 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->render();
 		}
-
-		
 	}
 }
