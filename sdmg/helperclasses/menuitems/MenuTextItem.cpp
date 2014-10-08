@@ -10,19 +10,21 @@ namespace sdmg {
 
 			MenuTextItem::~MenuTextItem()
 			{
+			}
 
+			void MenuTextItem::loadText(GameBase *engine, std::string key, std::string text, std::string fontName, int fontSize) {
+				_key = key;
+				_keySelected = key + "Selected";
+				engine->getEngine()->getDrawEngine()->loadText(_key, text, { 0, 0, 0 }, { 255, 255, 255 }, fontName, fontSize);
+				engine->getEngine()->getDrawEngine()->loadText(_keySelected, text, { 255, 0, 0 }, { 255, 255, 255 }, fontName, fontSize);
 			}
 
 			void MenuTextItem::draw(GameBase *engine, const float xOffSet, const float yOffSet)
 			{
-				SDL_Color fgColor;
-				SDL_Color bgColor = { 255, 255, 255 };
 				if (_isSelected)
-					fgColor = { 255, 0, 0 };
+					engine->getEngine()->getDrawEngine()->drawText(_keySelected, Rectangle(xOffSet, yOffSet, _width, _height));
 				else
-					fgColor = { 0, 0, 0 };
-
-				engine->getEngine()->getDrawEngine()->drawText(_text, Rectangle(xOffSet, yOffSet, _width, _height),fgColor,bgColor);
+					engine->getEngine()->getDrawEngine()->drawText(_key, Rectangle(xOffSet, yOffSet, _width, _height));
 			}
 		}
 	}

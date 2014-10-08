@@ -25,6 +25,7 @@ namespace sdmg {
 
 		namespace drawing {
 			class Surface;
+			class TextSurface;
 
 			class DrawEngine {
 
@@ -33,6 +34,7 @@ namespace sdmg {
 				virtual ~DrawEngine();
 				void load(std::string key, std::string path);
 				void load(GameObject *gameObject, std::string path);
+				void loadText(std::string key, std::string text, SDL_Color fgColor, SDL_Color bgColor, std::string fontName, int fontSize);
 				void loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(GameObject *gameObject, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight);
@@ -47,7 +49,7 @@ namespace sdmg {
 				void draw(std::string key, float x, float y, int slice);
 				void draw(GameObject *gameObject, int slice);
 				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
-				void drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font = "arial", int fontSize = 20);
+				void drawText(std::string key, Rectangle &rec);
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
 				void drawBodies(b2Body *body);
@@ -62,6 +64,7 @@ namespace sdmg {
 				SDL_Renderer *_renderer;
 				int _curRenderer;
 				std::map<std::string, Surface*> *_surfaces;
+				std::map<std::string, TextSurface*> *_textSurfaces;
 				std::map<GameObject*, Surface*> *_objectSurfaces;
 				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*> *_objectStateSurfaces;
 				void initialize();
