@@ -13,6 +13,10 @@
 using namespace sdmg::engine;
 
 namespace sdmg {
+	namespace model {
+		class Platform;
+		class Character;
+	}
 	namespace gamestates {
 		class LoadingState : public GameState {
 		public:
@@ -29,9 +33,18 @@ namespace sdmg {
 				static LoadingState _instance;
 				return _instance;
 			}
+
+			
+
 		protected:
 			LoadingState() { }
 		private:
+			static int loadThread(void *ptr);
+			void load();
+			bool _isLoaded;
+			std::vector<model::Character*> *_characters;
+			model::Platform *_platform;
+			GameBase *_game;
 		};
 	}
 }

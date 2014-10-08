@@ -9,23 +9,43 @@
 
 
 #include "LoadingState.h"
-#include "IntroState.h"
+#include "PlayState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
+#include "sdl\include\SDL.h"
+#include "engine\physics\PhysicsEngine.h"
+#include "model\Platform.h"
+#include "model\MovablePlatform.h"
+#include "model\Character.h"
+#include "factories\CharacterFactory.h"
+#include "engine\input\InputEngine.h"
+#include "actions\Actions.h"
 
 namespace sdmg {
 	namespace gamestates {
 
 		void LoadingState::init(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->load("cowboy", R"(assets\cowboy.jpg)");
+			_game = &game;
+			_isLoaded = false;
+
+			game.getEngine()->getDrawEngine()->load("loading", R"(assets\loadscreen\loading.png)");
 			std::cout << "Initing LoadingState ... " << std::endl;
+
+
+			SDL_Thread *thread;
+			int         threadReturnValue;
+
+			printf("\nSimple SDL_CreateThread test:");
+
+			// Simply create a thread
+			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
 		}
 
 		void LoadingState::cleanup(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->unload("cowboy");
-			std::cout << "Cleaning up LoadingState ... " << std::endl;
+			//game.getEngine()->getDrawEngine()->unload("cowboy");
+			//std::cout << "Cleaning up LoadingState ... " << std::endl;
 		}
 
 		void LoadingState::pause(GameBase &game)
@@ -56,9 +76,6 @@ namespace sdmg {
 					case SDLK_ESCAPE:
 						game.stop();
 						break;
-					case SDLK_1:
-						changeState(game, IntroState::getInstance());
-						break;
 					}
 				}
 			}
@@ -66,16 +83,81 @@ namespace sdmg {
 
 		void LoadingState::update(GameBase &game, GameTime &gameTime)
 		{
-			//std::cout << "Updating LoadingState ... " << std::endl;
+			if (_isLoaded)
+			{
+				PlayState::getInstance().setCharacters(_characters);
+				PlayState::getInstance().setPlatform(_platform);
+				changeState(game, PlayState::getInstance());
+			}
 		}
 
 		void LoadingState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("cowboy", 0, 0);
+			game.getEngine()->getDrawEngine()->draw("loading");
 			game.getEngine()->getDrawEngine()->render();
-			//std::cout << "Draw LoadingState ... " << std::endl;
 		}
 		
+		int LoadingState::loadThread(void *ptr)
+		{
+			((LoadingState*)ptr)->load();
+			return 0;
+		}
+
+		void LoadingState::load() {
+			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
+			pe->setWorldGravity(0.0f, 100.0f);
+			_platform = new model::Platform();
+			_platform->setSize(1091, 94);
+			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
+			pe->addBody(_platform, 30, 20);
+
+			_characters = new std::vector<Character*>(2);
+
+			(*_characters)[0] = factories::CharacterFactory::create("nivek", *_game, 1100, 10);
+			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
+
+			(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, 10);
+
+			/*    Kinematic Bodies
+			model::MovablePlatform *mpHor = new model::MovablePlatform();
+			mpHor->setSize(100, 30);
+			mpHor->setStartLocation(b2Vec2(300, 200));
+			mpHor->setEndLocation(b2Vec2(600, 200));
+			mpHor->setDirection(MovableGameObject::Direction::RIGHT);
+			mpHor->setSpeed(10.0f, 0.0f);
+			pe->addKinematicBody(mpHor);
+
+
+			model::MovablePlatform *mpVer = new model::MovablePlatform();
+			mpVer->setSize(100, 30);
+			mpVer->setStartLocation(b2Vec2(700, 200));
+			mpVer->setEndLocation(b2Vec2(700, 500));
+			mpVer->setDirection(MovableGameObject::Direction::UP);
+			mpVer->setSpeed(0.0f, 10.0f);
+			pe->addKinematicBody(mpVer);
+
+			*/
+			pe->resume();
+
+			DrawEngine *de = _game->getEngine()->getDrawEngine();
+			de->load(_platform, R"(assets\platform.png)");
+			de->load("background", R"(assets\background.png)");
+
+			InputDeviceBinding *binding = new InputDeviceBinding();
+			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[0]));
+
+
+			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
+			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+
+			_isLoaded = true;
+		}
 	}
 }

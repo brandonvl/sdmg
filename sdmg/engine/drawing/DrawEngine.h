@@ -16,6 +16,8 @@
 #include <vector>
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
+#include "Surface.h"
+#include <chrono>
 
 class b2Body;
 
@@ -39,7 +41,9 @@ namespace sdmg {
 				void loadMap(GameObject *gameObject, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float scale);
+				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float scale, Surface::AnimationType animationType);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight);
+				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight, Surface::AnimationType animationType);
 				void unload(std::string key);
 				void unloadAll();
 
@@ -47,15 +51,21 @@ namespace sdmg {
 				void draw(std::string key, float x, float y);
 				void draw(GameObject *gameObject);
 				void draw(std::string key, float x, float y, int slice);
-				void draw(GameObject *gameObject, int slice);
+				void drawSlice(GameObject *gameObject);
 				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
 				void drawText(std::string key, Rectangle &rec);
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
+				void drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font = "arial", int fontSize = 20);
+				void drawSlice(MovableGameObject *gameObject);
+				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
 				void drawBodies(b2Body *body);
 				void prepareForDraw();
 				void render();
-
+				void calcXY(GameObject *gameObject, Surface *surface, float &x, float &y);
+				void update();
+				void resetStep(GameObject *gameObject);
+				void createStep(GameObject *gameObject);
 				int getWindowHeight();
 				int getWindowWidth();
 			private:
@@ -70,6 +80,10 @@ namespace sdmg {
 				void initialize();
 				int _windowHeight;
 				int _windowWidth;
+				std::map<GameObject*, int> *_steps;
+
+				std::chrono::high_resolution_clock::time_point _lastUpdate;
+				float _step, _accumulator;
 			};
 		}
 	}

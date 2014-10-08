@@ -9,6 +9,7 @@
 
 #pragma once
 #include "engine\GameState.h"
+#include <vector>
 
 using namespace sdmg::engine;
 
@@ -33,10 +34,14 @@ namespace sdmg {
 				static PlayState _instance;
 				return _instance;
 			}
+
+			void setCharacters(std::vector<model::Character*> *characters);
+			void setPlatform(model::Platform *platform);
+
 		protected:
 			PlayState() { }
 		private:
-			model::Character *_character;
+			std::vector<model::Character*> *_characters;
 			model::Platform *_platform;
 		};
 	}

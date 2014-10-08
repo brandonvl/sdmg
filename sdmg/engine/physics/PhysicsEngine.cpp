@@ -33,6 +33,7 @@ namespace sdmg {
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
 				_movablePlatforms = new std::vector < model::MovablePlatform*>();
+				_movingGameObjects = new std::vector<MovableGameObject*>();
 				_step = 1.0f / 60.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
@@ -63,16 +64,39 @@ namespace sdmg {
 				return _world->GetBodyList();
 			}
 
-
 			void PhysicsEngine::checkMovablePlatforms()
 			{
+				//Mooi comments
 				for (auto i = _movablePlatforms->begin(); i != _movablePlatforms->end(); i++)
 				{
 					// model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
 					(*i)->checkDirectionChange();
 				}
+
+				for (int i = 0; i < _movingGameObjects->size(); i++)
+				{
+					MovableGameObject *gameObject = (*_movingGameObjects)[i];
+
+					MovableGameObject::State state = gameObject->getState();
+
+					switch (state)
+					{
+					case  MovableGameObject::State::IDLE:
+						gameObject->getBody()->SetLinearVelocity(b2Vec2(0.0f, gameObject->getBody()->GetLinearVelocity().y));
+						_movingGameObjects->erase(_movingGameObjects->begin() + i);
+						i--;
+						break;
+					case MovableGameObject::State::WALKING:
+
+						if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+							doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+						else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+							doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+						break;
+					}
+				}
 			}
-			
+
 			void PhysicsEngine::pause() {
 				_enabled = false;
 			}
@@ -154,7 +178,6 @@ namespace sdmg {
 
 				b2PolygonShape *shape = new b2PolygonShape();
 
-				// padding hier ergens inbouwen?
 				shape->SetAsBox(_P2M * (object->getWidth() - paddingX) / 2, _P2M * (object->getHeight() - paddingY) / 2);
 
 				b2FixtureDef *fixturedef = new b2FixtureDef();
@@ -247,6 +270,11 @@ namespace sdmg {
 				body->SetUserData(kinematicBody);
 
 				return body;
+			}
+
+			void PhysicsEngine::registerAction(MovableGameObject *object)
+			{
+				_movingGameObjects->push_back(object);
 			}
 
 			void PhysicsEngine::doAction(MovableGameObject *object, PhysicsEngine::Action action)

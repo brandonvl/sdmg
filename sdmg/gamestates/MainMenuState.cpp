@@ -10,6 +10,7 @@
 
 #include "MainMenuState.h"
 #include "PlayState.h"
+#include "LoadingState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -26,7 +27,8 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if(tag == "Play") {
-				changeState(*_game, PlayState::getInstance());
+				// changeState(*_game, PlayState::getInstance());
+				changeState(*_game, LoadingState::getInstance());
 			}
 			else if (tag == "Quit") {
 				_game->stop();

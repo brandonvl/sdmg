@@ -24,11 +24,10 @@ namespace sdmg {
 			if (_event.type == SDL_KEYDOWN) {
 				_character->setDirection(MovableGameObject::Direction::LEFT);
 				_character->setState(MovableGameObject::State::WALKING);
-				game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::MOVELEFT);
+				game.getEngine()->getPhysicsEngine()->registerAction(_character);
 			}
 			else {
 				_character->setState(MovableGameObject::State::IDLE);
-				game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
 			}
 			return true;
 		}
