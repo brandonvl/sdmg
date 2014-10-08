@@ -42,11 +42,9 @@ namespace sdmg {
 				}
 
 				if (event.type == SDL_CONTROLLERBUTTONUP || event.type == SDL_CONTROLLERBUTTONDOWN) {
-				    //TEST!
 					handleKey(Joysticks[event.cbutton.which].Name, event);
 				}
 
-				// !!!!!!!!!!!!!TEST!!!!!!!!!!!!!!!!
 				if (event.type == SDL_JOYAXISMOTION)
 				{
 					if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
@@ -122,13 +120,22 @@ namespace sdmg {
 			// find joysticks and add to map
 			void InputEngine::findJoysticks(void)
 			{
+				if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
+				{
+					printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+				}
+
+				printf("%i joysticks were found.\n\n", SDL_NumJoysticks());
+				printf("The joysticks are:\n");
+
 				// loop through joysticks
 				for (int i = 0; i < SDL_NumJoysticks(); i++)
 				{
 					// check if joystick is a mapped controller
 					if (SDL_IsGameController(i))
 					{
-						// check if null
+						printf("Index \'%i\' is a compatible controller, named \'%s\'\n", i, SDL_GameControllerNameForIndex(i));
+
 						if (!Joysticks[i].Stick)
 						{
 							// set values
@@ -140,6 +147,10 @@ namespace sdmg {
 								Joysticks[i].Name = joystick_name ? joystick_name : "Joystick";
 							}
 						}
+					}
+					else
+					{
+						printf("Index \'%i\' is not a compatible controller.\n", i);
 					}
 				}
 			}
