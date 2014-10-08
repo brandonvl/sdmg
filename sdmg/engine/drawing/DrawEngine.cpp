@@ -179,9 +179,9 @@ namespace sdmg {
 				TTF_CloseFont(font);
 			}
 
-			void DrawEngine::drawText(std::string key, Rectangle &rec) {
+			void DrawEngine::drawText(std::string key, float x, float y) {
 				TextSurface *tSurface = (*_textSurfaces)[key];
-				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &rec.toSDLRect());
+				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::prepareForDraw() {

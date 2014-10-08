@@ -53,7 +53,7 @@ namespace sdmg {
 				void draw(std::string key, float x, float y, int slice);
 				void drawSlice(GameObject *gameObject);
 				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
-				void drawText(std::string key, Rectangle &rec);
+				void drawText(std::string key, float x, float y);
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
 				void drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font = "arial", int fontSize = 20);

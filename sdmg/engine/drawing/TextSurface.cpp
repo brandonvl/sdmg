@@ -21,7 +21,10 @@ namespace sdmg {
 				_backgroundColor = bgColor;
 
 				SDL_Surface *surface = TTF_RenderText_Shaded(_font, _text.c_str(), _foregroundColor, _backgroundColor);
-
+				
+				_renderHeight = surface->h;
+				_renderWidth = surface->w;
+				
 				_texture = SDL_CreateTextureFromSurface(renderer, surface);
 
 				SDL_FreeSurface(surface);
@@ -34,6 +37,9 @@ namespace sdmg {
 			TextSurface::~TextSurface()
 			{
 			}
+
+			float TextSurface::getRenderWidth() { return _renderWidth; }
+			float TextSurface::getRenderHeight() { return _renderHeight; }
 		}
 	}
 }

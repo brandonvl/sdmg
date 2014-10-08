@@ -22,9 +22,9 @@ namespace sdmg {
 			void MenuTextItem::draw(GameBase *engine, const float xOffSet, const float yOffSet)
 			{
 				if (_isSelected)
-					engine->getEngine()->getDrawEngine()->drawText(_keySelected, Rectangle(xOffSet, yOffSet, _width, _height));
+					engine->getEngine()->getDrawEngine()->drawText(_keySelected, xOffSet, yOffSet);
 				else
-					engine->getEngine()->getDrawEngine()->drawText(_key, Rectangle(xOffSet, yOffSet, _width, _height));
+					engine->getEngine()->getDrawEngine()->drawText(_key, xOffSet, yOffSet);
 			}
 		}
 	}

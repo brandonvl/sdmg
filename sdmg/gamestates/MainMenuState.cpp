@@ -42,11 +42,11 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 75.0F, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 			// Create menu item
 			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 150.0F, 50.0F, true);
-			play->loadText(_game, "play", "Play", "arial", 20);
+			play->loadText(_game, "play", "Play", "arial", 30);
 			_menu->addMenuItem(play);
 
 			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 150.0F, 50.0F, false);
-			quit->loadText(_game, "quit", "Quit", "arial", 20);
+			quit->loadText(_game, "quit", "Quit", "arial", 30);
 			_menu->addMenuItem(quit);
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
