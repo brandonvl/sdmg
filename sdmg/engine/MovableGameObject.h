@@ -44,7 +44,9 @@ namespace sdmg {
 			void setState(State state);
 			Direction getDirection();
 			void setDirection(Direction direction);
-		private:
+			void stateCompleted();
+
+		protected:
 			Direction _direction;
 			Speed _speed;
 			State _state;

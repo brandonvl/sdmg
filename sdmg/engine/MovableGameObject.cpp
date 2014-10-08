@@ -51,6 +51,14 @@ namespace sdmg {
 			_speed = Speed(horizontalSpeed, verticalSpeed);
 		}
 
+		void MovableGameObject::stateCompleted() {
+			switch (_state) {
+			case State::FORWARD_ROLL:
+				_state = State::IDLE;
+				break;
+			}
+		}
+
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
 		void MovableGameObject::setState(State state) { _state = state; }
 
