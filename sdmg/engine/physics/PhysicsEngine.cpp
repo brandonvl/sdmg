@@ -220,6 +220,7 @@ namespace sdmg {
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
 				fixturedef->density = 1.0f;
+				//  fixturedef->friction = 0.0f;
 				body->CreateFixture(fixturedef);
 
 				body->SetUserData(object);

@@ -15,6 +15,8 @@ namespace sdmg {
 			}
 
 			void ContactListener::BeginContact(b2Contact* contact) {
+				contact->SetFriction(0.0f);
+				
 				/*
 				std::cout << "I'm Hit";
 				if (contact->GetFixtureA()->GetBody()->GetType() == b2_kinematicBody)
