@@ -14,17 +14,17 @@ namespace sdmg {
 	namespace engine {
 		namespace input {
 			InputDeviceBinding::InputDeviceBinding() {
-				_keyBindings = new std::map<const SDL_Keycode, Action*>;
+				_keyBindings = new std::map<const int, Action*>;
 			}
 
 			InputDeviceBinding::~InputDeviceBinding() {
 				delete _keyBindings;
 			}
 
-			void InputDeviceBinding::setKeyBinding(const SDL_Keycode keyCode, Action *action) {
+			void InputDeviceBinding::setKeyBinding(const int keyCode, Action *action) {
 				// check if binding exists
 				if (_keyBindings->count(keyCode)) (*_keyBindings)[keyCode] = action; // replace
-				else _keyBindings->insert(std::pair<const SDL_Keycode, Action*>(keyCode, action)); // insert
+				else _keyBindings->insert(std::pair<const int, Action*>(keyCode, action)); // insert
 			}
 			
 			void InputDeviceBinding::clearBindings() {

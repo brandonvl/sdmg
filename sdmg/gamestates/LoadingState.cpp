@@ -157,6 +157,8 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 
+			binding->setKeyBinding(SDL_BUTTON_RIGHT, new actions::RightWalkAction((*_characters)[1]));
+
 			_isLoaded = true;
 		}
 	}
