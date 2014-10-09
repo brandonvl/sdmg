@@ -100,9 +100,9 @@ namespace sdmg {
 			for (auto i : _menuItems)
 			{
 				MenuItem *item = i;
-				i->draw(engine, xOffSet, yOffSet);
+				i->draw(engine, xOffSet, yOffSet + 10);
 
-				yOffSet += i->getHeight() + 1.0F;
+				yOffSet += i->getHeight() + 25.0F;
 			}
 		}
 	}

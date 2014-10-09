@@ -20,7 +20,8 @@ namespace sdmg {
 				_foregroundColor = fgColor;
 				_backgroundColor = bgColor;
 
-				SDL_Surface *surface = TTF_RenderText_Shaded(_font, _text.c_str(), _foregroundColor, _backgroundColor);
+				
+				SDL_Surface *surface = TTF_RenderText(_font, _text.c_str(), _foregroundColor, _backgroundColor);
 				
 				_renderHeight = surface->h;
 				_renderWidth = surface->w;

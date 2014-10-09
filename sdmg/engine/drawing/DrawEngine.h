@@ -18,6 +18,7 @@
 #include "engine\MovableGameObject.h"
 #include "Surface.h"
 #include <chrono>
+#include <array>
 
 class b2Body;
 
@@ -54,12 +55,14 @@ namespace sdmg {
 				void drawSlice(GameObject *gameObject);
 				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
 				void drawText(std::string key, float x, float y);
+				const std::array<float, 2> DrawEngine::getTextSize(std::string key);
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
 				void drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font = "arial", int fontSize = 20);
 				void drawSlice(MovableGameObject *gameObject);
 				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
 				void drawBodies(b2Body *body);
+				void drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b);
 				void prepareForDraw();
 				void render();
 				void calcXY(GameObject *gameObject, Surface *surface, float &x, float &y);

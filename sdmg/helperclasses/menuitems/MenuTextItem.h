@@ -18,6 +18,7 @@ namespace sdmg {
 				std::string _key;
 				std::string _keySelected;
 				std::string _text;
+				const float WIDTH = 375, HEIGHT = 68;
 			};
 		}
 	}
