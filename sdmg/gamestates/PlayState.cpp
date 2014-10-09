@@ -19,6 +19,7 @@
 #include "factories\CharacterFactory.h"
 #include "engine\input\InputEngine.h"
 #include "actions\Actions.h"
+#include "MainMenuState.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -88,8 +89,8 @@ namespace sdmg {
 
 		void PlayState::cleanup(GameBase &game)
 		{
-			std::cout << "Cleaning up IntroState ... " << std::endl;
-			game.getEngine()->getDrawEngine()->unload("surprise");
+			game.getEngine()->getPhysicsEngine()->cleanUp();
+			game.getEngine()->getDrawEngine()->unloadAll();
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -111,7 +112,15 @@ namespace sdmg {
 				switch (event.type) {
 				case SDL_KEYDOWN:
 				case SDL_KEYUP:
-					game.getEngine()->getInputEngine()->handleEvent(event);
+					switch (event.key.keysym.sym) {
+						case SDLK_ESCAPE:
+							changeState(game, MainMenuState::getInstance());
+							break;
+						default:
+							game.getEngine()->getInputEngine()->handleEvent(event);
+							break;
+					}
+					
 					break;
 				case SDL_QUIT:
 					game.stop();
@@ -134,6 +143,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 			game.getEngine()->getDrawEngine()->draw(_platform);
+			game.getEngine()->getDrawEngine()->drawText("escape_text", 10,10);
 			game.getEngine()->getDrawEngine()->drawSlice((*_characters)[0]);
 			game.getEngine()->getDrawEngine()->drawSlice((*_characters)[1]);
 
