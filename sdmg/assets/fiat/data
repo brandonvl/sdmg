@@ -5,6 +5,6 @@ horizontalSpeed=20
 verticalSpeed=2.5
 scale=0.30
 idle=(389.4,510)
-walking=(502.22,553)
+walking=(494.25,527)
 jumping=(419.2,579)
 forwardRoll=(681.13,545)
