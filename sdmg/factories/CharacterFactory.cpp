@@ -18,6 +18,7 @@ namespace sdmg {
 				character->setSize(parser.getFloat("width"), parser.getFloat("height"));
 				character->setSpeed(parser.getFloat("horizontalSpeed"), parser.getFloat("verticalSpeed"));
 				character->setDirection(MovableGameObject::Direction::RIGHT);
+				character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
 				character->setLocation(xPosition, yPosition);
 				character->setSpawnLocation(xPosition, yPosition);
 

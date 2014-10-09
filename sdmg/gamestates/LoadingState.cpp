@@ -116,6 +116,7 @@ namespace sdmg {
 
 			(*_characters)[0] = factories::CharacterFactory::create("nivek", *_game, 1100, -100);
 			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
+			(*_characters)[0]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
 			(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, -100);
 

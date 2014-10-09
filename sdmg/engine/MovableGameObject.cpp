@@ -59,6 +59,17 @@ namespace sdmg {
 			}
 		}
 
+
+		MovableGameObject::Direction MovableGameObject::getSpawnDirection()
+		{
+			return _spawnDirection;
+		}
+
+		void MovableGameObject::setSpawnDirection(Direction direction)
+		{
+			_spawnDirection = direction;
+		}
+
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
 		void MovableGameObject::setState(State state) { _state = state; }
 

@@ -59,6 +59,24 @@ namespace sdmg {
 				}
 			}
 
+
+			void PhysicsEngine::cleanUp()
+			{
+				if (!_world->IsLocked())
+				{
+					b2Body* body = nullptr;
+					b2Body* nextBody = _world->GetBodyList();
+
+					while (nextBody)
+					{
+						body = nextBody;
+						nextBody = nextBody->GetNext();
+
+						_world->DestroyBody(body);
+					}
+				}
+			}
+
 			b2Body *PhysicsEngine::getBodyList()
 			{
 				return _world->GetBodyList();

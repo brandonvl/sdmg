@@ -228,11 +228,11 @@
     <ClCompile Include="actions\RollAction.cpp">
       <Filter>Source Files\actions</Filter>
     </ClCompile>
-    <ClCompile Include="model\MovablePlatform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="actions\RespawnAction.cpp">
       <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="model\MovablePlatform.cpp">
+      <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

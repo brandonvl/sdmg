@@ -45,7 +45,11 @@ namespace sdmg {
 			Direction getDirection();
 			void setDirection(Direction direction);
 			void stateCompleted();
+			Direction getSpawnDirection();
+			void setSpawnDirection(Direction direction);
 
+		private:
+			Direction _spawnDirection;
 		protected:
 			Direction _direction;
 			Speed _speed;
