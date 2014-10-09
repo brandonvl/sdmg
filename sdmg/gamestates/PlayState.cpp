@@ -25,56 +25,6 @@ namespace sdmg {
 	namespace gamestates {
 		void PlayState::init(GameBase &game)
 		{
-			/*
-			PhysicsEngine *pe = game.getEngine()->getPhysicsEngine();
-			pe->setWorldGravity(0.0f, 100.0f);
-			_platform = new model::Platform();
-			_platform->setSize(1091, 94);
-			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
-			pe->addBody(_platform, 30, 20);
-
-			_characters[0] = factories::CharacterFactory::create("nivek", game, 1100, 10);
-			_characters[0]->setDirection(MovableGameObject::Direction::LEFT);
-
-			_characters[1] = factories::CharacterFactory::create("fiat", game, 150, 10);
-			
-			/*    Kinematic Bodies
-			model::MovablePlatform *mpHor = new model::MovablePlatform();
-			mpHor->setSize(100, 30);
-			mpHor->setStartLocation(b2Vec2(300, 200));
-			mpHor->setEndLocation(b2Vec2(600, 200));
-			mpHor->setDirection(MovableGameObject::Direction::RIGHT);
-			mpHor->setSpeed(10.0f, 0.0f);
-			pe->addKinematicBody(mpHor);
-
-
-			model::MovablePlatform *mpVer = new model::MovablePlatform();
-			mpVer->setSize(100, 30);
-			mpVer->setStartLocation(b2Vec2(700, 200));
-			mpVer->setEndLocation(b2Vec2(700, 500));
-			mpVer->setDirection(MovableGameObject::Direction::UP);
-			mpVer->setSpeed(0.0f, 10.0f);
-			pe->addKinematicBody(mpVer);
-
-			pe->resume();
-
-			DrawEngine *de = game.getEngine()->getDrawEngine();
-			de->load(_platform, R"(assets\platform.png)");
-			de->load("background", R"(assets\background.png)");
-
-			InputDeviceBinding *binding = new InputDeviceBinding();
-			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction(_characters[0]));
-			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction(_characters[0]));
-			binding->setKeyBinding(SDLK_UP, new actions::JumpAction(_characters[0]));
-			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction(_characters[0]));
-
-
-			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction(_characters[1]));
-			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction(_characters[1]));
-			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction(_characters[1]));
-			binding->setKeyBinding(SDLK_r, new actions::RollAction(_characters[1]));
-			game.getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
-			*/
 		}
 
 		void PlayState::setCharacters(std::vector<model::Character*> *characters)

@@ -144,7 +144,7 @@ namespace sdmg {
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 			de->load(_platform, R"(assets\platform.png)");
 			de->load("background", R"(assets\background.png)");
-			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, { 0, 0, 0 }, "arial", 18);
+			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, { 117, 199, 235 }, "arial", 18);
 
 			InputDeviceBinding *binding = new InputDeviceBinding();
 			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[0]));
