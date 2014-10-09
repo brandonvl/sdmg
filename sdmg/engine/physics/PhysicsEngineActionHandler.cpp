@@ -58,10 +58,11 @@ namespace sdmg {
 
 			void PhysicsEngineActionHandler::respawn(MovableGameObject *obj)
 			{
-				//obj->getBody()->getf
-				obj->getBody()->SetTransform(b2Vec2(obj->getSpawnLocationX() / 20.0f, obj->getSpawnLocationY() / 20.0f), obj->getBody()->GetAngle());
+				obj->setHP(100);
+				obj->setLives(obj->getLives() - 1);
 				obj->setDirection(obj->getSpawnDirection());
-				obj->setState(MovableGameObject::State::IDLE);
+				// obj->setState(MovableGameObject::State::IDLE);
+				obj->getBody()->SetTransform(b2Vec2(obj->getSpawnLocationX() / 20.0f, obj->getSpawnLocationY() / 20.0f), obj->getBody()->GetAngle());
 				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, -1.0f));
 			}
 		}

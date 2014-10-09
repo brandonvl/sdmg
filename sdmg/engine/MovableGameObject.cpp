@@ -25,6 +25,26 @@ namespace sdmg {
 			_speed = Speed(0.0f, 0.0f);
 		}
 
+		int MovableGameObject::getLives()
+		{
+			return _lives;
+		}
+
+		void MovableGameObject::setLives(int lives)
+		{
+			_lives = lives;
+		}
+
+		int MovableGameObject::getHP()
+		{
+			return _hp;
+		}
+
+		void MovableGameObject::setHP(int hp)
+		{
+			_hp = hp;
+		}
+
 		Speed MovableGameObject::getSpeed()
 		{
 			return _speed;

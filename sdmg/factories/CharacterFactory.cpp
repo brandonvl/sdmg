@@ -21,6 +21,8 @@ namespace sdmg {
 				character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
 				character->setLocation(xPosition, yPosition);
 				character->setSpawnLocation(xPosition, yPosition);
+				character->setLives(5);
+				character->setHP(100);
 
 				loadSpriteMap(character, name, game, parser);
 

@@ -48,8 +48,14 @@ namespace sdmg {
 			Direction getSpawnDirection();
 			void setSpawnDirection(Direction direction);
 
+			int getLives();
+			void setLives(int lives);
+			int getHP();
+			void setHP(int hp);
+
 		private:
 			Direction _spawnDirection;
+			int _lives, _hp;
 		protected:
 			Direction _direction;
 			Speed _speed;

@@ -81,6 +81,10 @@ namespace sdmg {
 
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
+			for (auto &character : (*_characters))
+				if (character->getLives() <= 0)
+					changeState(game, MainMenuState::getInstance());
+
 			game.getEngine()->getInputEngine()->runActions(game);
 			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
