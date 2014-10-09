@@ -38,7 +38,7 @@ namespace sdmg {
 			}
 
 			void PhysicsEngineActionHandler::jump(MovableGameObject *obj) {
-				b2Vec2 jumpImpulse(0.0f, -(obj->getBody()->GetMass() * obj->getVerticalSpeed()));
+				b2Vec2 jumpImpulse(obj->getBody()->GetLinearVelocity().x, -(obj->getBody()->GetMass() * obj->getVerticalSpeed()));
 				//_body->ApplyLinearImpulse(jumpImpulse, _body->GetWorldCenter(), true);
 
 				obj->getBody()->SetLinearVelocity(jumpImpulse);

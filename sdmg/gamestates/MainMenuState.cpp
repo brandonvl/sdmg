@@ -48,6 +48,7 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 150.0F, 50.0F, false);
 			quit->loadText(_game, "quit", "Quit", "arial", 30);
 			_menu->addMenuItem(quit);
+
 			std::cout << "Initing IntroState ... " << std::endl;
 		}
 
