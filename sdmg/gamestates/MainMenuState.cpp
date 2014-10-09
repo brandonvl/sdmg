@@ -48,6 +48,7 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 0, 68, false);
 			quit->loadText(_game, "quit", "Quit", "trebucbd", 33);
 			_menu->addMenuItem(quit);
+
 			std::cout << "Initing IntroState ... " << std::endl;
 
 			game.getEngine()->getDrawEngine()->load("background", "assets/menubackground.png");

@@ -27,7 +27,6 @@ namespace sdmg {
 			float _startingY;
 			MenuItem *_selected;
 		};
-
 	}
 }
 
