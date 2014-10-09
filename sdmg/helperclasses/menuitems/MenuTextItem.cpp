@@ -15,7 +15,7 @@ namespace sdmg {
 			void MenuTextItem::loadText(GameBase *engine, std::string key, std::string text, std::string fontName, int fontSize) {
 				_key = key;
 				_keySelected = key + "Selected";
-				engine->getEngine()->getDrawEngine()->loadText(_key, text, { 200, 200, 200 }, { 217, 13, 13 }, fontName, fontSize);
+				engine->getEngine()->getDrawEngine()->loadText(_key, text, { 173, 14, 14 }, { 217, 13, 13 }, fontName, fontSize);
 				engine->getEngine()->getDrawEngine()->loadText(_keySelected, text, { 255, 255, 255 }, { 217, 13, 13 }, fontName, fontSize);
 			}
 
