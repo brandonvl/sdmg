@@ -39,8 +39,8 @@ namespace sdmg {
 			std::string first = (*_characters)[_wonCharacter]->getName();
 			std::string second = (*_characters)[0]->getName() == first ? (*_characters)[1]->getName() : (*_characters)[0]->getName();
 
-			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, { 0, 0, 0 }, "arial", 54);
-			game.getEngine()->getDrawEngine()->loadText("second", "2. " + second, { 63.75, 63.75, 63.75 }, { 0, 0, 0 }, "arial", 54);
+			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, "arial", 54);
+			game.getEngine()->getDrawEngine()->loadText("second", "2. " + second, { 63.75, 63.75, 63.75 }, "arial", 54);
 
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + (*_characters)[_wonCharacter]->getKey() + "/win.sprite");
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");

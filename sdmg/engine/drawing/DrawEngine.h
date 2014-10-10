@@ -37,7 +37,7 @@ namespace sdmg {
 				virtual ~DrawEngine();
 				void load(std::string key, std::string path);
 				void load(GameObject *gameObject, std::string path);
-				void loadText(std::string key, std::string text, SDL_Color fgColor, SDL_Color bgColor, std::string fontName, int fontSize);
+				void loadText(std::string key, std::string text, SDL_Color fgColor, std::string fontName, int fontSize);
 				void loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(GameObject *gameObject, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight);
