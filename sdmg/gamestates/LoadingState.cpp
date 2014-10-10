@@ -29,9 +29,7 @@ namespace sdmg {
 			_game = &game;
 			_isLoaded = false;
 
-			game.getEngine()->getDrawEngine()->load("loading", R"(assets\loadscreen\loading.png)");
-			std::cout << "Initing LoadingState ... " << std::endl;
-
+			game.getEngine()->getDrawEngine()->load("loading", R"(assets\screens\loadingscreen)");
 
 			SDL_Thread *thread;
 			int         threadReturnValue;
@@ -44,23 +42,19 @@ namespace sdmg {
 
 		void LoadingState::cleanup(GameBase &game)
 		{
-			//game.getEngine()->getDrawEngine()->unload("cowboy");
-			//std::cout << "Cleaning up LoadingState ... " << std::endl;
+			game.getEngine()->getDrawEngine()->unload("loading");
 		}
 
 		void LoadingState::pause(GameBase &game)
 		{
-			std::cout << "Pausing LoadingState ... " << std::endl;
 		}
 
 		void LoadingState::resume(GameBase &game)
 		{
-			std::cout << "Resuming LoadingState ... " << std::endl;
 		}
 
 		void LoadingState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
-			//std::cout << "Handling events LoadingState ... " << std::endl;
 			SDL_Event event;
 			if (SDL_PollEvent(&event))
 			{
@@ -142,8 +136,8 @@ namespace sdmg {
 			pe->resume();
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
-			de->load(_platform, R"(assets\platform.png)");
-			de->load("background", R"(assets\background.png)");
+			de->load(_platform, R"(assets\levels\level1\platform)");
+			de->load("background", R"(assets\levels\level1\background)");
 			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, { 117, 199, 235 }, "arial", 18);
 
 			InputDeviceBinding *binding = new InputDeviceBinding();

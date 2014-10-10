@@ -23,7 +23,6 @@ namespace sdmg {
 		void GameOverState::init(GameBase &game)
 		{
 			_game = &game;
-			//game.getEngine()->getDrawEngine()->load("surprise", R"(assets\surprise.png)");
 			std::cout << "Initing IntroState ... " << std::endl;
 
 			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
@@ -47,8 +46,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->loadText("third", "3. " + third, { 128.50, 128.50, 128.50 }, { 0, 0, 0 }, "arial", 36);
 			game.getEngine()->getDrawEngine()->loadText("fourth", "4. " + fourth, { 191.25, 191.25, 191.25 }, { 0, 0, 0 }, "arial", 18);
 
-			game.getEngine()->getDrawEngine()->load("winner", "assets/" + first + "/win.png");
-			game.getEngine()->getDrawEngine()->load("background", "assets/winnerbackground.png");
+			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + first + "/win.sprite");
+			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");
 
 		}
 

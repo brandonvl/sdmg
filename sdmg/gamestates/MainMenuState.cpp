@@ -51,7 +51,7 @@ namespace sdmg {
 
 			std::cout << "Initing IntroState ... " << std::endl;
 
-			game.getEngine()->getDrawEngine()->load("background", "assets/menubackground.png");
+			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
