@@ -39,7 +39,7 @@ namespace sdmg {
 
 			std::string first = (*_characters)[_wonCharacter]->getName();
 			std::string second = (*_characters)[0]->getName() == first ? (*_characters)[1]->getName() : (*_characters)[0]->getName();
-			std::string third = "Minde The Ice Mage";
+			std::string third = "Mind The Ice Mage";
 			std::string fourth = "Enrique The Suit Is Banana's Maso";
 
 			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, { 0, 0, 0 }, "arial", 72);
