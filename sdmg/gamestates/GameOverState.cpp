@@ -17,6 +17,7 @@
 #include "MainMenuState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
+#include "engine\World.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -36,15 +37,18 @@ namespace sdmg {
 			quit->loadText(_game, "main menu", "Main Menu", "trebucbd", 33);
 			_menu->addMenuItem(quit);
 
-			std::string first = (*_characters)[_wonCharacter]->getName();
-			std::string second = (*_characters)[0]->getName() == first ? (*_characters)[1]->getName() : (*_characters)[0]->getName();
+			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
+			Uint8 color = 255;
+			for (int i = deadList.size() - 1; i >= 0; i--) {
+				int rank = (deadList.size() - i);
+				game.getEngine()->getDrawEngine()->loadText("rank" + std::to_string(rank), std::to_string(rank) + ". " + deadList[i]->getName(), { color, color, color }, "arial", 54);
+				color = 64;
+			}
 
-			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, "arial", 54);
-			game.getEngine()->getDrawEngine()->loadText("second", "2. " + second, { 63.75, 63.75, 63.75 }, "arial", 54);
-
-			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + (*_characters)[_wonCharacter]->getKey() + "/win.sprite");
+			_characterCount = deadList.size();
+			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
+			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");
-
 		}
 
 		void GameOverState::menuAction(MenuItem *item)
@@ -58,16 +62,6 @@ namespace sdmg {
 			else if (tag == "Main Menu") {
 				changeState(*_game, MainMenuState::getInstance());
 			}
-		}
-
-		void GameOverState::setCharacters(std::vector<model::Character*> *characters)
-		{
-			_characters = characters;
-
-			if ((*_characters)[0]->getLives() > 0)
-				_wonCharacter = 0;
-			else
-				_wonCharacter = 1;
 		}
 
 		void GameOverState::cleanup(GameBase &game)
@@ -134,8 +128,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);
 
-			game.getEngine()->getDrawEngine()->drawText("first", 717, 280);
-			game.getEngine()->getDrawEngine()->drawText("second", 717, 380);
+			for (int i = 1; i <= _characterCount; i++) {
+				game.getEngine()->getDrawEngine()->drawText("rank" + std::to_string(i), 717, 280 + (i * 100));
+			}
 
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();

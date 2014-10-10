@@ -94,7 +94,6 @@
     <ClCompile Include="engine\Engine.cpp" />
     <ClCompile Include="engine\GameBase.cpp" />
     <ClCompile Include="engine\GameObject.cpp" />
-    <ClCompile Include="engine\GameObjectFactory.cpp" />
     <ClCompile Include="engine\GameStateManager.cpp" />
     <ClCompile Include="engine\GameTime.cpp" />
     <ClCompile Include="engine\input\InputDeviceBinding.cpp" />
@@ -145,10 +144,8 @@
     <ClInclude Include="engine\drawing\Rectangle.h" />
     <ClInclude Include="engine\drawing\Surface.h" />
     <ClInclude Include="engine\Engine.h" />
-    <ClInclude Include="engine\Flags.h" />
     <ClInclude Include="engine\GameBase.h" />
     <ClInclude Include="engine\GameObject.h" />
-    <ClInclude Include="engine\GameObjectFactory.h" />
     <ClInclude Include="engine\GameState.h" />
     <ClInclude Include="engine\GameStateManager.h" />
     <ClInclude Include="engine\GameTime.h" />

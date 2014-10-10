@@ -21,6 +21,7 @@
 #include "actions\Actions.h"
 #include "MainMenuState.h"
 #include "GameOverState.h"
+#include "engine\World.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -82,13 +83,9 @@ namespace sdmg {
 
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
-			for (auto &character : (*_characters))
-			{
-				if (character->getLives() <= 0)
-				{
-					GameOverState::getInstance().setCharacters(_characters);
-					changeState(game, GameOverState::getInstance());
-				}
+			if (game.getWorld()->isGameOver()) {
+				game.getWorld()->getAliveList()[0]->die();
+				changeState(game, GameOverState::getInstance());
 			}
 
 			game.getEngine()->getInputEngine()->runActions(game);

@@ -97,6 +97,12 @@ namespace sdmg {
 					delete itr->second;
 					_surfaces->erase(itr++);
 				}
+
+				std::map<std::string, TextSurface*>::iterator textItr = _textSurfaces->begin();
+				while (textItr != _textSurfaces->end()) {
+					delete textItr->second;
+					_textSurfaces->erase(textItr++);
+				}
 			}
 			
 			void DrawEngine::initialize() {

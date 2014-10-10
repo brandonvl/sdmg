@@ -43,14 +43,12 @@ namespace sdmg {
 				return _instance;
 			}
 
-			void setCharacters(std::vector<model::Character*> *characters);
-
 		protected:
 			GameOverState() { }
 			void menuAction(MenuItem *item) override;
 		private:
 			std::vector<model::Character*> *_characters;
-			int _wonCharacter;
+			int _characterCount;
 			GameBase *_game;
 		};
 	}

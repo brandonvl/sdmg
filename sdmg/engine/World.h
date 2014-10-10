@@ -8,7 +8,7 @@
 //
 
 #pragma once
-#include <map>
+#include <vector>
 #include <Box2D\Box2D.h>
 
 namespace sdmg {
@@ -17,11 +17,19 @@ namespace sdmg {
 
 		class World {
 		public:
-			std::map<int,GameObject*>* getGameObjects();
-			GameObject* getGameObjectById(int id);
+			const std::vector<GameObject*> &getGameObjects();
+			GameObject* getGameObjectById(uint32 id);
 			b2World* getPhysicsWorld();
+			void addGameObject(GameObject *gameObject);
+			void onDead(GameObject* gameObject);
+			bool isGameOver();
+			void addAliveToDead();
+			const std::vector<GameObject*> &getDeadList();
+			const std::vector<GameObject*> &getAliveList();
+			void clearWorld();
 		private:
-			std::map<int,GameObject*> *_gameObjects;
+			std::vector<GameObject*> _gameObjects, _deadList, _aliveList;
+
 			b2World *_physicsWorld;
 		};
 	}

@@ -11,25 +11,16 @@
 #include "Character.h"
 #include "engine\GameTime.h"
 #include "engine\GameBase.h"
+#include "engine\World.h"
 
 namespace sdmg {
 	namespace model {
 		Character::Character()
 		{
-			
+			_flags = Flags::CANDIE;
 		}
 
 		Character::~Character() { }
-
-		std::string Character::getName()
-		{
-			return _name;
-		}
-
-		void Character::setName(std::string name)
-		{
-			_name = name;
-		}
 
 		std::string Character::getKey()
 		{
@@ -44,14 +35,9 @@ namespace sdmg {
 		void Character::update(GameTime *gameTime, GameBase *game) {
 		
 		}
-		
-		void Character::attack() {
-		
+				
+		void Character::die() {
+			getWorld()->onDead(this);
 		}
-		
-		void Character::walk() {
-		
-		}
-		
 	}
 }

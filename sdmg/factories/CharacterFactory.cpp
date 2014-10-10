@@ -5,6 +5,7 @@
 #include "engine\GameBase.h"
 #include "engine\Engine.h"
 #include "engine\physics\PhysicsEngine.h"
+#include "engine\World.h"
 
 namespace sdmg {
 	namespace factories {
@@ -25,6 +26,7 @@ namespace sdmg {
 				character->setHP(100);
 				character->setName(parser.getString("name"));
 				character->setKey(name);
+				game.getWorld()->addGameObject(character);
 
 				loadSpriteMap(character, name, game, parser);
 

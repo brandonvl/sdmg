@@ -20,6 +20,7 @@
 #include "factories\CharacterFactory.h"
 #include "engine\input\InputEngine.h"
 #include "actions\Actions.h"
+#include "engine\World.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -27,6 +28,8 @@ namespace sdmg {
 		void LoadingState::init(GameBase &game)
 		{
 			_game = &game;
+			_game->getWorld()->clearWorld();
+
 			_isLoaded = false;
 
 			game.getEngine()->getDrawEngine()->load("loading", R"(assets\screens\loadingscreen)");
@@ -105,6 +108,7 @@ namespace sdmg {
 			_platform->setSize(1091, 94);
 			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
 			pe->addBody(_platform, 30, 20);
+			_game->getWorld()->addGameObject(_platform);
 
 			_characters = new std::vector<Character*>(2);
 

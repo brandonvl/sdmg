@@ -60,6 +60,12 @@ namespace sdmg {
 			{
 				obj->setHP(100);
 				obj->setLives(obj->getLives() - 1);
+
+				if (obj->getLives() == 0)
+				{
+					obj->die();
+				}
+
 				obj->setDirection(obj->getSpawnDirection());
 				obj->setState(MovableGameObject::State::IDLE);
 				obj->getBody()->SetTransform(b2Vec2(obj->getSpawnLocationX() / 20.0f, obj->getSpawnLocationY() / 20.0f), obj->getBody()->GetAngle());
