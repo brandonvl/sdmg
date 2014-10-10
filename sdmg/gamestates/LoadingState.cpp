@@ -145,14 +145,14 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[0]));
-			binding->setKeyBinding(SDLK_KP_1, new actions::RespawnAction((*_characters)[0]));
+			//  binding->setKeyBinding(SDLK_KP_1, new actions::RespawnAction((*_characters)[0]));
 
 
 			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
-			binding->setKeyBinding(SDLK_q, new actions::RespawnAction((*_characters)[1]));
+			//  binding->setKeyBinding(SDLK_q, new actions::RespawnAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 
 			_isLoaded = true;

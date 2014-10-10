@@ -50,6 +50,17 @@ namespace sdmg {
 			return _speed;
 		}
 
+		bool MovableGameObject::getIsJumping()
+		{
+			return _isJumping;
+		}
+
+		void MovableGameObject::setIsJumping(bool isJumping)
+		{
+			_isJumping = isJumping;
+		}
+
+
 
 		float MovableGameObject::getHorizontalSpeed()
 		{

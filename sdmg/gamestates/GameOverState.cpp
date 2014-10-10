@@ -25,8 +25,8 @@ namespace sdmg {
 			_game = &game;
 			std::cout << "Initing IntroState ... " << std::endl;
 
-			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f);
+
 			// Create menu item
 			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Replay", 0, 68, true);
 			play->loadText(_game, "replay", "Replay", "trebucbd", 33);
@@ -38,13 +38,9 @@ namespace sdmg {
 
 			std::string first = (*_characters)[_wonCharacter]->getName();
 			std::string second = (*_characters)[0]->getName() == first ? (*_characters)[1]->getName() : (*_characters)[0]->getName();
-			//  std::string third = "Mind The Ice Mage";
-			//  std::string fourth = "Enrique The Suit Is Banana's Maso";
 
-			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, { 0, 0, 0 }, "arial", 72);
+			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, { 0, 0, 0 }, "arial", 54);
 			game.getEngine()->getDrawEngine()->loadText("second", "2. " + second, { 63.75, 63.75, 63.75 }, { 0, 0, 0 }, "arial", 54);
-			//  game.getEngine()->getDrawEngine()->loadText("third", "3. " + third, { 128.50, 128.50, 128.50 }, { 0, 0, 0 }, "arial", 36);
-			//  game.getEngine()->getDrawEngine()->loadText("fourth", "4. " + fourth, { 191.25, 191.25, 191.25 }, { 0, 0, 0 }, "arial", 18);
 
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + (*_characters)[_wonCharacter]->getKey() + "/win.sprite");
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");
@@ -138,10 +134,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);
 
-			game.getEngine()->getDrawEngine()->drawText("first", 816, 280);
-			game.getEngine()->getDrawEngine()->drawText("second", 704, 380);
-			//  game.getEngine()->getDrawEngine()->drawText("third", 592, 480);
-			//  game.getEngine()->getDrawEngine()->drawText("fourth", 480, 580);
+			game.getEngine()->getDrawEngine()->drawText("first", 717, 280);
+			game.getEngine()->getDrawEngine()->drawText("second", 717, 380);
 
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();

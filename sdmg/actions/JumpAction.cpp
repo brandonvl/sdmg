@@ -22,14 +22,22 @@ namespace sdmg {
 
 		bool JumpAction::run(engine::GameBase &game) {
 			if (_event.type == SDL_KEYDOWN) {
-				if (_character->getState() != MovableGameObject::State::JUMPING) {
-					_character->setState(MovableGameObject::State::JUMPING);
-					game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::JUMP);
+				if (!_character->getIsJumping())
+				{
+					if (_character->getState() != MovableGameObject::State::JUMPING)
+					{
+						_character->setState(MovableGameObject::State::JUMPING);
+						_character->setIsJumping(true);
+						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::JUMP);
+					}
 				}
 			}
 			else {
-				_character->setState(MovableGameObject::State::IDLE);
-				game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
+				if (_character->getState() == MovableGameObject::State::JUMPING)
+				{
+					_character->setState(MovableGameObject::State::IDLE);
+					game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
+				}
 			}
 			return true;
 		}

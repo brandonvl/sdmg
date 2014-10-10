@@ -52,12 +52,15 @@ namespace sdmg {
 			void setLives(int lives);
 			int getHP();
 			void setHP(int hp);
+			bool getIsJumping();
+			void setIsJumping(bool isJumping);
 
 		private:
 			Direction _spawnDirection;
 			int _lives, _hp;
 		protected:
 			Direction _direction;
+			bool _isJumping;
 			Speed _speed;
 			State _state;
 		};

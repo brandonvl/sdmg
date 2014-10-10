@@ -1,5 +1,6 @@
 #include "ContactListener.h"
 #include "engine\physics\KinematicBody.h"
+#include "engine\MovableGameObject.h"
 #include <iostream>
 
 namespace sdmg {
@@ -16,7 +17,20 @@ namespace sdmg {
 
 			void ContactListener::BeginContact(b2Contact* contact) {
 				contact->SetFriction(0.0f);
-				
+
+				b2Body *bodyA = contact->GetFixtureA()->GetBody(), *bodyB = contact->GetFixtureB()->GetBody();
+
+				if (bodyA->GetType() == b2_dynamicBody && bodyA->GetPosition().y <  bodyB->GetPosition().y)
+				{
+					MovableGameObject *object = static_cast<MovableGameObject*>(bodyA->GetUserData());
+					object->setIsJumping(false);
+				}
+
+				if (bodyB->GetType() == b2_dynamicBody && bodyB->GetPosition().y <  bodyA->GetPosition().y)
+				{
+ 					MovableGameObject *object = static_cast<MovableGameObject*>(bodyB->GetUserData());
+					object->setIsJumping(false);
+				}
 				/*
 				std::cout << "I'm Hit";
 				if (contact->GetFixtureA()->GetBody()->GetType() == b2_kinematicBody)
