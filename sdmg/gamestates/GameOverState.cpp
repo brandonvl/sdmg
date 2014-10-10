@@ -41,8 +41,8 @@ namespace sdmg {
 			//  std::string third = "Mind The Ice Mage";
 			//  std::string fourth = "Enrique The Suit Is Banana's Maso";
 
-			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, { 0, 0, 0 }, "arial", 72);
-			game.getEngine()->getDrawEngine()->loadText("second", "2. " + second, { 63.75, 63.75, 63.75 }, { 0, 0, 0 }, "arial", 54);
+			game.getEngine()->getDrawEngine()->loadText("first", "1. " + first, { 255, 255, 255 }, "arial", 72);
+			game.getEngine()->getDrawEngine()->loadText("second", "2. " + second, { 63.75, 63.75, 63.75 }, "arial", 54);
 			//  game.getEngine()->getDrawEngine()->loadText("third", "3. " + third, { 128.50, 128.50, 128.50 }, { 0, 0, 0 }, "arial", 36);
 			//  game.getEngine()->getDrawEngine()->loadText("fourth", "4. " + fourth, { 191.25, 191.25, 191.25 }, { 0, 0, 0 }, "arial", 18);
 

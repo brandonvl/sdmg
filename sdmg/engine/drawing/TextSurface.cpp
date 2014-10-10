@@ -13,20 +13,18 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			TextSurface::TextSurface(SDL_Renderer *renderer, std::string text, SDL_Color fgColor, SDL_Color bgColor, TTF_Font *font)
+			TextSurface::TextSurface(SDL_Renderer *renderer, std::string text, SDL_Color fgColor, TTF_Font *font)
 			{
-				_text = text;
-				_font = font;
-				_foregroundColor = fgColor;
-				_backgroundColor = bgColor;
-
-				
-				SDL_Surface *surface = TTF_RenderText(_font, _text.c_str(), _foregroundColor, _backgroundColor);
+				SDL_Color bgColor = { 0, 0, 0, 0 };
+				SDL_Surface *surface = TTF_RenderText(font, text.c_str(), fgColor, bgColor);
 				
 				_renderHeight = surface->h;
 				_renderWidth = surface->w;
 				
 				_texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+
+				SDL_SetTextureBlendMode(_texture, SDL_BLENDMODE_ADD);
 
 				SDL_FreeSurface(surface);
 			}
