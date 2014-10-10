@@ -24,6 +24,7 @@ namespace sdmg {
 				character->setLives(5);
 				character->setHP(100);
 				character->setName(parser.getString("name"));
+				character->setKey(name);
 
 				loadSpriteMap(character, name, game, parser);
 

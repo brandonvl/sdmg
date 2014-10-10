@@ -29,10 +29,12 @@ namespace sdmg {
 			void update(GameTime *gameTime, GameBase *game);
 			std::string getName();
 			void setName(std::string name);
+			std::string getKey();
+			void setKey(std::string key);
 		private:
 			Weapon *_currentWeapon;
 			std::vector<Weapon*> _weapons;
-			std::string _name;
+			std::string _name, _key;
 			float _speed;
 			Direction _direction;
 			CharacterState _state;

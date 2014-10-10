@@ -31,6 +31,16 @@ namespace sdmg {
 			_name = name;
 		}
 
+		std::string Character::getKey()
+		{
+			return _key;
+		}
+
+		void Character::setKey(std::string key)
+		{
+			_key = key;
+		}
+
 		void Character::update(GameTime *gameTime, GameBase *game) {
 		
 		}
