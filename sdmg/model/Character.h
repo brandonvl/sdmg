@@ -27,9 +27,12 @@ namespace sdmg {
 			Character();
 			virtual ~Character();
 			void update(GameTime *gameTime, GameBase *game);
+			std::string getName();
+			void setName(std::string name);
 		private:
 			Weapon *_currentWeapon;
 			std::vector<Weapon*> _weapons;
+			std::string _name;
 			float _speed;
 			Direction _direction;
 			CharacterState _state;

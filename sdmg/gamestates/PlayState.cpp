@@ -20,6 +20,7 @@
 #include "engine\input\InputEngine.h"
 #include "actions\Actions.h"
 #include "MainMenuState.h"
+#include "GameOverState.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -82,8 +83,13 @@ namespace sdmg {
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
 			for (auto &character : (*_characters))
+			{
 				if (character->getLives() <= 0)
-					changeState(game, MainMenuState::getInstance());
+				{
+					GameOverState::getInstance().setCharacters(_characters);
+					changeState(game, GameOverState::getInstance());
+				}
+			}
 
 			game.getEngine()->getInputEngine()->runActions(game);
 			game.getEngine()->getDrawEngine()->update();

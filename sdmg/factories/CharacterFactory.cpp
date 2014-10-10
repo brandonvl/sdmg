@@ -23,6 +23,7 @@ namespace sdmg {
 				character->setSpawnLocation(xPosition, yPosition);
 				character->setLives(5);
 				character->setHP(100);
+				character->setName(name);
 
 				loadSpriteMap(character, name, game, parser);
 
