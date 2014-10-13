@@ -1,0 +1,1 @@
+copy /b 7zs.sfx + config.txt + sdmg.7z sdmg.exe
