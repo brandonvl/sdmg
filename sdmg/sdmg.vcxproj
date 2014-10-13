@@ -183,6 +183,14 @@
     <ClInclude Include="model\Platform.h" />
     <ClInclude Include="model\Weapon.h" />
     <ClInclude Include="engine\drawing\TextSurface.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sdmg.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Deploy\favicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
