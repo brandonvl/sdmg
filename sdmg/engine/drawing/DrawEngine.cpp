@@ -103,6 +103,12 @@ namespace sdmg {
 					delete textItr->second;
 					_textSurfaces->erase(textItr++);
 				}
+
+				std::map<GameObject*, Surface*>::iterator objectItr = _objectSurfaces->begin();
+				while (objectItr != _objectSurfaces->end()) {
+					delete objectItr->second;
+					_objectSurfaces->erase(objectItr++);
+				}
 			}
 			
 			void DrawEngine::initialize() {
