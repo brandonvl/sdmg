@@ -39,6 +39,11 @@ namespace sdmg {
 			_platform = platform;
 		}
 
+		void PlayState::setBullets(std::vector<model::MovablePlatform *> *bullets)
+		{
+			_bullets = bullets;
+		}
+
 		void PlayState::cleanup(GameBase &game)
 		{
 			game.getEngine()->getPhysicsEngine()->cleanUp();
@@ -84,7 +89,8 @@ namespace sdmg {
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
 			if (game.getWorld()->isGameOver()) {
-				game.getWorld()->getAliveList()[0]->die();
+				if (game.getWorld()->getAliveList().size() > 0)
+					game.getWorld()->getAliveList()[0]->die();
 				changeState(game, GameOverState::getInstance());
 			}
 
@@ -98,13 +104,16 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
 			game.getEngine()->getDrawEngine()->draw("background");
-			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
-			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->drawText("escape_text", 10,10);
-			game.getEngine()->getDrawEngine()->drawSlice((*_characters)[0]);
-			game.getEngine()->getDrawEngine()->drawSlice((*_characters)[1]);
+			//  game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
-			//game.getEngine()->getDrawEngine()->drawText("SDMG!", Rectangle(99, 214, 100, 50));
+			for (int i = 0; i < _bullets->size(); i++)
+				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
+
+			game.getEngine()->getDrawEngine()->draw(_platform);
+			game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
+
+			for (int i = 0; i < _characters->size(); i++)
+				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);
 
 			game.getEngine()->getDrawEngine()->render();
 		}

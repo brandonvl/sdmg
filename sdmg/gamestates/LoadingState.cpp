@@ -84,6 +84,7 @@ namespace sdmg {
 			{
 				PlayState::getInstance().setCharacters(_characters);
 				PlayState::getInstance().setPlatform(_platform);
+				PlayState::getInstance().setBullets(_bullets);
 				changeState(game, PlayState::getInstance());
 			}
 		}
@@ -118,16 +119,37 @@ namespace sdmg {
 
 			(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, -100);
 
+
+			_bullets = new std::vector<MovablePlatform*>(3);
+
+			(*_bullets)[0] = new MovablePlatform();
+			(*_bullets)[0]->setSize(110, 50);
+			(*_bullets)[0]->setStartLocation(b2Vec2(-1000, 550));
+			(*_bullets)[0]->setEndLocation(b2Vec2(2700, 550));
+			(*_bullets)[0]->setDirection(MovableGameObject::Direction::RIGHT);
+			(*_bullets)[0]->setSpeed(20.0f, 0.0f);
+			(*_bullets)[0]->setDieOnImpact(true);
+			pe->addKinematicBody((*_bullets)[0]);
+
+			(*_bullets)[1] = new MovablePlatform();
+			(*_bullets)[1]->setSize(110, 50);
+			(*_bullets)[1]->setStartLocation(b2Vec2(-1200, 300));
+			(*_bullets)[1]->setEndLocation(b2Vec2(3000, 300));
+			(*_bullets)[1]->setDirection(MovableGameObject::Direction::LEFT);
+			(*_bullets)[1]->setSpeed(10.0f, 0.0f);
+			(*_bullets)[1]->setDieOnImpact(true);
+			pe->addKinematicBody((*_bullets)[1]);
+
+			(*_bullets)[2] = new MovablePlatform();
+			(*_bullets)[2]->setSize(110, 50);
+			(*_bullets)[2]->setStartLocation(b2Vec2(-700, 475));
+			(*_bullets)[2]->setEndLocation(b2Vec2(2500, 475));
+			(*_bullets)[2]->setDirection(MovableGameObject::Direction::RIGHT);
+			(*_bullets)[2]->setSpeed(15.0f, 0.0f);
+			(*_bullets)[2]->setDieOnImpact(true);
+			pe->addKinematicBody((*_bullets)[2]);
+
 			/*    Kinematic Bodies
-			model::MovablePlatform *mpHor = new model::MovablePlatform();
-			mpHor->setSize(100, 30);
-			mpHor->setStartLocation(b2Vec2(300, 200));
-			mpHor->setEndLocation(b2Vec2(600, 200));
-			mpHor->setDirection(MovableGameObject::Direction::RIGHT);
-			mpHor->setSpeed(10.0f, 0.0f);
-			pe->addKinematicBody(mpHor);
-
-
 			model::MovablePlatform *mpVer = new model::MovablePlatform();
 			mpVer->setSize(100, 30);
 			mpVer->setStartLocation(b2Vec2(700, 200));
@@ -135,12 +157,15 @@ namespace sdmg {
 			mpVer->setDirection(MovableGameObject::Direction::UP);
 			mpVer->setSpeed(0.0f, 10.0f);
 			pe->addKinematicBody(mpVer);
-
 			*/
+
 			pe->resume();
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 			de->load(_platform, R"(assets\levels\level1\platform)");
+			de->loadMap((*_bullets)[0], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+			de->loadMap((*_bullets)[1], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+			de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
 			de->load("background", R"(assets\levels\level1\background)");
 			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
 

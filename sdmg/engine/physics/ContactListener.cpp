@@ -1,19 +1,15 @@
 #include "ContactListener.h"
 #include "engine\physics\KinematicBody.h"
 #include "engine\MovableGameObject.h"
+#include "model\MovablePlatform.h"
+#include "PhysicsEngine.h"
 #include <iostream>
 
 namespace sdmg {
 	namespace engine {
 		namespace physics {
-			ContactListener::ContactListener()
-			{
-			}
-
-
-			ContactListener::~ContactListener()
-			{
-			}
+			ContactListener::ContactListener() { }
+			ContactListener::~ContactListener() { }
 
 			void ContactListener::BeginContact(b2Contact* contact) {
 				contact->SetFriction(0.0f);
@@ -31,6 +27,26 @@ namespace sdmg {
  					MovableGameObject *object = static_cast<MovableGameObject*>(bodyB->GetUserData());
 					object->setIsJumping(false);
 				}
+
+				if (bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_kinematicBody)
+				{
+					model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(bodyB->GetUserData());
+					if (platform->getDieOnImpact())
+					{
+						MovableGameObject *object = static_cast<MovableGameObject*>(bodyA->GetUserData());
+						object->setState(MovableGameObject::State::RESPAWN);
+					}
+				}
+				if (bodyA->GetType() == b2_kinematicBody && bodyB->GetType() == b2_dynamicBody)
+				{
+					model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(bodyA->GetUserData());
+					if (platform->getDieOnImpact())
+					{
+						MovableGameObject *object = static_cast<MovableGameObject*>(bodyB->GetUserData());
+						object->setState(MovableGameObject::State::RESPAWN);
+					}
+				}
+
 				/*
 				std::cout << "I'm Hit";
 				if (contact->GetFixtureA()->GetBody()->GetType() == b2_kinematicBody)

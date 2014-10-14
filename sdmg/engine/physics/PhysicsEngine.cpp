@@ -92,28 +92,32 @@ namespace sdmg {
 
 					if (body->GetType() == b2_kinematicBody)
 					{
-						KinematicBody *kinematicBody = static_cast<KinematicBody*>(body->GetUserData());
+						model::MovablePlatform *kinematicBody = static_cast<model::MovablePlatform*>(body->GetUserData());
+						kinematicBody->checkDirectionChange();
+						/*
+						model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
+						(*i)->checkDirectionChange();
+						*/
 					}
 					else if (body->GetType() == b2_dynamicBody)
 					{
-						//  float y = body->GetPosition().y * 20.0f;
-						if (body->GetPosition().y * 20.0f > 1000.0f)
-						{
-							MovableGameObject *gameObject = static_cast<MovableGameObject*>(body->GetUserData());
+						//  MovableGameObject *gameObject = (*_movingGameObjects)[count];
+						MovableGameObject *gameObject = static_cast<MovableGameObject*>(body->GetUserData());
+						MovableGameObject::State state = gameObject->getState();
 
+						//  float y = body->GetPosition().y * 20.0f;
+						if (body->GetPosition().y * 20.0f > 1000.0f || state == MovableGameObject::State::RESPAWN)
+						{
 							doAction(gameObject, PhysicsEngine::Action::RESPAWN);
 						}
 						else
 						{
-							//  MovableGameObject *gameObject = (*_movingGameObjects)[count];
-							MovableGameObject *gameObject = static_cast<MovableGameObject*>(body->GetUserData());
-							MovableGameObject::State state = gameObject->getState();
-
 							switch (state)
 							{
 							case  MovableGameObject::State::IDLE:
 								//  gameObject->getBody()->SetLinearVelocity(b2Vec2(0.0f, gameObject->getBody()->GetLinearVelocity().y));
-								doAction(gameObject, PhysicsEngine::Action::IDLE);
+								if (body->GetLinearVelocity().x != 0.0f)
+									doAction(gameObject, PhysicsEngine::Action::IDLE);
 								//  _movingGameObjects->erase(_movingGameObjects->begin() + count);
 								//  count--;
 								break;

@@ -99,5 +99,15 @@ namespace sdmg {
 		{
 			_endLocation = vec;
 		}
+
+		bool MovablePlatform::getDieOnImpact()
+		{
+			return _dieOnImpact;
+		}
+
+		void MovablePlatform::setDieOnImpact(bool isDieOnImpact)
+		{
+			_dieOnImpact = isDieOnImpact;
+		}
 	}
 }

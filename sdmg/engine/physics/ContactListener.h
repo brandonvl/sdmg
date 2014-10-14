@@ -4,6 +4,7 @@
 namespace sdmg {
 	namespace engine {
 		namespace physics {
+			class PhysicsEngine;
 
 			class ContactListener : public b2ContactListener
 			{

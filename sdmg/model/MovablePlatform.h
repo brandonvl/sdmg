@@ -27,7 +27,10 @@ namespace sdmg {
 			void setStartLocation(b2Vec2 vec);
 			void setEndLocation(b2Vec2 vec);
 			void checkDirectionChange();
+			bool getDieOnImpact();
+			void setDieOnImpact(bool isDieOnImpact);
 		private:
+			bool _dieOnImpact;
 			b2Vec2 _startLocation, _endLocation;
 		};
 	}
