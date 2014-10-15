@@ -32,8 +32,6 @@ namespace sdmg {
 				_contactFilter = new b2ContactFilter();
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
-				_movablePlatforms = new std::vector < model::MovablePlatform*>();
-				_movingGameObjects = new std::vector<MovableGameObject*>();
 				_step = 1.0f / 60.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
@@ -103,14 +101,9 @@ namespace sdmg {
 					{
 						model::MovablePlatform *kinematicBody = static_cast<model::MovablePlatform*>(body->GetUserData());
 						kinematicBody->checkDirectionChange();
-						/*
-						model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
-						(*i)->checkDirectionChange();
-						*/
 					}
 					else if (body->GetType() == b2_dynamicBody)
 					{
-						//  MovableGameObject *gameObject = (*_movingGameObjects)[count];
 						MovableGameObject *gameObject = static_cast<MovableGameObject*>(body->GetUserData());
 						MovableGameObject::State state = gameObject->getState();
 
@@ -124,11 +117,8 @@ namespace sdmg {
 							switch (state)
 							{
 							case  MovableGameObject::State::IDLE:
-								//  gameObject->getBody()->SetLinearVelocity(b2Vec2(0.0f, gameObject->getBody()->GetLinearVelocity().y));
 								if (body->GetLinearVelocity().x != 0.0f)
 									doAction(gameObject, PhysicsEngine::Action::IDLE);
-								//  _movingGameObjects->erase(_movingGameObjects->begin() + count);
-								//  count--;
 								break;
 							case MovableGameObject::State::WALKING:
 								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
@@ -139,43 +129,8 @@ namespace sdmg {
 							}
 						}
 					}
-
-					//  count++;
 					body = body->GetNext();
 				}
-
-				/*
-
-				for (auto i = _movablePlatforms->begin(); i != _movablePlatforms->end(); i++)
-				{
-					// model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
-					(*i)->checkDirectionChange();
-				}
-
-				for (int i = 0; i < _movingGameObjects->size(); i++)
-				{
-					MovableGameObject *gameObject = (*_movingGameObjects)[i];
-
-					MovableGameObject::State state = gameObject->getState();
-
-					switch (state)
-					{
-					case  MovableGameObject::State::IDLE:
-						gameObject->getBody()->SetLinearVelocity(b2Vec2(0.0f, gameObject->getBody()->GetLinearVelocity().y));
-						_movingGameObjects->erase(_movingGameObjects->begin() + i);
-						i--;
-						break;
-					case MovableGameObject::State::WALKING:
-
-						if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
-							doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
-						else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
-							doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
-						break;
-					}
-				}
-
-				*/
 			}
 
 			b2Vec2 PhysicsEngine::getWorldGravity()
@@ -307,14 +262,7 @@ namespace sdmg {
 				float32 as = object->getPixelX();
 				//  object->setLocation(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
 
-				//_movablePlatforms->push_back(object);
-
 				return body;
-			}
-
-			void PhysicsEngine::registerAction(MovableGameObject *object)
-			{
-				_movingGameObjects->push_back(object);
 			}
 
 			void PhysicsEngine::doAction(MovableGameObject *object, PhysicsEngine::Action action)
