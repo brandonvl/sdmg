@@ -27,6 +27,7 @@ namespace sdmg {
 	namespace gamestates {
 		void PlayState::init(GameBase &game)
 		{
+			game.getEngine()->getPhysicsEngine()->resume();
 		}
 
 		void PlayState::setCharacters(std::vector<model::Character*> *characters)
@@ -91,6 +92,7 @@ namespace sdmg {
 			if (game.getWorld()->isGameOver()) {
 				if (game.getWorld()->getAliveList().size() > 0)
 					game.getWorld()->getAliveList()[0]->die();
+				game.getEngine()->getPhysicsEngine()->pause();
 				changeState(game, GameOverState::getInstance());
 			}
 

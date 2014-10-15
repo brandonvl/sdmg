@@ -21,6 +21,7 @@ namespace sdmg {
 		{
 			if (_direction == Direction::RIGHT)
 			{
+				float32 h = getPixelX();
 				if (getPixelX() >= _endLocation.x)
 				{
 					setDirection(Direction::LEFT);

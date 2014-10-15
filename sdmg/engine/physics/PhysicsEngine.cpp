@@ -59,6 +59,15 @@ namespace sdmg {
 				}
 			}
 
+			void PhysicsEngine::pause() {
+				_enabled = false;
+			}
+
+			void PhysicsEngine::resume() {
+				_enabled = true;
+				_lastUpdate = std::chrono::high_resolution_clock::now();
+			}
+
 
 			void PhysicsEngine::cleanUp()
 			{
@@ -169,14 +178,6 @@ namespace sdmg {
 				*/
 			}
 
-			void PhysicsEngine::pause() {
-				_enabled = false;
-			}
-			
-			void PhysicsEngine::resume() {
-				_enabled = true;
-			}
-
 			b2Vec2 PhysicsEngine::getWorldGravity()
 			{
 				return _world->GetGravity();
@@ -272,14 +273,17 @@ namespace sdmg {
 			b2Body* PhysicsEngine::addKinematicBody(model::MovablePlatform *object)
 			{
 				b2BodyDef *bodydef = new b2BodyDef();
-				bodydef->position.Set(object->getStartLocationX() *_P2M, object->getStartLocationY() *_P2M);
+
+				//  bodydef->position.Set(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
+				bodydef->position.Set(object->getX() * _P2M, object->getY() * _P2M);
+				
 				bodydef->type = b2_kinematicBody;
 				b2Body* body = _world->CreateBody(bodydef);
 
 				body->SetFixedRotation(true);
 
 				b2PolygonShape *shape = new b2PolygonShape();
-				shape->SetAsBox(_P2M*object->getWidth() / 2, _P2M*object->getHeight() / 2);
+				shape->SetAsBox((_P2M*object->getWidth()) / 2, (_P2M*object->getHeight()) / 2);
 
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
@@ -294,53 +298,16 @@ namespace sdmg {
 				body->SetUserData(object);
 				object->setBody(body);
 
-
+				float32 x = body->GetPosition().x;
+				float32 y = body->GetPosition().y;
 				// object->setLocation(b2Vec2(object->getStartLocationX() *_P2M, object->getStartLocationY() *_P2M));
+				object->setLocation(body->GetPosition().x, body->GetPosition().y);
 				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
-				_movablePlatforms->push_back(object);
+				float32 as = object->getPixelX();
+				//  object->setLocation(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
 
-				return body;
-			}
-
-			b2Body* PhysicsEngine::addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction)
-			{
-				b2BodyDef *bodydef = new b2BodyDef();
-				bodydef->position.Set(x*_P2M, y*_P2M);
-				bodydef->type = b2_kinematicBody;
-				b2Body* body = _world->CreateBody(bodydef);
-
-				body->SetFixedRotation(true);
-
-				b2PolygonShape *shape = new b2PolygonShape();
-				shape->SetAsBox(_P2M*w / 2, _P2M*h / 2);
-
-				b2FixtureDef *fixturedef = new b2FixtureDef();
-				fixturedef->shape = shape;
-				fixturedef->density = 1.0f;
-				body->CreateFixture(fixturedef);
-
-				b2Vec2 *vec = new b2Vec2(_P2M*w, _P2M*h);
-				//  _boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));
-
-				KinematicBody *kinematicBody = new KinematicBody(new b2Vec2(x*_P2M, y*_P2M));
-
-				if (direction == KinematicBody::Direction::RIGHT)
-				{
-					body->SetLinearVelocity(b2Vec2(speed, 0.0));
-					kinematicBody->setDirection(KinematicBody::Direction::RIGHT);
-					kinematicBody->setEndLocation(new b2Vec2(endpoint*_P2M, y*_P2M));
-				}
-				else
-				{
-					body->SetLinearVelocity(b2Vec2(0.0, speed));
-					kinematicBody->setDirection(KinematicBody::Direction::DOWN);
-					kinematicBody->setEndLocation(new b2Vec2(x*_P2M, endpoint*_P2M));
-				}
-
-				KinematicBody::Direction dir = kinematicBody->GetDirection();
-
-				body->SetUserData(kinematicBody);
+				//_movablePlatforms->push_back(object);
 
 				return body;
 			}
