@@ -35,6 +35,7 @@ namespace sdmg {
 
 			TextSurface::~TextSurface()
 			{
+				SDL_DestroyTexture(_texture);
 			}
 
 			float TextSurface::getRenderWidth() { return _renderWidth; }

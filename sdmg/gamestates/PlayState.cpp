@@ -49,6 +49,12 @@ namespace sdmg {
 		{
 			game.getEngine()->getPhysicsEngine()->cleanUp();
 			game.getEngine()->getDrawEngine()->unloadAll();
+
+			for (MovablePlatform *platform : *_bullets)
+				delete platform;
+
+			delete _bullets;
+			delete _platform;
 		}
 
 		void PlayState::pause(GameBase &game)

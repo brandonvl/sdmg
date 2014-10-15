@@ -109,6 +109,23 @@ namespace sdmg {
 					delete objectItr->second;
 					_objectSurfaces->erase(objectItr++);
 				}
+
+				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>::iterator objectStateItr = _objectStateSurfaces->begin();
+				while (objectStateItr != _objectStateSurfaces->end()) {
+					std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
+					std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
+
+					while (stateItr != stateSurfaces->end()) {
+						delete stateItr->second;
+						stateSurfaces->erase(stateItr++);
+					}
+
+
+					delete objectStateItr->second;
+					_objectStateSurfaces->erase(objectStateItr++);
+				}
+
+				_steps->clear();
 			}
 			
 			void DrawEngine::initialize() {

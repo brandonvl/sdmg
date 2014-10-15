@@ -68,6 +68,8 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
+
+			//game.getWorld()->clearWorld();
 		}
 
 		void GameOverState::pause(GameBase &game)
