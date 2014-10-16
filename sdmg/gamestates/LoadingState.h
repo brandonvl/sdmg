@@ -40,7 +40,7 @@ namespace sdmg {
 		private:
 			static int loadThread(void *ptr);
 			void load();
-			bool _isLoaded;
+			bool _isLoaded, _isError;
 			std::vector<model::Character*> *_characters;
 			std::vector<model::MovablePlatform*> *_bullets;
 			model::Platform *_platform;

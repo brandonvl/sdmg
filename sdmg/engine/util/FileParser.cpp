@@ -37,14 +37,23 @@ namespace sdmg {
 							else if (ch == '(' && value.size() == 0) type = ValueType::ARRAY;
 							else if (ch == ')' && type == ValueType::ARRAY) isFinished = true;
 							else if (ch == '\n') {
-								if (!handle(name, value, valueMode, type, isFinished)) return false;
+								if (!handle(name, value, valueMode, type, isFinished)) {
+									_fin.close();
+									return false;
+								}
 							}
-							else if ((ch == '"' && type != ValueType::STRING) || isFinished) return false;
+							else if ((ch == '"' && type != ValueType::STRING) || isFinished) {
+								_fin.close();
+								return false;
+							}
 							else value += ch;
 						}
 					}
 
-					if (!handle(name, value, valueMode, type, isFinished)) return false;
+					if (!handle(name, value, valueMode, type, isFinished)) {
+						_fin.close();
+						return false; 
+					}
 
 					_fin.close();
 

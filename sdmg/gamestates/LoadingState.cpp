@@ -21,6 +21,7 @@
 #include "engine\input\InputEngine.h"
 #include "actions\Actions.h"
 #include "engine\World.h"
+#include "gamestates\MainMenuState.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -30,6 +31,7 @@ namespace sdmg {
 			_game = &game;
 			
 			_isLoaded = false;
+			_isError = false;
 
 			game.getEngine()->getDrawEngine()->load("loading", R"(assets\screens\loadingscreen)");
 
@@ -86,6 +88,10 @@ namespace sdmg {
 				PlayState::getInstance().setBullets(_bullets);
 				changeState(game, PlayState::getInstance());
 			}
+			if (_isError) {
+				// Clean uppen
+				changeState(game, MainMenuState::getInstance());
+			}
 		}
 
 		void LoadingState::draw(GameBase &game, GameTime &gameTime)
@@ -112,12 +118,27 @@ namespace sdmg {
 
 			_characters = new std::vector<Character*>(2);
 
-			(*_characters)[0] = factories::CharacterFactory::create("nivek", *_game, 1100, -100);
+			int retries = 0;
+
+			do{
+				(*_characters)[0] = factories::CharacterFactory::create("nivek", *_game, 1100, -100);
+				if (retries++ > 10){
+					_isError = true;
+					return;
+				}
+			} while ((*_characters)[0] == nullptr);
+			
 			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
 			(*_characters)[0]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
-			(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, -100);
-
+			do{
+				(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, -100);
+				if (retries++ > 10){
+					_isError = true;
+					return;
+				}
+			} while ((*_characters)[1] == nullptr);
+			
 			_bullets = new std::vector<MovablePlatform*>(3);
 
 			(*_bullets)[0] = new MovablePlatform();
