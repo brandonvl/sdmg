@@ -231,6 +231,9 @@
     <ClCompile Include="model\MovablePlatform.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
+    <ClCompile Include="gamestates\CreditsState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\CreditsState.h">
+      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

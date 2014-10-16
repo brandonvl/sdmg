@@ -11,6 +11,7 @@
 #include "MainMenuState.h"
 #include "PlayState.h"
 #include "LoadingState.h"
+#include "CreditsState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -30,6 +31,9 @@ namespace sdmg {
 				// changeState(*_game, PlayState::getInstance());
 				changeState(*_game, LoadingState::getInstance());
 			}
+			else if (tag == "Credits") {
+				changeState(*_game, CreditsState::getInstance());
+			}
 			else if (tag == "Quit") {
 				_game->stop();
 			}
@@ -44,6 +48,10 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 0, 68, true);
 			play->loadText(_game, "play", "Play", "trebucbd", 33);
 			_menu->addMenuItem(play);
+
+			helperclasses::menuitems::MenuTextItem *credits = new helperclasses::menuitems::MenuTextItem("Credits", 0, 68, false);
+			credits->loadText(_game, "credits", "Credits", "trebucbd", 33);
+			_menu->addMenuItem(credits);
 
 			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 0, 68, false);
 			quit->loadText(_game, "quit", "Quit", "trebucbd", 33);

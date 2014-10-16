@@ -59,6 +59,7 @@ namespace sdmg {
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
 				void drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font = "arial", int fontSize = 20);
+				void destroyText(std::string key);
 				void drawSlice(MovableGameObject *gameObject);
 				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
 				void drawBodies(b2Body *body);

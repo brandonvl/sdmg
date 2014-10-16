@@ -23,7 +23,6 @@ namespace sdmg {
 				
 				_texture = SDL_CreateTextureFromSurface(renderer, surface);
 
-
 				SDL_SetTextureBlendMode(_texture, SDL_BLENDMODE_ADD);
 
 				SDL_FreeSurface(surface);
