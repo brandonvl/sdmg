@@ -60,8 +60,6 @@ namespace sdmg {
 			_isJumping = isJumping;
 		}
 
-
-
 		float MovableGameObject::getHorizontalSpeed()
 		{
 			return _speed.horizontal;

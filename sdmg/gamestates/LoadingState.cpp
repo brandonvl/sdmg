@@ -28,8 +28,7 @@ namespace sdmg {
 		void LoadingState::init(GameBase &game)
 		{
 			_game = &game;
-			_game->getWorld()->clearWorld();
-
+			
 			_isLoaded = false;
 
 			game.getEngine()->getDrawEngine()->load("loading", R"(assets\screens\loadingscreen)");
@@ -181,7 +180,7 @@ namespace sdmg {
 
 			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
-			binding->setKeyBinding(SDLK_SPACE, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
 			//  binding->setKeyBinding(SDLK_q, new actions::RespawnAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);

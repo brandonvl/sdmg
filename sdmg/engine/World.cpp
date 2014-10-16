@@ -63,10 +63,11 @@ namespace sdmg {
 
 		void World::clearWorld()
 		{
+			/*
 			for (GameObject *gameobject : _gameObjects) {
 				delete gameobject;
 			}
-
+			*/
 			_deadList.clear();
 			_aliveList.clear();
 			_gameObjects.clear();
