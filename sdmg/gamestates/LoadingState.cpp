@@ -65,7 +65,7 @@ namespace sdmg {
 			{
 				if (event.type == SDL_QUIT)
 				{
-					game.stop();
+					// game.stop();
 				}
 
 				if (event.type == SDL_KEYDOWN)
@@ -73,7 +73,7 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						game.stop();
+						// game.stop();
 						break;
 					}
 				}
