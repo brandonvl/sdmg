@@ -51,6 +51,8 @@
       <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib;$(ProjectDir)lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
+      <SubSystem>
+      </SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)sdl\dll\*" "$(OutDir)*"</Command>
@@ -63,14 +65,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib;$(ProjectDir)lib/release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;Box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)sdl\dll\*" "$(OutDir)*"</Command>
@@ -80,8 +84,10 @@
     <ClCompile Include="actions\CharacterAction.cpp" />
     <ClCompile Include="actions\JumpAction.cpp" />
     <ClCompile Include="actions\LeftWalkAction.cpp" />
+    <ClCompile Include="actions\RespawnAction.cpp" />
     <ClCompile Include="actions\RightWalkAction.cpp" />
     <ClCompile Include="actions\RollAction.cpp" />
+    <ClCompile Include="gamestates\CreditsState.cpp" />
     <ClCompile Include="engine\audio\AudioEngine.cpp" />
     <ClCompile Include="engine\drawing\DrawEngine.cpp" />
     <ClCompile Include="engine\drawing\Rectangle.cpp" />
@@ -89,7 +95,6 @@
     <ClCompile Include="engine\Engine.cpp" />
     <ClCompile Include="engine\GameBase.cpp" />
     <ClCompile Include="engine\GameObject.cpp" />
-    <ClCompile Include="engine\GameObjectFactory.cpp" />
     <ClCompile Include="engine\GameStateManager.cpp" />
     <ClCompile Include="engine\GameTime.cpp" />
     <ClCompile Include="engine\input\InputDeviceBinding.cpp" />
@@ -131,18 +136,18 @@
     <ClInclude Include="actions\CharacterAction.h" />
     <ClInclude Include="actions\JumpAction.h" />
     <ClInclude Include="actions\LeftWalkAction.h" />
+    <ClInclude Include="actions\RespawnAction.h" />
     <ClInclude Include="actions\RightWalkAction.h" />
     <ClInclude Include="actions\RollAction.h" />
+    <ClInclude Include="gamestates\CreditsState.h" />
     <ClInclude Include="engine\audio\AudioEngine.h" />
     <ClInclude Include="engine\Direction.h" />
     <ClInclude Include="engine\drawing\DrawEngine.h" />
     <ClInclude Include="engine\drawing\Rectangle.h" />
     <ClInclude Include="engine\drawing\Surface.h" />
     <ClInclude Include="engine\Engine.h" />
-    <ClInclude Include="engine\Flags.h" />
     <ClInclude Include="engine\GameBase.h" />
     <ClInclude Include="engine\GameObject.h" />
-    <ClInclude Include="engine\GameObjectFactory.h" />
     <ClInclude Include="engine\GameState.h" />
     <ClInclude Include="engine\GameStateManager.h" />
     <ClInclude Include="engine\GameTime.h" />
@@ -180,6 +185,14 @@
     <ClInclude Include="model\Platform.h" />
     <ClInclude Include="model\Weapon.h" />
     <ClInclude Include="engine\drawing\TextSurface.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sdmg.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Deploy\favicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

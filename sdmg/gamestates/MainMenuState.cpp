@@ -11,6 +11,7 @@
 #include "MainMenuState.h"
 #include "PlayState.h"
 #include "LoadingState.h"
+#include "CreditsState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -30,6 +31,9 @@ namespace sdmg {
 				// changeState(*_game, PlayState::getInstance());
 				changeState(*_game, LoadingState::getInstance());
 			}
+			else if (tag == "Credits") {
+				changeState(*_game, CreditsState::getInstance());
+			}
 			else if (tag == "Quit") {
 				_game->stop();
 			}
@@ -39,15 +43,28 @@ namespace sdmg {
 		{
 			_game = &game;
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 75.0F, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
-			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Play", 150.0F, 50.0F, true));
-			_menu->addMenuItem(new helperclasses::menuitems::MenuTextItem("Quit", 150.0F, 50.0F, false));
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
+			// Create menu item
+			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 0, 68, true);
+			play->loadText(_game, "play", "Play", "trebucbd", 33);
+			_menu->addMenuItem(play);
+
+			helperclasses::menuitems::MenuTextItem *credits = new helperclasses::menuitems::MenuTextItem("Credits", 0, 68, false);
+			credits->loadText(_game, "credits", "Credits", "trebucbd", 33);
+			_menu->addMenuItem(credits);
+
+			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 0, 68, false);
+			quit->loadText(_game, "quit", "Quit", "trebucbd", 33);
+			_menu->addMenuItem(quit);
+
 			std::cout << "Initing IntroState ... " << std::endl;
+
+			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
 		{
-			std::cout << "Cleaning up IntroState ... " << std::endl;
+			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
@@ -106,6 +123,7 @@ namespace sdmg {
 		void MainMenuState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
+			game.getEngine()->getDrawEngine()->draw("background");
 			_menu->draw(&game);
 			//std::cout << "Draw IntroState ... " << std::endl;
 			game.getEngine()->getDrawEngine()->render();

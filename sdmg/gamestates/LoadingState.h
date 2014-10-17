@@ -16,6 +16,7 @@ namespace sdmg {
 	namespace model {
 		class Platform;
 		class Character;
+		class MovablePlatform;
 	}
 	namespace gamestates {
 		class LoadingState : public GameState {
@@ -34,15 +35,14 @@ namespace sdmg {
 				return _instance;
 			}
 
-			
-
 		protected:
 			LoadingState() { }
 		private:
 			static int loadThread(void *ptr);
 			void load();
-			bool _isLoaded;
+			bool _isLoaded, _isError;
 			std::vector<model::Character*> *_characters;
+			std::vector<model::MovablePlatform*> *_bullets;
 			model::Platform *_platform;
 			GameBase *_game;
 		};

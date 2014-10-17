@@ -21,6 +21,7 @@ namespace sdmg {
 		{
 			if (_direction == Direction::RIGHT)
 			{
+				float32 h = getPixelX();
 				if (getPixelX() >= _endLocation.x)
 				{
 					setDirection(Direction::LEFT);
@@ -98,6 +99,16 @@ namespace sdmg {
 		void MovablePlatform::setEndLocation(b2Vec2 vec)
 		{
 			_endLocation = vec;
+		}
+
+		bool MovablePlatform::getDieOnImpact()
+		{
+			return _dieOnImpact;
+		}
+
+		void MovablePlatform::setDieOnImpact(bool isDieOnImpact)
+		{
+			_dieOnImpact = isDieOnImpact;
 		}
 	}
 }

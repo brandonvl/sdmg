@@ -97,6 +97,35 @@ namespace sdmg {
 					delete itr->second;
 					_surfaces->erase(itr++);
 				}
+
+				std::map<std::string, TextSurface*>::iterator textItr = _textSurfaces->begin();
+				while (textItr != _textSurfaces->end()) {
+					delete textItr->second;
+					_textSurfaces->erase(textItr++);
+				}
+
+				std::map<GameObject*, Surface*>::iterator objectItr = _objectSurfaces->begin();
+				while (objectItr != _objectSurfaces->end()) {
+					delete objectItr->second;
+					_objectSurfaces->erase(objectItr++);
+				}
+
+				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>::iterator objectStateItr = _objectStateSurfaces->begin();
+				while (objectStateItr != _objectStateSurfaces->end()) {
+					std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
+					std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
+
+					while (stateItr != stateSurfaces->end()) {
+						delete stateItr->second;
+						stateSurfaces->erase(stateItr++);
+					}
+
+
+					delete objectStateItr->second;
+					_objectStateSurfaces->erase(objectStateItr++);
+				}
+
+				_steps->clear();
 			}
 			
 			void DrawEngine::initialize() {
@@ -106,10 +135,14 @@ namespace sdmg {
 				_objectSurfaces = new std::map<GameObject*, Surface*>;
 				_steps = new std::map<GameObject*, int>;
 				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, 0);
+				//  _window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, SDL_WINDOW_FULLSCREEN);
 				_objectStateSurfaces = new std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>;
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+				_textSurfaces = new std::map<std::string, TextSurface*>();
 				_step = 1.0f / 15.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
+
+				SDL_ShowCursor(0);
 			}
 
 			void DrawEngine::draw(std::string key) {
@@ -158,15 +191,47 @@ namespace sdmg {
 				SDL_RenderCopyEx(_renderer, surface->getSDLTexture((*_steps)[gameObject], gameObject, callback), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == MovableGameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 			}
 
+			void DrawEngine::drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b) {
+				SDL_SetRenderDrawColor(_renderer, r, g, b, 0);
+				SDL_RenderFillRect(_renderer, &rect.toSDLRect());
+			}
+
 			void DrawEngine::calcXY(GameObject *gameObject, Surface *surface, float &x, float &y) {
 				float fixtureHeight = (((b2PolygonShape*)gameObject->getBody()->GetFixtureList()->GetShape())->GetVertex(2).y - ((b2PolygonShape*)gameObject->getBody()->GetFixtureList()->GetShape())->GetVertex(0).y) * 20.0f;
 				x = gameObject->getPixelX() - (surface->getRenderWidth() / 2);
 				y = gameObject->getPixelY() + (fixtureHeight / 2) - surface->getRenderHeight();
 			}
 
-			void DrawEngine::drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font, int fontSize) {
-				TextSurface *tSurface = new TextSurface(fgColor, bgColor, text, _renderer, font, fontSize);
-				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &rec.toSDLRect());
+			void DrawEngine::loadText(std::string key, std::string text, SDL_Color fgColor, std::string fontName, int fontSize) {
+				// Initialize SDL_ttf library
+				if (!TTF_WasInit())
+					TTF_Init();
+				// Create new font
+				std::string path = "assets/fonts/";
+				TTF_Font *font = TTF_OpenFont(path.append(fontName.append(".ttf")).c_str(), fontSize);
+				// Create new TextSurface
+				TextSurface *tSurface = new TextSurface(_renderer, text, fgColor, font);
+				// Insert TextSurface
+				_textSurfaces->insert(std::pair<std::string, TextSurface*>(key, tSurface));
+				// Close font
+				TTF_CloseFont(font);
+			}
+
+			void DrawEngine::drawText(std::string key, float x, float y) {
+				TextSurface *tSurface = (*_textSurfaces)[key];
+				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
+			}
+
+			void DrawEngine::destroyText(std::string key) {
+				TextSurface *tSurface = (*_textSurfaces)[key];
+				SDL_DestroyTexture(tSurface->getSDLTexture());
+			}
+
+			const std::array<float, 2> DrawEngine::getTextSize(std::string key) {
+				if (_textSurfaces->count(key)) {
+					std::array<float, 2> sizes = { (*_textSurfaces)[key]->getRenderWidth(), (*_textSurfaces)[key]->getRenderHeight() };
+					return sizes;
+				}
 			}
 
 			void DrawEngine::prepareForDraw() {

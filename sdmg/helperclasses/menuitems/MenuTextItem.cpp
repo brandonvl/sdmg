@@ -10,19 +10,28 @@ namespace sdmg {
 
 			MenuTextItem::~MenuTextItem()
 			{
+			}
 
+			void MenuTextItem::loadText(GameBase *engine, std::string key, std::string text, std::string fontName, int fontSize) {
+				_key = key;
+				_keySelected = key + "Selected";
+				engine->getEngine()->getDrawEngine()->loadText(_key, text, { 173, 14, 14 }, fontName, fontSize);
+				engine->getEngine()->getDrawEngine()->loadText(_keySelected, text, { 255, 255, 255 }, fontName, fontSize);
 			}
 
 			void MenuTextItem::draw(GameBase *engine, const float xOffSet, const float yOffSet)
 			{
-				SDL_Color fgColor;
-				SDL_Color bgColor = { 255, 255, 255 };
-				if (_isSelected)
-					fgColor = { 255, 0, 0 };
-				else
-					fgColor = { 0, 0, 0 };
+				DrawEngine *drawEngine = engine->getEngine()->getDrawEngine();
 
-				engine->getEngine()->getDrawEngine()->drawText(_text, Rectangle(xOffSet, yOffSet, _width, _height),fgColor,bgColor);
+				drawEngine->drawRectangle(Rectangle(xOffSet, yOffSet, WIDTH, HEIGHT), 217, 13, 13);
+
+				float textWidth = drawEngine->getTextSize(_key)[0];
+				float centeredX = (WIDTH - textWidth) / 2 + xOffSet;
+
+				if (_isSelected)
+					drawEngine->drawText(_keySelected, centeredX, yOffSet + 13);
+				else
+					drawEngine->drawText(_key, centeredX, yOffSet + 13);
 			}
 		}
 	}

@@ -28,7 +28,7 @@ namespace sdmg {
 
 		class MovableGameObject : public GameObject {
 		public:
-			enum class State { WALKING, RUNNING, JUMPING, IDLE, FORWARD_ROLL };
+			enum class State { WALKING, RUNNING, JUMPING, IDLE, FORWARD_ROLL, RESPAWN };
 			enum class Direction { LEFT, UP, DOWN, RIGHT };
 
 			MovableGameObject();
@@ -45,9 +45,22 @@ namespace sdmg {
 			Direction getDirection();
 			void setDirection(Direction direction);
 			void stateCompleted();
+			Direction getSpawnDirection();
+			void setSpawnDirection(Direction direction);
 
+			int getLives();
+			void setLives(int lives);
+			int getHP();
+			void setHP(int hp);
+			bool getIsJumping();
+			void setIsJumping(bool isJumping);
+
+		private:
+			Direction _spawnDirection;
+			int _lives, _hp;
 		protected:
 			Direction _direction;
+			bool _isJumping;
 			Speed _speed;
 			State _state;
 		};

@@ -15,24 +15,18 @@ namespace sdmg {
 	namespace gamestates {
 		void CharacterSelectionState::init(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->load("surprise", R"(assets\surprise.png)");
-			std::cout << "Initing IntroState ... " << std::endl;
 		}
 
 		void CharacterSelectionState::cleanup(GameBase &game)
 		{
-			std::cout << "Cleaning up IntroState ... " << std::endl;
-			game.getEngine()->getDrawEngine()->unload("surprise");
 		}
 
 		void CharacterSelectionState::pause(GameBase &game)
 		{
-			std::cout << "Pausing IntroState ... " << std::endl;
 		}
 
 		void CharacterSelectionState::resume(GameBase &game)
 		{
-			std::cout << "Resuming IntroState ... " << std::endl;
 		}
 
 		void CharacterSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -54,8 +48,6 @@ namespace sdmg {
 						game.stop();
 						break;
 					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						//changeState(game, LoadingState::getInstance());
 						break;
 					}
 				}
@@ -64,13 +56,10 @@ namespace sdmg {
 
 		void CharacterSelectionState::update(GameBase &game, GameTime &gameTime)
 		{
-			//std::cout << "Updating IntroState ... " << std::endl;
 		}
 
 		void CharacterSelectionState::draw(GameBase &game, GameTime &gameTime)
 		{
-			game.getEngine()->getDrawEngine()->draw("surprise", 0, 0);
-			//std::cout << "Draw IntroState ... " << std::endl;
 		}
 	}
 }

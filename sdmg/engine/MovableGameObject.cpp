@@ -25,11 +25,40 @@ namespace sdmg {
 			_speed = Speed(0.0f, 0.0f);
 		}
 
+		int MovableGameObject::getLives()
+		{
+			return _lives;
+		}
+
+		void MovableGameObject::setLives(int lives)
+		{
+			_lives = lives;
+		}
+
+		int MovableGameObject::getHP()
+		{
+			return _hp;
+		}
+
+		void MovableGameObject::setHP(int hp)
+		{
+			_hp = hp;
+		}
+
 		Speed MovableGameObject::getSpeed()
 		{
 			return _speed;
 		}
 
+		bool MovableGameObject::getIsJumping()
+		{
+			return _isJumping;
+		}
+
+		void MovableGameObject::setIsJumping(bool isJumping)
+		{
+			_isJumping = isJumping;
+		}
 
 		float MovableGameObject::getHorizontalSpeed()
 		{
@@ -57,6 +86,17 @@ namespace sdmg {
 				_state = State::IDLE;
 				break;
 			}
+		}
+
+
+		MovableGameObject::Direction MovableGameObject::getSpawnDirection()
+		{
+			return _spawnDirection;
+		}
+
+		void MovableGameObject::setSpawnDirection(Direction direction)
+		{
+			_spawnDirection = direction;
 		}
 
 		MovableGameObject::State MovableGameObject::getState() { return _state; }

@@ -13,6 +13,7 @@
 
 namespace sdmg {
 	namespace engine {
+		class World;
 		enum class Flags;
 		class GameTime;
 		class GameBase;
@@ -29,11 +30,15 @@ namespace sdmg {
 
 		class GameObject {
 		public:
+			enum class Flags {
+				DRAWABLE = 0x1,
+				SHOOTABLE = 0x2,
+				CANDIE = 0x4
+			};
 
 			GameObject();
 			virtual ~GameObject();
-			void setId(int id);
-			int getId();
+			uint32 getId();
 			virtual void update(GameTime *gameTime, GameBase *game) = 0;
 			std::string getSpriteName();
 			b2Body* getBody();
@@ -49,16 +54,30 @@ namespace sdmg {
 			float getY();
 			float getPixelX();
 			float getPixelY();
+			void bindWorld(World *world, int id);
+			World *getWorld();
+			const Flags &getFlags();
 
+			float getSpawnLocationX();
+			float getSpawnLocationY();
+			void setSpawnLocation(const float x, const float y);
+			virtual void die() {};
+
+			std::string getName();
+			void setName(std::string name);
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
 			b2Body *_body;
-		private:
-			int _id;
+			b2Vec2 *_spawnLocation;
 			Flags _flags;
+		private:
+			uint32 _id;
 			std::string _spriteName;
 			Size _size;
 			const float32 *_x, *_y;
+			float _spawnX, _spawnY;
+			World *_world;
+			std::string _name;
 		};
 	}
 }

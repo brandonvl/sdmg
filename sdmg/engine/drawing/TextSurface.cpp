@@ -13,23 +13,19 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			TextSurface::TextSurface(SDL_Color fgColor, SDL_Color bgColor, std::string text, SDL_Renderer *renderer, std::string font, int fontSize)
+			TextSurface::TextSurface(SDL_Renderer *renderer, std::string text, SDL_Color fgColor, TTF_Font *font)
 			{
-				// Initialize SDL_ttf library
-				if (!TTF_WasInit())
-					TTF_Init();
-
-				if (!_font)
-					_font = TTF_OpenFont(font.append(".ttf").c_str(), fontSize);
-
-				_foregroundColor = fgColor;
-				_backgroundColor = bgColor;
- 				SDL_Surface *surface = TTF_RenderText_Shaded(_font, text.c_str(), _foregroundColor, _backgroundColor);
-
+				SDL_Color bgColor = { 0, 0, 0, 0 };
+				SDL_Surface *surface = TTF_RenderText(font, text.c_str(), fgColor, bgColor);
+				
+				_renderHeight = surface->h;
+				_renderWidth = surface->w;
+				
 				_texture = SDL_CreateTextureFromSurface(renderer, surface);
 
+				SDL_SetTextureBlendMode(_texture, SDL_BLENDMODE_ADD);
+
 				SDL_FreeSurface(surface);
-				TTF_CloseFont(_font);
 			}
 
 			SDL_Texture* TextSurface::getSDLTexture() {
@@ -38,7 +34,11 @@ namespace sdmg {
 
 			TextSurface::~TextSurface()
 			{
+				SDL_DestroyTexture(_texture);
 			}
+
+			float TextSurface::getRenderWidth() { return _renderWidth; }
+			float TextSurface::getRenderHeight() { return _renderHeight; }
 		}
 	}
 }

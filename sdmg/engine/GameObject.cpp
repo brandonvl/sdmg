@@ -7,7 +7,7 @@
 //
 //
 
-
+#include "World.h"
 #include "GameObject.h"
 
 namespace sdmg {
@@ -21,14 +21,15 @@ namespace sdmg {
 
 		}
 
-		void GameObject::setId(int id) {
-			_size = Size(0, 0);
-		}
-		
-		int GameObject::getId() {
+		uint32 GameObject::getId() {
 			return _id;
 		}
-		
+
+		const GameObject::Flags &GameObject::getFlags()
+		{
+			return _flags;
+		}
+
 		std::string GameObject::getSpriteName() {
 			return _spriteName;
 		}
@@ -93,5 +94,35 @@ namespace sdmg {
 		{
 			return _size.height;
 		}
+
+
+		float GameObject::getSpawnLocationX()
+		{
+			return _spawnX;
+		}
+
+		float GameObject::getSpawnLocationY()
+		{
+			return _spawnY;
+		}
+
+		void GameObject::setSpawnLocation(const float x, const float y)
+		{
+			_spawnX = x;
+			_spawnY = y;
+		}
+
+		std::string GameObject::getName()
+		{
+			return _name;
+		}
+
+		void GameObject::setName(std::string name)
+		{
+			_name = name;
+		}
+
+		void GameObject::bindWorld(World *world, int id) { _world = world; _id = id; }
+		World *GameObject::getWorld() { return _world; }
 	}
 }

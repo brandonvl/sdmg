@@ -8,13 +8,26 @@
 //
 
 #pragma once
-#include "engine\GameState.h"
+// #include "engine\GameState.h"
+#include "MenuState.h"
 
 using namespace sdmg::engine;
 
 namespace sdmg {
+	namespace engine {
+		class GameTime;
+	}
+	namespace model {
+		class Character;
+	}
+	namespace helperclasses {
+		class Menu;
+		class MenuItem;
+	}
+
 	namespace gamestates {
-		class GameOverState : public GameState {
+		using namespace sdmg::helperclasses;
+		class GameOverState : public MenuState {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
@@ -29,9 +42,14 @@ namespace sdmg {
 				static GameOverState _instance;
 				return _instance;
 			}
+
 		protected:
 			GameOverState() { }
+			void menuAction(MenuItem *item) override;
 		private:
+			std::vector<model::Character*> *_characters;
+			int _characterCount;
+			GameBase *_game;
 		};
 	}
 }

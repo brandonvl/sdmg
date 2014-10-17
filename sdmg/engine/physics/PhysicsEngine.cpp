@@ -32,8 +32,6 @@ namespace sdmg {
 				_contactFilter = new b2ContactFilter();
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
-				_movablePlatforms = new std::vector < model::MovablePlatform*>();
-				_movingGameObjects = new std::vector<MovableGameObject*>();
 				_step = 1.0f / 60.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
@@ -55,7 +53,34 @@ namespace sdmg {
 						_world->Step(_step, 8, 3);
 						_accumulator -= _step;
 					}
-					checkMovablePlatforms();
+					checkMovableBodies();
+				}
+			}
+
+			void PhysicsEngine::pause() {
+				_enabled = false;
+			}
+
+			void PhysicsEngine::resume() {
+				_enabled = true;
+				_lastUpdate = std::chrono::high_resolution_clock::now();
+			}
+
+
+			void PhysicsEngine::cleanUp()
+			{
+				if (!_world->IsLocked())
+				{
+					b2Body* body = nullptr;
+					b2Body* nextBody = _world->GetBodyList();
+
+					while (nextBody)
+					{
+						body = nextBody;
+						nextBody = nextBody->GetNext();
+
+						_world->DestroyBody(body);
+					}
 				}
 			}
 
@@ -64,45 +89,48 @@ namespace sdmg {
 				return _world->GetBodyList();
 			}
 
-			void PhysicsEngine::checkMovablePlatforms()
+			void PhysicsEngine::checkMovableBodies()
 			{
-				//Mooi comments
-				for (auto i = _movablePlatforms->begin(); i != _movablePlatforms->end(); i++)
+				b2Body *body = _world->GetBodyList();
+				//  int count = 0;
+
+				while (body)
 				{
-					// model::MovablePlatform *mp = static_cast<model::MovablePlatform*>((*i)->GetUserData());
-					(*i)->checkDirectionChange();
-				}
 
-				for (int i = 0; i < _movingGameObjects->size(); i++)
-				{
-					MovableGameObject *gameObject = (*_movingGameObjects)[i];
-
-					MovableGameObject::State state = gameObject->getState();
-
-					switch (state)
+					if (body->GetType() == b2_kinematicBody)
 					{
-					case  MovableGameObject::State::IDLE:
-						gameObject->getBody()->SetLinearVelocity(b2Vec2(0.0f, gameObject->getBody()->GetLinearVelocity().y));
-						_movingGameObjects->erase(_movingGameObjects->begin() + i);
-						i--;
-						break;
-					case MovableGameObject::State::WALKING:
-
-						if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
-							doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
-						else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
-							doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
-						break;
+						model::MovablePlatform *kinematicBody = static_cast<model::MovablePlatform*>(body->GetUserData());
+						kinematicBody->checkDirectionChange();
 					}
-				}
-			}
+					else if (body->GetType() == b2_dynamicBody)
+					{
+						MovableGameObject *gameObject = static_cast<MovableGameObject*>(body->GetUserData());
+						MovableGameObject::State state = gameObject->getState();
 
-			void PhysicsEngine::pause() {
-				_enabled = false;
-			}
-			
-			void PhysicsEngine::resume() {
-				_enabled = true;
+						//  float y = body->GetPosition().y * 20.0f;
+						if (body->GetPosition().y * 20.0f > 1000.0f || state == MovableGameObject::State::RESPAWN)
+						{
+							doAction(gameObject, PhysicsEngine::Action::RESPAWN);
+						}
+						else
+						{
+							switch (state)
+							{
+							case  MovableGameObject::State::IDLE:
+								if (body->GetLinearVelocity().x != 0.0f)
+									doAction(gameObject, PhysicsEngine::Action::IDLE);
+								break;
+							case MovableGameObject::State::WALKING:
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								break;
+							}
+						}
+					}
+					body = body->GetNext();
+				}
 			}
 
 			b2Vec2 PhysicsEngine::getWorldGravity()
@@ -152,6 +180,7 @@ namespace sdmg {
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
 				fixturedef->density = 1.0f;
+				//  fixturedef->friction = 0.0f;
 				body->CreateFixture(fixturedef);
 
 				body->SetUserData(object);
@@ -199,14 +228,17 @@ namespace sdmg {
 			b2Body* PhysicsEngine::addKinematicBody(model::MovablePlatform *object)
 			{
 				b2BodyDef *bodydef = new b2BodyDef();
-				bodydef->position.Set(object->getStartLocationX() *_P2M, object->getStartLocationY() *_P2M);
+
+				//  bodydef->position.Set(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
+				bodydef->position.Set(object->getX() * _P2M, object->getY() * _P2M);
+				
 				bodydef->type = b2_kinematicBody;
 				b2Body* body = _world->CreateBody(bodydef);
 
 				body->SetFixedRotation(true);
 
 				b2PolygonShape *shape = new b2PolygonShape();
-				shape->SetAsBox(_P2M*object->getWidth() / 2, _P2M*object->getHeight() / 2);
+				shape->SetAsBox((_P2M*object->getWidth()) / 2, (_P2M*object->getHeight()) / 2);
 
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
@@ -221,60 +253,16 @@ namespace sdmg {
 				body->SetUserData(object);
 				object->setBody(body);
 
-
+				float32 x = body->GetPosition().x;
+				float32 y = body->GetPosition().y;
 				// object->setLocation(b2Vec2(object->getStartLocationX() *_P2M, object->getStartLocationY() *_P2M));
+				object->setLocation(body->GetPosition().x, body->GetPosition().y);
 				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
-				_movablePlatforms->push_back(object);
+				float32 as = object->getPixelX();
+				//  object->setLocation(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
 
 				return body;
-			}
-
-			b2Body* PhysicsEngine::addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction)
-			{
-				b2BodyDef *bodydef = new b2BodyDef();
-				bodydef->position.Set(x*_P2M, y*_P2M);
-				bodydef->type = b2_kinematicBody;
-				b2Body* body = _world->CreateBody(bodydef);
-
-				body->SetFixedRotation(true);
-
-				b2PolygonShape *shape = new b2PolygonShape();
-				shape->SetAsBox(_P2M*w / 2, _P2M*h / 2);
-
-				b2FixtureDef *fixturedef = new b2FixtureDef();
-				fixturedef->shape = shape;
-				fixturedef->density = 1.0f;
-				body->CreateFixture(fixturedef);
-
-				b2Vec2 *vec = new b2Vec2(_P2M*w, _P2M*h);
-				//  _boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));
-
-				KinematicBody *kinematicBody = new KinematicBody(new b2Vec2(x*_P2M, y*_P2M));
-
-				if (direction == KinematicBody::Direction::RIGHT)
-				{
-					body->SetLinearVelocity(b2Vec2(speed, 0.0));
-					kinematicBody->setDirection(KinematicBody::Direction::RIGHT);
-					kinematicBody->setEndLocation(new b2Vec2(endpoint*_P2M, y*_P2M));
-				}
-				else
-				{
-					body->SetLinearVelocity(b2Vec2(0.0, speed));
-					kinematicBody->setDirection(KinematicBody::Direction::DOWN);
-					kinematicBody->setEndLocation(new b2Vec2(x*_P2M, endpoint*_P2M));
-				}
-
-				KinematicBody::Direction dir = kinematicBody->GetDirection();
-
-				body->SetUserData(kinematicBody);
-
-				return body;
-			}
-
-			void PhysicsEngine::registerAction(MovableGameObject *object)
-			{
-				_movingGameObjects->push_back(object);
 			}
 
 			void PhysicsEngine::doAction(MovableGameObject *object, PhysicsEngine::Action action)
@@ -294,6 +282,7 @@ namespace sdmg {
 				addAction(Action::SHORTATTACK, &PhysicsEngineActionHandler::shortAttack);
 				addAction(Action::MIDDLEATTACK, &PhysicsEngineActionHandler::middleAttack);
 				addAction(Action::LONGATTACK, &PhysicsEngineActionHandler::longAttack);
+				addAction(Action::RESPAWN, &PhysicsEngineActionHandler::respawn);
 			}
 		}
 	}

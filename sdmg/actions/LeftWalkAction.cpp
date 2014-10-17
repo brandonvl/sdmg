@@ -24,11 +24,24 @@ namespace sdmg {
 			if (_event.type == SDL_KEYDOWN) {
 				_character->setDirection(MovableGameObject::Direction::LEFT);
 				_character->setState(MovableGameObject::State::WALKING);
-				game.getEngine()->getPhysicsEngine()->registerAction(_character);
+			}
+			else {
+				if (_character->getState() == MovableGameObject::State::WALKING && _character->getDirection() == MovableGameObject::Direction::LEFT)
+					_character->setState(MovableGameObject::State::IDLE);
+			}
+			/*
+			if (_event.type == SDL_KEYDOWN) {
+				_character->setDirection(MovableGameObject::Direction::LEFT);
+				_character->setState(MovableGameObject::State::WALKING);
+			}
+			else if (_event.type == SDL_KEYUP && SDL_GetKeyboardState(NULL)[SDL_SCANCODE_D]) {
+					_character->setDirection(MovableGameObject::Direction::RIGHT);
+					_character->setState(MovableGameObject::State::WALKING);
 			}
 			else {
 				_character->setState(MovableGameObject::State::IDLE);
 			}
+			*/
 			return true;
 		}
 		

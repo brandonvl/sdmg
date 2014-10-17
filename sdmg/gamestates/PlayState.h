@@ -17,6 +17,7 @@ namespace sdmg {
 	namespace model {
 		class Platform;
 		class Character;
+		class MovablePlatform;
 	}
 	namespace gamestates {
 		class PlayState : public GameState {
@@ -37,12 +38,14 @@ namespace sdmg {
 
 			void setCharacters(std::vector<model::Character*> *characters);
 			void setPlatform(model::Platform *platform);
+			void setBullets(std::vector<model::MovablePlatform *> *bullets);
 
 		protected:
 			PlayState() { }
 		private:
 			std::vector<model::Character*> *_characters;
 			model::Platform *_platform;
+			std::vector<model::MovablePlatform*> *_bullets;
 		};
 	}
 }

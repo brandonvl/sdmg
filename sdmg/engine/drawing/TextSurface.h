@@ -19,15 +19,18 @@ namespace sdmg {
 			{
 
 			public:
-				TextSurface(SDL_Color fgColor, SDL_Color bgColor, std::string text, SDL_Renderer *renderer, std::string font, int fontSize);
+				TextSurface(SDL_Renderer *renderer, std::string text, SDL_Color fgColor, TTF_Font *font);
 				virtual ~TextSurface();
 
 				SDL_Texture* getSDLTexture();
+
+				float getRenderWidth();
+				float getRenderHeight();
 			private:
 				SDL_Texture *_texture;
-				TTF_Font *_font;
-				SDL_Color _foregroundColor;
-				SDL_Color _backgroundColor;
+
+				float _renderWidth;
+				float _renderHeight;
 			};
 		}
 	}

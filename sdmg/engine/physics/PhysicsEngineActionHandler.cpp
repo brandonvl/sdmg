@@ -38,7 +38,7 @@ namespace sdmg {
 			}
 
 			void PhysicsEngineActionHandler::jump(MovableGameObject *obj) {
-				b2Vec2 jumpImpulse(0.0f, -(obj->getBody()->GetMass() * obj->getVerticalSpeed()));
+				b2Vec2 jumpImpulse(obj->getBody()->GetLinearVelocity().x, -(obj->getBody()->GetMass() * obj->getVerticalSpeed()));
 				//_body->ApplyLinearImpulse(jumpImpulse, _body->GetWorldCenter(), true);
 
 				obj->getBody()->SetLinearVelocity(jumpImpulse);
@@ -54,6 +54,22 @@ namespace sdmg {
 
 			void PhysicsEngineActionHandler::longAttack(MovableGameObject *obj) {
 
+			}
+
+			void PhysicsEngineActionHandler::respawn(MovableGameObject *obj)
+			{
+				obj->setHP(100);
+				obj->setLives(obj->getLives() - 1);
+
+				if (obj->getLives() == 0)
+				{
+					obj->die();
+				}
+
+				obj->setDirection(obj->getSpawnDirection());
+				obj->setState(MovableGameObject::State::IDLE);
+				obj->getBody()->SetTransform(b2Vec2(obj->getSpawnLocationX() / 20.0f, obj->getSpawnLocationY() / 20.0f), obj->getBody()->GetAngle());
+				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, -1.0f));
 			}
 		}
 	}

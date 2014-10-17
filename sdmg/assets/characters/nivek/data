@@ -1,0 +1,10 @@
+name="Nivek The Assassin"
+width=110
+height=143
+horizontalSpeed=20
+verticalSpeed=2.5
+scale=0.25
+idle=(394.25,548)
+walking=(440.25,573)
+jumping=(462.2,622)
+forwardRoll=(761.14,608)

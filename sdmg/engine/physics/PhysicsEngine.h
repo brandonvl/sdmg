@@ -39,6 +39,7 @@ namespace sdmg {
 				void update();
 				void pause();
 				void resume();
+				void cleanUp();
 				void moveBody();
 				b2Body *getBodyList();
 				void setWorldGravity(const float leftGravity, const float downGravity);
@@ -50,8 +51,7 @@ namespace sdmg {
 				b2Body* addBody(int x, int y, int w, int h, bool dyn, GameObject *object);
 				b2Body* addKinematicBody(model::MovablePlatform *object);
 				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
-				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK };
-				void registerAction(MovableGameObject *object);
+				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK, RESPAWN };
 				void doAction(MovableGameObject *object, Action action);
 			private:
 				Engine *_engine;
@@ -59,14 +59,13 @@ namespace sdmg {
 				bool _enabled;
 				const float _M2P = 20.0f;
 				const float _P2M = 1.0f / _M2P;
-				std::vector<model::MovablePlatform*> *_movablePlatforms;
-				std::vector<MovableGameObject*>  *_movingGameObjects;
+
 				ContactListener *_contactListener;
 				b2ContactFilter *_contactFilter;
 				PhysicsEngineActionHandler *_actionHandler;
 
 				b2Body *addBody(GameObject *object, bool dynamic, float paddingX, float paddingY);
-				void checkMovablePlatforms();
+				void checkMovableBodies();
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
 				float _step, _accumulator;

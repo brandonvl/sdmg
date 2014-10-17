@@ -159,9 +159,6 @@
     <ClCompile Include="engine\GameObject.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="engine\GameObjectFactory.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
     <ClCompile Include="engine\GameStateManager.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
@@ -228,8 +225,14 @@
     <ClCompile Include="actions\RollAction.cpp">
       <Filter>Source Files\actions</Filter>
     </ClCompile>
+    <ClCompile Include="actions\RespawnAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
     <ClCompile Include="model\MovablePlatform.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\CreditsState.cpp">
+      <Filter>Source Files\gamestates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -317,16 +320,10 @@
     <ClInclude Include="engine\Engine.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
-    <ClInclude Include="engine\Flags.h">
-      <Filter>Header Files\engine</Filter>
-    </ClInclude>
     <ClInclude Include="engine\GameBase.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="engine\GameObject.h">
-      <Filter>Header Files\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\GameObjectFactory.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="engine\GameState.h">
@@ -392,5 +389,27 @@
     <ClInclude Include="model\MovablePlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="actions\RespawnAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\CreditsState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sdmg.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Deploy\favicon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

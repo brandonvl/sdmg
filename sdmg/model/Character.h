@@ -27,15 +27,17 @@ namespace sdmg {
 			Character();
 			virtual ~Character();
 			void update(GameTime *gameTime, GameBase *game);
+			std::string getKey();
+			void setKey(std::string key);
+			void die() override;
 		private:
 			Weapon *_currentWeapon;
 			std::vector<Weapon*> _weapons;
+			std::string _key;
 			float _speed;
 			Direction _direction;
 			CharacterState _state;
 			int _armor;
-			void attack();
-			void walk();
 		};
 	}
 }
