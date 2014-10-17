@@ -60,27 +60,11 @@ namespace sdmg {
 			{
 				switch (event.type) {
 				case SDL_KEYDOWN:
-				case SDL_KEYUP:
 					changeState(game, MainMenuState::getInstance());
 					break;
-				default:
-					changeState(game, MainMenuState::getInstance());
-					break;
-					/*
-					switch (event.key.keysym.sym) {
-					case SDLK_ESCAPE:
-					changeState(game, MainMenuState::getInstance());
-					break;
-					default:
-					game.getEngine()->getInputEngine()->handleEvent(event);
-					break;
-					}
-
-					break;
-					case SDL_QUIT:
+				case SDL_QUIT:
 					game.stop();
 					break;
-					}*/
 				}
 			}
 		}
