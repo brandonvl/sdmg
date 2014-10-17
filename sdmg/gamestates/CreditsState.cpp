@@ -37,10 +37,11 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("wouter");
 			game.getEngine()->getDrawEngine()->unload("credits");
 			game.getEngine()->getDrawEngine()->unload("niek");
-			game.getEngine()->getDrawEngine()->unload("credits");
 			game.getEngine()->getDrawEngine()->unload("este");
 			game.getEngine()->getDrawEngine()->unload("starring");
 			game.getEngine()->getDrawEngine()->unload("bob");
+			
+			game.getEngine()->getDrawEngine()->unloadAll();
 		}
 
 		void CreditsState::pause(GameBase &game)
@@ -59,16 +60,7 @@ namespace sdmg {
 			{
 				switch (event.type) {
 				case SDL_KEYDOWN:
-				case SDL_KEYUP:
-					switch (event.key.keysym.sym) {
-					case SDLK_ESCAPE:
-						changeState(game, MainMenuState::getInstance());
-						break;
-					default:
-						game.getEngine()->getInputEngine()->handleEvent(event);
-						break;
-					}
-
+					changeState(game, MainMenuState::getInstance());
 					break;
 				case SDL_QUIT:
 					game.stop();
