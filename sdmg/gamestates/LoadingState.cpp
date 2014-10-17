@@ -29,6 +29,7 @@ namespace sdmg {
 		void LoadingState::init(GameBase &game)
 		{
 			_game = &game;
+			_game->getWorld()->clearWorld();
 			
 			_isLoaded = false;
 			_isError = false;
