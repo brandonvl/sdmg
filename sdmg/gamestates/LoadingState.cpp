@@ -43,6 +43,7 @@ namespace sdmg {
 
 			// Simply create a thread
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
+			SDL_DetachThread(thread);
 		}
 
 		void LoadingState::cleanup(GameBase &game)
