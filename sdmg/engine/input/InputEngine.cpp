@@ -35,13 +35,21 @@ namespace sdmg {
 				_active = true;
 			}
 
+			void InputEngine::handleControllers(SDL_Event &event) {
+				SDL_JoystickUpdate();
 
-			void InputEngine::handleEvent(SDL_Event &event) {
-				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
-					handleKey("keyboard", event);
-				}
+				if (event.type == SDL_JOYBUTTONDOWN || event.type == SDL_JOYBUTTONUP) {
+					printf("Joystick %d button %d down\n",
+						event.jbutton.which,
+						event.jbutton.button);
 
-				if (event.type == SDL_CONTROLLERBUTTONUP || event.type == SDL_CONTROLLERBUTTONDOWN) {
+					if (event.type == SDL_JOYBUTTONDOWN)
+						event.type = SDL_KEYDOWN;
+
+					if (event.type == SDL_JOYBUTTONUP)
+						event.type = SDL_KEYUP;
+
+					event.key.keysym.sym = event.jbutton.button;
 					handleKey(Joysticks[event.cbutton.which].Name, event);
 				}
 
@@ -81,6 +89,53 @@ namespace sdmg {
 					}
 					handleKey(Joysticks[event.cbutton.which].Name, event);
 				}
+			}
+
+			void InputEngine::handleEvent(SDL_Event &event) {
+				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+					handleKey("keyboard", event);
+				}
+				
+				//if (event.type == SDL_CONTROLLERBUTTONUP || event.type == SDL_CONTROLLERBUTTONDOWN) {
+				//	handleKey(Joysticks[event.cbutton.which].Name, event);
+				//}
+
+				//if (event.type == SDL_JOYAXISMOTION)
+				//{
+				//	if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
+				//		
+				//		event.type = SDL_CONTROLLERBUTTONDOWN;
+
+				//		if (event.jaxis.axis == 0)
+				//		{
+				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+				//			{
+				//				// LEFT
+				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+				//			}
+				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+				//			{
+				//				// RIGHT
+				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+				//			}
+				//		}
+
+				//		if (event.jaxis.axis == 1)
+				//		{
+				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+				//			{
+				//				// DOWN
+				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+				//			}
+				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+				//			{
+				//				// UP
+				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_UP;
+				//			}
+				//		}
+				//	}
+				//	handleKey(Joysticks[event.cbutton.which].Name, event);
+				//}
 			}
 
 			const std::vector<Action*> *InputEngine::getActions() {
@@ -147,6 +202,7 @@ namespace sdmg {
 								Joysticks[i].Name = joystick_name ? joystick_name : "Joystick";
 							}
 						}
+						SDL_JoystickEventState(SDL_ENABLE);
 					}
 					else
 					{

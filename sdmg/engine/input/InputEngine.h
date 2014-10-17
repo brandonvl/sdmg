@@ -27,6 +27,7 @@ namespace sdmg {
 				void setDeviceBinding(std::string device, InputDeviceBinding* binding);
 				void clearBindings();
 				void handleEvent(SDL_Event &event);
+				void handleControllers(SDL_Event &event);
 				const std::vector<Action*> *getActions();
 				void runActions(GameBase &game);
 			private:

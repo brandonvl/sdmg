@@ -108,6 +108,7 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
+				game.getEngine()->getInputEngine()->handleControllers(event);
 				switch (event.type) {
 				case SDL_KEYDOWN:
 				case SDL_KEYUP:
