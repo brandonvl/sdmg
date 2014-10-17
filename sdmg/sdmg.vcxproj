@@ -111,6 +111,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="gamestates\CharacterSelectionState.cpp" />
     <ClCompile Include="gamestates\GameOverState.cpp" />
+    <ClCompile Include="gamestates\HelpState.cpp" />
     <ClCompile Include="gamestates\IntroState.cpp" />
     <ClCompile Include="gamestates\LevelSelectionState.cpp" />
     <ClCompile Include="gamestates\LoadingState.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="gamestates\CharacterSelectionState.h" />
     <ClInclude Include="gamestates\GameOverState.h" />
+    <ClInclude Include="gamestates\HelpState.h" />
     <ClInclude Include="gamestates\IntroState.h" />
     <ClInclude Include="gamestates\LevelSelectionState.h" />
     <ClInclude Include="gamestates\LoadingState.h" />

@@ -234,6 +234,9 @@
     <ClCompile Include="gamestates\CreditsState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
+    <ClCompile Include="gamestates\HelpState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -399,6 +402,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\CreditsState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\HelpState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
