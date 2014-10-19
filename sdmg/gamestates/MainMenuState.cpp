@@ -12,6 +12,7 @@
 #include "PlayState.h"
 #include "LoadingState.h"
 #include "CreditsState.h"
+#include "HelpState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -32,6 +33,9 @@ namespace sdmg {
 				// changeState(*_game, PlayState::getInstance());
 				changeState(*_game, LoadingState::getInstance());
 			}
+			else if (tag == "Help") {
+				changeState(*_game, HelpState::getInstance());
+			}
 			else if (tag == "Credits") {
 				changeState(*_game, CreditsState::getInstance());
 			}
@@ -50,6 +54,10 @@ namespace sdmg {
 			play->loadText(_game, "play", "Play", "trebucbd", 33);
 			_menu->addMenuItem(play);
 
+			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, 68, false);
+			help->loadText(_game, "help", "Help", "trebucbd", 33);
+			_menu->addMenuItem(help);
+
 			helperclasses::menuitems::MenuTextItem *credits = new helperclasses::menuitems::MenuTextItem("Credits", 0, 68, false);
 			credits->loadText(_game, "credits", "Credits", "trebucbd", 33);
 			_menu->addMenuItem(credits);
@@ -61,7 +69,7 @@ namespace sdmg {
 			std::cout << "Initing IntroState ... " << std::endl;
 
 			game.getEngine()->getAudioEngine()->load("main_menu_bgm", R"(assets/sounds/bgm/main_menu_bgm.mp3)", AUDIOTYPE::MUSIC);
-			game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
+			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
 			game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);
 		}
@@ -107,11 +115,11 @@ namespace sdmg {
 						break;
 					case SDLK_DOWN:
 						_menu->selectNext();
-						game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_UP:
 						_menu->selectPrevious();
-						game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:

@@ -30,6 +30,7 @@ namespace sdmg {
 		void LoadingState::init(GameBase &game)
 		{
 			_game = &game;
+			_game->getWorld()->clearWorld();
 			
 			_isLoaded = false;
 			_isError = false;
@@ -45,6 +46,7 @@ namespace sdmg {
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
 			//SDL_WaitThread(thread, NULL);
 			//SDL_DetachThread(thread);
+
 		}
 
 		void LoadingState::cleanup(GameBase &game)
@@ -67,7 +69,7 @@ namespace sdmg {
 			{
 				if (event.type == SDL_QUIT)
 				{
-					game.stop();
+					// game.stop();
 				}
 
 				if (event.type == SDL_KEYDOWN)
@@ -75,7 +77,7 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						game.stop();
+						// game.stop();
 						break;
 					}
 				}

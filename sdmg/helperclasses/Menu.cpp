@@ -50,7 +50,7 @@ namespace sdmg {
 			for (auto i : _menuItems)
 			{
 				i->draw(engine, xOffSet, yOffSet + 10);
-				yOffSet += i->getHeight() + 25.0F;
+				yOffSet += i->getHeight() + 5.0F;
 			}
 		}
 	}

@@ -52,6 +52,7 @@ namespace sdmg {
 			game.getEngine()->getPhysicsEngine()->cleanUp();
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getAudioEngine()->unloadAll();
+			//  game.getWorld()->clearWorld();
 
 			for (MovablePlatform *platform : *_bullets)
 				delete platform;

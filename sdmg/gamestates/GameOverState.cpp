@@ -98,7 +98,7 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						game.stop();
+						changeState(game, MainMenuState::getInstance());
 						break;
 					case SDLK_1:
 						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
