@@ -18,6 +18,7 @@
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\input\InputEngine.h"
+#include "engine\audio\AudioEngine.h"
 #include "actions\Actions.h"
 
 namespace sdmg {
@@ -59,13 +60,17 @@ namespace sdmg {
 
 			std::cout << "Initing IntroState ... " << std::endl;
 
+			game.getEngine()->getAudioEngine()->load("main_menu_bgm", R"(assets/sounds/bgm/main_menu_bgm.mp3)", AUDIOTYPE::MUSIC);
+			game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
+			game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
+			game.getEngine()->getAudioEngine()->unloadAll();
 		}
 
 		void MainMenuState::pause(GameBase &game)
@@ -102,9 +107,11 @@ namespace sdmg {
 						break;
 					case SDLK_DOWN:
 						_menu->selectNext();
+						game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_UP:
 						_menu->selectPrevious();
+						game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:

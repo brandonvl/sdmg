@@ -234,6 +234,12 @@
     <ClCompile Include="gamestates\CreditsState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
+    <ClCompile Include="engine\audio\MusicObject.cpp">
+      <Filter>Source Files\engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\audio\SampleObject.cpp">
+      <Filter>Source Files\engine\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -400,6 +406,15 @@
     </ClInclude>
     <ClInclude Include="gamestates\CreditsState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\AudioObject.h">
+      <Filter>Header Files\engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\MusicObject.h">
+      <Filter>Header Files\engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\SampleObject.h">
+      <Filter>Header Files\engine\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

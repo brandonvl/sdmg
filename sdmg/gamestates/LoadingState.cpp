@@ -22,6 +22,7 @@
 #include "actions\Actions.h"
 #include "engine\World.h"
 #include "gamestates\MainMenuState.h"
+#include "engine\audio\AudioEngine.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -42,6 +43,8 @@ namespace sdmg {
 
 			// Simply create a thread
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
+			//SDL_WaitThread(thread, NULL);
+			//SDL_DetachThread(thread);
 		}
 
 		void LoadingState::cleanup(GameBase &game)
@@ -117,6 +120,8 @@ namespace sdmg {
 			_game->getWorld()->addGameObject(_platform);
 
 			_characters = new std::vector<Character*>(2);
+
+			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
 
 			int retries = 0;
 
