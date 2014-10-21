@@ -22,7 +22,7 @@ namespace sdmg {
 				character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
 				character->setLocation(xPosition, yPosition);
 				character->setSpawnLocation(xPosition, yPosition);
-				character->setLives(5);
+				character->setLives(4);
 				character->setHP(100);
 				character->setName(parser.getString("name"));
 				character->setKey(name);

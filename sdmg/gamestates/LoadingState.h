@@ -18,6 +18,7 @@ namespace sdmg {
 		class Character;
 		class MovablePlatform;
 	}
+	namespace helperclasses{ class HUD; }
 	namespace gamestates {
 		class LoadingState : public GameState {
 		public:
@@ -43,6 +44,7 @@ namespace sdmg {
 			bool _isLoaded, _isError;
 			std::vector<model::Character*> *_characters;
 			std::vector<model::MovablePlatform*> *_bullets;
+			std::vector<helperclasses::HUD*> *_huds;
 			model::Platform *_platform;
 			GameBase *_game;
 		};
