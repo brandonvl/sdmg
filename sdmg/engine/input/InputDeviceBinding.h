@@ -21,11 +21,11 @@ namespace sdmg {
 			public:
 				InputDeviceBinding();
 				~InputDeviceBinding();
-				void setKeyBinding(const SDL_Keycode keyCode, Action *action);
+				void setKeyBinding(const int keyCode, Action *action);
 				void clearBindings();
 				Action* createAction(SDL_Event &action);
 			private:
-				std::map<const SDL_Keycode, Action*> *_keyBindings;
+				std::map<const int, Action*> *_keyBindings;
 			};
 		}
 	}

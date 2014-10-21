@@ -27,6 +27,7 @@ namespace sdmg {
 				void setDeviceBinding(std::string device, InputDeviceBinding* binding);
 				void clearBindings();
 				void handleEvent(SDL_Event &event);
+				void handleControllers(SDL_Event &event);
 				const std::vector<Action*> *getActions();
 				void runActions(GameBase &game);
 			private:
@@ -36,7 +37,7 @@ namespace sdmg {
 				bool _active;
 				//SDL_Event _event;
 				//SDL_Thread *_thread;
-				const int JOYSTICK_DEAD_ZONE = 8000;
+				const int JOYSTICK_DEAD_ZONE = 3200;
 				std::map<Uint8, Joystick> Joysticks;
 				void initialize();
 				void handleKey(const std::string device, SDL_Event &event);
