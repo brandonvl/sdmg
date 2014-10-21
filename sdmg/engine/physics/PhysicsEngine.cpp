@@ -126,6 +126,35 @@ namespace sdmg {
 								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
 									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
 								break;
+							case MovableGameObject::State::JUMPING:
+								if (body->GetLinearVelocity().y >= -0.2f)
+									gameObject->setState(MovableGameObject::State::FALLING);
+								body->SetLinearVelocity(b2Vec2(0.0f, body->GetLinearVelocity().y));
+								break;
+							case MovableGameObject::State::JUMPINGLEFT:
+								if (body->GetLinearVelocity().y >= -0.2f)
+									gameObject->setState(MovableGameObject::State::FALLINGLEFT);
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+							case MovableGameObject::State::JUMPINGRIGHT:
+								if (body->GetLinearVelocity().y >= -0.2f)
+									gameObject->setState(MovableGameObject::State::FALLINGRIGHT);
+								if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								break;
+
+
+							case MovableGameObject::State::FALLING:
+								body->SetLinearVelocity(b2Vec2(0.0f, body->GetLinearVelocity().y));
+								break;
+							case MovableGameObject::State::FALLINGLEFT:
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+							case MovableGameObject::State::FALLINGRIGHT:
+								if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								break;
+
 							}
 						}
 					}

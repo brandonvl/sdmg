@@ -26,7 +26,16 @@ namespace sdmg {
 				{
 					if (_character->getState() != MovableGameObject::State::JUMPING)
 					{
+						if (_character->getState() == MovableGameObject::State::WALKING)
+						{
+							if (_character->getDirection() == MovableGameObject::Direction::LEFT)
+								_character->setState(MovableGameObject::State::JUMPINGLEFT);
+							else if (_character->getDirection() == MovableGameObject::Direction::RIGHT)
+								_character->setState(MovableGameObject::State::JUMPINGRIGHT);
+						}
+						else
 						_character->setState(MovableGameObject::State::JUMPING);
+
 						_character->setIsJumping(true);
 						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::JUMP);
 					}
@@ -35,8 +44,8 @@ namespace sdmg {
 			else {
 				if (_character->getState() == MovableGameObject::State::JUMPING)
 				{
-					_character->setState(MovableGameObject::State::IDLE);
-					game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
+					//  _character->setState(MovableGameObject::State::IDLE);
+					//  game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
 				}
 			}
 			return true;

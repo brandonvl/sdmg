@@ -45,6 +45,11 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING, folder + "walking.sprite", parser.getArray("walking")[0], parser.getArray("walking")[1], scale);
 			drawEngine->loadMap(character, MovableGameObject::State::IDLE, folder + "idle.sprite", parser.getArray("idle")[0], parser.getArray("idle")[1], scale);
 			drawEngine->loadMap(character, MovableGameObject::State::JUMPING, folder + "jumping.sprite", parser.getArray("jumping")[0], parser.getArray("jumping")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::JUMPINGLEFT, folder + "jump_end.sprite", parser.getArray("jumpEnd")[0], parser.getArray("jumpEnd")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::JUMPINGRIGHT, folder + "jump_end.sprite", parser.getArray("jumpEnd")[0], parser.getArray("jumpEnd")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FALLING, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FALLINGLEFT, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FALLINGRIGHT, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
 			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", parser.getArray("forwardRoll")[0], parser.getArray("forwardRoll")[1], scale, Surface::AnimationType::ONCE);
 		}
 	}

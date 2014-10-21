@@ -7,4 +7,6 @@ scale=0.25
 idle=(394.25,548)
 walking=(440.25,573)
 jumping=(462.2,622)
+jumpEnd=(460,618)
+falling=(460,618)
 forwardRoll=(761.14,608)

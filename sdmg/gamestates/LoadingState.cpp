@@ -52,6 +52,7 @@ namespace sdmg {
 		void LoadingState::cleanup(GameBase &game)
 		{
 			game.getEngine()->getDrawEngine()->unload("loading");
+			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 		}
 
 		void LoadingState::pause(GameBase &game)

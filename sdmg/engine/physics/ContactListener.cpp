@@ -22,11 +22,21 @@ namespace sdmg {
 				{
 					MovableGameObject *object = static_cast<MovableGameObject*>(bodyA->GetUserData());
 					object->setIsJumping(false);
+
+					if (object->getState() == MovableGameObject::State::FALLING)
+						object->setState(MovableGameObject::State::IDLE);
+					else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
+						object->setState(MovableGameObject::State::WALKING);
 				}
 				else if (bodyB->GetType() == b2_dynamicBody && bodyB->GetPosition().y <  bodyA->GetPosition().y)
 				{
  					MovableGameObject *object = static_cast<MovableGameObject*>(bodyB->GetUserData());
 					object->setIsJumping(false);
+
+					if (object->getState() == MovableGameObject::State::FALLING)
+						object->setState(MovableGameObject::State::IDLE);
+					else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
+						object->setState(MovableGameObject::State::WALKING);
 				}
 				// Springen terugzetten ---------------------------------------------------
 
