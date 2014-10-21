@@ -84,6 +84,7 @@
     <ClCompile Include="actions\CharacterAction.cpp" />
     <ClCompile Include="actions\JumpAction.cpp" />
     <ClCompile Include="actions\LeftWalkAction.cpp" />
+    <ClCompile Include="actions\MidRangeAttackAction.cpp" />
     <ClCompile Include="actions\RespawnAction.cpp" />
     <ClCompile Include="actions\RightWalkAction.cpp" />
     <ClCompile Include="actions\RollAction.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="actions\CharacterAction.h" />
     <ClInclude Include="actions\JumpAction.h" />
     <ClInclude Include="actions\LeftWalkAction.h" />
+    <ClInclude Include="actions\MidRangeAttackAction.h" />
     <ClInclude Include="actions\RespawnAction.h" />
     <ClInclude Include="actions\RightWalkAction.h" />
     <ClInclude Include="actions\RollAction.h" />

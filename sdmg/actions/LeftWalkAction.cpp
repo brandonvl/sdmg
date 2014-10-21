@@ -12,7 +12,6 @@
 #include "model\Character.h"
 #include "engine\MovableGameObject.h"
 #include "engine\GameBase.h"
-#include "engine\physics\PhysicsEngine.h"
 #include "engine\Engine.h"
 
 namespace sdmg {

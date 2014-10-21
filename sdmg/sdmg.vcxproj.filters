@@ -243,6 +243,9 @@
     <ClCompile Include="engine\audio\MusicObject.cpp">
       <Filter>Source Files\engine\audio</Filter>
     </ClCompile>
+    <ClCompile Include="actions\MidRangeAttackAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="engine\audio\SampleObject.h">
       <Filter>Header Files\engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\MidRangeAttackAction.h">
+      <Filter>Header Files\actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

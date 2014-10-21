@@ -23,10 +23,12 @@ namespace sdmg {
 				void moveRight(MovableGameObject *obj);
 				void idle(MovableGameObject *obj);
 				void jump(MovableGameObject *obj);
-				void shortAttack(MovableGameObject *obj);
-				void middleAttack(MovableGameObject *obj);
-				void longAttack(MovableGameObject *obj);
+				void shortRangeAttack(MovableGameObject *obj);
+				void midRangeAttack(MovableGameObject *obj);
+				void longRangeAttack(MovableGameObject *obj);
 				void respawn(MovableGameObject *obj);
+				void knockbackLeft(MovableGameObject *obj);
+				void knockbackRight(MovableGameObject *obj);
 			};
 		}
 	}

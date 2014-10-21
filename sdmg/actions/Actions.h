@@ -3,3 +3,4 @@
 #include "RightWalkAction.h"
 #include "RollAction.h"
 #include "RespawnAction.h"
+#include "MidRangeAttackAction.h"

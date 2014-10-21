@@ -51,6 +51,18 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::FALLINGLEFT, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
 			drawEngine->loadMap(character, MovableGameObject::State::FALLINGRIGHT, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
 			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", parser.getArray("forwardRoll")[0], parser.getArray("forwardRoll")[1], scale, Surface::AnimationType::ONCE);
+			
+			if (name == "nivek")
+			{
+				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "right_middle_attack_stab.sprite", parser.getArray("midRange")[0], parser.getArray("midRange")[1], scale, Surface::AnimationType::ONCE);
+
+			}
+			else if (name == "fiat")
+			{
+				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKLEFT, folder + "knockback.sprite", parser.getArray("knockback")[0], parser.getArray("knockback")[1], scale, Surface::AnimationType::ONCE);
+				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKRIGHT, folder + "knockback.sprite", parser.getArray("knockback")[0], parser.getArray("knockback")[1], scale, Surface::AnimationType::ONCE);
+
+			}
 		}
 	}
 }

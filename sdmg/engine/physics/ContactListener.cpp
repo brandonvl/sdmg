@@ -64,6 +64,30 @@ namespace sdmg {
 				}
 				// In aaraking komen met een kinematic body -------------------------------
 
+				// Iemand raak slaan ------------------------------------------------------
+				if (bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_dynamicBody)
+				{
+					MovableGameObject *player1 = static_cast<MovableGameObject*>(bodyA->GetUserData()),
+						*player2 = static_cast<MovableGameObject*>(bodyB->GetUserData());
+
+					if (player1->getState() == MovableGameObject::State::MIDRANGEATTACK)
+					{
+						if (player1->getX() > player2->getX())
+							player2->setState(MovableGameObject::State::KNOCKBACKLEFT);
+						else
+							player2->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+						player2->setHP(player2->getHP() - 10);
+					}
+					if (player2->getState() == MovableGameObject::State::MIDRANGEATTACK)
+					{
+						if (player2->getX() > player2->getX())
+							player1->setState(MovableGameObject::State::KNOCKBACKLEFT);
+						else
+							player1->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+						player1->setHP(player1->getHP() - 10);
+					}
+				}
+				// Iemand raak slaan ------------------------------------------------------
 			}
 
 			void ContactListener::EndContact(b2Contact* contact) {
@@ -79,21 +103,18 @@ namespace sdmg {
 			void ContactListener::PreSolve(b2Contact* contact, const b2Manifold *oldManifold) {
 
 				b2Body *bodyA = contact->GetFixtureA()->GetBody(), *bodyB = contact->GetFixtureB()->GetBody();
-				
+
+				// Door een character heenrollen ------------------------------------------
 				if (bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_dynamicBody)
 				{
-
 					MovableGameObject *player = static_cast<MovableGameObject*>(bodyA->GetUserData());
 					MovableGameObject *player2 = static_cast<MovableGameObject*>(bodyB->GetUserData());
-
 					if (player->getState() == MovableGameObject::State::FORWARD_ROLL || player2->getState() == MovableGameObject::State::FORWARD_ROLL)
-					{
 						contact->SetEnabled(false);
-					}
 				}
+				// Door een character heenrollen ------------------------------------------
 				
-
-
+				// Onderdoor een platform heensprigen -------------------------------------
 				if (bodyA->GetType() == b2_dynamicBody && (bodyB->GetType() == b2_kinematicBody || bodyB->GetType() == b2_staticBody))
 				{
 					MovableGameObject *player = static_cast<MovableGameObject*>(bodyA->GetUserData());
@@ -114,7 +135,7 @@ namespace sdmg {
 						contact->SetEnabled(false);
 					}
 				}
-
+				// Onderdoor een platform heensprigen -------------------------------------
 			}
 
 			void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse *impulse) {
