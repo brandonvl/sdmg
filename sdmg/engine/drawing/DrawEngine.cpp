@@ -192,7 +192,11 @@ namespace sdmg {
 			}
 
 			void DrawEngine::drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b) {
-				SDL_SetRenderDrawColor(_renderer, r, g, b, 0);
+				drawRectangle(rect, r, g, b, 0);
+			}
+
+			void DrawEngine::drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a) {
+				SDL_SetRenderDrawColor(_renderer, r, g, b, a);
 				SDL_RenderFillRect(_renderer, &rect.toSDLRect());
 			}
 

@@ -19,6 +19,9 @@ namespace sdmg {
 		class Character;
 		class MovablePlatform;
 	}
+	namespace helperclasses{
+		class HUD;
+	}
 	namespace gamestates {
 		class PlayState : public GameState {
 		public:
@@ -39,6 +42,7 @@ namespace sdmg {
 			void setCharacters(std::vector<model::Character*> *characters);
 			void setPlatform(model::Platform *platform);
 			void setBullets(std::vector<model::MovablePlatform *> *bullets);
+			void setHUDs(std::vector<helperclasses::HUD *> *huds);
 
 		protected:
 			PlayState() { }
@@ -46,6 +50,7 @@ namespace sdmg {
 			std::vector<model::Character*> *_characters;
 			model::Platform *_platform;
 			std::vector<model::MovablePlatform*> *_bullets;
+			std::vector<helperclasses::HUD*> *_huds;
 		};
 	}
 }

@@ -23,6 +23,7 @@
 #include "engine\World.h"
 #include "gamestates\MainMenuState.h"
 #include "engine\audio\AudioEngine.h"
+#include "helperclasses\HUD.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -92,6 +93,7 @@ namespace sdmg {
 				PlayState::getInstance().setCharacters(_characters);
 				PlayState::getInstance().setPlatform(_platform);
 				PlayState::getInstance().setBullets(_bullets);
+				PlayState::getInstance().setHUDs(_huds);
 				changeState(game, PlayState::getInstance());
 			}
 			if (_isError) {
@@ -146,6 +148,13 @@ namespace sdmg {
 					return;
 				}
 			} while ((*_characters)[1] == nullptr);
+
+			_huds = new std::vector<helperclasses::HUD*>();
+
+			for (int i = 0; i < _characters->size(); i++) {
+				HUD *hud = new HUD(*(*_characters)[i], 245 * i + 15);
+				_huds->push_back(hud);
+			}
 			
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();

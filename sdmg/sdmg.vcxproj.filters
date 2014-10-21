@@ -246,6 +246,9 @@
     <ClCompile Include="actions\MidRangeAttackAction.cpp">
       <Filter>Source Files\actions</Filter>
     </ClCompile>
+    <ClCompile Include="helperclasses\HUD.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -427,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="actions\MidRangeAttackAction.h">
       <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\HUD.h">
+      <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
