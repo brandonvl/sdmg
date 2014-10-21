@@ -57,11 +57,12 @@ namespace sdmg {
 			}
 
 			void PhysicsEngineActionHandler::knockbackLeft(MovableGameObject *obj) {
-				obj->getBody()->SetLinearVelocity(b2Vec2(-50.0f, 0.0f));
+				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f * -1, -2.0f));
+				b2Vec2 asd = obj->getBody()->GetLinearVelocity();
 			}
 
 			void PhysicsEngineActionHandler::knockbackRight(MovableGameObject *obj) {
-				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f, 0.0f));
+				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f, -2.0f));
 			}
 
 			void PhysicsEngineActionHandler::respawn(MovableGameObject *obj)
