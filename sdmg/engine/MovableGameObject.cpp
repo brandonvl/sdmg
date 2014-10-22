@@ -44,7 +44,7 @@ namespace sdmg {
 		{
 			_hp = hp;
 			if (_hp <= 0)
-				_state = MovableGameObject::State::RESPAWN;
+				_state = MovableGameObject::State::KNEELING;
 		}
 
 		Speed MovableGameObject::getSpeed()
@@ -85,12 +85,25 @@ namespace sdmg {
 		void MovableGameObject::stateCompleted() {
 			switch (_state) {
 			case State::FORWARD_ROLL:
-			case State::MIDRANGEATTACK:
 			case State::KNOCKBACKLEFT:
 			case State::KNOCKBACKRIGHT:
+			case State::SHORTRANGEATTACK:
+			case State::MIDRANGEATTACK:
+			case State::LONGRANGEATTACK:
 				_state = State::IDLE;
 				break;
+			case State::KNEELING:
+				_state = State::RESPAWN;
+				break;
 			}
+		}
+
+		bool MovableGameObject ::stateIsInterruptible()
+		{
+			if (_state == State::FORWARD_ROLL || _state == State::KNOCKBACKLEFT || _state == State::KNEELING || _state == State::KNOCKBACKRIGHT
+				|| _state == State::SHORTRANGEATTACK || _state == State::MIDRANGEATTACK || _state == State::LONGRANGEATTACK)
+				return false;
+			return true;
 		}
 
 		MovableGameObject::Direction MovableGameObject::getSpawnDirection()

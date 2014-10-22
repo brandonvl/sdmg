@@ -28,7 +28,7 @@ namespace sdmg {
 
 		class MovableGameObject : public GameObject {
 		public:
-			enum class State { WALKING, RUNNING, JUMPING, JUMPINGLEFT, JUMPINGRIGHT, FALLING, FALLINGLEFT, FALLINGRIGHT, IDLE, FORWARD_ROLL, RESPAWN, KNOCKBACKLEFT, KNOCKBACKRIGHT, MIDRANGEATTACK };
+			enum class State { WALKING, RUNNING, JUMPING, JUMPINGLEFT, JUMPINGRIGHT, FALLING, FALLINGLEFT, FALLINGRIGHT, IDLE, FORWARD_ROLL, KNEELING, RESPAWN, KNOCKBACKLEFT, KNOCKBACKRIGHT, SHORTRANGEATTACK, MIDRANGEATTACK, LONGRANGEATTACK };
 			enum class Direction { LEFT, UP, DOWN, RIGHT };
 
 			MovableGameObject();
@@ -39,6 +39,8 @@ namespace sdmg {
 			float getHorizontalSpeed();
 			float getVerticalSpeed();
 			Speed getSpeed();
+
+			bool stateIsInterruptible();
 
 			State getState();
 			void setState(State state);

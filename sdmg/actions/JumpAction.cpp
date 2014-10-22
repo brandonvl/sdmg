@@ -21,31 +21,34 @@ namespace sdmg {
 		JumpAction::JumpAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
 
 		bool JumpAction::run(engine::GameBase &game) {
-			if (_event.type == SDL_KEYDOWN) {
-				if (!_character->getIsJumping())
-				{
-					if (_character->getState() != MovableGameObject::State::JUMPING)
+			if (_character->stateIsInterruptible())
+			{
+				if (_event.type == SDL_KEYDOWN) {
+					if (!_character->getIsJumping())
 					{
-						if (_character->getState() == MovableGameObject::State::WALKING)
+						if (_character->getState() != MovableGameObject::State::JUMPING)
 						{
-							if (_character->getDirection() == MovableGameObject::Direction::LEFT)
-								_character->setState(MovableGameObject::State::JUMPINGLEFT);
-							else if (_character->getDirection() == MovableGameObject::Direction::RIGHT)
-								_character->setState(MovableGameObject::State::JUMPINGRIGHT);
-						}
-						else
-						_character->setState(MovableGameObject::State::JUMPING);
+							if (_character->getState() == MovableGameObject::State::WALKING)
+							{
+								if (_character->getDirection() == MovableGameObject::Direction::LEFT)
+									_character->setState(MovableGameObject::State::JUMPINGLEFT);
+								else if (_character->getDirection() == MovableGameObject::Direction::RIGHT)
+									_character->setState(MovableGameObject::State::JUMPINGRIGHT);
+							}
+							else
+								_character->setState(MovableGameObject::State::JUMPING);
 
-						_character->setIsJumping(true);
-						game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::JUMP);
+							_character->setIsJumping(true);
+							game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::JUMP);
+						}
 					}
 				}
-			}
-			else {
-				if (_character->getState() == MovableGameObject::State::JUMPING)
-				{
-					//  _character->setState(MovableGameObject::State::IDLE);
-					//  game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
+				else {
+					if (_character->getState() == MovableGameObject::State::JUMPING)
+					{
+						//  _character->setState(MovableGameObject::State::IDLE);
+						//  game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
+					}
 				}
 			}
 			return true;

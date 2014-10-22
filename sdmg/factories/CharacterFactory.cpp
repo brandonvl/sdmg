@@ -61,6 +61,7 @@ namespace sdmg {
 			{
 				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKLEFT, folder + "knockback.sprite", parser.getArray("knockback")[0], parser.getArray("knockback")[1], scale, Surface::AnimationType::ONCE);
 				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKRIGHT, folder + "knockback.sprite", parser.getArray("knockback")[0], parser.getArray("knockback")[1], scale, Surface::AnimationType::ONCE);
+				drawEngine->loadMap(character, MovableGameObject::State::KNEELING, folder + "kneeling.sprite", parser.getArray("kneeling")[0], parser.getArray("kneeling")[1], scale, Surface::AnimationType::ONCE);
 
 			}
 		}

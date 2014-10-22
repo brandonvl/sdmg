@@ -123,15 +123,18 @@ namespace sdmg {
 						//changeState(game, LoadingState::getInstance());
 						break;
 					case SDLK_DOWN:
+					case 1:
 						_menu->selectNext();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_UP:
+					case 0:
 						_menu->selectPrevious();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
+					case 10:
 						menuAction(_menu->getSelectedMenuItem());
 						break;
 					}

@@ -20,7 +20,7 @@ namespace sdmg {
 		LeftWalkAction::LeftWalkAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
 
 		bool LeftWalkAction::run(engine::GameBase &game) {
-			if (_character->getState() != MovableGameObject::State::KNOCKBACKLEFT || _character->getState() != MovableGameObject::State::KNOCKBACKRIGHT)
+			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {
 					_character->setDirection(MovableGameObject::Direction::LEFT);

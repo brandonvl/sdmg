@@ -112,12 +112,10 @@ namespace sdmg {
 					}
 				}
 				// Onderdoor een platform heensprigen -------------------------------------
-
-
 			}
 
 			void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse *impulse) {
-
+				contact->SetFriction(0.0f);
 				b2Body *bodyA = contact->GetFixtureA()->GetBody(), *bodyB = contact->GetFixtureB()->GetBody();
 
 				// Iemand raak slaan ------------------------------------------------------
@@ -125,22 +123,27 @@ namespace sdmg {
 				{
 					MovableGameObject *player1 = static_cast<MovableGameObject*>(bodyA->GetUserData()),
 						*player2 = static_cast<MovableGameObject*>(bodyB->GetUserData());
+					MovableGameObject::State state1 = player1->getState(), state2 = player2->getState();
 
-					if (player1->getState() == MovableGameObject::State::MIDRANGEATTACK && (player2->getState() != MovableGameObject::State::KNOCKBACKLEFT && player2->getState() != MovableGameObject::State::KNOCKBACKRIGHT))
+					if (state1 != MovableGameObject::State::KNOCKBACKLEFT && state1 != MovableGameObject::State::KNOCKBACKRIGHT
+						&& state2 != MovableGameObject::State::KNOCKBACKLEFT && state2 != MovableGameObject::State::KNOCKBACKRIGHT)
 					{
-						if (player1->getX() > player2->getX())
-							player2->setState(MovableGameObject::State::KNOCKBACKLEFT);
-						else
-							player2->setState(MovableGameObject::State::KNOCKBACKRIGHT);
-						player2->setHP(player2->getHP() - 10);
-					}
-					if (player2->getState() == MovableGameObject::State::MIDRANGEATTACK && (player1->getState() != MovableGameObject::State::KNOCKBACKLEFT && player1->getState() != MovableGameObject::State::KNOCKBACKRIGHT))
-					{
-						if (player2->getX() > player2->getX())
-							player1->setState(MovableGameObject::State::KNOCKBACKLEFT);
-						else
-							player1->setState(MovableGameObject::State::KNOCKBACKRIGHT);
-						player1->setHP(player1->getHP() - 10);
+						if (player1->getState() == MovableGameObject::State::MIDRANGEATTACK)
+						{
+							if (player1->getX() > player2->getX())
+								player2->setState(MovableGameObject::State::KNOCKBACKLEFT);
+							else
+								player2->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+							player2->setHP(player2->getHP() - 10);
+						}
+						if (player2->getState() == MovableGameObject::State::MIDRANGEATTACK)
+						{
+							if (player2->getX() > player2->getX())
+								player1->setState(MovableGameObject::State::KNOCKBACKLEFT);
+							else
+								player1->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+							player1->setHP(player1->getHP() - 10);
+						}
 					}
 				}
 				// Iemand raak slaan ------------------------------------------------------

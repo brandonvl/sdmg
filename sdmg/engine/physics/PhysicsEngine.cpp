@@ -129,6 +129,9 @@ namespace sdmg {
 							case MovableGameObject::State::RESPAWN:
 								doAction(gameObject, PhysicsEngine::Action::RESPAWN);
 								break;
+							case MovableGameObject::State::KNEELING:
+								doAction(gameObject, PhysicsEngine::Action::KNEEL);
+								break;
 							case MovableGameObject::State::MIDRANGEATTACK:
 								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACK);
 								break;
@@ -319,6 +322,7 @@ namespace sdmg {
 				addAction(Action::MOVERIGHT, &PhysicsEngineActionHandler::moveRight);
 				addAction(Action::JUMP, &PhysicsEngineActionHandler::jump);
 				addAction(Action::IDLE, &PhysicsEngineActionHandler::idle);
+				addAction(Action::KNEEL, &PhysicsEngineActionHandler::kneel);
 				addAction(Action::SHORTRANGEATTACK, &PhysicsEngineActionHandler::shortRangeAttack);
 				addAction(Action::MIDRANGEATTACK, &PhysicsEngineActionHandler::midRangeAttack);
 				addAction(Action::LONGRANGEATTACK, &PhysicsEngineActionHandler::longRangeAttack);

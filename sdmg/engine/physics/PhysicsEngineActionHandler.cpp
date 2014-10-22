@@ -44,6 +44,11 @@ namespace sdmg {
 				obj->getBody()->SetLinearVelocity(jumpImpulse);
 			}
 
+			void PhysicsEngineActionHandler::kneel(MovableGameObject *obj)
+			{
+				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
+			}
+
 			void PhysicsEngineActionHandler::shortRangeAttack(MovableGameObject *obj) {
 
 			}
