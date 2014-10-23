@@ -23,6 +23,7 @@
 #include "engine\World.h"
 #include "gamestates\MainMenuState.h"
 #include "engine\audio\AudioEngine.h"
+#include "TutorialState.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -88,15 +89,27 @@ namespace sdmg {
 		{
 			if (_isLoaded)
 			{
-				PlayState::getInstance().setCharacters(_characters);
-				PlayState::getInstance().setPlatform(_platform);
-				PlayState::getInstance().setBullets(_bullets);
-				changeState(game, PlayState::getInstance());
+				if (_isTutorial) {
+					TutorialState::getInstance().setCharacters(_characters);
+					TutorialState::getInstance().setPlatform(_platform);
+					changeState(game, TutorialState::getInstance());
+				}
+				else {
+					PlayState::getInstance().setCharacters(_characters);
+					PlayState::getInstance().setPlatform(_platform);
+					PlayState::getInstance().setBullets(_bullets);
+					changeState(game, PlayState::getInstance());
+				}
 			}
 			if (_isError) {
 				// Clean uppen
 				changeState(game, MainMenuState::getInstance());
 			}
+		}
+
+		void LoadingState::setIsTutorial(bool tutorial)
+		{
+			_isTutorial = tutorial;
 		}
 
 		void LoadingState::draw(GameBase &game, GameTime &gameTime)
@@ -145,39 +158,40 @@ namespace sdmg {
 					return;
 				}
 			} while ((*_characters)[1] == nullptr);
-			
-			_bullets = new std::vector<MovablePlatform*>(3);
 
-			(*_bullets)[0] = new MovablePlatform();
-			(*_bullets)[0]->setSize(110, 50);
-			(*_bullets)[0]->setLocation(-1000, 550);
-			(*_bullets)[0]->setStartLocation(b2Vec2(-1000, 550));
-			(*_bullets)[0]->setEndLocation(b2Vec2(2700, 550));
-			(*_bullets)[0]->setDirection(MovableGameObject::Direction::RIGHT);
-			(*_bullets)[0]->setSpeed(20.0f, 0.0f);
-			(*_bullets)[0]->setDieOnImpact(true);
-			pe->addKinematicBody((*_bullets)[0]);
+			if (!_isTutorial) {
+				_bullets = new std::vector<MovablePlatform*>(3);
 
-			(*_bullets)[1] = new MovablePlatform();
-			(*_bullets)[1]->setSize(110, 50);
-			(*_bullets)[1]->setLocation(-1200, 300);
-			(*_bullets)[1]->setStartLocation(b2Vec2(-1200, 300));
-			(*_bullets)[1]->setEndLocation(b2Vec2(3000, 300));
-			(*_bullets)[1]->setDirection(MovableGameObject::Direction::RIGHT);
-			(*_bullets)[1]->setSpeed(10.0f, 0.0f);
-			(*_bullets)[1]->setDieOnImpact(true);
-			pe->addKinematicBody((*_bullets)[1]);
+				(*_bullets)[0] = new MovablePlatform();
+				(*_bullets)[0]->setSize(110, 50);
+				(*_bullets)[0]->setLocation(-1000, 550);
+				(*_bullets)[0]->setStartLocation(b2Vec2(-1000, 550));
+				(*_bullets)[0]->setEndLocation(b2Vec2(2700, 550));
+				(*_bullets)[0]->setDirection(MovableGameObject::Direction::RIGHT);
+				(*_bullets)[0]->setSpeed(20.0f, 0.0f);
+				(*_bullets)[0]->setDieOnImpact(true);
+				pe->addKinematicBody((*_bullets)[0]);
 
-			(*_bullets)[2] = new MovablePlatform();
-			(*_bullets)[2]->setSize(110, 50);
-			(*_bullets)[2]->setLocation(-700, 475);
-			(*_bullets)[2]->setStartLocation(b2Vec2(-700, 475));
-			(*_bullets)[2]->setEndLocation(b2Vec2(2500, 475));
-			(*_bullets)[2]->setDirection(MovableGameObject::Direction::RIGHT);
-			(*_bullets)[2]->setSpeed(15.0f, 0.0f);
-			(*_bullets)[2]->setDieOnImpact(true);
-			pe->addKinematicBody((*_bullets)[2]);
+				(*_bullets)[1] = new MovablePlatform();
+				(*_bullets)[1]->setSize(110, 50);
+				(*_bullets)[1]->setLocation(-1200, 300);
+				(*_bullets)[1]->setStartLocation(b2Vec2(-1200, 300));
+				(*_bullets)[1]->setEndLocation(b2Vec2(3000, 300));
+				(*_bullets)[1]->setDirection(MovableGameObject::Direction::RIGHT);
+				(*_bullets)[1]->setSpeed(10.0f, 0.0f);
+				(*_bullets)[1]->setDieOnImpact(true);
+				pe->addKinematicBody((*_bullets)[1]);
 
+				(*_bullets)[2] = new MovablePlatform();
+				(*_bullets)[2]->setSize(110, 50);
+				(*_bullets)[2]->setLocation(-700, 475);
+				(*_bullets)[2]->setStartLocation(b2Vec2(-700, 475));
+				(*_bullets)[2]->setEndLocation(b2Vec2(2500, 475));
+				(*_bullets)[2]->setDirection(MovableGameObject::Direction::RIGHT);
+				(*_bullets)[2]->setSpeed(15.0f, 0.0f);
+				(*_bullets)[2]->setDieOnImpact(true);
+				pe->addKinematicBody((*_bullets)[2]);
+			}
 			/*    Kinematic Bodies
 			model::MovablePlatform *mpVer = new model::MovablePlatform();
 			mpVer->setSize(100, 30);
@@ -192,9 +206,12 @@ namespace sdmg {
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 			de->load(_platform, R"(assets\levels\level1\platform)");
-			de->loadMap((*_bullets)[0], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
-			de->loadMap((*_bullets)[1], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
-			de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+
+			if (!_isTutorial) {
+				de->loadMap((*_bullets)[0], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+				de->loadMap((*_bullets)[1], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+				de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+			}
 			de->load("background", R"(assets\levels\level1\background)");
 			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
 
@@ -217,6 +234,16 @@ namespace sdmg {
 			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[1]));
 			binding->setKeyBinding(11, new actions::RollAction((*_characters)[1]));
+
+			// Load tutorial objects
+			if (_isTutorial) {
+				de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial! We will start by learning movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut4", "Press numlock 0 key to roll, roll can be used to dodge an attack", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut5", "Now we will learn how to attack your opponent, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			}
 
 			_isLoaded = true;
 		}

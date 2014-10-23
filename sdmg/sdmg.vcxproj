@@ -133,6 +133,7 @@
     <ClCompile Include="model\Platform.cpp" />
     <ClCompile Include="model\Weapon.cpp" />
     <ClCompile Include="engine\drawing\TextSurface.cpp" />
+    <ClCompile Include="gamestates\TutorialState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\Actions.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="engine\drawing\TextSurface.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="gamestates\TutorialState.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="sdmg.rc" />
