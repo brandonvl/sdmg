@@ -97,10 +97,10 @@ namespace sdmg {
 					changeState(game, TutorialState::getInstance());
 				}
 				else {
-					PlayState::getInstance().setCharacters(_characters);
+					/*PlayState::getInstance().setCharacters(_characters);
 					PlayState::getInstance().setPlatform(_platform);
 					PlayState::getInstance().setBullets(_bullets);
-					changeState(game, PlayState::getInstance());
+					changeState(game, PlayState::getInstance());*/
 				}
 				PlayState::getInstance().setCharacters(_characters);
 				PlayState::getInstance().setPlatform(_platform);
