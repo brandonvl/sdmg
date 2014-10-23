@@ -100,6 +100,7 @@ namespace sdmg {
 			}
 
 			SDL_Texture *Surface::getSDLTexture() {
+				if (_textures.size() == 0) return nullptr;
 				return _textures[0];
 			}
 

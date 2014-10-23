@@ -22,7 +22,7 @@ namespace sdmg {
 				character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
 				character->setLocation(xPosition, yPosition);
 				character->setSpawnLocation(xPosition, yPosition);
-				character->setLives(5);
+				character->setLives(4);
 				character->setHP(100);
 				character->setName(parser.getString("name"));
 				character->setKey(name);
@@ -45,7 +45,24 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING, folder + "walking.sprite", parser.getArray("walking")[0], parser.getArray("walking")[1], scale);
 			drawEngine->loadMap(character, MovableGameObject::State::IDLE, folder + "idle.sprite", parser.getArray("idle")[0], parser.getArray("idle")[1], scale);
 			drawEngine->loadMap(character, MovableGameObject::State::JUMPING, folder + "jumping.sprite", parser.getArray("jumping")[0], parser.getArray("jumping")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::JUMPINGLEFT, folder + "jump_end.sprite", parser.getArray("jumpEnd")[0], parser.getArray("jumpEnd")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::JUMPINGRIGHT, folder + "jump_end.sprite", parser.getArray("jumpEnd")[0], parser.getArray("jumpEnd")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FALLING, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FALLINGLEFT, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
+			drawEngine->loadMap(character, MovableGameObject::State::FALLINGRIGHT, folder + "falling.sprite", parser.getArray("falling")[0], parser.getArray("falling")[1], scale, Surface::AnimationType::HOLDLAST);
 			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", parser.getArray("forwardRoll")[0], parser.getArray("forwardRoll")[1], scale, Surface::AnimationType::ONCE);
+			
+			if (name == "nivek")
+			{
+				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "right_middle_attack_stab.sprite", parser.getArray("midRange")[0], parser.getArray("midRange")[1], scale, Surface::AnimationType::ONCE);
+
+			}
+			else if (name == "fiat")
+			{
+				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKLEFT, folder + "knockback.sprite", parser.getArray("knockback")[0], parser.getArray("knockback")[1], scale, Surface::AnimationType::ONCE);
+				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKRIGHT, folder + "knockback.sprite", parser.getArray("knockback")[0], parser.getArray("knockback")[1], scale, Surface::AnimationType::ONCE);
+
+			}
 		}
 	}
 }

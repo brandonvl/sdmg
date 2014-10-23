@@ -43,6 +43,8 @@ namespace sdmg {
 		void MovableGameObject::setHP(int hp)
 		{
 			_hp = hp;
+			if (_hp <= 0)
+				_state = MovableGameObject::State::RESPAWN;
 		}
 
 		Speed MovableGameObject::getSpeed()
@@ -83,11 +85,13 @@ namespace sdmg {
 		void MovableGameObject::stateCompleted() {
 			switch (_state) {
 			case State::FORWARD_ROLL:
+			case State::MIDRANGEATTACK:
+			case State::KNOCKBACKLEFT:
+			case State::KNOCKBACKRIGHT:
 				_state = State::IDLE;
 				break;
 			}
 		}
-
 
 		MovableGameObject::Direction MovableGameObject::getSpawnDirection()
 		{

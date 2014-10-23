@@ -126,6 +126,46 @@ namespace sdmg {
 								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
 									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
 								break;
+							case MovableGameObject::State::RESPAWN:
+								doAction(gameObject, PhysicsEngine::Action::RESPAWN);
+								break;
+							case MovableGameObject::State::MIDRANGEATTACK:
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACK);
+								break;
+							case MovableGameObject::State::KNOCKBACKLEFT:
+								doAction(gameObject, PhysicsEngine::Action::KNOCKBACKLEFT);
+							case MovableGameObject::State::KNOCKBACKRIGHT:
+								doAction(gameObject, PhysicsEngine::Action::KNOCKBACKRIGHT);
+								break;
+							case MovableGameObject::State::JUMPING:
+								if (body->GetLinearVelocity().y >= -0.2f)
+									gameObject->setState(MovableGameObject::State::FALLING);
+								body->SetLinearVelocity(b2Vec2(0.0f, body->GetLinearVelocity().y));
+								break;
+							case MovableGameObject::State::JUMPINGLEFT:
+								if (body->GetLinearVelocity().y >= -0.2f)
+									gameObject->setState(MovableGameObject::State::FALLINGLEFT);
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+							case MovableGameObject::State::JUMPINGRIGHT:
+								if (body->GetLinearVelocity().y >= -0.2f)
+									gameObject->setState(MovableGameObject::State::FALLINGRIGHT);
+								if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								break;
+
+
+							case MovableGameObject::State::FALLING:
+								body->SetLinearVelocity(b2Vec2(0.0f, body->GetLinearVelocity().y));
+								break;
+							case MovableGameObject::State::FALLINGLEFT:
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+							case MovableGameObject::State::FALLINGRIGHT:
+								if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								break;
+
 							}
 						}
 					}
@@ -279,10 +319,12 @@ namespace sdmg {
 				addAction(Action::MOVERIGHT, &PhysicsEngineActionHandler::moveRight);
 				addAction(Action::JUMP, &PhysicsEngineActionHandler::jump);
 				addAction(Action::IDLE, &PhysicsEngineActionHandler::idle);
-				addAction(Action::SHORTATTACK, &PhysicsEngineActionHandler::shortAttack);
-				addAction(Action::MIDDLEATTACK, &PhysicsEngineActionHandler::middleAttack);
-				addAction(Action::LONGATTACK, &PhysicsEngineActionHandler::longAttack);
+				addAction(Action::SHORTRANGEATTACK, &PhysicsEngineActionHandler::shortRangeAttack);
+				addAction(Action::MIDRANGEATTACK, &PhysicsEngineActionHandler::midRangeAttack);
+				addAction(Action::LONGRANGEATTACK, &PhysicsEngineActionHandler::longRangeAttack);
 				addAction(Action::RESPAWN, &PhysicsEngineActionHandler::respawn);
+				addAction(Action::KNOCKBACKLEFT, &PhysicsEngineActionHandler::knockbackLeft);
+				addAction(Action::KNOCKBACKRIGHT, &PhysicsEngineActionHandler::knockbackRight);
 			}
 		}
 	}

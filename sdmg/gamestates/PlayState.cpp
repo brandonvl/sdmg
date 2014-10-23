@@ -23,6 +23,7 @@
 #include "GameOverState.h"
 #include "engine\World.h"
 #include "engine\audio\AudioEngine.h"
+#include "helperclasses\HUD.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -30,6 +31,8 @@ namespace sdmg {
 		{
 			game.getEngine()->getPhysicsEngine()->resume();
 			game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
+			
+
 		}
 
 		void PlayState::setCharacters(std::vector<model::Character*> *characters)
@@ -45,6 +48,11 @@ namespace sdmg {
 		void PlayState::setBullets(std::vector<model::MovablePlatform *> *bullets)
 		{
 			_bullets = bullets;
+		}
+
+		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
+		{
+			_huds = huds;
 		}
 
 		void PlayState::cleanup(GameBase &game)
@@ -127,6 +135,10 @@ namespace sdmg {
 
 			for (int i = 0; i < _characters->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);
+
+			for (helperclasses::HUD *hud : *_huds) {
+				hud->draw(*game.getEngine()->getDrawEngine());
+			}
 
 			game.getEngine()->getDrawEngine()->render();
 		}
