@@ -81,7 +81,7 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->load("main_menu_bgm", R"(assets/sounds/bgm/main_menu_bgm.mp3)", AUDIOTYPE::MUSIC);
 			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
-			game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);
+			// game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);
 		}
 
 		void MainMenuState::cleanup(GameBase &game)

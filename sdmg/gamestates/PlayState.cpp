@@ -30,7 +30,7 @@ namespace sdmg {
 		void PlayState::init(GameBase &game)
 		{
 			game.getEngine()->getPhysicsEngine()->resume();
-			game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
+			//  game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
 			
 
 		}
@@ -125,7 +125,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
 			game.getEngine()->getDrawEngine()->draw("background");
-			//  game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
+			game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
 			for (int i = 0; i < _bullets->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);

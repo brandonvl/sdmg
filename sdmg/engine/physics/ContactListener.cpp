@@ -2,6 +2,7 @@
 #include "engine\physics\KinematicBody.h"
 #include "engine\MovableGameObject.h"
 #include "model\MovablePlatform.h"
+#include "model\Platform.h"
 #include "PhysicsEngine.h"
 #include <iostream>
 
@@ -13,9 +14,7 @@ namespace sdmg {
 
 			void ContactListener::BeginContact(b2Contact* contact) {
 				contact->SetFriction(0.0f);
-
 				b2Body *bodyA = contact->GetFixtureA()->GetBody(), *bodyB = contact->GetFixtureB()->GetBody();
-
 
 				// Springen terugzetten ---------------------------------------------------
 				if (bodyA->GetType() == b2_dynamicBody && bodyA->GetPosition().y <  bodyB->GetPosition().y)
@@ -64,6 +63,52 @@ namespace sdmg {
 				}
 				// In aaraking komen met een kinematic body -------------------------------
 
+				// Iemand raak slaan ------------------------------------------------------
+				if (bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_staticBody)
+				{
+					model::Platform *platform = static_cast<model::Platform*>( bodyB->GetUserData());
+					if (platform->getIsAttack())
+					{
+						MovableGameObject *player = static_cast<MovableGameObject*>(bodyA->GetUserData());
+						MovableGameObject::State state = player->getState();
+						if (bodyB != player->getAttackBody())
+						{
+							if (state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT)
+							{
+								float x = player->getX();
+								float x2 = platform->getX();
+								if (player->getX() > platform->getX())
+									player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+								else
+									player->setState(MovableGameObject::State::KNOCKBACKLEFT);
+								player->setHP(player->getHP() - 10);
+							}
+						}
+					}
+				}
+				/*
+				else if (bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody)
+				{
+					model::Platform *platform = static_cast<model::Platform*>(bodyA->GetUserData());
+					if (platform->getIsAttack())
+					{
+						MovableGameObject *player = static_cast<MovableGameObject*>(bodyB->GetUserData());
+						MovableGameObject::State state = player->getState();
+
+						if (state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT)
+						{
+							if (player->getX() > platform->getX())
+								player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+							else
+								player->setState(MovableGameObject::State::KNOCKBACKLEFT);
+							player->setHP(player->getHP() - 10);
+						}
+					}
+				}
+				*/
+				// Iemand raak slaan ------------------------------------------------------
+
+
 			}
 
 			void ContactListener::EndContact(b2Contact* contact) {
@@ -78,6 +123,7 @@ namespace sdmg {
 
 			void ContactListener::PreSolve(b2Contact* contact, const b2Manifold *oldManifold) {
 
+				contact->SetFriction(0.0f);
 				b2Body *bodyA = contact->GetFixtureA()->GetBody(), *bodyB = contact->GetFixtureB()->GetBody();
 
 				// Door een character heenrollen ------------------------------------------
@@ -118,6 +164,7 @@ namespace sdmg {
 				contact->SetFriction(0.0f);
 				b2Body *bodyA = contact->GetFixtureA()->GetBody(), *bodyB = contact->GetFixtureB()->GetBody();
 
+				/*
 				// Iemand raak slaan ------------------------------------------------------
 				if (bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_dynamicBody)
 				{
@@ -136,9 +183,9 @@ namespace sdmg {
 								player2->setState(MovableGameObject::State::KNOCKBACKRIGHT);
 							player2->setHP(player2->getHP() - 10);
 						}
-						if (player2->getState() == MovableGameObject::State::MIDRANGEATTACK)
+						else if (player2->getState() == MovableGameObject::State::MIDRANGEATTACK)
 						{
-							if (player2->getX() > player2->getX())
+							if (player2->getX() > player1->getX())
 								player1->setState(MovableGameObject::State::KNOCKBACKLEFT);
 							else
 								player1->setState(MovableGameObject::State::KNOCKBACKRIGHT);
@@ -147,6 +194,7 @@ namespace sdmg {
 					}
 				}
 				// Iemand raak slaan ------------------------------------------------------
+				*/
 			}
 		}
 	}

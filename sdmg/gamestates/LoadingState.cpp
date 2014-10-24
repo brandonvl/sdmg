@@ -131,7 +131,7 @@ namespace sdmg {
 		void LoadingState::load() {
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			pe->setWorldGravity(0.0f, 100.0f);
-			_platform = new model::Platform();
+			_platform = new model::Platform(false);
 			_platform->setSize(1091, 94);
 			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
 			pe->addBody(_platform, 30, 20);

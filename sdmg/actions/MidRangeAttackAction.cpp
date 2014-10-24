@@ -22,7 +22,7 @@ namespace sdmg {
 			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {
-					_character->setState(MovableGameObject::State::MIDRANGEATTACK);
+					_character->setState(MovableGameObject::State::MIDRANGEATTACKBEGIN);
 				}
 				else {
 

@@ -88,12 +88,18 @@ namespace sdmg {
 			case State::KNOCKBACKLEFT:
 			case State::KNOCKBACKRIGHT:
 			case State::SHORTRANGEATTACK:
-			case State::MIDRANGEATTACK:
 			case State::LONGRANGEATTACK:
+			case State::MIDRANGEATTACKEND:
 				_state = State::IDLE;
 				break;
 			case State::KNEELING:
 				_state = State::RESPAWN;
+				break;
+			case State::MIDRANGEATTACKBEGIN:
+				_state = State::MIDRANGEATTACK;
+				break;
+			case State::MIDRANGEATTACK:
+				_state = State::MIDRANGEATTACKEND;
 				break;
 			}
 		}
@@ -101,7 +107,9 @@ namespace sdmg {
 		bool MovableGameObject ::stateIsInterruptible()
 		{
 			if (_state == State::FORWARD_ROLL || _state == State::KNOCKBACKLEFT || _state == State::KNEELING || _state == State::KNOCKBACKRIGHT
-				|| _state == State::SHORTRANGEATTACK || _state == State::MIDRANGEATTACK || _state == State::LONGRANGEATTACK)
+				|| _state == State::SHORTRANGEATTACK ||
+				_state == State::MIDRANGEATTACKBEGIN || _state == State::MIDRANGEATTACK || _state == State::MIDRANGEATTACKEND
+				|| _state == State::LONGRANGEATTACK)
 				return false;
 			return true;
 		}
@@ -116,8 +124,22 @@ namespace sdmg {
 			_spawnDirection = direction;
 		}
 
+		b2Body* MovableGameObject::getAttackBody()
+		{
+			return _attackBody;
+		}
+
+		void MovableGameObject::setAttackBody(b2Body *attackBody)
+		{
+			_attackBody = attackBody;
+		}
+
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
-		void MovableGameObject::setState(State state) { _state = state; }
+		void MovableGameObject::setState(State state)
+		{
+			if (stateIsInterruptible())
+				_state = state;
+		}
 
 		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
 		void MovableGameObject::setDirection(Direction direction) { _direction = direction; }

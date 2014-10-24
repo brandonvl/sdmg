@@ -132,11 +132,24 @@ namespace sdmg {
 							case MovableGameObject::State::KNEELING:
 								doAction(gameObject, PhysicsEngine::Action::KNEEL);
 								break;
+
+
+							case MovableGameObject::State::MIDRANGEATTACKBEGIN:
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKBEGIN);
+								break;
 							case MovableGameObject::State::MIDRANGEATTACK:
 								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACK);
 								break;
+							case MovableGameObject::State::MIDRANGEATTACKEND:
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKEND);
+								break;
+
+
+
+
 							case MovableGameObject::State::KNOCKBACKLEFT:
 								doAction(gameObject, PhysicsEngine::Action::KNOCKBACKLEFT);
+								break;
 							case MovableGameObject::State::KNOCKBACKRIGHT:
 								doAction(gameObject, PhysicsEngine::Action::KNOCKBACKRIGHT);
 								break;
@@ -156,7 +169,6 @@ namespace sdmg {
 								if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
 									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
 								break;
-
 
 							case MovableGameObject::State::FALLING:
 								body->SetLinearVelocity(b2Vec2(0.0f, body->GetLinearVelocity().y));
@@ -324,11 +336,16 @@ namespace sdmg {
 				addAction(Action::IDLE, &PhysicsEngineActionHandler::idle);
 				addAction(Action::KNEEL, &PhysicsEngineActionHandler::kneel);
 				addAction(Action::SHORTRANGEATTACK, &PhysicsEngineActionHandler::shortRangeAttack);
-				addAction(Action::MIDRANGEATTACK, &PhysicsEngineActionHandler::midRangeAttack);
 				addAction(Action::LONGRANGEATTACK, &PhysicsEngineActionHandler::longRangeAttack);
 				addAction(Action::RESPAWN, &PhysicsEngineActionHandler::respawn);
 				addAction(Action::KNOCKBACKLEFT, &PhysicsEngineActionHandler::knockbackLeft);
 				addAction(Action::KNOCKBACKRIGHT, &PhysicsEngineActionHandler::knockbackRight);
+
+
+
+				addAction(Action::MIDRANGEATTACKBEGIN, &PhysicsEngineActionHandler::midRangeAttackBegin);
+				addAction(Action::MIDRANGEATTACK, &PhysicsEngineActionHandler::midRangeAttack);
+				addAction(Action::MIDRANGEATTACKEND, &PhysicsEngineActionHandler::midRangeAttackEnd);
 			}
 		}
 	}

@@ -54,7 +54,11 @@ namespace sdmg {
 			
 			if (name == "nivek")
 			{
-				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "right_middle_attack_stab.sprite", parser.getArray("midRange")[0], parser.getArray("midRange")[1], scale, Surface::AnimationType::ONCE);
+				//  drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "right_middle_attack_stab.sprite", parser.getArray("midRange")[0], parser.getArray("midRange")[1], scale, Surface::AnimationType::ONCE);
+
+				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "right_mid_range_attack_begin.sprite", parser.getArray("midRangeAttackEnd")[0], parser.getArray("midRangeAttackEnd")[1], scale, Surface::AnimationType::ONCE);
+				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "right_mid_range_attack.sprite", parser.getArray("midRangeAttack")[0], parser.getArray("midRangeAttack")[1], scale, Surface::AnimationType::ONCE);
+				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKEND, folder + "right_mid_range_attack_end.sprite", parser.getArray("midRangeAttackBegin")[0], parser.getArray("midRangeAttackBegin")[1], scale, Surface::AnimationType::ONCE);
 
 			}
 			else if (name == "fiat")
