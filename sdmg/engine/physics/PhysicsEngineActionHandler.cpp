@@ -56,14 +56,11 @@ namespace sdmg {
 
 			void PhysicsEngineActionHandler::midRangeAttackBegin(MovableGameObject *obj) {
 				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
-
-				std::cout << "Begin" << std::endl;
 			}
 
 			void PhysicsEngineActionHandler::midRangeAttack(MovableGameObject *obj) {
 				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
 
-				std::cout << "Attack" << std::endl;
 				if (obj->getAttackBody() == nullptr)
 				{
 					b2BodyDef *bodydef = new b2BodyDef();
@@ -103,15 +100,12 @@ namespace sdmg {
 			void PhysicsEngineActionHandler::midRangeAttackEnd(MovableGameObject *obj) {
 				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
 
-				std::cout << "End" << std::endl;
 				if (obj->getAttackBody() != nullptr &&! obj->getBody()->GetWorld()->IsLocked())
 				{
 					obj->getBody()->GetWorld()->DestroyBody(obj->getAttackBody());
 					obj->setAttackBody(nullptr);
 				}
-
 			}
-
 
 			void PhysicsEngineActionHandler::longRangeAttack(MovableGameObject *obj) {
 

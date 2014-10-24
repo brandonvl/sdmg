@@ -112,8 +112,10 @@ namespace sdmg {
 						break;
 					case AnimationType::ONCE:
 						sliceIndex = _maxSliceIndex - 1;
-						if (anitimationCompletedCallback != nullptr) 
+						if (anitimationCompletedCallback != nullptr) {
+							_drawEngine->resetStep(gameObject);
 							anitimationCompletedCallback();
+						}
 						break;
 					default:
 						_drawEngine->resetStep(gameObject);
