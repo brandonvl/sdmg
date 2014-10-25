@@ -60,9 +60,9 @@ namespace sdmg {
 			play->loadText(_game, "play", "Play", "trebucbd", 33);
 			_menu->addMenuItem(play);
 
-			//helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
-			//tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
-			//_menu->addMenuItem(tutorial);
+			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
+			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
+			_menu->addMenuItem(tutorial);
 
 			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, 68, false);
 			help->loadText(_game, "help", "Help", "trebucbd", 33);
