@@ -23,6 +23,8 @@
 #include "engine\World.h"
 #include "gamestates\MainMenuState.h"
 #include "engine\audio\AudioEngine.h"
+#include "TutorialState.h"
+#include "helperclasses\HUD.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -31,7 +33,7 @@ namespace sdmg {
 		{
 			_game = &game;
 			_game->getWorld()->clearWorld();
-			
+
 			_isLoaded = false;
 			_isError = false;
 
@@ -52,6 +54,7 @@ namespace sdmg {
 		void LoadingState::cleanup(GameBase &game)
 		{
 			game.getEngine()->getDrawEngine()->unload("loading");
+			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 		}
 
 		void LoadingState::pause(GameBase &game)
@@ -88,15 +91,28 @@ namespace sdmg {
 		{
 			if (_isLoaded)
 			{
-				PlayState::getInstance().setCharacters(_characters);
-				PlayState::getInstance().setPlatform(_platform);
-				PlayState::getInstance().setBullets(_bullets);
-				changeState(game, PlayState::getInstance());
+				if (_isTutorial) {
+					TutorialState::getInstance().setCharacters(_characters);
+					TutorialState::getInstance().setPlatform(_platform);
+					changeState(game, TutorialState::getInstance());
+				}
+				else {
+					PlayState::getInstance().setCharacters(_characters);
+					PlayState::getInstance().setPlatform(_platform);
+					PlayState::getInstance().setBullets(_bullets);
+					PlayState::getInstance().setHUDs(_huds);
+					changeState(game, PlayState::getInstance());
+				}
 			}
 			if (_isError) {
 				// Clean uppen
 				changeState(game, MainMenuState::getInstance());
 			}
+		}
+
+		void LoadingState::setIsTutorial(bool tutorial)
+		{
+			_isTutorial = tutorial;
 		}
 
 		void LoadingState::draw(GameBase &game, GameTime &gameTime)
@@ -105,7 +121,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("loading");
 			game.getEngine()->getDrawEngine()->render();
 		}
-		
+
 		int LoadingState::loadThread(void *ptr)
 		{
 			((LoadingState*)ptr)->load();
@@ -115,7 +131,7 @@ namespace sdmg {
 		void LoadingState::load() {
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			pe->setWorldGravity(0.0f, 100.0f);
-			_platform = new model::Platform();
+			_platform = new model::Platform(false);
 			_platform->setSize(1091, 94);
 			_platform->setLocation(80 + 1091 / 2, 616 + 94 / 2);
 			pe->addBody(_platform, 30, 20);
@@ -134,7 +150,7 @@ namespace sdmg {
 					return;
 				}
 			} while ((*_characters)[0] == nullptr);
-			
+
 			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
 			(*_characters)[0]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
@@ -145,38 +161,58 @@ namespace sdmg {
 					return;
 				}
 			} while ((*_characters)[1] == nullptr);
-			
-			_bullets = new std::vector<MovablePlatform*>(3);
 
-			(*_bullets)[0] = new MovablePlatform();
-			(*_bullets)[0]->setSize(110, 50);
-			(*_bullets)[0]->setLocation(-1000, 550);
-			(*_bullets)[0]->setStartLocation(b2Vec2(-1000, 550));
-			(*_bullets)[0]->setEndLocation(b2Vec2(2700, 550));
-			(*_bullets)[0]->setDirection(MovableGameObject::Direction::RIGHT);
-			(*_bullets)[0]->setSpeed(20.0f, 0.0f);
-			(*_bullets)[0]->setDieOnImpact(true);
-			pe->addKinematicBody((*_bullets)[0]);
+			_huds = new std::vector<helperclasses::HUD*>();
 
-			(*_bullets)[1] = new MovablePlatform();
-			(*_bullets)[1]->setSize(110, 50);
-			(*_bullets)[1]->setLocation(-1200, 300);
-			(*_bullets)[1]->setStartLocation(b2Vec2(-1200, 300));
-			(*_bullets)[1]->setEndLocation(b2Vec2(3000, 300));
-			(*_bullets)[1]->setDirection(MovableGameObject::Direction::RIGHT);
-			(*_bullets)[1]->setSpeed(10.0f, 0.0f);
-			(*_bullets)[1]->setDieOnImpact(true);
-			pe->addKinematicBody((*_bullets)[1]);
+			for (int i = 0; i < _characters->size(); i++) {
+				HUD *hud = new HUD(*(*_characters)[i], 245 * i + 15);
+				_huds->push_back(hud);
+			}
 
-			(*_bullets)[2] = new MovablePlatform();
-			(*_bullets)[2]->setSize(110, 50);
-			(*_bullets)[2]->setLocation(-700, 475);
-			(*_bullets)[2]->setStartLocation(b2Vec2(-700, 475));
-			(*_bullets)[2]->setEndLocation(b2Vec2(2500, 475));
-			(*_bullets)[2]->setDirection(MovableGameObject::Direction::RIGHT);
-			(*_bullets)[2]->setSpeed(15.0f, 0.0f);
-			(*_bullets)[2]->setDieOnImpact(true);
-			pe->addKinematicBody((*_bullets)[2]);
+
+			DrawEngine *de = _game->getEngine()->getDrawEngine();
+
+			if (false)
+			{
+				if (!_isTutorial) {
+					_bullets = new std::vector<MovablePlatform*>(3);
+					(*_bullets)[0] = new MovablePlatform();
+					(*_bullets)[0]->setSize(110, 50);
+					(*_bullets)[0]->setLocation(-1000, 550);
+					(*_bullets)[0]->setStartLocation(b2Vec2(-1000, 550));
+					(*_bullets)[0]->setEndLocation(b2Vec2(2700, 550));
+					(*_bullets)[0]->setDirection(MovableGameObject::Direction::RIGHT);
+					(*_bullets)[0]->setSpeed(20.0f, 0.0f);
+					(*_bullets)[0]->setDieOnImpact(true);
+					pe->addKinematicBody((*_bullets)[0]);
+
+					(*_bullets)[1] = new MovablePlatform();
+					(*_bullets)[1]->setSize(110, 50);
+					(*_bullets)[1]->setLocation(-1200, 300);
+					(*_bullets)[1]->setStartLocation(b2Vec2(-1200, 300));
+					(*_bullets)[1]->setEndLocation(b2Vec2(3000, 300));
+					(*_bullets)[1]->setDirection(MovableGameObject::Direction::RIGHT);
+					(*_bullets)[1]->setSpeed(10.0f, 0.0f);
+					(*_bullets)[1]->setDieOnImpact(true);
+					pe->addKinematicBody((*_bullets)[1]);
+
+					(*_bullets)[2] = new MovablePlatform();
+					(*_bullets)[2]->setSize(110, 50);
+					(*_bullets)[2]->setLocation(-700, 475);
+					(*_bullets)[2]->setStartLocation(b2Vec2(-700, 475));
+					(*_bullets)[2]->setEndLocation(b2Vec2(2500, 475));
+					(*_bullets)[2]->setDirection(MovableGameObject::Direction::RIGHT);
+					(*_bullets)[2]->setSpeed(15.0f, 0.0f);
+					(*_bullets)[2]->setDieOnImpact(true);
+					pe->addKinematicBody((*_bullets)[2]);
+
+					de->loadMap((*_bullets)[0], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+					de->loadMap((*_bullets)[1], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+					de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+				}
+			}
+			else
+				_bullets = new std::vector<MovablePlatform*>(0);
 
 			/*    Kinematic Bodies
 			model::MovablePlatform *mpVer = new model::MovablePlatform();
@@ -190,11 +226,8 @@ namespace sdmg {
 
 			//  pe->resume();
 
-			DrawEngine *de = _game->getEngine()->getDrawEngine();
 			de->load(_platform, R"(assets\levels\level1\platform)");
-			de->loadMap((*_bullets)[0], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
-			de->loadMap((*_bullets)[1], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
-			de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
+
 			de->load("background", R"(assets\levels\level1\background)");
 			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
 
@@ -203,20 +236,39 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[0]));
 			//  binding->setKeyBinding(SDLK_KP_1, new actions::RespawnAction((*_characters)[0]));
+
+
+			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[0]));
+			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[0]));
+			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[0]));
+			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[0]));
+			binding->setKeyBinding(9, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(8, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[0]));
+
 
 			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
-			//  binding->setKeyBinding(SDLK_q, new actions::RespawnAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 
-			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[1]));
-			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[1]));
-			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[1]));
-			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[1]));
-			binding->setKeyBinding(11, new actions::RollAction((*_characters)[1]));
+
+			// Load tutorial objects
+			if (_isTutorial) {
+				//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut5", "To perform a close range attack, press the L key", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut6", "To dodge an enemy attack, execute a roll, press numlock 0 key to roll", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut7", "You have successfully passed the tutorial, you are now ready to play the game!", { 255, 255, 255 }, "arial", 30);
+			}
 
 			_isLoaded = true;
 		}

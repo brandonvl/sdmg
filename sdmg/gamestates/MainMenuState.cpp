@@ -12,6 +12,7 @@
 #include "PlayState.h"
 #include "LoadingState.h"
 #include "CreditsState.h"
+#include "TutorialState.h"
 #include "HelpState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
@@ -29,8 +30,13 @@ namespace sdmg {
 		{
 			std::string tag = item->getTag();
 
-			if(tag == "Play") {
+			if (tag == "Play") {
 				// changeState(*_game, PlayState::getInstance());
+				LoadingState::getInstance().setIsTutorial(false);
+				changeState(*_game, LoadingState::getInstance());
+			}
+			else if (tag == "Tutorial") {
+				LoadingState::getInstance().setIsTutorial(true);
 				changeState(*_game, LoadingState::getInstance());
 			}
 			else if (tag == "Help") {
@@ -54,6 +60,10 @@ namespace sdmg {
 			play->loadText(_game, "play", "Play", "trebucbd", 33);
 			_menu->addMenuItem(play);
 
+			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
+			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
+			_menu->addMenuItem(tutorial);
+
 			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, 68, false);
 			help->loadText(_game, "help", "Help", "trebucbd", 33);
 			_menu->addMenuItem(help);
@@ -71,14 +81,13 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->load("main_menu_bgm", R"(assets/sounds/bgm/main_menu_bgm.mp3)", AUDIOTYPE::MUSIC);
 			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
-			game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);
+			// game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
-			game.getEngine()->getAudioEngine()->unloadAll();
 		}
 
 		void MainMenuState::pause(GameBase &game)
@@ -114,15 +123,18 @@ namespace sdmg {
 						//changeState(game, LoadingState::getInstance());
 						break;
 					case SDLK_DOWN:
+					case 1:
 						_menu->selectNext();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_UP:
+					case 0:
 						_menu->selectPrevious();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
+					case 10:
 						menuAction(_menu->getSelectedMenuItem());
 						break;
 					}
@@ -144,6 +156,6 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->render();
 		}
 
-		
+
 	}
 }
