@@ -87,6 +87,7 @@
     <ClCompile Include="actions\RespawnAction.cpp" />
     <ClCompile Include="actions\RightWalkAction.cpp" />
     <ClCompile Include="actions\RollAction.cpp" />
+    <ClCompile Include="ControlsState.cpp" />
     <ClCompile Include="engine\audio\MusicObject.cpp" />
     <ClCompile Include="engine\audio\SampleObject.cpp" />
     <ClCompile Include="gamestates\CreditsState.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="actions\RespawnAction.h" />
     <ClInclude Include="actions\RightWalkAction.h" />
     <ClInclude Include="actions\RollAction.h" />
+    <ClInclude Include="ControlsState.h" />
     <ClInclude Include="engine\audio\AudioObject.h" />
     <ClInclude Include="engine\audio\MusicObject.h" />
     <ClInclude Include="engine\audio\SampleObject.h" />

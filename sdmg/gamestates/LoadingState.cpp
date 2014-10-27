@@ -23,6 +23,8 @@
 #include "engine\World.h"
 #include "gamestates\MainMenuState.h"
 #include "engine\audio\AudioEngine.h"
+#include <iostream>
+#include <fstream>
 
 namespace sdmg {
 	namespace gamestates {
@@ -217,6 +219,25 @@ namespace sdmg {
 			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[1]));
 			binding->setKeyBinding(11, new actions::RollAction((*_characters)[1]));
+
+			std::ifstream keybindings;
+			keybindings.open("keybindings.txt");
+
+			std::string delimiter = ":";
+
+			if (keybindings.is_open()) {
+				while (!keybindings.eof()) {
+					std::string line;
+					getline(keybindings, line);
+
+					if (line.find(delimiter) > 0)
+					{
+						const int key = atoi(line.substr(0, line.find(delimiter)).c_str());
+						binding->setKeyBinding(key, new actions::RightWalkAction((*_characters)[0]));
+						//std::string key = line.substr(1, line.find(delimiter));
+					}
+				}
+			}
 
 			_isLoaded = true;
 		}
