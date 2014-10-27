@@ -100,6 +100,7 @@ namespace sdmg {
 			}
 
 			SDL_Texture *Surface::getSDLTexture() {
+				if (_textures.size() == 0) return nullptr;
 				return _textures[0];
 			}
 
@@ -111,8 +112,10 @@ namespace sdmg {
 						break;
 					case AnimationType::ONCE:
 						sliceIndex = _maxSliceIndex - 1;
-						if (anitimationCompletedCallback != nullptr) 
+						if (anitimationCompletedCallback != nullptr) {
+							_drawEngine->resetStep(gameObject);
 							anitimationCompletedCallback();
+						}
 						break;
 					default:
 						_drawEngine->resetStep(gameObject);

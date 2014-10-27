@@ -16,9 +16,10 @@ using namespace sdmg::engine;
 
 namespace sdmg {
 	namespace model {
-		Platform::Platform()
-		{
 
+		Platform::Platform(bool isAttack)
+		{
+			_isAttack = isAttack;
 		}
 
 		Platform::~Platform() { }
@@ -27,5 +28,11 @@ namespace sdmg {
 		
 		}
 		
+		bool Platform::getIsAttack()
+		{
+			return _isAttack;
+		}
+
+
 	}
 }

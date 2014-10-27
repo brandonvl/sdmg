@@ -145,7 +145,7 @@ namespace sdmg {
 			void AudioEngine::unload(const std::string &key) {
 
 				if (_audioObjects.find(key) != _audioObjects.end())
-					if (_audioObjects[key]->getChannelPlaying() != -1)
+					if (_audioObjects[key]->getChannelPlaying() != -1 && _audioObjects[key]->getChannelPlaying() != -2)
 						Mix_HaltChannel(_audioObjects[key]->getChannelPlaying());
 
 				delete _audioObjects[key];

@@ -51,7 +51,9 @@ namespace sdmg {
 				b2Body* addBody(int x, int y, int w, int h, bool dyn, GameObject *object);
 				b2Body* addKinematicBody(model::MovablePlatform *object);
 				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
-				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, SHORTATTACK, MIDDLEATTACK, LONGATTACK, RESPAWN };
+				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, KNEEL, SHORTRANGEATTACK, LONGRANGEATTACK, RESPAWN, KNOCKBACKLEFT, KNOCKBACKRIGHT,
+					MIDRANGEATTACKBEGIN, MIDRANGEATTACK, MIDRANGEATTACKEND
+				};
 				void doAction(MovableGameObject *object, Action action);
 			private:
 				Engine *_engine;
