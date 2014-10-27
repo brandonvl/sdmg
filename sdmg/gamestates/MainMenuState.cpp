@@ -10,7 +10,6 @@
 
 #include "MainMenuState.h"
 #include "PlayState.h"
-#include "ControlsState.h"
 #include "LoadingState.h"
 #include "CreditsState.h"
 #include "HelpState.h"
@@ -34,9 +33,6 @@ namespace sdmg {
 				// changeState(*_game, PlayState::getInstance());
 				changeState(*_game, LoadingState::getInstance());
 			}
-			else if (tag == "Controls") {
-				changeState(*_game, ControlsState::getInstance());
-			}
 			else if (tag == "Help") {
 				changeState(*_game, HelpState::getInstance());
 			}
@@ -57,10 +53,6 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 0, 68, true);
 			play->loadText(_game, "play", "Play", "trebucbd", 33);
 			_menu->addMenuItem(play);
-
-			helperclasses::menuitems::MenuTextItem *controls = new helperclasses::menuitems::MenuTextItem("Controls", 0, 68, false);
-			controls->loadText(_game, "controls", "Controls", "trebucbd", 33);
-			_menu->addMenuItem(controls);
 
 			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, 68, false);
 			help->loadText(_game, "help", "Help", "trebucbd", 33);

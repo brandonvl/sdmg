@@ -243,9 +243,6 @@
     <ClCompile Include="engine\audio\MusicObject.cpp">
       <Filter>Source Files\engine\audio</Filter>
     </ClCompile>
-    <ClCompile Include="ControlsState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -424,9 +421,6 @@
     </ClInclude>
     <ClInclude Include="engine\audio\SampleObject.h">
       <Filter>Header Files\engine\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlsState.h">
-      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

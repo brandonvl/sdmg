@@ -53,6 +53,53 @@ namespace sdmg {
 					handleKey(Joysticks[event.cbutton.which].Name, event);
 				}
 
+				if (event.type == SDL_JOYAXISMOTION)
+				{
+					if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
+						
+						event.type = SDL_CONTROLLERBUTTONDOWN;
+
+						if (event.jaxis.axis == 0)
+						{
+							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+							{
+								// LEFT
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+							}
+							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+							{
+								// RIGHT
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+							}
+						}
+
+						if (event.jaxis.axis == 1)
+						{
+							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+							{
+								// DOWN
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+							}
+							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+							{
+								// UP
+								event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_UP;
+							}
+						}
+					}
+					handleKey(Joysticks[event.cbutton.which].Name, event);
+				}
+			}
+
+			void InputEngine::handleEvent(SDL_Event &event) {
+				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+					handleKey("keyboard", event);
+				}
+				
+				//if (event.type == SDL_CONTROLLERBUTTONUP || event.type == SDL_CONTROLLERBUTTONDOWN) {
+				//	handleKey(Joysticks[event.cbutton.which].Name, event);
+				//}
+
 				//if (event.type == SDL_JOYAXISMOTION)
 				//{
 				//	if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
@@ -89,12 +136,6 @@ namespace sdmg {
 				//	}
 				//	handleKey(Joysticks[event.cbutton.which].Name, event);
 				//}
-			}
-
-			void InputEngine::handleEvent(SDL_Event &event) {
-				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
-					handleKey("keyboard", event);
-				}
 			}
 
 			const std::vector<Action*> *InputEngine::getActions() {
