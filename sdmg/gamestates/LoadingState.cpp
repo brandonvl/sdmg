@@ -163,6 +163,8 @@ namespace sdmg {
 			_bullets = new std::vector<MovablePlatform*>;
 
 			loadCharacters(levelObj.getArray("startingPositions"));
+
+			//delete doc;
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {

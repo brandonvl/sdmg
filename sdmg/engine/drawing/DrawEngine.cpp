@@ -23,39 +23,34 @@ namespace sdmg {
 
 			DrawEngine::~DrawEngine() {
 				unloadAll();
-				delete _surfaces;
-				delete _textSurfaces;
-				delete _objectSurfaces;
-				delete _objectStateSurfaces;
-				delete _steps;
 			}
 
 			void DrawEngine::load(std::string key, std::string path) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
-				_surfaces->insert(std::pair<std::string, Surface*>(key, surface));
+				_surfaces.insert(std::pair<std::string, Surface*>(key, surface));
 			}
 
 			void DrawEngine::load(GameObject *gameObject, std::string path) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
-				_objectSurfaces->insert(std::pair<GameObject*, Surface*>(gameObject, surface));
+				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
 			void DrawEngine::loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight);
 				// Add Surface to _surfaces map
-				_surfaces->insert(std::pair<std::string, Surface*>(key, surface));
+				_surfaces.insert(std::pair<std::string, Surface*>(key, surface));
 			}
 			
 			void DrawEngine::loadMap(GameObject* gameObject, std::string path, float sliceWidth, float sliceHeight) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight);
 				// Add Surface to _surfaces map
-				_objectSurfaces->insert(std::pair<GameObject*, Surface*>(gameObject, surface));
+				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
 			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight) {
@@ -77,10 +72,10 @@ namespace sdmg {
 			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight, Surface::AnimationType animationType) {
 				std::map<MovableGameObject::State, Surface*> *surfaceMap;
 
-				if (_objectStateSurfaces->count(gameObject)) surfaceMap = (*_objectStateSurfaces)[gameObject];
+				if (_objectStateSurfaces.count(gameObject)) surfaceMap = _objectStateSurfaces[gameObject];
 				else {
 					surfaceMap = new std::map<MovableGameObject::State, Surface*>;
-					_objectStateSurfaces->insert(std::make_pair(gameObject, surfaceMap));
+					_objectStateSurfaces.insert(std::make_pair(gameObject, surfaceMap));
 				}
 
 				// Create new Surface from specified path
@@ -90,67 +85,70 @@ namespace sdmg {
 			}
 
 			void DrawEngine::unload(std::string key) {
-				if (_surfaces->find(key) != _surfaces->end()) {
-					delete (*_surfaces)[key];
-					_surfaces->erase(key);
+				if (_surfaces.find(key) != _surfaces.end()) {
+					delete _surfaces[key];
+					_surfaces.erase(key);
 				}
 			}
 
 			void DrawEngine::unloadText(std::string key) {
-				if (_textSurfaces->find(key) != _textSurfaces->end()) {
-					delete (*_textSurfaces)[key];
-					_textSurfaces->erase(key);
+				if (_textSurfaces.find(key) != _textSurfaces.end()) {
+					delete _textSurfaces[key];
+					_textSurfaces.erase(key);
 				}
 			}
 			
 			void DrawEngine::unloadAll() {
-				std::map<std::string, Surface*>::iterator itr = _surfaces->begin();
-				while (itr != _surfaces->end()) {
-					delete itr->second;
-					_surfaces->erase(itr++);
-				}
-
-				std::map<std::string, TextSurface*>::iterator textItr = _textSurfaces->begin();
-				while (textItr != _textSurfaces->end()) {
-					delete textItr->second;
-					_textSurfaces->erase(textItr++);
-				}
-
-				std::map<GameObject*, Surface*>::iterator objectItr = _objectSurfaces->begin();
-				while (objectItr != _objectSurfaces->end()) {
-					delete objectItr->second;
-					_objectSurfaces->erase(objectItr++);
-				}
-
-				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>::iterator objectStateItr = _objectStateSurfaces->begin();
-				while (objectStateItr != _objectStateSurfaces->end()) {
-					std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
-					std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
-
-					while (stateItr != stateSurfaces->end()) {
-						delete stateItr->second;
-						stateSurfaces->erase(stateItr++);
+				if (_surfaces.size() > 0) {
+					std::map<std::string, Surface*>::iterator itr = _surfaces.begin();
+					while (itr != _surfaces.end()) {
+						delete itr->second;
+						_surfaces.erase(itr++);
 					}
-
-
-					delete objectStateItr->second;
-					_objectStateSurfaces->erase(objectStateItr++);
 				}
 
-				_steps->clear();
+				if (_textSurfaces.size() > 0) {
+					std::map<std::string, TextSurface*>::iterator textItr = _textSurfaces.begin();
+					while (textItr != _textSurfaces.end()) {
+						delete textItr->second;
+						_textSurfaces.erase(textItr++);
+					}
+				}
+
+				if (_objectSurfaces.size() > 0) {
+					std::map<GameObject*, Surface*>::iterator objectItr = _objectSurfaces.begin();
+					while (objectItr != _objectSurfaces.end()) {
+						delete objectItr->second;
+						_objectSurfaces.erase(objectItr++);
+					}
+				}
+
+				if (_objectStateSurfaces.size() > 0) {
+					std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>::iterator objectStateItr = _objectStateSurfaces.begin();
+					while (objectStateItr != _objectStateSurfaces.end()) {
+						std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
+						std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
+
+						while (stateItr != stateSurfaces->end()) {
+							delete stateItr->second;
+							stateSurfaces->erase(stateItr++);
+						}
+
+
+						delete objectStateItr->second;
+						_objectStateSurfaces.erase(objectStateItr++);
+					}
+				}
+
+				_steps.clear();
 			}
 			
 			void DrawEngine::initialize() {
 				_windowWidth = 1280;
 				_windowHeight = 720;
-				_surfaces = new std::map<std::string, Surface*>;
-				_objectSurfaces = new std::map<GameObject*, Surface*>;
-				_steps = new std::map<GameObject*, int>;
 				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, 0);
 				//  _window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, SDL_WINDOW_FULLSCREEN);
-				_objectStateSurfaces = new std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>;
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
-				_textSurfaces = new std::map<std::string, TextSurface*>();
 				_step = 1.0f / 15.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
@@ -158,34 +156,34 @@ namespace sdmg {
 			}
 
 			void DrawEngine::draw(std::string key) {
-				Surface *surface = (*_surfaces)[key];
+				Surface *surface = _surfaces[key];
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, nullptr);
 			}
 
 			void DrawEngine::draw(std::string key, float x, float y) {
-				Surface *surface = (*_surfaces)[key];
+				Surface *surface = _surfaces[key];
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::draw(GameObject *gameObject) {
-				Surface *surface = (*_objectSurfaces)[gameObject];
+				Surface *surface = _objectSurfaces[gameObject];
 				float x, y;
 				calcXY(gameObject, surface, x, y);
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 			
 			void DrawEngine::draw(std::string key, float x, float y, int slice) {
-				Surface *surface = (*_surfaces)[key];
+				Surface *surface = _surfaces[key];
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(slice, nullptr), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::drawSlice(GameObject *gameObject) {
 				createStep(gameObject);
 
-				Surface *surface = (*_objectSurfaces)[gameObject];
+				Surface *surface = _objectSurfaces[gameObject];
 				float x, y;
 				calcXY(gameObject, surface, x, y);
-				SDL_RenderCopy(_renderer, surface->getSDLTexture((*_steps)[gameObject], gameObject), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
+				SDL_RenderCopy(_renderer, surface->getSDLTexture(_steps[gameObject], gameObject), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::drawSlice(MovableGameObject *gameObject) {
@@ -195,12 +193,12 @@ namespace sdmg {
 			void DrawEngine::drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction) {
 				createStep(gameObject);
 				
-				Surface *surface = (*(*_objectStateSurfaces)[gameObject])[state];
+				Surface *surface = (*_objectStateSurfaces[gameObject])[state];
 				float x, y;
 				calcXY(gameObject, surface, x, y);
 
 				std::function<void()> callback = std::bind(&MovableGameObject::stateCompleted, gameObject);
-				SDL_RenderCopyEx(_renderer, surface->getSDLTexture((*_steps)[gameObject], gameObject, callback), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == MovableGameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+				SDL_RenderCopyEx(_renderer, surface->getSDLTexture(_steps[gameObject], gameObject, callback), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect(), 0, nullptr, gameObject->getDirection() == MovableGameObject::Direction::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 			}
 
 			void DrawEngine::drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b) {
@@ -228,24 +226,24 @@ namespace sdmg {
 				// Create new TextSurface
 				TextSurface *tSurface = new TextSurface(_renderer, text, fgColor, font);
 				// Insert TextSurface
-				_textSurfaces->insert(std::pair<std::string, TextSurface*>(key, tSurface));
+				_textSurfaces.insert(std::pair<std::string, TextSurface*>(key, tSurface));
 				// Close font
 				TTF_CloseFont(font);
 			}
 
 			void DrawEngine::drawText(std::string key, float x, float y) {
-				TextSurface *tSurface = (*_textSurfaces)[key];
+				TextSurface *tSurface = _textSurfaces[key];
 				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::destroyText(std::string key) {
-				TextSurface *tSurface = (*_textSurfaces)[key];
+				TextSurface *tSurface = _textSurfaces[key];
 				SDL_DestroyTexture(tSurface->getSDLTexture());
 			}
 
 			const std::array<float, 2> DrawEngine::getTextSize(std::string key) {
-				if (_textSurfaces->count(key)) {
-					std::array<float, 2> sizes = { (*_textSurfaces)[key]->getRenderWidth(), (*_textSurfaces)[key]->getRenderHeight() };
+				if (_textSurfaces.count(key)) {
+					std::array<float, 2> sizes = { _textSurfaces[key]->getRenderWidth(), _textSurfaces[key]->getRenderHeight() };
 					return sizes;
 				}
 			}
@@ -300,8 +298,8 @@ namespace sdmg {
 				_accumulator += diff;
 
 				while (_accumulator > _step) {
-					for each (std::pair<GameObject*, int> p in (*_steps)) {
-						(*_steps)[p.first]++;
+					for each (std::pair<GameObject*, int> p in _steps) {
+						_steps[p.first]++;
 					}
 
 					_accumulator -= _step;
@@ -309,12 +307,12 @@ namespace sdmg {
 			}
 
 			void DrawEngine::resetStep(GameObject *gameObject) {
-				(*_steps)[gameObject] = 0;
+				_steps[gameObject] = 0;
 			}
 
 			void DrawEngine::createStep(GameObject *gameObject) {
-				if (_steps->count(gameObject) == 0)
-					_steps->insert(std::make_pair(gameObject, 0));
+				if (_steps.count(gameObject) == 0)
+					_steps.insert(std::make_pair(gameObject, 0));
 			}
 		}
 	}

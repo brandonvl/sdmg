@@ -79,14 +79,14 @@ namespace sdmg {
 				SDL_Window *_window;
 				SDL_Renderer *_renderer;
 				int _curRenderer;
-				std::map<std::string, Surface*> *_surfaces;
-				std::map<std::string, TextSurface*> *_textSurfaces;
-				std::map<GameObject*, Surface*> *_objectSurfaces;
-				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*> *_objectStateSurfaces;
+				std::map<std::string, Surface*> _surfaces;
+				std::map<std::string, TextSurface*> _textSurfaces;
+				std::map<GameObject*, Surface*> _objectSurfaces;
+				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*> _objectStateSurfaces;
 				void initialize();
 				int _windowHeight;
 				int _windowWidth;
-				std::map<GameObject*, int> *_steps;
+				std::map<GameObject*, int> _steps;
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
 				float _step, _accumulator;
