@@ -11,6 +11,7 @@
 #include "MainMenuState.h"
 #include "PlayState.h"
 #include "LoadingState.h"
+#include "ControlsState.h"
 #include "CreditsState.h"
 #include "TutorialState.h"
 #include "HelpState.h"
@@ -42,6 +43,9 @@ namespace sdmg {
 			else if (tag == "Help") {
 				changeState(*_game, HelpState::getInstance());
 			}
+			else if (tag == "Controls") {
+				changeState(*_game, ControlsState::getInstance());
+			}
 			else if (tag == "Credits") {
 				changeState(*_game, CreditsState::getInstance());
 			}
@@ -67,6 +71,10 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, 68, false);
 			help->loadText(_game, "help", "Help", "trebucbd", 33);
 			_menu->addMenuItem(help);
+
+			helperclasses::menuitems::MenuTextItem *controls = new helperclasses::menuitems::MenuTextItem("Controls", 0, 68, false);
+			controls->loadText(_game, "controls", "Controls", "trebucbd", 33);
+			_menu->addMenuItem(controls);
 
 			helperclasses::menuitems::MenuTextItem *credits = new helperclasses::menuitems::MenuTextItem("Credits", 0, 68, false);
 			credits->loadText(_game, "credits", "Credits", "trebucbd", 33);
@@ -115,28 +123,28 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_ESCAPE:
-						game.stop();
-						break;
-					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						//changeState(game, LoadingState::getInstance());
-						break;
-					case SDLK_DOWN:
-					case 1:
-						_menu->selectNext();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
-						break;
-					case SDLK_UP:
-					case 0:
-						_menu->selectPrevious();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
-						break;
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-					case 10:
-						menuAction(_menu->getSelectedMenuItem());
-						break;
+						case SDLK_ESCAPE:
+							game.stop();
+							break;
+						case SDLK_1:
+							std::cout << "Key 1 pressed. Switching State.. " << std::endl;
+							//changeState(game, LoadingState::getInstance());
+							break;
+						case SDLK_DOWN:
+						case 1:
+							_menu->selectNext();
+							//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+							break;
+						case SDLK_UP:
+						case 0:
+							_menu->selectPrevious();
+							//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+							break;
+						case SDLK_KP_ENTER:
+						case SDLK_RETURN:
+						case 10:
+							menuAction(_menu->getSelectedMenuItem());
+							break;
 					}
 				}
 			}

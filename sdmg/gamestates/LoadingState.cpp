@@ -248,7 +248,6 @@ namespace sdmg {
 			binding->setKeyBinding(8, new actions::RollAction((*_characters)[0]));
 			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[0]));
 
-
 			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));

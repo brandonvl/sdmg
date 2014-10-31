@@ -14,7 +14,7 @@ namespace sdmg {
 		void ControlsState::init(GameBase &game)
 		{
 			_game = &game;
-
+			
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 100);
 
 			// Create menu item
@@ -77,30 +77,30 @@ namespace sdmg {
 					{
 						switch (event.key.keysym.sym)
 						{
-						case SDLK_ESCAPE:
-							changeState(game, MainMenuState::getInstance());
-							break;
-						case SDLK_1:
-							std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-							//changeState(game, LoadingState::getInstance());
-							break;
-						case SDLK_DOWN:
-							_menu->selectNext();
-							break;
-						case SDLK_UP:
-							_menu->selectPrevious();
-							break;
-						case SDLK_RIGHT:
-							currentplayer++;
-							break;
-						case SDLK_LEFT:
-							currentplayer--;
-							break;
-						case SDLK_KP_ENTER:
-						case SDLK_RETURN:
-							waiting = true;
-							menuAction(_menu->getSelectedMenuItem());
-							break;
+							case SDLK_ESCAPE:
+								changeState(game, MainMenuState::getInstance());
+								break;
+							case SDLK_1:
+								std::cout << "Key 1 pressed. Switching State.. " << std::endl;
+								//changeState(game, LoadingState::getInstance());
+								break;
+							case SDLK_DOWN:
+								_menu->selectNext();
+								break;
+							case SDLK_UP:
+								_menu->selectPrevious();
+								break;
+							case SDLK_RIGHT:
+								currentplayer++;
+								break;
+							case SDLK_LEFT:
+								currentplayer--;
+								break;
+							case SDLK_KP_ENTER:
+							case SDLK_RETURN:
+								waiting = true;
+								menuAction(_menu->getSelectedMenuItem());
+								break;
 						}
 					}
 					else
