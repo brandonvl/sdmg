@@ -155,9 +155,13 @@ namespace sdmg {
 
 							case MovableGameObject::State::KNOCKBACKLEFT:
 								doAction(gameObject, PhysicsEngine::Action::KNOCKBACKLEFT);
+								if (gameObject->getAttackBody() != nullptr)
+									doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKEND);
 								break;
 							case MovableGameObject::State::KNOCKBACKRIGHT:
 								doAction(gameObject, PhysicsEngine::Action::KNOCKBACKRIGHT);
+								if (gameObject->getAttackBody() != nullptr)
+									doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKEND);
 								break;
 							case MovableGameObject::State::JUMPING:
 								if (body->GetLinearVelocity().y >= -0.2f)
@@ -175,6 +179,8 @@ namespace sdmg {
 								if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
 									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
 								break;
+
+
 
 							case MovableGameObject::State::FALLING:
 								body->SetLinearVelocity(b2Vec2(0.0f, body->GetLinearVelocity().y));

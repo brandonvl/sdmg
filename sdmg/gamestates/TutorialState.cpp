@@ -62,14 +62,14 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->unloadAll();
 			
 
-			game.getEngine()->getDrawEngine()->unload("tutIntro");
-			game.getEngine()->getDrawEngine()->unload("tut1");
-			game.getEngine()->getDrawEngine()->unload("tut2");
-			game.getEngine()->getDrawEngine()->unload("tut3");
-			game.getEngine()->getDrawEngine()->unload("tut4");
-			game.getEngine()->getDrawEngine()->unload("tut5");
-			game.getEngine()->getDrawEngine()->unload("tut6");
-			game.getEngine()->getDrawEngine()->unload("tut7");
+			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
+			game.getEngine()->getDrawEngine()->unloadText("tut1");
+			game.getEngine()->getDrawEngine()->unloadText("tut2");
+			game.getEngine()->getDrawEngine()->unloadText("tut3");
+			game.getEngine()->getDrawEngine()->unloadText("tut4");
+			game.getEngine()->getDrawEngine()->unloadText("tut5");
+			game.getEngine()->getDrawEngine()->unloadText("tut6");
+			game.getEngine()->getDrawEngine()->unloadText("tut7");
 
 			delete _tutorial;
 			delete _toDraw;

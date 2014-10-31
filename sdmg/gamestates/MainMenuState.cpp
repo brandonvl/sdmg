@@ -11,9 +11,10 @@
 #include "MainMenuState.h"
 #include "PlayState.h"
 #include "LoadingState.h"
+#include "ControlsState.h"
 #include "CreditsState.h"
+#include "OptionsState.h"
 #include "TutorialState.h"
-#include "HelpState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -39,11 +40,8 @@ namespace sdmg {
 				LoadingState::getInstance().setIsTutorial(true);
 				changeState(*_game, LoadingState::getInstance());
 			}
-			else if (tag == "Help") {
-				changeState(*_game, HelpState::getInstance());
-			}
-			else if (tag == "Credits") {
-				changeState(*_game, CreditsState::getInstance());
+			else if (tag == "Options") {
+				changeState(*_game, OptionsState::getInstance());
 			}
 			else if (tag == "Quit") {
 				_game->stop();
@@ -63,14 +61,10 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
 			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
 			_menu->addMenuItem(tutorial);
-
-			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, 68, false);
-			help->loadText(_game, "help", "Help", "trebucbd", 33);
-			_menu->addMenuItem(help);
-
-			helperclasses::menuitems::MenuTextItem *credits = new helperclasses::menuitems::MenuTextItem("Credits", 0, 68, false);
-			credits->loadText(_game, "credits", "Credits", "trebucbd", 33);
-			_menu->addMenuItem(credits);
+			
+			helperclasses::menuitems::MenuTextItem *options = new helperclasses::menuitems::MenuTextItem("Options", 0, 68, false);
+			options->loadText(_game, "options", "Options", "trebucbd", 33);
+			_menu->addMenuItem(options);
 
 			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 0, 68, false);
 			quit->loadText(_game, "quit", "Quit", "trebucbd", 33);
@@ -87,6 +81,10 @@ namespace sdmg {
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			game.getEngine()->getDrawEngine()->unloadText("play");
+			game.getEngine()->getDrawEngine()->unloadText("tutorial");
+			game.getEngine()->getDrawEngine()->unloadText("options");
+			game.getEngine()->getDrawEngine()->unloadText("quit");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -116,28 +114,28 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_ESCAPE:
-						game.stop();
-						break;
-					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						//changeState(game, LoadingState::getInstance());
-						break;
-					case SDLK_DOWN:
-					case 1:
-						_menu->selectNext();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
-						break;
-					case SDLK_UP:
-					case 0:
-						_menu->selectPrevious();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
-						break;
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-					case 10:
-						menuAction(_menu->getSelectedMenuItem());
-						break;
+						case SDLK_ESCAPE:
+							game.stop();
+							break;
+						case SDLK_1:
+							std::cout << "Key 1 pressed. Switching State.. " << std::endl;
+							//changeState(game, LoadingState::getInstance());
+							break;
+						case SDLK_DOWN:
+						case 1:
+							_menu->selectNext();
+							//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+							break;
+						case SDLK_UP:
+						case 0:
+							_menu->selectPrevious();
+							//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+							break;
+						case SDLK_KP_ENTER:
+						case SDLK_RETURN:
+						case 10:
+							menuAction(_menu->getSelectedMenuItem());
+							break;
 					}
 				}
 			}

@@ -1,2 +1,2 @@
-2
-Walk Right : 112
+1
+Walk Right : 104
