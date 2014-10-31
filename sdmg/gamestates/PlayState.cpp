@@ -67,6 +67,8 @@ namespace sdmg {
 				delete it;
 			}
 
+			delete _huds;
+			delete _characters;
 			delete _bullets;
 		}
 

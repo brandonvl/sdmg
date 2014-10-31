@@ -5,6 +5,7 @@
 namespace sdmg {
 	namespace helperclasses {
 		void HUD::init(DrawEngine &drawEngine) {
+			_drawengine = &drawEngine;
 			_spriteKeyPrefix = "hud_" + _character.getName() + "_";
 
 			drawEngine.load(_spriteKeyPrefix + "head", "assets/characters/" + _character.getKey() + "/head");
@@ -16,7 +17,11 @@ namespace sdmg {
 
 		HUD::~HUD()
 		{
-
+			if (_drawengine != nullptr) {
+				_drawengine->unload(_spriteKeyPrefix + "head");
+				_drawengine->unload("heart");
+				_drawengine->unload("power");
+			}
 		}
 
 		void HUD::draw(DrawEngine &drawEngine) {

@@ -24,6 +24,7 @@ namespace sdmg {
 		private:
 			void init(DrawEngine &drawEngine);
 			Character &_character;
+			DrawEngine *_drawengine;
 			bool _isInitialized;
 			std::string _spriteKeyPrefix;
 			Rectangle _rectangle;
