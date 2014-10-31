@@ -34,6 +34,8 @@ namespace sdmg {
 
 			game.getEngine()->getPhysicsEngine()->addBody(character, 40, 10);
 
+			delete doc;
+
 			return character;
 		}
 
