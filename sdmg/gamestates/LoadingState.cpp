@@ -162,7 +162,7 @@ namespace sdmg {
 			}
 
 			de->load("background", R"(assets\levels\level1\background)");
-			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
+			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
 
 			_bullets = new std::vector<MovablePlatform*>;
 
@@ -172,7 +172,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
-			std::string loadCharacters[] = { "nivek", "fiat" };
+			std::string loadCharacters[] = { "fiat", "nivek" };
 			_characters = new std::vector<Character*>(2);
 
 			for (int i = 0; i < 2; i++) {
@@ -187,41 +187,54 @@ namespace sdmg {
 				} while ((*_characters)[i] == nullptr);
 			}
 
-			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
-			(*_characters)[0]->setSpawnDirection(MovableGameObject::Direction::LEFT);
+			(*_characters)[1]->setDirection(MovableGameObject::Direction::LEFT);
+			(*_characters)[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
 
+			if (_characters->size() == 2)
+			{
+				HUD *hudPanda = new HUD(*(*_characters)[0], 10);
+				_huds->push_back(hudPanda);
+
+				HUD *hudNivek = new HUD(*(*_characters)[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
+				_huds->push_back(hudNivek);
+			}
+
+			/*
 			for (int i = 0; i < _characters->size(); i++) {
 				HUD *hud = new HUD(*(*_characters)[i], 245 * i + 15);
 				_huds->push_back(hud);
 			}
+			*/
 		}
 
 		void LoadingState::loadKeybindings() {
 
 			InputDeviceBinding *binding = new InputDeviceBinding();
-			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[0]));
-			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[0]));
-			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[0]));
-			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[0]));
-			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[0]));
+			
+			// Panda
+			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[0]));
+
+			// Nivek
+			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[1]));
 			// Voor controller
-			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[0]));
-			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[0]));
-			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[0]));
-			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[0]));
-			binding->setKeyBinding(9, new actions::RollAction((*_characters)[0]));
-			binding->setKeyBinding(8, new actions::RollAction((*_characters)[0]));
-			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[0]));
-
-
-			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
-			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
-			binding->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));
-			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
-			binding->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
+			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[1]));
+			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[1]));
+			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(9, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(8, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[1]));
 
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 		}

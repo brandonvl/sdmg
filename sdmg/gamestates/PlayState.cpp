@@ -144,7 +144,8 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
 
 			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
+			// Deze heb ik ook uitgecomment in de LoadState
+			//  game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
 
 			for (int i = 0; i < _characters->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);
