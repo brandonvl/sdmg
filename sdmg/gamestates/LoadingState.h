@@ -10,6 +10,8 @@
 #pragma once
 #include "engine\GameState.h"
 
+struct SDL_Thread;
+
 using namespace sdmg::engine;
 
 namespace sdmg {
@@ -41,6 +43,7 @@ namespace sdmg {
 		protected:
 			LoadingState() { }
 		private:
+			SDL_Thread *thread;
 			static int loadThread(void *ptr);
 			void load();
 			bool _isLoaded, _isError, _isTutorial;
@@ -49,6 +52,7 @@ namespace sdmg {
 			std::vector<helperclasses::HUD*> *_huds;
 			model::Platform *_platform;
 			GameBase *_game;
+			
 		};
 	}
 }

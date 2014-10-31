@@ -17,6 +17,7 @@ namespace sdmg {
 
 		class World {
 		public:
+			virtual ~World();
 			const std::vector<GameObject*> &getGameObjects();
 			GameObject* getGameObjectById(uint32 id);
 			b2World* getPhysicsWorld();

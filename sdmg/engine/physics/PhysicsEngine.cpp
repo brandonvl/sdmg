@@ -38,7 +38,13 @@ namespace sdmg {
 				initializeActions();
 			}
 
-			PhysicsEngine::~PhysicsEngine() { }
+			PhysicsEngine::~PhysicsEngine() 
+			{
+				delete _world;
+				delete _actionHandler;
+				delete _contactListener;
+				delete _contactFilter;
+			}
 
 			void PhysicsEngine::update() {
 				if (_enabled)

@@ -16,6 +16,10 @@ namespace sdmg {
 		const std::vector<GameObject*> &World::getGameObjects() {
 			return _gameObjects;
 		}
+
+		World::~World() {
+			clearWorld();
+		}
 		
 		GameObject* World::getGameObjectById(uint32 id) {
 			if (_gameObjects.size() > id)
@@ -68,6 +72,10 @@ namespace sdmg {
 				delete gameobject;
 			}
 			*/
+			for (auto it : _gameObjects)
+			{
+				delete it;
+			}
 			_deadList.clear();
 			_aliveList.clear();
 			_gameObjects.clear();

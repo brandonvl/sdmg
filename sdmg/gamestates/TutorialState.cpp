@@ -56,10 +56,11 @@ namespace sdmg {
 
 		void TutorialState::cleanup(GameBase &game)
 		{
+			game.getWorld()->clearWorld();
 			game.getEngine()->getPhysicsEngine()->cleanUp();
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getAudioEngine()->unloadAll();
-			//  game.getWorld()->clearWorld();
+			
 
 			game.getEngine()->getDrawEngine()->unload("tutIntro");
 			game.getEngine()->getDrawEngine()->unload("tut1");
@@ -70,7 +71,6 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("tut6");
 			game.getEngine()->getDrawEngine()->unload("tut7");
 
-			delete _platform;
 			delete _tutorial;
 			delete _toDraw;
 		}

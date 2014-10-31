@@ -25,6 +25,17 @@ namespace sdmg {
 			}
 
 			InputEngine::~InputEngine() {
+
+				for (auto it : *_deviceBindings)
+				{
+					delete it.second;
+				}
+
+				for (auto it : *_actions)
+				{
+					delete it;
+				}
+
 				delete _deviceBindings;
 				delete _actions;
 			}
@@ -123,7 +134,7 @@ namespace sdmg {
 			
 			void InputEngine::setDeviceBinding(std::string device, InputDeviceBinding *binding) {
 				// check if device binding exists
-				if (_deviceBindings->count(device)) (*_deviceBindings)[device] = binding; // replace
+				if (_deviceBindings->count(device)) { delete (*_deviceBindings)[device]; (*_deviceBindings)[device] = binding; } // replace
 				else _deviceBindings->insert(std::pair<std::string, InputDeviceBinding*>(device, binding)); // insert
 			}
 			
@@ -134,11 +145,6 @@ namespace sdmg {
 			// find joysticks and add to map
 			void InputEngine::findJoysticks(void)
 			{
-				if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
-				{
-					printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
-				}
-
 				printf("%i joysticks were found.\n\n", SDL_NumJoysticks());
 				printf("The joysticks are:\n");
 
