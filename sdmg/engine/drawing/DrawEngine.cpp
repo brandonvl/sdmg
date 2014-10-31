@@ -13,6 +13,7 @@
 #include <Box2D\Box2D.h>
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
+#include "..\..\sdl\include\SDL_image.h"
 
 namespace sdmg {
 	namespace engine {
@@ -23,6 +24,7 @@ namespace sdmg {
 
 			DrawEngine::~DrawEngine() {
 				unloadAll();
+				IMG_Quit();
 				delete _surfaces;
 				delete _textSurfaces;
 				delete _objectSurfaces;
@@ -34,13 +36,16 @@ namespace sdmg {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
-				_surfaces->insert(std::pair<std::string, Surface*>(key, surface));
-			}
 
+				if (_surfaces->find(key) != _surfaces->end()) { SDL_DestroyTexture((*_surfaces)[key]->getSDLTexture()); (*_surfaces)[key] = surface; }
+				else _surfaces->insert(std::pair<std::string, Surface*>(key, surface));
+			}
+			
 			void DrawEngine::load(GameObject *gameObject, std::string path) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
+				if (_objectSurfaces->find(gameObject) != _objectSurfaces->end()) { SDL_DestroyTexture((*_objectSurfaces)[gameObject]->getSDLTexture()); (*_objectSurfaces)[gameObject] = surface; }
 				_objectSurfaces->insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 

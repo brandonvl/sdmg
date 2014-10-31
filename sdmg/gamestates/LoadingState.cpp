@@ -42,8 +42,9 @@ namespace sdmg {
 			printf("\nSimple SDL_CreateThread test:");
 
 			// Simply create a thread
-			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-			SDL_WaitThread(thread, NULL);
+			//thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
+			//SDL_WaitThread(thread, NULL);
+			//load();
 			//SDL_DetachThread(thread);
 
 		}
@@ -169,7 +170,7 @@ namespace sdmg {
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
-			if (false)
+			/*if (false)
 			{
 				if (!_isTutorial) {
 					_bullets = new std::vector<MovablePlatform*>(3);
@@ -208,7 +209,7 @@ namespace sdmg {
 					de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
 				}
 			}
-			else
+			else*/
 				_bullets = new std::vector<MovablePlatform*>(0);
 
 			/*    Kinematic Bodies
