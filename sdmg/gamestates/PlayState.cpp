@@ -31,8 +31,6 @@ namespace sdmg {
 		{
 			game.getEngine()->getPhysicsEngine()->resume();
 			//  game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
-			
-
 		}
 
 		void PlayState::setCharacters(std::vector<model::Character*> *characters)
