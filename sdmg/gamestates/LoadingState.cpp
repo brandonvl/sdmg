@@ -239,7 +239,7 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[0]));
 			//  binding->setKeyBinding(SDLK_KP_1, new actions::RespawnAction((*_characters)[0]));
 
-
+			// Voor controller
 			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[0]));
 			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[0]));
 			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[0]));
@@ -248,6 +248,7 @@ namespace sdmg {
 			binding->setKeyBinding(8, new actions::RollAction((*_characters)[0]));
 			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[0]));
 
+			//_game->getEngine()->getInputEngine()->setDeviceBinding("nivek", binding);
 
 			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
@@ -255,6 +256,20 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+			
+
+
+				/*
+			// Voor panda
+			InputDeviceBinding *binding2 = new InputDeviceBinding();
+			binding2->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
+			_game->getEngine()->getInputEngine()->setDeviceBinding("fiat", binding2);
+			*/
+
 
 
 			// Load tutorial objects

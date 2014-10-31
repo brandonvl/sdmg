@@ -6,6 +6,7 @@
 #include "engine\Engine.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\World.h"
+#include "model\Platform.h"
 
 namespace sdmg {
 	namespace factories {
@@ -26,11 +27,15 @@ namespace sdmg {
 				character->setHP(100);
 				character->setName(parser.getString("name"));
 				character->setKey(name);
+				character->setAttackSize(parser.getArray("attackSize")[0], parser.getArray("attackSize")[1]);
+				character->setAttackY(parser.getArray("attackY")[0]);
+
 				game.getWorld()->addGameObject(character);
 
 				loadSpriteMap(character, name, game, parser);
 
 				game.getEngine()->getPhysicsEngine()->addBody(character, 40, 10);
+
 
 				return character;
 			}
@@ -42,6 +47,9 @@ namespace sdmg {
 			float scale = parser.getFloat("scale");
 			std::string folder = "assets/characters/" + name + "/";
 			
+
+
+
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING, folder + "walking.sprite", parser.getArray("walking")[0], parser.getArray("walking")[1], scale);
 			drawEngine->loadMap(character, MovableGameObject::State::IDLE, folder + "idle.sprite", parser.getArray("idle")[0], parser.getArray("idle")[1], scale);
 			drawEngine->loadMap(character, MovableGameObject::State::JUMPING, folder + "jumping.sprite", parser.getArray("jumping")[0], parser.getArray("jumping")[1], scale, Surface::AnimationType::HOLDLAST);
