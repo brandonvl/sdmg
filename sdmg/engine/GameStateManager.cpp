@@ -37,6 +37,19 @@ namespace sdmg {
 			}
 		}
 
+		void GameStateManager::cleanupOthers() {
+			// cleanup the all states
+			if (!_states.empty()) {
+				for (auto item : _states)
+				{
+					if (item != _states.back()) {
+						item->cleanup(*_engine);
+						//delete item;
+					}
+				}
+			}
+		}
+
 		void GameStateManager::changeState(GameState &state)
 		{
 			// cleanup the current state

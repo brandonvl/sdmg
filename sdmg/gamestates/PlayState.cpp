@@ -60,16 +60,25 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->unloadAll();
 			//  game.getWorld()->clearWorld();
 
+			/*
 			for (MovablePlatform *platform : *_bullets)
-				delete platform;
+				delete platform;*/
 
-			for (auto it : *_huds) {
-				delete it;
+			if (_huds) {
+				for (auto it : *_huds) {
+					delete it;
+				}
+				_huds->clear();
 			}
 
 			delete _huds;
 			delete _characters;
 			delete _bullets;
+			//delete _platform;
+
+			_bullets = nullptr;
+			_huds = nullptr;
+			_characters = nullptr;
 		}
 
 		void PlayState::pause(GameBase &game)
