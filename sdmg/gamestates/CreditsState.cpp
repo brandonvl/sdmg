@@ -58,7 +58,8 @@ namespace sdmg {
 			{
 				switch (event.type) {
 				case SDL_KEYDOWN:
-					changeState(game, OptionsState::getInstance());
+					//changeState(game, OptionsState::getInstance());
+					_game->getStateManager()->popState();
 					break;
 				case SDL_QUIT:
 					game.stop();

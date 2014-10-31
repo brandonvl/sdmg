@@ -31,8 +31,6 @@ namespace sdmg {
 		{
 			game.getEngine()->getPhysicsEngine()->resume();
 			//  game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
-			
-
 		}
 
 		void PlayState::setCharacters(std::vector<model::Character*> *characters)
@@ -117,7 +115,8 @@ namespace sdmg {
 				if (game.getWorld()->getAliveList().size() > 0)
 					game.getWorld()->getAliveList()[0]->die();
 				game.getEngine()->getPhysicsEngine()->pause();
-				changeState(game, GameOverState::getInstance());
+				//changeState(game, GameOverState::getInstance());
+				game.getStateManager()->pushState(GameOverState::getInstance());
 			}
 
 			game.getEngine()->getInputEngine()->runActions(game);

@@ -28,6 +28,7 @@ namespace sdmg {
 			const std::vector<GameObject*> &getDeadList();
 			const std::vector<GameObject*> &getAliveList();
 			void clearWorld();
+			void resetWorld();
 		private:
 			std::vector<GameObject*> _gameObjects, _deadList, _aliveList;
 

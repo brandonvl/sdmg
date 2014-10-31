@@ -49,6 +49,7 @@ namespace sdmg {
 		private:
 			int _characterCount;
 			GameBase *_game;
+			bool _replay;
 		};
 	}
 }

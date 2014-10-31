@@ -30,6 +30,7 @@ namespace sdmg {
 			std::string getKey();
 			void setKey(std::string key);
 			void die() override;
+			void revive();
 		private:
 			Weapon *_currentWeapon;
 			std::vector<Weapon*> _weapons;

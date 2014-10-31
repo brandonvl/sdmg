@@ -261,6 +261,9 @@
     <ClCompile Include="gamestates\TutorialState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
+    <ClCompile Include="engine\drawing\DynamicTextSurface.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -457,6 +460,9 @@
     </ClInclude>
     <ClInclude Include="gamestates\TutorialState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\DynamicTextSurface.h">
+      <Filter>Header Files\engine\drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
