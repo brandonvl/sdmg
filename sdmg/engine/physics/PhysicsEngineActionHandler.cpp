@@ -103,6 +103,7 @@ namespace sdmg {
 
 				if (obj->getAttackBody() != nullptr &&! obj->getBody()->GetWorld()->IsLocked())
 				{
+					delete obj->getAttackBody()->GetUserData();
 					obj->getBody()->GetWorld()->DestroyBody(obj->getAttackBody());
 					obj->setAttackBody(nullptr);
 				}

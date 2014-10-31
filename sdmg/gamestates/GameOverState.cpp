@@ -13,12 +13,17 @@
 #include "engine\input\InputEngine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "model\Character.h"
-#include "LoadingState.h"
 #include "MainMenuState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
 #include "helperclasses\statistics\Statistics.h"
+
+
+#include "LoadingState.h"
+#include "engine\physics\PhysicsEngine.h"
+#include "PlayState.h"
+
 
 namespace sdmg {
 	namespace gamestates {
@@ -43,12 +48,14 @@ namespace sdmg {
 			for (int i = deadList.size() - 1; i >= 0; i--) {
 				int rank = (deadList.size() - i);
 				game.getEngine()->getDrawEngine()->loadText("rank" + std::to_string(rank), std::to_string(rank) + ". " + deadList[i]->getName(), { color, color, color }, "arial", 54);
+				std::string asd = deadList[i]->getName();
 				color = 64;
 			}
 
 			_characterCount = deadList.size();
 			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
+
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");
 
 			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
@@ -74,6 +81,9 @@ namespace sdmg {
 			}
 
 			Statistics::getInstance().save(statistics);
+
+			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
+
 		}
 
 		void GameOverState::menuAction(MenuItem *item)
@@ -81,20 +91,61 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Replay") {
-				// changeState(*_game, PlayState::getInstance());
-				changeState(*_game, LoadingState::getInstance());
+
+
+				_game->getWorld()->resetWorld();
+				const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
+
+				for (int i = 0; i < aliveList.size(); i++)
+				{
+					model::Character *character = static_cast<model::Character*>(aliveList[i]);
+					character->revive();
+					character->setState(MovableGameObject::State::RESPAWN);
+				}
+
+				_replay = true;
+				_game->getEngine()->getPhysicsEngine()->resume();
+				//changeState(*_game, PlayState::getInstance());
+				_game->getStateManager()->popState();
+
+
+				// changeState(*_game, LoadingState::getInstance());
+				/*
+				_replay = true;
+
+				*/
 			}
 			else if (tag == "Main Menu") {
+				_replay = false;
 				changeState(*_game, MainMenuState::getInstance());
 			}
 		}
 
 		void GameOverState::cleanup(GameBase &game)
 		{
-			delete _menu;
-			game.getWorld()->clearWorld();
-			game.getEngine()->getDrawEngine()->unloadAll();
-			game.getEngine()->getInputEngine()->clearBindings();
+			if (_replay)
+			{
+				DrawEngine *de = game.getEngine()->getDrawEngine();
+				de->unload("winner");
+				de->unload("gameoverbackground");
+				de->unloadText("replay");
+				de->unloadText("main menu");
+				delete _menu;
+
+				for (int i = 1; i <= _characterCount; i++) {
+					std::string asd = "rank" + std::to_string(i);
+					de->unloadText("rank" + std::to_string(i));
+				}
+			}
+			else
+			{
+				game.getEngine()->getDrawEngine()->unloadAll();
+				game.getEngine()->getInputEngine()->clearBindings();
+
+				game.getWorld()->clearWorld();
+
+				game.getStateManager()->cleanupOthers();
+			}
 		}
 
 		void GameOverState::pause(GameBase &game)
@@ -152,7 +203,7 @@ namespace sdmg {
 		void GameOverState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("background");
+			game.getEngine()->getDrawEngine()->draw("gameoverbackground");
 			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);
 
 			for (int i = 1; i <= _characterCount; i++) {

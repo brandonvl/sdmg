@@ -31,8 +31,6 @@ namespace sdmg {
 		{
 			game.getEngine()->getPhysicsEngine()->resume();
 			//  game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
-			
-
 		}
 
 		void PlayState::setCharacters(std::vector<model::Character*> *characters)
@@ -62,14 +60,25 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->unloadAll();
 			//  game.getWorld()->clearWorld();
 
+			/*
 			for (MovablePlatform *platform : *_bullets)
-				delete platform;
+				delete platform;*/
 
-			for (auto it : *_huds) {
-				delete it;
+			if (_huds) {
+				for (auto it : *_huds) {
+					delete it;
+				}
+				_huds->clear();
 			}
 
+			delete _huds;
+			delete _characters;
 			delete _bullets;
+			//delete _platform;
+
+			_bullets = nullptr;
+			_huds = nullptr;
+			_characters = nullptr;
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -115,7 +124,8 @@ namespace sdmg {
 				if (game.getWorld()->getAliveList().size() > 0)
 					game.getWorld()->getAliveList()[0]->die();
 				game.getEngine()->getPhysicsEngine()->pause();
-				changeState(game, GameOverState::getInstance());
+				//changeState(game, GameOverState::getInstance());
+				game.getStateManager()->pushState(GameOverState::getInstance());
 			}
 
 			game.getEngine()->getInputEngine()->runActions(game);
@@ -134,7 +144,8 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
 
 			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
+			// Deze heb ik ook uitgecomment in de LoadState
+			//  game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
 
 			for (int i = 0; i < _characters->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);

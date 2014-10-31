@@ -267,6 +267,9 @@
     <ClCompile Include="helperclasses\statistics\Statistics.cpp">
       <Filter>Source Files\helperclasses\statistics</Filter>
     </ClCompile>
+    <ClCompile Include="engine\drawing\DynamicTextSurface.cpp">
+      <Filter>Source Files\engine\drawing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -466,6 +469,9 @@
     </ClInclude>
     <ClInclude Include="helperclasses\statistics\Statistics.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\DynamicTextSurface.h">
+      <Filter>Header Files\engine\drawing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

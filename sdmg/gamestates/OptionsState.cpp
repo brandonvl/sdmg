@@ -40,7 +40,8 @@ namespace sdmg {
 				_game->getStateManager()->pushState(HelpState::getInstance());
 			}
 			else if (tag == "Credits") {
-				changeState(*_game, CreditsState::getInstance());
+				_game->getStateManager()->pushState(CreditsState::getInstance());
+				//changeState(*_game, CreditsState::getInstance());
 			}
 		}
 
@@ -70,6 +71,8 @@ namespace sdmg {
 
 		void OptionsState::cleanup(GameBase &game)
 		{
+			delete _menu;
+
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}

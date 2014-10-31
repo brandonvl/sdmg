@@ -9,6 +9,10 @@ namespace sdmg {
 	namespace engine {
 		namespace util {
 			using namespace std;
+
+			class HandleCharException {};
+			class AddToMapException {};
+
 			class FileParser
 			{
 			public:
@@ -25,8 +29,14 @@ namespace sdmg {
 				std::map<std::string, std::string> _stringMap;
 				std::map<std::string, float> _floatMap;
 				std::map<std::string, std::vector<float>> _arrayMap;
-				bool handle(std::string &name, std::string &value, bool &valueMode, ValueType &valueType, bool &isFinished);
+				void addToMap();
 				fstream _fin;
+				void handleValueCharacter(char &ch);
+				void resetValues();
+
+				ValueType _type;
+				bool _valueMode, _isFinished;
+				std::string _name, _value;
 			};
 		}
 	}

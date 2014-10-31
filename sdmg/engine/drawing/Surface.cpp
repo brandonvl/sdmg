@@ -33,7 +33,7 @@ namespace sdmg {
 			}
 
 			Surface::~Surface() {
-				for each (SDL_Texture *texture in _textures)
+				for(SDL_Texture *texture :_textures)
 					SDL_DestroyTexture(texture);
 			}
 

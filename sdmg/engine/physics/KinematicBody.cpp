@@ -27,6 +27,8 @@ namespace sdmg {
 
 			KinematicBody::~KinematicBody()
 			{
+				_bodies->clear();
+				delete _bodies;
 			}
 
 			void KinematicBody::setStartLocation(b2Vec2 *vec)

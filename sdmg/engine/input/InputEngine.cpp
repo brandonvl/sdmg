@@ -26,10 +26,8 @@ namespace sdmg {
 
 			InputEngine::~InputEngine() {
 
-				for (auto it : *_deviceBindings)
-				{
-					delete it.second;
-				}
+
+				clearBindings();
 
 				for (auto it : *_actions)
 				{
@@ -139,6 +137,12 @@ namespace sdmg {
 			}
 			
 			void InputEngine::clearBindings() {
+
+				for (auto it : *_deviceBindings)
+				{
+					delete it.second;
+				}
+
 				_deviceBindings->clear();
 			}
 

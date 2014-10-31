@@ -29,6 +29,7 @@ namespace sdmg {
 		namespace drawing {
 			class Surface;
 			class TextSurface;
+			class DynamicTextSurface;
 
 			class DrawEngine {
 
@@ -38,6 +39,7 @@ namespace sdmg {
 				void load(std::string key, std::string path);
 				void load(GameObject *gameObject, std::string path);
 				void loadText(std::string key, std::string text, SDL_Color fgColor, std::string fontName, int fontSize);
+				void loadDynamicText(std::string key, SDL_Color fgColor, std::string fontName, int fontSize);
 				void loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(GameObject *gameObject, std::string path, float sliceWidth, float sliceHeight);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight);
@@ -56,10 +58,10 @@ namespace sdmg {
 				void drawSlice(GameObject *gameObject);
 				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
 				void drawText(std::string key, float x, float y);
+				void drawDynamicText(std::string key, std::string text, float x, float y);
 				const std::array<float, 2> DrawEngine::getTextSize(std::string key);
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
-				void drawText(std::string text, Rectangle &rec, SDL_Color fgColor, SDL_Color bgColor, std::string font = "arial", int fontSize = 20);
 				void destroyText(std::string key);
 				void drawSlice(MovableGameObject *gameObject);
 				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
@@ -79,14 +81,17 @@ namespace sdmg {
 				SDL_Window *_window;
 				SDL_Renderer *_renderer;
 				int _curRenderer;
-				std::map<std::string, Surface*> *_surfaces;
-				std::map<std::string, TextSurface*> *_textSurfaces;
-				std::map<GameObject*, Surface*> *_objectSurfaces;
-				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*> *_objectStateSurfaces;
+				
+				std::map<std::string, Surface*> _surfaces;
+				std::map<std::string, TextSurface*> _textSurfaces;
+				std::map<GameObject*, Surface*> _objectSurfaces;
+				std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*> _objectStateSurfaces;
+				std::map<std::string, DynamicTextSurface*> _dynTextSurfaces;
+				
 				void initialize();
 				int _windowHeight;
 				int _windowWidth;
-				std::map<GameObject*, int> *_steps;
+				std::map<GameObject*, int> _steps;
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
 				float _step, _accumulator;

@@ -80,5 +80,12 @@ namespace sdmg {
 			_aliveList.clear();
 			_gameObjects.clear();
 		}
+
+		void World::resetWorld()
+		{
+			_aliveList.clear();
+			_aliveList = _deadList;
+			_deadList.clear();
+		}
 	}
 }

@@ -1,19 +1,21 @@
-name="Fiat Panda"
-width=110
-height=153
-horizontalSpeed=20
-verticalSpeed=2.2
-scale=0.30
-attackSize=(60,10)
-attackY=(3)
-idle=(389.4,510)
-walking=(494.25,527)
-jumping=(419.2,579)
-jumpEnd=(417,575)
-falling=(417,575)
-forwardRoll=(681.13,545)
-knockback=(376,518)
-kneeling=(399,524)
-midRangeAttackBegin=(545,516)
-midRangeAttack=(545,516)
-midRangeAttackEnd=(545,516)
+{
+	name: "Fiat Panda",
+	size: { width: 110, height: 153 },
+	attack: {
+		size: { width: 60, height: 10 },
+		position: 3
+	},
+	speed: { horizontal: 20, vertical: 2.2 },
+	scale: 0.30,
+	idle: [389.4,510],
+	walking: [494.25,527],
+	jumping: [419.2,579],
+	jumpEnd: [417,575],
+	falling: [417,575],
+	forwardRoll: [681.13,545],
+	knockback: [376,518],
+	kneeling: [399,524],
+	midRangeAttackBegin: [545,516],
+	midRangeAttack: [545,516],
+	midRangeAttackEnd: [545,516]
+}
