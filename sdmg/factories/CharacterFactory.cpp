@@ -16,7 +16,7 @@ namespace sdmg {
 			
 			Character *character = new Character();
 			character->setSize(obj.getObject("size").getFloat("width"), obj.getObject("size").getFloat("height"));
-			character->setSpeed(obj.getFloat("horizontalSpeed"), obj.getFloat("verticalSpeed"));
+			character->setSpeed(obj.getObject("speed").getFloat("horizontal"), obj.getObject("speed").getFloat("vertical"));
 			character->setDirection(MovableGameObject::Direction::RIGHT);
 			character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
 			character->setLocation(xPosition, yPosition);
