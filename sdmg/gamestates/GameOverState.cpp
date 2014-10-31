@@ -18,6 +18,7 @@
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
+#include "helperclasses\statistics\Statistics.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -49,6 +50,30 @@ namespace sdmg {
 			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");
+
+			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
+			for (auto rank = 0; rank < deadList.size(); rank++) {
+				// Get character name
+				std::string charname = "";
+				for (auto c : deadList.at(rank)->getName()) {
+					if (c != ' ')
+						charname += tolower(c);
+					else break;
+				}
+
+				for (auto i = 0; i < statistics.size(); i++) {
+					if (statistics.at(i).at(0) == charname) {
+						if (rank == (deadList.size() - 1))
+							statistics.at(i).at(1) = std::to_string(1 + std::stoi(statistics.at(i).at(1)));
+						else
+							statistics.at(i).at(2) = std::to_string(1 + std::stoi(statistics.at(i).at(2)));
+						break;
+					}
+
+				}
+			}
+
+			Statistics::getInstance().save(statistics);
 		}
 
 		void GameOverState::menuAction(MenuItem *item)

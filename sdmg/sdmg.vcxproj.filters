@@ -85,6 +85,9 @@
     <Filter Include="Source Files\helperclasses\menuitems">
       <UniqueIdentifier>{052c3cde-1d21-4705-ac35-d179f0629060}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\helperclasses\statistics">
+      <UniqueIdentifier>{b631581c-97ed-4889-aa42-ad91a539a6c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -260,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="gamestates\TutorialState.cpp">
       <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\statistics\Statistics.cpp">
+      <Filter>Source Files\helperclasses\statistics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -457,6 +463,9 @@
     </ClInclude>
     <ClInclude Include="gamestates\TutorialState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\statistics\Statistics.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
