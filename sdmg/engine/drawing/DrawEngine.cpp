@@ -90,6 +90,13 @@ namespace sdmg {
 					_surfaces->erase(key);
 				}
 			}
+
+			void DrawEngine::unloadText(std::string key) {
+				if (_textSurfaces->find(key) != _textSurfaces->end()) {
+					delete (*_textSurfaces)[key];
+					_textSurfaces->erase(key);
+				}
+			}
 			
 			void DrawEngine::unloadAll() {
 				std::map<std::string, Surface*>::iterator itr = _surfaces->begin();

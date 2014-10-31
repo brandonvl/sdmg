@@ -252,13 +252,13 @@
     <ClCompile Include="helperclasses\HUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gamestates\TutorialState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gamestates\OptionsState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
     <ClCompile Include="gamestates\StatisticsState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\TutorialState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
   </ItemGroup>
@@ -449,13 +449,13 @@
     <ClInclude Include="helperclasses\HUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\TutorialState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gamestates\OptionsState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\StatisticsState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\TutorialState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>

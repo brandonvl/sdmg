@@ -46,8 +46,9 @@ namespace sdmg {
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight, Surface::AnimationType animationType);
 				void unload(std::string key);
+				void unloadText(std::string key);
 				void unloadAll();
-
+				
 				void draw(std::string key);
 				void draw(std::string key, float x, float y);
 				void draw(GameObject *gameObject);

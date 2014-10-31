@@ -273,6 +273,10 @@ namespace sdmg {
 
 			// Load tutorial objects
 			if (_isTutorial) {
+				// Set lives
+				for (auto c : *_characters)
+					c->setLives(10000);
+
 				//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
 				de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
 				de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
