@@ -116,6 +116,8 @@ namespace sdmg {
 				game.getEngine()->getInputEngine()->clearBindings();
 
 				game.getWorld()->clearWorld();
+
+				//  game.getStateManager()->cleanup();
 			}
 		}
 
