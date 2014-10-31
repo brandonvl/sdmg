@@ -1,14 +1,16 @@
-name="Fiat Panda"
-width=110
-height=153
-horizontalSpeed=20
-verticalSpeed=2.2
-scale=0.30
-idle=(389.4,510)
-walking=(494.25,527)
-jumping=(419.2,579)
-jumpEnd=(417,575)
-falling=(417,575)
-forwardRoll=(681.13,545)
-knockback=(376,518)
-kneeling=(399,524)
+{
+	name: "Fiat Panda",
+	width: 110,
+	height: 153,
+	horizontalSpeed: 20,
+	verticalSpeed: 2.2,
+	scale: 0.30,
+	idle: [389.4,510],
+	walking: [494.25,527],
+	jumping: [419.2,579],
+	jumpEnd: [417,575],
+	falling: [417,575],
+	forwardRoll: [681.13,545],
+	knockback: [376,518],
+	kneeling: [399,524]
+}

@@ -25,6 +25,8 @@
 #include "engine\audio\AudioEngine.h"
 #include "TutorialState.h"
 #include "helperclasses\HUD.h"
+#include "engine\util\FileParser.h"
+#include "lib\JSONParser.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -129,6 +131,99 @@ namespace sdmg {
 		}
 
 		void LoadingState::load() {
+			loadLevel();
+			loadKeybindings();
+			
+			_isLoaded = true;
+		}
+
+		void LoadingState::loadLevel() {
+			
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/level1/data");
+			JSON::JSONObject &levelObj = doc->getRootObject();
+
+			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
+			DrawEngine *de = _game->getEngine()->getDrawEngine();
+
+			pe->setWorldGravity(levelObj.getObject("gravity").getFloat("left"), levelObj.getObject("gravity").getFloat("down"));
+
+			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
+
+			for (int i = 0; i < platformArr.size(); i++) {
+				JSON::JSONObject platformObj = platformArr.getObject(i);
+
+				_platform = new model::Platform(false);
+				_platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
+				_platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
+				pe->addBody(_platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
+				_game->getWorld()->addGameObject(_platform);
+				de->load(_platform, R"(assets\levels\level1\platform)");
+			}
+
+			de->load("background", R"(assets\levels\level1\background)");
+			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
+
+			_bullets = new std::vector<MovablePlatform*>;
+
+			loadCharacters(levelObj.getArray("startingPositions"));
+		}
+
+		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
+			std::string loadCharacters[] = { "nivek", "fiat" };
+			_characters = new std::vector<Character*>(2);
+
+			for (int i = 0; i < 2; i++) {
+				int retries = 0;
+				do{
+					JSON::JSONObject posObj = startingPositions.getObject(i);
+					(*_characters)[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
+					if (retries++ > 10){
+						_isError = true;
+						return;
+					}
+				} while ((*_characters)[i] == nullptr);
+			}
+
+			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
+			(*_characters)[0]->setSpawnDirection(MovableGameObject::Direction::LEFT);
+
+			// Create a HUD for each player
+			_huds = new std::vector<helperclasses::HUD*>();
+
+			for (int i = 0; i < _characters->size(); i++) {
+				HUD *hud = new HUD(*(*_characters)[i], 245 * i + 15);
+				_huds->push_back(hud);
+			}
+		}
+
+		void LoadingState::loadKeybindings() {
+			InputDeviceBinding *binding = new InputDeviceBinding();
+			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[0]));
+			//  binding->setKeyBinding(SDLK_KP_1, new actions::RespawnAction((*_characters)[0]));
+
+			/*
+			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[0]));
+			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[0]));
+			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[0]));
+			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[0]));
+			binding->setKeyBinding(9, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(8, new actions::RollAction((*_characters)[0]));
+			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[0]));
+			*/
+
+			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
+			//  binding->setKeyBinding(SDLK_q, new actions::RespawnAction((*_characters)[1]));
+			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+		}
+
+		void LoadingState::loadStatic() {
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			pe->setWorldGravity(0.0f, 100.0f);
 			_platform = new model::Platform(false);
@@ -137,37 +232,11 @@ namespace sdmg {
 			pe->addBody(_platform, 30, 20);
 			_game->getWorld()->addGameObject(_platform);
 
-			_characters = new std::vector<Character*>(2);
+			
 
 			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
 
-			int retries = 0;
-
-			do{
-				(*_characters)[0] = factories::CharacterFactory::create("nivek", *_game, 1100, -100);
-				if (retries++ > 10){
-					_isError = true;
-					return;
-				}
-			} while ((*_characters)[0] == nullptr);
-			
-			(*_characters)[0]->setDirection(MovableGameObject::Direction::LEFT);
-			(*_characters)[0]->setSpawnDirection(MovableGameObject::Direction::LEFT);
-
-			do{
-				(*_characters)[1] = factories::CharacterFactory::create("fiat", *_game, 150, -100);
-				if (retries++ > 10){
-					_isError = true;
-					return;
-				}
-			} while ((*_characters)[1] == nullptr);
-
-			_huds = new std::vector<helperclasses::HUD*>();
-
-			for (int i = 0; i < _characters->size(); i++) {
-				HUD *hud = new HUD(*(*_characters)[i], 245 * i + 15);
-				_huds->push_back(hud);
-			}
+			//loadCharacters();
 			
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
