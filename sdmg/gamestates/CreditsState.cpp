@@ -41,7 +41,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("starring");
 			game.getEngine()->getDrawEngine()->unload("bob");
 			
-			game.getEngine()->getDrawEngine()->unloadAll();
+			// game.getEngine()->getDrawEngine()->unloadAll();
 		}
 
 		void CreditsState::pause(GameBase &game)
@@ -60,7 +60,8 @@ namespace sdmg {
 			{
 				switch (event.type) {
 				case SDL_KEYDOWN:
-					changeState(game, OptionsState::getInstance());
+					//changeState(game, OptionsState::getInstance());
+					_game->getStateManager()->popState();
 					break;
 				case SDL_QUIT:
 					game.stop();

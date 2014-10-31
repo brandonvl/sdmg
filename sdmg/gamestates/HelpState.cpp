@@ -28,6 +28,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("howtowin2");
 			game.getEngine()->getDrawEngine()->unload("howtowin3");
 			game.getEngine()->getDrawEngine()->unload("howtowin4");
+			
+			//  game.getEngine()->getDrawEngine()->unloadAll();
 		}
 
 		void HelpState::pause(GameBase &game)

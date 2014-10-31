@@ -23,7 +23,12 @@ namespace sdmg {
 			}
 
 			DrawEngine::~DrawEngine() {
-
+				unloadAll();
+				delete _surfaces;
+				delete _textSurfaces;
+				delete _objectSurfaces;
+				delete _objectStateSurfaces;
+				delete _steps;
 			}
 
 			void DrawEngine::load(std::string key, std::string path) {

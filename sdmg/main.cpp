@@ -15,12 +15,15 @@ using namespace sdmg;
 #include "gamestates\IntroState.h"
 #include "gamestates\LoadingState.h"
 
+//#include "vld\include\vld.h"
+
 int main(int argc, char **argv)
 {
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK);
 	Game *game = new Game();
 
 	game->start();
+	delete game;
 	SDL_Quit();
 	return 0;
 }

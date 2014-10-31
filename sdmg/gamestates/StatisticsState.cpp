@@ -4,12 +4,17 @@
 #include "engine\input\InputEngine.h"
 #include "OptionsState.h"
 
+#include <fstream>
+
 namespace sdmg {
 	namespace gamestates {
 
 		void StatisticsState::init(GameBase &game)
 		{
 			_game = &game;
+
+			// Load statistics
+			std::vector<std::vector<std::string>> statistics = loadStatistics();
 
 			game.getEngine()->getDrawEngine()->load("help", R"(assets\screens\help)");
 
@@ -18,24 +23,44 @@ namespace sdmg {
 			loadText("wins", "Wins", "trebucbd", 36);
 			loadText("losses", "Losses", "trebucbd", 36);
 
+			// Set character names
 			loadText("nivekname", "Nivek the Assassin", "trebucbd", 36);
-			loadText("nivekwins", "0", "trebucbd", 36);
-			loadText("niveklosses", "0", "trebucbd", 36);
 			loadText("silencename", "Silence the Code Ninja", "trebucbd", 36);
-			loadText("silencewins", "0", "trebucbd", 36);
-			loadText("silencelosses", "0", "trebucbd", 36);
 			loadText("fiatname", "Fiat Panda", "trebucbd", 36);
-			loadText("fiatwins", "0", "trebucbd", 36);
-			loadText("fiatlosses", "0", "trebucbd", 36);
 			loadText("luckyname", "Always Lucky Cowboy", "trebucbd", 36);
-			loadText("luckywins", "0", "trebucbd", 36);
-			loadText("luckylosses", "0", "trebucbd", 36);
 			loadText("mindname", "Mind the Ice Mage", "trebucbd", 36);
-			loadText("mindwins", "0", "trebucbd", 36);
-			loadText("mindlosses", "0", "trebucbd", 36);
-			loadText("enriquename", "Enrique the Shit is Banana's", "trebucbd", 36);
-			loadText("enriquewins", "0", "trebucbd", 36);
-			loadText("enriquelosses", "0", "trebucbd", 36);
+			loadText("enriquename", "Enrique the Suit is Bananas", "trebucbd", 36);
+			
+			// Set character statistics
+			for (auto s : statistics) {
+				loadText(s.at(0) + "wins", s.at(1), "trebucbd", 36);
+				loadText(s.at(0) + "losses", s.at(2), "trebucbd", 36);
+			}
+		}
+
+		std::vector<std::vector<std::string>> StatisticsState::loadStatistics()
+		{
+			std::vector<std::vector<std::string>> statistics;
+			std::vector<std::string> character;
+			const std::string textfile("assets\\statistics\\statistics");
+			std::ifstream input_file(textfile);
+
+			std::string line;
+			while (getline(input_file, line)) {
+				std::string str;
+				for (auto c : line) {
+					if (c == ' ' || c == ';') {
+						character.push_back(str);
+						str = "";
+					}
+					else {
+						str += c;
+					}
+				}
+				statistics.push_back(character);
+				character.clear();
+			}
+			return statistics;
 		}
 
 		void StatisticsState::cleanup(GameBase &game)
@@ -95,6 +120,9 @@ namespace sdmg {
 
 		void StatisticsState::draw(GameBase &game, GameTime &gameTime)
 		{
+			// Load statistics
+			std::vector<std::vector<std::string>> statistics = loadStatistics();
+
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
 			drawEngine->prepareForDraw();
@@ -103,48 +131,22 @@ namespace sdmg {
 			drawEngine->drawText("title", 100, 100);
 
 			int winspos = 680;
-			int lossespos = 820;
+			int lossespos = 900;
 
 			drawEngine->drawText("wins", winspos, 200);
 			drawEngine->drawText("losses", lossespos, 200);
 
 			int vpos = 248;
-			winspos += 32;
-			lossespos += 48;
+			winspos += 10;
+			lossespos += 10;
 
-			drawEngine->drawText("nivekname", 100, vpos);
-			drawEngine->drawText("nivekwins", winspos, vpos);
-			drawEngine->drawText("niveklosses", lossespos, vpos);
+			for (auto s : statistics) {
+				drawEngine->drawText(s.at(0) + "name", 100, vpos);
+				drawEngine->drawText(s.at(0) + "wins", winspos, vpos);
+				drawEngine->drawText(s.at(0) + "losses", lossespos, vpos);
 
-			vpos += 48;
-
-			drawEngine->drawText("silencename", 100, vpos);
-			drawEngine->drawText("silencewins", winspos, vpos);
-			drawEngine->drawText("silencelosses", lossespos, vpos);
-
-			vpos += 48;
-
-			drawEngine->drawText("fiatname", 100, vpos);
-			drawEngine->drawText("fiatwins", winspos, vpos);
-			drawEngine->drawText("fiatlosses", lossespos, vpos);
-
-			vpos += 48;
-
-			drawEngine->drawText("luckyname", 100, vpos);
-			drawEngine->drawText("luckywins", winspos, vpos);
-			drawEngine->drawText("luckylosses", lossespos, vpos);
-
-			vpos += 48;
-
-			drawEngine->drawText("mindname", 100, vpos);
-			drawEngine->drawText("mindwins", winspos, vpos);
-			drawEngine->drawText("mindlosses", lossespos, vpos);
-
-			vpos += 48;
-
-			drawEngine->drawText("enriquename", 100, vpos);
-			drawEngine->drawText("enriquewins", winspos, vpos);
-			drawEngine->drawText("enriquelosses", lossespos, vpos);
+				vpos += 48;
+			}
 
 			drawEngine->render();
 		}

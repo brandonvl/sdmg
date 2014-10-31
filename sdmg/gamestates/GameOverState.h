@@ -47,9 +47,9 @@ namespace sdmg {
 			GameOverState() { }
 			void menuAction(MenuItem *item) override;
 		private:
-			std::vector<model::Character*> *_characters;
 			int _characterCount;
 			GameBase *_game;
+			bool _replay;
 		};
 	}
 }

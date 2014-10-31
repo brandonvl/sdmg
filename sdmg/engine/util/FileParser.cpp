@@ -18,86 +18,94 @@ namespace sdmg {
 				char ch;
 				_fin = fstream(path, fstream::in);
 
-				if (_fin.is_open()) {
+				try {
+					// Check if file is open
+					if (_fin.is_open()) {
+						resetValues();
 
-					ValueType type = ValueType::NUMBER;
-					bool valueMode = false, isFinished = false;
+						// While, read file per character
+						while (_fin >> noskipws >> ch) {
 
-					std::string name, value;
-
-					while (_fin >> noskipws >> ch) {
-
-						if (!valueMode) {
-							if (ch != '=') name += ch;
-							else valueMode = true;
-						}
-						else {
-							if (ch == '"' && value.size() == 0) type = ValueType::STRING;
-							else if (ch == '"' && type == ValueType::STRING) isFinished = true;
-							else if (ch == '(' && value.size() == 0) type = ValueType::ARRAY;
-							else if (ch == ')' && type == ValueType::ARRAY) isFinished = true;
-							else if (ch == '\n') {
-								if (!handle(name, value, valueMode, type, isFinished)) {
-									_fin.close();
-									return false;
-								}
+							// If not in value-mode
+							if (!_valueMode) {
+								// Keep adding the character to the name/key string unit a '=' sign is found
+								if (ch != '=') _name += ch;
+								else _valueMode = true;
 							}
-							else if ((ch == '"' && type != ValueType::STRING) || isFinished) {
-								_fin.close();
-								return false;
-							}
-							else value += ch;
+							else handleValueCharacter(ch);
 						}
-					}
 
-					if (!handle(name, value, valueMode, type, isFinished)) {
+						// Handle the built strings (create key-value pair)
+						addToMap();
+
+						// Close stream and return true
 						_fin.close();
-						return false; 
+						return true;
 					}
-
-					_fin.close();
-
-					return true;
 				}
-				else return false;
+				catch (...) {
+					_fin.close();
+					return false;
+				}
+				
+				return false;
 			}
 
-			bool FileParser::handle(std::string &name, std::string &value, bool &valueMode, ValueType &valueType, bool &isFinished) {
-				
-				
-				switch(valueType) {
+			void FileParser::handleValueCharacter(char &ch) {
+				// Handle value character
+				// If the value is empty and a quote if found, the type is string
+				if (ch == '"' && _value.size() == 0) _type = ValueType::STRING;
+				// If the type is a string and a quote is found, the end of the string is reached
+				else if (ch == '"' && _type == ValueType::STRING) _isFinished = true;
+				// If the value is empty and a '(' is found, the type is array
+				else if (ch == '(' && _value.size() == 0) _type = ValueType::ARRAY;
+				// If the type is array and a ')' is found, the array is closed
+				else if (ch == ')' && _type == ValueType::ARRAY) _isFinished = true;
+				// Key-value pair is closed if a newline is found
+				else if (ch == '\n' && (_type == ValueType::NUMBER || _isFinished)) {
+					// Handle the built strings (create key-value pair)
+					addToMap();
+				}
+				// Invalid cases:
+				// - If a quote is found and the type is not a string
+				// - If the current value is closed (and apparently another character is found on the current line)
+				else if ((ch == '"' && _type != ValueType::STRING) || _isFinished) {
+					throw HandleCharException();
+				}
+				// Append character to value
+				else _value += ch;
+			}
+
+			void FileParser::addToMap() {
+				switch(_type) {
 				case ValueType::STRING:
-					if (!isFinished) return false;
-					_stringMap.insert(std::make_pair(name, value));
+					if (!_isFinished) throw AddToMapException();
+					_stringMap.insert(std::make_pair(_name, _value));
 					break;
 				case ValueType::ARRAY:
 				{
 					std::string tmpValue;
 					std::vector<float> arr;
 
-					for (int i = 0; i < value.length(); i++) {
-						if (value[i] == ','){
+					for (int i = 0; i < _value.length(); i++) {
+						if (_value[i] == ','){
 							arr.push_back(std::atof(tmpValue.c_str()));
 							tmpValue.clear();
 						}
-						else tmpValue += value[i];
+						else tmpValue += _value[i];
 					}
 
 					if (tmpValue.length() > 0) arr.push_back(std::atof(tmpValue.c_str()));
 
-					_arrayMap.insert(std::make_pair(name, arr));
+					_arrayMap.insert(std::make_pair(_name, arr));
 					break;
 				}
 				default:
-					_floatMap.insert(std::make_pair(name, std::atof(value.c_str())));
+					_floatMap.insert(std::make_pair(_name, std::atof(_value.c_str())));
 					break;
 				}
-				
-				valueMode = false;
-				valueType = ValueType::NUMBER;
-				isFinished = false;
-				name.clear();
-				value.clear();
+
+				resetValues();
 			}
 
 			std::string FileParser::getString(std::string name) {
@@ -116,6 +124,14 @@ namespace sdmg {
 				if (_arrayMap.count(name))
 					return _arrayMap[name];
 				return vector<float>(0);
+			}
+
+			void FileParser::resetValues() {
+				_type = ValueType::NUMBER;
+				_valueMode = false;
+				_isFinished = false;
+				_name.clear();
+				_value.clear();
 			}
 		}
 	}

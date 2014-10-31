@@ -9,9 +9,11 @@
 
 #pragma once
 #include "engine\GameState.h"
+struct SDL_Thread;
 
 using namespace sdmg::engine;
 
+namespace JSON { class JSONArray; }
 namespace sdmg {
 	namespace model {
 		class Platform;
@@ -41,14 +43,20 @@ namespace sdmg {
 		protected:
 			LoadingState() { }
 		private:
+			SDL_Thread *thread;
 			static int loadThread(void *ptr);
 			void load();
+			void loadStatic();
+			void loadCharacters(JSON::JSONArray &startingPositions);
+			void loadLevel();
+			void loadKeybindings();
 			bool _isLoaded, _isError, _isTutorial;
 			std::vector<model::Character*> *_characters;
 			std::vector<model::MovablePlatform*> *_bullets;
 			std::vector<helperclasses::HUD*> *_huds;
 			model::Platform *_platform;
 			GameBase *_game;
+			
 		};
 	}
 }

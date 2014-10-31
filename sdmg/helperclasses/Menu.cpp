@@ -7,7 +7,10 @@ namespace sdmg {
 
 		Menu::~Menu()
 		{
-
+			for (auto it : _menuItems)
+			{
+				delete it;
+			}
 		}
 
 		void Menu::addMenuItem(MenuItem *item)
