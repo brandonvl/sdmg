@@ -40,8 +40,6 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("este");
 			game.getEngine()->getDrawEngine()->unload("starring");
 			game.getEngine()->getDrawEngine()->unload("bob");
-			
-			// game.getEngine()->getDrawEngine()->unloadAll();
 		}
 
 		void CreditsState::pause(GameBase &game)

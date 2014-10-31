@@ -19,21 +19,24 @@ namespace sdmg {
 
 			InputDeviceBinding::~InputDeviceBinding() {
 
-				for (auto it : *_keyBindings)
-				{
-					delete it.second;
-				}
+				clearBindings();
 
 				delete _keyBindings;
 			}
 
 			void InputDeviceBinding::setKeyBinding(const int keyCode, Action *action) {
 				// check if binding exists
-				if (_keyBindings->count(keyCode)) (*_keyBindings)[keyCode] = action; // replace
+				if (_keyBindings->count(keyCode)) { delete (*_keyBindings)[keyCode]; (*_keyBindings)[keyCode] = action; } // replace
 				else _keyBindings->insert(std::pair<const int, Action*>(keyCode, action)); // insert
 			}
 			
 			void InputDeviceBinding::clearBindings() {
+
+				for (auto it : *_keyBindings)
+				{
+					delete it.second;
+				}
+
 				_keyBindings->clear();
 			}
 			

@@ -71,6 +71,8 @@ namespace sdmg {
 				_huds->clear();
 			}
 
+			delete _huds;
+			delete _characters;
 			delete _bullets;
 			delete _huds;
 			delete _characters;

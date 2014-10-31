@@ -10,9 +10,11 @@
 
 #include "DrawEngine.h"
 #include "TextSurface.h"
+#include "DynamicTextSurface.h"
 #include <Box2D\Box2D.h>
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
+#include "..\..\sdl\include\SDL_image.h"
 
 namespace sdmg {
 	namespace engine {
@@ -29,13 +31,15 @@ namespace sdmg {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
-				_surfaces.insert(std::pair<std::string, Surface*>(key, surface));
+				if (_surfaces.find(key) != _surfaces.end()) { SDL_DestroyTexture(_surfaces[key].getSDLTexture()); _surfaces[key] = surface; }
+				else _surfaces.insert(std::pair<std::string, Surface*>(key, surface));
 			}
-
+			
 			void DrawEngine::load(GameObject *gameObject, std::string path) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
+				if (_objectSurfaces.find(gameObject) != _objectSurfaces.end()) { SDL_DestroyTexture(_objectSurfaces[gameObject]->getSDLTexture()); _objectSurfaces[gameObject] = surface; }
 				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
@@ -229,6 +233,24 @@ namespace sdmg {
 				_textSurfaces.insert(std::pair<std::string, TextSurface*>(key, tSurface));
 				// Close font
 				TTF_CloseFont(font);
+			}
+
+			void DrawEngine::loadDynamicText(std::string key, SDL_Color fgColor, std::string fontName, int fontSize) {
+				// Initialize SDL_ttf library
+				if (!TTF_WasInit())
+					TTF_Init();
+				// Create new font
+				std::string path = "assets/fonts/";
+				TTF_Font *font = TTF_OpenFont(path.append(fontName.append(".ttf")).c_str(), fontSize);
+				// Create new DynamicTextSurface
+				DynamicTextSurface *tSurface = new DynamicTextSurface(fgColor, font);
+				// Insert DynamicTextSurface
+				_dynTextSurfaces->insert(std::pair<std::string, DynamicTextSurface*>(key, tSurface));
+			}
+
+			void DrawEngine::drawDynamicText(std::string key, std::string text, float x, float y) {
+				DynamicTextSurface *tSurface = (*_dynTextSurfaces)[key];
+				SDL_RenderCopy(_renderer, tSurface->drawTexture(_renderer, text), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
 
 			void DrawEngine::drawText(std::string key, float x, float y) {

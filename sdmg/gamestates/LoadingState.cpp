@@ -45,7 +45,8 @@ namespace sdmg {
 
 			// Simply create a thread
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-			//  SDL_WaitThread(thread, NULL);
+			//SDL_WaitThread(thread, NULL);
+			//load();
 			//SDL_DetachThread(thread);
 
 		}
@@ -130,6 +131,9 @@ namespace sdmg {
 		void LoadingState::load() {
 			loadLevel();
 			loadKeybindings();
+
+			if (_isTutorial)
+				loadTutorial();
 			
 			_isLoaded = true;
 		}
@@ -222,6 +226,24 @@ namespace sdmg {
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 		}
 
+		void LoadingState::loadTutorial() {
+			// Set lives
+			for (auto c : *_characters)
+				c->setLives(10000);
+
+			DrawEngine *de = _game->getEngine()->getDrawEngine();
+
+			//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tut2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tut3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tut4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tut5", "To perform a close range attack, press the L key", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tut6", "To dodge an enemy attack, execute a roll, press numlock 0 key to roll", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tut7", "You have successfully passed the tutorial, you are now ready to play the game!", { 255, 255, 255 }, "arial", 30);
+		}
+
 		void LoadingState::loadStatic() {
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			pe->setWorldGravity(0.0f, 100.0f);
@@ -240,7 +262,7 @@ namespace sdmg {
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
-			if (false)
+			/*if (false)
 			{
 				if (!_isTutorial) {
 					_bullets = new std::vector<MovablePlatform*>(3);
@@ -279,7 +301,7 @@ namespace sdmg {
 					de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
 				}
 			}
-			else
+			else*/
 				_bullets = new std::vector<MovablePlatform*>(0);
 
 			/*    Kinematic Bodies
@@ -348,25 +370,6 @@ namespace sdmg {
 			binding2->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("fiat", binding2);
 			*/
-
-
-
-			// Load tutorial objects
-			if (_isTutorial) {
-				// Set lives
-				for (auto c : *_characters)
-					c->setLives(10000);
-
-				//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut5", "To perform a close range attack, press the L key", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut6", "To dodge an enemy attack, execute a roll, press numlock 0 key to roll", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut7", "You have successfully passed the tutorial, you are now ready to play the game!", { 255, 255, 255 }, "arial", 30);
-			}
 
 			_isLoaded = true;
 		}
