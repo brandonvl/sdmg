@@ -80,11 +80,11 @@ namespace sdmg {
 
 		void MainMenuState::cleanup(GameBase &game)
 		{
+			delete _menu;
 			game.getEngine()->getDrawEngine()->unloadText("play");
 			game.getEngine()->getDrawEngine()->unloadText("tutorial");
 			game.getEngine()->getDrawEngine()->unloadText("options");
 			game.getEngine()->getDrawEngine()->unloadText("quit");
-
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}

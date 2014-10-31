@@ -16,6 +16,7 @@ namespace sdmg {
 
 		HUD::~HUD()
 		{
+
 		}
 
 		void HUD::draw(DrawEngine &drawEngine) {

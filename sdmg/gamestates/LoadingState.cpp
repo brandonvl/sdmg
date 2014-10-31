@@ -39,14 +39,11 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->load("loading", R"(assets\screens\loadingscreen)");
 
-			SDL_Thread *thread;
-			int         threadReturnValue;
-
 			printf("\nSimple SDL_CreateThread test:");
 
 			// Simply create a thread
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-			//SDL_WaitThread(thread, NULL);
+			SDL_WaitThread(thread, NULL);
 			//SDL_DetachThread(thread);
 
 		}

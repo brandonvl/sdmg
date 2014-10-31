@@ -27,7 +27,10 @@ namespace sdmg {
 		}
 
 		Engine::~Engine() {
-
+			delete _drawEngine;
+			delete _physicsEngine;
+			delete _inputEngine;
+			delete _audioEngine;
 		}
 
 		void Engine::update(const GameState *gameState, const GameTime *gameTime) {
