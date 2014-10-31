@@ -13,11 +13,15 @@
 #include "engine\input\InputEngine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "model\Character.h"
-#include "LoadingState.h"
 #include "MainMenuState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
+
+
+#include "LoadingState.h"
+#include "PlayState.h"
+
 
 namespace sdmg {
 	namespace gamestates {
@@ -42,12 +46,14 @@ namespace sdmg {
 			for (int i = deadList.size() - 1; i >= 0; i--) {
 				int rank = (deadList.size() - i);
 				game.getEngine()->getDrawEngine()->loadText("rank" + std::to_string(rank), std::to_string(rank) + ". " + deadList[i]->getName(), { color, color, color }, "arial", 54);
+				std::string asd = deadList[i]->getName();
 				color = 64;
 			}
 
 			_characterCount = deadList.size();
 			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
+			game.getEngine()->getDrawEngine()->unload("background");
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");
 		}
 
@@ -56,20 +62,59 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Replay") {
-				// changeState(*_game, PlayState::getInstance());
-				changeState(*_game, LoadingState::getInstance());
+
+
+				_game->getWorld()->resetWorld();
+				const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
+
+				for (int i = 0; i < aliveList.size(); i++)
+				{
+					model::Character *character = static_cast<model::Character*>(aliveList[i]);
+					character->revive();
+					// character->setState(MovableGameObject::State::RESPAWN);
+				}
+
+				_replay = true;
+
+				changeState(*_game, PlayState::getInstance());
+				// changeState(*_game, LoadingState::getInstance());
+				/*
+				_replay = true;
+
+				_game->getStateManager()->popState();
+				*/
 			}
 			else if (tag == "Main Menu") {
+				_replay = false;
 				changeState(*_game, MainMenuState::getInstance());
 			}
 		}
 
 		void GameOverState::cleanup(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->unloadAll();
-			game.getEngine()->getInputEngine()->clearBindings();
+			if (_replay)
+			{
+				DrawEngine *de = game.getEngine()->getDrawEngine();
+				de->unload("winner");
+				de->unload("background");
+				de->unloadText("replay");
+				de->unloadText("main menu");
+				delete _menu;
 
-			game.getWorld()->clearWorld();
+				for (int i = 1; i <= _characterCount; i++) {
+					std::string asd = "rank" + std::to_string(i);
+					de->unloadText("rank" + std::to_string(i));
+				}
+
+				de->load("background", R"(assets\levels\level1\background)");
+			}
+			else
+			{
+				game.getEngine()->getDrawEngine()->unloadAll();
+				game.getEngine()->getInputEngine()->clearBindings();
+
+				game.getWorld()->clearWorld();
+			}
 		}
 
 		void GameOverState::pause(GameBase &game)

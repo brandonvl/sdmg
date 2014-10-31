@@ -112,7 +112,8 @@ namespace sdmg {
 				if (game.getWorld()->getAliveList().size() > 0)
 					game.getWorld()->getAliveList()[0]->die();
 				game.getEngine()->getPhysicsEngine()->pause();
-				changeState(game, GameOverState::getInstance());
+				//changeState(game, GameOverState::getInstance());
+				game.getStateManager()->pushState(GameOverState::getInstance());
 			}
 
 			game.getEngine()->getInputEngine()->runActions(game);

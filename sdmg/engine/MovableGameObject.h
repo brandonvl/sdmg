@@ -78,10 +78,10 @@ namespace sdmg {
 
 		private:
 			Direction _spawnDirection;
-			int _lives, _hp;
 			Size _attackSize;
 			float _attackY;
 		protected:
+			int _lives, _hp;
 			b2Body *_attackBody;
 			Direction _direction;
 			bool _isJumping;

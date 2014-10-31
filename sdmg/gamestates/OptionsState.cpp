@@ -40,7 +40,8 @@ namespace sdmg {
 				_game->getStateManager()->pushState(HelpState::getInstance());
 			}
 			else if (tag == "Credits") {
-				changeState(*_game, CreditsState::getInstance());
+				_game->getStateManager()->pushState(CreditsState::getInstance());
+				//changeState(*_game, CreditsState::getInstance());
 			}
 		}
 

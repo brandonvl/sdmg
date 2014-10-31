@@ -64,9 +64,9 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKRIGHT, folder + "knockback.sprite", parser.getArray("knockback")[0], parser.getArray("knockback")[1], scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::KNEELING, folder + "kneeling.sprite", parser.getArray("kneeling")[0], parser.getArray("kneeling")[1], scale, Surface::AnimationType::ONCE);
 
-			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "mid_range_attack_begin.sprite", parser.getArray("midRangeAttackEnd")[0], parser.getArray("midRangeAttackEnd")[1], scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "mid_range_attack_begin.sprite", parser.getArray("midRangeAttackBegin")[0], parser.getArray("midRangeAttackBegin")[1], scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "mid_range_attack.sprite", parser.getArray("midRangeAttack")[0], parser.getArray("midRangeAttack")[1], scale, Surface::AnimationType::ONCE);
-			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKEND, folder + "mid_range_attack_end.sprite", parser.getArray("midRangeAttackBegin")[0], parser.getArray("midRangeAttackBegin")[1], scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKEND, folder + "mid_range_attack_end.sprite", parser.getArray("midRangeAttackEnd")[0], parser.getArray("midRangeAttackEnd")[1], scale, Surface::AnimationType::ONCE);
 		
 		}
 	}

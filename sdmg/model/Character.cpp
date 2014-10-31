@@ -39,5 +39,11 @@ namespace sdmg {
 		void Character::die() {
 			getWorld()->onDead(this);
 		}
+
+		void Character::revive()
+		{
+			_hp = 100;
+			_lives = 5;
+		}
 	}
 }
