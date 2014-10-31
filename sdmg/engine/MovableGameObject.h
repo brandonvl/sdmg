@@ -63,12 +63,24 @@ namespace sdmg {
 			void setHP(int hp);
 			bool getIsJumping();
 			void setIsJumping(bool isJumping);
+			
+			
+			
+			
 			b2Body* getAttackBody();
 			void setAttackBody(b2Body *attackBody);
+			float getAttackY();
+			void setAttackY(float y);
+			float MovableGameObject::getAttackWidth();
+			float MovableGameObject::getAttackHeight();
+			void MovableGameObject::setAttackSize(Size size);
+			void MovableGameObject::setAttackSize(float width, float height);
 
 		private:
 			Direction _spawnDirection;
 			int _lives, _hp;
+			Size _attackSize;
+			float _attackY;
 		protected:
 			b2Body *_attackBody;
 			Direction _direction;

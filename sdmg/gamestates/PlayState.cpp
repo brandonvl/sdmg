@@ -65,8 +65,11 @@ namespace sdmg {
 			for (MovablePlatform *platform : *_bullets)
 				delete platform;
 
+			for (auto it : *_huds) {
+				delete it;
+			}
+
 			delete _bullets;
-			delete _platform;
 		}
 
 		void PlayState::pause(GameBase &game)

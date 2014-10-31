@@ -33,8 +33,9 @@ namespace sdmg {
 			_tutorial = new std::vector<std::pair<SDL_Keycode, std::string>>();
 			_toDraw = new std::vector<std::string>();
 
-			
-			_tutorial->push_back(std::make_pair(SDLK_KP_0, "tut5"));
+			_tutorial->push_back(std::make_pair(SDLK_KP_0, "tut7"));
+			_tutorial->push_back(std::make_pair(SDLK_l, "tut6"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tut5"));
 			_tutorial->push_back(std::make_pair(SDLK_UP, "tut4"));
 			_tutorial->push_back(std::make_pair(SDLK_RIGHT, "tut3"));
 			_tutorial->push_back(std::make_pair(SDLK_LEFT, "tut2"));
@@ -55,19 +56,21 @@ namespace sdmg {
 
 		void TutorialState::cleanup(GameBase &game)
 		{
+			game.getWorld()->clearWorld();
 			game.getEngine()->getPhysicsEngine()->cleanUp();
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getAudioEngine()->unloadAll();
-			//  game.getWorld()->clearWorld();
+			
 
-			game.getEngine()->getDrawEngine()->unload("tutIntro");
-			game.getEngine()->getDrawEngine()->unload("tut1");
-			game.getEngine()->getDrawEngine()->unload("tut2");
-			game.getEngine()->getDrawEngine()->unload("tut3");
-			game.getEngine()->getDrawEngine()->unload("tut4");
-			game.getEngine()->getDrawEngine()->unload("tut5");
+			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
+			game.getEngine()->getDrawEngine()->unloadText("tut1");
+			game.getEngine()->getDrawEngine()->unloadText("tut2");
+			game.getEngine()->getDrawEngine()->unloadText("tut3");
+			game.getEngine()->getDrawEngine()->unloadText("tut4");
+			game.getEngine()->getDrawEngine()->unloadText("tut5");
+			game.getEngine()->getDrawEngine()->unloadText("tut6");
+			game.getEngine()->getDrawEngine()->unloadText("tut7");
 
-			delete _platform;
 			delete _tutorial;
 			delete _toDraw;
 		}
@@ -110,7 +113,7 @@ namespace sdmg {
 
 		void TutorialState::update(GameBase &game, GameTime &gameTime)
 		{
-			if (_pressed) {
+			if (_pressed && _tutorial->size() > 0) {
 				SDL_Keycode key = _tutorial->back().first;
 				if (key == _pressed) 
 				{ 

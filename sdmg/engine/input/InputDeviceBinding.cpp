@@ -18,6 +18,12 @@ namespace sdmg {
 			}
 
 			InputDeviceBinding::~InputDeviceBinding() {
+
+				for (auto it : *_keyBindings)
+				{
+					delete it.second;
+				}
+
 				delete _keyBindings;
 			}
 

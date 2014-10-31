@@ -66,10 +66,10 @@ namespace sdmg {
 
 		void GameOverState::cleanup(GameBase &game)
 		{
+			delete _menu;
+			game.getWorld()->clearWorld();
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
-
-			game.getWorld()->clearWorld();
 		}
 
 		void GameOverState::pause(GameBase &game)

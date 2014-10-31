@@ -26,6 +26,13 @@ namespace sdmg {
 			internalInitialize();
 		}
 
+		GameBase::~GameBase() {
+			delete _gameTime;
+			delete _world;
+			delete _engine;
+			delete _gameStateManager;
+		}
+
 		void GameBase::start() {
 			_running = true;
 			_gameStateManager->changeState(gamestates::MainMenuState::getInstance());

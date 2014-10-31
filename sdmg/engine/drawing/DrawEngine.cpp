@@ -22,7 +22,12 @@ namespace sdmg {
 			}
 
 			DrawEngine::~DrawEngine() {
-
+				unloadAll();
+				delete _surfaces;
+				delete _textSurfaces;
+				delete _objectSurfaces;
+				delete _objectStateSurfaces;
+				delete _steps;
 			}
 
 			void DrawEngine::load(std::string key, std::string path) {
@@ -88,6 +93,13 @@ namespace sdmg {
 				if (_surfaces->find(key) != _surfaces->end()) {
 					delete (*_surfaces)[key];
 					_surfaces->erase(key);
+				}
+			}
+
+			void DrawEngine::unloadText(std::string key) {
+				if (_textSurfaces->find(key) != _textSurfaces->end()) {
+					delete (*_textSurfaces)[key];
+					_textSurfaces->erase(key);
 				}
 			}
 			

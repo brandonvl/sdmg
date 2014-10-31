@@ -9,6 +9,8 @@
 
 #pragma once
 #include "engine\GameState.h"
+struct SDL_Thread;
+
 using namespace sdmg::engine;
 
 namespace JSON { class JSONArray; }
@@ -41,6 +43,7 @@ namespace sdmg {
 		protected:
 			LoadingState() { }
 		private:
+			SDL_Thread *thread;
 			static int loadThread(void *ptr);
 			void load();
 			void loadStatic();
@@ -53,6 +56,7 @@ namespace sdmg {
 			std::vector<helperclasses::HUD*> *_huds;
 			model::Platform *_platform;
 			GameBase *_game;
+			
 		};
 	}
 }

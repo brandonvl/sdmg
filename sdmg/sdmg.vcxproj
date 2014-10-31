@@ -88,6 +88,7 @@
     <ClCompile Include="actions\RespawnAction.cpp" />
     <ClCompile Include="actions\RightWalkAction.cpp" />
     <ClCompile Include="actions\RollAction.cpp" />
+    <ClCompile Include="ControlsState.cpp" />
     <ClCompile Include="engine\audio\MusicObject.cpp" />
     <ClCompile Include="engine\audio\SampleObject.cpp" />
     <ClCompile Include="gamestates\CreditsState.cpp" />
@@ -120,9 +121,11 @@
     <ClCompile Include="gamestates\LoadingState.cpp" />
     <ClCompile Include="gamestates\MainMenuState.cpp" />
     <ClCompile Include="gamestates\MenuState.cpp" />
+    <ClCompile Include="gamestates\OptionsState.cpp" />
     <ClCompile Include="gamestates\PauseState.cpp" />
     <ClCompile Include="gamestates\PlayState.cpp" />
     <ClCompile Include="gamestates\SelectionState.cpp" />
+    <ClCompile Include="gamestates\StatisticsState.cpp" />
     <ClCompile Include="helperclasses\HUD.cpp" />
     <ClCompile Include="helperclasses\Menu.cpp" />
     <ClCompile Include="helperclasses\MenuItem.cpp" />
@@ -146,6 +149,7 @@
     <ClInclude Include="actions\RespawnAction.h" />
     <ClInclude Include="actions\RightWalkAction.h" />
     <ClInclude Include="actions\RollAction.h" />
+    <ClInclude Include="ControlsState.h" />
     <ClInclude Include="engine\audio\AudioObject.h" />
     <ClInclude Include="engine\audio\MusicObject.h" />
     <ClInclude Include="engine\audio\SampleObject.h" />
@@ -182,9 +186,11 @@
     <ClInclude Include="gamestates\LoadingState.h" />
     <ClInclude Include="gamestates\MainMenuState.h" />
     <ClInclude Include="gamestates\MenuState.h" />
+    <ClInclude Include="gamestates\OptionsState.h" />
     <ClInclude Include="gamestates\PauseState.h" />
     <ClInclude Include="gamestates\PlayState.h" />
     <ClInclude Include="gamestates\SelectionState.h" />
+    <ClInclude Include="gamestates\StatisticsState.h" />
     <ClInclude Include="helperclasses\HUD.h" />
     <ClInclude Include="helperclasses\Menu.h" />
     <ClInclude Include="helperclasses\MenuItem.h" />

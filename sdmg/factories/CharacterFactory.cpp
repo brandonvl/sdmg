@@ -6,16 +6,16 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\World.h"
 #include "lib\JSONParser.h"
+#include "model\Platform.h"
 
 namespace sdmg {
 	namespace factories {
 		Character *CharacterFactory::create(const std::string name, engine::GameBase &game, float xPosition, float yPosition) {
-
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/characters/" + name + "/data");
 			JSON::JSONObject &obj = doc->getRootObject();
 			
 			Character *character = new Character();
-			character->setSize(obj.getFloat("width"), obj.getFloat("height"));
+			character->setSize(obj.getObject("size").getFloat("width"), obj.getObject("size").getFloat("height"));
 			character->setSpeed(obj.getFloat("horizontalSpeed"), obj.getFloat("verticalSpeed"));
 			character->setDirection(MovableGameObject::Direction::RIGHT);
 			character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
@@ -25,8 +25,11 @@ namespace sdmg {
 			character->setHP(100);
 			character->setName(obj.getString("name"));
 			character->setKey(name);
+			character->setAttackSize(obj.getObject("attack").getObject("size").getFloat("width"), obj.getObject("attack").getObject("size").getFloat("height"));
+			character->setAttackY(obj.getObject("attack").getFloat("position"));
+			
 			game.getWorld()->addGameObject(character);
-
+			
 			loadSpriteMap(character, name, game, obj);
 
 			game.getEngine()->getPhysicsEngine()->addBody(character, 40, 10);
@@ -48,23 +51,12 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::FALLINGLEFT, folder + "falling.sprite", obj.getArray("falling").getFloat(0), obj.getArray("falling").getFloat(1), scale, Surface::AnimationType::HOLDLAST);
 			drawEngine->loadMap(character, MovableGameObject::State::FALLINGRIGHT, folder + "falling.sprite", obj.getArray("falling").getFloat(0), obj.getArray("falling").getFloat(1), scale, Surface::AnimationType::HOLDLAST);
 			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
-			
-			if (name == "nivek")
-			{
-				//  drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "right_middle_attack_stab.sprite", parser.getArray("midRange")[0], parser.getArray("midRange")[1], scale, Surface::AnimationType::ONCE);
-
-				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "right_mid_range_attack_begin.sprite", obj.getArray("midRangeAttackEnd").getFloat(0), obj.getArray("midRangeAttackEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
-				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "right_mid_range_attack.sprite", obj.getArray("midRangeAttack").getFloat(0), obj.getArray("midRangeAttack").getFloat(1), scale, Surface::AnimationType::ONCE);
-				drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKEND, folder + "right_mid_range_attack_end.sprite", obj.getArray("midRangeAttackEnd").getFloat(0), obj.getArray("midRangeAttackEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
-
-			}
-			else if (name == "fiat")
-			{
-				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKLEFT, folder + "knockback.sprite", obj.getArray("knockback").getFloat(0), obj.getArray("knockback").getFloat(1), scale, Surface::AnimationType::ONCE);
-				drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKRIGHT, folder + "knockback.sprite", obj.getArray("knockback").getFloat(0), obj.getArray("knockback").getFloat(1), scale, Surface::AnimationType::ONCE);
-				drawEngine->loadMap(character, MovableGameObject::State::KNEELING, folder + "kneeling.sprite", obj.getArray("kneeling").getFloat(0), obj.getArray("kneeling").getFloat(1), scale, Surface::AnimationType::ONCE);
-
-			}
+			drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKLEFT, folder + "knockback.sprite", obj.getArray("knockback").getFloat(0), obj.getArray("knockback").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKRIGHT, folder + "knockback.sprite", obj.getArray("knockback").getFloat(0), obj.getArray("knockback").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::KNEELING, folder + "kneeling.sprite", obj.getArray("kneeling").getFloat(0), obj.getArray("kneeling").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "mid_range_attack_begin.sprite", obj.getArray("midRangeAttackBegin").getFloat(0), obj.getArray("midRangeAttackBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "mid_range_attack.sprite", obj.getArray("midRangeAttack").getFloat(0), obj.getArray("midRangeAttack").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKEND, folder + "mid_range_attack_end.sprite", obj.getArray("midRangeAttackEnd").getFloat(0), obj.getArray("midRangeAttackEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
 		}
 	}
 }

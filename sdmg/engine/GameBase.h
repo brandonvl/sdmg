@@ -20,6 +20,7 @@ namespace sdmg {
 		class GameBase {
 		public:
 			GameBase();
+			virtual ~GameBase();
 			void start();
 			void stop();
 			World* getWorld();

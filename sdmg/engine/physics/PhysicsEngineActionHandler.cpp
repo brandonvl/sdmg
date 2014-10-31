@@ -22,6 +22,7 @@ namespace sdmg {
 
 			PhysicsEngineActionHandler::~PhysicsEngineActionHandler()
 			{
+
 			}
 
 
@@ -56,14 +57,11 @@ namespace sdmg {
 
 			void PhysicsEngineActionHandler::midRangeAttackBegin(MovableGameObject *obj) {
 				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
-
-				std::cout << "Begin" << std::endl;
 			}
 
 			void PhysicsEngineActionHandler::midRangeAttack(MovableGameObject *obj) {
 				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
 
-				std::cout << "Attack" << std::endl;
 				if (obj->getAttackBody() == nullptr)
 				{
 					b2BodyDef *bodydef = new b2BodyDef();
@@ -73,9 +71,9 @@ namespace sdmg {
 					model::Platform *platform = new model::Platform(true);
 
 					if (obj->getDirection() == MovableGameObject::Direction::LEFT)
-						bodydef->position.Set(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - 4);
+						bodydef->position.Set(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY());
 					else if (obj->getDirection() == MovableGameObject::Direction::RIGHT)
-					bodydef->position.Set(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - 4);
+						bodydef->position.Set(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY());
 
 					//  bodydef->type = b2_staticBody;
 					b2Body *body = obj->getBody()->GetWorld()->CreateBody(bodydef);
@@ -85,7 +83,7 @@ namespace sdmg {
 
 					b2PolygonShape *shape = new b2PolygonShape();
 
-					shape->SetAsBox(_P2M * 30, _P2M * 10);
+					shape->SetAsBox(_P2M * obj->getAttackWidth(), _P2M * obj->getAttackHeight());
 
 					b2FixtureDef *fixturedef = new b2FixtureDef();
 					fixturedef->shape = shape;
@@ -101,17 +99,14 @@ namespace sdmg {
 			}
 
 			void PhysicsEngineActionHandler::midRangeAttackEnd(MovableGameObject *obj) {
-				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
+				obj->getBody()->SetLinearVelocity(b2Vec2(obj->getBody()->GetLinearVelocity().x, obj->getBody()->GetLinearVelocity().y));
 
-				std::cout << "End" << std::endl;
 				if (obj->getAttackBody() != nullptr &&! obj->getBody()->GetWorld()->IsLocked())
 				{
 					obj->getBody()->GetWorld()->DestroyBody(obj->getAttackBody());
 					obj->setAttackBody(nullptr);
 				}
-
 			}
-
 
 			void PhysicsEngineActionHandler::longRangeAttack(MovableGameObject *obj) {
 

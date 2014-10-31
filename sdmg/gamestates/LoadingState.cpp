@@ -35,20 +35,17 @@ namespace sdmg {
 		{
 			_game = &game;
 			_game->getWorld()->clearWorld();
-			
+
 			_isLoaded = false;
 			_isError = false;
 
 			game.getEngine()->getDrawEngine()->load("loading", R"(assets\screens\loadingscreen)");
 
-			SDL_Thread *thread;
-			int         threadReturnValue;
-
 			printf("\nSimple SDL_CreateThread test:");
 
 			// Simply create a thread
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-			//SDL_WaitThread(thread, NULL);
+			SDL_WaitThread(thread, NULL);
 			//SDL_DetachThread(thread);
 
 		}
@@ -123,7 +120,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("loading");
 			game.getEngine()->getDrawEngine()->render();
 		}
-		
+
 		int LoadingState::loadThread(void *ptr)
 		{
 			((LoadingState*)ptr)->load();
@@ -308,7 +305,7 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[0]));
 			//  binding->setKeyBinding(SDLK_KP_1, new actions::RespawnAction((*_characters)[0]));
 
-			/*
+			// Voor controller
 			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[0]));
 			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[0]));
 			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[0]));
@@ -316,24 +313,45 @@ namespace sdmg {
 			binding->setKeyBinding(9, new actions::RollAction((*_characters)[0]));
 			binding->setKeyBinding(8, new actions::RollAction((*_characters)[0]));
 			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[0]));
-			*/
 
+			//_game->getEngine()->getInputEngine()->setDeviceBinding("nivek", binding);
 			binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
-			//  binding->setKeyBinding(SDLK_q, new actions::RespawnAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+			
+
+
+				/*
+			// Voor panda
+			InputDeviceBinding *binding2 = new InputDeviceBinding();
+			binding2->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_w, new actions::JumpAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_r, new actions::RollAction((*_characters)[1]));
+			binding2->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
+			_game->getEngine()->getInputEngine()->setDeviceBinding("fiat", binding2);
+			*/
+
 
 
 			// Load tutorial objects
 			if (_isTutorial) {
-				de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial! We will start by learning movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
+				// Set lives
+				for (auto c : *_characters)
+					c->setLives(10000);
+
+				//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
 				de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
 				de->loadText("tut2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
 				de->loadText("tut3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut4", "Press numlock 0 key to roll, roll can be used to dodge an attack", { 255, 255, 255 }, "arial", 30);
-				de->loadText("tut5", "Now we will learn how to attack your opponent, press enter to continue", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut5", "To perform a close range attack, press the L key", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut6", "To dodge an enemy attack, execute a roll, press numlock 0 key to roll", { 255, 255, 255 }, "arial", 30);
+				de->loadText("tut7", "You have successfully passed the tutorial, you are now ready to play the game!", { 255, 255, 255 }, "arial", 30);
 			}
 
 			_isLoaded = true;
