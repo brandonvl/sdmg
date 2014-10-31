@@ -71,17 +71,19 @@ namespace sdmg {
 				{
 					model::Character *character = static_cast<model::Character*>(aliveList[i]);
 					character->revive();
-					// character->setState(MovableGameObject::State::RESPAWN);
+					character->setState(MovableGameObject::State::RESPAWN);
 				}
 
 				_replay = true;
 
-				changeState(*_game, PlayState::getInstance());
+				//changeState(*_game, PlayState::getInstance());
+				_game->getStateManager()->popState();
+
+
 				// changeState(*_game, LoadingState::getInstance());
 				/*
 				_replay = true;
 
-				_game->getStateManager()->popState();
 				*/
 			}
 			else if (tag == "Main Menu") {
