@@ -74,8 +74,6 @@ namespace sdmg {
 			delete _huds;
 			delete _characters;
 			delete _bullets;
-			delete _huds;
-			delete _characters;
 			//delete _platform;
 
 			_bullets = nullptr;

@@ -31,7 +31,7 @@ namespace sdmg {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
-				if (_surfaces.find(key) != _surfaces.end()) { SDL_DestroyTexture(_surfaces[key].getSDLTexture()); _surfaces[key] = surface; }
+				if (_surfaces.find(key) != _surfaces.end()) { SDL_DestroyTexture(_surfaces[key]->getSDLTexture()); _surfaces[key] = surface; }
 				else _surfaces.insert(std::pair<std::string, Surface*>(key, surface));
 			}
 			
@@ -245,11 +245,11 @@ namespace sdmg {
 				// Create new DynamicTextSurface
 				DynamicTextSurface *tSurface = new DynamicTextSurface(fgColor, font);
 				// Insert DynamicTextSurface
-				_dynTextSurfaces->insert(std::pair<std::string, DynamicTextSurface*>(key, tSurface));
+				_dynTextSurfaces.insert(std::pair<std::string, DynamicTextSurface*>(key, tSurface));
 			}
 
 			void DrawEngine::drawDynamicText(std::string key, std::string text, float x, float y) {
-				DynamicTextSurface *tSurface = (*_dynTextSurfaces)[key];
+				DynamicTextSurface *tSurface = _dynTextSurfaces[key];
 				SDL_RenderCopy(_renderer, tSurface->drawTexture(_renderer, text), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
 
