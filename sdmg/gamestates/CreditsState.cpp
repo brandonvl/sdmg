@@ -2,7 +2,7 @@
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
-#include "MainMenuState.h"
+#include "OptionsState.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -60,7 +60,7 @@ namespace sdmg {
 			{
 				switch (event.type) {
 				case SDL_KEYDOWN:
-					changeState(game, MainMenuState::getInstance());
+					changeState(game, OptionsState::getInstance());
 					break;
 				case SDL_QUIT:
 					game.stop();

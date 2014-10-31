@@ -137,11 +137,43 @@ namespace sdmg {
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
 		void MovableGameObject::setState(State state)
 		{
-			if (stateIsInterruptible())
+			//if (stateIsInterruptible())
 				_state = state;
 		}
 
 		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
 		void MovableGameObject::setDirection(Direction direction) { _direction = direction; }
+
+
+
+		float MovableGameObject::getAttackWidth()
+		{
+			return _attackSize.width;
+		}
+
+		float MovableGameObject::getAttackHeight()
+		{
+			return _attackSize.height;
+		}
+
+		void MovableGameObject::setAttackSize(Size size)
+		{
+			_attackSize = size;
+		}
+
+		void MovableGameObject::setAttackSize(float width, float height)
+		{
+			_attackSize = Size(width, height);
+		}
+
+		float MovableGameObject::getAttackY()
+		{
+			return _attackY;
+		}
+
+		void MovableGameObject::setAttackY(float y)
+		{
+			_attackY = y;
+		}
 	}
 }
