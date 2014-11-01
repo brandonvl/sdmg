@@ -24,6 +24,7 @@ namespace sdmg {
 
 	namespace gamestates {
 		using namespace sdmg::helperclasses;
+
 		class ControlsState : public MenuState {
 		public:
 			void init(GameBase &game);
@@ -43,11 +44,18 @@ namespace sdmg {
 		protected:
 			ControlsState() { }
 			void menuAction(MenuItem *item) override;
-			void bindKey(const int keyCode);
+			void bindKey();
+			void changeText(bool waiting, const int keyCode);
+			void readKeys(int character);
 		private:
 			GameBase *_game;
 			bool waiting = false;
 			int currentplayer = 1;
+			std::string* _walkright;
+			std::string* _walkleft;
+			std::string* _jump;
+			std::string* _roll;
+			std::string* _midrange;
 		};
 	}
 }
