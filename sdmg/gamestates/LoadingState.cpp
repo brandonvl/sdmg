@@ -46,7 +46,7 @@ namespace sdmg {
 
 			// Simply create a thread
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-			//SDL_WaitThread(thread, NULL);
+			//  SDL_WaitThread(thread, NULL);
 			//load();
 			//SDL_DetachThread(thread);
 
@@ -152,7 +152,7 @@ namespace sdmg {
 			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
 
 			for (int i = 0; i < platformArr.size(); i++) {
-				JSON::JSONObject &platformObj = platformArr.getObject(i);
+				JSON::JSONObject platformObj = platformArr.getObject(i);
 
 				_platform = new model::Platform(false);
 				_platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
@@ -169,7 +169,8 @@ namespace sdmg {
 
 			loadCharacters(levelObj.getArray("startingPositions"));
 
-			delete doc;
+			// Load fps text
+			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
@@ -179,7 +180,7 @@ namespace sdmg {
 			for (int i = 0; i < 2; i++) {
 				int retries = 0;
 				do{
-					JSON::JSONObject &posObj = startingPositions.getObject(i);
+					JSON::JSONObject posObj = startingPositions.getObject(i);
 					(*_characters)[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
 					if (retries++ > 10){
 						_isError = true;
@@ -193,7 +194,6 @@ namespace sdmg {
 
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
-
 			if (_characters->size() == 2)
 			{
 				HUD *hudPanda = new HUD(*(*_characters)[0], 10);
@@ -205,8 +205,8 @@ namespace sdmg {
 
 			/*
 			for (int i = 0; i < _characters->size(); i++) {
-				HUD *hud = new HUD(*(*_characters)[i], 245 * i + 15);
-				_huds->push_back(hud);
+			HUD *hud = new HUD(*(*_characters)[i], 245 * i + 15);
+			_huds->push_back(hud);
 			}
 			*/
 		}
@@ -264,6 +264,7 @@ namespace sdmg {
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 		
 
+
 			// Panda
 			/*binding->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_a, new actions::LeftWalkAction((*_characters)[0]));
@@ -272,6 +273,7 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[0]));*/
 
 			// Nivek
+
 			//binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[1]));
 			//binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[1]));
 			//binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[1]));
@@ -286,25 +288,42 @@ namespace sdmg {
 			//binding->setKeyBinding(8, new actions::RollAction((*_characters)[1]));
 			//binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[1]));
 
+			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_k, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[1]));
+			// Voor controller
+			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[1]));
+			binding->setKeyBinding(2, new actions::LeftWalkAction((*_characters)[1]));
+			binding->setKeyBinding(0, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(10, new actions::JumpAction((*_characters)[1]));
+			binding->setKeyBinding(9, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(8, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(12, new actions::MidRangeAttackAction((*_characters)[1]));
+
 			
 		}
 
 		void LoadingState::loadTutorial() {
-			// Set lives
-			for (auto c : *_characters)
-				c->setLives(10000);
-
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
 			//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut5", "To perform a close range attack, press the L key", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut6", "To dodge an enemy attack, execute a roll, press numlock 0 key to roll", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut7", "You have successfully passed the tutorial, you are now ready to play the game!", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek1", "We shall begin with Nivek, Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek5", "To perform a close range attack, press 'L'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek6", "To dodge an enemy attack, execute a roll, press 'K'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat1", "Now we shall explain Fiat's movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat2", "Press 'A' to move left", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat3", "Press 'D' to move right", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat4", "Press 'W' to jump", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat5", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat6", "To perform a close range attack, press the 'Q' key", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press 'R'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutEnd", "You have successfully passed the tutorial, you are ready to play the game, press 'Esc' to quit!", { 255, 255, 255 }, "arial", 30);
 		}
 
 		void LoadingState::loadStatic() {
@@ -325,7 +344,7 @@ namespace sdmg {
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
-			/*if (false)
+			if (false)
 			{
 				if (!_isTutorial) {
 					_bullets = new std::vector<MovablePlatform*>(3);
@@ -364,7 +383,7 @@ namespace sdmg {
 					de->loadMap((*_bullets)[2], MovableGameObject::State::IDLE, R"(assets\levels\level1\bullet.sprite)", 1097, 494, 0.1);
 				}
 			}
-			else*/
+			else
 				_bullets = new std::vector<MovablePlatform*>(0);
 
 			/*    Kinematic Bodies

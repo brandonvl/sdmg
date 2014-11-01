@@ -63,6 +63,7 @@ namespace sdmg {
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
 				void destroyText(std::string key);
+				void destroyDynamicText(std::string key);
 				void drawSlice(MovableGameObject *gameObject);
 				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
 				void drawBodies(b2Body *body);

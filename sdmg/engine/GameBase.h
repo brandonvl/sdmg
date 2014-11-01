@@ -26,6 +26,7 @@ namespace sdmg {
 			World* getWorld();
 			void internalDraw();
 			Engine* getEngine();
+			long getFPS();
 			GameStateManager *getStateManager() { return _gameStateManager; };
 		protected:
 			virtual void update(GameState *gameState, GameTime *gameTime) = 0;
@@ -36,6 +37,8 @@ namespace sdmg {
 			GameTime *_gameTime;
 			Engine *_engine;
 			bool _running;
+			bool _calculateFPS;
+			float _avgFPS;
 			World *_world;
 			void internalUpdate();
 			void doGameLoop();

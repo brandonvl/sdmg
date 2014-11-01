@@ -22,6 +22,7 @@ namespace sdmg {
 				virtual ~DynamicTextSurface();
 
 				SDL_Texture* drawTexture(SDL_Renderer *renderer, std::string text);
+				void destroyTexture();
 
 				float getRenderWidth();
 				float getRenderHeight();

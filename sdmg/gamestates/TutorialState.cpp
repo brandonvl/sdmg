@@ -33,13 +33,23 @@ namespace sdmg {
 			_tutorial = new std::vector<std::pair<SDL_Keycode, std::string>>();
 			_toDraw = new std::vector<std::string>();
 
-			_tutorial->push_back(std::make_pair(SDLK_KP_0, "tut7"));
-			_tutorial->push_back(std::make_pair(SDLK_l, "tut6"));
-			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tut5"));
-			_tutorial->push_back(std::make_pair(SDLK_UP, "tut4"));
-			_tutorial->push_back(std::make_pair(SDLK_RIGHT, "tut3"));
-			_tutorial->push_back(std::make_pair(SDLK_LEFT, "tut2"));
-			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tut1"));
+			
+			_tutorial->push_back(std::make_pair(SDLK_r, "tutEnd"));
+			// Panda
+			_tutorial->push_back(std::make_pair(SDLK_q, "tutFiat7"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat6"));
+			_tutorial->push_back(std::make_pair(SDLK_w, "tutFiat5"));
+			_tutorial->push_back(std::make_pair(SDLK_d, "tutFiat4"));
+			_tutorial->push_back(std::make_pair(SDLK_a, "tutFiat3"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat2"));
+			_tutorial->push_back(std::make_pair(SDLK_k, "tutFiat1"));
+			// Nivek
+			_tutorial->push_back(std::make_pair(SDLK_l, "tutNivek6"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutNivek5"));
+			_tutorial->push_back(std::make_pair(SDLK_UP, "tutNivek4"));
+			_tutorial->push_back(std::make_pair(SDLK_RIGHT, "tutNivek3"));
+			_tutorial->push_back(std::make_pair(SDLK_LEFT, "tutNivek2"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutNivek1"));
 
 			_toDraw->push_back("tutIntro");
 		}
@@ -63,13 +73,20 @@ namespace sdmg {
 			
 
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
-			game.getEngine()->getDrawEngine()->unloadText("tut1");
-			game.getEngine()->getDrawEngine()->unloadText("tut2");
-			game.getEngine()->getDrawEngine()->unloadText("tut3");
-			game.getEngine()->getDrawEngine()->unloadText("tut4");
-			game.getEngine()->getDrawEngine()->unloadText("tut5");
-			game.getEngine()->getDrawEngine()->unloadText("tut6");
-			game.getEngine()->getDrawEngine()->unloadText("tut7");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek1");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek2");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek3");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek4");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek5");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek6");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat1");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat2");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat3");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat4");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat5");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat6");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat7");
+			game.getEngine()->getDrawEngine()->unloadText("tutEnd");
 
 			delete _tutorial;
 			delete _toDraw;
@@ -120,14 +137,6 @@ namespace sdmg {
 					_toDraw->push_back(_tutorial->back().second);
 					_tutorial->pop_back(); 
 				}
-
-			}
-
-			if (game.getWorld()->isGameOver()) {
-				if (game.getWorld()->getAliveList().size() > 0)
-					game.getWorld()->getAliveList()[0]->die();
-				game.getEngine()->getPhysicsEngine()->pause();
-				changeState(game, GameOverState::getInstance());
 			}
 
 			game.getEngine()->getInputEngine()->runActions(game);
@@ -144,7 +153,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 
 			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
+			//Deze is ook uitgecommend in de loadState
+			//  game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
 
 			for (int i = 0; i < _characters->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);

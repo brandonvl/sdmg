@@ -258,6 +258,11 @@ namespace sdmg {
 				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
 
+			void DrawEngine::destroyDynamicText(std::string key) {
+				DynamicTextSurface *tSurface = _dynTextSurfaces[key];
+				tSurface->destroyTexture();
+			}
+
 			void DrawEngine::destroyText(std::string key) {
 				TextSurface *tSurface = _textSurfaces[key];
 				SDL_DestroyTexture(tSurface->getSDLTexture());

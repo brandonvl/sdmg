@@ -105,6 +105,9 @@ namespace sdmg {
 						case SDLK_ESCAPE:
 							changeState(game, MainMenuState::getInstance());
 							break;
+						case SDLK_F1:
+							if (!event.key.repeat)
+								_showFPS = !_showFPS;
 						default:
 							game.getEngine()->getInputEngine()->handleEvent(event);
 							break;
@@ -129,6 +132,9 @@ namespace sdmg {
 				game.getStateManager()->pushState(GameOverState::getInstance());
 			}
 
+			if (_showFPS)
+				_fps = game.getFPS() == _fps ? _fps : game.getFPS();
+
 			game.getEngine()->getInputEngine()->runActions(game);
 			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
@@ -139,7 +145,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
 			game.getEngine()->getDrawEngine()->draw("background");
-			game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
+			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
 			for (int i = 0; i < _bullets->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
@@ -154,6 +160,9 @@ namespace sdmg {
 			for (helperclasses::HUD *hud : *_huds) {
 				hud->draw(*game.getEngine()->getDrawEngine());
 			}
+
+			if (_showFPS)
+				game.getEngine()->getDrawEngine()->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
 
 			game.getEngine()->getDrawEngine()->render();
 		}
