@@ -27,7 +27,6 @@
 #include "helperclasses\HUD.h"
 #include "engine\util\FileParser.h"
 #include "lib\JSONParser.h"
-#include <string>
 
 namespace sdmg {
 	namespace gamestates {
@@ -135,12 +134,12 @@ namespace sdmg {
 
 			if (_isTutorial)
 				loadTutorial();
-			
+
 			_isLoaded = true;
 		}
 
 		void LoadingState::loadLevel() {
-			
+
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/level1/data");
 			JSON::JSONObject &levelObj = doc->getRootObject();
 
@@ -216,7 +215,7 @@ namespace sdmg {
 			InputDeviceBinding *binding = new InputDeviceBinding();
 
 			std::ifstream keybindings;
-			
+
 
 			for (int i = 0; i < 2; i++)
 			{
@@ -262,9 +261,9 @@ namespace sdmg {
 				}
 			}
 			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
-	
 
-			
+
+
 		}
 
 		void LoadingState::loadTutorial() {
@@ -297,12 +296,12 @@ namespace sdmg {
 			pe->addBody(_platform, 30, 20);
 			_game->getWorld()->addGameObject(_platform);
 
-			
+
 
 			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
 
 			//loadCharacters();
-			
+
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
@@ -365,7 +364,6 @@ namespace sdmg {
 			de->load("background", R"(assets\levels\level1\background)");
 			de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
 
-			
 			InputDeviceBinding *binding = new InputDeviceBinding();
 			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[0]));
 			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[0]));
@@ -402,10 +400,10 @@ namespace sdmg {
 			binding2->setKeyBinding(SDLK_q, new actions::MidRangeAttackAction((*_characters)[1]));
 			_game->getEngine()->getInputEngine()->setDeviceBinding("fiat", binding2);
 			*/
-			
 
 
-				/*
+
+			/*
 			// Voor panda
 			InputDeviceBinding *binding2 = new InputDeviceBinding();
 			binding2->setKeyBinding(SDLK_d, new actions::RightWalkAction((*_characters)[1]));
