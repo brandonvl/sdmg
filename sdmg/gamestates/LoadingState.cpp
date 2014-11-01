@@ -151,7 +151,7 @@ namespace sdmg {
 			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
 
 			for (int i = 0; i < platformArr.size(); i++) {
-				JSON::JSONObject platformObj = platformArr.getObject(i);
+				JSON::JSONObject &platformObj = platformArr.getObject(i);
 
 				_platform = new model::Platform(false);
 				_platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
@@ -170,6 +170,8 @@ namespace sdmg {
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
+
+			delete doc;
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
@@ -179,7 +181,7 @@ namespace sdmg {
 			for (int i = 0; i < 2; i++) {
 				int retries = 0;
 				do{
-					JSON::JSONObject posObj = startingPositions.getObject(i);
+					JSON::JSONObject &posObj = startingPositions.getObject(i);
 					(*_characters)[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
 					if (retries++ > 10){
 						_isError = true;
