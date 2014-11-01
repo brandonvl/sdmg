@@ -73,13 +73,20 @@ namespace sdmg {
 			
 
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
-			game.getEngine()->getDrawEngine()->unloadText("tut1");
-			game.getEngine()->getDrawEngine()->unloadText("tut2");
-			game.getEngine()->getDrawEngine()->unloadText("tut3");
-			game.getEngine()->getDrawEngine()->unloadText("tut4");
-			game.getEngine()->getDrawEngine()->unloadText("tut5");
-			game.getEngine()->getDrawEngine()->unloadText("tut6");
-			game.getEngine()->getDrawEngine()->unloadText("tut7");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek1");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek2");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek3");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek4");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek5");
+			game.getEngine()->getDrawEngine()->unloadText("tutNivek6");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat1");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat2");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat3");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat4");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat5");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat6");
+			game.getEngine()->getDrawEngine()->unloadText("tutFiat7");
+			game.getEngine()->getDrawEngine()->unloadText("tutEnd");
 
 			delete _tutorial;
 			delete _toDraw;
