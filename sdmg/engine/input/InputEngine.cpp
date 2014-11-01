@@ -44,14 +44,14 @@ namespace sdmg {
 				_active = true;
 			}
 
-			void InputEngine::handleControllers(SDL_Event &event) {
+			bool InputEngine::handleControllers(SDL_Event &event) {
 				SDL_JoystickUpdate();
 
 				if (event.type == SDL_JOYBUTTONDOWN || event.type == SDL_JOYBUTTONUP) {
 					printf("Joystick %d button %d down\n",
 						event.jbutton.which,
 						event.jbutton.button);
-
+					//printf("Joystick %d", SDL_GameControllerNameForIndex(event.jbutton.which));
 					if (event.type == SDL_JOYBUTTONDOWN)
 						event.type = SDL_KEYDOWN;
 
@@ -59,45 +59,66 @@ namespace sdmg {
 						event.type = SDL_KEYUP;
 
 					event.key.keysym.sym = event.jbutton.button;
-					handleKey(Joysticks[event.cbutton.which].Name, event);
+					handleKey(Joysticks[event.jbutton.which].Name, event);
+					return true;
 				}
 
-				//if (event.type == SDL_JOYAXISMOTION)
-				//{
-				//	if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
-				//		
-				//		event.type = SDL_CONTROLLERBUTTONDOWN;
+				if (event.type == SDL_JOYAXISMOTION)
+				{
+					if (event.jaxis.value < 0 && (int)event.jaxis.value > -abs(JOYSTICK_DEAD_ZONE))
+					{
+						event.type = SDL_KEYUP;
+						event.key.keysym.sym = 2;
+						handleKey(Joysticks[event.jbutton.which].Name, event);
+						return true;
+					}
+					else if (event.jaxis.value > 0 && event.jaxis.value < JOYSTICK_DEAD_ZONE)
+					{
+						event.type = SDL_KEYUP;
+						event.key.keysym.sym = 3;
+						handleKey(Joysticks[event.jbutton.which].Name, event);
+						return true;
+					}
 
-				//		if (event.jaxis.axis == 0)
-				//		{
-				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
-				//			{
-				//				// LEFT
-				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
-				//			}
-				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-				//			{
-				//				// RIGHT
-				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
-				//			}
-				//		}
+					if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
 
-				//		if (event.jaxis.axis == 1)
-				//		{
-				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
-				//			{
-				//				// DOWN
-				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
-				//			}
-				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-				//			{
-				//				// UP
-				//				event.cbutton.button = SDL_CONTROLLER_BUTTON_DPAD_UP;
-				//			}
-				//		}
-				//	}
-				//	handleKey(Joysticks[event.cbutton.which].Name, event);
-				//}
+						if (event.jaxis.axis == 0)
+						{
+							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+							{
+								// LEFT
+								event.type = SDL_KEYDOWN;
+								event.key.keysym.sym = 2;
+								handleKey(Joysticks[event.jbutton.which].Name, event);
+								return true;
+							}
+							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+							{
+								// RIGHT
+								event.type = SDL_KEYDOWN;
+								event.key.keysym.sym = 3;
+								handleKey(Joysticks[event.jbutton.which].Name, event);
+								return true;
+							}
+						}
+						if (event.jaxis.axis == 1)
+						{
+							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+							{
+								// DOWN
+								event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+							}
+							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+							{
+								// UP
+								event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_UP;
+							}
+						}
+					}
+					//event.key.keysym.sym = event.jbutton.button;
+					
+				}
+				return false;
 			}
 
 			void InputEngine::handleEvent(SDL_Event &event) {
@@ -147,7 +168,7 @@ namespace sdmg {
 			}
 
 			// find joysticks and add to map
-			void InputEngine::findJoysticks(void)
+			void InputEngine::findJoysticks()
 			{
 				printf("%i joysticks were found.\n\n", SDL_NumJoysticks());
 				printf("The joysticks are:\n");
@@ -162,14 +183,11 @@ namespace sdmg {
 
 						if (!Joysticks[i].Stick)
 						{
+							std::cout << SDL_GameControllerNameForIndex(i) << std::endl;
 							// set values
 							Joysticks[i].ID = i;
 							Joysticks[i].Stick = SDL_JoystickOpen(i);
-							if (Joysticks[i].Stick)
-							{
-								const char *joystick_name = SDL_JoystickName(Joysticks[i].Stick);
-								Joysticks[i].Name = joystick_name ? joystick_name : "Joystick";
-							}
+							Joysticks[i].Name = SDL_GameControllerNameForIndex(i);
 						}
 						SDL_JoystickEventState(SDL_ENABLE);
 					}

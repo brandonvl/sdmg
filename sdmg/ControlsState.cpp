@@ -3,6 +3,7 @@
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
 #include "gamestates\MainMenuState.h"
+#include "gamestates\OptionsState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include <iostream>
@@ -34,17 +35,16 @@ namespace sdmg {
 			roll->loadText(_game, "roll", "Roll", "trebucbd", 33);
 			_menu->addMenuItem(roll);
 
+			helperclasses::menuitems::MenuTextItem *attack = new helperclasses::menuitems::MenuTextItem("Attack", 0, 68, false);
+			attack->loadText(_game, "midrange", "Attack", "trebucbd", 33);
+			_menu->addMenuItem(attack);
+
 			game.getEngine()->getDrawEngine()->load("controls", R"(assets\screens\help)");
 		}
 
 		void ControlsState::menuAction(MenuItem *item)
 		{
-			std::string tag = item->getTag();
 
-			InputDeviceBinding *binding = new InputDeviceBinding();
-			if (tag == "Walk Right") {
-				//action = "right";
-			}
 		}
 
 		void ControlsState::cleanup(GameBase &game)
@@ -78,11 +78,10 @@ namespace sdmg {
 						switch (event.key.keysym.sym)
 						{
 							case SDLK_ESCAPE:
-								changeState(game, MainMenuState::getInstance());
+								changeState(game, OptionsState::getInstance());
 								break;
 							case SDLK_1:
 								std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-								//changeState(game, LoadingState::getInstance());
 								break;
 							case SDLK_DOWN:
 								_menu->selectNext();
@@ -105,6 +104,7 @@ namespace sdmg {
 					}
 					else
 					{
+						InputEngine().findJoysticks();
 						bindKey(event.key.keysym.sym);
 					}
 				}

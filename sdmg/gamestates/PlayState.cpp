@@ -97,23 +97,24 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				game.getEngine()->getInputEngine()->handleControllers(event);
-				switch (event.type) {
-				case SDL_KEYDOWN:
-				case SDL_KEYUP:
-					switch (event.key.keysym.sym) {
+				if (!game.getEngine()->getInputEngine()->handleControllers(event)) {
+					switch (event.type) {
+					case SDL_KEYDOWN:
+					case SDL_KEYUP:
+						switch (event.key.keysym.sym) {
 						case SDLK_ESCAPE:
 							changeState(game, MainMenuState::getInstance());
 							break;
 						default:
 							game.getEngine()->getInputEngine()->handleEvent(event);
 							break;
+						}
+
+						break;
+					case SDL_QUIT:
+						game.stop();
+						break;
 					}
-					
-					break;
-				case SDL_QUIT:
-					game.stop();
-					break;
 				}
 			}
 		}
