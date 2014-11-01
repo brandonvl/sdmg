@@ -18,6 +18,7 @@ namespace sdmg {
 		Character::Character()
 		{
 			_flags = Flags::CANDIE;
+			setState(MovableGameObject::State::FALLING);
 		}
 
 		Character::~Character() { }
