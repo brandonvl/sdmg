@@ -12,7 +12,7 @@ namespace sdmg {
 
 			SDL_Texture* DynamicTextSurface::drawTexture(SDL_Renderer *renderer, std::string text) {
 				if (_texture) {
-					SDL_DestroyTexture(_texture);
+					destroyTexture();
 					SDL_FreeSurface(_surface);
 				}
 				_surface = TTF_RenderText(_font, text.c_str(), _fgColor, _bgColor);
@@ -25,6 +25,10 @@ namespace sdmg {
 				SDL_SetTextureBlendMode(_texture, SDL_BLENDMODE_ADD);
 
 				return _texture;
+			}
+
+			void DynamicTextSurface::destroyTexture() {
+				SDL_DestroyTexture(_texture);
 			}
 
 			DynamicTextSurface::~DynamicTextSurface() {

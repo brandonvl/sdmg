@@ -53,6 +53,10 @@ namespace sdmg {
 		World* GameBase::getWorld() {
 			return _world;
 		}
+
+		long GameBase::getFPS() {
+			return _gameTime->getElapsedSinceLastUpdate() / 1.0;
+		}
 		
 		void GameBase::internalDraw() {
 

@@ -51,6 +51,9 @@ namespace sdmg {
 			model::Platform *_platform;
 			std::vector<model::MovablePlatform*> *_bullets;
 			std::vector<helperclasses::HUD*> *_huds;
+
+			bool _showFPS;
+			long _fps;
 		};
 	}
 }

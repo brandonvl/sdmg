@@ -166,6 +166,9 @@ namespace sdmg {
 			_bullets = new std::vector<MovablePlatform*>;
 
 			loadCharacters(levelObj.getArray("startingPositions"));
+
+			// Load fps text
+			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {

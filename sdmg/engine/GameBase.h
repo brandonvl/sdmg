@@ -26,6 +26,7 @@ namespace sdmg {
 			World* getWorld();
 			void internalDraw();
 			Engine* getEngine();
+			long getFPS();
 			GameStateManager *getStateManager() { return _gameStateManager; };
 		protected:
 			virtual void update(GameState *gameState, GameTime *gameTime) = 0;
