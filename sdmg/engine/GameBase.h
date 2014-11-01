@@ -37,6 +37,8 @@ namespace sdmg {
 			GameTime *_gameTime;
 			Engine *_engine;
 			bool _running;
+			bool _calculateFPS;
+			float _avgFPS;
 			World *_world;
 			void internalUpdate();
 			void doGameLoop();

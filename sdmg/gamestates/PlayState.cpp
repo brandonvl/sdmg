@@ -162,7 +162,7 @@ namespace sdmg {
 			}
 
 			if (_showFPS)
-				game.getEngine()->getDrawEngine()->drawDynamicText("fps", std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
+				game.getEngine()->getDrawEngine()->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
 
 			game.getEngine()->getDrawEngine()->render();
 		}

@@ -46,6 +46,7 @@ namespace sdmg {
 			// Simply create a thread
 			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
 			//  SDL_WaitThread(thread, NULL);
+			//load();
 			//SDL_DetachThread(thread);
 
 		}

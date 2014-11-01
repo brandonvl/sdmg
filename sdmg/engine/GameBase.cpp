@@ -55,7 +55,8 @@ namespace sdmg {
 		}
 
 		long GameBase::getFPS() {
-			return _gameTime->getElapsedSinceLastUpdate() / 1.0;
+			//return _gameTime->getElapsedSinceLastUpdate() / 1.0;
+			return _avgFPS;
 		}
 		
 		void GameBase::internalDraw() {
@@ -71,6 +72,11 @@ namespace sdmg {
 		}
 
 		void GameBase::doGameLoop() {
+
+
+			Uint32 fps_lasttime = SDL_GetTicks(); //the last recorded time.
+			Uint32 fps_current; //the current FPS.
+			Uint32 fps_frames = 0; //frames passed since the last recorded fps
 			//SDL_Event event;
 			while (_running) {
 				_gameStateManager->handleEvents();
@@ -78,6 +84,14 @@ namespace sdmg {
 				_gameStateManager->draw();
 
 				_gameTime->update();
+
+				fps_frames++;
+				if (fps_lasttime < SDL_GetTicks() - 1000.0F)
+				{
+					fps_lasttime = SDL_GetTicks();
+					_avgFPS = fps_frames;
+					fps_frames = 0;
+				}
 			}
 			_gameStateManager->cleanup();
 		}
