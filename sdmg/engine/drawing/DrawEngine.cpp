@@ -259,7 +259,7 @@ namespace sdmg {
 			}
 
 			void DrawEngine::destroyDynamicText(std::string key) {
-				DynamicTextSurface *tSurface = (*_dynTextSurfaces)[key];
+				DynamicTextSurface *tSurface = _dynTextSurfaces[key];
 				tSurface->destroyTexture();
 			}
 
