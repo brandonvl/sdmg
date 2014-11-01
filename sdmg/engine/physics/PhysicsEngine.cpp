@@ -40,6 +40,7 @@ namespace sdmg {
 
 			PhysicsEngine::~PhysicsEngine() 
 			{
+				cleanUp();
 				delete _world;
 				delete _actionHandler;
 				delete _contactListener;

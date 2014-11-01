@@ -18,12 +18,13 @@ namespace sdmg {
 		class HUD
 		{
 		public:
-			HUD(Character &character, const float x) : _character(character), _isInitialized(false), _rectangle(x, 0, 230, 75) {}
+			HUD(Character &character, const float x) : _character(character), _isInitialized(false), _rectangle(x, 10, 230, 75) {}
 			virtual ~HUD();
 			void draw(DrawEngine &drawEngine);
 		private:
 			void init(DrawEngine &drawEngine);
 			Character &_character;
+			DrawEngine *_drawengine;
 			bool _isInitialized;
 			std::string _spriteKeyPrefix;
 			Rectangle _rectangle;

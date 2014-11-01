@@ -27,9 +27,10 @@ namespace sdmg {
 				void setDeviceBinding(std::string device, InputDeviceBinding* binding);
 				void clearBindings();
 				void handleEvent(SDL_Event &event);
-				void handleControllers(SDL_Event &event);
+				bool handleControllers(SDL_Event &event);
 				const std::vector<Action*> *getActions();
 				void runActions(GameBase &game);
+				void findJoysticks();
 			private:
 				Engine *_engine;
 				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
@@ -41,7 +42,6 @@ namespace sdmg {
 				std::map<Uint8, Joystick> Joysticks;
 				void initialize();
 				void handleKey(const std::string device, SDL_Event &event);
-				void findJoysticks(void);
 			};
 		}
 	}

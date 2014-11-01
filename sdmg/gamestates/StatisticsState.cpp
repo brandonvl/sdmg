@@ -3,6 +3,7 @@
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
 #include "OptionsState.h"
+#include "helperclasses\statistics\Statistics.h"
 
 #include <fstream>
 
@@ -14,7 +15,7 @@ namespace sdmg {
 			_game = &game;
 
 			// Load statistics
-			std::vector<std::vector<std::string>> statistics = loadStatistics();
+			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
 
 			game.getEngine()->getDrawEngine()->load("help", R"(assets\screens\help)");
 
@@ -36,31 +37,6 @@ namespace sdmg {
 				loadText(s.at(0) + "wins", s.at(1), "trebucbd", 36);
 				loadText(s.at(0) + "losses", s.at(2), "trebucbd", 36);
 			}
-		}
-
-		std::vector<std::vector<std::string>> StatisticsState::loadStatistics()
-		{
-			std::vector<std::vector<std::string>> statistics;
-			std::vector<std::string> character;
-			const std::string textfile("assets\\statistics\\statistics");
-			std::ifstream input_file(textfile);
-
-			std::string line;
-			while (getline(input_file, line)) {
-				std::string str;
-				for (auto c : line) {
-					if (c == ' ' || c == ';') {
-						character.push_back(str);
-						str = "";
-					}
-					else {
-						str += c;
-					}
-				}
-				statistics.push_back(character);
-				character.clear();
-			}
-			return statistics;
 		}
 
 		void StatisticsState::cleanup(GameBase &game)
@@ -121,7 +97,7 @@ namespace sdmg {
 		void StatisticsState::draw(GameBase &game, GameTime &gameTime)
 		{
 			// Load statistics
-			std::vector<std::vector<std::string>> statistics = loadStatistics();
+			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
 
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 

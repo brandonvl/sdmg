@@ -34,6 +34,8 @@ namespace sdmg {
 
 			game.getEngine()->getPhysicsEngine()->addBody(character, 40, 10);
 
+			delete doc;
+
 			return character;
 		}
 
@@ -57,6 +59,7 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "mid_range_attack_begin.sprite", obj.getArray("midRangeAttackBegin").getFloat(0), obj.getArray("midRangeAttackBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACK, folder + "mid_range_attack.sprite", obj.getArray("midRangeAttack").getFloat(0), obj.getArray("midRangeAttack").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::MIDRANGEATTACKEND, folder + "mid_range_attack_end.sprite", obj.getArray("midRangeAttackEnd").getFloat(0), obj.getArray("midRangeAttackEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::RESPAWN, folder + "jump_end.sprite", obj.getArray("jumpEnd").getFloat(0), obj.getArray("jumpEnd").getFloat(1), scale, Surface::AnimationType::HOLDLAST);
 		}
 	}
 }

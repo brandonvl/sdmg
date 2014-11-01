@@ -60,14 +60,25 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->unloadAll();
 			//  game.getWorld()->clearWorld();
 
+			/*
 			for (MovablePlatform *platform : *_bullets)
-				delete platform;
+				delete platform;*/
 
-			for (auto it : *_huds) {
-				delete it;
+			if (_huds) {
+				for (auto it : *_huds) {
+					delete it;
+				}
+				_huds->clear();
 			}
 
+			delete _huds;
+			delete _characters;
 			delete _bullets;
+			//delete _platform;
+
+			_bullets = nullptr;
+			_huds = nullptr;
+			_characters = nullptr;
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -86,11 +97,11 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				game.getEngine()->getInputEngine()->handleControllers(event);
-				switch (event.type) {
-				case SDL_KEYDOWN:
-				case SDL_KEYUP:
-					switch (event.key.keysym.sym) {
+				if (!game.getEngine()->getInputEngine()->handleControllers(event)) {
+					switch (event.type) {
+					case SDL_KEYDOWN:
+					case SDL_KEYUP:
+						switch (event.key.keysym.sym) {
 						case SDLK_ESCAPE:
 							changeState(game, MainMenuState::getInstance());
 							break;
@@ -100,12 +111,13 @@ namespace sdmg {
 						default:
 							game.getEngine()->getInputEngine()->handleEvent(event);
 							break;
+						}
+
+						break;
+					case SDL_QUIT:
+						game.stop();
+						break;
 					}
-					
-					break;
-				case SDL_QUIT:
-					game.stop();
-					break;
 				}
 			}
 		}
@@ -139,7 +151,8 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
 
 			game.getEngine()->getDrawEngine()->draw(_platform);
-			game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
+			// Deze heb ik ook uitgecomment in de LoadState
+			//  game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
 
 			for (int i = 0; i < _characters->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);

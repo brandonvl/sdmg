@@ -17,9 +17,11 @@
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
+#include "helperclasses\statistics\Statistics.h"
 
 
 #include "LoadingState.h"
+#include "engine\physics\PhysicsEngine.h"
 #include "PlayState.h"
 
 
@@ -53,8 +55,35 @@ namespace sdmg {
 			_characterCount = deadList.size();
 			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
-			game.getEngine()->getDrawEngine()->unload("background");
+
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/gameover");
+
+			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
+			for (auto rank = 0; rank < deadList.size(); rank++) {
+				// Get character name
+				std::string charname = "";
+				for (auto c : deadList.at(rank)->getName()) {
+					if (c != ' ')
+						charname += tolower(c);
+					else break;
+				}
+
+				for (auto i = 0; i < statistics.size(); i++) {
+					if (statistics.at(i).at(0) == charname) {
+						if (rank == (deadList.size() - 1))
+							statistics.at(i).at(1) = std::to_string(1 + std::stoi(statistics.at(i).at(1)));
+						else
+							statistics.at(i).at(2) = std::to_string(1 + std::stoi(statistics.at(i).at(2)));
+						break;
+					}
+
+				}
+			}
+
+			Statistics::getInstance().save(statistics);
+
+			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
+
 		}
 
 		void GameOverState::menuAction(MenuItem *item)
@@ -75,7 +104,7 @@ namespace sdmg {
 				}
 
 				_replay = true;
-
+				_game->getEngine()->getPhysicsEngine()->resume();
 				//changeState(*_game, PlayState::getInstance());
 				_game->getStateManager()->popState();
 
@@ -98,7 +127,7 @@ namespace sdmg {
 			{
 				DrawEngine *de = game.getEngine()->getDrawEngine();
 				de->unload("winner");
-				de->unload("background");
+				de->unload("gameoverbackground");
 				de->unloadText("replay");
 				de->unloadText("main menu");
 				delete _menu;
@@ -107,8 +136,6 @@ namespace sdmg {
 					std::string asd = "rank" + std::to_string(i);
 					de->unloadText("rank" + std::to_string(i));
 				}
-
-				de->load("background", R"(assets\levels\level1\background)");
 			}
 			else
 			{
@@ -117,7 +144,7 @@ namespace sdmg {
 
 				game.getWorld()->clearWorld();
 
-				//  game.getStateManager()->cleanup();
+				game.getStateManager()->cleanupOthers();
 			}
 		}
 
@@ -176,7 +203,7 @@ namespace sdmg {
 		void GameOverState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("background");
+			game.getEngine()->getDrawEngine()->draw("gameoverbackground");
 			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);
 
 			for (int i = 1; i <= _characterCount; i++) {
