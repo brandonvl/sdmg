@@ -5,6 +5,7 @@
 
 namespace sdmg {
 	namespace engine {
+		class Engine;
 		class GameBase;
 	}
 	namespace helperclasses {
@@ -26,6 +27,7 @@ namespace sdmg {
 			bool _isSelected;
 			float _width;
 			float _height;
+			Engine *_engine;
 			//std::function<void(MenuItem*)> _callBack;
 		};
 	}

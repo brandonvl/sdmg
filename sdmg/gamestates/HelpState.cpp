@@ -23,11 +23,11 @@ namespace sdmg {
 		void HelpState::cleanup(GameBase &game)
 		{
 			game.getEngine()->getDrawEngine()->unload("help");
-			game.getEngine()->getDrawEngine()->unload("title");
-			game.getEngine()->getDrawEngine()->unload("howtowin1");
-			game.getEngine()->getDrawEngine()->unload("howtowin2");
-			game.getEngine()->getDrawEngine()->unload("howtowin3");
-			game.getEngine()->getDrawEngine()->unload("howtowin4");
+			game.getEngine()->getDrawEngine()->unloadText("title");
+			game.getEngine()->getDrawEngine()->unloadText("howtowin1");
+			game.getEngine()->getDrawEngine()->unloadText("howtowin2");
+			game.getEngine()->getDrawEngine()->unloadText("howtowin3");
+			game.getEngine()->getDrawEngine()->unloadText("howtowin4");
 			
 			//  game.getEngine()->getDrawEngine()->unloadAll();
 		}

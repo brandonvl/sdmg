@@ -29,17 +29,16 @@ namespace sdmg {
 		void CreditsState::cleanup(GameBase &game)
 		{
 			game.getEngine()->getDrawEngine()->unload("credits");
-			game.getEngine()->getDrawEngine()->unload("title");
-			game.getEngine()->getDrawEngine()->unload("developers");
-			game.getEngine()->getDrawEngine()->unload("kevin");
-			game.getEngine()->getDrawEngine()->unload("mathijs");
-			game.getEngine()->getDrawEngine()->unload("brandon");
-			game.getEngine()->getDrawEngine()->unload("wouter");
-			game.getEngine()->getDrawEngine()->unload("credits");
-			game.getEngine()->getDrawEngine()->unload("niek");
-			game.getEngine()->getDrawEngine()->unload("este");
-			game.getEngine()->getDrawEngine()->unload("starring");
-			game.getEngine()->getDrawEngine()->unload("bob");
+			game.getEngine()->getDrawEngine()->unloadText("title");
+			game.getEngine()->getDrawEngine()->unloadText("developers");
+			game.getEngine()->getDrawEngine()->unloadText("kevin");
+			game.getEngine()->getDrawEngine()->unloadText("mathijs");
+			game.getEngine()->getDrawEngine()->unloadText("brandon");
+			game.getEngine()->getDrawEngine()->unloadText("wouter");
+			game.getEngine()->getDrawEngine()->unloadText("niek");
+			game.getEngine()->getDrawEngine()->unloadText("este");
+			game.getEngine()->getDrawEngine()->unloadText("starring");
+			game.getEngine()->getDrawEngine()->unloadText("bob");
 		}
 
 		void CreditsState::pause(GameBase &game)

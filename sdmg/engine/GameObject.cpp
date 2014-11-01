@@ -18,7 +18,9 @@ namespace sdmg {
 
 		GameObject::~GameObject()
 		{
-
+			_x = nullptr;
+			_y = nullptr;
+			_world = nullptr;
 		}
 
 		uint32 GameObject::getId() {

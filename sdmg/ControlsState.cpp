@@ -118,6 +118,11 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("jump");
 			game.getEngine()->getDrawEngine()->unload("roll");
 			game.getEngine()->getDrawEngine()->unload("midrange");
+			delete _walkright;
+			delete _walkleft;
+			delete _jump;
+			delete _roll;
+			delete _midrange;
 			//game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}

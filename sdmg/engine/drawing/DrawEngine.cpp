@@ -25,13 +25,14 @@ namespace sdmg {
 
 			DrawEngine::~DrawEngine() {
 				unloadAll();
+				TTF_Quit();
 			}
 
 			void DrawEngine::load(std::string key, std::string path) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
-				if (_surfaces.find(key) != _surfaces.end()) { SDL_DestroyTexture(_surfaces[key]->getSDLTexture()); _surfaces[key] = surface; }
+				if (_surfaces.find(key) != _surfaces.end()) { delete _surfaces[key]; _surfaces[key] = surface; }
 				else _surfaces.insert(std::pair<std::string, Surface*>(key, surface));
 			}
 			
@@ -39,7 +40,7 @@ namespace sdmg {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this);
 				// Add Surface to _surfaces map
-				if (_objectSurfaces.find(gameObject) != _objectSurfaces.end()) { SDL_DestroyTexture(_objectSurfaces[gameObject]->getSDLTexture()); _objectSurfaces[gameObject] = surface; }
+				if (_objectSurfaces.find(gameObject) != _objectSurfaces.end()) { delete _objectSurfaces[gameObject]; _objectSurfaces[gameObject] = surface; }
 				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
@@ -144,6 +145,14 @@ namespace sdmg {
 					}
 				}
 
+				if (_dynTextSurfaces.size() > 0) {
+					auto it = _dynTextSurfaces.begin();
+					while (it != _dynTextSurfaces.end()) {
+						delete it->second;
+						_dynTextSurfaces.erase(it++);
+					}
+				}
+
 				_steps.clear();
 			}
 			
@@ -229,8 +238,9 @@ namespace sdmg {
 				TTF_Font *font = TTF_OpenFont(path.append(fontName.append(".ttf")).c_str(), fontSize);
 				// Create new TextSurface
 				TextSurface *tSurface = new TextSurface(_renderer, text, fgColor, font);
-				// Insert TextSurface
-				_textSurfaces.insert(std::pair<std::string, TextSurface*>(key, tSurface));
+
+				if (_textSurfaces.find(key) != _textSurfaces.end()) { delete _textSurfaces[key]; _textSurfaces[key] = tSurface; }
+				else _textSurfaces.insert(std::pair<std::string, TextSurface*>(key, tSurface));
 				// Close font
 				TTF_CloseFont(font);
 			}
@@ -244,8 +254,9 @@ namespace sdmg {
 				TTF_Font *font = TTF_OpenFont(path.append(fontName.append(".ttf")).c_str(), fontSize);
 				// Create new DynamicTextSurface
 				DynamicTextSurface *tSurface = new DynamicTextSurface(fgColor, font);
-				// Insert DynamicTextSurface
-				_dynTextSurfaces.insert(std::pair<std::string, DynamicTextSurface*>(key, tSurface));
+
+				if (_dynTextSurfaces.find(key) != _dynTextSurfaces.end()) { delete _dynTextSurfaces[key]; _dynTextSurfaces[key] = tSurface; }
+				else _dynTextSurfaces.insert(std::pair<std::string, DynamicTextSurface*>(key, tSurface));
 			}
 
 			void DrawEngine::drawDynamicText(std::string key, std::string text, float x, float y) {

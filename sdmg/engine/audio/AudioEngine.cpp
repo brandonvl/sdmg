@@ -37,9 +37,9 @@ namespace sdmg {
 				Mix_GroupChannels(0, SOUND_EFFECT_CHANNELS-1, SOUND_EFFECT_GROUP_TAG);
 				Mix_GroupChannels(SOUND_EFFECT_CHANNELS, VOICE_OVER_CHANNELS-1, VOICE_OVER_GROUP_TAG);
 
-				setVolume(MIX_MAX_VOLUME, AUDIOTYPE::SOUND_EFFECT);
-				setVolume(MIX_MAX_VOLUME, AUDIOTYPE::VOICE_OVER);
-				setVolume(MIX_MAX_VOLUME, AUDIOTYPE::MUSIC);
+				setVolume(MIX_MAX_VOLUME / 5, AUDIOTYPE::SOUND_EFFECT);
+				setVolume(MIX_MAX_VOLUME / 5, AUDIOTYPE::VOICE_OVER);
+				setVolume(MIX_MAX_VOLUME / 6, AUDIOTYPE::MUSIC);
 
 				Mix_ChannelFinished(donePlayingOut);
 
@@ -127,6 +127,7 @@ namespace sdmg {
 						break;
 					case AUDIOTYPE::MUSIC:
 						_musicVolume = volume;
+						Mix_VolumeMusic(volume);
 						break;
 				}
 			}

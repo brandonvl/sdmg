@@ -103,7 +103,7 @@ namespace sdmg {
 
 				if (obj->getAttackBody() != nullptr &&! obj->getBody()->GetWorld()->IsLocked())
 				{
-					delete obj->getAttackBody()->GetUserData();
+					delete static_cast<sdmg::model::Platform*>(obj->getAttackBody()->GetUserData());
 					obj->getBody()->GetWorld()->DestroyBody(obj->getAttackBody());
 					obj->setAttackBody(nullptr);
 				}

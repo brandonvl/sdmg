@@ -121,6 +121,7 @@ namespace sdmg {
 
 		void GameOverState::cleanup(GameBase &game)
 		{
+			delete _menu;
 			if (_replay)
 			{
 				DrawEngine *de = game.getEngine()->getDrawEngine();
@@ -128,7 +129,7 @@ namespace sdmg {
 				de->unload("gameoverbackground");
 				de->unloadText("replay");
 				de->unloadText("main menu");
-				delete _menu;
+				
 
 				for (int i = 1; i <= _characterCount; i++) {
 					std::string asd = "rank" + std::to_string(i);

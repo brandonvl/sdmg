@@ -10,11 +10,16 @@ namespace sdmg {
 
 			MenuTextItem::~MenuTextItem()
 			{
+				if (_engine != nullptr) {
+					_engine->getDrawEngine()->unloadText(_key);
+					_engine->getDrawEngine()->unloadText(_keySelected);
+				}
 			}
 
 			void MenuTextItem::loadText(GameBase *engine, std::string key, std::string text, std::string fontName, int fontSize) {
 				_key = key;
 				_keySelected = key + "Selected";
+				_engine = engine->getEngine();
 				engine->getEngine()->getDrawEngine()->loadText(_key, text, { 173, 14, 14 }, fontName, fontSize);
 				engine->getEngine()->getDrawEngine()->loadText(_keySelected, text, { 255, 255, 255 }, fontName, fontSize);
 			}

@@ -6,9 +6,9 @@ namespace sdmg {
 	namespace helperclasses {
 		void HUD::init(DrawEngine &drawEngine) {
 			_drawengine = &drawEngine;
-			_spriteKeyPrefix = "hud_" + _character.getName() + "_";
+			_spriteKeyPrefix = "hud_" + _character->getName() + "_";
 
-			drawEngine.load(_spriteKeyPrefix + "head", "assets/characters/" + _character.getKey() + "/head");
+			drawEngine.load(_spriteKeyPrefix + "head", "assets/characters/" + _character->getKey() + "/head");
 			drawEngine.load("heart", "assets/hud/heart");
 			drawEngine.load("power", "assets/hud/power");
 
@@ -22,6 +22,9 @@ namespace sdmg {
 				_drawengine->unload("heart");
 				_drawengine->unload("power");
 			}
+
+			_drawengine = nullptr;
+			_character = nullptr;
 		}
 
 		void HUD::draw(DrawEngine &drawEngine) {
@@ -32,7 +35,7 @@ namespace sdmg {
 
 			const int NUMLIFES = 4;
 			const int HEART_WIDTH = 29;
-			float heartFillWidth = _character.getHP() / 100.0f * HEART_WIDTH;
+			float heartFillWidth = _character->getHP() / 100.0f * HEART_WIDTH;
 
 			const int xPadding = _rectangle.getX() + 75;
 			for (int i = 0; i < NUMLIFES; i++) {
@@ -40,10 +43,10 @@ namespace sdmg {
 
 				drawEngine.drawRectangle(Rectangle(xPos, _rectangle.getY() + 15, HEART_WIDTH, 25), 51, 51, 51);
 
-				if (_character.getLives() == (i + 1)) {
+				if (_character->getLives() == (i + 1)) {
 					drawEngine.drawRectangle(Rectangle(xPos, _rectangle.getY() + 15, heartFillWidth, 25), 183, 39, 39);
 				}
-				else if (_character.getLives() > i) {
+				else if (_character->getLives() > i) {
 					drawEngine.drawRectangle(Rectangle(xPos, _rectangle.getY() + 15, HEART_WIDTH, 25), 183, 39, 39);
 				}
 
