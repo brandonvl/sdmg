@@ -468,7 +468,7 @@
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
     <ClInclude Include="helperclasses\statistics\Statistics.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\helperclasses\statistics</Filter>
     </ClInclude>
     <ClInclude Include="engine\drawing\DynamicTextSurface.h">
       <Filter>Header Files\engine\drawing</Filter>
