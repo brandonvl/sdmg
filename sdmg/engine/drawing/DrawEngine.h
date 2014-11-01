@@ -74,7 +74,9 @@ namespace sdmg {
 				void calcXY(GameObject *gameObject, Surface *surface, float &x, float &y);
 				void update();
 				void resetStep(GameObject *gameObject);
+				void gameObjectStateChanged(MovableGameObject *gameObject);
 				void createStep(GameObject *gameObject);
+				void createStep(MovableGameObject *gameObject);
 				int getWindowHeight();
 				int getWindowWidth();
 			private:

@@ -137,8 +137,12 @@ namespace sdmg {
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
 		void MovableGameObject::setState(State state)
 		{
-			//if (stateIsInterruptible())
+			// check if state is changed
+			if (state != _state) {
+				//if (stateIsInterruptible())
 				_state = state;
+				triggerStateChangedCallbacks();
+			}
 		}
 
 		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
@@ -174,6 +178,16 @@ namespace sdmg {
 		void MovableGameObject::setAttackY(float y)
 		{
 			_attackY = y;
+		}
+
+		void MovableGameObject::registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback) {
+			_stateChangedCallbacks.push_back(stateChangedCallback);
+		}
+
+		void MovableGameObject::triggerStateChangedCallbacks() {
+			for (auto callback : _stateChangedCallbacks) {
+				callback(this);
+			}
 		}
 	}
 }

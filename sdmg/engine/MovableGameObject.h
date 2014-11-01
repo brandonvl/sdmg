@@ -9,6 +9,8 @@
 
 #pragma once
 #include "GameObject.h"
+#include <functional>
+#include <vector>
 
 namespace sdmg {
 	namespace engine {
@@ -63,10 +65,7 @@ namespace sdmg {
 			void setHP(int hp);
 			bool getIsJumping();
 			void setIsJumping(bool isJumping);
-			
-			
-			
-			
+						
 			b2Body* getAttackBody();
 			void setAttackBody(b2Body *attackBody);
 			float getAttackY();
@@ -76,10 +75,15 @@ namespace sdmg {
 			void MovableGameObject::setAttackSize(Size size);
 			void MovableGameObject::setAttackSize(float width, float height);
 
+			void registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback);
+
 		private:
 			Direction _spawnDirection;
 			Size _attackSize;
 			float _attackY;
+			std::vector<std::function<void(MovableGameObject *gameObject)>> _stateChangedCallbacks;
+
+			void triggerStateChangedCallbacks();
 		protected:
 			int _lives, _hp;
 			b2Body *_attackBody;

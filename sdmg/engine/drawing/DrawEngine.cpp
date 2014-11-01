@@ -337,9 +337,20 @@ namespace sdmg {
 				_steps[gameObject] = 0;
 			}
 
+			void DrawEngine::gameObjectStateChanged(MovableGameObject *gameObject) {
+				resetStep(gameObject);
+			}
+
 			void DrawEngine::createStep(GameObject *gameObject) {
 				if (_steps.count(gameObject) == 0)
 					_steps.insert(std::make_pair(gameObject, 0));
+			}
+
+			void DrawEngine::createStep(MovableGameObject *gameObject) {
+				if (_steps.count(gameObject) == 0) {
+					_steps.insert(std::make_pair(gameObject, 0));
+					gameObject->registerStateChangedCallback(std::bind(&DrawEngine::gameObjectStateChanged, this, gameObject));
+				}
 			}
 		}
 	}
