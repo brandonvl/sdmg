@@ -145,7 +145,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
 			game.getEngine()->getDrawEngine()->draw("background");
-			game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
+			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
 			for (int i = 0; i < _bullets->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
