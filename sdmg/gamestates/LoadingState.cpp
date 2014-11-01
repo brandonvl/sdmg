@@ -224,7 +224,7 @@ namespace sdmg {
 			binding->setKeyBinding(SDLK_RIGHT, new actions::RightWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_LEFT, new actions::LeftWalkAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_UP, new actions::JumpAction((*_characters)[1]));
-			binding->setKeyBinding(SDLK_KP_0, new actions::RollAction((*_characters)[1]));
+			binding->setKeyBinding(SDLK_k, new actions::RollAction((*_characters)[1]));
 			binding->setKeyBinding(SDLK_l, new actions::MidRangeAttackAction((*_characters)[1]));
 			// Voor controller
 			binding->setKeyBinding(3, new actions::RightWalkAction((*_characters)[1]));
@@ -239,21 +239,24 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadTutorial() {
-			// Set lives
-			for (auto c : *_characters)
-				c->setLives(10000);
-
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
 			//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut1", "Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut5", "To perform a close range attack, press the L key", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut6", "To dodge an enemy attack, execute a roll, press numlock 0 key to roll", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tut7", "You have successfully passed the tutorial, you are now ready to play the game!", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek1", "We shall begin with Nivek, Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek5", "To perform a close range attack, press 'L'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek6", "To dodge an enemy attack, execute a roll, press 'K'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat1", "Now we shall explain Fiat's movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat2", "Press 'A' to move left", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat3", "Press 'D' to move right", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat4", "Press 'W' to jump", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat5", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat6", "To perform a close range attack, press the 'Q' key", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press 'R'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutEnd", "You have successfully passed the tutorial, you are ready to play the game, press 'Esc' to quit!", { 255, 255, 255 }, "arial", 30);
 		}
 
 		void LoadingState::loadStatic() {
