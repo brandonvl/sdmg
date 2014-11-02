@@ -18,6 +18,10 @@ namespace sdmg {
 
 		GameObject::~GameObject()
 		{
+			if (_ownsLocation) {
+				delete _x;
+				delete _y;
+			}
 			_x = nullptr;
 			_y = nullptr;
 			_world = nullptr;
@@ -67,13 +71,23 @@ namespace sdmg {
 		}
 
 		void GameObject::setLocation(const float32 *x, const float32 *y) {
+			if (_ownsLocation) {
+				delete _x;
+				delete _y;
+			}
 			_x = x;
 			_y = y;
+			_ownsLocation = false;
 		}
 		
 		void GameObject::setLocation(const float32 x, const float32 y) {
+			if (_ownsLocation) {
+				delete _x;
+				delete _y;
+			}
 			_x = new float32(x);
 			_y = new float32(y);
+			_ownsLocation = true;
 		}
 
 		float GameObject::getX() {

@@ -78,6 +78,7 @@ namespace sdmg {
 			float _spawnX, _spawnY;
 			World *_world;
 			std::string _name;
+			bool _ownsLocation;
 		};
 	}
 }
