@@ -98,6 +98,8 @@ namespace sdmg {
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
 				float _step, _accumulator;
+
+				bool _preparing;
 			};
 		}
 	}

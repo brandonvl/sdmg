@@ -143,7 +143,11 @@ namespace sdmg {
 		void PlayState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
+			preformDraw(game);
+			game.getEngine()->getDrawEngine()->render();
+		}
 
+		void PlayState::preformDraw(GameBase &game) {
 			game.getEngine()->getDrawEngine()->draw("background");
 			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
@@ -163,8 +167,6 @@ namespace sdmg {
 
 			if (_showFPS)
 				game.getEngine()->getDrawEngine()->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
-
-			game.getEngine()->getDrawEngine()->render();
 		}
 	}
 }

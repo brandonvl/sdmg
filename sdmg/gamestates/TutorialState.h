@@ -8,7 +8,7 @@
 //
 
 #pragma once
-#include "engine\GameState.h"
+#include "PlayState.h"
 #include "sdl\include\SDL.h"
 
 using namespace sdmg::engine;
@@ -20,13 +20,10 @@ namespace sdmg {
 		class MovablePlatform;
 	}
 	namespace gamestates {
-		class TutorialState : public GameState {
+		class TutorialState : public PlayState {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
-
-			void pause(GameBase &game);
-			void resume(GameBase &game);
 
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
@@ -37,15 +34,9 @@ namespace sdmg {
 				return _instance;
 			}
 
-			void setCharacters(std::vector<model::Character*> *characters);
-			void setPlatform(model::Platform *platform);
-
 		protected:
 			TutorialState() { }
 		private:
-			std::vector<model::Character*> *_characters;
-			model::Platform *_platform;
-
 			std::vector<std::pair<SDL_Keycode, std::string>> *_tutorial;
 			std::vector<std::string> *_toDraw;
 			SDL_Keycode _pressed;

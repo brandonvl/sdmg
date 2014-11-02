@@ -25,15 +25,15 @@ namespace sdmg {
 	namespace gamestates {
 		class PlayState : public GameState {
 		public:
-			void init(GameBase &game);
-			void cleanup(GameBase &game);
+			virtual void init(GameBase &game);
+			virtual void cleanup(GameBase &game);
 
-			void pause(GameBase &game);
-			void resume(GameBase &game);
+			virtual void pause(GameBase &game);
+			virtual void resume(GameBase &game);
 
-			void handleEvents(GameBase &game, GameTime &gameTime);
-			void update(GameBase &game, GameTime &gameTime);
-			void draw(GameBase &game, GameTime &gameTime);
+			virtual void handleEvents(GameBase &game, GameTime &gameTime);
+			virtual void update(GameBase &game, GameTime &gameTime);
+			virtual void draw(GameBase &game, GameTime &gameTime);
 			static PlayState& getInstance() {
 				static PlayState _instance;
 				return _instance;
@@ -46,7 +46,8 @@ namespace sdmg {
 
 		protected:
 			PlayState() { }
-		private:
+			void preformDraw(GameBase &game);
+
 			std::vector<model::Character*> *_characters;
 			model::Platform *_platform;
 			std::vector<model::MovablePlatform*> *_bullets;

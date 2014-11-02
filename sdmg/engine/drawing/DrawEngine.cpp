@@ -287,13 +287,19 @@ namespace sdmg {
 			}
 
 			void DrawEngine::prepareForDraw() {
-				// clear renderer
-				SDL_RenderClear(_renderer);
+				if (!_preparing) {
+					// clear renderer
+					SDL_RenderClear(_renderer);
+					_preparing = true;
+				}
 			}
 
 			void DrawEngine::render() {
-				// render
-				SDL_RenderPresent(_renderer);
+				if (_preparing) {
+					// render
+					SDL_RenderPresent(_renderer);
+					_preparing = false;
+				}
 			}
 
 			void DrawEngine::drawBodies(b2Body *body) {

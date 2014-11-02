@@ -27,12 +27,10 @@ namespace sdmg {
 	namespace gamestates {
 		void TutorialState::init(GameBase &game)
 		{
-			game.getEngine()->getPhysicsEngine()->resume();
-			game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
+			PlayState::init(game);
 
 			_tutorial = new std::vector<std::pair<SDL_Keycode, std::string>>();
 			_toDraw = new std::vector<std::string>();
-
 			
 			_tutorial->push_back(std::make_pair(SDLK_r, "tutEnd"));
 			// Panda
@@ -53,24 +51,10 @@ namespace sdmg {
 
 			_toDraw->push_back("tutIntro");
 		}
-
-		void TutorialState::setCharacters(std::vector<model::Character*> *characters)
-		{
-			_characters = characters;
-		}
-
-		void TutorialState::setPlatform(model::Platform *platform)
-		{
-			_platform = platform;
-		}
-
+		
 		void TutorialState::cleanup(GameBase &game)
 		{
-			game.getWorld()->clearWorld();
-			game.getEngine()->getPhysicsEngine()->cleanUp();
-			game.getEngine()->getDrawEngine()->unloadAll();
-			game.getEngine()->getAudioEngine()->unloadAll();
-			
+			PlayState::cleanup(game);
 
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
 			game.getEngine()->getDrawEngine()->unloadText("tutNivek1");
@@ -90,14 +74,6 @@ namespace sdmg {
 
 			delete _tutorial;
 			delete _toDraw;
-		}
-
-		void TutorialState::pause(GameBase &game)
-		{
-		}
-
-		void TutorialState::resume(GameBase &game)
-		{
 		}
 
 		void TutorialState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -130,6 +106,8 @@ namespace sdmg {
 
 		void TutorialState::update(GameBase &game, GameTime &gameTime)
 		{
+			PlayState::update(game, gameTime);
+
 			if (_pressed && _tutorial->size() > 0) {
 				SDL_Keycode key = _tutorial->back().first;
 				if (key == _pressed) 
@@ -139,10 +117,6 @@ namespace sdmg {
 				}
 			}
 
-			game.getEngine()->getInputEngine()->runActions(game);
-			game.getEngine()->getDrawEngine()->update();
-			game.getEngine()->getPhysicsEngine()->update();
-
 			_pressed = SDL_Keycode(NULL);
 		}
 
@@ -150,15 +124,8 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
-			game.getEngine()->getDrawEngine()->draw("background");
-
-			game.getEngine()->getDrawEngine()->draw(_platform);
-			//Deze is ook uitgecommend in de loadState
-			//  game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
-
-			for (int i = 0; i < _characters->size(); i++)
-				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);
-
+			preformDraw(game);
+			
 			if (_toDraw->size() > 0) {
 				std::string key = _toDraw->back();
 				std::array<float, 2> size = game.getEngine()->getDrawEngine()->getTextSize(key);
