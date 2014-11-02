@@ -290,6 +290,10 @@ namespace sdmg {
 				//  b2Vec2 *vec = new b2Vec2(P2M*w, P2M*h);
 				//  _boxSizes->insert(std::pair<b2Body*, b2Vec2*>(body, vec));
 
+				delete fixturedef;
+				delete bodydef;
+				delete shape;
+
 				return body;
 			}
 
