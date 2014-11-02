@@ -90,10 +90,15 @@ namespace sdmg {
 					fixturedef->density = 1.0f;
 					body->CreateFixture(fixturedef);
 
+					
 					body->SetUserData(platform);
 					obj->setAttackBody(body);
 
 					platform->setLocation(&body->GetPosition().x, &body->GetPosition().y);
+					
+					delete fixturedef;
+					delete shape;
+					delete bodydef;
 				}
 
 			}

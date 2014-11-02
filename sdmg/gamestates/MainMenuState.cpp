@@ -87,6 +87,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("quit");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
+			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 		}
 
 		void MainMenuState::pause(GameBase &game)

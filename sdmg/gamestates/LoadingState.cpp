@@ -163,7 +163,7 @@ namespace sdmg {
 
 			de->load("background", R"(assets\levels\level1\background)");
 			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
-			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets\sounds\level1_bgm.mp3)", AUDIOTYPE::MUSIC);
+			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
 			_bullets = new std::vector<MovablePlatform*>;
 
 			loadCharacters(levelObj.getArray("startingPositions"));
