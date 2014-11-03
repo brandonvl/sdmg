@@ -15,6 +15,8 @@ namespace sdmg {
 		{
 			_game = &game;
 
+			doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
+
 			game.getEngine()->getDrawEngine()->load("help", R"(assets\screens\help)");
 
 			// Load header text
@@ -25,7 +27,6 @@ namespace sdmg {
 			// Load statistics
 			bool useJSON = true;
 			if (useJSON) {
-				doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
 				JSON::JSONObject &statisticsObj = doc->getRootObject();
 
 				JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
@@ -43,8 +44,8 @@ namespace sdmg {
 					loadText(charname + "name", characterObj.getString("name"), "trebucbd", 36);
 
 					// Set character statistics
-					loadText(charname + "wins", std::to_string(characterObj.getFloat("wins")), "trebucbd", 36);
-					loadText(charname + "losses", std::to_string(characterObj.getFloat("losses")), "trebucbd", 36);
+					loadText(charname + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
+					loadText(charname + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
 				}
 			}
 			else {
@@ -90,6 +91,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("enriquename");
 			game.getEngine()->getDrawEngine()->unload("enriquewins");
 			game.getEngine()->getDrawEngine()->unload("enriquelosses");
+
+			delete doc;
 		}
 
 		void StatisticsState::pause(GameBase &game)
