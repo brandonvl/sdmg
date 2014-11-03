@@ -1,4 +1,5 @@
 {
+	name: "Level 2",
 	gravity: { left: 0, down: 100 },
 	platforms: 
 	[

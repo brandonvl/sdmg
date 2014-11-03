@@ -9,6 +9,9 @@
 
 #pragma once
 #include "SelectionState.h"
+#include <map>
+#include <string>
+#include <vector>
 
 using namespace sdmg::engine;
 
@@ -38,6 +41,8 @@ namespace sdmg {
 			void menuAction(MenuItem *item) override;
 		private:
 			GameBase *_game;
+
+			void listLevels();
 		};
 	}
 }

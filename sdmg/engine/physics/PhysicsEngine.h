@@ -11,7 +11,6 @@
 #include <map>
 #include <vector>
 #include "engine\physics\KinematicBody.h"
-// #include "model\MovablePlatform.h"
 #include <chrono>
 
 class b2World;

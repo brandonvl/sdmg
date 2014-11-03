@@ -37,6 +37,9 @@ namespace sdmg {
 			_game = &game;
 			_game->getWorld()->clearWorld();
 
+			// Default level
+			// _level = new std::string("level1");
+
 			_isLoaded = false;
 			_isError = false;
 
@@ -117,6 +120,11 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->render();
 		}
 
+		void LoadingState::setLevel(std::string *level)
+		{
+			_level = level;
+		}
+
 		int LoadingState::loadThread(void *ptr)
 		{
 			((LoadingState*)ptr)->load();
@@ -134,8 +142,8 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadLevel() {
-
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/level2/data");
+			
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
 			JSON::JSONObject &levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
@@ -153,10 +161,14 @@ namespace sdmg {
 				_platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 				pe->addBody(_platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
 				_game->getWorld()->addGameObject(_platform);
-				de->load(_platform, R"(assets\levels\level1\platform)");
+				de->load(_platform, "assets/levels/" + (*_level) + "/platform");
+				//  de->load(_platform, "assets/levels/" + level + "/data");
 			}
 
-			de->load("background", R"(assets\levels\level1\background)");
+
+
+			de->load("background", "assets/levels/" + (*_level) + "/background");
+			//  de->load("background", "assets/levels/" + level + "/data");
 			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
 			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
 			_bullets = new std::vector<MovablePlatform*>;
