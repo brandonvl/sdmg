@@ -39,7 +39,6 @@ namespace sdmg {
 		private:
 			std::vector<std::pair<SDL_Keycode, std::string>> *_tutorial;
 			std::vector<std::string> *_toDraw;
-			SDL_Keycode _pressed;
 		};
 	}
 }

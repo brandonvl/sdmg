@@ -16,13 +16,17 @@
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\input\InputEngine.h"
 #include "engine\audio\AudioEngine.h"
-#include <vector>
-
 #include "LoadingState.h"
 #include "MainMenuState.h"
+#include "lib\JSONParser.h"
 
+#include <vector>
+
+
+// only for windows
+#include <windows.h>
+#include <tchar.h>
 #include <stdio.h>
-
 
 namespace sdmg {
 	namespace gamestates {
@@ -31,53 +35,87 @@ namespace sdmg {
 		{
 			std::string tag = item->getTag();
 
-			if (tag == "Level 1") {
+			if (tag == "Tutorial") {
+				LoadingState::getInstance().setIsTutorial(true);
+				LoadingState::getInstance().setLevel(new std::string("level1"));
 				changeState(*_game, LoadingState::getInstance());
 			}
-			else if (tag == "Level 2") {
+			else
+			{
+				LoadingState::getInstance().setIsTutorial(false);
+				LoadingState::getInstance().setLevel(new std::string(item->getTag()));
 				changeState(*_game, LoadingState::getInstance());
+			}
+		}
+
+		void LevelSelectionState::listLevels() {
+			std::vector<std::string> names;
+			char search_path[200];
+			sprintf_s(search_path, "%s*.*", "assets\\levels\\");
+			WIN32_FIND_DATA fd;
+			HANDLE hFind = ::FindFirstFile(search_path, &fd);
+			if (hFind != INVALID_HANDLE_VALUE)
+			{
+				do {
+					if ((fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && fd.cFileName[0] != '.') {
+						std::string s = fd.cFileName;
+						JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + s + "/data");
+						JSON::JSONObject &obj = doc->getRootObject();
+
+						helperclasses::menuitems::MenuTextItem *level = new helperclasses::menuitems::MenuTextItem(fd.cFileName, 0, 68, _menu->getSelectedMenuItem() == nullptr);
+						level->loadText(_game, obj.getString("name"), obj.getString("name"), "trebucbd", 33);
+						_menu->addMenuItem(level);
+
+						delete doc;
+					}
+				} while (::FindNextFile(hFind, &fd));
+				::FindClose(hFind);
 			}
 		}
 
 		void LevelSelectionState::init(GameBase &game)
 		{
-			std::vector<std::string> *loadLevels = new std::vector<std::string>;
-			loadLevels->push_back("Level 1");
-			loadLevels->push_back("Level 2");
+			_game = &game;
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
+			listLevels();
+
+			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
+			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
+			_menu->addMenuItem(tutorial);
+
+			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
+
+			/*
+
+			//_levels = new std::map < std::string, std::string >();
+			std::vector<std::string> *folders = new std::vector<std::string>;
+			folders->push_back("level1");
+			folders->push_back("level2");
 
 			_game = &game;
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 			// Create menu item
-
-			
-			for (int i = 0; i < loadLevels->size(); i++)
+			for (int i = 0; i < folders->size(); i++)
 			{
-				std::string h = (*loadLevels)[i];
-				helperclasses::menuitems::MenuTextItem *level = new helperclasses::menuitems::MenuTextItem((*loadLevels)[i], 0, 68, i == 0);
-				level->loadText(_game, (*loadLevels)[i], (*loadLevels)[i], "trebucbd", 33);
+				JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*folders)[i] + "/data");
+				JSON::JSONObject &obj = doc->getRootObject();
+
+				helperclasses::menuitems::MenuTextItem *level = new helperclasses::menuitems::MenuTextItem((*folders)[i], 0, 68, i == 0);
+				level->loadText(_game, obj.getString("name"), obj.getString("name"), "trebucbd", 33);
 				_menu->addMenuItem(level);
 			}
-			
-			/*
-			helperclasses::menuitems::MenuTextItem *level1 = new helperclasses::menuitems::MenuTextItem("Level 1", 0, 68, true);
-			level1->loadText(_game, "1evel1", "Level 1", "trebucbd", 33);
-			_menu->addMenuItem(level1);
-
-			helperclasses::menuitems::MenuTextItem *level2 = new helperclasses::menuitems::MenuTextItem("Level 2", 0, 68, true);
-			level2->loadText(_game, "level2", "Level 2", "trebucbd", 33);
-			_menu->addMenuItem(level2);
-			*/
-			
 
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
+			*/
 		}
 
 		void LevelSelectionState::cleanup(GameBase &game)
 		{
 			delete _menu;
-			game.getEngine()->getDrawEngine()->unloadText("levl1");
-			game.getEngine()->getDrawEngine()->unloadText("level2");
+			game.getEngine()->getDrawEngine()->unloadText("Level 1");
+			game.getEngine()->getDrawEngine()->unloadText("Level 2");
+			game.getEngine()->getDrawEngine()->unloadText("tutorial");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
@@ -107,7 +145,7 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						game.stop();
+						changeState(game, MainMenuState::getInstance());
 						break;
 					case SDLK_1:
 						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
@@ -143,6 +181,6 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
-		}		
+		}
 	}
 }

@@ -37,6 +37,9 @@ namespace sdmg {
 			_game = &game;
 			_game->getWorld()->clearWorld();
 
+			// Default level
+			// _level = new std::string("level1");
+
 			_isLoaded = false;
 			_isError = false;
 
@@ -114,6 +117,11 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->render();
 		}
 
+		void LoadingState::setLevel(std::string *level)
+		{
+			_level = level;
+		}
+
 		int LoadingState::loadThread(void *ptr)
 		{
 			((LoadingState*)ptr)->load();
@@ -131,8 +139,8 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadLevel() {
-
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/level2/data");
+			
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
 			JSON::JSONObject &levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
@@ -145,15 +153,18 @@ namespace sdmg {
 			for (int i = 0; i < platformArr.size(); i++) {
 				JSON::JSONObject &platformObj = platformArr.getObject(i);
 
-				model::Platform *platform = new model::Platform(false);
+				Platform *platform = new model::Platform(false);
 				platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
 				platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 				pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
-				_game->getWorld()->addPlatform(platform);
-				de->load(platform, R"(assets\levels\level1\platform)");
+				_game->getWorld()->addGameObject(platform);
+				de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
 			}
 
-			de->load("background", R"(assets\levels\level1\background)");
+
+
+			de->load("background", "assets/levels/" + (*_level) + "/background");
+			//  de->load("background", "assets/levels/" + level + "/data");
 			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
 			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
 
@@ -247,21 +258,37 @@ namespace sdmg {
 		void LoadingState::loadTutorial() {
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
+			ConfigManager &manager = ConfigManager::getInstance();
+			std::string fiatLeft = SDL_GetKeyName(manager.getKey(0, "walkLeft"));
+			std::string fiatRight = SDL_GetKeyName(manager.getKey(0, "walkRight"));
+			std::string fiatJump = SDL_GetKeyName(manager.getKey(0, "jump"));
+			std::string fiatMidRange = SDL_GetKeyName(manager.getKey(0, "midrange"));
+			std::string fiatRoll = SDL_GetKeyName(manager.getKey(0, "roll"));
+			
+			std::string nivekLeft = SDL_GetKeyName(manager.getKey(1, "walkLeft"));
+			std::string nivekRight = SDL_GetKeyName(manager.getKey(1, "walkRight"));
+			std::string nivekJump = SDL_GetKeyName(manager.getKey(1, "jump"));
+			std::string nivekMidRange = SDL_GetKeyName(manager.getKey(1, "midrange"));
+			std::string nivekRoll = SDL_GetKeyName(manager.getKey(1, "roll"));
+
 			//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutIntro", "Welcome! We will start by learning basic movement, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek1", "We shall begin with Nivek, Press left arrow key (<-) to move left", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek2", "Press right arrow key (->) to move right", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek3", "Press up arrow key (^) to jump", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek4", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek5", "To perform a close range attack, press 'L'", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek6", "To dodge an enemy attack, execute a roll, press 'K'", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat1", "Now we shall explain Fiat's movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat2", "Press 'A' to move left", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat3", "Press 'D' to move right", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat4", "Press 'W' to jump", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat5", "We will now learn attacking movements, press enter to continue", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat6", "To perform a close range attack, press the 'Q' key", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press 'R'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutIntro", "Welcome to the tutorial! [ENTER]", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutIntro2", "The heart icons in the top of your screen show the amount of lives you have left [ENTER]", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutIntro3", "If you get defeated by an opponent or fall from the platform you will lose one life [ENTER]", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutIntro4", "The bar below the heart icons shows the energy you have left [ENTER]", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek1", "We shall begin with Nivek, Press '" + nivekLeft + "' to move left", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek2", "Press '" + nivekRight + "' to move right", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek3", "Press '" + nivekJump + "' to jump", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek4", "We will now learn attacking movements [ENTER]", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek5", "To perform a mid range attack, press the '" + nivekMidRange + "' key", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek6", "To dodge an enemy attack, execute a roll, press '" + nivekRoll + "'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat1", "Now we shall explain Fiat's movements [ENTER]", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat2", "Press '" + fiatLeft + "' to move left", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat3", "Press '" + fiatRight + "' to move right", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat4", "Press '" + fiatJump + "' to jump", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat5", "We will now learn attacking movements [ENTER]", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat6", "To perform a mid range attack, press the '" + fiatMidRange + "' key", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press '" + fiatRoll + "'", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutEnd", "You have successfully passed the tutorial, you are ready to play the game, press 'Esc' to quit!", { 255, 255, 255 }, "arial", 30);
 		}
 	}

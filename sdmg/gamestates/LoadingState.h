@@ -9,6 +9,7 @@
 
 #pragma once
 #include "engine\GameState.h"
+#include <string>
 struct SDL_Thread;
 
 using namespace sdmg::engine;
@@ -39,6 +40,7 @@ namespace sdmg {
 			}
 
 			void setIsTutorial(bool tutorial);
+			void setLevel(std::string *level);
 
 		protected:
 			LoadingState() { }
@@ -53,8 +55,8 @@ namespace sdmg {
 			void loadKeybindings();
 			bool _isLoaded, _isError, _isTutorial;
 			std::vector<helperclasses::HUD*> *_huds;
+			std::string *_level;
 			GameBase *_game;
-			
 		};
 	}
 }

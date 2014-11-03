@@ -41,10 +41,6 @@ namespace sdmg {
 			else if (tag == "Help") {
 				_game->getStateManager()->pushState(HelpState::getInstance());
 			}
-			else if (tag == "Credits") {
-				_game->getStateManager()->pushState(CreditsState::getInstance());
-				//changeState(*_game, CreditsState::getInstance());
-			}
 			else if (tag == "Back") {
 				changeState(*_game, MainMenuState::getInstance());
 			}
@@ -55,23 +51,21 @@ namespace sdmg {
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 
-			helperclasses::menuitems::MenuTextItem *controls = new helperclasses::menuitems::MenuTextItem("Controls", 0, 68, true);
+			int height = 68;
+
+			helperclasses::menuitems::MenuTextItem *controls = new helperclasses::menuitems::MenuTextItem("Controls", 0, height, true);
 			controls->loadText(_game, "controls", "Controls", "trebucbd", 33);
 			_menu->addMenuItem(controls);
 
-			helperclasses::menuitems::MenuTextItem *statistics = new helperclasses::menuitems::MenuTextItem("Statistics", 0, 68, false);
+			helperclasses::menuitems::MenuTextItem *statistics = new helperclasses::menuitems::MenuTextItem("Statistics", 0, height, false);
 			statistics->loadText(_game, "statistics", "Statistics", "trebucbd", 33);
 			_menu->addMenuItem(statistics);
 
-			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, 68, false);
+			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, height, false);
 			help->loadText(_game, "help", "Help", "trebucbd", 33);
 			_menu->addMenuItem(help);
 
-			helperclasses::menuitems::MenuTextItem *credits = new helperclasses::menuitems::MenuTextItem("Credits", 0, 68, false);
-			credits->loadText(_game, "credits", "Credits", "trebucbd", 33);
-			_menu->addMenuItem(credits);
-
-			helperclasses::menuitems::MenuTextItem *back = new helperclasses::menuitems::MenuTextItem("Back", 0, 68, false);
+			helperclasses::menuitems::MenuTextItem *back = new helperclasses::menuitems::MenuTextItem("Back", 0, height, false);
 			back->loadText(_game, "back", "Back", "trebucbd", 33);
 			_menu->addMenuItem(back);
 

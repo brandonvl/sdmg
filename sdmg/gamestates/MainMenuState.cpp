@@ -37,12 +37,12 @@ namespace sdmg {
 				//  changeState(*_game, LoadingState::getInstance());
 				changeState(*_game, LevelSelectionState::getInstance());
 			}
-			else if (tag == "Tutorial") {
-				LoadingState::getInstance().setIsTutorial(true);
-				changeState(*_game, LoadingState::getInstance());
-			}
 			else if (tag == "Options") {
 				changeState(*_game, OptionsState::getInstance());
+			}
+			else if (tag == "Credits") {
+				_game->getStateManager()->pushState(CreditsState::getInstance());
+				//changeState(*_game, CreditsState::getInstance());
 			}
 			else if (tag == "Quit") {
 				_game->stop();
@@ -55,19 +55,22 @@ namespace sdmg {
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 			// Create menu item
-			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 0, 68, true);
+
+			int height = 68;
+
+			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 0, height, true);
 			play->loadText(_game, "play", "Play", "trebucbd", 33);
 			_menu->addMenuItem(play);
-
-			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
-			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
-			_menu->addMenuItem(tutorial);
 			
-			helperclasses::menuitems::MenuTextItem *options = new helperclasses::menuitems::MenuTextItem("Options", 0, 68, false);
+			helperclasses::menuitems::MenuTextItem *options = new helperclasses::menuitems::MenuTextItem("Options", 0, height, false);
 			options->loadText(_game, "options", "Options", "trebucbd", 33);
 			_menu->addMenuItem(options);
 
-			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 0, 68, false);
+			helperclasses::menuitems::MenuTextItem *credits = new helperclasses::menuitems::MenuTextItem("Credits", 0, height, false);
+			credits->loadText(_game, "credits", "Credits", "trebucbd", 33);
+			_menu->addMenuItem(credits);
+
+			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Quit", 0, height, false);
 			quit->loadText(_game, "quit", "Quit", "trebucbd", 33);
 			_menu->addMenuItem(quit);
 
@@ -85,6 +88,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("play");
 			game.getEngine()->getDrawEngine()->unloadText("tutorial");
 			game.getEngine()->getDrawEngine()->unloadText("options");
+			game.getEngine()->getDrawEngine()->unloadText("credits");
 			game.getEngine()->getDrawEngine()->unloadText("quit");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
