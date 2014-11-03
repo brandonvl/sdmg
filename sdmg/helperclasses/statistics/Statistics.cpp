@@ -9,6 +9,11 @@ using namespace std;
 namespace sdmg {
 	namespace helperclasses {
 
+		Statistics::Statistics()
+		{
+			reset();
+		}
+
 		//const string savegame("assets\\statistics\\statistics");
 
 		void Statistics::save(std::vector<std::vector<std::string>> statistics) 
@@ -43,6 +48,11 @@ namespace sdmg {
 				character.clear();
 			}
 			return statistics;
+		}
+
+		void Statistics::reset() 
+		{
+
 		}
 	}
 }

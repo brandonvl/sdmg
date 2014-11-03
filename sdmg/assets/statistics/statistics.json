@@ -1,0 +1,35 @@
+{
+	characters:
+	[
+		{
+			name: "Nivek"
+			wins: 0, 
+			losses: 0
+		},
+		{
+			name: "Silence"
+			wins: 0, 
+			losses: 0
+		},
+		{
+			name: "Fiat Panda"
+			wins: 0, 
+			losses: 0
+		},
+		{
+			name: "Always Lucky Cowboy"
+			wins: 0, 
+			losses: 0
+		},
+		{
+			name: "Mind The Ice Mage"
+			wins: 0, 
+			losses: 0
+		},
+		{
+			name: "Enrique The Suit is Bananas"
+			wins: 0, 
+			losses: 0
+		},
+	]
+}
