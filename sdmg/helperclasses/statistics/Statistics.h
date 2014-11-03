@@ -9,6 +9,7 @@ namespace sdmg {
 		public:
 			void save(std::vector<std::vector<std::string>> statistics);
 			std::vector<std::vector<std::string>> load();
+			void reset();
 
 			static Statistics& getInstance() {
 				static Statistics _instance;
@@ -16,7 +17,7 @@ namespace sdmg {
 			}
 
 		protected:
-			Statistics() { }
+			Statistics();
 
 		};
 	}

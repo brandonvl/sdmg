@@ -33,21 +33,6 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
 		}
 
-		void PlayState::setCharacters(std::vector<model::Character*> *characters)
-		{
-			_characters = characters;
-		}
-
-		void PlayState::setPlatform(model::Platform *platform)
-		{
-			_platform = platform;
-		}
-
-		void PlayState::setBullets(std::vector<model::MovablePlatform *> *bullets)
-		{
-			_bullets = bullets;
-		}
-
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
 		{
 			_huds = huds;
@@ -58,11 +43,6 @@ namespace sdmg {
 			game.getEngine()->getPhysicsEngine()->cleanUp();
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getAudioEngine()->unloadAll();
-			//  game.getWorld()->clearWorld();
-
-			/*
-			for (MovablePlatform *platform : *_bullets)
-				delete platform;*/
 
 			if (_huds) {
 				for (auto it : *_huds) {
@@ -72,13 +52,7 @@ namespace sdmg {
 			}
 
 			delete _huds;
-			delete _characters;
-			delete _bullets;
-			//delete _platform;
-
-			_bullets = nullptr;
 			_huds = nullptr;
-			_characters = nullptr;
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -108,6 +82,11 @@ namespace sdmg {
 						case SDLK_F1:
 							if (!event.key.repeat)
 								_showFPS = !_showFPS;
+							break;
+						case SDLK_F2:
+							if (!event.key.repeat)
+								_showHitBoxes = !_showHitBoxes;
+							break;
 						default:
 							game.getEngine()->getInputEngine()->handleEvent(event);
 							break;
@@ -149,21 +128,13 @@ namespace sdmg {
 
 		void PlayState::preformDraw(GameBase &game) {
 			game.getEngine()->getDrawEngine()->draw("background");
-			game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
-			if (_bullets) {
-				for (int i = 0; i < _bullets->size(); i++)
-					game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
-			}
+			if (_showHitBoxes)
+				game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
-			game.getEngine()->getDrawEngine()->draw(_platform);
+			for (auto obj : game.getWorld()->getGameObjects())
+				game.getEngine()->getDrawEngine()->draw(obj);
 			
-			// Deze heb ik ook uitgecomment in de LoadState
-			//  game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
-
-			for (int i = 0; i < _characters->size(); i++)
-				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);
-
 			if (_huds) {
 				for (helperclasses::HUD *hud : *_huds) {
 					hud->draw(*game.getEngine()->getDrawEngine());

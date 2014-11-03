@@ -4,6 +4,7 @@
 #include "engine\input\InputEngine.h"
 #include "OptionsState.h"
 #include "helperclasses\statistics\Statistics.h"
+#include "lib\JSONParser.h"
 
 #include <fstream>
 
@@ -14,28 +15,55 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			// Load statistics
-			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
+			doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
 
 			game.getEngine()->getDrawEngine()->load("help", R"(assets\screens\help)");
 
+			// Load header text
 			loadText("title", "Statistics", "trebucbd", 48);
-
 			loadText("wins", "Wins", "trebucbd", 36);
 			loadText("losses", "Losses", "trebucbd", 36);
 
-			// Set character names
-			loadText("nivekname", "Nivek the Assassin", "trebucbd", 36);
-			loadText("silencename", "Silence the Code Ninja", "trebucbd", 36);
-			loadText("fiatname", "Fiat Panda", "trebucbd", 36);
-			loadText("luckyname", "Always Lucky Cowboy", "trebucbd", 36);
-			loadText("mindname", "Mind the Ice Mage", "trebucbd", 36);
-			loadText("enriquename", "Enrique the Suit is Bananas", "trebucbd", 36);
-			
-			// Set character statistics
-			for (auto s : statistics) {
-				loadText(s.at(0) + "wins", s.at(1), "trebucbd", 36);
-				loadText(s.at(0) + "losses", s.at(2), "trebucbd", 36);
+			// Load statistics
+			bool useJSON = true;
+			if (useJSON) {
+				JSON::JSONObject &statisticsObj = doc->getRootObject();
+
+				JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
+
+				for (int i = 0; i < characterArr.size(); i++) {
+					JSON::JSONObject &characterObj = characterArr.getObject(i);
+					// Get character name
+					std::string charname = "";
+					for (auto c : characterObj.getString("name")) {
+						if (c != ' ')
+							charname += tolower(c);
+						else break;
+					}
+					// Load character name text
+					loadText(charname + "name", characterObj.getString("name"), "trebucbd", 36);
+
+					// Set character statistics
+					loadText(charname + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
+					loadText(charname + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
+				}
+			}
+			else {
+				std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
+
+				// Set character names
+				loadText("nivekname", "Nivek the Assassin", "trebucbd", 36);
+				loadText("silencename", "Silence the Code Ninja", "trebucbd", 36);
+				loadText("fiatname", "Fiat Panda", "trebucbd", 36);
+				loadText("luckyname", "Always Lucky Cowboy", "trebucbd", 36);
+				loadText("mindname", "Mind the Ice Mage", "trebucbd", 36);
+				loadText("enriquename", "Enrique the Suit is Bananas", "trebucbd", 36);
+
+				// Set character statistics
+				for (auto s : statistics) {
+					loadText(s.at(0) + "wins", s.at(1), "trebucbd", 36);
+					loadText(s.at(0) + "losses", s.at(2), "trebucbd", 36);
+				}
 			}
 		}
 
@@ -63,6 +91,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("enriquename");
 			game.getEngine()->getDrawEngine()->unload("enriquewins");
 			game.getEngine()->getDrawEngine()->unload("enriquelosses");
+
+			delete doc;
 		}
 
 		void StatisticsState::pause(GameBase &game)
@@ -96,8 +126,6 @@ namespace sdmg {
 
 		void StatisticsState::draw(GameBase &game, GameTime &gameTime)
 		{
-			// Load statistics
-			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
 
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
@@ -116,12 +144,41 @@ namespace sdmg {
 			winspos += 10;
 			lossespos += 10;
 
-			for (auto s : statistics) {
-				drawEngine->drawText(s.at(0) + "name", 100, vpos);
-				drawEngine->drawText(s.at(0) + "wins", winspos, vpos);
-				drawEngine->drawText(s.at(0) + "losses", lossespos, vpos);
+			// Load statistics
+			bool useJSON = true;
+			if (useJSON)
+			{
+				JSON::JSONObject &statisticsObj = doc->getRootObject();
 
-				vpos += 48;
+				JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
+
+				for (int i = 0; i < characterArr.size(); i++) {
+					JSON::JSONObject &characterObj = characterArr.getObject(i);
+					// Get character name
+					std::string charname = "";
+					for (auto c : characterObj.getString("name")) {
+						if (c != ' ')
+							charname += tolower(c);
+						else break;
+					}
+					drawEngine->drawText(charname + "name", 100, vpos);
+					drawEngine->drawText(charname + "wins", winspos, vpos);
+					drawEngine->drawText(charname + "losses", lossespos, vpos);
+
+					vpos += 48;
+				}
+			}
+			else 
+			{
+				std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
+
+				for (auto s : statistics) {
+					drawEngine->drawText(s.at(0) + "name", 100, vpos);
+					drawEngine->drawText(s.at(0) + "wins", winspos, vpos);
+					drawEngine->drawText(s.at(0) + "losses", lossespos, vpos);
+
+					vpos += 48;
+				}
 			}
 
 			drawEngine->render();

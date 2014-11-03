@@ -1,4 +1,5 @@
 {
+	name: "Level 1",
 	gravity: { left: 0, down: 100 },
 	platforms: 
 	[
@@ -6,12 +7,15 @@
 			size: { width: 1091, height: 94 },
 			location: { x: 625.5, y: 663 },
 			bodyPadding: { x: 30, y: 20 },
-			a: "platform"
+			image: "platform"
 		}
 	],
 	startingPositions: 
 	[
 		{ x: 150, y: -100 },
 		{ x: 1100, y: -100 }
+	],
+	bobs:
+	[
 	]
 }
