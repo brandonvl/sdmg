@@ -10,6 +10,7 @@
 
 #include "World.h"
 #include "GameObject.h"
+#include "MovableGameObject.h"
 
 namespace sdmg {
 	namespace engine {
@@ -65,6 +66,14 @@ namespace sdmg {
 			return _aliveList;
 		}
 
+		const std::vector<GameObject*> &World::getPlatforms() {
+			return _platforms;
+		}
+
+		const std::vector<MovableGameObject*> &World::getPlayers() {
+			return _players;
+		}
+
 		void World::clearWorld()
 		{
 			/*
@@ -88,8 +97,14 @@ namespace sdmg {
 			_deadList.clear();
 		}
 
-		void World::addPlayer(GameObject *player) {
+		void World::addPlatform(GameObject *platform) {
+			_platforms.push_back(platform);
+			addGameObject(platform);
+		}
 
+		void World::addPlayer(MovableGameObject *player) {
+			_players.push_back(player);
+			addGameObject(player);
 		}
 	}
 }

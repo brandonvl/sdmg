@@ -179,10 +179,24 @@ namespace sdmg {
 			}
 
 			void DrawEngine::draw(GameObject *gameObject) {
-				Surface *surface = _objectSurfaces[gameObject];
-				float x, y;
-				calcXY(gameObject, surface, x, y);
-				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
+				if (_objectSurfaces.count(gameObject)) {
+
+					Surface *surface = _objectSurfaces[gameObject];
+
+					if (surface->isAnimated()) {
+						drawSlice(gameObject);
+					}
+					else {
+						float x, y;
+						calcXY(gameObject, surface, x, y);
+						SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
+					}
+				}
+
+				MovableGameObject *mGameObject = static_cast<MovableGameObject*>(gameObject);
+				if (mGameObject && _objectStateSurfaces.count(mGameObject)) {
+					draw(mGameObject);
+				}
 			}
 			
 			void DrawEngine::draw(std::string key, float x, float y, int slice) {
@@ -199,7 +213,7 @@ namespace sdmg {
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(_steps[gameObject], gameObject), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
 
-			void DrawEngine::drawSlice(MovableGameObject *gameObject) {
+			void DrawEngine::draw(MovableGameObject *gameObject) {
 				drawSlice(gameObject, gameObject->getState(), gameObject->getDirection());
 			}
 

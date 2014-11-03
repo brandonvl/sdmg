@@ -40,6 +40,7 @@ namespace sdmg {
 
 				float getRenderHeight();
 				float getRenderWidth();
+				bool isAnimated();
 			private:
 				//SDL_Surface *_surface;
 				//SDL_Texture *_texture;
