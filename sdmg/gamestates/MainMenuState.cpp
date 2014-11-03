@@ -37,10 +37,6 @@ namespace sdmg {
 				//  changeState(*_game, LoadingState::getInstance());
 				changeState(*_game, LevelSelectionState::getInstance());
 			}
-			else if (tag == "Tutorial") {
-				LoadingState::getInstance().setIsTutorial(true);
-				changeState(*_game, LoadingState::getInstance());
-			}
 			else if (tag == "Options") {
 				changeState(*_game, OptionsState::getInstance());
 			}
@@ -65,10 +61,6 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Play", 0, height, true);
 			play->loadText(_game, "play", "Play", "trebucbd", 33);
 			_menu->addMenuItem(play);
-
-			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, height, false);
-			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
-			_menu->addMenuItem(tutorial);
 			
 			helperclasses::menuitems::MenuTextItem *options = new helperclasses::menuitems::MenuTextItem("Options", 0, height, false);
 			options->loadText(_game, "options", "Options", "trebucbd", 33);
