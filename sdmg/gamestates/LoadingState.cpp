@@ -161,7 +161,7 @@ namespace sdmg {
 				_platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 				pe->addBody(_platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
 				_game->getWorld()->addGameObject(_platform);
-				de->load(_platform, "assets/levels/" + (*_level) + "/platform");
+				de->load(_platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
 				//  de->load(_platform, "assets/levels/" + level + "/data");
 			}
 

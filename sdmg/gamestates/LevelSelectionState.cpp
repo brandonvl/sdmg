@@ -65,13 +65,12 @@ namespace sdmg {
 
 		void LevelSelectionState::init(GameBase &game)
 		{
-			/*
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 			listLevels();
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
 
-			*/
+			/*
 
 			//_levels = new std::map < std::string, std::string >();
 			std::vector<std::string> *folders = new std::vector<std::string>;
@@ -93,6 +92,7 @@ namespace sdmg {
 			}
 
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
+			*/
 		}
 
 		void LevelSelectionState::cleanup(GameBase &game)

@@ -4,10 +4,22 @@
 	platforms: 
 	[
 		{
-			size: { width: 1091, height: 94 },
-			location: { x: 625.5, y: 663 },
+			size: { width: 490, height: 94 },
+			location: { x: 640.5, y: 663 },
 			bodyPadding: { x: 30, y: 20 },
-			a: "platform"
+			image: "platform_big_middle"
+		},
+		{
+			size: { width: 350, height: 94 },
+			location: { x: 200, y: 550 },
+			bodyPadding: { x: 30, y: 20 },
+			image: "platform_small_left"
+		},
+		{
+			size: { width: 350, height: 94 },
+			location: { x: 1080, y: 550 },
+			bodyPadding: { x: 30, y: 20 },
+			image: "platform_small_right"
 		}
 	],
 	startingPositions: 
