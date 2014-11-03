@@ -157,7 +157,7 @@ namespace sdmg {
 				platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
 				platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 				pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
-				_game->getWorld()->addGameObject(platform);
+				_game->getWorld()->addPlatform(platform);
 				de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
 			}
 
@@ -236,6 +236,8 @@ namespace sdmg {
 				InputDeviceBinding *binding = new InputDeviceBinding();
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
+
+				_game->getEngine()->getInputEngine()->clearBindings();
 
 				for (int i = 0; i < players.size(); i++)
 				{

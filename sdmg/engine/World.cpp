@@ -76,11 +76,6 @@ namespace sdmg {
 
 		void World::clearWorld()
 		{
-			/*
-			for (GameObject *gameobject : _gameObjects) {
-				delete gameobject;
-			}
-			*/
 			for (auto it : _gameObjects)
 			{
 				delete it;
