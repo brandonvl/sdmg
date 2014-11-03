@@ -82,9 +82,11 @@ namespace sdmg {
 						case SDLK_F1:
 							if (!event.key.repeat)
 								_showFPS = !_showFPS;
+							break;
 						case SDLK_F2:
 							if (!event.key.repeat)
 								_showHitBoxes = !_showHitBoxes;
+							break;
 						default:
 							game.getEngine()->getInputEngine()->handleEvent(event);
 							break;
