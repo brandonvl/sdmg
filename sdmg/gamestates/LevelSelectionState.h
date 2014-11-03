@@ -35,7 +35,9 @@ namespace sdmg {
 			}
 		protected:
 			LevelSelectionState() { }
+			void menuAction(MenuItem *item) override;
 		private:
+			GameBase *_game;
 		};
 	}
 }

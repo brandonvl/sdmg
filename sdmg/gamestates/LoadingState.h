@@ -48,6 +48,7 @@ namespace sdmg {
 			void load();
 			void loadStatic();
 			void loadCharacters(JSON::JSONArray &startingPositions);
+			void loadBulletBobs(JSON::JSONArray &bobs);
 			void loadTutorial();
 			void loadLevel();
 			void loadKeybindings();

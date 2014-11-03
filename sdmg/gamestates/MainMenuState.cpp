@@ -14,6 +14,7 @@
 #include "ControlsState.h"
 #include "CreditsState.h"
 #include "OptionsState.h"
+#include "LevelSelectionState.h"
 #include "TutorialState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
@@ -32,9 +33,9 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Play") {
-				// changeState(*_game, PlayState::getInstance());
 				LoadingState::getInstance().setIsTutorial(false);
-				changeState(*_game, LoadingState::getInstance());
+				//  changeState(*_game, LoadingState::getInstance());
+				changeState(*_game, LevelSelectionState::getInstance());
 			}
 			else if (tag == "Tutorial") {
 				LoadingState::getInstance().setIsTutorial(true);

@@ -134,7 +134,7 @@ namespace sdmg {
 
 		void LoadingState::loadLevel() {
 
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/level1/data");
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/level2/data");
 			JSON::JSONObject &levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
@@ -161,6 +161,8 @@ namespace sdmg {
 			_bullets = new std::vector<MovablePlatform*>;
 
 			loadCharacters(levelObj.getArray("startingPositions"));
+
+			loadBulletBobs(levelObj.getArray("bobs"));
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
@@ -205,6 +207,42 @@ namespace sdmg {
 			}
 			*/
 		}
+
+		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
+			
+			_bullets = new std::vector<MovablePlatform*>(bobs.size());
+
+			for (int i = 0; i < bobs.size(); i++) {
+					JSON::JSONObject &bobObj = bobs.getObject(i);
+
+					(*_bullets)[i] = new MovablePlatform();
+					(*_bullets)[i]->setSize(bobObj.getObject("size").getFloat("width"), bobObj.getObject("size").getFloat("height"));
+					(*_bullets)[i]->setLocation(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y"));
+					(*_bullets)[i]->setStartLocation(b2Vec2(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y")));
+					(*_bullets)[i]->setEndLocation(b2Vec2(bobObj.getObject("endLocation").getFloat("x"), bobObj.getObject("endLocation").getFloat("y")));
+					(*_bullets)[i]->setDirection(static_cast< MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
+					(*_bullets)[i]->setSpeed(bobObj.getObject("speed").getFloat("horizontal"), bobObj.getObject("speed").getFloat("vertical"));
+					(*_bullets)[i]->setDieOnImpact(true);
+
+					_game->getEngine()->getPhysicsEngine()->addKinematicBody((*_bullets)[i]);
+					_game->getEngine()->getDrawEngine()->loadMap((*_bullets)[i], MovableGameObject::State::IDLE, R"(assets\levels\level2\bullet.sprite)", 1097, 494, 0.1);
+			}
+
+			/*
+			_bullets = new std::vector<MovablePlatform*>(1);
+			(*_bullets)[0] = new MovablePlatform();
+			(*_bullets)[0]->setSize(110, 50);
+			(*_bullets)[0]->setLocation(-1000, 550);
+			(*_bullets)[0]->setStartLocation(b2Vec2(-1000, 550));
+			(*_bullets)[0]->setEndLocation(b2Vec2(2700, 550));
+			(*_bullets)[0]->setDirection(MovableGameObject::Direction::RIGHT);
+			(*_bullets)[0]->setSpeed(20.0f, 0.0f);
+			(*_bullets)[0]->setDieOnImpact(true);
+			_game->getEngine()->getPhysicsEngine()->addKinematicBody((*_bullets)[0]);
+			_game->getEngine()->getDrawEngine()->loadMap((*_bullets)[0], MovableGameObject::State::IDLE, R"(assets\levels\level2\bullet.sprite)", 1097, 494, 0.1);
+			*/
+		}
+
 
 		void LoadingState::loadKeybindings() {
 

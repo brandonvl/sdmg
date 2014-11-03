@@ -149,7 +149,7 @@ namespace sdmg {
 
 		void PlayState::preformDraw(GameBase &game) {
 			game.getEngine()->getDrawEngine()->draw("background");
-			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
+			game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
 			if (_bullets) {
 				for (int i = 0; i < _bullets->size(); i++)
@@ -157,6 +157,7 @@ namespace sdmg {
 			}
 
 			game.getEngine()->getDrawEngine()->draw(_platform);
+			
 			// Deze heb ik ook uitgecomment in de LoadState
 			//  game.getEngine()->getDrawEngine()->drawText("escape_text", 10, 10);
 
