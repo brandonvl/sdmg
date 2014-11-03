@@ -22,6 +22,7 @@ namespace sdmg {
 			GameObject* getGameObjectById(uint32 id);
 			b2World* getPhysicsWorld();
 			void addGameObject(GameObject *gameObject);
+			void addPlayer(GameObject *player);
 			void onDead(GameObject* gameObject);
 			bool isGameOver();
 			void addAliveToDead();
@@ -30,7 +31,7 @@ namespace sdmg {
 			void clearWorld();
 			void resetWorld();
 		private:
-			std::vector<GameObject*> _gameObjects, _deadList, _aliveList;
+			std::vector<GameObject*> _gameObjects, _deadList, _aliveList, _players;
 
 			b2World *_physicsWorld;
 		};

@@ -336,7 +336,7 @@ namespace sdmg {
 
 			void DrawEngine::update() {
 				auto curTime = std::chrono::high_resolution_clock::now();
-				float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
+				float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 500.0f;
 
 				_lastUpdate = curTime;
 				_accumulator += diff;

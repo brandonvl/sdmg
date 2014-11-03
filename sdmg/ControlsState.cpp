@@ -9,6 +9,7 @@
 #include "lib\JSONParser.h"
 #include <iostream>
 #include <fstream>
+#include "helperclasses\ConfigManager.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -45,7 +46,6 @@ namespace sdmg {
 			_jump = new std::string("Up");
 			_roll = new std::string("Numpad 0");
 			_midrange = new std::string("1");
-			readKeys(1);
 
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("player", { 255, 255, 255 }, "trebucbd", 36);
@@ -56,51 +56,19 @@ namespace sdmg {
 			_game->getEngine()->getDrawEngine()->loadDynamicText("midrange", { 255, 255, 255 }, "trebucbd", 36);
 
 			game.getEngine()->getDrawEngine()->load("controls", R"(assets\screens\help)");
+
+			currentplayer = 0;
+			readKeys();
 		}
 
-		void ControlsState::readKeys(int character)
+		void ControlsState::readKeys()
 		{
-			std::ifstream keybindings;
-			keybindings.close();
-			if (character == 1)
-				keybindings.open("assets\\controls\\player1");
-			if (character == 2)
-				keybindings.open("assets\\controls\\player2");
-
-			if (keybindings.is_open()) {
-				while (!keybindings.eof()) {
-					std::string line;
-					getline(keybindings, line);
-
-					std::vector < std::string > tokens;
-					std::string  temp;
-
-					while (line.find("=", 0) != std::string::npos)
-					{
-						size_t  pos = line.find("=", 0);
-						temp = line.substr(0, pos);
-						line.erase(0, pos + 1);
-						tokens.push_back(temp);
-					}
-
-					tokens.push_back(line);
-
-					std::string name = tokens[0];
-					int key = atoi(tokens[1].c_str());
-
-					if (name == "Walk Right")
-						*_walkright = SDL_GetKeyName(key);
-					else if (name == "Walk Left")
-						*_walkleft = SDL_GetKeyName(key);
-					else if (name == "Jump")
-						*_jump = SDL_GetKeyName(key);
-					else if (name == "Roll")
-						*_roll = SDL_GetKeyName(key);
-					else if (name == "Attack")
-						*_midrange = SDL_GetKeyName(key);
-				}
-			}
-			
+			helperclasses::ConfigManager::getInstance();
+			*_walkright = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "walkRight"));
+			*_walkleft = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "walkLeft"));
+			*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "jump"));
+			*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "roll"));
+			*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "midrange"));
 		}
 
 		void ControlsState::menuAction(MenuItem *item)
@@ -167,14 +135,14 @@ namespace sdmg {
 								_menu->selectPrevious();
 								break;
 							case SDLK_RIGHT:
-								if (currentplayer != 2)
+								if (currentplayer != 1)
 									currentplayer++;
-								readKeys(currentplayer);
+								readKeys();
 								break;
 							case SDLK_LEFT:
-								if (currentplayer != 1)
+								if (currentplayer != 0)
 									currentplayer--;
-								readKeys(currentplayer);
+								readKeys();
 								break;
 							case SDLK_KP_ENTER:
 							case SDLK_RETURN:
@@ -225,26 +193,12 @@ namespace sdmg {
 
 		void ControlsState::bindKey()
 		{
-			std::ofstream keybindings;
-			
-			if (currentplayer == 1)
-					keybindings.open("assets\\controls\\player1");
-			else if (currentplayer == 2)
-					keybindings.open("assets\\controls\\player2");
-
-
-			std::string a_walkright = *_walkright;
-			std::string a_walkleft = *_walkleft;
-			std::string a_jump = *_jump;
-			std::string a_roll = *_roll;
-			std::string a_midrange = *_midrange;
-
-			keybindings << "Walk Right=" + std::to_string(SDL_GetKeyFromName(a_walkright.c_str())) +"\n";
-			keybindings << "Walk Left=" + std::to_string(SDL_GetKeyFromName(a_walkleft.c_str())) + "\n";
-			keybindings << "Jump=" + std::to_string(SDL_GetKeyFromName(a_jump.c_str())) + "\n";
-			keybindings << "Roll=" + std::to_string(SDL_GetKeyFromName(a_roll.c_str())) + "\n";
-			keybindings << "Attack=" + std::to_string(SDL_GetKeyFromName(a_midrange.c_str()));
-			keybindings.close();
+			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "walkRight", SDL_GetKeyFromName(_walkright->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "walkLeft", SDL_GetKeyFromName(_walkleft->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "jump", SDL_GetKeyFromName(_jump->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "roll", SDL_GetKeyFromName(_roll->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "midrange", SDL_GetKeyFromName(_midrange->c_str()));
+			helperclasses::ConfigManager::getInstance().save();
 			waiting = false;
 		}
 
@@ -260,7 +214,7 @@ namespace sdmg {
 			drawEngine->draw("controls");
 
 			drawEngine->drawDynamicText("info", "Press Left or Right to navigate between players.", 250, 550);
-			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer), 250, 50);
+			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer + 1), 250, 50);
 			drawEngine->drawDynamicText("walkright", *_walkright, 850, 125);
 			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 195);
 			drawEngine->drawDynamicText("jump", *_jump, 850, 270);

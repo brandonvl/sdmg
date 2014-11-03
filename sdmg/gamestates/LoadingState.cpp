@@ -27,6 +27,7 @@
 #include "helperclasses\HUD.h"
 #include "engine\util\FileParser.h"
 #include "lib\JSONParser.h"
+#include "helperclasses\ConfigManager.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -246,57 +247,25 @@ namespace sdmg {
 
 		void LoadingState::loadKeybindings() {
 
-			InputDeviceBinding *binding = new InputDeviceBinding();
+			try{
+				ConfigManager &manager = ConfigManager::getInstance();
+				InputDeviceBinding *binding = new InputDeviceBinding();
 
-			std::ifstream keybindings;
-
-			for (int i = 0; i < 2; i++)
-			{
-				keybindings.close();
-				int character = i;
-				if (character == 0)
-					keybindings.open("assets\\controls\\player1");
-				if (character == 1)
-					keybindings.open("assets\\controls\\player2");
-
-				if (keybindings.is_open()) {
-					while (!keybindings.eof()) {
-						std::string line;
-						getline(keybindings, line);
-
-						std::vector < std::string > tokens;
-						std::string  temp;
-
-						while (line.find("=", 0) != std::string::npos)
-						{
-							size_t  pos = line.find("=", 0);
-							temp = line.substr(0, pos);
-							line.erase(0, pos + 1);
-							tokens.push_back(temp);
-						}
-
-						tokens.push_back(line);
-
-						std::string name = tokens[0];
-						int key = atoi(tokens[1].c_str());
-
-						if (name == "Walk Right")
-							binding->setKeyBinding(key, new actions::RightWalkAction((*_characters)[character]));
-						else if (name == "Walk Left")
-							binding->setKeyBinding(key, new actions::LeftWalkAction((*_characters)[character]));
-						else if (name == "Jump")
-							binding->setKeyBinding(key, new actions::JumpAction((*_characters)[character]));
-						else if (name == "Roll")
-							binding->setKeyBinding(key, new actions::RollAction((*_characters)[character]));
-						else if (name == "Attack")
-							binding->setKeyBinding(key, new actions::MidRangeAttackAction((*_characters)[character]));
-					}
+				for (int i = 0; i < 2; i++)
+				{
+					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction((*_characters)[i]));
+					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction((*_characters)[i]));
+					binding->setKeyBinding(manager.getKey(i, "jump"), new actions::JumpAction((*_characters)[i]));
+					binding->setKeyBinding(manager.getKey(i, "roll"), new actions::RollAction((*_characters)[i]));
+					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction((*_characters)[i]));
 				}
+
+				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 			}
-			_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
-
-
-
+			catch (...)
+			{
+				std::cout << "Cannot load keyboard bindings.";
+			}
 		}
 
 		void LoadingState::loadTutorial() {

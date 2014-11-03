@@ -46,11 +46,11 @@ namespace sdmg {
 			void menuAction(MenuItem *item) override;
 			void bindKey();
 			void changeText(bool waiting, const int keyCode);
-			void readKeys(int character);
+			void readKeys();
 		private:
 			GameBase *_game;
-			bool waiting = false;
-			int currentplayer = 1;
+			bool waiting;
+			int currentplayer;
 			std::string* _walkright;
 			std::string* _walkleft;
 			std::string* _jump;

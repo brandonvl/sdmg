@@ -87,5 +87,9 @@ namespace sdmg {
 			_aliveList = _deadList;
 			_deadList.clear();
 		}
+
+		void World::addPlayer(GameObject *player) {
+
+		}
 	}
 }

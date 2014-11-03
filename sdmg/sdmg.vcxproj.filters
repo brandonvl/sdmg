@@ -270,6 +270,9 @@
     <ClCompile Include="helperclasses\HUD.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="helperclasses\ConfigManager.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -472,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="helperclasses\statistics\Statistics.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\ConfigManager.h">
+      <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

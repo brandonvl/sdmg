@@ -53,13 +53,16 @@ namespace JSON {
 		virtual ~JSONObject();
 
 		void add(std::string key, JSONElement &element);
+		void set(std::string key, JSONElement &element);
 		JSONElement &get(std::string key);
 		std::string getString(std::string key);
 		float getFloat(std::string key);
+		int getInt(std::string key);
 		bool getBoolean(std::string key);
 		JSONArray &getArray(std::string key);
 		JSONObject &getObject(std::string key);
 		JSONVariable &getVariable(std::string key);
+		bool exists(std::string key);
 
 		std::string str() override;
 	private:
@@ -78,6 +81,7 @@ namespace JSON {
 		std::string getValue();
 		std::string getString();
 		float getFloat();
+		int getInt();
 		bool getBoolean();
 		void setValue(std::string value);
 		std::string str() override;
@@ -100,9 +104,11 @@ namespace JSON {
 		JSONArray &getArray(int i);
 		JSONVariable &getVariable(int i);
 		float getFloat(int i);
+		int getInt(int i);
 		std::string getString(int i);
 		bool getBoolean(int i);
-
+		bool exists(int i);
+		
 		int size();
 		void push(JSONElement &element);
 		std::string str() override;

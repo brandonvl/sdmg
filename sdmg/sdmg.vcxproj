@@ -128,6 +128,7 @@
     <ClCompile Include="gamestates\SelectionState.cpp" />
     <ClCompile Include="gamestates\StatisticsState.cpp" />
     <ClCompile Include="helperclasses\HUD.cpp" />
+    <ClCompile Include="helperclasses\ConfigManager.cpp" />
     <ClCompile Include="helperclasses\Menu.cpp" />
     <ClCompile Include="helperclasses\MenuItem.cpp" />
     <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="gamestates\SelectionState.h" />
     <ClInclude Include="gamestates\StatisticsState.h" />
     <ClInclude Include="helperclasses\HUD.h" />
+    <ClInclude Include="helperclasses\ConfigManager.h" />
     <ClInclude Include="helperclasses\Menu.h" />
     <ClInclude Include="helperclasses\MenuItem.h" />
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
