@@ -22,6 +22,7 @@
 #include "GameOverState.h"
 #include "engine\World.h"
 #include "engine\audio\AudioEngine.h"
+#include "helperclasses\ConfigManager.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -32,22 +33,28 @@ namespace sdmg {
 			_tutorial = new std::vector<std::pair<SDL_Keycode, std::string>>();
 			_toDraw = new std::vector<std::string>();
 			
-			_tutorial->push_back(std::make_pair(SDLK_r, "tutEnd"));
+			ConfigManager &manager = ConfigManager::getInstance();
+
+			_tutorial->push_back(std::make_pair(manager.getKey(0, "roll"), "tutEnd"));
 			// Panda
-			_tutorial->push_back(std::make_pair(SDLK_q, "tutFiat7"));
+			_tutorial->push_back(std::make_pair(manager.getKey(0, "midrange"), "tutFiat7"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat6"));
-			_tutorial->push_back(std::make_pair(SDLK_w, "tutFiat5"));
-			_tutorial->push_back(std::make_pair(SDLK_d, "tutFiat4"));
-			_tutorial->push_back(std::make_pair(SDLK_a, "tutFiat3"));
+			_tutorial->push_back(std::make_pair(manager.getKey(0, "jump"), "tutFiat5"));
+			_tutorial->push_back(std::make_pair(manager.getKey(0, "walkRight"), "tutFiat4"));
+			_tutorial->push_back(std::make_pair(manager.getKey(0, "walkLeft"), "tutFiat3"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat2"));
-			_tutorial->push_back(std::make_pair(SDLK_k, "tutFiat1"));
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "roll"), "tutFiat1"));
 			// Nivek
-			_tutorial->push_back(std::make_pair(SDLK_l, "tutNivek6"));
+
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "midrange"), "tutNivek6"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutNivek5"));
-			_tutorial->push_back(std::make_pair(SDLK_UP, "tutNivek4"));
-			_tutorial->push_back(std::make_pair(SDLK_RIGHT, "tutNivek3"));
-			_tutorial->push_back(std::make_pair(SDLK_LEFT, "tutNivek2"));
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "jump"), "tutNivek4"));
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "walkRight"), "tutNivek3"));
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "walkLeft"), "tutNivek2"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutNivek1"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutIntro4"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutIntro3"));
+			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutIntro2"));
 
 			_toDraw->push_back("tutIntro");
 		}
@@ -57,6 +64,9 @@ namespace sdmg {
 			PlayState::cleanup(game);
 
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
+			game.getEngine()->getDrawEngine()->unloadText("tutIntro2");
+			game.getEngine()->getDrawEngine()->unloadText("tutIntro3");
+			game.getEngine()->getDrawEngine()->unloadText("tutIntro4");
 			game.getEngine()->getDrawEngine()->unloadText("tutNivek1");
 			game.getEngine()->getDrawEngine()->unloadText("tutNivek2");
 			game.getEngine()->getDrawEngine()->unloadText("tutNivek3");
@@ -91,11 +101,18 @@ namespace sdmg {
 						changeState(game, MainMenuState::getInstance());
 						break;
 					default:
-						_pressed = event.key.keysym.sym;
+						if (event.type == SDL_KEYDOWN && _tutorial->size() > 0) {
+							SDL_Keycode key = _tutorial->back().first;
+							if (key == event.key.keysym.sym)
+							{
+								_toDraw->push_back(_tutorial->back().second);
+								_tutorial->pop_back();
+							}
+						}
+
 						game.getEngine()->getInputEngine()->handleEvent(event);
 						break;
 					}
-
 					break;
 				case SDL_QUIT:
 					game.stop();
@@ -108,16 +125,8 @@ namespace sdmg {
 		{
 			PlayState::update(game, gameTime);
 
-			if (_pressed && _tutorial->size() > 0) {
-				SDL_Keycode key = _tutorial->back().first;
-				if (key == _pressed) 
-				{ 
-					_toDraw->push_back(_tutorial->back().second);
-					_tutorial->pop_back(); 
-				}
-			}
+			
 
-			_pressed = SDL_Keycode(NULL);
 		}
 
 		void TutorialState::draw(GameBase &game, GameTime &gameTime)
