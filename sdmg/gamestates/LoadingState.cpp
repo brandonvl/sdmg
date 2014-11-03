@@ -91,18 +91,12 @@ namespace sdmg {
 		{
 			if (_isLoaded)
 			{
-				if (_isTutorial) {
-					TutorialState::getInstance().setCharacters(_characters);
-					TutorialState::getInstance().setPlatform(_platform);
-					changeState(game, TutorialState::getInstance());
-				}
-				else {
-					PlayState::getInstance().setCharacters(_characters);
-					PlayState::getInstance().setPlatform(_platform);
-					PlayState::getInstance().setBullets(_bullets);
-					PlayState::getInstance().setHUDs(_huds);
-					changeState(game, PlayState::getInstance());
-				}
+				PlayState &state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
+				state.setCharacters(_characters);
+				state.setPlatform(_platform);
+				state.setBullets(_bullets);
+				state.setHUDs(_huds);
+				changeState(game, state);
 			}
 			if (_isError) {
 				// Clean uppen
