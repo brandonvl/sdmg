@@ -11,7 +11,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			game.getEngine()->getDrawEngine()->load("credits", R"(assets\screens\credits)");
+			game.getEngine()->getDrawEngine()->load("credits", R"(assets\screens\help)");
 			
 			loadText("title", "S.D.M.G.", "trebucbd", 36);
 			loadText("developers", "Developers", "trebucbd", 36);

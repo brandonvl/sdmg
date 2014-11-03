@@ -218,7 +218,6 @@ namespace sdmg {
 
 			std::ifstream keybindings;
 
-
 			for (int i = 0; i < 2; i++)
 			{
 				keybindings.close();

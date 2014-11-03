@@ -151,8 +151,10 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("background");
 			//game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
-			for (int i = 0; i < _bullets->size(); i++)
-				game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
+			if (_bullets) {
+				for (int i = 0; i < _bullets->size(); i++)
+					game.getEngine()->getDrawEngine()->drawSlice((*_bullets)[i]);
+			}
 
 			game.getEngine()->getDrawEngine()->draw(_platform);
 			// Deze heb ik ook uitgecomment in de LoadState
@@ -161,8 +163,10 @@ namespace sdmg {
 			for (int i = 0; i < _characters->size(); i++)
 				game.getEngine()->getDrawEngine()->drawSlice((*_characters)[i]);
 
-			for (helperclasses::HUD *hud : *_huds) {
-				hud->draw(*game.getEngine()->getDrawEngine());
+			if (_huds) {
+				for (helperclasses::HUD *hud : *_huds) {
+					hud->draw(*game.getEngine()->getDrawEngine());
+				}
 			}
 
 			if (_showFPS)
