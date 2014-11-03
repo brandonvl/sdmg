@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <lib\JSONParser.h>
 
+namespace JSON { class JSONDocument; }
 namespace sdmg {
 	namespace helperclasses {
 		class ConfigManager
@@ -9,10 +9,11 @@ namespace sdmg {
 		public:		
 
 			static ConfigManager& getInstance() {
-				static ConfigManager *_instance;
-				if (_instance == nullptr) _instance = new ConfigManager();
-				return *_instance;
+				static ConfigManager _instance;
+				return _instance;
 			}
+
+			void cleanup();
 
 			void setKey(int playerIndex, std::string action, int key);
 			const int getKey(int playerIndex, std::string action);
@@ -23,11 +24,12 @@ namespace sdmg {
 			void save();
 
 		private:
+			ConfigManager();
+			//~ConfigManager() {};
 			JSON::JSONDocument *_jsonDoc;
 			void load();
 
-			ConfigManager();
-			virtual ~ConfigManager();
+			
 		};
 	}
 }

@@ -48,15 +48,16 @@ namespace sdmg {
 			printf("\nSimple SDL_CreateThread test:");
 
 			// Simply create a thread
-			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
+			//thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
 			//  SDL_WaitThread(thread, NULL);
-			//load();
+			load();
 			//SDL_DetachThread(thread);
 
 		}
 
 		void LoadingState::cleanup(GameBase &game)
 		{
+			delete _level;
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 		}

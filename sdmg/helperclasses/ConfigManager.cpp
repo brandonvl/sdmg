@@ -1,4 +1,5 @@
 #include "ConfigManager.h"
+#include <lib/JSONParser.h>
 
 namespace sdmg {
 	namespace helperclasses {
@@ -8,8 +9,7 @@ namespace sdmg {
 			load();
 		}
 
-
-		ConfigManager::~ConfigManager()
+		void ConfigManager::cleanup()
 		{
 			delete _jsonDoc;
 		}
