@@ -3,7 +3,7 @@
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
 #include "OptionsState.h"
-#include "helperclasses\statistics\Statistics.h"
+//#include "helperclasses\StatisticsManager.h"
 #include "lib\JSONParser.h"
 
 #include <fstream>
@@ -49,7 +49,7 @@ namespace sdmg {
 				}
 			}
 			else {
-				std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
+				/*std::vector<std::vector<std::string>> statistics = StatisticsManager::getInstance().load();
 
 				// Set character names
 				loadText("nivekname", "Nivek the Assassin", "trebucbd", 36);
@@ -63,7 +63,7 @@ namespace sdmg {
 				for (auto s : statistics) {
 					loadText(s.at(0) + "wins", s.at(1), "trebucbd", 36);
 					loadText(s.at(0) + "losses", s.at(2), "trebucbd", 36);
-				}
+				}*/
 			}
 		}
 
@@ -170,7 +170,7 @@ namespace sdmg {
 			}
 			else 
 			{
-				std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
+				/*std::vector<std::vector<std::string>> statistics = StatisticsManager::getInstance().load();
 
 				for (auto s : statistics) {
 					drawEngine->drawText(s.at(0) + "name", 100, vpos);
@@ -178,7 +178,7 @@ namespace sdmg {
 					drawEngine->drawText(s.at(0) + "losses", lossespos, vpos);
 
 					vpos += 48;
-				}
+				}*/
 			}
 
 			drawEngine->render();

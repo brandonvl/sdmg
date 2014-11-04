@@ -132,7 +132,7 @@
     <ClCompile Include="helperclasses\Menu.cpp" />
     <ClCompile Include="helperclasses\MenuItem.cpp" />
     <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
-    <ClCompile Include="helperclasses\statistics\Statistics.cpp" />
+    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
@@ -200,7 +200,7 @@
     <ClInclude Include="helperclasses\Menu.h" />
     <ClInclude Include="helperclasses\MenuItem.h" />
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
-    <ClInclude Include="helperclasses\statistics\Statistics.h" />
+    <ClInclude Include="helperclasses\statistics\StatisticsManager.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />

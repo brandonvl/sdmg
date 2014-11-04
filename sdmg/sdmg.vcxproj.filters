@@ -85,9 +85,6 @@
     <Filter Include="Source Files\helperclasses\menuitems">
       <UniqueIdentifier>{052c3cde-1d21-4705-ac35-d179f0629060}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\helperclasses\statistics">
-      <UniqueIdentifier>{b631581c-97ed-4889-aa42-ad91a539a6c5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -258,9 +255,6 @@
     <ClCompile Include="gamestates\TutorialState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
-    <ClCompile Include="helperclasses\statistics\Statistics.cpp">
-      <Filter>Source Files\helperclasses\statistics</Filter>
-    </ClCompile>
     <ClCompile Include="engine\drawing\DynamicTextSurface.cpp">
       <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
@@ -271,6 +265,9 @@
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
     <ClCompile Include="helperclasses\ConfigManager.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
   </ItemGroup>
@@ -473,10 +470,10 @@
     <ClInclude Include="engine\drawing\DynamicTextSurface.h">
       <Filter>Header Files\engine\drawing</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\statistics\Statistics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="helperclasses\ConfigManager.h">
+      <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
   </ItemGroup>
