@@ -96,6 +96,21 @@ namespace sdmg {
 				return _world->GetBodyList();
 			}
 
+			void PhysicsEngine::resetBobs()
+			{
+				b2Body *body = _world->GetBodyList();
+
+				while (body)
+				{
+					if (body->GetType() == b2_kinematicBody)
+					{
+						model::MovablePlatform *kinematicBody = static_cast<model::MovablePlatform*>(body->GetUserData());
+						body->SetTransform(b2Vec2(kinematicBody->getStartLocationX() / 20.0f, kinematicBody->getStartLocationY() / 20.0f), body->GetAngle());
+					}
+					body = body->GetNext();
+				}
+			}
+
 			void PhysicsEngine::checkMovableBodies()
 			{
 				b2Body *body = _world->GetBodyList();

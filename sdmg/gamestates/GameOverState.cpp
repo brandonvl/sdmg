@@ -96,8 +96,6 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Replay") {
-
-
 				_game->getWorld()->resetWorld();
 				const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 
@@ -107,6 +105,8 @@ namespace sdmg {
 					character->revive();
 					character->setState(MovableGameObject::State::RESPAWN);
 				}
+
+				_game->getEngine()->getPhysicsEngine()->resetBobs();
 
 				_replay = true;
 				_game->getEngine()->getPhysicsEngine()->resume();

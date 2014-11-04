@@ -42,7 +42,8 @@ namespace sdmg {
 				_game->getStateManager()->pushState(HelpState::getInstance());
 			}
 			else if (tag == "Back") {
-				changeState(*_game, MainMenuState::getInstance());
+				_game->getStateManager()->popState();
+				//  changeState(*_game, MainMenuState::getInstance());
 			}
 		}
 
@@ -68,15 +69,15 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *back = new helperclasses::menuitems::MenuTextItem("Back", 0, height, false);
 			back->loadText(_game, "back", "Back", "trebucbd", 33);
 			_menu->addMenuItem(back);
-
-			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
 		}
 
 		void OptionsState::cleanup(GameBase &game)
 		{
 			delete _menu;
-
-			game.getEngine()->getDrawEngine()->unloadAll();
+			game.getEngine()->getDrawEngine()->unloadText("controls");
+			game.getEngine()->getDrawEngine()->unloadText("statistics");
+			game.getEngine()->getDrawEngine()->unloadText("help");
+			game.getEngine()->getDrawEngine()->unloadText("back");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
@@ -106,8 +107,8 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						//game.getStateManager()->popState();
-						game.getStateManager()->changeState(MainMenuState::getInstance());
+						game.getStateManager()->popState();
+						//  game.getStateManager()->changeState(MainMenuState::getInstance());
 						break;
 					case SDLK_DOWN:
 					case 1:
@@ -137,7 +138,7 @@ namespace sdmg {
 		void OptionsState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("background");
+			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
 		}

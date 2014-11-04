@@ -53,6 +53,7 @@ namespace sdmg {
 			//  load();
 			//  SDL_DetachThread(thread);
 
+			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 		}
 
 		void LoadingState::cleanup(GameBase &game)

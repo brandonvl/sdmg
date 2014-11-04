@@ -11,7 +11,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			game.getEngine()->getDrawEngine()->load("help", R"(assets\screens\help)");
+			game.getEngine()->getDrawEngine()->load("help_background", "assets/screens/mainbackground");
 
 			loadText("title", "Help", "trebucbd", 48);
 			loadText("howtowin1", "To win the game try to push your opponent of the edge", "trebucbd", 36);
@@ -22,7 +22,7 @@ namespace sdmg {
 
 		void HelpState::cleanup(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->unload("help");
+			game.getEngine()->getDrawEngine()->unload("help_background");
 			game.getEngine()->getDrawEngine()->unloadText("title");
 			game.getEngine()->getDrawEngine()->unloadText("howtowin1");
 			game.getEngine()->getDrawEngine()->unloadText("howtowin2");
@@ -66,7 +66,7 @@ namespace sdmg {
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
 			drawEngine->prepareForDraw();
-			drawEngine->draw("help");
+			drawEngine->draw("help_background");
 
 			drawEngine->drawText("title", 100, 100);
 			drawEngine->drawText("howtowin1", 100, 200);

@@ -82,9 +82,6 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
 			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
 			_menu->addMenuItem(tutorial);
-
-			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
-
 			/*
 
 			//_levels = new std::map < std::string, std::string >();
@@ -116,9 +113,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("Level 1");
 			game.getEngine()->getDrawEngine()->unloadText("Level 2");
 			game.getEngine()->getDrawEngine()->unloadText("tutorial");
-			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
-			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 		}
 
 		void LevelSelectionState::pause(GameBase &game)
@@ -145,7 +140,9 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						changeState(game, MainMenuState::getInstance());
+						//  changeState(game, MainMenuState::getInstance());
+						//_game->getStateManager()->cleanup();
+						_game->getStateManager()->popState();
 						break;
 					case SDLK_1:
 						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
@@ -178,7 +175,7 @@ namespace sdmg {
 		void LevelSelectionState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("background");
+			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
 		}

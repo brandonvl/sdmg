@@ -33,11 +33,12 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Play") {
-				changeState(*_game, LevelSelectionState::getInstance());
-				//  _game->getStateManager()->pushState(LevelSelectionState::getInstance());
+				//  changeState(*_game, LevelSelectionState::getInstance());
+				_game->getStateManager()->pushState(LevelSelectionState::getInstance());
 			}
 			else if (tag == "Options") {
-				changeState(*_game, OptionsState::getInstance());
+				// changeState(*_game, OptionsState::getInstance());
+				_game->getStateManager()->pushState(OptionsState::getInstance());
 			}
 			else if (tag == "Credits") {
 				_game->getStateManager()->pushState(CreditsState::getInstance());
@@ -74,10 +75,9 @@ namespace sdmg {
 
 			std::cout << "Initing IntroState ... " << std::endl;
 
-			//game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/mainmenu/bgm.mp3", AUDIOTYPE::MUSIC);
-			game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/effects/win.ogg", AUDIOTYPE::MUSIC);
+			game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/mainmenu/bgm.mp3", AUDIOTYPE::MUSIC);
 			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
-			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
+			game.getEngine()->getDrawEngine()->load("mainmenu_background", "assets/screens/mainmenu");
 			game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);
 		}
 
@@ -89,9 +89,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("options");
 			game.getEngine()->getDrawEngine()->unloadText("credits");
 			game.getEngine()->getDrawEngine()->unloadText("quit");
+			game.getEngine()->getDrawEngine()->unload("mainmenu_background");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
-			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 		}
 
 		void MainMenuState::pause(GameBase &game)
@@ -154,12 +154,10 @@ namespace sdmg {
 		void MainMenuState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("background");
+			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 			_menu->draw(&game);
 			//std::cout << "Draw IntroState ... " << std::endl;
 			game.getEngine()->getDrawEngine()->render();
 		}
-
-
 	}
 }

@@ -11,7 +11,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			game.getEngine()->getDrawEngine()->load("credits", R"(assets\screens\help)");
+			game.getEngine()->getDrawEngine()->load("credits_background", "assets/screens/mainbackground");
 			
 			loadText("title", "S.D.M.G.", "trebucbd", 36);
 			loadText("developers", "Developers", "trebucbd", 36);
@@ -28,7 +28,7 @@ namespace sdmg {
 
 		void CreditsState::cleanup(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->unload("credits");
+			game.getEngine()->getDrawEngine()->unload("credits_background");
 			game.getEngine()->getDrawEngine()->unloadText("title");
 			game.getEngine()->getDrawEngine()->unloadText("developers");
 			game.getEngine()->getDrawEngine()->unloadText("kevin");
@@ -76,7 +76,7 @@ namespace sdmg {
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 			
 			drawEngine->prepareForDraw();
-			drawEngine->draw("credits");
+			drawEngine->draw("credits_background");
 			
 			drawEngine->drawText("title", 100, 100);
 			drawEngine->drawText("developers", 100, 200);

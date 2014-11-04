@@ -17,7 +17,8 @@ namespace sdmg {
 
 			doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
 
-			game.getEngine()->getDrawEngine()->load("help", R"(assets\screens\help)");
+			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
+
 
 			// Load header text
 			loadText("title", "Statistics", "trebucbd", 48);
@@ -69,7 +70,7 @@ namespace sdmg {
 
 		void StatisticsState::cleanup(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->unload("help");
+			game.getEngine()->getDrawEngine()->unload("statics_background");
 			game.getEngine()->getDrawEngine()->unload("title");
 			game.getEngine()->getDrawEngine()->unload("wins");
 			game.getEngine()->getDrawEngine()->unload("losses");
@@ -130,7 +131,7 @@ namespace sdmg {
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
 			drawEngine->prepareForDraw();
-			drawEngine->draw("help");
+			drawEngine->draw("statics_background");
 
 			drawEngine->drawText("title", 100, 100);
 

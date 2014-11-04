@@ -17,7 +17,7 @@ namespace sdmg {
 		void ControlsState::init(GameBase &game)
 		{
 			_game = &game;
-			
+
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 100);
 
 			// Create menu item
@@ -55,7 +55,7 @@ namespace sdmg {
 			_game->getEngine()->getDrawEngine()->loadDynamicText("roll", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("midrange", { 255, 255, 255 }, "trebucbd", 36);
 
-			game.getEngine()->getDrawEngine()->load("controls", R"(assets\screens\help)");
+			game.getEngine()->getDrawEngine()->load("controls_background", "assets/screens/mainbackground");
 
 			currentplayer = 0;
 			readKeys();
@@ -79,6 +79,7 @@ namespace sdmg {
 		void ControlsState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			game.getEngine()->getDrawEngine()->unload("controls_background");
 			game.getEngine()->getDrawEngine()->unload("info");
 			game.getEngine()->getDrawEngine()->unload("player");
 			game.getEngine()->getDrawEngine()->unload("walkright");
@@ -211,7 +212,7 @@ namespace sdmg {
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
 			drawEngine->prepareForDraw();
-			drawEngine->draw("controls");
+			drawEngine->draw("controls_background");
 
 			drawEngine->drawDynamicText("info", "Press Left or Right to navigate between players.", 250, 550);
 			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer + 1), 250, 50);

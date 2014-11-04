@@ -40,6 +40,7 @@ namespace sdmg {
 				void resume();
 				void cleanUp();
 				void moveBody();
+				void resetBobs();
 				b2Body *getBodyList();
 				void setWorldGravity(const float leftGravity, const float downGravity);
 				b2Vec2 getWorldGravity();
