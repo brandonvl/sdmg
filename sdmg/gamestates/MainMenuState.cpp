@@ -33,8 +33,8 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Play") {
-				//  changeState(*_game, LevelSelectionState::getInstance());
-				_game->getStateManager()->pushState(LevelSelectionState::getInstance());
+				changeState(*_game, LevelSelectionState::getInstance());
+				//  _game->getStateManager()->pushState(LevelSelectionState::getInstance());
 			}
 			else if (tag == "Options") {
 				// changeState(*_game, OptionsState::getInstance());

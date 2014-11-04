@@ -36,6 +36,7 @@ namespace sdmg {
 		{
 			_game = &game;
 			_game->getWorld()->clearWorld();
+			//  _game->getStateManager()->cleanupOthers();
 
 			// Default level
 			// _level = new std::string("level1");

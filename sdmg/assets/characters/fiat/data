@@ -7,7 +7,7 @@
 	},
 	speed: { horizontal: 20, vertical: 2.2 },
 	scale: 0.30,
-	idle: [389.4,510],
+	idle: [389,508],
 	walking: [494.25,527],
 	jumping: [419.2,579],
 	jumpEnd: [417,575],
