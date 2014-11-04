@@ -17,9 +17,9 @@
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
-#include "helperclasses\statistics\Statistics.h"
+//#include "helperclasses\StatisticsManager.h"
+#include "lib\JSONParser.h"
 #include "engine\audio\AudioEngine.h"
-
 
 #include "LoadingState.h"
 #include "engine\physics\PhysicsEngine.h"
@@ -57,30 +57,31 @@ namespace sdmg {
 			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
 
-			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
-			for (auto rank = 0; rank < deadList.size(); rank++) {
-				// Get character name
-				std::string charname = "";
-				for (auto c : deadList.at(rank)->getName()) {
-					if (c != ' ')
-						charname += tolower(c);
-					else break;
-				}
+			// Update statistics
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
+			JSON::JSONObject &statisticsObj = doc->getRootObject();
 
-				for (auto i = 0; i < statistics.size(); i++) {
-					if (statistics.at(i).at(0) == charname) {
+			JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
+
+
+			for (auto rank = 0; rank < deadList.size(); rank++) {
+
+				for (auto i = 0; i < characterArr.size(); i++) {
+					JSON::JSONObject &characterObj = characterArr.getObject(i);
+
+					if (characterObj.getString("name") == deadList.at(rank)->getName()) {
 						if (rank == (deadList.size() - 1))
-							statistics.at(i).at(1) = std::to_string(1 + std::stoi(statistics.at(i).at(1)));
+							characterObj.getVariable("wins").setValue(std::to_string(1 + characterObj.getInt("wins")));
 						else
-							statistics.at(i).at(2) = std::to_string(1 + std::stoi(statistics.at(i).at(2)));
+							characterObj.getVariable("losses").setValue(std::to_string(1 + characterObj.getInt("losses")));
 						break;
 					}
-
 				}
 			}
 
-			Statistics::getInstance().save(statistics);
-
+			// Save statistics
+			doc->saveFile("assets/statistics/statistics.json");
+			
 			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
 
 
