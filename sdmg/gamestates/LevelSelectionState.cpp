@@ -33,9 +33,19 @@ namespace sdmg {
 
 		void LevelSelectionState::menuAction(MenuItem *item)
 		{
-			LoadingState::getInstance().setIsTutorial(false);
-			LoadingState::getInstance().setLevel(new std::string(item->getTag()));
-			changeState(*_game, LoadingState::getInstance());
+			std::string tag = item->getTag();
+
+			if (tag == "Tutorial") {
+				LoadingState::getInstance().setIsTutorial(true);
+				LoadingState::getInstance().setLevel(new std::string("level1"));
+				changeState(*_game, LoadingState::getInstance());
+			}
+			else
+			{
+				LoadingState::getInstance().setIsTutorial(false);
+				LoadingState::getInstance().setLevel(new std::string(item->getTag()));
+				changeState(*_game, LoadingState::getInstance());
+			}
 		}
 
 		void LevelSelectionState::listLevels() {
@@ -65,13 +75,17 @@ namespace sdmg {
 
 		void LevelSelectionState::init(GameBase &game)
 		{
-			/*
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
 			listLevels();
+
+			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
+			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
+			_menu->addMenuItem(tutorial);
+
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
 
-			*/
+			/*
 
 			//_levels = new std::map < std::string, std::string >();
 			std::vector<std::string> *folders = new std::vector<std::string>;
@@ -93,13 +107,15 @@ namespace sdmg {
 			}
 
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
+			*/
 		}
 
 		void LevelSelectionState::cleanup(GameBase &game)
 		{
 			delete _menu;
-			game.getEngine()->getDrawEngine()->unloadText("levl1");
-			game.getEngine()->getDrawEngine()->unloadText("level2");
+			game.getEngine()->getDrawEngine()->unloadText("Level 1");
+			game.getEngine()->getDrawEngine()->unloadText("Level 2");
+			game.getEngine()->getDrawEngine()->unloadText("tutorial");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
@@ -129,7 +145,7 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						game.stop();
+						changeState(game, MainMenuState::getInstance());
 						break;
 					case SDLK_1:
 						std::cout << "Key 1 pressed. Switching State.. " << std::endl;

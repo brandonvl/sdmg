@@ -48,17 +48,13 @@ namespace sdmg {
 			SDL_Thread *thread;
 			static int loadThread(void *ptr);
 			void load();
-			void loadStatic();
 			void loadCharacters(JSON::JSONArray &startingPositions);
 			void loadBulletBobs(JSON::JSONArray &bobs);
 			void loadTutorial();
 			void loadLevel();
 			void loadKeybindings();
 			bool _isLoaded, _isError, _isTutorial;
-			std::vector<model::Character*> *_characters;
-			std::vector<model::MovablePlatform*> *_bullets;
 			std::vector<helperclasses::HUD*> *_huds;
-			model::Platform *_platform;
 			std::string *_level;
 			GameBase *_game;
 		};

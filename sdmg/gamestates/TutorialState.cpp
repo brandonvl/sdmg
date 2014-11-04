@@ -123,10 +123,14 @@ namespace sdmg {
 
 		void TutorialState::update(GameBase &game, GameTime &gameTime)
 		{
-			PlayState::update(game, gameTime);
+			// PlayState::update(game, gameTime);
 
-			
+			if (_showFPS)
+				_fps = game.getFPS() == _fps ? _fps : game.getFPS();
 
+			game.getEngine()->getInputEngine()->runActions(game);
+			game.getEngine()->getDrawEngine()->update();
+			game.getEngine()->getPhysicsEngine()->update();
 		}
 
 		void TutorialState::draw(GameBase &game, GameTime &gameTime)

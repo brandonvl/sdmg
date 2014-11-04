@@ -133,6 +133,8 @@ namespace sdmg {
 
 			float Surface::getRenderWidth() { return _renderWidth; }
 			float Surface::getRenderHeight() { return _renderHeight; }
+
+			bool Surface::isAnimated() { return (_textures.size() > 1); }
 		}
 	}
 }

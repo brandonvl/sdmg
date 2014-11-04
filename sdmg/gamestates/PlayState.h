@@ -47,13 +47,9 @@ namespace sdmg {
 		protected:
 			PlayState() { }
 			void preformDraw(GameBase &game);
-
-			std::vector<model::Character*> *_characters;
-			model::Platform *_platform;
-			std::vector<model::MovablePlatform*> *_bullets;
 			std::vector<helperclasses::HUD*> *_huds;
 
-			bool _showFPS;
+			bool _showFPS, _showHitBoxes;
 			long _fps;
 		};
 	}

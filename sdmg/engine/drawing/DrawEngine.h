@@ -54,8 +54,8 @@ namespace sdmg {
 				void draw(std::string key);
 				void draw(std::string key, float x, float y);
 				void draw(GameObject *gameObject);
+				void draw(MovableGameObject *gameObject);
 				void draw(std::string key, float x, float y, int slice);
-				void drawSlice(GameObject *gameObject);
 				//void draw(GameObject *gameObject, GameObject::State state, GameObject::Direction direction, float x, float y, int slice);
 				void drawText(std::string key, float x, float y);
 				void drawDynamicText(std::string key, std::string text, float x, float y);
@@ -64,8 +64,6 @@ namespace sdmg {
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
 				void destroyText(std::string key);
 				void destroyDynamicText(std::string key);
-				void drawSlice(MovableGameObject *gameObject);
-				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
 				void drawBodies(b2Body *body);
 				void drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b);
 				void drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a);
@@ -100,6 +98,9 @@ namespace sdmg {
 				float _step, _accumulator;
 
 				bool _preparing;
+
+				void drawSlice(GameObject *gameObject);
+				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
 			};
 		}
 	}

@@ -27,9 +27,7 @@ namespace sdmg {
 			character->setKey(name);
 			character->setAttackSize(obj.getObject("attack").getObject("size").getFloat("width"), obj.getObject("attack").getObject("size").getFloat("height"));
 			character->setAttackY(obj.getObject("attack").getFloat("position"));
-			
-			game.getWorld()->addGameObject(character);
-			
+						
 			loadSpriteMap(character, name, game, obj);
 
 			game.getEngine()->getPhysicsEngine()->addBody(character, 40, 10);

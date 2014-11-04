@@ -19,6 +19,7 @@
 #include "engine\World.h"
 //#include "helperclasses\StatisticsManager.h"
 #include "lib\JSONParser.h"
+#include "engine\audio\AudioEngine.h"
 
 #include "LoadingState.h"
 #include "engine\physics\PhysicsEngine.h"
@@ -81,31 +82,13 @@ namespace sdmg {
 			// Save statistics
 			doc->saveFile("assets/statistics/statistics.json");
 			
-			/*// Update statistics
-			std::vector<std::vector<std::string>> statistics = Statistics::getInstance().load();
-			for (auto rank = 0; rank < deadList.size(); rank++) {
-				// Get character name
-				std::string charname = "";
-				for (auto c : deadList.at(rank)->getName()) {
-					if (c != ' ')
-						charname += tolower(c);
-					else break;
-				}
-
-				for (auto i = 0; i < statistics.size(); i++) {
-					if (statistics.at(i).at(0) == charname) {
-						if (rank == (deadList.size() - 1))
-							statistics.at(i).at(1) = std::to_string(1 + std::stoi(statistics.at(i).at(1)));
-						else
-							statistics.at(i).at(2) = std::to_string(1 + std::stoi(statistics.at(i).at(2)));
-						break;
-					}
-				}
-			}
-			// Save statistics
-			Statistics::getInstance().save(statistics);*/
-
 			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
+
+
+			//game.getEngine()->getAudioEngine()->load("winner", "assets/levels/background");
+			game.getEngine()->getAudioEngine()->stopMusic();
+			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
+			game.getEngine()->getAudioEngine()->play("winner", 0);
 
 		}
 
@@ -154,15 +137,20 @@ namespace sdmg {
 				de->unload("gameoverbackground");
 				de->unloadText("replay");
 				de->unloadText("main menu");
-				
+
+				game.getEngine()->getAudioEngine()->unload("winner");
 
 				for (int i = 1; i <= _characterCount; i++) {
 					std::string asd = "rank" + std::to_string(i);
 					de->unloadText("rank" + std::to_string(i));
 				}
+
+				PlayState::getInstance().resume(game);
 			}
 			else
 			{
+				game.getEngine()->getAudioEngine()->unload("winner");
+				game.getEngine()->getAudioEngine()->unload("bgm");
 				game.getEngine()->getDrawEngine()->unloadAll();
 				game.getEngine()->getInputEngine()->clearBindings();
 

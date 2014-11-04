@@ -25,45 +25,25 @@ namespace sdmg {
 			loadText("losses", "Losses", "trebucbd", 36);
 
 			// Load statistics
-			bool useJSON = true;
-			if (useJSON) {
-				JSON::JSONObject &statisticsObj = doc->getRootObject();
+			JSON::JSONObject &statisticsObj = doc->getRootObject();
 
-				JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
+			JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
 
-				for (int i = 0; i < characterArr.size(); i++) {
-					JSON::JSONObject &characterObj = characterArr.getObject(i);
-					// Get character name
-					std::string charname = "";
-					for (auto c : characterObj.getString("name")) {
-						if (c != ' ')
-							charname += tolower(c);
-						else break;
-					}
-					// Load character name text
-					loadText(charname + "name", characterObj.getString("name"), "trebucbd", 36);
-
-					// Set character statistics
-					loadText(charname + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
-					loadText(charname + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
+			for (int i = 0; i < characterArr.size(); i++) {
+				JSON::JSONObject &characterObj = characterArr.getObject(i);
+				// Get character name
+				std::string charname = "";
+				for (auto c : characterObj.getString("name")) {
+					if (c != ' ')
+						charname += tolower(c);
+					else break;
 				}
-			}
-			else {
-				/*std::vector<std::vector<std::string>> statistics = StatisticsManager::getInstance().load();
-
-				// Set character names
-				loadText("nivekname", "Nivek the Assassin", "trebucbd", 36);
-				loadText("silencename", "Silence the Code Ninja", "trebucbd", 36);
-				loadText("fiatname", "Fiat Panda", "trebucbd", 36);
-				loadText("luckyname", "Always Lucky Cowboy", "trebucbd", 36);
-				loadText("mindname", "Mind the Ice Mage", "trebucbd", 36);
-				loadText("enriquename", "Enrique the Suit is Bananas", "trebucbd", 36);
+				// Load character name text
+				loadText(charname + "name", characterObj.getString("name"), "trebucbd", 36);
 
 				// Set character statistics
-				for (auto s : statistics) {
-					loadText(s.at(0) + "wins", s.at(1), "trebucbd", 36);
-					loadText(s.at(0) + "losses", s.at(2), "trebucbd", 36);
-				}*/
+				loadText(charname + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
+				loadText(charname + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
 			}
 		}
 
@@ -145,40 +125,24 @@ namespace sdmg {
 			lossespos += 10;
 
 			// Load statistics
-			bool useJSON = true;
-			if (useJSON)
-			{
-				JSON::JSONObject &statisticsObj = doc->getRootObject();
+			JSON::JSONObject &statisticsObj = doc->getRootObject();
 
-				JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
+			JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
 
-				for (int i = 0; i < characterArr.size(); i++) {
-					JSON::JSONObject &characterObj = characterArr.getObject(i);
-					// Get character name
-					std::string charname = "";
-					for (auto c : characterObj.getString("name")) {
-						if (c != ' ')
-							charname += tolower(c);
-						else break;
-					}
-					drawEngine->drawText(charname + "name", 100, vpos);
-					drawEngine->drawText(charname + "wins", winspos, vpos);
-					drawEngine->drawText(charname + "losses", lossespos, vpos);
-
-					vpos += 48;
+			for (int i = 0; i < characterArr.size(); i++) {
+				JSON::JSONObject &characterObj = characterArr.getObject(i);
+				// Get character name
+				std::string charname = "";
+				for (auto c : characterObj.getString("name")) {
+					if (c != ' ')
+						charname += tolower(c);
+					else break;
 				}
-			}
-			else 
-			{
-				/*std::vector<std::vector<std::string>> statistics = StatisticsManager::getInstance().load();
+				drawEngine->drawText(charname + "name", 100, vpos);
+				drawEngine->drawText(charname + "wins", winspos, vpos);
+				drawEngine->drawText(charname + "losses", lossespos, vpos);
 
-				for (auto s : statistics) {
-					drawEngine->drawText(s.at(0) + "name", 100, vpos);
-					drawEngine->drawText(s.at(0) + "wins", winspos, vpos);
-					drawEngine->drawText(s.at(0) + "losses", lossespos, vpos);
-
-					vpos += 48;
-				}*/
+				vpos += 48;
 			}
 
 			drawEngine->render();
