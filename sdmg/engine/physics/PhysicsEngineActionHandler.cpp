@@ -48,6 +48,8 @@ namespace sdmg {
 
 			void PhysicsEngineActionHandler::kneel(MovableGameObject *obj)
 			{
+				if (obj->getAttackBody() != nullptr)
+					midRangeAttackEnd(obj);
 				obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
 			}
 
@@ -119,15 +121,21 @@ namespace sdmg {
 			}
 
 			void PhysicsEngineActionHandler::knockbackLeft(MovableGameObject *obj) {
+				if (obj->getAttackBody() != nullptr)
+					midRangeAttackEnd(obj);
 				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f * -1, -2.0f));
 			}
 
 			void PhysicsEngineActionHandler::knockbackRight(MovableGameObject *obj) {
+				if (obj->getAttackBody() != nullptr)
+					midRangeAttackEnd(obj);
 				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f, -2.0f));
 			}
 
 			void PhysicsEngineActionHandler::respawn(MovableGameObject *obj)
 			{
+				if (obj->getAttackBody() != nullptr)
+					midRangeAttackEnd(obj);
 				obj->setHP(100);
 				obj->setLives(obj->getLives() - 1);
 

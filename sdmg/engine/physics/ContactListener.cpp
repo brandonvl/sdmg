@@ -19,23 +19,45 @@ namespace sdmg {
 				// Springen terugzetten ---------------------------------------------------
 				if (bodyA->GetType() == b2_dynamicBody && bodyA->GetPosition().y <  bodyB->GetPosition().y)
 				{
-					MovableGameObject *object = static_cast<MovableGameObject*>(bodyA->GetUserData());
-					object->setIsJumping(false);
+					bool resetWalk = false;
+					if (bodyB->GetType() == b2_dynamicBody)
+						resetWalk = true;
+					else
+					{
+						model::Platform *platform = static_cast<model::Platform*>(bodyB->GetUserData());
+						resetWalk = !platform->getIsAttack();
+					}
+					if (resetWalk)
+					{
+						MovableGameObject *object = static_cast<MovableGameObject*>(bodyA->GetUserData());
+						object->setIsJumping(false);
 
-					if (object->getState() == MovableGameObject::State::FALLING)
-						object->setState(MovableGameObject::State::IDLE);
-					else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
-						object->setState(MovableGameObject::State::WALKING);
+						if (object->getState() == MovableGameObject::State::FALLING)
+							object->setState(MovableGameObject::State::IDLE);
+						else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
+							object->setState(MovableGameObject::State::WALKING);
+					}
 				}
-				else if (bodyB->GetType() == b2_dynamicBody && bodyB->GetPosition().y <  bodyA->GetPosition().y)
+				else if (bodyB->GetType() == b2_dynamicBody && bodyB->GetPosition().y < bodyA->GetPosition().y)
 				{
- 					MovableGameObject *object = static_cast<MovableGameObject*>(bodyB->GetUserData());
-					object->setIsJumping(false);
+					bool resetWalk = false;
+					if (bodyA->GetType() == b2_dynamicBody)
+						resetWalk = true;
+					else
+					{
+						model::Platform *platform = static_cast<model::Platform*>(bodyA->GetUserData());
+						resetWalk = !platform->getIsAttack();
+					}
+					if (resetWalk)
+					{
+						MovableGameObject *object = static_cast<MovableGameObject*>(bodyB->GetUserData());
+						object->setIsJumping(false);
 
-					if (object->getState() == MovableGameObject::State::FALLING)
-						object->setState(MovableGameObject::State::IDLE);
-					else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
-						object->setState(MovableGameObject::State::WALKING);
+						if (object->getState() == MovableGameObject::State::FALLING)
+							object->setState(MovableGameObject::State::IDLE);
+						else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
+							object->setState(MovableGameObject::State::WALKING);
+					}
 				}
 				// Springen terugzetten ---------------------------------------------------
 
