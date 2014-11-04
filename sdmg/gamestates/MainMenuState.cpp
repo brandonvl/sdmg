@@ -33,16 +33,14 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Play") {
-				LoadingState::getInstance().setIsTutorial(false);
-				//  changeState(*_game, LoadingState::getInstance());
 				changeState(*_game, LevelSelectionState::getInstance());
+				//  _game->getStateManager()->pushState(LevelSelectionState::getInstance());
 			}
 			else if (tag == "Options") {
 				changeState(*_game, OptionsState::getInstance());
 			}
 			else if (tag == "Credits") {
 				_game->getStateManager()->pushState(CreditsState::getInstance());
-				//changeState(*_game, CreditsState::getInstance());
 			}
 			else if (tag == "Quit") {
 				_game->stop();
@@ -76,7 +74,8 @@ namespace sdmg {
 
 			std::cout << "Initing IntroState ... " << std::endl;
 
-			game.getEngine()->getAudioEngine()->load("main_menu_bgm", R"(assets/sounds/bgm/main_menu_bgm.mp3)", AUDIOTYPE::MUSIC);
+			//game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/mainmenu/bgm.mp3", AUDIOTYPE::MUSIC);
+			game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/effects/win.ogg", AUDIOTYPE::MUSIC);
 			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
 			game.getEngine()->getAudioEngine()->play("main_menu_bgm",0);

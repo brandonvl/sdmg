@@ -48,10 +48,10 @@ namespace sdmg {
 			printf("\nSimple SDL_CreateThread test:");
 
 			// Simply create a thread
-			//thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
+			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
 			//  SDL_WaitThread(thread, NULL);
-			load();
-			//SDL_DetachThread(thread);
+			//  load();
+			//  SDL_DetachThread(thread);
 
 		}
 
@@ -59,7 +59,7 @@ namespace sdmg {
 		{
 			delete _level;
 			game.getEngine()->getDrawEngine()->unload("loading");
-			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
+			// game.getEngine()->getAudioEngine()->unload("bgm");
 		}
 
 		void LoadingState::pause(GameBase &game)
@@ -167,7 +167,8 @@ namespace sdmg {
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			//  de->load("background", "assets/levels/" + level + "/data");
 			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
-			_game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
+			//  _game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
+			_game->getEngine()->getAudioEngine()->load("bgm", "assets/levels/" + (*_level) + "/bgm.mp3", AUDIOTYPE::MUSIC);
 
 			loadCharacters(levelObj.getArray("startingPositions"));
 

@@ -18,6 +18,7 @@
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
 #include "helperclasses\statistics\Statistics.h"
+#include "engine\audio\AudioEngine.h"
 
 
 #include "LoadingState.h"
@@ -82,6 +83,12 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
 
+
+			//game.getEngine()->getAudioEngine()->load("winner", "assets/levels/background");
+			game.getEngine()->getAudioEngine()->stopMusic();
+			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
+			game.getEngine()->getAudioEngine()->play("winner", 0);
+
 		}
 
 		void GameOverState::menuAction(MenuItem *item)
@@ -129,15 +136,20 @@ namespace sdmg {
 				de->unload("gameoverbackground");
 				de->unloadText("replay");
 				de->unloadText("main menu");
-				
+
+				game.getEngine()->getAudioEngine()->unload("winner");
 
 				for (int i = 1; i <= _characterCount; i++) {
 					std::string asd = "rank" + std::to_string(i);
 					de->unloadText("rank" + std::to_string(i));
 				}
+
+				PlayState::getInstance().resume(game);
 			}
 			else
 			{
+				game.getEngine()->getAudioEngine()->unload("winner");
+				game.getEngine()->getAudioEngine()->unload("bgm");
 				game.getEngine()->getDrawEngine()->unloadAll();
 				game.getEngine()->getInputEngine()->clearBindings();
 

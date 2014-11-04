@@ -31,15 +31,15 @@ namespace sdmg {
 				{
 					// do error
 				}
-				Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048);
+				Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
 
 				Mix_AllocateChannels(16);
 				Mix_GroupChannels(0, SOUND_EFFECT_CHANNELS-1, SOUND_EFFECT_GROUP_TAG);
 				Mix_GroupChannels(SOUND_EFFECT_CHANNELS, VOICE_OVER_CHANNELS-1, VOICE_OVER_GROUP_TAG);
 
-				setVolume(MIX_MAX_VOLUME / 5, AUDIOTYPE::SOUND_EFFECT);
-				setVolume(MIX_MAX_VOLUME / 5, AUDIOTYPE::VOICE_OVER);
-				setVolume(MIX_MAX_VOLUME / 6, AUDIOTYPE::MUSIC);
+				setVolume(MIX_MAX_VOLUME / 3, AUDIOTYPE::SOUND_EFFECT);
+				setVolume(MIX_MAX_VOLUME / 3, AUDIOTYPE::VOICE_OVER);
+				setVolume(MIX_MAX_VOLUME / 3, AUDIOTYPE::MUSIC);
 
 				Mix_ChannelFinished(donePlayingOut);
 

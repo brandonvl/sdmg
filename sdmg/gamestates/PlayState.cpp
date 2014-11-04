@@ -30,7 +30,7 @@ namespace sdmg {
 		void PlayState::init(GameBase &game)
 		{
 			game.getEngine()->getPhysicsEngine()->resume();
-			game.getEngine()->getAudioEngine()->play("level1_bgm", 0);
+			game.getEngine()->getAudioEngine()->play("bgm", 0);
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -62,7 +62,8 @@ namespace sdmg {
 
 		void PlayState::resume(GameBase &game)
 		{
-			std::cout << "Resuming IntroState ... " << std::endl;
+			game.getEngine()->getAudioEngine()->play("bgm", 0);
+			// std::cout << "Resuming IntroState ... " << std::endl;
 		}
 
 		void PlayState::handleEvents(GameBase &game, GameTime &gameTime)
