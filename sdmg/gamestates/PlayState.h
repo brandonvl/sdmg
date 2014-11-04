@@ -51,6 +51,8 @@ namespace sdmg {
 
 			bool _showFPS, _showHitBoxes;
 			long _fps;
+
+			friend class GameOverState;
 		};
 	}
 }

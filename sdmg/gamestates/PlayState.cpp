@@ -40,11 +40,11 @@ namespace sdmg {
 
 		void PlayState::cleanup(GameBase &game)
 		{
-			game.getEngine()->getPhysicsEngine()->cleanUp();
-			game.getEngine()->getDrawEngine()->unloadAll();
-			game.getEngine()->getAudioEngine()->unloadAll();
+			//game.getEngine()->getPhysicsEngine()->cleanUp();
+			//game.getEngine()->getDrawEngine()->unloadAll();
+			//game.getEngine()->getAudioEngine()->unloadAll();
 
-			if (_huds) {
+			/*if (_huds) {
 				for (auto it : *_huds) {
 					delete it;
 				}
@@ -52,7 +52,7 @@ namespace sdmg {
 			}
 
 			delete _huds;
-			_huds = nullptr;
+			_huds = nullptr;*/
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -78,7 +78,7 @@ namespace sdmg {
 					case SDL_KEYUP:
 						switch (event.key.keysym.sym) {
 						case SDLK_ESCAPE:
-							changeState(game, MainMenuState::getInstance());
+							//changeState(game, MainMenuState::getInstance());
 							break;
 						case SDLK_F1:
 							if (!event.key.repeat)
@@ -108,8 +108,7 @@ namespace sdmg {
 				if (game.getWorld()->getAliveList().size() > 0)
 					game.getWorld()->getAliveList()[0]->die();
 				game.getEngine()->getPhysicsEngine()->pause();
-				//changeState(game, GameOverState::getInstance());
-				game.getStateManager()->pushState(GameOverState::getInstance());
+				changeState(game, GameOverState::getInstance());
 			}
 
 			if (_showFPS)

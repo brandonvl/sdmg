@@ -349,6 +349,10 @@ namespace sdmg {
 				float32 as = object->getPixelX();
 				//  object->setLocation(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
 
+
+				delete bodydef;
+				delete fixturedef;
+				delete shape;
 				return body;
 			}
 

@@ -23,6 +23,7 @@
 #include "engine\World.h"
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\ConfigManager.h"
+#include "helperclasses\HUD.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -61,7 +62,17 @@ namespace sdmg {
 		
 		void TutorialState::cleanup(GameBase &game)
 		{
-			PlayState::cleanup(game);
+			//PlayState::cleanup(game);
+
+			if (_huds) {
+				for (auto it : *_huds) {
+					delete it;
+				}
+				_huds->clear();
+			}
+
+			delete _huds;
+			_huds = nullptr;
 
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro2");
@@ -81,6 +92,12 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("tutFiat6");
 			game.getEngine()->getDrawEngine()->unloadText("tutFiat7");
 			game.getEngine()->getDrawEngine()->unloadText("tutEnd");
+
+			game.getEngine()->getPhysicsEngine()->cleanUp();
+			game.getEngine()->getDrawEngine()->unloadAll();
+			game.getEngine()->getAudioEngine()->unloadAll();
+			game.getEngine()->getInputEngine()->clearBindings();
+			game.getWorld()->clearWorld();
 
 			delete _tutorial;
 			delete _toDraw;

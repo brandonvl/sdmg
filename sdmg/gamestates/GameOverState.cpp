@@ -13,6 +13,7 @@
 #include "engine\input\InputEngine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "model\Character.h"
+#include "helperclasses\HUD.h"
 #include "MainMenuState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
@@ -20,7 +21,6 @@
 //#include "helperclasses\StatisticsManager.h"
 #include "lib\JSONParser.h"
 #include "engine\audio\AudioEngine.h"
-
 #include "LoadingState.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "PlayState.h"
@@ -89,7 +89,7 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
-
+			delete doc;
 		}
 
 		void GameOverState::menuAction(MenuItem *item)
@@ -111,15 +111,9 @@ namespace sdmg {
 
 				_replay = true;
 				_game->getEngine()->getPhysicsEngine()->resume();
-				//changeState(*_game, PlayState::getInstance());
-				_game->getStateManager()->popState();
-
+				changeState(*_game, PlayState::getInstance());
 
 				// changeState(*_game, LoadingState::getInstance());
-				/*
-				_replay = true;
-
-				*/
 			}
 			else if (tag == "Main Menu") {
 				_replay = false;
@@ -149,6 +143,7 @@ namespace sdmg {
 			}
 			else
 			{
+				game.getEngine()->getPhysicsEngine()->cleanUp();
 				game.getEngine()->getAudioEngine()->unload("winner");
 				game.getEngine()->getAudioEngine()->unload("bgm");
 				game.getEngine()->getDrawEngine()->unloadAll();
@@ -156,7 +151,19 @@ namespace sdmg {
 
 				game.getWorld()->clearWorld();
 
-				game.getStateManager()->cleanupOthers();
+				std::vector<HUD*> *huds = PlayState::getInstance()._huds;
+
+				if (huds) {
+					for (auto it : *huds) {
+						delete it;
+					}
+					huds->clear();
+				}
+
+				delete huds;
+				huds = nullptr;
+
+				//game.getStateManager()->cleanupOthers();
 			}
 		}
 
