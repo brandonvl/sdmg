@@ -95,6 +95,16 @@ namespace sdmg {
 
 						break;
 					case SDL_QUIT:
+						if (_huds) {
+							for (auto it : *_huds) {
+								delete it;
+							}
+							_huds->clear();
+						}
+
+						delete _huds;
+						_huds = nullptr;
+
 						game.stop();
 						break;
 					}
