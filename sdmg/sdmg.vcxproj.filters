@@ -270,6 +270,12 @@
     <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="actions\BlockAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LongRangeAttackAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -452,9 +458,6 @@
     <ClInclude Include="ControlsState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
-    <ClInclude Include="actions\MidRangeAttackAction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="helperclasses\HUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -475,6 +478,15 @@
     </ClInclude>
     <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
       <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\BlockAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\LongRangeAttackAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\MidRangeAttackAction.h">
+      <Filter>Header Files\actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

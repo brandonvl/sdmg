@@ -31,14 +31,16 @@ namespace sdmg {
 		class MovableGameObject : public GameObject {
 		public:
 			enum class State {
-				WALKING, RUNNING, IDLE, FORWARD_ROLL, KNEELING, RESPAWN,
-				JUMPING, JUMPINGLEFT, JUMPINGRIGHT,
-				FALLING, FALLINGLEFT, FALLINGRIGHT,
-				KNOCKBACKLEFT, KNOCKBACKRIGHT,
-				SHORTRANGEATTACK,
-				MIDRANGEATTACKBEGIN, MIDRANGEATTACK, MIDRANGEATTACKEND,
-				LONGRANGEATTACK };
+				WALKING = 1, RUNNING = 2, IDLE = 4, FORWARD_ROLL = 8, KNEELING = 16, RESPAWN = 32,
+				JUMPING = 64, JUMPINGLEFT = 128, JUMPINGRIGHT = 256,
+				FALLING = 512, FALLINGLEFT = 1024, FALLINGRIGHT = 2048,
+				KNOCKBACKLEFT = 4096, KNOCKBACKRIGHT = 8192,
+				BLOCKING = 16384,
+				MIDRANGEATTACKBEGIN = 32768, MIDRANGEATTACK = 65536, MIDRANGEATTACKEND = 131072,
+				LONGRANGEATTACKBEGIN = 262144, LONGRANGEATTACK = 524288, LONGRANGEATTACKEND = 1048576
+			};
 			enum class Direction { LEFT, UP, DOWN, RIGHT };
+			
 
 			MovableGameObject();
 			virtual ~MovableGameObject();
@@ -59,17 +61,29 @@ namespace sdmg {
 			Direction getSpawnDirection();
 			void setSpawnDirection(Direction direction);
 
+			void hit(int damage);
 			int getLives();
 			void setLives(int lives);
 			int getHP();
 			void setHP(int hp);
+			int getBP();
+			void setBP(int bp);
+			int getPP();
+			void setPP(int pp);
 			bool getIsJumping();
 			void setIsJumping(bool isJumping);
+
+			bool getShouldTurnArround();
+			void setShouldTurnArround(bool arround);
 						
 			b2Body* getAttackBody();
 			void setAttackBody(b2Body *attackBody);
+			b2Body* getShootBody();
+			void setShootBody(b2Body *shootBody);
+			void destroyShootBody();
 			float getAttackY();
 			void setAttackY(float y);
+
 			float MovableGameObject::getAttackWidth();
 			float MovableGameObject::getAttackHeight();
 			void MovableGameObject::setAttackSize(Size size);
@@ -82,15 +96,26 @@ namespace sdmg {
 			Size _attackSize;
 			float _attackY;
 			std::vector<std::function<void(MovableGameObject *gameObject)>> _stateChangedCallbacks;
+			bool _shouldTurnArround;
 
 			void triggerStateChangedCallbacks();
 		protected:
-			int _lives, _hp;
-			b2Body *_attackBody;
+			int _lives, _hp, _bp, _pp;
+			b2Body *_attackBody, *_shootBody;
 			Direction _direction;
 			bool _isJumping;
 			Speed _speed;
 			State _state;
 		};
+
+		inline MovableGameObject::State operator|(MovableGameObject::State a, MovableGameObject::State b)
+		{
+			return static_cast<MovableGameObject::State>(static_cast<int>(a) | static_cast<int>(b));
+		}
+
+		inline MovableGameObject::State operator&(MovableGameObject::State a, MovableGameObject::State b)
+		{
+			return static_cast<MovableGameObject::State>(static_cast<int>(a)& static_cast<int>(b));
+		}
 	}
 }

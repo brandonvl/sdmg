@@ -29,6 +29,12 @@
 #include "lib\JSONParser.h"
 #include "helperclasses\ConfigManager.h"
 
+#include <random>
+// only for windows
+#include <windows.h>
+#include <tchar.h>
+#include <stdio.h>
+
 namespace sdmg {
 	namespace gamestates {
 
@@ -43,8 +49,17 @@ namespace sdmg {
 
 			_isLoaded = false;
 			_isError = false;
+			_isAdvertisement = false;
 
-			game.getEngine()->getDrawEngine()->load("loading", R"(assets\screens\loadingscreen)");
+			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
+
+			//  loadAdvertisement();
+			std::string advertisement = getRandomAdvertisement();
+			if (advertisement != "")
+			{
+				_isAdvertisement = true;
+				game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
+			}
 
 			printf("\nSimple SDL_CreateThread test:");
 
@@ -117,6 +132,10 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("loading");
+
+			if (_isAdvertisement)
+				game.getEngine()->getDrawEngine()->draw("advertisement", 1020, 526);
+
 			game.getEngine()->getDrawEngine()->render();
 		}
 
@@ -132,6 +151,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::load() {
+			//  loadAdvertisement();
 			loadLevel();
 			loadKeybindings();
 
@@ -163,9 +183,6 @@ namespace sdmg {
 				_game->getWorld()->addPlatform(platform);
 				de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
 			}
-
-
-
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			//  de->load("background", "assets/levels/" + level + "/data");
 			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
@@ -224,14 +241,13 @@ namespace sdmg {
 				platform->setEndLocation(b2Vec2(bobObj.getObject("endLocation").getFloat("x"), bobObj.getObject("endLocation").getFloat("y")));
 				platform->setDirection(static_cast< MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
 				platform->setSpeed(bobObj.getObject("speed").getFloat("horizontal"), bobObj.getObject("speed").getFloat("vertical"));
-				platform->setDieOnImpact(true);
+				platform->setDamageOnImpact(100);
 
 				_game->getWorld()->addPlatform(platform);
 				_game->getEngine()->getPhysicsEngine()->addKinematicBody(platform);
 				_game->getEngine()->getDrawEngine()->loadMap(platform, MovableGameObject::State::IDLE, R"(assets\levels\level2\bullet.sprite)", 1097, 494, 0.1);
 			}
 		}
-
 
 		void LoadingState::loadKeybindings() {
 
@@ -251,6 +267,8 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(i, "jump"), new actions::JumpAction(character));
 					binding->setKeyBinding(manager.getKey(i, "roll"), new actions::RollAction(character));
 					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
 				}
 
 				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
@@ -296,6 +314,49 @@ namespace sdmg {
 			de->loadText("tutFiat6", "To perform a mid range attack, press the '" + fiatMidRange + "' key", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press '" + fiatRoll + "'", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutEnd", "You have successfully passed the tutorial, you are ready to play the game, press 'Esc' to quit!", { 255, 255, 255 }, "arial", 30);
+		}
+
+		void LoadingState::loadAdvertisement()
+		{
+			std::string advertisement = getRandomAdvertisement();
+			if (advertisement != "")
+			{
+				_isAdvertisement = true;
+				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
+			}
+		}
+
+		std::string LoadingState::getRandomAdvertisement() {
+
+			std::vector<std::string> names;
+			char search_path[200];
+			sprintf_s(search_path, "%s*.*", "assets\\advertisements\\");
+			WIN32_FIND_DATA fd;
+			HANDLE hFind = ::FindFirstFile(search_path, &fd);
+			if (hFind != INVALID_HANDLE_VALUE)
+			{
+				do {
+					if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+					{
+						//_tprintf(TEXT("  %s   <DIR>\n"), fd.cFileName);
+					}
+					else
+					{
+						names.push_back(fd.cFileName);
+					}
+				} while (::FindNextFile(hFind, &fd));
+				::FindClose(hFind);
+			}
+
+			if (names.size() > 0)
+			{
+				std::random_device dev;
+				std::default_random_engine dre(dev());
+				std::uniform_int_distribution<int> randomAdvertisement(0, names.size() - 1);
+				return names[randomAdvertisement(dre)];
+			}
+
+			return "";
 		}
 	}
 }

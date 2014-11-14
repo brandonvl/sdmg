@@ -43,13 +43,6 @@ namespace sdmg {
 						}
 					}
 				}
-				else {
-					if (_character->getState() == MovableGameObject::State::JUMPING)
-					{
-						//  _character->setState(MovableGameObject::State::IDLE);
-						//  game.getEngine()->getPhysicsEngine()->doAction(_character, PhysicsEngine::Action::IDLE);
-					}
-				}
 			}
 			return true;
 		}
@@ -57,6 +50,5 @@ namespace sdmg {
 		Action* JumpAction::create(SDL_Event &event) {
 			return new JumpAction(_character, event);
 		}
-		
 	}
 }

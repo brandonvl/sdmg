@@ -81,9 +81,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="actions\BlockAction.cpp" />
     <ClCompile Include="actions\CharacterAction.cpp" />
     <ClCompile Include="actions\JumpAction.cpp" />
     <ClCompile Include="actions\LeftWalkAction.cpp" />
+    <ClCompile Include="actions\LongRangeAttackAction.cpp" />
     <ClCompile Include="actions\MidRangeAttackAction.cpp" />
     <ClCompile Include="actions\RespawnAction.cpp" />
     <ClCompile Include="actions\RightWalkAction.cpp" />
@@ -145,9 +147,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\Actions.h" />
+    <ClInclude Include="actions\BlockAction.h" />
     <ClInclude Include="actions\CharacterAction.h" />
     <ClInclude Include="actions\JumpAction.h" />
     <ClInclude Include="actions\LeftWalkAction.h" />
+    <ClInclude Include="actions\LongRangeAttackAction.h" />
     <ClInclude Include="actions\MidRangeAttackAction.h" />
     <ClInclude Include="actions\RespawnAction.h" />
     <ClInclude Include="actions\RightWalkAction.h" />

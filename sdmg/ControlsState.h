@@ -56,6 +56,8 @@ namespace sdmg {
 			std::string* _jump;
 			std::string* _roll;
 			std::string* _midrange;
+			std::string* _longrange;
+			std::string* _block;
 		};
 	}
 }
