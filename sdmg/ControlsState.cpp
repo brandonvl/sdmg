@@ -18,7 +18,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 200);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 130);
 
 			// Create menu item
 			helperclasses::menuitems::MenuTextItem *right = new helperclasses::menuitems::MenuTextItem("Walk Right", 0, 68, true);
@@ -151,38 +151,38 @@ namespace sdmg {
 					{
 						switch (event.key.keysym.sym)
 						{
-							case SDLK_ESCAPE:
-								
-								break;
-							case SDLK_DOWN:
-								_menu->selectNext();
-								break;
-							case SDLK_UP:
-								_menu->selectPrevious();
-								break;
-							case SDLK_RIGHT:
-								if (currentplayer != 1)
-									currentplayer++;
-								readKeys();
-								break;
-							case SDLK_LEFT:
-								if (currentplayer != 0)
-									currentplayer--;
-								readKeys();
-								break;
-							case SDLK_KP_ENTER:
-							case SDLK_RETURN:
-								changeText(waiting, event.key.keysym.sym);
-								waiting = true;
-								menuAction(_menu->getSelectedMenuItem());
-								break;
+						case SDLK_ESCAPE:
+
+							break;
+						case SDLK_DOWN:
+							_menu->selectNext();
+							break;
+						case SDLK_UP:
+							_menu->selectPrevious();
+							break;
+						case SDLK_RIGHT:
+							if (currentplayer != 1)
+								currentplayer++;
+							readKeys();
+							break;
+						case SDLK_LEFT:
+							if (currentplayer != 0)
+								currentplayer--;
+							readKeys();
+							break;
+						case SDLK_KP_ENTER:
+						case SDLK_RETURN:
+							changeText(waiting, event.key.keysym.sym);
+							waiting = true;
+							menuAction(_menu->getSelectedMenuItem());
+							break;
 						}
 					}
 					else
 					{
 						InputEngine().findJoysticks();
 						changeText(waiting, event.key.keysym.sym);
-						
+
 						bindKey();
 					}
 				}
@@ -254,16 +254,16 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			drawEngine->draw("controls_background");
 
-			drawEngine->drawDynamicText("info", *_info, 425, 60);
-			drawEngine->drawDynamicText("info2", *_info2, 250, 160);
-			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer + 1), 250, 50);
-			drawEngine->drawDynamicText("walkright", *_walkright, 850, 225);
-			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 295);
-			drawEngine->drawDynamicText("jump", *_jump, 850, 370);
-			drawEngine->drawDynamicText("roll", *_roll, 850, 445);
-			drawEngine->drawDynamicText("midrange", *_midrange, 850, 515);
-			drawEngine->drawDynamicText("longrange", *_longrange, 850, 585);
-			drawEngine->drawDynamicText("block", *_block, 850, 655);
+			drawEngine->drawDynamicText("info", *_info, 425, 40);
+			drawEngine->drawDynamicText("info2", *_info2, 250, 90);
+			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer + 1), 250, 30);
+			drawEngine->drawDynamicText("walkright", *_walkright, 850, 155);
+			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 225);
+			drawEngine->drawDynamicText("jump", *_jump, 850, 300);
+			drawEngine->drawDynamicText("roll", *_roll, 850, 375);
+			drawEngine->drawDynamicText("midrange", *_midrange, 850, 445);
+			drawEngine->drawDynamicText("longrange", *_longrange, 850, 515);
+			drawEngine->drawDynamicText("block", *_block, 850, 585);
 
 			_menu->draw(&game);
 
