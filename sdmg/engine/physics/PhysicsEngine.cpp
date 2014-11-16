@@ -38,7 +38,7 @@ namespace sdmg {
 				initializeActions();
 			}
 
-			PhysicsEngine::~PhysicsEngine() 
+			PhysicsEngine::~PhysicsEngine()
 			{
 				cleanUp();
 				delete _world;
@@ -118,11 +118,14 @@ namespace sdmg {
 
 				while (body)
 				{
-
 					if (body->GetType() == b2_kinematicBody)
 					{
 						model::MovablePlatform *kinematicBody = static_cast<model::MovablePlatform*>(body->GetUserData());
 						kinematicBody->checkDirectionChange();
+
+						body = body->GetNext();
+						if (kinematicBody->getMustBeDestroyed())
+							kinematicBody->getOwner()->destroyShootBody();
 					}
 					else if (body->GetType() == b2_dynamicBody)
 					{
@@ -166,8 +169,15 @@ namespace sdmg {
 								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKEND);
 								break;
 
-
-
+							case MovableGameObject::State::LONGRANGEATTACKBEGIN:
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACKBEGIN);
+								break;
+							case MovableGameObject::State::LONGRANGEATTACK:
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACK);
+								break;
+							case MovableGameObject::State::LONGRANGEATTACKEND:
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACKEND);
+								break;
 
 							case MovableGameObject::State::KNOCKBACKLEFT:
 								doAction(gameObject, PhysicsEngine::Action::KNOCKBACKLEFT);
@@ -182,7 +192,7 @@ namespace sdmg {
 							case MovableGameObject::State::JUMPING:
 								if (body->GetLinearVelocity().y >= -0.2f)
 									gameObject->setState(MovableGameObject::State::FALLING);
-								body->SetLinearVelocity(b2Vec2(0.0f, body->GetLinearVelocity().y));
+								body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, body->GetLinearVelocity().y));
 								break;
 							case MovableGameObject::State::JUMPINGLEFT:
 								if (body->GetLinearVelocity().y >= -0.2f)
@@ -210,9 +220,89 @@ namespace sdmg {
 								break;
 
 							}
+
+							if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL)
+								|| gameObject->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL)
+								|| gameObject->getState() == (MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL)
+								|| gameObject->getState() == (MovableGameObject::State::JUMPINGLEFT | MovableGameObject::State::FORWARD_ROLL)
+								|| gameObject->getState() == (MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL)
+								|| gameObject->getState() == (MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL)
+								|| gameObject->getState() == (MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL)
+								|| gameObject->getState() == (MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL)
+								)
+							{
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+							}
+
+							else if (gameObject->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN))
+							{
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKBEGIN);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK))
+							{
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACK);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND))
+							{
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKEND);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN))
+							{
+								doAction(gameObject, PhysicsEngine::Action::IDLE);
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKBEGIN);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACK))
+							{
+								doAction(gameObject, PhysicsEngine::Action::IDLE);
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACK);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKEND))
+							{
+								doAction(gameObject, PhysicsEngine::Action::IDLE);
+								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKEND);
+							}
+
+
+							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN))
+							{
+								doAction(gameObject, PhysicsEngine::Action::IDLE);
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACKBEGIN);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACK))
+							{
+								doAction(gameObject, PhysicsEngine::Action::IDLE);
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACK);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKEND))
+							{
+								doAction(gameObject, PhysicsEngine::Action::IDLE);
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACKEND);
+							}
+
+
+							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
+								doAction(gameObject, PhysicsEngine::Action::IDLE);
 						}
+
+						body = body->GetNext();
 					}
-					body = body->GetNext();
+					else if (body->GetType() == b2_staticBody)
+						body = body->GetNext();
 				}
 			}
 
@@ -299,7 +389,7 @@ namespace sdmg {
 
 				body->SetUserData(object);
 				object->setBody(body);
-				
+
 				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
 				//  b2Vec2 *vec = new b2Vec2(P2M*w, P2M*h);
@@ -318,7 +408,7 @@ namespace sdmg {
 
 				//  bodydef->position.Set(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
 				bodydef->position.Set(object->getX() * _P2M, object->getY() * _P2M);
-				
+
 				bodydef->type = b2_kinematicBody;
 				b2Body* body = _world->CreateBody(bodydef);
 
@@ -340,13 +430,11 @@ namespace sdmg {
 				body->SetUserData(object);
 				object->setBody(body);
 
-				float32 x = body->GetPosition().x;
-				float32 y = body->GetPosition().y;
+
 				// object->setLocation(b2Vec2(object->getStartLocationX() *_P2M, object->getStartLocationY() *_P2M));
 				object->setLocation(body->GetPosition().x, body->GetPosition().y);
 				object->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
-				float32 as = object->getPixelX();
 				//  object->setLocation(object->getStartLocationX() * _P2M, object->getStartLocationY() * _P2M);
 
 
@@ -371,17 +459,17 @@ namespace sdmg {
 				addAction(Action::JUMP, &PhysicsEngineActionHandler::jump);
 				addAction(Action::IDLE, &PhysicsEngineActionHandler::idle);
 				addAction(Action::KNEEL, &PhysicsEngineActionHandler::kneel);
-				addAction(Action::SHORTRANGEATTACK, &PhysicsEngineActionHandler::shortRangeAttack);
-				addAction(Action::LONGRANGEATTACK, &PhysicsEngineActionHandler::longRangeAttack);
 				addAction(Action::RESPAWN, &PhysicsEngineActionHandler::respawn);
 				addAction(Action::KNOCKBACKLEFT, &PhysicsEngineActionHandler::knockbackLeft);
 				addAction(Action::KNOCKBACKRIGHT, &PhysicsEngineActionHandler::knockbackRight);
 
-
-
 				addAction(Action::MIDRANGEATTACKBEGIN, &PhysicsEngineActionHandler::midRangeAttackBegin);
 				addAction(Action::MIDRANGEATTACK, &PhysicsEngineActionHandler::midRangeAttack);
 				addAction(Action::MIDRANGEATTACKEND, &PhysicsEngineActionHandler::midRangeAttackEnd);
+
+				addAction(Action::LONGRANGEATTACKBEGIN, &PhysicsEngineActionHandler::longRangeAttackBegin);
+				addAction(Action::LONGRANGEATTACK, &PhysicsEngineActionHandler::longRangeAttack);
+				addAction(Action::LONGRANGEATTACKEND, &PhysicsEngineActionHandler::longRangeAttackEnd);
 			}
 		}
 	}

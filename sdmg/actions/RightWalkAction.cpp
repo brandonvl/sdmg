@@ -25,20 +25,161 @@ namespace sdmg {
 			{
 				if (_event.type == SDL_KEYDOWN) {
 					_character->setDirection(MovableGameObject::Direction::RIGHT);
-					if (_character->getState() == MovableGameObject::State::JUMPING || _character->getState() == MovableGameObject::State::JUMPINGLEFT || _character->getState() == MovableGameObject::State::JUMPINGRIGHT)
+
+					if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN);
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK);
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND);
+
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN);
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK);
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND);
+
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN);
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACK))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK);
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKEND))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND);
+
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN);
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACK))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK);
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKEND))
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND);
+
+
+					else if (_character->getState() == MovableGameObject::State::JUMPING
+						|| _character->getState() == MovableGameObject::State::JUMPINGLEFT
+						|| _character->getState() == MovableGameObject::State::JUMPINGRIGHT)
 						_character->setState(MovableGameObject::State::JUMPINGRIGHT);
-					else if (_character->getState() == MovableGameObject::State::FALLING || _character->getState() == MovableGameObject::State::FALLINGLEFT || _character->getState() == MovableGameObject::State::FALLINGRIGHT)
+					else if (_character->getState() == MovableGameObject::State::FALLING
+						|| _character->getState() == MovableGameObject::State::FALLINGLEFT
+						|| _character->getState() == MovableGameObject::State::FALLINGRIGHT)
 						_character->setState(MovableGameObject::State::FALLINGRIGHT);
 					else
 						_character->setState(MovableGameObject::State::WALKING);
 				}
+				// KeyUP
 				else {
-					if (_character->getState() == MovableGameObject::State::WALKING && _character->getDirection() == MovableGameObject::Direction::RIGHT)
-						_character->setState(MovableGameObject::State::IDLE);
-					else if (_character->getState() == MovableGameObject::State::JUMPINGRIGHT)
-						_character->setState(MovableGameObject::State::JUMPING);
-					else if (_character->getState() == MovableGameObject::State::FALLINGRIGHT)
-						_character->setState(MovableGameObject::State::FALLING);
+					if (_character->getDirection() == MovableGameObject::Direction::RIGHT)
+					{
+						if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL)
+							|| _character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL))
+							_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL);
+						else if (_character->getState() == (MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL))
+							_character->setState(MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL);
+						else if (_character->getState() == (MovableGameObject::State::JUMPINGLEFT | MovableGameObject::State::FORWARD_ROLL))
+						{
+							_character->setDirection(MovableGameObject::Direction::LEFT);
+							_character->setState(MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL);
+						}
+						else if (_character->getState() == (MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL))
+							_character->setState(MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL);
+						else if (_character->getState() == (MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL))
+							_character->setState(MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL);
+						else if (_character->getState() == (MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL))
+						{
+							_character->setDirection(MovableGameObject::Direction::LEFT);
+							_character->setState(MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL);
+						}
+						else if (_character->getState() == (MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL))
+							_character->setState(MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL);
+
+
+						else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN))
+							_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN);
+						else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK))
+							_character->setState(MovableGameObject::State::MIDRANGEATTACK);
+						else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND))
+							_character->setState(MovableGameObject::State::MIDRANGEATTACKEND);
+
+						else if (_character->getState() == MovableGameObject::State::WALKING)
+							_character->setState(MovableGameObject::State::IDLE);
+						else if (_character->getState() == MovableGameObject::State::JUMPINGRIGHT)
+							_character->setState(MovableGameObject::State::JUMPING);
+						else if (_character->getState() == MovableGameObject::State::FALLINGRIGHT)
+							_character->setState(MovableGameObject::State::FALLING);
+					}
+				}
+			}
+			else
+			{
+				if (_event.type == SDL_KEYDOWN)
+				{
+					if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL)
+						|| _character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL))
+					{
+						if (_character->getDirection() == MovableGameObject::Direction::RIGHT)
+							_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL);
+						else if (_character->getDirection() == MovableGameObject::Direction::LEFT)
+							_character->setShouldTurnArround(true);
+					}
+
+
+					else if (_character->getState() == (MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setState(MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::JUMPINGLEFT | MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setShouldTurnArround(true);
+						_character->setState(MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setState(MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+					}
+
+
+					else if (_character->getState() == (MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setState(MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setShouldTurnArround(true);
+						_character->setState(MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setState(MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+					}
+				}
+				else
+				{
+					if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL)
+						|| _character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL))
+					{
+						if (!_character->getShouldTurnArround())
+							_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL);
+						else if (_character->getDirection() == MovableGameObject::Direction::RIGHT)
+							_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::JUMPINGLEFT| MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setState(MovableGameObject::State::JUMPINGLEFT | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL))
+					{
+						if (!_character->getShouldTurnArround())
+							_character->setState(MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL))
+					{
+						_character->setState(MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL);
+					}
+					else if (_character->getState() == (MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL))
+					{
+						if (!_character->getShouldTurnArround())
+							_character->setState(MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL);
+					}
 				}
 			}
 			/*

@@ -51,11 +51,15 @@ namespace sdmg {
 			GameBase *_game;
 			bool waiting;
 			int currentplayer;
+			std::string* _info;
+			std::string* _info2;
 			std::string* _walkright;
 			std::string* _walkleft;
 			std::string* _jump;
 			std::string* _roll;
 			std::string* _midrange;
+			std::string* _longrange;
+			std::string* _block;
 		};
 	}
 }
