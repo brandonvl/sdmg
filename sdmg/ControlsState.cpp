@@ -37,9 +37,17 @@ namespace sdmg {
 			roll->loadText(_game, "roll", "Roll", "trebucbd", 33);
 			_menu->addMenuItem(roll);
 
-			helperclasses::menuitems::MenuTextItem *attack = new helperclasses::menuitems::MenuTextItem("Attack", 0, 68, false);
-			attack->loadText(_game, "midrange", "Attack", "trebucbd", 33);
-			_menu->addMenuItem(attack);
+			helperclasses::menuitems::MenuTextItem *attackMid = new helperclasses::menuitems::MenuTextItem("AttackMidRange", 0, 68, false);
+			attackMid->loadText(_game, "midrange", "AttackMidRange", "trebucbd", 33);
+			_menu->addMenuItem(attackMid);
+
+			helperclasses::menuitems::MenuTextItem *attackLong = new helperclasses::menuitems::MenuTextItem("AttackLongRange", 0, 68, false);
+			attackLong->loadText(_game, "longrange", "AttackLongRange", "trebucbd", 33);
+			_menu->addMenuItem(attackLong);
+
+			helperclasses::menuitems::MenuTextItem *block = new helperclasses::menuitems::MenuTextItem("Block", 0, 68, false);
+			block->loadText(_game, "block", "Block", "trebucbd", 33);
+			_menu->addMenuItem(block);
 
 			helperclasses::menuitems::MenuTextItem *save = new helperclasses::menuitems::MenuTextItem("Save", 0, 68, false);
 			save->loadText(_game, "save", "Back", "trebucbd", 33);
@@ -52,6 +60,8 @@ namespace sdmg {
 			_jump = new std::string("Up");
 			_roll = new std::string("Numpad 0");
 			_midrange = new std::string("1");
+			_longrange = new std::string("2");
+			_block = new std::string("P");
 
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 20);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info2", { 255, 255, 255 }, "trebucbd", 20);
@@ -61,6 +71,8 @@ namespace sdmg {
 			_game->getEngine()->getDrawEngine()->loadDynamicText("jump", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("roll", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("midrange", { 255, 255, 255 }, "trebucbd", 36);
+			_game->getEngine()->getDrawEngine()->loadDynamicText("longrange", { 255, 255, 255 }, "trebucbd", 36);
+			_game->getEngine()->getDrawEngine()->loadDynamicText("block", { 255, 255, 255 }, "trebucbd", 36);
 
 			game.getEngine()->getDrawEngine()->load("controls_background", "assets/screens/mainbackground");
 
@@ -76,6 +88,8 @@ namespace sdmg {
 			*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "jump"));
 			*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "roll"));
 			*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "midrange"));
+			*_longrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "longrange"));
+			*_block = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "block"));
 		}
 
 		void ControlsState::menuAction(MenuItem *item)
@@ -95,6 +109,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("jump");
 			game.getEngine()->getDrawEngine()->unload("roll");
 			game.getEngine()->getDrawEngine()->unload("midrange");
+			game.getEngine()->getDrawEngine()->unload("longrange");
+			game.getEngine()->getDrawEngine()->unload("block");
 			delete _walkright;
 			delete _walkleft;
 			delete _jump;
@@ -102,6 +118,8 @@ namespace sdmg {
 			delete _midrange;
 			delete _info;
 			delete _info2;
+			delete _longrange;
+			delete _block;
 			//game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -127,7 +145,7 @@ namespace sdmg {
 
 				if (event.type == SDL_KEYDOWN)
 				{
-					DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
+					// DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
 					if (!waiting)
 					{
@@ -135,9 +153,6 @@ namespace sdmg {
 						{
 							case SDLK_ESCAPE:
 								
-								break;
-							case SDLK_1:
-								std::cout << "Key 1 pressed. Switching State.. " << std::endl;
 								break;
 							case SDLK_DOWN:
 								_menu->selectNext();
@@ -197,9 +212,17 @@ namespace sdmg {
 			{
 				*_roll = text;
 			}
-			else if (item == "Attack")
+			else if (item == "AttackMidRange")
 			{
 				*_midrange = text;
+			}
+			else if (item == "AttackLongRange")
+			{
+				*_longrange = text;
+			}
+			else if (item == "Block")
+			{
+				*_block = text;
 			}
 			else if (item == "Save")
 			{
@@ -214,6 +237,8 @@ namespace sdmg {
 			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "jump", SDL_GetKeyFromName(_jump->c_str()));
 			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "roll", SDL_GetKeyFromName(_roll->c_str()));
 			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "midrange", SDL_GetKeyFromName(_midrange->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "longrange", SDL_GetKeyFromName(_longrange->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "block", SDL_GetKeyFromName(_block->c_str()));
 			helperclasses::ConfigManager::getInstance().save();
 			waiting = false;
 		}
@@ -237,6 +262,8 @@ namespace sdmg {
 			drawEngine->drawDynamicText("jump", *_jump, 850, 370);
 			drawEngine->drawDynamicText("roll", *_roll, 850, 445);
 			drawEngine->drawDynamicText("midrange", *_midrange, 850, 515);
+			drawEngine->drawDynamicText("longrange", *_longrange, 850, 585);
+			drawEngine->drawDynamicText("block", *_block, 850, 655);
 
 			_menu->draw(&game);
 

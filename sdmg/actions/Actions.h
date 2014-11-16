@@ -4,3 +4,5 @@
 #include "RollAction.h"
 #include "RespawnAction.h"
 #include "MidRangeAttackAction.h"
+#include "LongRangeAttackAction.h"
+#include "BlockAction.h"

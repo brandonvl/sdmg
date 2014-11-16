@@ -24,8 +24,27 @@ namespace sdmg {
 			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {
-					_character->setState(MovableGameObject::State::FORWARD_ROLL);
-					game.getEngine()->getPhysicsEngine()->doAction(_character, _character->getDirection() == MovableGameObject::Direction::RIGHT ? PhysicsEngine::Action::MOVERIGHT : PhysicsEngine::Action::MOVELEFT);
+					if (_character->getState() == MovableGameObject::State::WALKING)
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL);
+					else if (_character->getState() == MovableGameObject::State::JUMPING)
+						_character->setState(MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL);
+					else if (_character->getState() == MovableGameObject::State::JUMPINGLEFT)
+						_character->setState(MovableGameObject::State::JUMPINGLEFT | MovableGameObject::State::FORWARD_ROLL);
+					else if (_character->getState() == MovableGameObject::State::JUMPINGRIGHT)
+						_character->setState(MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+
+
+					else if (_character->getState() == MovableGameObject::State::FALLING)
+						_character->setState(MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL);
+					else if (_character->getState() == MovableGameObject::State::FALLINGLEFT)
+						_character->setState(MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL);
+					else if (_character->getState() == MovableGameObject::State::FALLINGRIGHT)
+						_character->setState(MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
+
+
+					else
+						_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL);
+					//  game.getEngine()->getPhysicsEngine()->doAction(_character, _character->getDirection() == MovableGameObject::Direction::RIGHT ? PhysicsEngine::Action::MOVERIGHT : PhysicsEngine::Action::MOVELEFT);
 				}
 			}
 			return true;
