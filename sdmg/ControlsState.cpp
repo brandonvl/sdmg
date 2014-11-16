@@ -18,7 +18,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 100);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 200);
 
 			// Create menu item
 			helperclasses::menuitems::MenuTextItem *right = new helperclasses::menuitems::MenuTextItem("Walk Right", 0, 68, true);
@@ -41,13 +41,20 @@ namespace sdmg {
 			attack->loadText(_game, "midrange", "Attack", "trebucbd", 33);
 			_menu->addMenuItem(attack);
 
+			helperclasses::menuitems::MenuTextItem *save = new helperclasses::menuitems::MenuTextItem("Save", 0, 68, false);
+			save->loadText(_game, "save", "Back", "trebucbd", 33);
+			_menu->addMenuItem(save);
+
+			_info = new std::string("Press Left or Right to navigate between players.");
+			_info2 = new std::string("Press Enter to change the key for the selected action. The controls are automatically saved.");
 			_walkright = new std::string("Right");
 			_walkleft = new std::string("Left");
 			_jump = new std::string("Up");
 			_roll = new std::string("Numpad 0");
 			_midrange = new std::string("1");
 
-			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 36);
+			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 20);
+			_game->getEngine()->getDrawEngine()->loadDynamicText("info2", { 255, 255, 255 }, "trebucbd", 20);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("player", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("walkright", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("walkleft", { 255, 255, 255 }, "trebucbd", 36);
@@ -81,6 +88,7 @@ namespace sdmg {
 			delete _menu;
 			game.getEngine()->getDrawEngine()->unload("controls_background");
 			game.getEngine()->getDrawEngine()->unload("info");
+			game.getEngine()->getDrawEngine()->unload("info2");
 			game.getEngine()->getDrawEngine()->unload("player");
 			game.getEngine()->getDrawEngine()->unload("walkright");
 			game.getEngine()->getDrawEngine()->unload("walkleft");
@@ -92,6 +100,8 @@ namespace sdmg {
 			delete _jump;
 			delete _roll;
 			delete _midrange;
+			delete _info;
+			delete _info2;
 			//game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -124,7 +134,7 @@ namespace sdmg {
 						switch (event.key.keysym.sym)
 						{
 							case SDLK_ESCAPE:
-								_game->getStateManager()->popState();
+								
 								break;
 							case SDLK_1:
 								std::cout << "Key 1 pressed. Switching State.. " << std::endl;
@@ -157,6 +167,7 @@ namespace sdmg {
 					{
 						InputEngine().findJoysticks();
 						changeText(waiting, event.key.keysym.sym);
+						
 						bindKey();
 					}
 				}
@@ -190,6 +201,10 @@ namespace sdmg {
 			{
 				*_midrange = text;
 			}
+			else if (item == "Save")
+			{
+				_game->getStateManager()->popState();
+			}
 		}
 
 		void ControlsState::bindKey()
@@ -214,13 +229,14 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			drawEngine->draw("controls_background");
 
-			drawEngine->drawDynamicText("info", "Press Left or Right to navigate between players.", 250, 550);
+			drawEngine->drawDynamicText("info", *_info, 425, 60);
+			drawEngine->drawDynamicText("info2", *_info2, 250, 160);
 			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer + 1), 250, 50);
-			drawEngine->drawDynamicText("walkright", *_walkright, 850, 125);
-			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 195);
-			drawEngine->drawDynamicText("jump", *_jump, 850, 270);
-			drawEngine->drawDynamicText("roll", *_roll, 850, 345);
-			drawEngine->drawDynamicText("midrange", *_midrange, 850, 415);
+			drawEngine->drawDynamicText("walkright", *_walkright, 850, 225);
+			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 295);
+			drawEngine->drawDynamicText("jump", *_jump, 850, 370);
+			drawEngine->drawDynamicText("roll", *_roll, 850, 445);
+			drawEngine->drawDynamicText("midrange", *_midrange, 850, 515);
 
 			_menu->draw(&game);
 
