@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <functional>
 
 using namespace sdmg::engine;
 
@@ -38,11 +39,11 @@ namespace sdmg {
 			}
 		protected:
 			LevelSelectionState() { }
-			void menuAction(MenuItem *item) override;
+			void menuAction() override;
 		private:
 			GameBase *_game;
 
-			void listLevels();
+			void listLevels(std::function<void()> &callback);
 		};
 	}
 }

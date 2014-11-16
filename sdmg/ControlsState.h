@@ -43,7 +43,7 @@ namespace sdmg {
 
 		protected:
 			ControlsState() { }
-			void menuAction(MenuItem *item) override;
+			void menuAction() override;
 			void bindKey();
 			void changeText(bool waiting, const int keyCode);
 			void readKeys();

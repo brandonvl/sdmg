@@ -18,28 +18,15 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 100);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 100, game);
+			std::function<void()> callback = std::bind(&ControlsState::menuAction, this);
 
-			// Create menu item
-			helperclasses::menuitems::MenuTextItem *right = new helperclasses::menuitems::MenuTextItem("Walk Right", 0, 68, true);
-			right->loadText(_game, "walkright", "Walk Right", "trebucbd", 33);
-			_menu->addMenuItem(right);
+			_menu->addMenuTextItem("Walk Right", callback);
+			_menu->addMenuTextItem("Walk Left", callback);
+			_menu->addMenuTextItem("Jump", callback);
+			_menu->addMenuTextItem("Roll", callback);
+			_menu->addMenuTextItem("Attack", callback);
 
-			helperclasses::menuitems::MenuTextItem *left = new helperclasses::menuitems::MenuTextItem("Walk Left", 0, 68, false);
-			left->loadText(_game, "walkleft", "Walk Left", "trebucbd", 33);
-			_menu->addMenuItem(left);
-
-			helperclasses::menuitems::MenuTextItem *jump = new helperclasses::menuitems::MenuTextItem("Jump", 0, 68, false);
-			jump->loadText(_game, "jump", "Jump", "trebucbd", 33);
-			_menu->addMenuItem(jump);
-
-			helperclasses::menuitems::MenuTextItem *roll = new helperclasses::menuitems::MenuTextItem("Roll", 0, 68, false);
-			roll->loadText(_game, "roll", "Roll", "trebucbd", 33);
-			_menu->addMenuItem(roll);
-
-			helperclasses::menuitems::MenuTextItem *attack = new helperclasses::menuitems::MenuTextItem("Attack", 0, 68, false);
-			attack->loadText(_game, "midrange", "Attack", "trebucbd", 33);
-			_menu->addMenuItem(attack);
 
 			_walkright = new std::string("Right");
 			_walkleft = new std::string("Left");
@@ -71,7 +58,7 @@ namespace sdmg {
 			*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "midrange"));
 		}
 
-		void ControlsState::menuAction(MenuItem *item)
+		void ControlsState::menuAction()
 		{
 
 		}
@@ -149,7 +136,7 @@ namespace sdmg {
 							case SDLK_RETURN:
 								changeText(waiting, event.key.keysym.sym);
 								waiting = true;
-								menuAction(_menu->getSelectedMenuItem());
+								menuAction();
 								break;
 						}
 					}

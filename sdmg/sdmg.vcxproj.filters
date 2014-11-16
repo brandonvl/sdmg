@@ -270,6 +270,9 @@
     <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="engine\input\Mouse.cpp">
+      <Filter>Source Files\engine\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -475,6 +478,9 @@
     </ClInclude>
     <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
       <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Mouse.h">
+      <Filter>Header Files\engine\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

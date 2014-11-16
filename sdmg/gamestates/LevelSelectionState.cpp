@@ -31,8 +31,9 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void LevelSelectionState::menuAction(MenuItem *item)
+		void LevelSelectionState::menuAction()
 		{
+			MenuItem *item = _menu->getSelectedMenuItem();
 			std::string tag = item->getTag();
 
 			if (tag == "Tutorial") {
@@ -48,7 +49,7 @@ namespace sdmg {
 			}
 		}
 
-		void LevelSelectionState::listLevels() {
+		void LevelSelectionState::listLevels(std::function<void()> &callback) {
 			std::vector<std::string> names;
 			char search_path[200];
 			sprintf_s(search_path, "%s*.*", "assets\\levels\\");
@@ -62,9 +63,7 @@ namespace sdmg {
 						JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + s + "/data");
 						JSON::JSONObject &obj = doc->getRootObject();
 
-						helperclasses::menuitems::MenuTextItem *level = new helperclasses::menuitems::MenuTextItem(fd.cFileName, 0, 68, _menu->getSelectedMenuItem() == nullptr);
-						level->loadText(_game, obj.getString("name"), obj.getString("name"), "trebucbd", 33);
-						_menu->addMenuItem(level);
+						_menu->addMenuTextItem(obj.getString("name"), callback);
 
 						delete doc;
 					}
@@ -76,38 +75,15 @@ namespace sdmg {
 		void LevelSelectionState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
-			listLevels();
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			
+			std::function<void()> callback = std::bind(&LevelSelectionState::menuAction, this);
+			listLevels(callback);
 
-			helperclasses::menuitems::MenuTextItem *tutorial = new helperclasses::menuitems::MenuTextItem("Tutorial", 0, 68, false);
-			tutorial->loadText(_game, "tutorial", "Tutorial", "trebucbd", 33);
-			_menu->addMenuItem(tutorial);
-
+			_menu->addMenuTextItem("Tutorial", callback);
 
 			game.getEngine()->getDrawEngine()->load("levelselect_background", "assets/screens/mainmenu");
-			/*
-
-			//_levels = new std::map < std::string, std::string >();
-			std::vector<std::string> *folders = new std::vector<std::string>;
-			folders->push_back("level1");
-			folders->push_back("level2");
-
-			_game = &game;
-			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
-			// Create menu item
-			for (int i = 0; i < folders->size(); i++)
-			{
-				JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*folders)[i] + "/data");
-				JSON::JSONObject &obj = doc->getRootObject();
-
-				helperclasses::menuitems::MenuTextItem *level = new helperclasses::menuitems::MenuTextItem((*folders)[i], 0, 68, i == 0);
-				level->loadText(_game, obj.getString("name"), obj.getString("name"), "trebucbd", 33);
-				_menu->addMenuItem(level);
-			}
-
-			game.getEngine()->getDrawEngine()->load("background", "assets/screens/mainmenu");
-			*/
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void LevelSelectionState::cleanup(GameBase &game)
@@ -135,6 +111,8 @@ namespace sdmg {
 
 			if (SDL_PollEvent(&event))
 			{
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
 				if (event.type == SDL_QUIT)
 				{
 					game.stop();
@@ -162,7 +140,7 @@ namespace sdmg {
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						menuAction(_menu->getSelectedMenuItem());
+						menuAction();
 						break;
 					}
 				}

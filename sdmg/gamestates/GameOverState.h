@@ -45,7 +45,7 @@ namespace sdmg {
 
 		protected:
 			GameOverState() { }
-			void menuAction(MenuItem *item) override;
+			void menuAction() override;
 		private:
 			int _characterCount;
 			GameBase *_game;

@@ -39,7 +39,7 @@ namespace sdmg {
 
 		protected:
 			OptionsState() { }
-			void menuAction(MenuItem *item) override;
+			void menuAction() override;
 
 		private:
 			GameBase *_game;

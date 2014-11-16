@@ -11,32 +11,29 @@ namespace sdmg {
 			MenuTextItem::~MenuTextItem()
 			{
 				if (_engine != nullptr) {
-					_engine->getDrawEngine()->unloadText(_key);
-					_engine->getDrawEngine()->unloadText(_keySelected);
+					_engine->getDrawEngine()->unloadText("MI_" + _text);
+					_engine->getDrawEngine()->unloadText("MI_" + _text + "_SEL");
 				}
 			}
 
-			void MenuTextItem::loadText(GameBase *engine, std::string key, std::string text, std::string fontName, int fontSize) {
-				_key = key;
-				_keySelected = key + "Selected";
-				_engine = engine->getEngine();
-				engine->getEngine()->getDrawEngine()->loadText(_key, text, { 173, 14, 14 }, fontName, fontSize);
-				engine->getEngine()->getDrawEngine()->loadText(_keySelected, text, { 255, 255, 255 }, fontName, fontSize);
+			void MenuTextItem::loadText(GameBase &game) {
+				game.getEngine()->getDrawEngine()->loadText("MI_" + _text, _text, { 173, 14, 14 }, FONTNAME, FONTSIZE);
+				game.getEngine()->getDrawEngine()->loadText("MI_" + _text + "_SEL", _text, { 255, 255, 255 }, FONTNAME, FONTSIZE);
 			}
 
-			void MenuTextItem::draw(GameBase *engine, const float xOffSet, const float yOffSet)
+			void MenuTextItem::draw(GameBase *engine, const float x, const float y, const float width)
 			{
 				DrawEngine *drawEngine = engine->getEngine()->getDrawEngine();
 
-				drawEngine->drawRectangle(Rectangle(xOffSet, yOffSet, WIDTH, HEIGHT), 217, 13, 13);
+				drawEngine->drawRectangle(Rectangle(x, y, width, _height), 217, 13, 13);
 
-				float textWidth = drawEngine->getTextSize(_key)[0];
-				float centeredX = (WIDTH - textWidth) / 2 + xOffSet;
+				float textWidth = drawEngine->getTextSize("MI_" + _text)[0];
+				float centeredX = (width - textWidth) / 2 + x;
 
 				if (_isSelected)
-					drawEngine->drawText(_keySelected, centeredX, yOffSet + 13);
+					drawEngine->drawText("MI_" + _text + "_SEL", centeredX, y + 13);
 				else
-					drawEngine->drawText(_key, centeredX, yOffSet + 13);
+					drawEngine->drawText("MI_" + _text, centeredX, y + 13);
 			}
 		}
 	}

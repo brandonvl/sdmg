@@ -29,6 +29,7 @@ namespace sdmg {
 	namespace gamestates {
 		void PlayState::init(GameBase &game)
 		{
+			game.getEngine()->getInputEngine()->clearBindings();
 			game.getEngine()->getPhysicsEngine()->resume();
 			game.getEngine()->getAudioEngine()->play("bgm", 0);
 		}
@@ -124,7 +125,7 @@ namespace sdmg {
 			if (_showFPS)
 				_fps = game.getFPS() == _fps ? _fps : game.getFPS();
 
-			game.getEngine()->getInputEngine()->runActions(game);
+			game.getEngine()->getInputEngine()->update(game);
 			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
 		}

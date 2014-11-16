@@ -33,17 +33,12 @@ namespace sdmg {
 			_game = &game;
 			std::cout << "Initing IntroState ... " << std::endl;
 
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
+			std::function<void()> callback = std::bind(&GameOverState::menuAction, this);
 
-			// Create menu item
-			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Replay", 0, 68, true);
-			play->loadText(_game, "replay", "Replay", "trebucbd", 33);
-			_menu->addMenuItem(play);
-
-			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Main Menu", 0, 68, false);
-			quit->loadText(_game, "main menu", "Main Menu", "trebucbd", 33);
-			_menu->addMenuItem(quit);
-
+			_menu->addMenuTextItem("Replay", callback);
+			_menu->addMenuTextItem("Main menu", callback);
+			
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
 			Uint8 color = 255;
 			for (int i = deadList.size() - 1; i >= 0; i--) {
@@ -92,8 +87,9 @@ namespace sdmg {
 			delete doc;
 		}
 
-		void GameOverState::menuAction(MenuItem *item)
+		void GameOverState::menuAction()
 		{
+			MenuItem *item = _menu->getSelectedMenuItem();
 			std::string tag = item->getTag();
 
 			if (tag == "Replay") {
@@ -207,7 +203,7 @@ namespace sdmg {
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						menuAction(_menu->getSelectedMenuItem());
+						menuAction();
 						break;
 					}
 				}

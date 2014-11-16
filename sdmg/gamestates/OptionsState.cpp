@@ -26,8 +26,9 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void OptionsState::menuAction(MenuItem *item)
+		void OptionsState::menuAction()
 		{
+			MenuItem *item = _menu->getSelectedMenuItem();
 			std::string tag = item->getTag();
 
 			if (tag == "Controls")
@@ -50,25 +51,16 @@ namespace sdmg {
 		void OptionsState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			game.getEngine()->getInputEngine()->clearBindings();
 
-			int height = 68;
+			std::function<void()> callback = std::bind(&OptionsState::menuAction, this);
 
-			helperclasses::menuitems::MenuTextItem *controls = new helperclasses::menuitems::MenuTextItem("Controls", 0, height, true);
-			controls->loadText(_game, "controls", "Controls", "trebucbd", 33);
-			_menu->addMenuItem(controls);
-
-			helperclasses::menuitems::MenuTextItem *statistics = new helperclasses::menuitems::MenuTextItem("Statistics", 0, height, false);
-			statistics->loadText(_game, "statistics", "Statistics", "trebucbd", 33);
-			_menu->addMenuItem(statistics);
-
-			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, height, false);
-			help->loadText(_game, "help", "Help", "trebucbd", 33);
-			_menu->addMenuItem(help);
-
-			helperclasses::menuitems::MenuTextItem *back = new helperclasses::menuitems::MenuTextItem("Back", 0, height, false);
-			back->loadText(_game, "back", "Back", "trebucbd", 33);
-			_menu->addMenuItem(back);
+			_menu->addMenuTextItem("Controls", callback);
+			_menu->addMenuTextItem("Statistics", callback);
+			_menu->addMenuTextItem("Help", callback);
+			_menu->addMenuTextItem("Back", callback);
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void OptionsState::cleanup(GameBase &game)
@@ -78,7 +70,6 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("statistics");
 			game.getEngine()->getDrawEngine()->unloadText("help");
 			game.getEngine()->getDrawEngine()->unloadText("back");
-			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
 		void OptionsState::pause(GameBase &game)
@@ -97,6 +88,8 @@ namespace sdmg {
 
 			if (SDL_PollEvent(&event))
 			{
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
 				if (event.type == SDL_QUIT)
 				{
 					game.stop();
@@ -123,7 +116,7 @@ namespace sdmg {
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						menuAction(_menu->getSelectedMenuItem());
+						menuAction();
 						break;
 					}
 				}

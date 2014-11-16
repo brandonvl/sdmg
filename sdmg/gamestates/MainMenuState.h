@@ -41,7 +41,6 @@ namespace sdmg {
 			}
 		protected:
 			MainMenuState() { }
-			void menuAction(MenuItem *item) override;
 		private:
 			GameBase *_game;
 		};
