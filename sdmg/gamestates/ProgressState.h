@@ -1,13 +1,27 @@
+//
+//
+//  @ Project : SDMG
+//  @ File Name : GameOverState.h
+//  @ Date : 10-11-2014
+//  @ Author : 42IN13SAd
+//
+//
+
 #pragma once
-#include "engine\GameState.h"
+#include "MenuState.h"
 
-using  namespace sdmg::engine;
+using namespace sdmg::engine;
 
-namespace JSON { class JSONDocument; }
+
 namespace sdmg {
+	namespace helperclasses {
+		class Menu;
+		class MenuItem;
+	}
+
 	namespace gamestates {
-		class StatisticsState :
-			public GameState
+		class ProgressState :
+			public MenuState
 		{
 		public:
 			void init(GameBase &game);
@@ -20,13 +34,14 @@ namespace sdmg {
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
 
-			static StatisticsState& getInstance() {
-				static StatisticsState _instance;
+			static ProgressState& getInstance() {
+				static ProgressState _instance;
 				return _instance;
 			}
 
 		private:
-			StatisticsState() { }
+			ProgressState() { }
+			void menuAction(MenuItem *item) override;
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 
 			GameBase *_game;

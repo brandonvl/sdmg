@@ -124,6 +124,7 @@
     <ClCompile Include="gamestates\OptionsState.cpp" />
     <ClCompile Include="gamestates\PauseState.cpp" />
     <ClCompile Include="gamestates\PlayState.cpp" />
+    <ClCompile Include="gamestates\ProgressState.cpp" />
     <ClCompile Include="gamestates\SelectionState.cpp" />
     <ClCompile Include="gamestates\StatisticsState.cpp" />
     <ClCompile Include="helperclasses\HUD.cpp" />
@@ -131,7 +132,7 @@
     <ClCompile Include="helperclasses\Menu.cpp" />
     <ClCompile Include="helperclasses\MenuItem.cpp" />
     <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
-    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp" />
+    <ClCompile Include="helperclasses\ProgressManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="gamestates\OptionsState.h" />
     <ClInclude Include="gamestates\PauseState.h" />
     <ClInclude Include="gamestates\PlayState.h" />
+    <ClInclude Include="gamestates\ProgressState.h" />
     <ClInclude Include="gamestates\SelectionState.h" />
     <ClInclude Include="gamestates\StatisticsState.h" />
     <ClInclude Include="helperclasses\HUD.h" />
@@ -199,7 +201,7 @@
     <ClInclude Include="helperclasses\Menu.h" />
     <ClInclude Include="helperclasses\MenuItem.h" />
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
-    <ClInclude Include="helperclasses\statistics\StatisticsManager.h" />
+    <ClInclude Include="helperclasses\ProgressManager.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />

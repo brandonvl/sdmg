@@ -9,7 +9,7 @@
 
 #include "OptionsState.h"
 #include "MainMenuState.h"
-#include "StatisticsState.h"
+#include "ProgressState.h"
 #include "HelpState.h"
 #include "CreditsState.h"
 #include "ControlsState.h"
@@ -31,20 +31,13 @@ namespace sdmg {
 			std::string tag = item->getTag();
 
 			if (tag == "Controls")
-			{
 				_game->getStateManager()->pushState(ControlsState::getInstance());
-			}
-			else if (tag == "Statistics") {
-				//changeState(*_game, StatisticsState::getInstance());
-				_game->getStateManager()->pushState(StatisticsState::getInstance());
-			}
-			else if (tag == "Help") {
+			else if (tag == "SaveLoad") 
+				_game->getStateManager()->pushState(ProgressState::getInstance());
+			else if (tag == "Help") 
 				_game->getStateManager()->pushState(HelpState::getInstance());
-			}
-			else if (tag == "Back") {
+			else if (tag == "Back") 
 				_game->getStateManager()->popState();
-				//  changeState(*_game, MainMenuState::getInstance());
-			}
 		}
 
 		void OptionsState::init(GameBase &game)
@@ -58,9 +51,9 @@ namespace sdmg {
 			controls->loadText(_game, "controls", "Controls", "trebucbd", 33);
 			_menu->addMenuItem(controls);
 
-			helperclasses::menuitems::MenuTextItem *statistics = new helperclasses::menuitems::MenuTextItem("Statistics", 0, height, false);
-			statistics->loadText(_game, "statistics", "Statistics", "trebucbd", 33);
-			_menu->addMenuItem(statistics);
+			helperclasses::menuitems::MenuTextItem *saveload = new helperclasses::menuitems::MenuTextItem("SaveLoad", 0, height, false);
+			saveload->loadText(_game, "saveload", "Save/Load", "trebucbd", 33);
+			_menu->addMenuItem(saveload);
 
 			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, height, false);
 			help->loadText(_game, "help", "Help", "trebucbd", 33);
@@ -75,7 +68,7 @@ namespace sdmg {
 		{
 			delete _menu;
 			game.getEngine()->getDrawEngine()->unloadText("controls");
-			game.getEngine()->getDrawEngine()->unloadText("statistics");
+			game.getEngine()->getDrawEngine()->unloadText("saveload");
 			game.getEngine()->getDrawEngine()->unloadText("help");
 			game.getEngine()->getDrawEngine()->unloadText("back");
 			game.getEngine()->getInputEngine()->clearBindings();

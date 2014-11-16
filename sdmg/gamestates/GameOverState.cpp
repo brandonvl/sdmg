@@ -15,15 +15,16 @@
 #include "model\Character.h"
 #include "helperclasses\HUD.h"
 #include "MainMenuState.h"
+#include "StatisticsState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
-//#include "helperclasses\StatisticsManager.h"
 #include "lib\JSONParser.h"
 #include "engine\audio\AudioEngine.h"
 #include "LoadingState.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "PlayState.h"
+#include "helperclasses\ProgressManager.h"
 
 
 namespace sdmg {
@@ -39,6 +40,10 @@ namespace sdmg {
 			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Replay", 0, 68, true);
 			play->loadText(_game, "replay", "Replay", "trebucbd", 33);
 			_menu->addMenuItem(play);
+
+			helperclasses::menuitems::MenuTextItem *highscore = new helperclasses::menuitems::MenuTextItem("Statistics", 0, 68, false);
+			highscore->loadText(_game, "statistics", "Statistics", "trebucbd", 33);
+			_menu->addMenuItem(highscore);
 
 			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Main Menu", 0, 68, false);
 			quit->loadText(_game, "main menu", "Main Menu", "trebucbd", 33);
@@ -58,16 +63,12 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
 
 			// Update statistics
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
-			JSON::JSONObject &statisticsObj = doc->getRootObject();
-
-			JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
-
-
+			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
+			
 			for (auto rank = 0; rank < deadList.size(); rank++) {
 
-				for (auto i = 0; i < characterArr.size(); i++) {
-					JSON::JSONObject &characterObj = characterArr.getObject(i);
+				for (auto i = 0; i < statistics.size(); i++) {
+					JSON::JSONObject &characterObj = statistics.getObject(i);
 
 					if (characterObj.getString("name") == deadList.at(rank)->getName()) {
 						if (rank == (deadList.size() - 1))
@@ -78,9 +79,6 @@ namespace sdmg {
 					}
 				}
 			}
-
-			// Save statistics
-			doc->saveFile("assets/statistics/statistics.json");
 			
 			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
 
@@ -89,7 +87,6 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
-			delete doc;
 		}
 
 		void GameOverState::menuAction(MenuItem *item)
@@ -115,6 +112,10 @@ namespace sdmg {
 
 				// changeState(*_game, LoadingState::getInstance());
 			}
+			else if (tag == "Statistics") {
+				_replay = false;
+				_game->getStateManager()->pushState(StatisticsState::getInstance());
+			}
 			else if (tag == "Main Menu") {
 				_replay = false;
 				changeState(*_game, MainMenuState::getInstance());
@@ -130,6 +131,7 @@ namespace sdmg {
 				de->unload("winner");
 				de->unload("gameoverbackground");
 				de->unloadText("replay");
+				de->unloadText("statistics");
 				de->unloadText("main menu");
 
 				game.getEngine()->getAudioEngine()->unload("winner");
@@ -194,10 +196,6 @@ namespace sdmg {
 					{
 					case SDLK_ESCAPE:
 						changeState(game, MainMenuState::getInstance());
-						break;
-					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						//changeState(game, LoadingState::getInstance());
 						break;
 					case SDLK_DOWN:
 						_menu->selectNext();

@@ -267,8 +267,11 @@
     <ClCompile Include="helperclasses\ConfigManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
-    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
+    <ClCompile Include="helperclasses\ProgressManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressState.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,8 +476,11 @@
     <ClInclude Include="helperclasses\ConfigManager.h">
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
+    <ClInclude Include="helperclasses\ProgressManager.h">
       <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressState.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
