@@ -30,9 +30,6 @@ namespace sdmg {
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
 
-			void pause(GameBase &game);
-			void resume(GameBase &game);
-
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
@@ -45,12 +42,12 @@ namespace sdmg {
 			ControlsState() { }
 			void menuAction() override;
 			void bindKey();
-			void changeText(bool waiting, const int keyCode);
+			void changeText(const int keyCode);
 			void readKeys();
 		private:
 			GameBase *_game;
-			bool waiting;
-			int currentplayer;
+			bool _waiting;
+			int _currentplayer;
 			std::string* _walkright;
 			std::string* _walkleft;
 			std::string* _jump;

@@ -26,40 +26,15 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void OptionsState::menuAction()
-		{
-			MenuItem *item = _menu->getSelectedMenuItem();
-			std::string tag = item->getTag();
-
-			if (tag == "Controls")
-			{
-				_game->getStateManager()->pushState(ControlsState::getInstance());
-			}
-			else if (tag == "Statistics") {
-				//changeState(*_game, StatisticsState::getInstance());
-				_game->getStateManager()->pushState(StatisticsState::getInstance());
-			}
-			else if (tag == "Help") {
-				_game->getStateManager()->pushState(HelpState::getInstance());
-			}
-			else if (tag == "Back") {
-				_game->getStateManager()->popState();
-				//  changeState(*_game, MainMenuState::getInstance());
-			}
-		}
-
 		void OptionsState::init(GameBase &game)
 		{
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
-			game.getEngine()->getInputEngine()->clearBindings();
 
-			std::function<void()> callback = std::bind(&OptionsState::menuAction, this);
-
-			_menu->addMenuTextItem("Controls", callback);
-			_menu->addMenuTextItem("Statistics", callback);
-			_menu->addMenuTextItem("Help", callback);
-			_menu->addMenuTextItem("Back", callback);
+			_menu->addMenuTextItem("Controls", (std::function<void()>)[&] { _game->getStateManager()->pushState(ControlsState::getInstance()); });
+			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
+			_menu->addMenuTextItem("Help", (std::function<void()>)[&] { _game->getStateManager()->pushState(HelpState::getInstance()); });
+			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
@@ -70,18 +45,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("statistics");
 			game.getEngine()->getDrawEngine()->unloadText("help");
 			game.getEngine()->getDrawEngine()->unloadText("back");
+			game.getEngine()->getInputEngine()->clearBindings();
 		}
-
-		void OptionsState::pause(GameBase &game)
-		{
-			std::cout << "Pausing OptionsState ... " << std::endl;
-		}
-
-		void OptionsState::resume(GameBase &game)
-		{
-			std::cout << "Resuming OptionsState ... " << std::endl;
-		}
-
+		
 		void OptionsState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
@@ -116,7 +82,7 @@ namespace sdmg {
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						menuAction();
+						_menu->doAction();
 						break;
 					}
 				}

@@ -34,10 +34,9 @@ namespace sdmg {
 			std::cout << "Initing IntroState ... " << std::endl;
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
-			std::function<void()> callback = std::bind(&GameOverState::menuAction, this);
-
-			_menu->addMenuTextItem("Replay", callback);
-			_menu->addMenuTextItem("Main menu", callback);
+			
+			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
+			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] { changeState(*_game, MainMenuState::getInstance()); });
 			
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
 			Uint8 color = 255;
@@ -87,34 +86,22 @@ namespace sdmg {
 			delete doc;
 		}
 
-		void GameOverState::menuAction()
-		{
-			MenuItem *item = _menu->getSelectedMenuItem();
-			std::string tag = item->getTag();
+		void GameOverState::replay() {
+			_game->getWorld()->resetWorld();
+			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 
-			if (tag == "Replay") {
-				_game->getWorld()->resetWorld();
-				const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
-
-				for (int i = 0; i < aliveList.size(); i++)
-				{
-					model::Character *character = static_cast<model::Character*>(aliveList[i]);
-					character->revive();
-					character->setState(MovableGameObject::State::RESPAWN);
-				}
-
-				_game->getEngine()->getPhysicsEngine()->resetBobs();
-
-				_replay = true;
-				_game->getEngine()->getPhysicsEngine()->resume();
-				changeState(*_game, PlayState::getInstance());
-
-				// changeState(*_game, LoadingState::getInstance());
+			for (int i = 0; i < aliveList.size(); i++)
+			{
+				model::Character *character = static_cast<model::Character*>(aliveList[i]);
+				character->revive();
+				character->setState(MovableGameObject::State::RESPAWN);
 			}
-			else if (tag == "Main Menu") {
-				_replay = false;
-				changeState(*_game, MainMenuState::getInstance());
-			}
+
+			_game->getEngine()->getPhysicsEngine()->resetBobs();
+
+			_replay = true;
+			_game->getEngine()->getPhysicsEngine()->resume();
+			changeState(*_game, PlayState::getInstance());
 		}
 
 		void GameOverState::cleanup(GameBase &game)
@@ -163,22 +150,14 @@ namespace sdmg {
 			}
 		}
 
-		void GameOverState::pause(GameBase &game)
-		{
-			std::cout << "Pausing GameOverState ... " << std::endl;
-		}
-
-		void GameOverState::resume(GameBase &game)
-		{
-			std::cout << "Resuming GameOverState ... " << std::endl;
-		}
-
 		void GameOverState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
 
 			if (SDL_PollEvent(&event))
 			{
+				game.getEngine()->getInputEngine()->getMouse().handleMouseEvent(event);
+
 				if (event.type == SDL_QUIT)
 				{
 					game.stop();
@@ -203,7 +182,7 @@ namespace sdmg {
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						menuAction();
+						_menu->doAction();
 						break;
 					}
 				}

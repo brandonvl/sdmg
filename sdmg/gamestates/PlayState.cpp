@@ -29,7 +29,6 @@ namespace sdmg {
 	namespace gamestates {
 		void PlayState::init(GameBase &game)
 		{
-			game.getEngine()->getInputEngine()->clearBindings();
 			game.getEngine()->getPhysicsEngine()->resume();
 			game.getEngine()->getAudioEngine()->play("bgm", 0);
 		}

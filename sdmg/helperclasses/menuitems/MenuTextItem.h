@@ -8,7 +8,7 @@ namespace sdmg {
 				public MenuItem
 			{
 			public:
-				MenuTextItem(const std::string &text, std::function<void()> callback, GameBase &game, int index) : MenuItem(68, callback, index), _text(text) { loadText(game); };
+				MenuTextItem(const std::string &text, std::function<void()> &callback, GameBase &game, int index) : MenuItem(68, callback, index), _text(text) { loadText(game); };
 				virtual ~MenuTextItem();
 				void loadText(GameBase &game);
 				void draw(GameBase *engine, const float x, const float y, const float width) override;

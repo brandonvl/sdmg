@@ -31,25 +31,7 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void LevelSelectionState::menuAction()
-		{
-			MenuItem *item = _menu->getSelectedMenuItem();
-			std::string tag = item->getTag();
-
-			if (tag == "Tutorial") {
-				LoadingState::getInstance().setIsTutorial(true);
-				LoadingState::getInstance().setLevel(new std::string("level1"));
-				changeState(*_game, LoadingState::getInstance());
-			}
-			else
-			{
-				LoadingState::getInstance().setIsTutorial(false);
-				LoadingState::getInstance().setLevel(new std::string(item->getTag()));
-				changeState(*_game, LoadingState::getInstance());
-			}
-		}
-
-		void LevelSelectionState::listLevels(std::function<void()> &callback) {
+		void LevelSelectionState::listLevels() {
 			std::vector<std::string> names;
 			char search_path[200];
 			sprintf_s(search_path, "%s*.*", "assets\\levels\\");
@@ -59,11 +41,15 @@ namespace sdmg {
 			{
 				do {
 					if ((fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && fd.cFileName[0] != '.') {
-						std::string s = fd.cFileName;
+						const std::string s = fd.cFileName;
 						JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + s + "/data");
 						JSON::JSONObject &obj = doc->getRootObject();
-
-						_menu->addMenuTextItem(obj.getString("name"), callback);
+						
+						_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, s] {
+							LoadingState::getInstance().setIsTutorial(false);
+							LoadingState::getInstance().setLevel(new std::string(s));
+							changeState(*_game, LoadingState::getInstance());
+						});
 
 						delete doc;
 					}
@@ -77,10 +63,13 @@ namespace sdmg {
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 			
-			std::function<void()> callback = std::bind(&LevelSelectionState::menuAction, this);
-			listLevels(callback);
+			listLevels();
 
-			_menu->addMenuTextItem("Tutorial", callback);
+			_menu->addMenuTextItem("Tutorial", (std::function<void()>)[&] { 
+				LoadingState::getInstance().setIsTutorial(true);
+				LoadingState::getInstance().setLevel(new std::string("level1"));
+				changeState(*_game, LoadingState::getInstance());
+			});
 
 			game.getEngine()->getDrawEngine()->load("levelselect_background", "assets/screens/mainmenu");
 			game.getEngine()->getInputEngine()->setMouseEnabled();
@@ -96,15 +85,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
-
-		void LevelSelectionState::pause(GameBase &game)
-		{
-		}
-
-		void LevelSelectionState::resume(GameBase &game)
-		{
-		}
-
+		
 		void LevelSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
@@ -140,7 +121,7 @@ namespace sdmg {
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						menuAction();
+						_menu->doAction();
 						break;
 					}
 				}

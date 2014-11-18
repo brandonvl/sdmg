@@ -44,18 +44,18 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->load("controls_background", "assets/screens/mainbackground");
 
-			currentplayer = 0;
+			_currentplayer = 0;
 			readKeys();
 		}
 
 		void ControlsState::readKeys()
 		{
 			helperclasses::ConfigManager::getInstance();
-			*_walkright = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "walkRight"));
-			*_walkleft = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "walkLeft"));
-			*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "jump"));
-			*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "roll"));
-			*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "midrange"));
+			*_walkright = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "walkRight"));
+			*_walkleft = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "walkLeft"));
+			*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "jump"));
+			*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "roll"));
+			*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "midrange"));
 		}
 
 		void ControlsState::menuAction()
@@ -83,14 +83,6 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
-		void ControlsState::pause(GameBase &game)
-		{
-		}
-
-		void ControlsState::resume(GameBase &game)
-		{
-		}
-
 		void ControlsState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
@@ -106,7 +98,7 @@ namespace sdmg {
 				{
 					DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
-					if (!waiting)
+					if (!_waiting)
 					{
 						switch (event.key.keysym.sym)
 						{
@@ -123,19 +115,19 @@ namespace sdmg {
 								_menu->selectPrevious();
 								break;
 							case SDLK_RIGHT:
-								if (currentplayer != 1)
-									currentplayer++;
+								if (_currentplayer != 1)
+									_currentplayer++;
 								readKeys();
 								break;
 							case SDLK_LEFT:
-								if (currentplayer != 0)
-									currentplayer--;
+								if (_currentplayer != 0)
+									_currentplayer--;
 								readKeys();
 								break;
 							case SDLK_KP_ENTER:
 							case SDLK_RETURN:
-								changeText(waiting, event.key.keysym.sym);
-								waiting = true;
+								changeText(event.key.keysym.sym);
+								_waiting = true;
 								menuAction();
 								break;
 						}
@@ -143,19 +135,19 @@ namespace sdmg {
 					else
 					{
 						InputEngine().findJoysticks();
-						changeText(waiting, event.key.keysym.sym);
+						changeText(event.key.keysym.sym);
 						bindKey();
 					}
 				}
 			}
 		}
 
-		void ControlsState::changeText(bool waiting, const int keyCode)
+		void ControlsState::changeText(const int keyCode)
 		{
 			std::string item = _menu->getSelectedMenuItem()->getTag();
 			std::string text = "Press a key";
 
-			if (waiting) text = SDL_GetKeyName(keyCode);
+			if (_waiting) text = SDL_GetKeyName(keyCode);
 
 			if (item == "Walk Right")
 			{
@@ -181,13 +173,13 @@ namespace sdmg {
 
 		void ControlsState::bindKey()
 		{
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "walkRight", SDL_GetKeyFromName(_walkright->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "walkLeft", SDL_GetKeyFromName(_walkleft->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "jump", SDL_GetKeyFromName(_jump->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "roll", SDL_GetKeyFromName(_roll->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "midrange", SDL_GetKeyFromName(_midrange->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "walkRight", SDL_GetKeyFromName(_walkright->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "walkLeft", SDL_GetKeyFromName(_walkleft->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "jump", SDL_GetKeyFromName(_jump->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "roll", SDL_GetKeyFromName(_roll->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "midrange", SDL_GetKeyFromName(_midrange->c_str()));
 			helperclasses::ConfigManager::getInstance().save();
-			waiting = false;
+			_waiting = false;
 		}
 
 		void ControlsState::update(GameBase &game, GameTime &gameTime)
@@ -202,7 +194,7 @@ namespace sdmg {
 			drawEngine->draw("controls_background");
 
 			drawEngine->drawDynamicText("info", "Press Left or Right to navigate between players.", 250, 550);
-			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer + 1), 250, 50);
+			drawEngine->drawDynamicText("player", "Player: " + std::to_string(_currentplayer + 1), 250, 50);
 			drawEngine->drawDynamicText("walkright", *_walkright, 850, 125);
 			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 195);
 			drawEngine->drawDynamicText("jump", *_jump, 850, 270);

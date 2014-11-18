@@ -31,7 +31,6 @@ namespace sdmg {
 		void MainMenuState::init(GameBase &game)
 		{
 			_game = &game;
-			game.getEngine()->getInputEngine()->clearBindings();
 
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
@@ -40,7 +39,6 @@ namespace sdmg {
 			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
 			_menu->addMenuTextItem("Quit", (std::function<void()>)[&] { _game->stop(); });
-
 
 			game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/mainmenu/bgm.mp3", AUDIOTYPE::MUSIC);
 			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
@@ -59,16 +57,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("quit");
 			game.getEngine()->getDrawEngine()->unload("mainmenu_background");
 			game.getEngine()->getDrawEngine()->unloadAll();
-		}
-
-		void MainMenuState::pause(GameBase &game)
-		{
-			std::cout << "Pausing IntroState ... " << std::endl;
-		}
-
-		void MainMenuState::resume(GameBase &game)
-		{
-			std::cout << "Resuming IntroState ... " << std::endl;
+			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
 		void MainMenuState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -84,9 +73,7 @@ namespace sdmg {
 				{
 					game.stop();
 				}
-
-
-
+				
 				if (event.type == SDL_KEYDOWN)
 				{
 					switch (event.key.keysym.sym)
@@ -111,7 +98,7 @@ namespace sdmg {
 						case SDLK_KP_ENTER:
 						case SDLK_RETURN:
 						case 10:
-							menuAction();
+							_menu->doAction();
 							break;
 					}
 				}

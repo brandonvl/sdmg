@@ -20,15 +20,7 @@ namespace sdmg {
 		void CharacterSelectionState::cleanup(GameBase &game)
 		{
 		}
-
-		void CharacterSelectionState::pause(GameBase &game)
-		{
-		}
-
-		void CharacterSelectionState::resume(GameBase &game)
-		{
-		}
-
+		
 		void CharacterSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			//std::cout << "Handling events IntroState ... " << std::endl;

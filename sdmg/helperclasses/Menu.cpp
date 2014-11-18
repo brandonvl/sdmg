@@ -28,16 +28,32 @@ namespace sdmg {
 				_selected->setSelected();
 			}
 			_menuItems.push_back(item);
-			
-			_game->getEngine()->getInputEngine()->getMouse().setClickAction(_startingX, _startingY + _currentY, _width, item->getHeight(), callback);
-			_game->getEngine()->getInputEngine()->getMouse().setHoverAction(_startingX, _startingY + _currentY, _width, item->getHeight(), (std::function<void()>)[&, item] { setSelected(item); });
-
+			buildHitbox(item, _currentY);
 			_currentY += item->getHeight() + _itemPaddingY;
+		}
+
+		void Menu::doAction() {
+			if (_selected != nullptr)
+				_selected->doAction();
 		}
 
 		void Menu::removeMenuItem(MenuItem *item)
 		{
 			//
+		}
+
+		void Menu::rebuildHitboxes() {
+			float currentY = 0;
+
+			for (MenuItem *item : _menuItems) {
+				buildHitbox(item, currentY);
+				currentY += item->getHeight() + _itemPaddingY;
+			}
+		}
+
+		void Menu::buildHitbox(MenuItem *item, float y) {
+			_game->getEngine()->getInputEngine()->getMouse().setClickAction(_startingX, _startingY + y, _width, item->getHeight(), item->getCallback());
+			_game->getEngine()->getInputEngine()->getMouse().setHoverAction(_startingX, _startingY + y, _width, item->getHeight(), (std::function<void()>)[&, item] { setSelected(item); });
 		}
 
 		void Menu::selectNext()

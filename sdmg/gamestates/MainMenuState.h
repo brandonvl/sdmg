@@ -28,10 +28,7 @@ namespace sdmg {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
-
-			void pause(GameBase &game);
-			void resume(GameBase &game);
-
+			
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
@@ -43,6 +40,7 @@ namespace sdmg {
 			MainMenuState() { }
 		private:
 			GameBase *_game;
+			void loadMenuItems();
 		};
 	}
 }

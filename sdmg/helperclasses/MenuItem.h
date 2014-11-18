@@ -19,15 +19,16 @@ namespace sdmg {
 			bool isSelected() { return _isSelected; }
 			float getHeight() { return _height; }
 			void setSelected(const bool selected = true) { _isSelected = selected; }
-			void click() { _callback(); }
+			void doAction() { _callback(); }
 			virtual std::string getTag() = 0;
 			const int &getIndex()  { return _index; }
+			std::function<void()> &getCallback() { return _callback; }
 		protected:
 			bool _isSelected = false;
 			float _height;
 			int _index;
 			Engine *_engine;
-			std::function<void()> &_callback;
+			std::function<void()> _callback;
 		};
 	}
 }

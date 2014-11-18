@@ -21,6 +21,8 @@ namespace sdmg {
 			void selectNext();
 			void selectPrevious();
 			void setSelected(MenuItem *selected);
+			void rebuildHitboxes();
+			void doAction();
 
 			float getWidth() { return _width; }
 			//void doAction();
@@ -34,6 +36,8 @@ namespace sdmg {
 			float _width = 375.0f;
 			MenuItem *_selected;
 			GameBase *_game;
+
+			void buildHitbox(MenuItem *item, float y);
 		};
 	}
 }

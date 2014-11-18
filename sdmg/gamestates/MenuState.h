@@ -32,10 +32,6 @@ namespace sdmg {
 			virtual void handleEvents(GameBase &game, GameTime &gameTime);
 			virtual void update(GameBase &game, GameTime &gameTime);
 			virtual void draw(GameBase &game, GameTime &gameTime);
-			/*static MenuState& getInstance() {
-				static MenuState _instance;
-				return _instance;
-			}*/
 		protected:
 			MenuState() { }
 			virtual void menuAction() {};
