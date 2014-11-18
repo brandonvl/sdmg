@@ -144,9 +144,11 @@ namespace sdmg {
 			if (_curSelectedObject) {
 				_curSelectedObject->getBody()->SetTransform(b2Vec2((x - _mouseDownX) / 20.f, (y - _mouseDownY) / 20.0f), _curSelectedObject->getBody()->GetAngle());
 
-				input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
-				hitbox->x = _curSelectedObject->getX() * 20.0f - _curSelectedObject->getWidth() / 2;
-				hitbox->y = _curSelectedObject->getY() * 20.0f - _curSelectedObject->getHeight() / 2;
+				if (_hitboxes->count(_curSelectedObject)) {
+					input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
+					hitbox->x = _curSelectedObject->getX() * 20.0f - _curSelectedObject->getWidth() / 2;
+					hitbox->y = _curSelectedObject->getY() * 20.0f - _curSelectedObject->getHeight() / 2;
+				}
 			}
 		}
 

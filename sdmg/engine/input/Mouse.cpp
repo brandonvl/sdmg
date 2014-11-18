@@ -37,21 +37,21 @@ namespace sdmg {
 				}
 			}
 
-			std::vector<Mouse::Hitbox> &Mouse::getClickBoxes() { return _clickBoxes; }
+			std::vector<Mouse::Hitbox*> &Mouse::getClickBoxes() { return _clickBoxes; }
 
 			Mouse::Hitbox *Mouse::setHoverAction(float x, float y, float width, float height, std::function<void()> &hoverCallback) {
-				_hoverBoxes.push_back({ x, y, width, height, hoverCallback });
-				return &_hoverBoxes[_hoverBoxes.size() - 1];
+				_hoverBoxes.push_back(new Hitbox{ x, y, width, height, hoverCallback });
+				return _hoverBoxes[_hoverBoxes.size() - 1];
 			}
 			
 			Mouse::Hitbox *Mouse::setLeaveAction(float x, float y, float width, float height, std::function<void()> &leaveCallback) {
-				_leaveBoxes.push_back({ x, y, width, height, leaveCallback });
-				return &_leaveBoxes[_leaveBoxes.size() - 1];
+				_leaveBoxes.push_back(new Hitbox{ x, y, width, height, leaveCallback });
+				return _leaveBoxes[_leaveBoxes.size() - 1];
 			}
 
 			Mouse::Hitbox *Mouse::setClickAction(float x, float y, float width, float height, std::function<void()> &clickCallback) {
-				_clickBoxes.push_back({ x, y, width, height, clickCallback });
-				return &_clickBoxes[_clickBoxes.size() - 1];
+				_clickBoxes.push_back(new Hitbox{ x, y, width, height, clickCallback });
+				return _clickBoxes[_clickBoxes.size() - 1];
 			}
 
 			void Mouse::setMouseUpAction(std::function<void()> &mouseUpCallback) {
@@ -62,23 +62,32 @@ namespace sdmg {
 				_mouseMoveCallback = mouseMoveCallback;
 			};
 
-			void Mouse::execActions(std::vector<Hitbox> &boxes, int x, int y) {
-				for (Hitbox box : boxes) {
+			void Mouse::execActions(std::vector<Hitbox*> &boxes, int x, int y) {
+				for (Hitbox *box : boxes) {
 					if (isHit(box, x, y)) {
-						box.callback();
+						box->callback();
 						return;
 					}
 				}
 			}
 			
-			bool Mouse::isHit(Hitbox &box, int x, int y) {
-				return (x >= box.x && x <= box.x + box.width &&
-					y >= box.y && y <= box.y + box.height);
+			bool Mouse::isHit(Hitbox *box, int x, int y) {
+				return (x >= box->x && x <= box->x + box->width &&
+					y >= box->y && y <= box->y + box->height);
 			}
 
 			void Mouse::clear() {
+				for (auto box : _hoverBoxes)
+					delete box;
+
 				_hoverBoxes.clear();
+
+				for (auto box : _leaveBoxes)
+					delete box;
 				_leaveBoxes.clear();
+
+				for (auto box : _clickBoxes)
+					delete box;
 				_clickBoxes.clear();
 			}
 		}

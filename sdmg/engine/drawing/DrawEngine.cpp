@@ -365,15 +365,15 @@ namespace sdmg {
 				}
 			}
 
-			void DrawEngine::drawHitBoxes(std::vector<input::Mouse::Hitbox> &boxes) {
+			void DrawEngine::drawHitBoxes(std::vector<input::Mouse::Hitbox*> &boxes) {
 
 				for (auto box : boxes){
 					SDL_Rect r;
 
-					r.x = box.x;
-					r.y = box.y;
-					r.w = box.width;
-					r.h = box.height;
+					r.x = box->x;
+					r.y = box->y;
+					r.w = box->width;
+					r.h = box->height;
 
 					SDL_RenderFillRect(_renderer, &r);
 				}
