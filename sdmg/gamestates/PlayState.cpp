@@ -128,6 +128,7 @@ namespace sdmg {
 		void PlayState::enableEditMode(GameBase &game) {
 			_editMode = true;
 			_hitboxes = new std::map<GameObject*, input::Mouse::Hitbox*>();
+			game.getEngine()->getPhysicsEngine()->pause();
 
 			InputEngine *inputEngine = game.getEngine()->getInputEngine();
 
@@ -161,6 +162,7 @@ namespace sdmg {
 			_hitboxes = nullptr;
 			
 			game.getEngine()->getInputEngine()->setMouseEnabled(false);
+			game.getEngine()->getPhysicsEngine()->resume();
 		}
 
 		void PlayState::selectObject(GameObject &gameObject) {
