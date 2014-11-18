@@ -118,7 +118,8 @@ namespace sdmg {
 
 								if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
 								{
-									player->setBP(player->getBP() - 10);
+									//  player->setBP(player->getBP() - 10);
+									player->addPP(-10);
 								}
 								else
 								{

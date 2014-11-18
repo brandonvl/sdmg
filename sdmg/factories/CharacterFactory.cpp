@@ -23,7 +23,7 @@ namespace sdmg {
 			character->setSpawnLocation(xPosition, yPosition);
 			character->setLives(4);
 			character->setHP(100);
-			character->setBP(100);
+			//  character->setBP(100);
 			character->setPP(100);
 			character->setName(obj.getString("name"));
 			character->setKey(name);
@@ -56,9 +56,9 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::KNOCKBACKRIGHT, folder + "knockback.sprite", obj.getArray("knockback").getFloat(0), obj.getArray("knockback").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::KNEELING, folder + "kneeling.sprite", obj.getArray("kneeling").getFloat(0), obj.getArray("kneeling").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::RESPAWN, folder + "jump_end.sprite", obj.getArray("jumpEnd").getFloat(0), obj.getArray("jumpEnd").getFloat(1), scale, Surface::AnimationType::HOLDLAST);
-			
-			
-			
+
+
+
 			drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
@@ -68,7 +68,7 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
 
-			
+
 			drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING, folder + "blocking.sprite", obj.getArray("blocking").getFloat(0), obj.getArray("blocking").getFloat(1), scale, Surface::AnimationType::HOLDLAST);
 			drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "mid_range_attack_begin.sprite", obj.getArray("midRangeAttackBegin").getFloat(0), obj.getArray("midRangeAttackBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACK, folder + "mid_range_attack.sprite", obj.getArray("midRangeAttack").getFloat(0), obj.getArray("midRangeAttack").getFloat(1), scale, Surface::AnimationType::ONCE);
@@ -76,18 +76,14 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN, folder + "mid_range_attack_walk_begin.sprite", obj.getArray("midRangeAttackWalkBegin").getFloat(0), obj.getArray("midRangeAttackWalkBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK, folder + "mid_range_attack_walk.sprite", obj.getArray("midRangeAttackWalk").getFloat(0), obj.getArray("midRangeAttackWalk").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND, folder + "mid_range_attack_walk_end.sprite", obj.getArray("midRangeAttackWalkEnd").getFloat(0), obj.getArray("midRangeAttackWalkEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
-		
-			if (name == "nivek")
-			{
-				drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN, folder + "long_range_attack_begin.sprite", obj.getArray("longRangeAttackBegin").getFloat(0), obj.getArray("longRangeAttackBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
-				drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACK, folder + "long_range_attack.sprite", obj.getArray("longRangeAttack").getFloat(0), obj.getArray("longRangeAttack").getFloat(1), scale, Surface::AnimationType::ONCE);
-				drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKEND, folder + "long_range_attack_end.sprite", obj.getArray("longRangeAttackEnd").getFloat(0), obj.getArray("longRangeAttackEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
-				//  drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN, folder + "long_range_attack_walk_begin.sprite", obj.getArray("longRangeAttackWalkBegin").getFloat(0), obj.getArray("longRangeAttackWalkBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
-				//  drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK, folder + "long_range_attack_walk.sprite", obj.getArray("longRangeAttackWalk").getFloat(0), obj.getArray("longRangeAttackWalk").getFloat(1), scale, Surface::AnimationType::ONCE);
-				//  drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND, folder + "long_range_attack_walk_end.sprite", obj.getArray("longRangeAttackWalkEnd").getFloat(0), obj.getArray("longRangeAttackWalkEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
 
-			}
-		
+			drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN, folder + "long_range_attack_begin.sprite", obj.getArray("longRangeAttackBegin").getFloat(0), obj.getArray("longRangeAttackBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACK, folder + "long_range_attack.sprite", obj.getArray("longRangeAttack").getFloat(0), obj.getArray("longRangeAttack").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKEND, folder + "long_range_attack_end.sprite", obj.getArray("longRangeAttackEnd").getFloat(0), obj.getArray("longRangeAttackEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN, folder + "long_range_attack_walk_begin.sprite", obj.getArray("longRangeAttackWalkBegin").getFloat(0), obj.getArray("longRangeAttackWalkBegin").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK, folder + "long_range_attack_walk.sprite", obj.getArray("longRangeAttackWalk").getFloat(0), obj.getArray("longRangeAttackWalk").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND, folder + "long_range_attack_walk_end.sprite", obj.getArray("longRangeAttackWalkEnd").getFloat(0), obj.getArray("longRangeAttackWalkEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
+
 		}
 	}
 }

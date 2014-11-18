@@ -11,21 +11,23 @@
 #include "engine\MovableGameObject.h"
 #include "model\Platform.h"
 #include "model\MovablePlatform.h"
+#include "engine\GameBase.h"
+#include "engine\Engine.h"
+#include "engine\drawing\DrawEngine.h"
 #include <iostream>
 
 namespace sdmg {
 	namespace engine {
 		namespace physics {
-			PhysicsEngineActionHandler::PhysicsEngineActionHandler()
+			PhysicsEngineActionHandler::PhysicsEngineActionHandler(Engine *engine)
 			{
+				_engine = engine;
 			}
-
 
 			PhysicsEngineActionHandler::~PhysicsEngineActionHandler()
 			{
 
 			}
-
 
 			void PhysicsEngineActionHandler::moveLeft(MovableGameObject *obj) {
 				obj->getBody()->SetLinearVelocity(b2Vec2(obj->getHorizontalSpeed() * -1, obj->getBody()->GetLinearVelocity().y));
@@ -143,7 +145,7 @@ namespace sdmg {
 				if (obj->getAttackBody() != nullptr)
 					midRangeAttackEnd(obj);
 				obj->setHP(100);
-				obj->setBP(100);
+				//  obj->setBP(100);
 				obj->setPP(100);
 				obj->setLives(obj->getLives() - 1);
 
@@ -162,14 +164,15 @@ namespace sdmg {
 			}
 
 			void PhysicsEngineActionHandler::longRangeAttack(MovableGameObject *obj)
-			{//  obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
+			{
+				//  obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, obj->getBody()->GetLinearVelocity().y));
 				obj->getBody()->SetLinearVelocity(b2Vec2(obj->getBody()->GetLinearVelocity().x, obj->getBody()->GetLinearVelocity().y));
 
 				float _P2M = 1.0f / 20.0f;
 				if (obj->getShootBody() == nullptr)
 				{
 					model::MovablePlatform *platform = new model::MovablePlatform();
-					platform->setSize(20, 20);
+					platform->setSize(10, 10);
 					platform->setSpeed(50.0f, 0.0f);
 					platform->setDamageOnImpact(20);
 					platform->setMoveing(model::MovablePlatform::Moveing::ONCE);
@@ -201,6 +204,7 @@ namespace sdmg {
 						velocity = b2Vec2(platform->getSpeed().horizontal, platform->getSpeed().vertical);
 					}
 
+					_engine->getDrawEngine()->load(platform, "assets/characters/" + obj->getName() + "/bullet");
 
 					bodydef->type = b2_kinematicBody;
 					b2Body *body = obj->getBody()->GetWorld()->CreateBody(bodydef);

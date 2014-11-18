@@ -61,15 +61,23 @@ namespace sdmg {
 			Direction getSpawnDirection();
 			void setSpawnDirection(Direction direction);
 
-			void hit(int damage);
 			int getLives();
 			void setLives(int lives);
+
 			int getHP();
+			void hit(int damage);
 			void setHP(int hp);
+
+			/*
 			int getBP();
+			void addBP(int bp);
 			void setBP(int bp);
+			*/
+
 			int getPP();
+			void addPP(int pp);
 			void setPP(int pp);
+
 			bool getIsJumping();
 			void setIsJumping(bool isJumping);
 

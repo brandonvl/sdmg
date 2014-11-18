@@ -92,13 +92,12 @@ namespace sdmg {
 							_character->setState(MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL);
 						}
 
-
 						else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN))
 							_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN);
-						else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK))
-							_character->setState(MovableGameObject::State::MIDRANGEATTACK);
-						else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND))
-							_character->setState(MovableGameObject::State::MIDRANGEATTACKEND);
+						else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK))
+							_character->setState((MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACK));
+						else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND))
+							_character->setState((MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKEND));
 
 						else if (_character->getState() == MovableGameObject::State::WALKING)
 							_character->setState(MovableGameObject::State::IDLE);
@@ -120,6 +119,38 @@ namespace sdmg {
 							_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL);
 						else if (_character->getDirection() == MovableGameObject::Direction::RIGHT)
 							_character->setShouldTurnArround(true);
+					}
+
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN))
+					{
+						_character->setDirection(MovableGameObject::Direction::LEFT);
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN);
+					}
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACK))
+					{
+						_character->setDirection(MovableGameObject::Direction::LEFT);
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK);
+					}
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKEND))
+					{
+						_character->setDirection(MovableGameObject::Direction::LEFT);
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND);
+					}
+
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN))
+					{
+						_character->setDirection(MovableGameObject::Direction::LEFT);
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN);
+					}
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACK))
+					{
+						_character->setDirection(MovableGameObject::Direction::LEFT);
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK);
+					}
+					else if (_character->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKEND))
+					{
+						_character->setDirection(MovableGameObject::Direction::LEFT);
+						_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND);
 					}
 
 					else if (_character->getState() == (MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL))
@@ -179,6 +210,20 @@ namespace sdmg {
 					{
 						_character->setState(MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
 					}
+
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN))
+						_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN);
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK))
+						_character->setState((MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACK));
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND))
+						_character->setState((MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKEND));
+
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN))
+						_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN);
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK))
+						_character->setState((MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACK));
+					else if (_character->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND))
+						_character->setState((MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKEND));
 				}
 			}
 			/*

@@ -19,7 +19,7 @@ namespace sdmg {
 		MidRangeAttackAction::MidRangeAttackAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
 
 		bool MidRangeAttackAction::run(engine::GameBase &game) {
-			if (_character->stateIsInterruptible())
+			if (_character->stateIsInterruptible() && _character->getAttackBody() == nullptr)
 			{
 				if (_event.type == SDL_KEYDOWN) {
 					if (_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN) &&
