@@ -20,6 +20,10 @@ namespace sdmg {
 			MovablePlatform();
 			virtual ~MovablePlatform();
 
+			enum class Moveing {
+				REPEAT, ONCE
+			};
+
 			float getStartLocationX();
 			float getStartLocationY();
 			float getEndLocationX();
@@ -27,11 +31,26 @@ namespace sdmg {
 			void setStartLocation(b2Vec2 vec);
 			void setEndLocation(b2Vec2 vec);
 			void checkDirectionChange();
-			bool getDieOnImpact();
-			void setDieOnImpact(bool isDieOnImpact);
+			int getDamageOnImpact();
+			void setDamageOnImpact(int damage);
+			Moveing getMoveing();
+			void setMoveing(Moveing moveing);
+
+			bool getMustBeDestroyed();
+			void setMustBeDestroyed(bool destroy);
+
+			MovableGameObject *getOwner();
+			void setOwner(MovableGameObject *owner);
+
 		private:
-			bool _dieOnImpact;
+			int _damageOnImpact;
+			Moveing _moveing;
+			MovableGameObject *_owner;
 			b2Vec2 _startLocation, _endLocation;
+			bool _mustBeDestroyed;
+			void checkStartHigherThanEnd();
+			void checkEndHigherThanStart();
+			void changeDirection(MovableGameObject::Direction direction);
 		};
 	}
 }

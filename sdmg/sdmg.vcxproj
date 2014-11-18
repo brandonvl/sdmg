@@ -80,9 +80,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="actions\BlockAction.cpp" />
     <ClCompile Include="actions\CharacterAction.cpp" />
     <ClCompile Include="actions\JumpAction.cpp" />
     <ClCompile Include="actions\LeftWalkAction.cpp" />
+    <ClCompile Include="actions\LongRangeAttackAction.cpp" />
     <ClCompile Include="actions\MidRangeAttackAction.cpp" />
     <ClCompile Include="actions\RespawnAction.cpp" />
     <ClCompile Include="actions\RightWalkAction.cpp" />
@@ -125,6 +127,7 @@
     <ClCompile Include="gamestates\OptionsState.cpp" />
     <ClCompile Include="gamestates\PauseState.cpp" />
     <ClCompile Include="gamestates\PlayState.cpp" />
+    <ClCompile Include="gamestates\ProgressState.cpp" />
     <ClCompile Include="gamestates\SelectionState.cpp" />
     <ClCompile Include="gamestates\StatisticsState.cpp" />
     <ClCompile Include="helperclasses\HUD.cpp" />
@@ -132,7 +135,7 @@
     <ClCompile Include="helperclasses\Menu.cpp" />
     <ClCompile Include="helperclasses\MenuItem.cpp" />
     <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
-    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp" />
+    <ClCompile Include="helperclasses\ProgressManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
@@ -145,9 +148,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\Actions.h" />
+    <ClInclude Include="actions\BlockAction.h" />
     <ClInclude Include="actions\CharacterAction.h" />
     <ClInclude Include="actions\JumpAction.h" />
     <ClInclude Include="actions\LeftWalkAction.h" />
+    <ClInclude Include="actions\LongRangeAttackAction.h" />
     <ClInclude Include="actions\MidRangeAttackAction.h" />
     <ClInclude Include="actions\RespawnAction.h" />
     <ClInclude Include="actions\RightWalkAction.h" />
@@ -194,6 +199,7 @@
     <ClInclude Include="gamestates\OptionsState.h" />
     <ClInclude Include="gamestates\PauseState.h" />
     <ClInclude Include="gamestates\PlayState.h" />
+    <ClInclude Include="gamestates\ProgressState.h" />
     <ClInclude Include="gamestates\SelectionState.h" />
     <ClInclude Include="gamestates\StatisticsState.h" />
     <ClInclude Include="helperclasses\HUD.h" />
@@ -201,7 +207,7 @@
     <ClInclude Include="helperclasses\Menu.h" />
     <ClInclude Include="helperclasses\MenuItem.h" />
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
-    <ClInclude Include="helperclasses\statistics\StatisticsManager.h" />
+    <ClInclude Include="helperclasses\ProgressManager.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />

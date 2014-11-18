@@ -32,9 +32,12 @@ namespace sdmg {
 						MovableGameObject *object = static_cast<MovableGameObject*>(bodyA->GetUserData());
 						object->setIsJumping(false);
 
-						if (object->getState() == MovableGameObject::State::FALLING)
+						MovableGameObject::State state = object->getState();
+
+						if (state == MovableGameObject::State::FALLING || state == MovableGameObject::State::JUMPING)
 							object->setState(MovableGameObject::State::IDLE);
-						else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
+						else if (state == MovableGameObject::State::FALLINGLEFT || state == MovableGameObject::State::FALLINGRIGHT
+							|| state == MovableGameObject::State::JUMPINGLEFT || state == MovableGameObject::State::JUMPINGRIGHT)
 							object->setState(MovableGameObject::State::WALKING);
 					}
 				}
@@ -53,9 +56,12 @@ namespace sdmg {
 						MovableGameObject *object = static_cast<MovableGameObject*>(bodyB->GetUserData());
 						object->setIsJumping(false);
 
-						if (object->getState() == MovableGameObject::State::FALLING)
+						MovableGameObject::State state = object->getState();
+
+						if (state == MovableGameObject::State::FALLING || state == MovableGameObject::State::JUMPING)
 							object->setState(MovableGameObject::State::IDLE);
-						else if (object->getState() == MovableGameObject::State::FALLINGLEFT || object->getState() == MovableGameObject::State::FALLINGRIGHT)
+						else if (state == MovableGameObject::State::FALLINGLEFT || state == MovableGameObject::State::FALLINGRIGHT
+							|| state == MovableGameObject::State::JUMPINGLEFT || state == MovableGameObject::State::JUMPINGRIGHT)
 							object->setState(MovableGameObject::State::WALKING);
 					}
 				}
@@ -67,20 +73,28 @@ namespace sdmg {
 				{
 					model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(bodyB->GetUserData());
 
-					if (platform->getDieOnImpact())
+					if (platform->getDamageOnImpact() > 0)
 					{
 						MovableGameObject *player = static_cast<MovableGameObject*>(bodyA->GetUserData());
-						player->setState(MovableGameObject::State::RESPAWN);
+						if (bodyB != player->getShootBody())
+						{
+							player->hit(platform->getDamageOnImpact());
+							platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
+						}
 					}
 				}
 				else if (bodyA->GetType() == b2_kinematicBody && bodyB->GetType() == b2_dynamicBody)
 				{
 					model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(bodyA->GetUserData());
 
-					if (platform->getDieOnImpact())
+					if (platform->getDamageOnImpact() > 0)
 					{
 						MovableGameObject *player = static_cast<MovableGameObject*>(bodyB->GetUserData());
-						player->setState(MovableGameObject::State::RESPAWN);
+						if (bodyA != player->getShootBody())
+						{
+							player->hit(platform->getDamageOnImpact());
+							platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
+						}
 					}
 				}
 				// In aaraking komen met een kinematic body -------------------------------
@@ -95,15 +109,25 @@ namespace sdmg {
 						MovableGameObject::State state = player->getState();
 						if (bodyB != player->getAttackBody())
 						{
-							if (state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT)
+							if (state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT
+								&& state != (MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL)
+								&& state != (MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL))
 							{
 								float x = player->getX();
 								float x2 = platform->getX();
-								if (player->getX() > platform->getX())
-									player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+
+								if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
+								{
+									player->setBP(player->getBP() - 10);
+								}
 								else
-									player->setState(MovableGameObject::State::KNOCKBACKLEFT);
-								player->setHP(player->getHP() - 10);
+								{
+									if (player->getX() > platform->getX())
+										player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+									else
+										player->setState(MovableGameObject::State::KNOCKBACKLEFT);
+									player->hit(10);
+								}
 							}
 						}
 					}
@@ -153,7 +177,10 @@ namespace sdmg {
 				{
 					MovableGameObject *player = static_cast<MovableGameObject*>(bodyA->GetUserData());
 					MovableGameObject *player2 = static_cast<MovableGameObject*>(bodyB->GetUserData());
-					if (player->getState() == MovableGameObject::State::FORWARD_ROLL || player2->getState() == MovableGameObject::State::FORWARD_ROLL)
+					if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL)
+						|| player->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL)
+						|| player2->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL)
+						|| player2->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL))
 						contact->SetEnabled(false);
 				}
 				// Door een character heenrollen ------------------------------------------
@@ -164,9 +191,17 @@ namespace sdmg {
 					MovableGameObject *player = static_cast<MovableGameObject*>(bodyA->GetUserData());
 					float yPlayer = player->getY() + (player->getHeight() * (1 / 20));
 
+
 					if (yPlayer + 5.0f > bodyB->GetPosition().y)
 					{
-						contact->SetEnabled(false);
+						if (bodyB->GetType() == b2_kinematicBody)
+						{
+							model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(bodyB->GetUserData());
+							if (platform->getDamageOnImpact() <= 0)
+								contact->SetEnabled(false);
+						}
+						else
+							contact->SetEnabled(false);
 					}
 				}
 				else if (bodyB->GetType() == b2_dynamicBody && (bodyA->GetType() == b2_kinematicBody || bodyA->GetType() == b2_staticBody))
@@ -176,7 +211,14 @@ namespace sdmg {
 
 					if (yPlayer + 5.0f > bodyA->GetPosition().y)
 					{
-						contact->SetEnabled(false);
+						if (bodyA->GetType() == b2_kinematicBody)
+						{
+							model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(bodyA->GetUserData());
+							if (platform->getDamageOnImpact() <= 0)
+								contact->SetEnabled(false);
+						}
+						else
+							contact->SetEnabled(false);
 					}
 				}
 				// Onderdoor een platform heensprigen -------------------------------------

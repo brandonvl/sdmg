@@ -3,10 +3,8 @@
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
 #include "OptionsState.h"
-//#include "helperclasses\StatisticsManager.h"
 #include "lib\JSONParser.h"
-
-#include <fstream>
+#include "helperclasses\ProgressManager.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -14,11 +12,7 @@ namespace sdmg {
 		void StatisticsState::init(GameBase &game)
 		{
 			_game = &game;
-
-			doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
-
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
-
 
 			// Load header text
 			loadText("title", "Statistics", "trebucbd", 48);
@@ -26,54 +20,35 @@ namespace sdmg {
 			loadText("losses", "Losses", "trebucbd", 36);
 
 			// Load statistics
-			JSON::JSONObject &statisticsObj = doc->getRootObject();
+			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
 
-			JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
-
-			for (int i = 0; i < characterArr.size(); i++) {
-				JSON::JSONObject &characterObj = characterArr.getObject(i);
-				// Get character name
-				std::string charname = "";
-				for (auto c : characterObj.getString("name")) {
-					if (c != ' ')
-						charname += tolower(c);
-					else break;
-				}
+			for (int i = 0; i < statistics.size(); i++) {
+				JSON::JSONObject &characterObj = statistics.getObject(i);
 				// Load character name text
-				loadText(charname + "name", characterObj.getString("name"), "trebucbd", 36);
+				loadText(characterObj.getString("name") + "name", characterObj.getString("name"), "trebucbd", 36);
 
 				// Set character statistics
-				loadText(charname + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
-				loadText(charname + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
+				loadText(characterObj.getString("name") + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
+				loadText(characterObj.getString("name") + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
 			}
 		}
 
 		void StatisticsState::cleanup(GameBase &game)
 		{
+			// Load statistics
+			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
+
 			game.getEngine()->getDrawEngine()->unload("statics_background");
 			game.getEngine()->getDrawEngine()->unload("title");
 			game.getEngine()->getDrawEngine()->unload("wins");
 			game.getEngine()->getDrawEngine()->unload("losses");
-			game.getEngine()->getDrawEngine()->unload("nivekname");
-			game.getEngine()->getDrawEngine()->unload("nivekwins");
-			game.getEngine()->getDrawEngine()->unload("niveklosses");
-			game.getEngine()->getDrawEngine()->unload("silencename");
-			game.getEngine()->getDrawEngine()->unload("silencewins");
-			game.getEngine()->getDrawEngine()->unload("silencelosses");
-			game.getEngine()->getDrawEngine()->unload("fiatname");
-			game.getEngine()->getDrawEngine()->unload("fiatwins");
-			game.getEngine()->getDrawEngine()->unload("fiatlosses");
-			game.getEngine()->getDrawEngine()->unload("luckyname");
-			game.getEngine()->getDrawEngine()->unload("luckywins");
-			game.getEngine()->getDrawEngine()->unload("luckylosses");
-			game.getEngine()->getDrawEngine()->unload("mindname");
-			game.getEngine()->getDrawEngine()->unload("mindwins");
-			game.getEngine()->getDrawEngine()->unload("mindlosses");
-			game.getEngine()->getDrawEngine()->unload("enriquename");
-			game.getEngine()->getDrawEngine()->unload("enriquewins");
-			game.getEngine()->getDrawEngine()->unload("enriquelosses");
 
-			delete doc;
+			for (int i = 0; i < statistics.size(); i++) {
+				JSON::JSONObject &characterObj = statistics.getObject(i);
+				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "name");
+				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "wins");
+				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "losses");
+			}
 		}
 
 		void StatisticsState::pause(GameBase &game)
@@ -127,22 +102,13 @@ namespace sdmg {
 			lossespos += 10;
 
 			// Load statistics
-			JSON::JSONObject &statisticsObj = doc->getRootObject();
+			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
 
-			JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
-
-			for (int i = 0; i < characterArr.size(); i++) {
-				JSON::JSONObject &characterObj = characterArr.getObject(i);
-				// Get character name
-				std::string charname = "";
-				for (auto c : characterObj.getString("name")) {
-					if (c != ' ')
-						charname += tolower(c);
-					else break;
-				}
-				drawEngine->drawText(charname + "name", 100, vpos);
-				drawEngine->drawText(charname + "wins", winspos, vpos);
-				drawEngine->drawText(charname + "losses", lossespos, vpos);
+			for (int i = 0; i < statistics.size(); i++) {
+				JSON::JSONObject &characterObj = statistics.getObject(i);
+				drawEngine->drawText(characterObj.getString("name") + "name", 100, vpos);
+				drawEngine->drawText(characterObj.getString("name") + "wins", winspos, vpos);
+				drawEngine->drawText(characterObj.getString("name") + "losses", lossespos, vpos);
 
 				vpos += 48;
 			}

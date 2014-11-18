@@ -45,6 +45,7 @@ namespace sdmg {
 		protected:
 			LoadingState() { }
 		private:
+			GameBase *_game;
 			SDL_Thread *thread;
 			static int loadThread(void *ptr);
 			void load();
@@ -56,7 +57,10 @@ namespace sdmg {
 			bool _isLoaded, _isError, _isTutorial;
 			std::vector<helperclasses::HUD*> *_huds;
 			std::string *_level;
-			GameBase *_game;
+
+			bool _isAdvertisement;
+			std::string getRandomAdvertisement();
+			void loadAdvertisement();
 		};
 	}
 }

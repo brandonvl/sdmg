@@ -13,65 +13,108 @@ using namespace sdmg::engine;
 
 namespace sdmg {
 	namespace model {
-		MovablePlatform::MovablePlatform() { }
+		MovablePlatform::MovablePlatform()
+		{
+			_damageOnImpact = 0;
+			_mustBeDestroyed = false;
+			_moveing = Moveing::REPEAT;
+		}
 
 		MovablePlatform::~MovablePlatform() { }
 
 		void MovablePlatform::checkDirectionChange()
+		{
+			if (_startLocation.x < _endLocation.x || _startLocation.y < _endLocation.y)
+				checkEndHigherThanStart();
+			else if (_startLocation.x > _endLocation.x || _startLocation.y > _endLocation.y)
+				checkStartHigherThanEnd();
+		}
+
+		void MovablePlatform::checkEndHigherThanStart()
 		{
 			if (_direction == Direction::RIGHT)
 			{
 				float32 h = getPixelX();
 				if (getPixelX() >= _endLocation.x)
 				{
-					setDirection(Direction::LEFT);
-					//  _direction == Direction::LEFT;
 					_body->SetLinearVelocity(b2Vec2(-_speed.horizontal, 0.0f));
+					changeDirection(Direction::LEFT);
 				}
 			}
 			else if (_direction == Direction::LEFT)
 			{
+				float32 h = getPixelX();
 				if (getPixelX() <= _startLocation.x)
 				{
-					setDirection(Direction::RIGHT);
-					//  _direction == Direction::RIGHT;
 					_body->SetLinearVelocity(b2Vec2(_speed.horizontal, 0.0f));
+					changeDirection(Direction::RIGHT);
 				}
 			}
 			else if (_direction == Direction::DOWN)
 			{
 				if (getPixelY() >= _endLocation.y)
 				{
-					setDirection(Direction::UP);
-					//  _direction == Direction::UP;
 					_body->SetLinearVelocity(b2Vec2(0.0f, -_speed.vertical));
+					changeDirection(Direction::UP);
 				}
 			}
 			else if (_direction == Direction::UP)
 			{
 				if (getPixelY() <= _startLocation.y)
 				{
-					setDirection(Direction::DOWN);
-					//  _direction == Direction::DOWN;
 					_body->SetLinearVelocity(b2Vec2(0.0f, _speed.vertical));
+					changeDirection(Direction::DOWN);
 				}
 			}
-			/*
-			else if (kinecticBody->GetDirection() == KinecticBody::Direction::Up)
-			{
-			if (tmp->GetPosition().y <= kinecticBody->getStartLocation()->y)
-			{
-			kinecticBody->setDirection(KinecticBody::Direction::Down);
-			//tmp->SetLinearVelocity(b2Vec2(0.0, std::abs(tmp->GetLinearVelocity().y)));
-			b2Vec2 vec = b2Vec2(b2Vec2(0.0, std::abs(tmp->GetLinearVelocity().y)));
-			kinecticBody->changeBodiesLinearVelocity(vec);
-			tmp->SetLinearVelocity(vec);
-			}
-			}
-			*/
 		}
 
-		float  MovablePlatform::getStartLocationX()
+		void MovablePlatform::checkStartHigherThanEnd()
+		{
+			if (_direction == Direction::RIGHT)
+			{
+				float32 h = getPixelX();
+				if (getPixelX() >= _startLocation.x)
+				{
+					_body->SetLinearVelocity(b2Vec2(-_speed.horizontal, 0.0f));
+					changeDirection(Direction::LEFT);
+				}
+			}
+			else if (_direction == Direction::LEFT)
+			{
+				float32 h = getPixelX();
+				if (getPixelX() <= _endLocation.x)
+				{
+					_body->SetLinearVelocity(b2Vec2(_speed.horizontal, 0.0f));
+					changeDirection(Direction::RIGHT);
+				}
+			}
+			else if (_direction == Direction::DOWN)
+			{
+				if (getPixelY() >= _startLocation.y)
+				{
+					_body->SetLinearVelocity(b2Vec2(0.0f, -_speed.vertical));
+					changeDirection(Direction::UP);
+				}
+			}
+			else if (_direction == Direction::UP)
+			{
+				if (getPixelY() <= _endLocation.y)
+				{
+					_body->SetLinearVelocity(b2Vec2(0.0f, _speed.vertical));
+					changeDirection(Direction::DOWN);
+				}
+			}
+		}
+
+		void MovablePlatform::changeDirection(MovableGameObject::Direction direction)
+		{
+			if (_moveing == Moveing::REPEAT)
+				setDirection(direction);
+			else if (_moveing == Moveing::ONCE)
+				_mustBeDestroyed = true;
+		}
+
+		float MovablePlatform::getStartLocationX()
 		{
 			return _startLocation.x;
 		}
@@ -101,14 +144,44 @@ namespace sdmg {
 			_endLocation = vec;
 		}
 
-		bool MovablePlatform::getDieOnImpact()
+		int MovablePlatform::getDamageOnImpact()
 		{
-			return _dieOnImpact;
+			return _damageOnImpact;
 		}
 
-		void MovablePlatform::setDieOnImpact(bool isDieOnImpact)
+		void MovablePlatform::setDamageOnImpact(int damage)
 		{
-			_dieOnImpact = isDieOnImpact;
+			_damageOnImpact = damage;
+		}
+
+		MovablePlatform::Moveing MovablePlatform::getMoveing()
+		{
+			return _moveing;
+		}
+
+		void MovablePlatform::setMoveing(Moveing moveing)
+		{
+			_moveing = moveing;
+		}
+
+		MovableGameObject *MovablePlatform::getOwner()
+		{
+			return _owner;
+		}
+
+		void MovablePlatform::setOwner(MovableGameObject *owner)
+		{
+			_owner = owner;
+		}
+
+		bool MovablePlatform::getMustBeDestroyed()
+		{
+			return _mustBeDestroyed;
+		}
+
+		void MovablePlatform::setMustBeDestroyed(bool destroy)
+		{
+			_mustBeDestroyed = destroy;
 		}
 	}
 }

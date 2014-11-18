@@ -17,5 +17,12 @@
 	kneeling: [466,578],
 	midRangeAttackBegin: [427,559],
 	midRangeAttack: [427,559],
-	midRangeAttackEnd: [427,559]
+	midRangeAttackEnd: [427,559],
+	midRangeAttackWalkBegin: [418,571],
+	midRangeAttackWalk: [418,571],
+	midRangeAttackWalkEnd: [418,571],
+	blocking: [430, 546],
+	longRangeAttackBegin: [394,558],
+	longRangeAttack: [394,558],
+	longRangeAttackEnd: [394,558]
 }
