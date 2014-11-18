@@ -12,12 +12,13 @@
 namespace sdmg {
 	namespace engine {
 		class MovableGameObject;
+		class Engine;
 
 		namespace physics {
 			class PhysicsEngineActionHandler
 			{
 			public:
-				PhysicsEngineActionHandler();
+				PhysicsEngineActionHandler(Engine *engine);
 				virtual ~PhysicsEngineActionHandler();
 				void moveLeft(MovableGameObject *obj);
 				void moveRight(MovableGameObject *obj);
@@ -35,6 +36,8 @@ namespace sdmg {
 				void longRangeAttackBegin(MovableGameObject *obj);
 				void longRangeAttack(MovableGameObject *obj);
 				void longRangeAttackEnd(MovableGameObject *obj);
+			private:
+				Engine *_engine;
 			};
 		}
 	}

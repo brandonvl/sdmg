@@ -61,6 +61,7 @@ namespace sdmg {
 				void drawText(std::string key, float x, float y);
 				void drawDynamicText(std::string key, std::string text, float x, float y);
 				const std::array<float, 2> DrawEngine::getTextSize(std::string key);
+				const std::array<float, 2> DrawEngine::getImageSize(std::string key);
 				void draw(MovableGameObject *gameObject, int slice);
 				void draw(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction, int slice);
 				void destroyText(std::string key);

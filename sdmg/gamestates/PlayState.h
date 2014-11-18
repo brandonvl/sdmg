@@ -46,7 +46,9 @@ namespace sdmg {
 			void setPlatform(model::Platform *platform);
 			void setBullets(std::vector<model::MovablePlatform *> *bullets);
 			void setHUDs(std::vector<helperclasses::HUD *> *huds);
-
+		private:
+			std::chrono::high_resolution_clock::time_point _lastUpdate;
+			float _step, _accumulator;
 		protected:
 			PlayState() { }
 			void preformDraw(GameBase &game);

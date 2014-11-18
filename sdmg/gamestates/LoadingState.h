@@ -56,7 +56,8 @@ namespace sdmg {
 			void loadKeybindings();
 			bool _isLoaded, _isError, _isTutorial;
 			std::vector<helperclasses::HUD*> *_huds;
-			std::string *_level;
+			std::string *_level, *_progress;
+			int _advertisementX, _advertisementY;
 
 			bool _isAdvertisement;
 			std::string getRandomAdvertisement();

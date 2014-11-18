@@ -24,7 +24,7 @@ namespace sdmg {
 			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {
-					if (_character->getBP() > 0)
+					if (_character->getPP() >= 10)
 						_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING);
 				}
 				else {

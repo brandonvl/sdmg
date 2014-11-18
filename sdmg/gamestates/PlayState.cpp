@@ -32,6 +32,9 @@ namespace sdmg {
 			_game = &game;
 			game.getEngine()->getPhysicsEngine()->resume();
 			game.getEngine()->getAudioEngine()->play("bgm", 0);
+
+			_step = 1.0f / 4.0f;
+			_lastUpdate = std::chrono::high_resolution_clock::now();
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -176,6 +179,24 @@ namespace sdmg {
 
 				if (_showFPS)
 					_fps = game.getFPS() == _fps ? _fps : game.getFPS();
+
+				game.getEngine()->getInputEngine()->update(game);
+				game.getEngine()->getDrawEngine()->update();
+				game.getEngine()->getPhysicsEngine()->update();
+
+				auto curTime = std::chrono::high_resolution_clock::now();
+				float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
+
+				_lastUpdate = curTime;
+				_accumulator += diff;
+
+				while (_accumulator > _step) {
+					for (auto obj : game.getWorld()->getPlayers())
+					{
+						obj->addPP(1);
+					}
+					_accumulator -= _step;
+				}
 
 				game.getEngine()->getInputEngine()->update(game);
 				game.getEngine()->getDrawEngine()->update();

@@ -28,6 +28,7 @@
 #include "engine\util\FileParser.h"
 #include "lib\JSONParser.h"
 #include "helperclasses\ConfigManager.h"
+#include <array>
 
 #include <random>
 // only for windows
@@ -53,29 +54,42 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
 
+			/*
 			//  loadAdvertisement();
 			std::string advertisement = getRandomAdvertisement();
 			if (advertisement != "")
 			{
 				_isAdvertisement = true;
 				game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
-			}
+			}*/
 
-			printf("\nSimple SDL_CreateThread test:");
+			game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "trebucbd", 36);
 
-			// Simply create a thread
-			//  thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-			//  SDL_WaitThread(thread, NULL);
+			_progress = new std::string("Loading started");
+			_game->getStateManager()->draw();
+			
 			load();
-			//  SDL_DetachThread(thread);
-
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
+
+			_game->getStateManager()->update();
+
+			/*
+
+		printf("\nSimple SDL_CreateThread test:");
+
+		// Simply create a thread
+		thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
+		//  SDL_WaitThread(thread, NULL);
+		//load();
+		//  SDL_DetachThread(thread);
+		*/
 		}
 
 		void LoadingState::cleanup(GameBase &game)
 		{
 			delete _level;
 			game.getEngine()->getDrawEngine()->unload("loading");
+			game.getEngine()->getDrawEngine()->unload("progress");
 			// game.getEngine()->getAudioEngine()->unload("bgm");
 		}
 
@@ -134,7 +148,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("loading");
 
 			if (_isAdvertisement)
-				game.getEngine()->getDrawEngine()->draw("advertisement", 1020, 526);
+				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
+
+			game.getEngine()->getDrawEngine()->drawDynamicText("progress", (*_progress), 20, 20);
 
 			game.getEngine()->getDrawEngine()->render();
 		}
@@ -151,7 +167,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::load() {
-			//  loadAdvertisement();
+			loadAdvertisement();
 			loadLevel();
 			loadKeybindings();
 
@@ -162,7 +178,10 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadLevel() {
-			
+
+			_progress = new std::string("Loading awesome level!");
+			_game->getStateManager()->draw();
+
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
 			JSON::JSONObject &levelObj = doc->getRootObject();
 
@@ -204,6 +223,10 @@ namespace sdmg {
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			for (int i = 0; i < 2; i++) {
+
+				_progress = new std::string("Loading " + loadCharacters[i]);
+				_game->getStateManager()->draw();
+
 				int retries = 0;
 				do{
 					JSON::JSONObject &posObj = startingPositions.getObject(i);
@@ -219,6 +242,9 @@ namespace sdmg {
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
+			_progress = new std::string("Loading fancy hudjes");
+			_game->getStateManager()->draw();
+
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
 
@@ -231,6 +257,9 @@ namespace sdmg {
 
 		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
 			
+			_progress = new std::string("Loading Bullet Bobs");
+			_game->getStateManager()->draw();
+
 			for (int i = 0; i < bobs.size(); i++) {
 				JSON::JSONObject &bobObj = bobs.getObject(i);
 
@@ -250,6 +279,9 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadKeybindings() {
+
+			_progress = new std::string("Loading controls jonguh!");
+			_game->getStateManager()->draw();
 
 			try{
 				ConfigManager &manager = ConfigManager::getInstance();
@@ -280,6 +312,9 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadTutorial() {
+			_progress = new std::string("Loading Tutorial");
+			_game->getStateManager()->draw();
+
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
 			ConfigManager &manager = ConfigManager::getInstance();
@@ -318,11 +353,18 @@ namespace sdmg {
 
 		void LoadingState::loadAdvertisement()
 		{
+			_progress = new std::string("Loading Advertisement");
+			_game->getStateManager()->draw();
+
 			std::string advertisement = getRandomAdvertisement();
 			if (advertisement != "")
 			{
 				_isAdvertisement = true;
 				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
+
+				const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
+				_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
+				_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
 			}
 		}
 
@@ -353,6 +395,7 @@ namespace sdmg {
 				std::random_device dev;
 				std::default_random_engine dre(dev());
 				std::uniform_int_distribution<int> randomAdvertisement(0, names.size() - 1);
+				
 				return names[randomAdvertisement(dre)];
 			}
 

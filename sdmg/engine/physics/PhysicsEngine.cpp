@@ -24,10 +24,11 @@ namespace sdmg {
 	namespace engine {
 		namespace physics {
 
-			PhysicsEngine::PhysicsEngine()
+			PhysicsEngine::PhysicsEngine(Engine *engine)
 			{
+				_engine = engine;
 				_world = new b2World(b2Vec2(0.0f, 0.0f));
-				_actionHandler = new PhysicsEngineActionHandler();
+				_actionHandler = new PhysicsEngineActionHandler(_engine);
 				_contactListener = new ContactListener();
 				_contactFilter = new b2ContactFilter();
 				_world->SetContactListener(_contactListener);
@@ -261,6 +262,32 @@ namespace sdmg {
 									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
 								doAction(gameObject, PhysicsEngine::Action::MIDRANGEATTACKEND);
 							}
+
+							else if (gameObject->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN))
+							{
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACKBEGIN);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK))
+							{
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACK);
+							}
+							else if (gameObject->getState() == (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND))
+							{
+								if (gameObject->getDirection() == MovableGameObject::Direction::LEFT)
+									doAction(gameObject, PhysicsEngine::Action::MOVELEFT);
+								else if (gameObject->getDirection() == MovableGameObject::Direction::RIGHT)
+									doAction(gameObject, PhysicsEngine::Action::MOVERIGHT);
+								doAction(gameObject, PhysicsEngine::Action::LONGRANGEATTACKEND);
+							}
+
 							else if (gameObject->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN))
 							{
 								doAction(gameObject, PhysicsEngine::Action::IDLE);

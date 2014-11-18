@@ -59,6 +59,7 @@ namespace sdmg {
 			}
 		}
 
+		/*
 		int MovableGameObject::getBP()
 		{
 			return _bp;
@@ -73,10 +74,25 @@ namespace sdmg {
 				_state = MovableGameObject::State::IDLE;
 			}
 		}
+		*/
 
 		int MovableGameObject::getPP()
 		{
 			return _pp;
+		}
+
+		void MovableGameObject::addPP(int pp)
+		{
+			_pp += pp;
+			if (_pp <= 0)
+				_pp = 0;
+			else if (_pp < 10)
+			{
+				if (_state == MovableGameObject::State::BLOCKING || _state == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
+					_state = MovableGameObject::State::IDLE;
+			}
+			else if (_pp > 100)
+				_pp = 100;
 		}
 
 		void MovableGameObject::setPP(int pp)
@@ -84,6 +100,8 @@ namespace sdmg {
 			_pp = pp;
 			if (_pp <= 0)
 				_pp = 0;
+			else if (_pp > 100)
+				_pp = 100;
 		}
 
 		Speed MovableGameObject::getSpeed()

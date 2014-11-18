@@ -294,10 +294,20 @@ namespace sdmg {
 
 			const std::array<float, 2> DrawEngine::getTextSize(std::string key) {
 				if (_textSurfaces.count(key)) {
-					std::array<float, 2> sizes = { _textSurfaces[key]->getRenderWidth(), _textSurfaces[key]->getRenderHeight() };
-					return sizes;
+					std::array<float, 2> size = { _textSurfaces[key]->getRenderWidth(), _textSurfaces[key]->getRenderHeight() };
+					return size;
 				}
 			}
+
+			const std::array<float, 2> DrawEngine::getImageSize(std::string key)
+			{
+				if (_surfaces.count(key))
+				{
+					std::array<float, 2> size = {_surfaces[key]->getRenderWidth(), _surfaces[key]->getRenderHeight() };
+					return size;
+				}
+			}
+
 
 			void DrawEngine::prepareForDraw() {
 				if (!_preparing) {

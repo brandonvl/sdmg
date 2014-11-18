@@ -24,5 +24,8 @@
 	blocking: [430, 546],
 	longRangeAttackBegin: [394,558],
 	longRangeAttack: [394,558],
-	longRangeAttackEnd: [394,558]
+	longRangeAttackEnd: [394,558],
+	longRangeAttackWalkBegin: [440,571],
+	longRangeAttackWalk: [440,571],
+	longRangeAttackWalkEnd: [440,571]
 }

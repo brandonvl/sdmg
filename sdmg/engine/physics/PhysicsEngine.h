@@ -33,7 +33,7 @@ namespace sdmg {
 
 			class PhysicsEngine {
 			public:
-				PhysicsEngine();
+				PhysicsEngine(Engine *engine);
 				virtual ~PhysicsEngine();
 				void update();
 				void pause();
