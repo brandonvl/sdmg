@@ -16,7 +16,7 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void SelectionState::menuAction(MenuItem *item)
+		void SelectionState::menuAction()
 		{
 		}
 

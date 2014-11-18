@@ -267,8 +267,14 @@
     <ClCompile Include="helperclasses\ConfigManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
-    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
+    <ClCompile Include="helperclasses\ProgressManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\Mouse.cpp">
+      <Filter>Source Files\engine\input</Filter>
+	</ClCompile>
+    <ClCompile Include="gamestates\ProgressState.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="actions\BlockAction.cpp">
       <Filter>Source Files\actions</Filter>
@@ -476,8 +482,14 @@
     <ClInclude Include="helperclasses\ConfigManager.h">
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
+    <ClInclude Include="helperclasses\ProgressManager.h">
       <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Mouse.h">
+      <Filter>Header Files\engine\input</Filter>
+	</ClInclude>
+    <ClInclude Include="gamestates\ProgressState.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="actions\BlockAction.h">
       <Filter>Header Files\actions</Filter>

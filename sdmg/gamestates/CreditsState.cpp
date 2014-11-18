@@ -10,6 +10,7 @@ namespace sdmg {
 		void CreditsState::init(GameBase &game)
 		{
 			_game = &game;
+			game.getEngine()->getInputEngine()->clearBindings();
 
 			game.getEngine()->getDrawEngine()->load("credits_background", "assets/screens/mainbackground");
 			
@@ -24,6 +25,7 @@ namespace sdmg {
 
 			loadText("starring", "Starring", "trebucbd", 36);
 			loadText("bob", "Bullet Bob", "trebucbd", 36);
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void CreditsState::cleanup(GameBase &game)
@@ -57,6 +59,7 @@ namespace sdmg {
 			{
 				switch (event.type) {
 				case SDL_KEYDOWN:
+				case SDL_MOUSEBUTTONDOWN:
 					//changeState(game, OptionsState::getInstance());
 					_game->getStateManager()->popState();
 					break;

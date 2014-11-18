@@ -128,8 +128,6 @@ namespace sdmg {
 			if (_showFPS)
 				_fps = game.getFPS() == _fps ? _fps : game.getFPS();
 
-
-
 			auto curTime = std::chrono::high_resolution_clock::now();
 			float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
 
@@ -144,9 +142,7 @@ namespace sdmg {
 				_accumulator -= _step;
 			}
 
-
-
-			game.getEngine()->getInputEngine()->runActions(game);
+			game.getEngine()->getInputEngine()->update(game);
 			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
 		}

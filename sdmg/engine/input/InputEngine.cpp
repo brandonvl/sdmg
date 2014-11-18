@@ -125,13 +125,15 @@ namespace sdmg {
 				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
 					handleKey("keyboard", event);
 				}
+
+				if (_mouseEnabled) _mouse.handleMouseEvent(event);
 			}
 
 			const std::vector<Action*> *InputEngine::getActions() {
 				return _actions;
 			}
 
-			void InputEngine::runActions(GameBase &game) {
+			void InputEngine::update(GameBase &game) {
 				for each (Action *action in (*_actions)) {
 					action->run(game);					
 					delete action;
@@ -165,6 +167,7 @@ namespace sdmg {
 				}
 
 				_deviceBindings->clear();
+				_mouse.clear();
 			}
 
 			// find joysticks and add to map

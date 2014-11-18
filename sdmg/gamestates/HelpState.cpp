@@ -48,6 +48,7 @@ namespace sdmg {
 			{
 				switch (event.type) {
 				case SDL_KEYDOWN:
+				case SDL_MOUSEBUTTONDOWN:
 					game.getStateManager()->popState();
 					break;
 				case SDL_QUIT:

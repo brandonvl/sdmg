@@ -51,7 +51,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib;$(ProjectDir)lib;$(ProjectDir)vld/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;sdl2_mixer.lib;Box2D.lib;JSONParser.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)sdl\dll\*" "$(OutDir)*"</Command>
@@ -93,6 +93,7 @@
     <ClCompile Include="engine\drawing\DynamicTextSurface.cpp" />
     <ClCompile Include="engine\audio\MusicObject.cpp" />
     <ClCompile Include="engine\audio\SampleObject.cpp" />
+    <ClCompile Include="engine\input\Mouse.cpp" />
     <ClCompile Include="gamestates\CreditsState.cpp" />
     <ClCompile Include="engine\audio\AudioEngine.cpp" />
     <ClCompile Include="engine\drawing\DrawEngine.cpp" />
@@ -126,6 +127,7 @@
     <ClCompile Include="gamestates\OptionsState.cpp" />
     <ClCompile Include="gamestates\PauseState.cpp" />
     <ClCompile Include="gamestates\PlayState.cpp" />
+    <ClCompile Include="gamestates\ProgressState.cpp" />
     <ClCompile Include="gamestates\SelectionState.cpp" />
     <ClCompile Include="gamestates\StatisticsState.cpp" />
     <ClCompile Include="helperclasses\HUD.cpp" />
@@ -133,7 +135,7 @@
     <ClCompile Include="helperclasses\Menu.cpp" />
     <ClCompile Include="helperclasses\MenuItem.cpp" />
     <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
-    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp" />
+    <ClCompile Include="helperclasses\ProgressManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
@@ -160,6 +162,7 @@
     <ClInclude Include="engine\audio\AudioObject.h" />
     <ClInclude Include="engine\audio\MusicObject.h" />
     <ClInclude Include="engine\audio\SampleObject.h" />
+    <ClInclude Include="engine\input\Mouse.h" />
     <ClInclude Include="gamestates\CreditsState.h" />
     <ClInclude Include="engine\audio\AudioEngine.h" />
     <ClInclude Include="engine\Direction.h" />
@@ -196,6 +199,7 @@
     <ClInclude Include="gamestates\OptionsState.h" />
     <ClInclude Include="gamestates\PauseState.h" />
     <ClInclude Include="gamestates\PlayState.h" />
+    <ClInclude Include="gamestates\ProgressState.h" />
     <ClInclude Include="gamestates\SelectionState.h" />
     <ClInclude Include="gamestates\StatisticsState.h" />
     <ClInclude Include="helperclasses\HUD.h" />
@@ -203,7 +207,7 @@
     <ClInclude Include="helperclasses\Menu.h" />
     <ClInclude Include="helperclasses\MenuItem.h" />
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
-    <ClInclude Include="helperclasses\statistics\StatisticsManager.h" />
+    <ClInclude Include="helperclasses\ProgressManager.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />

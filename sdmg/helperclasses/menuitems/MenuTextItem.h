@@ -8,17 +8,16 @@ namespace sdmg {
 				public MenuItem
 			{
 			public:
-				MenuTextItem(const std::string &text, const float width, const float height, const bool selected = false, std::function<void(MenuItem*)> callBack = nullptr) : MenuItem(width, height, selected, callBack), _text(text) { };
+				MenuTextItem(const std::string &text, std::function<void()> &callback, GameBase &game, int index) : MenuItem(68, callback, index), _text(text) { loadText(game); };
 				virtual ~MenuTextItem();
-				void loadText(GameBase *engine, std::string key, std::string text, std::string fontName, int fontSize);
-				void draw(GameBase *engine, const float xOffSet, const float yOffSet) override;
+				void loadText(GameBase &game);
+				void draw(GameBase *engine, const float x, const float y, const float width) override;
 				std::string getTag() { return _text; }
 				//void doCallBack() { _callBack(this); }
 			private:
-				std::string _key;
-				std::string _keySelected;
 				std::string _text;
-				const float WIDTH = 375, HEIGHT = 68;
+				const char* FONTNAME = "trebucbd";
+				const int FONTSIZE = 33;
 			};
 		}
 	}

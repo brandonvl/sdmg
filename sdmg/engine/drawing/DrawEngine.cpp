@@ -165,7 +165,6 @@ namespace sdmg {
 				_step = 1.0f / 15.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
-				SDL_ShowCursor(0);
 			}
 
 			void DrawEngine::draw(std::string key) {

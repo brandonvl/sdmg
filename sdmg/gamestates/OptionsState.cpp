@@ -9,7 +9,7 @@
 
 #include "OptionsState.h"
 #include "MainMenuState.h"
-#include "StatisticsState.h"
+#include "ProgressState.h"
 #include "HelpState.h"
 #include "CreditsState.h"
 #include "ControlsState.h"
@@ -26,77 +26,37 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void OptionsState::menuAction(MenuItem *item)
-		{
-			std::string tag = item->getTag();
-
-			if (tag == "Controls")
-			{
-				_game->getStateManager()->pushState(ControlsState::getInstance());
-			}
-			else if (tag == "Statistics") {
-				//changeState(*_game, StatisticsState::getInstance());
-				_game->getStateManager()->pushState(StatisticsState::getInstance());
-			}
-			else if (tag == "Help") {
-				_game->getStateManager()->pushState(HelpState::getInstance());
-			}
-			else if (tag == "Back") {
-				_game->getStateManager()->popState();
-				//  changeState(*_game, MainMenuState::getInstance());
-			}
-		}
-
 		void OptionsState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 
-			int height = 68;
+			_menu->addMenuTextItem("Controls", (std::function<void()>)[&] { _game->getStateManager()->pushState(ControlsState::getInstance()); });
+			_menu->addMenuTextItem("Save / Load", (std::function<void()>)[&] { _game->getStateManager()->pushState(ProgressState::getInstance()); });
+			_menu->addMenuTextItem("Help", (std::function<void()>)[&] { _game->getStateManager()->pushState(HelpState::getInstance()); });
+			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 
-			helperclasses::menuitems::MenuTextItem *controls = new helperclasses::menuitems::MenuTextItem("Controls", 0, height, true);
-			controls->loadText(_game, "controls", "Controls", "trebucbd", 33);
-			_menu->addMenuItem(controls);
-
-			helperclasses::menuitems::MenuTextItem *statistics = new helperclasses::menuitems::MenuTextItem("Statistics", 0, height, false);
-			statistics->loadText(_game, "statistics", "Statistics", "trebucbd", 33);
-			_menu->addMenuItem(statistics);
-
-			helperclasses::menuitems::MenuTextItem *help = new helperclasses::menuitems::MenuTextItem("Help", 0, height, false);
-			help->loadText(_game, "help", "Help", "trebucbd", 33);
-			_menu->addMenuItem(help);
-
-			helperclasses::menuitems::MenuTextItem *back = new helperclasses::menuitems::MenuTextItem("Back", 0, height, false);
-			back->loadText(_game, "back", "Back", "trebucbd", 33);
-			_menu->addMenuItem(back);
 		}
 
 		void OptionsState::cleanup(GameBase &game)
 		{
 			delete _menu;
 			game.getEngine()->getDrawEngine()->unloadText("controls");
-			game.getEngine()->getDrawEngine()->unloadText("statistics");
+			game.getEngine()->getDrawEngine()->unloadText("saveload");
 			game.getEngine()->getDrawEngine()->unloadText("help");
 			game.getEngine()->getDrawEngine()->unloadText("back");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
-
-		void OptionsState::pause(GameBase &game)
-		{
-			std::cout << "Pausing OptionsState ... " << std::endl;
-		}
-
-		void OptionsState::resume(GameBase &game)
-		{
-			std::cout << "Resuming OptionsState ... " << std::endl;
-		}
-
+		
 		void OptionsState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
 
 			if (SDL_PollEvent(&event))
 			{
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
 				if (event.type == SDL_QUIT)
 				{
 					game.stop();
@@ -123,7 +83,7 @@ namespace sdmg {
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						menuAction(_menu->getSelectedMenuItem());
+						_menu->doAction();
 						break;
 					}
 				}
