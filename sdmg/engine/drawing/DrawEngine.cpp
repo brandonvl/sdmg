@@ -89,6 +89,16 @@ namespace sdmg {
 				surfaceMap->insert(std::make_pair(state, surface));
 			}
 
+			void DrawEngine::copyMap(MovableGameObject *gameObject, MovableGameObject::State copyFrom, MovableGameObject::State copyTo) {
+				if (_objectStateSurfaces.count(gameObject)) {
+					auto surfaceMap = _objectStateSurfaces[gameObject];
+
+					if (surfaceMap->count(copyFrom)) {
+						surfaceMap->insert(std::make_pair(copyTo, surfaceMap->at(copyFrom)));
+					}
+				}
+			}
+
 			void DrawEngine::unload(std::string key) {
 				if (_surfaces.find(key) != _surfaces.end()) {
 					delete _surfaces[key];
@@ -134,8 +144,14 @@ namespace sdmg {
 						std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
 						std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
 
+						std::vector<Surface*> v;
+
 						while (stateItr != stateSurfaces->end()) {
-							delete stateItr->second;
+							if (std::find(v.begin(), v.end(), stateItr->second) != v.end()) {
+								delete stateItr->second;
+								v.push_back(stateItr->second);
+							}
+							
 							stateSurfaces->erase(stateItr++);
 						}
 
