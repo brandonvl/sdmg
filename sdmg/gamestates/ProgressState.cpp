@@ -23,48 +23,21 @@ namespace sdmg {
 		void ProgressState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
 
 			// Load header text
 			loadText("title", "Progress", "trebucbd", 48);
 
-			// Create menu item
-			helperclasses::menuitems::MenuTextItem *save = new helperclasses::menuitems::MenuTextItem("Save", 0, 68, true);
-			save->loadText(_game, "save", "Save", "trebucbd", 33);
-			_menu->addMenuItem(save);
-
-			helperclasses::menuitems::MenuTextItem *load = new helperclasses::menuitems::MenuTextItem("Load", 0, 68, false);
-			load->loadText(_game, "load", "Load", "trebucbd", 33);
-			_menu->addMenuItem(load);
-
-			helperclasses::menuitems::MenuTextItem *deleteGame = new helperclasses::menuitems::MenuTextItem("Delete", 0, 68, false);
-			deleteGame->loadText(_game, "delete", "Delete", "trebucbd", 33);
-			_menu->addMenuItem(deleteGame);
-
-			helperclasses::menuitems::MenuTextItem *back = new helperclasses::menuitems::MenuTextItem("Back", 0, 68, false);
-			back->loadText(_game, "back", "Back", "trebucbd", 33);
-			_menu->addMenuItem(back);
-		}
-
-		void ProgressState::menuAction(MenuItem *item)
-		{
-			std::string tag = item->getTag();
-
-			if (tag == "Save") {
-				ProgressManager::getInstance().save();
-			}
-			else if (tag == "Load") {
-				ProgressManager::getInstance().load();
-			}
-			else if (tag == "Delete") {
+			_menu->addMenuTextItem("Save", (std::function<void()>)[&] { ProgressManager::getInstance().save(); });
+			_menu->addMenuTextItem("Load", (std::function<void()>)[&] { ProgressManager::getInstance().load(); });
+			_menu->addMenuTextItem("Delete", (std::function<void()>)[&] { 
 				ProgressManager::getInstance().reset();
-				ProgressManager::getInstance().save();
-			}
-			else if (tag == "Back") {
-				_game->getStateManager()->popState();
-			}
+				ProgressManager::getInstance().save(); 
+			});
+			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void ProgressState::cleanup(GameBase &game)
@@ -73,20 +46,14 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("title");
 		}
 
-		void ProgressState::pause(GameBase &game)
-		{
-		}
-
-		void ProgressState::resume(GameBase &game)
-		{
-		}
-
 		void ProgressState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
 
 			while (SDL_PollEvent(&event))
 			{
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
 				switch (event.type) {
 				case SDL_QUIT:
 					game.stop();
@@ -105,7 +72,7 @@ namespace sdmg {
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						menuAction(_menu->getSelectedMenuItem());
+						_menu->doAction();
 						break;
 					}
 				}

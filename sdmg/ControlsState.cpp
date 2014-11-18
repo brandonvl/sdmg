@@ -61,13 +61,13 @@ namespace sdmg {
 		{
 			helperclasses::ConfigManager::getInstance();
 
-			*_walkright = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "walkRight"));
-			*_walkleft = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "walkLeft"));
-			*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "jump"));
-			*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "roll"));
-			*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "midrange"));
-			*_longrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "longrange"));
-			*_block = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(currentplayer, "block"));
+			*_walkright = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "walkRight"));
+			*_walkleft = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "walkLeft"));
+			*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "jump"));
+			*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "roll"));
+			*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "midrange"));
+			*_longrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "longrange"));
+			*_block = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "block"));
 		}
 
 		void ControlsState::menuAction()
@@ -201,13 +201,13 @@ namespace sdmg {
 
 		void ControlsState::bindKey()
 		{
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "walkRight", SDL_GetKeyFromName(_walkright->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "walkLeft", SDL_GetKeyFromName(_walkleft->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "jump", SDL_GetKeyFromName(_jump->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "roll", SDL_GetKeyFromName(_roll->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "midrange", SDL_GetKeyFromName(_midrange->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "longrange", SDL_GetKeyFromName(_longrange->c_str()));
-			helperclasses::ConfigManager::getInstance().setKey(currentplayer, "block", SDL_GetKeyFromName(_block->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "walkRight", SDL_GetKeyFromName(_walkright->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "walkLeft", SDL_GetKeyFromName(_walkleft->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "jump", SDL_GetKeyFromName(_jump->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "roll", SDL_GetKeyFromName(_roll->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "midrange", SDL_GetKeyFromName(_midrange->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "longrange", SDL_GetKeyFromName(_longrange->c_str()));
+			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "block", SDL_GetKeyFromName(_block->c_str()));
 			helperclasses::ConfigManager::getInstance().save();
 			_waiting = false;
 		}
@@ -225,7 +225,7 @@ namespace sdmg {
 
 			drawEngine->drawDynamicText("info", *_info, 425, 40);
 			drawEngine->drawDynamicText("info2", *_info2, 250, 90);
-			drawEngine->drawDynamicText("player", "Player: " + std::to_string(currentplayer + 1), 250, 30);
+			drawEngine->drawDynamicText("player", "Player: " + std::to_string(_currentplayer + 1), 250, 30);
 			drawEngine->drawDynamicText("walkright", *_walkright, 850, 155);
 			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 225);
 			drawEngine->drawDynamicText("jump", *_jump, 850, 300);

@@ -27,9 +27,6 @@ namespace sdmg {
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
 
-			void pause(GameBase &game);
-			void resume(GameBase &game);
-
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
@@ -41,7 +38,6 @@ namespace sdmg {
 
 		private:
 			ProgressState() { }
-			void menuAction(MenuItem *item) override;
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 
 			GameBase *_game;
