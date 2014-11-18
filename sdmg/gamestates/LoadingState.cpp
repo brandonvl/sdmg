@@ -48,6 +48,15 @@ namespace sdmg {
 			// Default level
 			// _level = new std::string("level1");
 
+			// LoadingBar
+			_loadingValue = 0;
+			_marginInner = 3;
+			_marginValue = 1;
+			_totalWidth = 300;
+			_totalHeight = 23;
+			_loadingBarX = game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - _totalWidth / 2;
+			_loadingBarY = 565;
+
 			_isLoaded = false;
 			_isError = false;
 			_isAdvertisement = false;
@@ -63,7 +72,8 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
 			}*/
 
-			game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "trebucbd", 36);
+			//  game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "trebucbd", 36);
+			game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "arial", 36);
 
 			_progress = new std::string("Loading started");
 			_game->getStateManager()->draw();
@@ -150,7 +160,16 @@ namespace sdmg {
 			if (_isAdvertisement)
 				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
 
-			game.getEngine()->getDrawEngine()->drawDynamicText("progress", (*_progress), 20, 20);
+			game.getEngine()->getDrawEngine()->drawDynamicText("progress", (*_progress), 100, 100);
+
+
+			int marginInner = 3, marginValue = 1;
+			int totalWidth = 300, totalHeight = 23;
+			int x = game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - totalWidth / 2, y = 565;
+
+			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(x, y, totalWidth, totalHeight), 200, 200, 200);
+			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(x + marginInner, y + marginInner, totalWidth - (marginInner * 2), totalHeight - (marginInner * 2)), 255, 255, 255);
+			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(x + marginInner + marginValue, y + marginInner + marginValue, _loadingValue, totalHeight - (marginInner * 2) - (marginValue * 2)), 50, 50, 50);
 
 			game.getEngine()->getDrawEngine()->render();
 		}
@@ -167,12 +186,18 @@ namespace sdmg {
 		}
 
 		void LoadingState::load() {
+
+			int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
+			_loadingStep = _isTutorial ? maxLoadingValue / 4 : maxLoadingValue / 3;
+
 			loadAdvertisement();
 			loadLevel();
 			loadKeybindings();
 
 			if (_isTutorial)
 				loadTutorial();
+
+			_loadingValue = maxLoadingValue;
 
 			_isLoaded = true;
 		}
@@ -192,6 +217,8 @@ namespace sdmg {
 
 			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
 
+			int platformStep = (_loadingStep / 3) / platformArr.size();
+
 			for (int i = 0; i < platformArr.size(); i++) {
 				JSON::JSONObject &platformObj = platformArr.getObject(i);
 
@@ -201,6 +228,9 @@ namespace sdmg {
 				pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
 				_game->getWorld()->addPlatform(platform);
 				de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
+
+				_loadingValue += platformStep;
+				_game->getStateManager()->draw();
 			}
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			//  de->load("background", "assets/levels/" + level + "/data");
@@ -222,6 +252,14 @@ namespace sdmg {
 			std::string loadCharacters[] = { "fiat", "nivek" };
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
+			//int characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
+
+			int characterStep = 0;
+			if (characterStep <= 0)
+				characterStep = (_loadingStep / 3) * 2;
+			else
+				characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
+
 			for (int i = 0; i < 2; i++) {
 
 				_progress = new std::string("Loading " + loadCharacters[i]);
@@ -237,6 +275,9 @@ namespace sdmg {
 						return;
 					}
 				} while (characters[i] == nullptr);
+
+				_loadingValue += characterStep;
+				_game->getStateManager()->draw();
 			}
 
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
@@ -253,12 +294,20 @@ namespace sdmg {
 
 			HUD *hudNivek = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
 			_huds->push_back(hudNivek);
+
+			_loadingValue += characterStep;
 		}
 
 		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
 			
 			_progress = new std::string("Loading Bullet Bobs");
 			_game->getStateManager()->draw();
+
+			int bobStep = 0;
+			if (bobStep <= 0)
+				_loadingValue += (_loadingStep / 3);
+			else
+				bobStep = (_loadingStep / 3) / bobs.size();
 
 			for (int i = 0; i < bobs.size(); i++) {
 				JSON::JSONObject &bobObj = bobs.getObject(i);
@@ -275,6 +324,9 @@ namespace sdmg {
 				_game->getWorld()->addPlatform(platform);
 				_game->getEngine()->getPhysicsEngine()->addKinematicBody(platform);
 				_game->getEngine()->getDrawEngine()->loadMap(platform, MovableGameObject::State::IDLE, R"(assets\levels\level2\bullet.sprite)", 1097, 494, 0.1);
+
+				_loadingValue += bobStep;
+				_game->getStateManager()->draw();
 			}
 		}
 
@@ -289,6 +341,8 @@ namespace sdmg {
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
 
+				int controlStep = _loadingStep / players.size();
+
 				_game->getEngine()->getInputEngine()->clearBindings();
 
 				for (int i = 0; i < players.size(); i++)
@@ -301,6 +355,9 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
+
+					_loadingValue += controlStep;
+					_game->getStateManager()->draw();
 				}
 
 				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
@@ -366,6 +423,8 @@ namespace sdmg {
 				_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
 				_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
 			}
+
+			_loadingValue += _loadingStep;
 		}
 
 		std::string LoadingState::getRandomAdvertisement() {
