@@ -162,14 +162,15 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->drawDynamicText("progress", (*_progress), 100, 100);
 
-
+			/*
 			int marginInner = 3, marginValue = 1;
 			int totalWidth = 300, totalHeight = 23;
 			int x = game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - totalWidth / 2, y = 565;
+			*/
 
-			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(x, y, totalWidth, totalHeight), 200, 200, 200);
-			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(x + marginInner, y + marginInner, totalWidth - (marginInner * 2), totalHeight - (marginInner * 2)), 255, 255, 255);
-			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(x + marginInner + marginValue, y + marginInner + marginValue, _loadingValue, totalHeight - (marginInner * 2) - (marginValue * 2)), 50, 50, 50);
+			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(_loadingBarX, _loadingBarY, _totalWidth, _totalHeight), 200, 200, 200);
+			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(_loadingBarX + _marginInner, _loadingBarY + _marginInner, _totalWidth - (_marginInner * 2), _totalHeight - (_marginInner * 2)), 255, 255, 255);
+			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(_loadingBarX + _marginInner + _marginValue, _loadingBarY + _marginInner + _marginValue, _loadingValue, _totalHeight - (_marginInner * 2) - (_marginValue * 2)), 50, 50, 50);
 
 			game.getEngine()->getDrawEngine()->render();
 		}
@@ -256,7 +257,7 @@ namespace sdmg {
 
 			int characterStep = 0;
 			if (characterStep <= 0)
-				characterStep = (_loadingStep / 3) * 2;
+				characterStep = (_loadingStep / 3);
 			else
 				characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
 
@@ -341,7 +342,12 @@ namespace sdmg {
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
 
-				int controlStep = _loadingStep / players.size();
+				//  int controlStep = (_loadingStep / 3) / players.size();
+				int controlStep = 0;
+				if (controlStep <= 0)
+					_loadingValue += (_loadingStep / 3);
+				else
+					controlStep = (_loadingStep / 3) / players.size();
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 

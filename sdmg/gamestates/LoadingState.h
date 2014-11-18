@@ -59,6 +59,9 @@ namespace sdmg {
 			std::string *_level, *_progress;
 			int _advertisementX, _advertisementY;
 
+			// LoadingBar
+			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;
+
 			bool _isAdvertisement;
 			std::string getRandomAdvertisement();
 			void loadAdvertisement();
