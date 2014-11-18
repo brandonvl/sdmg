@@ -77,7 +77,7 @@ namespace sdmg {
 
 			_progress = new std::string("Loading started");
 			_game->getStateManager()->draw();
-
+			
 			load();
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 

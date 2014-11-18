@@ -140,9 +140,10 @@ namespace sdmg {
 
 				delete huds;
 				huds = nullptr;
-
 				//game.getStateManager()->cleanupOthers();
 			}
+
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void GameOverState::handleEvents(GameBase &game, GameTime &gameTime)
