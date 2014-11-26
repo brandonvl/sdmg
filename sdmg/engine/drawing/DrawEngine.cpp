@@ -84,10 +84,23 @@ namespace sdmg {
 					_objectStateSurfaces.insert(std::make_pair(gameObject, surfaceMap));
 				}
 
+				if (surfaceMap->count(state))
+					delete (*surfaceMap)[state];
+
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight, renderWidth, renderHeight, animationType);
 				// Add Surface to _surfaces map				
 				surfaceMap->insert(std::make_pair(state, surface));
+			}
+
+			void DrawEngine::copyMap(MovableGameObject *gameObject, MovableGameObject::State copyFrom, MovableGameObject::State copyTo) {
+				if (_objectStateSurfaces.count(gameObject)) {
+					auto surfaceMap = _objectStateSurfaces[gameObject];
+
+					if (surfaceMap->count(copyFrom)) {
+						surfaceMap->insert(std::make_pair(copyTo, surfaceMap->at(copyFrom)));
+					}
+				}
 			}
 
 			void DrawEngine::unload(std::string key) {
@@ -135,8 +148,14 @@ namespace sdmg {
 						std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
 						std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
 
+						std::vector<Surface*> v;
+
 						while (stateItr != stateSurfaces->end()) {
-							delete stateItr->second;
+							if (std::find(v.begin(), v.end(), stateItr->second) == v.end()) {
+								delete stateItr->second;
+								v.push_back(stateItr->second);
+							}
+							
 							stateSurfaces->erase(stateItr++);
 						}
 
@@ -166,7 +185,6 @@ namespace sdmg {
 				_step = 1.0f / 15.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
-				SDL_ShowCursor(0);
 			}
 
 			void DrawEngine::draw(std::string key) {
@@ -308,10 +326,20 @@ namespace sdmg {
 
 			const std::array<float, 2> DrawEngine::getTextSize(std::string key) {
 				if (_textSurfaces.count(key)) {
-					std::array<float, 2> sizes = { _textSurfaces[key]->getRenderWidth(), _textSurfaces[key]->getRenderHeight() };
-					return sizes;
+					std::array<float, 2> size = { _textSurfaces[key]->getRenderWidth(), _textSurfaces[key]->getRenderHeight() };
+					return size;
 				}
 			}
+
+			const std::array<float, 2> DrawEngine::getImageSize(std::string key)
+			{
+				if (_surfaces.count(key))
+				{
+					std::array<float, 2> size = {_surfaces[key]->getRenderWidth(), _surfaces[key]->getRenderHeight() };
+					return size;
+				}
+			}
+
 
 			void DrawEngine::prepareForDraw() {
 				if (!_preparing) {
@@ -350,6 +378,20 @@ namespace sdmg {
 					SDL_RenderFillRect(_renderer, &r);
 
 					body = body->GetNext();
+				}
+			}
+
+			void DrawEngine::drawHitBoxes(std::vector<input::Mouse::Hitbox*> &boxes) {
+
+				for (auto box : boxes){
+					SDL_Rect r;
+
+					r.x = box->x;
+					r.y = box->y;
+					r.w = box->width;
+					r.h = box->height;
+
+					SDL_RenderFillRect(_renderer, &r);
 				}
 			}
 

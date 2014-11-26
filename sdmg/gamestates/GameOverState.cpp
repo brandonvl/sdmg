@@ -15,15 +15,16 @@
 #include "model\Character.h"
 #include "helperclasses\HUD.h"
 #include "MainMenuState.h"
+#include "StatisticsState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
-//#include "helperclasses\StatisticsManager.h"
 #include "lib\JSONParser.h"
 #include "engine\audio\AudioEngine.h"
 #include "LoadingState.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "PlayState.h"
+#include "helperclasses\ProgressManager.h"
 
 
 namespace sdmg {
@@ -33,17 +34,12 @@ namespace sdmg {
 			_game = &game;
 			std::cout << "Initing IntroState ... " << std::endl;
 
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f);
-
-			// Create menu item
-			helperclasses::menuitems::MenuTextItem *play = new helperclasses::menuitems::MenuTextItem("Replay", 0, 68, true);
-			play->loadText(_game, "replay", "Replay", "trebucbd", 33);
-			_menu->addMenuItem(play);
-
-			helperclasses::menuitems::MenuTextItem *quit = new helperclasses::menuitems::MenuTextItem("Main Menu", 0, 68, false);
-			quit->loadText(_game, "main menu", "Main Menu", "trebucbd", 33);
-			_menu->addMenuItem(quit);
-
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
+			
+			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
+			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
+			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] { changeState(*_game, MainMenuState::getInstance()); });
+		
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
 			Uint8 color = 255;
 			for (int i = deadList.size() - 1; i >= 0; i--) {
@@ -58,16 +54,12 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
 
 			// Update statistics
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/statistics/statistics.json");
-			JSON::JSONObject &statisticsObj = doc->getRootObject();
-
-			JSON::JSONArray &characterArr = statisticsObj.getArray("characters");
-
-
+			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
+			
 			for (auto rank = 0; rank < deadList.size(); rank++) {
 
-				for (auto i = 0; i < characterArr.size(); i++) {
-					JSON::JSONObject &characterObj = characterArr.getObject(i);
+				for (auto i = 0; i < statistics.size(); i++) {
+					JSON::JSONObject &characterObj = statistics.getObject(i);
 
 					if (characterObj.getString("name") == deadList.at(rank)->getName()) {
 						if (rank == (deadList.size() - 1))
@@ -78,9 +70,10 @@ namespace sdmg {
 					}
 				}
 			}
-
-			// Save statistics
-			doc->saveFile("assets/statistics/statistics.json");
+			
+			// Save progress if autosave is enabled
+			if (ProgressManager::getInstance().autosaveEnabled());
+				ProgressManager::getInstance().save();
 			
 			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
 
@@ -89,36 +82,24 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
-			delete doc;
 		}
 
-		void GameOverState::menuAction(MenuItem *item)
-		{
-			std::string tag = item->getTag();
+		void GameOverState::replay() {
+			_game->getWorld()->resetWorld();
+			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 
-			if (tag == "Replay") {
-				_game->getWorld()->resetWorld();
-				const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
-
-				for (int i = 0; i < aliveList.size(); i++)
-				{
-					model::Character *character = static_cast<model::Character*>(aliveList[i]);
-					character->revive();
-					character->setState(MovableGameObject::State::RESPAWN);
-				}
-
-				_game->getEngine()->getPhysicsEngine()->resetBobs();
-
-				_replay = true;
-				_game->getEngine()->getPhysicsEngine()->resume();
-				changeState(*_game, PlayState::getInstance());
-
-				// changeState(*_game, LoadingState::getInstance());
+			for (int i = 0; i < aliveList.size(); i++)
+			{
+				model::Character *character = static_cast<model::Character*>(aliveList[i]);
+				character->revive();
+				character->setState(MovableGameObject::State::RESPAWN);
 			}
-			else if (tag == "Main Menu") {
-				_replay = false;
-				changeState(*_game, MainMenuState::getInstance());
-			}
+
+			_game->getEngine()->getPhysicsEngine()->resetBobs();
+
+			_replay = true;
+			_game->getEngine()->getPhysicsEngine()->resume();
+			changeState(*_game, PlayState::getInstance());
 		}
 
 		void GameOverState::cleanup(GameBase &game)
@@ -130,6 +111,7 @@ namespace sdmg {
 				de->unload("winner");
 				de->unload("gameoverbackground");
 				de->unloadText("replay");
+				de->unloadText("statistics");
 				de->unloadText("main menu");
 
 				game.getEngine()->getAudioEngine()->unload("winner");
@@ -162,19 +144,10 @@ namespace sdmg {
 
 				delete huds;
 				huds = nullptr;
-
 				//game.getStateManager()->cleanupOthers();
 			}
-		}
 
-		void GameOverState::pause(GameBase &game)
-		{
-			std::cout << "Pausing GameOverState ... " << std::endl;
-		}
-
-		void GameOverState::resume(GameBase &game)
-		{
-			std::cout << "Resuming GameOverState ... " << std::endl;
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void GameOverState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -183,6 +156,8 @@ namespace sdmg {
 
 			if (SDL_PollEvent(&event))
 			{
+				game.getEngine()->getInputEngine()->getMouse().handleMouseEvent(event);
+
 				if (event.type == SDL_QUIT)
 				{
 					game.stop();
@@ -195,10 +170,6 @@ namespace sdmg {
 					case SDLK_ESCAPE:
 						changeState(game, MainMenuState::getInstance());
 						break;
-					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						//changeState(game, LoadingState::getInstance());
-						break;
 					case SDLK_DOWN:
 						_menu->selectNext();
 						break;
@@ -207,7 +178,7 @@ namespace sdmg {
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						menuAction(_menu->getSelectedMenuItem());
+						_menu->doAction();
 						break;
 					}
 				}

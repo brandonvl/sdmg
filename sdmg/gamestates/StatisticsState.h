@@ -3,7 +3,7 @@
 
 using  namespace sdmg::engine;
 
-namespace JSON { class JSONArray; class JSONDocument; }
+namespace JSON { class JSONDocument; }
 namespace sdmg {
 	namespace gamestates {
 		class StatisticsState :
@@ -25,15 +25,11 @@ namespace sdmg {
 				return _instance;
 			}
 
-		protected:
-			StatisticsState() { }
-
 		private:
+			StatisticsState() { }
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 
 			GameBase *_game;
-
-			JSON::JSONDocument *doc;
 		};
 	}
 }

@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <functional>
 
 using namespace sdmg::engine;
 
@@ -26,9 +27,6 @@ namespace sdmg {
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
 
-			void pause(GameBase &game);
-			void resume(GameBase &game);
-
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
@@ -38,7 +36,6 @@ namespace sdmg {
 			}
 		protected:
 			LevelSelectionState() { }
-			void menuAction(MenuItem *item) override;
 		private:
 			GameBase *_game;
 

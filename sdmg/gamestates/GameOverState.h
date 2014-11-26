@@ -32,9 +32,6 @@ namespace sdmg {
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
 
-			void pause(GameBase &game);
-			void resume(GameBase &game);
-
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
@@ -45,11 +42,12 @@ namespace sdmg {
 
 		protected:
 			GameOverState() { }
-			void menuAction(MenuItem *item) override;
 		private:
 			int _characterCount;
 			GameBase *_game;
 			bool _replay;
+
+			void replay();
 		};
 	}
 }

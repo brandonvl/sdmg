@@ -7,11 +7,14 @@
 //
 //
 
-
+#include "engine\GameBase.h"
+#include "engine\Engine.h"
+#include "engine\input\InputEngine.h"
 #include "MenuState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
+#include "helperclasses\Menu.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -25,10 +28,12 @@ namespace sdmg {
 
 		void MenuState::pause(GameBase &game)
 		{
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void MenuState::resume(GameBase &game)
 		{
+			_menu->rebuildHitboxes();
 		}
 
 		void MenuState::handleEvents(GameBase &game, GameTime &gameTime)

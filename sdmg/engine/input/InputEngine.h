@@ -14,6 +14,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "Mouse.h"
 
 namespace sdmg {
 	namespace engine {
@@ -29,13 +30,16 @@ namespace sdmg {
 				void handleEvent(SDL_Event &event);
 				bool handleControllers(SDL_Event &event);
 				const std::vector<Action*> *getActions();
-				void runActions(GameBase &game);
+				void update(GameBase &game);
 				void findJoysticks();
+				Mouse &getMouse() { return _mouse; }
+				void setMouseEnabled(bool enabled = true) { _mouseEnabled = enabled; }
 			private:
 				Engine *_engine;
+				Mouse _mouse;
 				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
 				std::vector<Action*> *_actions;
-				bool _active;
+				bool _active, _mouseEnabled;
 				//SDL_Event _event;
 				//SDL_Thread *_thread;
 				const int JOYSTICK_DEAD_ZONE = 3200;

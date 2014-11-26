@@ -55,7 +55,7 @@ namespace sdmg {
 
 			const int xPowerPadding = _rectangle.getX() + 90;
 			const int POWERBAR_WIDTH = 113;
-			int power = 100;
+			int power = _character->getPP();
 			drawEngine.drawRectangle(Rectangle(xPowerPadding, _rectangle.getY() + 52, POWERBAR_WIDTH, 12), 51, 51, 51);
 			drawEngine.drawRectangle(Rectangle(xPowerPadding, _rectangle.getY() + 52, (float)power / 100.0f * (float)POWERBAR_WIDTH, 12), 232, 172, 11);
 			drawEngine.draw("power", xPadding, 50);

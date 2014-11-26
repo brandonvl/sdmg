@@ -33,7 +33,7 @@ namespace sdmg {
 
 			class PhysicsEngine {
 			public:
-				PhysicsEngine();
+				PhysicsEngine(Engine *engine);
 				virtual ~PhysicsEngine();
 				void update();
 				void pause();
@@ -51,8 +51,8 @@ namespace sdmg {
 				b2Body* addBody(int x, int y, int w, int h, bool dyn, GameObject *object);
 				b2Body* addKinematicBody(model::MovablePlatform *object);
 				b2Body* addKinematicBody(int x, int y, int w, int h, int speed, int endpoint, KinematicBody::Direction direction);
-				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, KNEEL, SHORTRANGEATTACK, LONGRANGEATTACK, RESPAWN, KNOCKBACKLEFT, KNOCKBACKRIGHT,
-					MIDRANGEATTACKBEGIN, MIDRANGEATTACK, MIDRANGEATTACKEND
+				enum class Action { MOVELEFT, MOVERIGHT, IDLE, JUMP, KNEEL, RESPAWN, KNOCKBACKLEFT, KNOCKBACKRIGHT,
+					MIDRANGEATTACKBEGIN, MIDRANGEATTACK, MIDRANGEATTACKEND, LONGRANGEATTACKBEGIN, LONGRANGEATTACK, LONGRANGEATTACKEND
 				};
 				void doAction(MovableGameObject *object, Action action);
 			private:

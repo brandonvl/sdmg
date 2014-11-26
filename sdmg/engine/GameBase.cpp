@@ -20,6 +20,7 @@
 #include "gamestates\MainMenuState.h"
 #include "gamestates\PlayState.h"
 #include "helperclasses\ConfigManager.h"
+#include "helperclasses\ProgressManager.h"
 
 namespace sdmg {
 	namespace engine {
@@ -29,6 +30,7 @@ namespace sdmg {
 
 		GameBase::~GameBase() {
 			helperclasses::ConfigManager::getInstance().cleanup();
+			helperclasses::ProgressManager::getInstance().cleanup();
 			delete _gameTime;
 			delete _world;
 			delete _engine;

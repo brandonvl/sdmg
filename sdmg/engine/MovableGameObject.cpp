@@ -9,8 +9,12 @@
 
 
 #include "MovableGameObject.h"
+#include "model/MovablePlatform.h"
 #include "GameTime.h"
 #include "GameBase.h"
+
+#include <string>
+#include <iostream>
 
 namespace sdmg {
 	namespace engine {
@@ -35,6 +39,14 @@ namespace sdmg {
 			_lives = lives;
 		}
 
+		void MovableGameObject::hit(int damage)
+		{
+			setHP(_hp - damage);
+
+			for (auto callback : _hitCallbacks)
+				callback(this);
+		}
+
 		int MovableGameObject::getHP()
 		{
 			return _hp;
@@ -44,7 +56,55 @@ namespace sdmg {
 		{
 			_hp = hp;
 			if (_hp <= 0)
+			{
+				_hp = 0;
 				_state = MovableGameObject::State::KNEELING;
+			}
+		}
+
+		/*
+		int MovableGameObject::getBP()
+		{
+			return _bp;
+		}
+
+		void MovableGameObject::setBP(int bp)
+		{
+			_bp = bp;
+			if (_bp <= 0)
+			{
+				_bp = 0;
+				_state = MovableGameObject::State::IDLE;
+			}
+		}
+		*/
+
+		int MovableGameObject::getPP()
+		{
+			return _pp;
+		}
+
+		void MovableGameObject::addPP(int pp)
+		{
+			_pp += pp;
+			if (_pp <= 0)
+				_pp = 0;
+			else if (_pp < 10)
+			{
+				if (_state == MovableGameObject::State::BLOCKING || _state == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
+					_state = MovableGameObject::State::IDLE;
+			}
+			else if (_pp > 100)
+				_pp = 100;
+		}
+
+		void MovableGameObject::setPP(int pp)
+		{
+			_pp = pp;
+			if (_pp <= 0)
+				_pp = 0;
+			else if (_pp > 100)
+				_pp = 100;
 		}
 
 		Speed MovableGameObject::getSpeed()
@@ -82,12 +142,21 @@ namespace sdmg {
 			_speed = Speed(horizontalSpeed, verticalSpeed);
 		}
 
+		bool MovableGameObject::getShouldTurnArround()
+		{
+			return _shouldTurnArround;
+		}
+
+		void MovableGameObject::setShouldTurnArround(bool arround)
+		{
+			_shouldTurnArround = arround;
+		}
+		
 		void MovableGameObject::stateCompleted() {
 			switch (_state) {
 			case State::FORWARD_ROLL:
 			case State::KNOCKBACKLEFT:
 			case State::KNOCKBACKRIGHT:
-			case State::SHORTRANGEATTACK:
 			case State::LONGRANGEATTACK:
 			case State::MIDRANGEATTACKEND:
 				_state = State::IDLE;
@@ -102,14 +171,93 @@ namespace sdmg {
 				_state = State::MIDRANGEATTACKEND;
 				break;
 			}
+
+			if (_shouldTurnArround)
+			{
+				if (_direction == Direction::LEFT)
+					_direction = Direction::RIGHT;
+				else if (_direction == Direction::RIGHT)
+					_direction = Direction::LEFT;
+				_shouldTurnArround = false;
+			}
+
+			if (_state == (State::IDLE | State::FORWARD_ROLL))
+				_state = State::IDLE;
+			else if (_state == (State::WALKING | State::FORWARD_ROLL))
+				_state = State::WALKING;
+			else if(_state == (State::JUMPING | State::FORWARD_ROLL))
+				_state = State::JUMPING;
+			else if (_state == (State::JUMPINGLEFT | State::FORWARD_ROLL))
+			{
+				_direction = Direction::LEFT;
+				_state = State::JUMPINGLEFT;
+			}
+			else if (_state == (State::JUMPINGRIGHT | State::FORWARD_ROLL))
+			{
+				_direction = Direction::RIGHT;
+				_state = State::JUMPINGRIGHT;
+			}
+			else if(_state == (State::FALLING | State::FORWARD_ROLL))
+				_state = State::FALLING;
+			else if (_state == (State::FALLINGLEFT | State::FORWARD_ROLL))
+			{
+				_direction = Direction::LEFT;
+				_state = State::FALLINGLEFT;
+			}
+			else if (_state == (State::FALLINGRIGHT | State::FORWARD_ROLL))
+			{
+				_direction = Direction::RIGHT;
+				_state = State::FALLINGRIGHT;
+			}
+
+			else if (_state == (State::WALKING | State::MIDRANGEATTACKBEGIN))
+				_state = State::WALKING | State::MIDRANGEATTACK;
+			else if (_state == (State::WALKING | State::MIDRANGEATTACK))
+				_state = State::WALKING | State::MIDRANGEATTACKEND;
+			else if (_state == (State::WALKING | State::MIDRANGEATTACKEND))
+				_state = State::WALKING;
+
+			else if (_state == (State::IDLE | State::MIDRANGEATTACKBEGIN))
+				_state = State::IDLE | State::MIDRANGEATTACK;
+			else if (_state == (State::IDLE | State::MIDRANGEATTACK))
+				_state = State::IDLE | State::MIDRANGEATTACKEND;
+			else if (_state == (State::IDLE | State::MIDRANGEATTACKEND))
+				_state = State::IDLE;
+
+			else if (_state == (State::WALKING | State::LONGRANGEATTACKBEGIN))
+				_state = State::WALKING | State::LONGRANGEATTACK;
+			else if (_state == (State::WALKING | State::LONGRANGEATTACK))
+				_state = State::WALKING | State::LONGRANGEATTACKEND;
+			else if (_state == (State::WALKING | State::LONGRANGEATTACKEND))
+				_state = State::WALKING;
+
+			else if (_state == (State::IDLE | State::LONGRANGEATTACKBEGIN))
+				_state = State::IDLE | State::LONGRANGEATTACK;
+			else if (_state == (State::IDLE | State::LONGRANGEATTACK))
+				_state = State::IDLE | State::LONGRANGEATTACKEND;
+			else if (_state == (State::IDLE | State::LONGRANGEATTACKEND))
+				_state = State::IDLE;
 		}
 
-		bool MovableGameObject ::stateIsInterruptible()
+		bool MovableGameObject::stateIsInterruptible()
 		{
+			/*
 			if (_state == State::FORWARD_ROLL || _state == State::KNOCKBACKLEFT || _state == State::KNEELING || _state == State::KNOCKBACKRIGHT
-				|| _state == State::SHORTRANGEATTACK ||
-				_state == State::MIDRANGEATTACKBEGIN || _state == State::MIDRANGEATTACK || _state == State::MIDRANGEATTACKEND
-				|| _state == State::LONGRANGEATTACK)
+			|| _state == State::MIDRANGEATTACKBEGIN || _state == State::MIDRANGEATTACK || _state == State::MIDRANGEATTACKEND ||
+			_state == State::LONGRANGEATTACK)
+			*/
+			if (_state == State::KNEELING || _state == State::KNOCKBACKLEFT || _state == State::KNOCKBACKRIGHT ||
+				_state == (State::WALKING | State::MIDRANGEATTACKBEGIN) || _state == (State::WALKING | State::MIDRANGEATTACK)
+				|| _state == (State::WALKING | State::MIDRANGEATTACKEND) || _state == (State::IDLE | State::MIDRANGEATTACKBEGIN)
+				|| _state == (State::IDLE | State::MIDRANGEATTACK) || _state == (State::IDLE | State::MIDRANGEATTACKEND)
+				|| _state == (State::WALKING | State::LONGRANGEATTACKBEGIN) || _state == (State::WALKING | State::LONGRANGEATTACK)
+				|| _state == (State::WALKING | State::LONGRANGEATTACKEND) || _state == (State::IDLE | State::LONGRANGEATTACKBEGIN)
+				|| _state == (State::IDLE | State::LONGRANGEATTACK) || _state == (State::IDLE | State::LONGRANGEATTACKEND)
+				|| _state == (State::IDLE | State::FORWARD_ROLL) || _state == (State::WALKING | State::FORWARD_ROLL)
+				|| _state == (State::JUMPING | State::FORWARD_ROLL) || _state == (State::JUMPINGLEFT | State::FORWARD_ROLL)
+				|| _state == (State::JUMPINGRIGHT | State::FORWARD_ROLL) || _state == (State::FALLING | State::FORWARD_ROLL)
+				|| _state == (State::FALLINGLEFT | State::FORWARD_ROLL) || _state == (State::FALLINGRIGHT | State::FORWARD_ROLL)
+				)
 				return false;
 			return true;
 		}
@@ -134,21 +282,54 @@ namespace sdmg {
 			_attackBody = attackBody;
 		}
 
+		b2Body* MovableGameObject::getShootBody()
+		{
+			return _shootBody;
+		}
+
+		void MovableGameObject::setShootBody(b2Body *shootBody)
+		{
+			_shootBody = shootBody;
+		}
+
+		void MovableGameObject::destroyShootBody()
+		{
+			if (_shootBody != nullptr)
+			{
+					delete static_cast<model::MovablePlatform*>(_shootBody->GetUserData());
+					_shootBody->GetWorld()->DestroyBody(_shootBody);
+					_shootBody = nullptr;
+			}
+		}
+
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
 		void MovableGameObject::setState(State state)
 		{
+			if (_state == MovableGameObject::State::FALLINGRIGHT)
+				_state = _state;
 			// check if state is changed
 			if (state != _state) {
 				//if (stateIsInterruptible())
-				_state = state;
+
+				if (_state != (State::WALKING | State::MIDRANGEATTACKBEGIN) && _state != (State::WALKING | State::MIDRANGEATTACK)
+					&& _state != (State::WALKING | State::MIDRANGEATTACKEND) && _state != (State::IDLE | State::MIDRANGEATTACKBEGIN)
+					&& _state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::IDLE | State::MIDRANGEATTACKEND)
+					&& _state != (State::WALKING | State::LONGRANGEATTACKBEGIN) && _state != (State::WALKING | State::LONGRANGEATTACK)
+					&& _state != (State::WALKING | State::LONGRANGEATTACKEND) && _state != (State::IDLE | State::LONGRANGEATTACKBEGIN)
+					&& _state != (State::IDLE | State::LONGRANGEATTACK) && _state != (State::IDLE | State::LONGRANGEATTACKEND)
+					&& _state != (State::IDLE | State::FORWARD_ROLL) && _state != (State::WALKING | State::FORWARD_ROLL)
+					&& _state != (State::JUMPING | State::FORWARD_ROLL) && _state != (State::JUMPINGLEFT | State::FORWARD_ROLL)
+					&& _state != (State::JUMPINGRIGHT | State::FORWARD_ROLL) && _state != (State::FALLING | State::FORWARD_ROLL)
+					&& _state != (State::FALLINGLEFT | State::FORWARD_ROLL) && _state != (State::FALLINGRIGHT | State::FORWARD_ROLL)
+					)
 				triggerStateChangedCallbacks();
+
+				_state = state;
 			}
 		}
 
 		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
 		void MovableGameObject::setDirection(Direction direction) { _direction = direction; }
-
-
 
 		float MovableGameObject::getAttackWidth()
 		{
@@ -182,6 +363,10 @@ namespace sdmg {
 
 		void MovableGameObject::registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback) {
 			_stateChangedCallbacks.push_back(stateChangedCallback);
+		}
+
+		void MovableGameObject::registerHitCallback(std::function<void(MovableGameObject *gameObject)> hitCallback) {
+			_hitCallbacks.push_back(hitCallback);
 		}
 
 		void MovableGameObject::triggerStateChangedCallbacks() {

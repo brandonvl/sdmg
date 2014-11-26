@@ -22,7 +22,7 @@ namespace sdmg {
 	namespace engine {
 		Engine::Engine() {
 			_drawEngine = new DrawEngine();
-			_physicsEngine = new PhysicsEngine();
+			_physicsEngine = new PhysicsEngine(this);
 			_inputEngine = new InputEngine();
 			_audioEngine = new AudioEngine();
 			_particleEngine = new ParticleEngine();
