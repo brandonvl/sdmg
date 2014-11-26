@@ -49,6 +49,7 @@ namespace sdmg {
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight);
 				void loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight, Surface::AnimationType animationType);
 				void copyMap(MovableGameObject *gameObject, MovableGameObject::State copyFrom, MovableGameObject::State copyTo);
+				void copyMap(std::string str, MovableGameObject *gameObject);
 				void unload(std::string key);
 				void unloadText(std::string key);
 				void unloadAll();
@@ -68,9 +69,11 @@ namespace sdmg {
 				void destroyText(std::string key);
 				void destroyDynamicText(std::string key);
 				void drawBodies(b2Body *body);
-				void drawHitBoxes(std::vector<input::Mouse::Hitbox> &boxes);
+				void drawHitBoxes(std::vector<input::Mouse::Hitbox*> &boxes);
 				void drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b);
 				void drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a);
+				void drawParticle(SDL_Surface *surface, int x, int y);
+				void refreshSurface(SDL_Surface *surface);
 				void prepareForDraw();
 				void render();
 				void calcXY(GameObject *gameObject, Surface *surface, float &x, float &y);

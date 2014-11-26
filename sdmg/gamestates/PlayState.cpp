@@ -25,6 +25,8 @@
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\HUD.h"
 
+#include "engine\particle\ParticleEngine.h"
+
 namespace sdmg {
 	namespace gamestates {
 		void PlayState::init(GameBase &game)
@@ -128,6 +130,7 @@ namespace sdmg {
 		void PlayState::enableEditMode(GameBase &game) {
 			_editMode = true;
 			_hitboxes = new std::map<GameObject*, input::Mouse::Hitbox*>();
+			game.getEngine()->getPhysicsEngine()->pause();
 
 			InputEngine *inputEngine = game.getEngine()->getInputEngine();
 
@@ -144,9 +147,11 @@ namespace sdmg {
 			if (_curSelectedObject) {
 				_curSelectedObject->getBody()->SetTransform(b2Vec2((x - _mouseDownX) / 20.f, (y - _mouseDownY) / 20.0f), _curSelectedObject->getBody()->GetAngle());
 
-				input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
-				hitbox->x = _curSelectedObject->getX() * 20.0f - _curSelectedObject->getWidth() / 2;
-				hitbox->y = _curSelectedObject->getY() * 20.0f - _curSelectedObject->getHeight() / 2;
+				if (_hitboxes->count(_curSelectedObject)) {
+					input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
+					hitbox->x = _curSelectedObject->getX() * 20.0f - _curSelectedObject->getWidth() / 2;
+					hitbox->y = _curSelectedObject->getY() * 20.0f - _curSelectedObject->getHeight() / 2;
+				}
 			}
 		}
 
@@ -159,6 +164,7 @@ namespace sdmg {
 			_hitboxes = nullptr;
 			
 			game.getEngine()->getInputEngine()->setMouseEnabled(false);
+			game.getEngine()->getPhysicsEngine()->resume();
 		}
 
 		void PlayState::selectObject(GameObject &gameObject) {
@@ -179,6 +185,7 @@ namespace sdmg {
 
 				if (_showFPS)
 					_fps = game.getFPS() == _fps ? _fps : game.getFPS();
+
 
 				game.getEngine()->getInputEngine()->update(game);
 				game.getEngine()->getDrawEngine()->update();

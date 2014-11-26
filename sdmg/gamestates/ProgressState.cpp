@@ -23,13 +23,14 @@ namespace sdmg {
 		void ProgressState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
+			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 200.0f, game);
 
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
 
 			// Load header text
 			loadText("title", "Progress", "trebucbd", 48);
 
+			_menu->addMenuTextItem("Autosave", (std::function<void()>)[&] { ProgressManager::getInstance().setAutosave(!ProgressManager::getInstance().autosaveEnabled()); });
 			_menu->addMenuTextItem("Save", (std::function<void()>)[&] { ProgressManager::getInstance().save(); });
 			_menu->addMenuTextItem("Load", (std::function<void()>)[&] { ProgressManager::getInstance().load(); });
 			_menu->addMenuTextItem("Delete", (std::function<void()>)[&] { 
@@ -44,6 +45,8 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->unload("statics_background");
 			game.getEngine()->getDrawEngine()->unload("title");
+			
+			delete _menu;
 		}
 
 		void ProgressState::handleEvents(GameBase &game, GameTime &gameTime)

@@ -27,16 +27,16 @@ namespace sdmg {
 
 				int getX() { return _x; }
 				int getY() { return _y; }
-				std::vector<Hitbox> &getClickBoxes();
+				std::vector<Hitbox*> &getClickBoxes();
 
 			private:
 
-				std::vector<Hitbox> _clickBoxes, _hoverBoxes, _leaveBoxes;
+				std::vector<Hitbox*> _clickBoxes, _hoverBoxes, _leaveBoxes;
 				std::function<void(int x, int y)> _mouseMoveCallback;
 				std::function<void()> _mouseUpCallback;
 
-				void execActions(std::vector<Hitbox> &boxes, int x, int y);
-				bool isHit(Hitbox &box, int x, int y);
+				void execActions(std::vector<Hitbox*> &boxes, int x, int y);
+				bool isHit(Hitbox *box, int x, int y);
 
 				int _x, _y;
 			};

@@ -57,6 +57,9 @@ namespace sdmg {
 			bool _showFPS, _showHitBoxes, _editMode, _showClickBoxes;
 			long _fps;
 
+			bool _particlesSet;
+			bool _drawPart;
+
 			friend class GameOverState;
 
 			void enableEditMode(GameBase &game);

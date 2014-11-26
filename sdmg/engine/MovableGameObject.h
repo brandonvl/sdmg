@@ -101,12 +101,14 @@ namespace sdmg {
 			void MovableGameObject::setAttackSize(float width, float height);
 
 			void registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback);
+			void registerHitCallback(std::function<void(MovableGameObject *gameObject)> hitCallback);
 
 		private:
 			Direction _spawnDirection;
 			Size _attackSize;
 			float _midAttackY, _longAttackY;
 			std::vector<std::function<void(MovableGameObject *gameObject)>> _stateChangedCallbacks;
+			std::vector<std::function<void(MovableGameObject *gameObject)>> _hitCallbacks;
 			bool _shouldTurnArround;
 
 			void triggerStateChangedCallbacks();

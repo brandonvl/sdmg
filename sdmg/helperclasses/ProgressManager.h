@@ -22,6 +22,9 @@ namespace sdmg {
 			void setStatistics(std::string name, std::string key, std::string value);
 			JSON::JSONArray &getStatistics();
 
+			void setAutosave(bool enable);
+			bool autosaveEnabled();
+
 			void save();
 			void load();
 			void reset();

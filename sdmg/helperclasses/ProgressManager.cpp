@@ -18,10 +18,12 @@ namespace sdmg {
 		}
 
 		void ProgressManager::reset() {
+			delete _jsonDoc;
 			_jsonDoc = JSON::JSONDocument::fromFile("assets/reset");
 		}
 
 		void ProgressManager::load() {
+			delete _jsonDoc;
 			_jsonDoc = JSON::JSONDocument::fromFile("assets/progress");
 		}
 
@@ -61,6 +63,14 @@ namespace sdmg {
 
 		const int getKey() {
 			return 0;
+		}
+
+		bool ProgressManager::autosaveEnabled() {
+			return _jsonDoc->getRootObject().getBoolean("autosave");
+		}
+
+		void ProgressManager::setAutosave(bool enable) {
+			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? "true" : "false");
 		}
 	}
 }

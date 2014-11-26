@@ -58,7 +58,7 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::KNEELING, folder + "kneeling.sprite", obj.getArray("kneeling").getFloat(0), obj.getArray("kneeling").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::RESPAWN, folder + "jump_end.sprite", obj.getArray("jumpEnd").getFloat(0), obj.getArray("jumpEnd").getFloat(1), scale, Surface::AnimationType::HOLDLAST);
 
-			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.d", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
+			drawEngine->loadMap(character, MovableGameObject::State::FORWARD_ROLL, folder + "forward_roll.sprite", obj.getArray("forwardRoll").getFloat(0), obj.getArray("forwardRoll").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL);
