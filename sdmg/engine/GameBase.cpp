@@ -38,20 +38,20 @@ namespace sdmg {
 		void GameBase::start() {
 			_running = true;
 			_gameStateManager->changeState(gamestates::MainMenuState::getInstance());
-			doGameLoop();		
+			doGameLoop();
 		}
 
 		void GameBase::internalInitialize() {
 			_gameTime = new GameTime();
 			_world = new World();
-			_engine = new Engine();
+			_engine = new Engine(*this);
 			_gameStateManager = new GameStateManager(this);
 		}
-		
+
 		void GameBase::stop() {
 			_running = false;
 		}
-		
+
 		World* GameBase::getWorld() {
 			return _world;
 		}
@@ -60,17 +60,17 @@ namespace sdmg {
 			//return _gameTime->getElapsedSinceLastUpdate() / 1.0;
 			return _avgFPS;
 		}
-		
+
 		void GameBase::internalDraw() {
 
 		}
-		
+
 		Engine* GameBase::getEngine() {
 			return _engine;
 		}
-		
+
 		void GameBase::internalUpdate() {
-		
+
 		}
 
 		void GameBase::doGameLoop() {
@@ -96,6 +96,16 @@ namespace sdmg {
 				}
 			}
 			_gameStateManager->cleanup();
+		}
+
+		GameBase::GameMode GameBase::getGameMode()
+		{
+			return _gameMode;
+		}
+
+		void GameBase::setGameMode(GameBase::GameMode mode)
+		{
+			_gameMode = mode;
 		}
 	}
 }

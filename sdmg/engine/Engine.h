@@ -9,8 +9,6 @@
 
 #pragma once
 
-
-
 namespace sdmg {
 	namespace engine {
 		
@@ -30,7 +28,7 @@ namespace sdmg {
 
 		class Engine {
 		public:
-			Engine();
+			Engine(GameBase &game);
 			virtual ~Engine();
 			void update(const GameState *gameState, const GameTime *gameTime);
 			GameBase* getGame();

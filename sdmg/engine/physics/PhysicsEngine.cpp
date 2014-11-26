@@ -126,7 +126,10 @@ namespace sdmg {
 
 						body = body->GetNext();
 						if (kinematicBody->getMustBeDestroyed())
+						{
+							_engine->getGame()->getWorld()->removePlatform(kinematicBody);
 							kinematicBody->getOwner()->destroyShootBody();
+						}
 					}
 					else if (body->GetType() == b2_dynamicBody)
 					{

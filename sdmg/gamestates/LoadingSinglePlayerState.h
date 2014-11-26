@@ -1,3 +1,11 @@
+/*
+#pragma once
+class LoadingSinglePlayerState
+{
+public:
+	LoadingSinglePlayerState();
+	virtual ~LoadingSinglePlayerState();
+};
 
 //
 //
@@ -24,7 +32,7 @@ namespace sdmg {
 	}
 	namespace helperclasses{ class HUD; }
 	namespace gamestates {
-		class LoadingState : public GameState {
+		class LoadingSinglePlayerState : public GameState {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
@@ -35,29 +43,26 @@ namespace sdmg {
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
-			static LoadingState& getInstance() {
-				static LoadingState _instance;
+			static LoadingSinglePlayerState& getInstance() {
+				static LoadingSinglePlayerState _instance;
 				return _instance;
 			}
 
-			void setIsTutorial(bool tutorial);
 			void setLevel(std::string *level);
 
 		protected:
-			LoadingState() { }
+			LoadingSinglePlayerState() { }
 		private:
 			GameBase *_game;
-			SDL_Thread *thread;
-			static int loadThread(void *ptr);
 			void load();
 			void loadCharacters(JSON::JSONArray &startingPositions);
 			void loadBulletBobs(JSON::JSONArray &bobs);
-			void loadTutorial();
 			void loadLevel();
 			void loadKeybindings();
-			bool _isLoaded, _isError, _isTutorial;
+			bool _isLoaded, _isError;
 			std::vector<helperclasses::HUD*> *_huds;
-			std::string *_level, *_progress;
+			std::vector<std::string*> *enemies;
+			std::string *_level, *_progress, *player;
 			int _advertisementX, _advertisementY;
 
 			// LoadingBar
@@ -69,3 +74,4 @@ namespace sdmg {
 		};
 	}
 }
+*/

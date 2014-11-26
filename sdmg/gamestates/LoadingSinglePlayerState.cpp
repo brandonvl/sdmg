@@ -1,3 +1,5 @@
+/*
+
 //
 //
 //  @ Project : SDMG
@@ -68,31 +70,31 @@ namespace sdmg {
 			std::string advertisement = getRandomAdvertisement();
 			if (advertisement != "")
 			{
-				_isAdvertisement = true;
-				game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
-			}*/
+			_isAdvertisement = true;
+			game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
+			}
 
 			//  game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "trebucbd", 36);
 			game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "arial", 36);
 
 			_progress = new std::string("Loading started");
 			_game->getStateManager()->draw();
-			
+
 			load();
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 
 			_game->getStateManager()->update();
 
-			/*
+			
 
-		printf("\nSimple SDL_CreateThread test:");
+			printf("\nSimple SDL_CreateThread test:");
 
-		// Simply create a thread
-		thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-		//  SDL_WaitThread(thread, NULL);
-		//load();
-		//  SDL_DetachThread(thread);
-		*/
+			// Simply create a thread
+			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
+			//  SDL_WaitThread(thread, NULL);
+			//load();
+			//  SDL_DetachThread(thread);
+			
 		}
 
 		void LoadingState::cleanup(GameBase &game)
@@ -166,7 +168,7 @@ namespace sdmg {
 			int marginInner = 3, marginValue = 1;
 			int totalWidth = 300, totalHeight = 23;
 			int x = game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - totalWidth / 2, y = 565;
-			*/
+			
 
 			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(_loadingBarX, _loadingBarY, _totalWidth, _totalHeight), 200, 200, 200);
 			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(_loadingBarX + _marginInner, _loadingBarY + _marginInner, _totalWidth - (_marginInner * 2), _totalHeight - (_marginInner * 2)), 255, 255, 255);
@@ -300,7 +302,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
-			
+
 			_progress = new std::string("Loading Bullet Bobs");
 			_game->getStateManager()->draw();
 
@@ -386,7 +388,7 @@ namespace sdmg {
 			std::string fiatJump = SDL_GetKeyName(manager.getKey(0, "jump"));
 			std::string fiatMidRange = SDL_GetKeyName(manager.getKey(0, "midrange"));
 			std::string fiatRoll = SDL_GetKeyName(manager.getKey(0, "roll"));
-			
+
 			std::string nivekLeft = SDL_GetKeyName(manager.getKey(1, "walkLeft"));
 			std::string nivekRight = SDL_GetKeyName(manager.getKey(1, "walkRight"));
 			std::string nivekJump = SDL_GetKeyName(manager.getKey(1, "jump"));
@@ -460,7 +462,7 @@ namespace sdmg {
 				std::random_device dev;
 				std::default_random_engine dre(dev());
 				std::uniform_int_distribution<int> randomAdvertisement(0, names.size() - 1);
-				
+
 				return names[randomAdvertisement(dre)];
 			}
 
@@ -468,3 +470,4 @@ namespace sdmg {
 		}
 	}
 }
+*/

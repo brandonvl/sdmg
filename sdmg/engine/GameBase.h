@@ -28,6 +28,17 @@ namespace sdmg {
 			Engine* getEngine();
 			long getFPS();
 			GameStateManager *getStateManager() { return _gameStateManager; };
+
+			enum GameMode
+			{
+				SingePlayer,
+				Versus,
+				Survival
+			};
+
+			GameMode getGameMode();
+			void setGameMode(GameMode mode);
+
 		protected:
 			virtual void update(GameState *gameState, GameTime *gameTime) = 0;
 			virtual void draw(GameState *gameState, GameTime *gameTime) = 0;
@@ -38,6 +49,7 @@ namespace sdmg {
 			Engine *_engine;
 			bool _running;
 			bool _calculateFPS;
+			GameMode _gameMode;
 			float _avgFPS;
 			World *_world;
 			void internalUpdate();

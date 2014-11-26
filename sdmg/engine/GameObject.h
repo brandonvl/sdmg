@@ -33,7 +33,8 @@ namespace sdmg {
 			enum class Flags {
 				DRAWABLE = 0x1,
 				SHOOTABLE = 0x2,
-				CANDIE = 0x4
+				CANDIE = 0x4,
+				CANDYCANE = 0x8
 			};
 
 			GameObject();
