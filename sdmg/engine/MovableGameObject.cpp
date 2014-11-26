@@ -42,6 +42,9 @@ namespace sdmg {
 		void MovableGameObject::hit(int damage)
 		{
 			setHP(_hp - damage);
+
+			for (auto callback : _hitCallbacks)
+				callback(this);
 		}
 
 		int MovableGameObject::getHP()
@@ -360,6 +363,10 @@ namespace sdmg {
 
 		void MovableGameObject::registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback) {
 			_stateChangedCallbacks.push_back(stateChangedCallback);
+		}
+
+		void MovableGameObject::registerHitCallback(std::function<void(MovableGameObject *gameObject)> hitCallback) {
+			_hitCallbacks.push_back(hitCallback);
 		}
 
 		void MovableGameObject::triggerStateChangedCallbacks() {
