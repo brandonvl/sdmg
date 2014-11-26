@@ -141,6 +141,8 @@
     <ClCompile Include="model\Weapon.cpp" />
     <ClCompile Include="engine\drawing\TextSurface.cpp" />
     <ClCompile Include="gamestates\TutorialState.cpp" />
+    <ClCompile Include="engine\particle\Particle.cpp" />
+    <ClCompile Include="engine\particle\ParticleEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\Actions.h" />
@@ -208,6 +210,8 @@
     <ClInclude Include="model\Platform.h" />
     <ClInclude Include="model\Weapon.h" />
     <ClInclude Include="engine\drawing\TextSurface.h" />
+    <ClInclude Include="engine\particle\Particle.h" />
+    <ClInclude Include="engine\particle\ParticleEngine.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="gamestates\TutorialState.h" />

@@ -67,6 +67,8 @@ namespace sdmg {
 				void drawBodies(b2Body *body);
 				void drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b);
 				void drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a);
+				void drawParticle(SDL_Surface *surface, int x, int y);
+				void refreshSurface(SDL_Surface *surface);
 				void prepareForDraw();
 				void render();
 				void calcXY(GameObject *gameObject, Surface *surface, float &x, float &y);

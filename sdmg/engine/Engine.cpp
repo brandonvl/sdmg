@@ -13,6 +13,7 @@
 #include "physics\PhysicsEngine.h"
 #include "input\InputEngine.h"
 #include "audio\AudioEngine.h"
+#include "particle\ParticleEngine.h"
 #include "GameState.h"
 #include "GameTime.h"
 #include "GameBase.h"
@@ -24,6 +25,7 @@ namespace sdmg {
 			_physicsEngine = new PhysicsEngine();
 			_inputEngine = new InputEngine();
 			_audioEngine = new AudioEngine();
+			_particleEngine = new ParticleEngine();
 		}
 
 		Engine::~Engine() {
@@ -31,6 +33,7 @@ namespace sdmg {
 			delete _physicsEngine;
 			delete _inputEngine;
 			delete _audioEngine;
+			delete _particleEngine;
 		}
 
 		void Engine::update(const GameState *gameState, const GameTime *gameTime) {
@@ -57,5 +60,8 @@ namespace sdmg {
 			return _inputEngine;
 		}
 		
+		ParticleEngine* Engine::getParticleEngine() {
+			return _particleEngine;
+		}
 	}
 }

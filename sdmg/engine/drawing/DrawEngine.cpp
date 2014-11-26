@@ -14,6 +14,7 @@
 #include <Box2D\Box2D.h>
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
+#include "engine\particle\Particle.h"
 #include "..\..\sdl\include\SDL_image.h"
 
 namespace sdmg {
@@ -235,6 +236,18 @@ namespace sdmg {
 			void DrawEngine::drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a) {
 				SDL_SetRenderDrawColor(_renderer, r, g, b, a);
 				SDL_RenderFillRect(_renderer, &rect.toSDLRect());
+			}
+
+			void DrawEngine::drawParticle(SDL_Surface *surface, int x, int y) {
+				// Create texture & draw
+				SDL_Texture* part = SDL_CreateTextureFromSurface(_renderer, surface);
+				SDL_RenderCopy(_renderer, part, nullptr, &Rectangle(x, y, surface->w, surface->h).toSDLRect());
+				// Destroy texture
+				SDL_DestroyTexture(part);
+			}
+
+			void DrawEngine::refreshSurface(SDL_Surface *surface) {
+				SDL_FillRect(surface, &surface->clip_rect, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
 			}
 
 			void DrawEngine::calcXY(GameObject *gameObject, Surface *surface, float &x, float &y) {

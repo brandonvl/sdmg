@@ -85,6 +85,12 @@
     <Filter Include="Source Files\helperclasses\menuitems">
       <UniqueIdentifier>{052c3cde-1d21-4705-ac35-d179f0629060}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\engine\particle">
+      <UniqueIdentifier>{3271e8ad-768a-4b3a-8691-fe95240521a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\particle">
+      <UniqueIdentifier>{2f9856b5-8593-4d99-bb22-f8e388de8e59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -269,6 +275,12 @@
     </ClCompile>
     <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ParticleEngine.cpp">
+      <Filter>Source Files\engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\Particle.cpp">
+      <Filter>Source Files\engine\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -475,6 +487,12 @@
     </ClInclude>
     <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
       <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\Particle.h">
+      <Filter>Header Files\engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ParticleEngine.h">
+      <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

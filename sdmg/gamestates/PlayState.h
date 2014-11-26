@@ -52,6 +52,9 @@ namespace sdmg {
 			bool _showFPS, _showHitBoxes;
 			long _fps;
 
+			bool _particlesSet;
+			bool _drawPart;
+
 			friend class GameOverState;
 		};
 	}

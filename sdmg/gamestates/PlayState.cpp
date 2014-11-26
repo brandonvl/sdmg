@@ -25,6 +25,8 @@
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\HUD.h"
 
+#include "engine\particle\ParticleEngine.h"
+
 namespace sdmg {
 	namespace gamestates {
 		void PlayState::init(GameBase &game)
@@ -124,6 +126,12 @@ namespace sdmg {
 			if (_showFPS)
 				_fps = game.getFPS() == _fps ? _fps : game.getFPS();
 
+			if (!_particlesSet) {
+				game.getEngine()->getParticleEngine()->setParticles(200, 250, 250, 500, 500);
+				_particlesSet = true;
+				_drawPart = true;
+			}
+
 			game.getEngine()->getInputEngine()->runActions(game);
 			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
@@ -138,6 +146,15 @@ namespace sdmg {
 
 		void PlayState::preformDraw(GameBase &game) {
 			game.getEngine()->getDrawEngine()->draw("background");
+
+			// Particle system test
+			SDL_Surface *surface = game.getEngine()->getParticleEngine()->getSDLSurface();
+			if (surface) {
+				game.getEngine()->getDrawEngine()->refreshSurface(surface);
+				game.getEngine()->getParticleEngine()->refresh();
+				game.getEngine()->getDrawEngine()->drawParticle(surface, 200, 200);
+				game.getEngine()->getPhysicsEngine()->getBodyList()
+			}
 
 			if (_showHitBoxes)
 				game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
