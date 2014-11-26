@@ -64,5 +64,13 @@ namespace sdmg {
 		const int getKey() {
 			return 0;
 		}
+
+		bool ProgressManager::autosaveEnabled() {
+			return _jsonDoc->getRootObject().getBoolean("autosave");
+		}
+
+		void ProgressManager::setAutosave(bool enable) {
+			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? "true" : "false");
+		}
 	}
 }
