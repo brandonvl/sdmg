@@ -83,6 +83,9 @@ namespace sdmg {
 					_objectStateSurfaces.insert(std::make_pair(gameObject, surfaceMap));
 				}
 
+				if (surfaceMap->count(state))
+					delete (*surfaceMap)[state];
+
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight, renderWidth, renderHeight, animationType);
 				// Add Surface to _surfaces map				
@@ -147,7 +150,7 @@ namespace sdmg {
 						std::vector<Surface*> v;
 
 						while (stateItr != stateSurfaces->end()) {
-							if (std::find(v.begin(), v.end(), stateItr->second) != v.end()) {
+							if (std::find(v.begin(), v.end(), stateItr->second) == v.end()) {
 								delete stateItr->second;
 								v.push_back(stateItr->second);
 							}

@@ -60,6 +60,7 @@ namespace sdmg {
 			_isLoaded = false;
 			_isError = false;
 			_isAdvertisement = false;
+			_progress = new std::string();
 
 			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
 
@@ -75,7 +76,7 @@ namespace sdmg {
 			//  game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "trebucbd", 36);
 			game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "arial", 36);
 
-			_progress = new std::string("Loading started");
+			*_progress = "Loading started";
 			_game->getStateManager()->draw();
 			
 			load();
@@ -100,6 +101,7 @@ namespace sdmg {
 			delete _level;
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unload("progress");
+			delete _progress;
 			// game.getEngine()->getAudioEngine()->unload("bgm");
 		}
 
@@ -205,7 +207,7 @@ namespace sdmg {
 
 		void LoadingState::loadLevel() {
 
-			_progress = new std::string("Loading awesome level!");
+			*_progress = "Loading awesome level!";
 			_game->getStateManager()->draw();
 
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
@@ -263,7 +265,7 @@ namespace sdmg {
 
 			for (int i = 0; i < 2; i++) {
 
-				_progress = new std::string("Loading " + loadCharacters[i]);
+				*_progress = "Loading " + loadCharacters[i];
 				_game->getStateManager()->draw();
 
 				int retries = 0;
@@ -284,7 +286,7 @@ namespace sdmg {
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
-			_progress = new std::string("Loading fancy hudjes");
+			*_progress = "Loading fancy hudjes";
 			_game->getStateManager()->draw();
 
 			// Create a HUD for each player
@@ -301,7 +303,7 @@ namespace sdmg {
 
 		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
 			
-			_progress = new std::string("Loading Bullet Bobs");
+			*_progress = "Loading Bullet Bobs";
 			_game->getStateManager()->draw();
 
 			int bobStep = 0;
@@ -333,7 +335,7 @@ namespace sdmg {
 
 		void LoadingState::loadKeybindings() {
 
-			_progress = new std::string("Loading controls jonguh!");
+			*_progress = "Loading controls jonguh!";
 			_game->getStateManager()->draw();
 
 			try{
@@ -416,7 +418,7 @@ namespace sdmg {
 
 		void LoadingState::loadAdvertisement()
 		{
-			_progress = new std::string("Loading Advertisement");
+			*_progress = "Loading Advertisement";
 			_game->getStateManager()->draw();
 
 			std::string advertisement = getRandomAdvertisement();

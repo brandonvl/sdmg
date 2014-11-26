@@ -18,10 +18,12 @@ namespace sdmg {
 		}
 
 		void ProgressManager::reset() {
+			delete _jsonDoc;
 			_jsonDoc = JSON::JSONDocument::fromFile("assets/reset");
 		}
 
 		void ProgressManager::load() {
+			delete _jsonDoc;
 			_jsonDoc = JSON::JSONDocument::fromFile("assets/progress");
 		}
 
