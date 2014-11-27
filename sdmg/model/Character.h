@@ -19,6 +19,9 @@ namespace sdmg {
 		class GameBase;
 		enum CharacterState;
 		class Weapon;
+		namespace ai {
+			class AIMachine;
+		}
 	}
 
 	namespace model {
@@ -31,6 +34,7 @@ namespace sdmg {
 			void setKey(std::string key);
 			void die() override;
 			void revive();
+			void setAI(ai::AIMachine &machine) { _aiMachine = &machine; }
 		private:
 			Weapon *_currentWeapon;
 			std::vector<Weapon*> _weapons;
@@ -39,6 +43,7 @@ namespace sdmg {
 			Direction _direction;
 			CharacterState _state;
 			int _armor;
+			ai::AIMachine *_aiMachine;
 		};
 	}
 }

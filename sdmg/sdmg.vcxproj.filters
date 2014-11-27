@@ -85,6 +85,18 @@
     <Filter Include="Source Files\helperclasses\menuitems">
       <UniqueIdentifier>{052c3cde-1d21-4705-ac35-d179f0629060}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\engine\ai">
+      <UniqueIdentifier>{7230aabb-71aa-4dc7-9ab6-4fc2084a3dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\ai">
+      <UniqueIdentifier>{82afc463-e9af-4aff-b351-66fd74c90620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\ai\aistates">
+      <UniqueIdentifier>{01da54c3-3a71-4db2-9368-cacecce738ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\ai\aistates">
+      <UniqueIdentifier>{2263087c-f45a-4b06-947f-8192d978754b}</UniqueIdentifier>
+	</Filter>
     <Filter Include="Header Files\engine\particle">
       <UniqueIdentifier>{3271e8ad-768a-4b3a-8691-fe95240521a9}</UniqueIdentifier>
     </Filter>
@@ -299,6 +311,21 @@
     </ClCompile>
     <ClCompile Include="engine\util\FileManager.cpp">
       <Filter>Source Files\engine\util</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\AIMachine.cpp">
+      <Filter>Source Files\engine\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\IdleAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\EasyAIMachine.cpp">
+      <Filter>Source Files\engine\ai</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +556,24 @@
     </ClInclude>
     <ClInclude Include="engine\util\FileManager.h">
       <Filter>Header Files\engine\util</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\AIMachine.h">
+      <Filter>Header Files\engine\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\EasyAIMachine.h">
+      <Filter>Header Files\engine\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\AIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\IdleAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\MoveRightAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
