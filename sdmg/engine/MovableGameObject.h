@@ -12,6 +12,9 @@
 #include <functional>
 #include <vector>
 
+#define MoveObjState sdmg::engine::MovableGameObject::State
+#define MoveObjDirection sdmg::engine::MovableGameObject::Direction
+
 namespace sdmg {
 	namespace engine {
 		class GameTime;
@@ -46,7 +49,7 @@ namespace sdmg {
 			virtual ~MovableGameObject();
 			void setSpeed(Speed speed);
 			void setSpeed(float horizontalSpeed, float verticalSpeed);
-			void update(GameTime *gameTime, GameBase *game);
+			virtual void update(GameTime *gameTime, GameBase *game);
 			float getHorizontalSpeed();
 			float getVerticalSpeed();
 			Speed getSpeed();

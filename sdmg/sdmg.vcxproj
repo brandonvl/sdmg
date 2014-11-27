@@ -90,6 +90,11 @@
     <ClCompile Include="actions\RightWalkAction.cpp" />
     <ClCompile Include="actions\RollAction.cpp" />
     <ClCompile Include="ControlsState.cpp" />
+    <ClCompile Include="engine\ai\AIMachine.cpp" />
+    <ClCompile Include="engine\ai\aistates\IdleAIState.cpp" />
+    <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp" />
+    <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp" />
+    <ClCompile Include="engine\ai\EasyAIMachine.cpp" />
     <ClCompile Include="engine\drawing\DynamicTextSurface.cpp" />
     <ClCompile Include="engine\audio\MusicObject.cpp" />
     <ClCompile Include="engine\audio\SampleObject.cpp" />
@@ -158,6 +163,12 @@
     <ClInclude Include="actions\RightWalkAction.h" />
     <ClInclude Include="actions\RollAction.h" />
     <ClInclude Include="ControlsState.h" />
+    <ClInclude Include="engine\ai\AIMachine.h" />
+    <ClInclude Include="engine\ai\aistates\AIState.h" />
+    <ClInclude Include="engine\ai\aistates\IdleAIState.h" />
+    <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h" />
+    <ClInclude Include="engine\ai\aistates\MoveRightAIState.h" />
+    <ClInclude Include="engine\ai\EasyAIMachine.h" />
     <ClInclude Include="engine\drawing\DynamicTextSurface.h" />
     <ClInclude Include="engine\audio\AudioObject.h" />
     <ClInclude Include="engine\audio\MusicObject.h" />
