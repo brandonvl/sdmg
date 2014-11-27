@@ -61,6 +61,7 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->unload("statics_background");
 			game.getEngine()->getDrawEngine()->unload("title");
+			game.getEngine()->getInputEngine()->clearBindings();
 			
 			delete _menu;
 		}
