@@ -63,6 +63,11 @@ namespace sdmg {
 			return _avgFPS;
 		}
 
+		GameTime *GameBase::getGameTime()
+		{
+			return _gameTime;
+		}
+
 		void GameBase::internalDraw() {
 
 		}

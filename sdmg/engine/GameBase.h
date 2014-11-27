@@ -27,6 +27,7 @@ namespace sdmg {
 			void internalDraw();
 			Engine* getEngine();
 			long getFPS();
+			GameTime *getGameTime();
 			GameStateManager *getStateManager() { return _gameStateManager; };
 
 			enum GameMode

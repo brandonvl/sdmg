@@ -93,6 +93,7 @@ namespace sdmg {
 					b2FixtureDef *fixturedef = new b2FixtureDef();
 					fixturedef->shape = shape;
 					fixturedef->density = 1.0f;
+					fixturedef->userData = obj;
 					body->CreateFixture(fixturedef);
 
 					
@@ -207,7 +208,7 @@ namespace sdmg {
 					}
 					
 
-					// _engine->getDrawEngine()->copyMap(static_cast<model::Character*>(obj)->getKey() +"_bullet", platform);
+					_engine->getDrawEngine()->copyMap(static_cast<model::Character*>(obj)->getKey() +"_bullet", platform);
 
 					//  _engine->getDrawEngine()->load(platform, "assets/characters/" + static_cast<model::Character*>(obj)->getKey() + "/bullet");
 					//  _engine->getDrawEngine()->loadMap(platform, "assets/characters/" + static_cast<model::Character*>(obj)->getKey() + "/bullet", 10, 10);
@@ -226,6 +227,7 @@ namespace sdmg {
 					b2FixtureDef *fixturedef = new b2FixtureDef();
 					fixturedef->shape = shape;
 					fixturedef->density = 1.0f;
+					fixturedef->userData = obj;
 					body->CreateFixture(fixturedef);
 
 					body->SetUserData(platform);

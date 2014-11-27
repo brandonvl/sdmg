@@ -82,9 +82,8 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK, folder + "long_range_attack_walk.sprite", obj.getArray("longRangeAttackWalk").getFloat(0), obj.getArray("longRangeAttackWalk").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND, folder + "long_range_attack_walk_end.sprite", obj.getArray("longRangeAttackWalkEnd").getFloat(0), obj.getArray("longRangeAttackWalkEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
 
+			std::string h = character->getKey();
 			drawEngine->loadMap(character->getKey() + "_bullet", folder + "bullet", obj.getArray("bullet").getFloat(0), obj.getArray("bullet").getFloat(1));
-
-
 		}
 	}
 }
