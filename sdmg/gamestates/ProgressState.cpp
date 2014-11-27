@@ -30,12 +30,28 @@ namespace sdmg {
 			// Load header text
 			loadText("title", "Progress", "trebucbd", 48);
 
-			_menu->addMenuTextItem("Autosave", (std::function<void()>)[&] { ProgressManager::getInstance().setAutosave(!ProgressManager::getInstance().autosaveEnabled()); });
-			_menu->addMenuTextItem("Save", (std::function<void()>)[&] { ProgressManager::getInstance().save(); });
+			// Load dynamic text
+			game.getEngine()->getDrawEngine()->loadDynamicText("TextAutosave", { 255, 255, 255 }, "arial", 36);
+			game.getEngine()->getDrawEngine()->loadDynamicText("TextSave", { 255, 255, 255 }, "arial", 36);
+			game.getEngine()->getDrawEngine()->loadDynamicText("TextLoad", { 255, 255, 255 }, "arial", 36);
+			game.getEngine()->getDrawEngine()->loadDynamicText("TextDelete", { 255, 255, 255 }, "arial", 36);
+
+			_isSaved = false;
+			_isDeleted = false;
+
+			// Create menu
+			_menu->addMenuTextItem("Autosave", (std::function<void()>)[&] { 
+				ProgressManager::getInstance().setAutosave(!ProgressManager::getInstance().autosaveEnabled());
+			});
+			_menu->addMenuTextItem("Save", (std::function<void()>)[&] { 
+				ProgressManager::getInstance().save(); 
+				_isSaved = true;
+			});
 			_menu->addMenuTextItem("Load", (std::function<void()>)[&] { ProgressManager::getInstance().load(); });
 			_menu->addMenuTextItem("Delete", (std::function<void()>)[&] { 
 				ProgressManager::getInstance().reset();
 				ProgressManager::getInstance().save(); 
+				_isDeleted = true;
 			});
 			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 			game.getEngine()->getInputEngine()->setMouseEnabled();
@@ -95,6 +111,18 @@ namespace sdmg {
 			drawEngine->draw("statics_background");
 
 			drawEngine->drawText("title", 100, 100);
+
+			std::string _textAutosave = ProgressManager::getInstance().autosaveEnabled() ? "Autosave is enabled" : "Autosave is disabled";
+			std::string _textSave = _isSaved ? "You have saved your progress" : "You have unsaved progress";
+			std::string timestamp = ProgressManager::getInstance().getTimestamp();
+			std::string _textLoad = timestamp != "yyyy/mm/dd hh:mm" ? timestamp : "No savegame found";
+			std::string _textDelete = _isDeleted ? "Savegame deleted" : " ";
+
+			int ypos = 216;
+			game.getEngine()->getDrawEngine()->drawDynamicText("TextAutosave", _textAutosave, 100, ypos);
+			game.getEngine()->getDrawEngine()->drawDynamicText("TextSave", _textSave, 100, ypos += 70);
+			game.getEngine()->getDrawEngine()->drawDynamicText("TextLoad", _textLoad, 100, ypos += 70);
+			game.getEngine()->getDrawEngine()->drawDynamicText("TextDelete", _textDelete, 100, ypos += 70);
 
 			_menu->draw(&game);
 
