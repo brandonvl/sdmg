@@ -126,6 +126,7 @@
     <ClCompile Include="gamestates\HelpState.cpp" />
     <ClCompile Include="gamestates\IntroState.cpp" />
     <ClCompile Include="gamestates\LevelSelectionState.cpp" />
+    <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp" />
     <ClCompile Include="gamestates\LoadingState.cpp" />
     <ClCompile Include="gamestates\MainMenuState.cpp" />
     <ClCompile Include="gamestates\MenuState.cpp" />
@@ -150,6 +151,8 @@
     <ClCompile Include="model\Weapon.cpp" />
     <ClCompile Include="engine\drawing\TextSurface.cpp" />
     <ClCompile Include="gamestates\TutorialState.cpp" />
+    <ClCompile Include="engine\particle\Particle.cpp" />
+    <ClCompile Include="engine\particle\ParticleEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\Actions.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="gamestates\HelpState.h" />
     <ClInclude Include="gamestates\IntroState.h" />
     <ClInclude Include="gamestates\LevelSelectionState.h" />
+    <ClInclude Include="gamestates\LoadingSinglePlayerState.h" />
     <ClInclude Include="gamestates\LoadingState.h" />
     <ClInclude Include="gamestates\MainMenuState.h" />
     <ClInclude Include="gamestates\MenuState.h" />
@@ -227,6 +231,8 @@
     <ClInclude Include="model\Platform.h" />
     <ClInclude Include="model\Weapon.h" />
     <ClInclude Include="engine\drawing\TextSurface.h" />
+    <ClInclude Include="engine\particle\Particle.h" />
+    <ClInclude Include="engine\particle\ParticleEngine.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="gamestates\TutorialState.h" />

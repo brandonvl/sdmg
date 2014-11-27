@@ -92,8 +92,11 @@ namespace sdmg {
 			b2Body* getShootBody();
 			void setShootBody(b2Body *shootBody);
 			void destroyShootBody();
-			float getAttackY();
-			void setAttackY(float y);
+
+			float getMidAttackY();
+			void setMidAttackY(float y);
+			float getLongAttackY();
+			void setLongAttackY(float y);
 
 			float MovableGameObject::getAttackWidth();
 			float MovableGameObject::getAttackHeight();
@@ -101,12 +104,14 @@ namespace sdmg {
 			void MovableGameObject::setAttackSize(float width, float height);
 
 			void registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback);
+			void registerHitCallback(std::function<void(MovableGameObject *gameObject)> hitCallback);
 
 		private:
 			Direction _spawnDirection;
 			Size _attackSize;
-			float _attackY;
+			float _midAttackY, _longAttackY;
 			std::vector<std::function<void(MovableGameObject *gameObject)>> _stateChangedCallbacks;
+			std::vector<std::function<void(MovableGameObject *gameObject)>> _hitCallbacks;
 			bool _shouldTurnArround;
 
 			void triggerStateChangedCallbacks();

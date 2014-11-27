@@ -9,7 +9,10 @@
 
 #pragma once
 #include "engine\GameState.h"
+#include "engine\GameObject.h"
+#include "engine\input\Mouse.h"
 #include <vector>
+#include <map>
 
 using namespace sdmg::engine;
 
@@ -51,10 +54,24 @@ namespace sdmg {
 			void preformDraw(GameBase &game);
 			std::vector<helperclasses::HUD*> *_huds;
 
-			bool _showFPS, _showHitBoxes;
+			bool _showFPS, _showHitBoxes, _editMode, _showClickBoxes;
 			long _fps;
 
+			bool _particlesSet;
+			bool _drawPart;
+
 			friend class GameOverState;
+
+			void enableEditMode(GameBase &game);
+			void disableEditMode(GameBase &game);
+			void mouseMove(int x, int y);
+			void selectObject(GameObject &gameObject);
+
+			float _mouseDownX, _mouseDownY;
+			GameObject *_curSelectedObject;
+			GameBase *_game;
+
+			std::map<GameObject*, input::Mouse::Hitbox*> *_hitboxes;
 		};
 	}
 }

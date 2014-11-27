@@ -96,6 +96,12 @@
     </Filter>
     <Filter Include="Source Files\engine\ai\aistates">
       <UniqueIdentifier>{2263087c-f45a-4b06-947f-8192d978754b}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="Header Files\engine\particle">
+      <UniqueIdentifier>{3271e8ad-768a-4b3a-8691-fe95240521a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\particle">
+      <UniqueIdentifier>{2f9856b5-8593-4d99-bb22-f8e388de8e59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -279,7 +285,7 @@
     <ClCompile Include="helperclasses\ConfigManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
-    <ClCompile Include="helperclasses\ProgressManager.cpp">
+    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
     <ClCompile Include="engine\input\Mouse.cpp">
@@ -288,11 +294,14 @@
     <ClCompile Include="gamestates\ProgressState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="actions\BlockAction.cpp">
-      <Filter>Source Files\actions</Filter>
+    <ClCompile Include="engine\particle\ParticleEngine.cpp">
+      <Filter>Source Files\engine\particle</Filter>
     </ClCompile>
-    <ClCompile Include="actions\LongRangeAttackAction.cpp">
-      <Filter>Source Files\actions</Filter>
+    <ClCompile Include="engine\particle\Particle.cpp">
+      <Filter>Source Files\engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="engine\ai\AIMachine.cpp">
       <Filter>Source Files\engine\ai</Filter>
@@ -461,9 +470,6 @@
     <ClInclude Include="actions\RollAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
-    <ClInclude Include="model\MovablePlatform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="actions\RespawnAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
@@ -491,6 +497,9 @@
     <ClInclude Include="ControlsState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
+    <ClInclude Include="actions\MidRangeAttackAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="helperclasses\HUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -509,7 +518,7 @@
     <ClInclude Include="helperclasses\ConfigManager.h">
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\ProgressManager.h">
+    <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
     <ClInclude Include="engine\input\Mouse.h">
@@ -521,11 +530,17 @@
     <ClInclude Include="actions\BlockAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
-    <ClInclude Include="actions\LongRangeAttackAction.h">
-      <Filter>Header Files\actions</Filter>
+    <ClInclude Include="engine\particle\Particle.h">
+      <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
-    <ClInclude Include="actions\MidRangeAttackAction.h">
-      <Filter>Header Files\actions</Filter>
+    <ClInclude Include="engine\particle\ParticleEngine.h">
+      <Filter>Header Files\engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingSinglePlayerState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\MovablePlatform.h">
+      <Filter>Header Files\model</Filter>
     </ClInclude>
     <ClInclude Include="engine\ai\AIMachine.h">
       <Filter>Header Files\engine\ai</Filter>

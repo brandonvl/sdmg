@@ -9,6 +9,7 @@
 
 #pragma once
 #include "MenuState.h"
+#include <string>
 
 using namespace sdmg::engine;
 
@@ -41,6 +42,12 @@ namespace sdmg {
 		private:
 			GameBase *_game;
 			void loadMenuItems();
+			
+			bool _shouldRefreshAdvertisement;
+			int _advertisementRefreshRate, _lastTimeSinceAdvertisementChange, _advertisementX, _advertisementY;
+			std::string *_advertisement;
+			std::string *getRandomAdvertisement();
+			void loadAdvertisement();
 		};
 	}
 }

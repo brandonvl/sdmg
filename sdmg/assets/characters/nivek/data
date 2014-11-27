@@ -3,7 +3,8 @@
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },
-		position: 3.3
+		midPosition: 3.3,
+		longPosition: 3.3
 	},
 	speed: { horizontal: 20, vertical: 2.5 },
 	scale: 0.25,
@@ -27,5 +28,6 @@
 	longRangeAttackEnd: [394,558],
 	longRangeAttackWalkBegin: [440,571],
 	longRangeAttackWalk: [440,571],
-	longRangeAttackWalkEnd: [440,571]
+	longRangeAttackWalkEnd: [440,571],
+	bullet: [22,11]
 }

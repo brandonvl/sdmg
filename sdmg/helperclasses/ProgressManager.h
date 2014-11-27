@@ -22,15 +22,24 @@ namespace sdmg {
 			void setStatistics(std::string name, std::string key, std::string value);
 			JSON::JSONArray &getStatistics();
 
+			void setAutosave(bool enable);
+			bool autosaveEnabled();
+
+			std::string getTimestamp();
+			void setTimestamp(std::string time);
+
 			void save();
 			void load();
 			void reset();
+
+			bool saveIsLoaded();
 
 		private:
 			ProgressManager();
 			JSON::JSONDocument *_jsonDoc;
 
 			int getCharacterIndex(std::string name);
+			bool _isLoaded;
 		};
 	}
 }

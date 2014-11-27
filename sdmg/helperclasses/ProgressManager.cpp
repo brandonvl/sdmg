@@ -18,14 +18,19 @@ namespace sdmg {
 		}
 
 		void ProgressManager::reset() {
+			_isLoaded = false;
+			delete _jsonDoc;
 			_jsonDoc = JSON::JSONDocument::fromFile("assets/reset");
 		}
 
 		void ProgressManager::load() {
+			_isLoaded = true;
+			delete _jsonDoc;
 			_jsonDoc = JSON::JSONDocument::fromFile("assets/progress");
 		}
 
 		void ProgressManager::save() {
+			setTimestamp("yyyy/mm/dd hh:mm");
 			_jsonDoc->saveFile("assets/progress");
 		}
 
@@ -61,6 +66,26 @@ namespace sdmg {
 
 		const int getKey() {
 			return 0;
+		}
+
+		bool ProgressManager::autosaveEnabled() {
+			return _jsonDoc->getRootObject().getBoolean("autosave");
+		}
+
+		void ProgressManager::setAutosave(bool enable) {
+			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? "true" : "false");
+		}
+
+		bool ProgressManager::saveIsLoaded() {
+			return _isLoaded;
+		}
+
+		std::string ProgressManager::getTimestamp() {
+			return _jsonDoc->getRootObject().getString("timestamp");
+		}
+
+		void ProgressManager::setTimestamp(std::string time) {
+			_jsonDoc->getRootObject().getVariable("timestamp").setValue(time);
 		}
 	}
 }

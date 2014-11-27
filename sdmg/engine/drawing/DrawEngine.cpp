@@ -14,6 +14,7 @@
 #include <Box2D\Box2D.h>
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
+#include "engine\particle\Particle.h"
 #include "..\..\sdl\include\SDL_image.h"
 
 namespace sdmg {
@@ -83,10 +84,37 @@ namespace sdmg {
 					_objectStateSurfaces.insert(std::make_pair(gameObject, surfaceMap));
 				}
 
+				if (surfaceMap->count(state))
+					delete (*surfaceMap)[state];
+
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight, renderWidth, renderHeight, animationType);
 				// Add Surface to _surfaces map				
 				surfaceMap->insert(std::make_pair(state, surface));
+			}
+
+			void DrawEngine::copyMap(MovableGameObject *gameObject, MovableGameObject::State copyFrom, MovableGameObject::State copyTo) {
+				if (_objectStateSurfaces.count(gameObject)) {
+					auto surfaceMap = _objectStateSurfaces[gameObject];
+
+					if (surfaceMap->count(copyFrom)) {
+						surfaceMap->insert(std::make_pair(copyTo, surfaceMap->at(copyFrom)));
+					}
+				}
+			}
+
+			void DrawEngine::copyMap(std::string str, MovableGameObject *gameObject) {	
+				std::map<MovableGameObject::State, Surface*> *surfaceMap;
+
+				if (_objectStateSurfaces.count(gameObject)) surfaceMap = _objectStateSurfaces[gameObject];
+				else {
+					surfaceMap = new std::map<MovableGameObject::State, Surface*>;
+					_objectStateSurfaces.insert(std::make_pair(gameObject, surfaceMap));
+				}
+
+				if (_surfaces.count(str)) {
+					surfaceMap->insert(std::make_pair(MovableGameObject::State::IDLE, _surfaces[str]));
+				}
 			}
 
 			void DrawEngine::unload(std::string key) {
@@ -134,8 +162,14 @@ namespace sdmg {
 						std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
 						std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
 
+						std::vector<Surface*> v;
+
 						while (stateItr != stateSurfaces->end()) {
-							delete stateItr->second;
+							if (std::find(v.begin(), v.end(), stateItr->second) == v.end()) {
+								delete stateItr->second;
+								v.push_back(stateItr->second);
+							}
+							
 							stateSurfaces->erase(stateItr++);
 						}
 
@@ -234,6 +268,18 @@ namespace sdmg {
 			void DrawEngine::drawRectangle(Rectangle rect, const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a) {
 				SDL_SetRenderDrawColor(_renderer, r, g, b, a);
 				SDL_RenderFillRect(_renderer, &rect.toSDLRect());
+			}
+
+			void DrawEngine::drawParticle(SDL_Surface *surface, int x, int y) {
+				// Create texture & draw
+				SDL_Texture* part = SDL_CreateTextureFromSurface(_renderer, surface);
+				SDL_RenderCopy(_renderer, part, nullptr, &Rectangle(x, y, surface->w, surface->h).toSDLRect());
+				// Destroy texture
+				SDL_DestroyTexture(part);
+			}
+
+			void DrawEngine::refreshSurface(SDL_Surface *surface) {
+				SDL_FillRect(surface, &surface->clip_rect, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
 			}
 
 			void DrawEngine::calcXY(GameObject *gameObject, Surface *surface, float &x, float &y) {
@@ -346,6 +392,20 @@ namespace sdmg {
 					SDL_RenderFillRect(_renderer, &r);
 
 					body = body->GetNext();
+				}
+			}
+
+			void DrawEngine::drawHitBoxes(std::vector<input::Mouse::Hitbox*> &boxes) {
+
+				for (auto box : boxes){
+					SDL_Rect r;
+
+					r.x = box->x;
+					r.y = box->y;
+					r.w = box->width;
+					r.h = box->height;
+
+					SDL_RenderFillRect(_renderer, &r);
 				}
 			}
 

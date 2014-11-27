@@ -42,6 +42,9 @@ namespace sdmg {
 		void MovableGameObject::hit(int damage)
 		{
 			setHP(_hp - damage);
+
+			for (auto callback : _hitCallbacks)
+				callback(this);
 		}
 
 		int MovableGameObject::getHP()
@@ -302,12 +305,9 @@ namespace sdmg {
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
 		void MovableGameObject::setState(State state)
 		{
-			if (_state == MovableGameObject::State::FALLINGRIGHT)
-				_state = _state;
 			// check if state is changed
 			if (state != _state) {
 				//if (stateIsInterruptible())
-
 				if (_state != (State::WALKING | State::MIDRANGEATTACKBEGIN) && _state != (State::WALKING | State::MIDRANGEATTACK)
 					&& _state != (State::WALKING | State::MIDRANGEATTACKEND) && _state != (State::IDLE | State::MIDRANGEATTACKBEGIN)
 					&& _state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::IDLE | State::MIDRANGEATTACKEND)
@@ -348,18 +348,32 @@ namespace sdmg {
 			_attackSize = Size(width, height);
 		}
 
-		float MovableGameObject::getAttackY()
+		float MovableGameObject::getMidAttackY()
 		{
-			return _attackY;
+			return _midAttackY;
 		}
 
-		void MovableGameObject::setAttackY(float y)
+		void MovableGameObject::setMidAttackY(float y)
 		{
-			_attackY = y;
+			_midAttackY = y;
+		}
+
+		float MovableGameObject::getLongAttackY()
+		{
+			return _longAttackY;
+		}
+
+		void MovableGameObject::setLongAttackY(float y)
+		{
+			_longAttackY = y;
 		}
 
 		void MovableGameObject::registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback) {
 			_stateChangedCallbacks.push_back(stateChangedCallback);
+		}
+
+		void MovableGameObject::registerHitCallback(std::function<void(MovableGameObject *gameObject)> hitCallback) {
+			_hitCallbacks.push_back(hitCallback);
 		}
 
 		void MovableGameObject::triggerStateChangedCallbacks() {
