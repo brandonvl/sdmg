@@ -29,5 +29,5 @@
 	longRangeAttackWalkBegin: [440,571],
 	longRangeAttackWalk: [440,571],
 	longRangeAttackWalkEnd: [440,571],
-	bullet: [22,11]
+	bullet: [22,22]
 }

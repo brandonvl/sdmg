@@ -25,15 +25,18 @@
 #include "engine\audio\AudioEngine.h"
 #include "actions\Actions.h"
 #include "engine\GameTime.h"
+#include "engine\util\FileManager.h"
 
+#include <random>
 // only for windows
 // Advertisement ophalen
+/*
 #include <array>
 #include <vector>
-#include <random>
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
+*/
 
 namespace sdmg {
 	namespace gamestates {
@@ -56,16 +59,32 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->play("main_menu_bgm", 0);
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 
-			_advertisementRefreshRate = 5 * 10000;
+
+
+			_advertisementIndex = -1;
+			_advertisementRefreshRate = 15 * 10000;
 			_lastTimeSinceAdvertisementChange = 0;
-			_advertisement = new std::string("");
-			loadAdvertisement();
+			_advertismentList = util::FileManager::getInstance().getFiles("assets/advertisements/");
+
+			if (_advertismentList->size() > 0)
+			{
+				loadAdvertisement();
+				_shouldRefreshAdvertisement = _advertismentList->size() > 1;
+			}
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			delete _menu;
-			delete _advertisement;
+
+			for (auto i : *_advertismentList)
+			{
+				delete i;
+				i = nullptr;
+			}
+			delete _advertismentList;
+			_advertismentList = nullptr;
+
 			game.getEngine()->getDrawEngine()->unloadText("play");
 			game.getEngine()->getDrawEngine()->unloadText("tutorial");
 			game.getEngine()->getDrawEngine()->unloadText("options");
@@ -125,15 +144,15 @@ namespace sdmg {
 		{
 			game.getEngine()->getInputEngine()->update(game);
 
-			if (*_advertisement != "" && _shouldRefreshAdvertisement)
+			if (_advertisementIndex >= 0.0f && _shouldRefreshAdvertisement)
 			{
-				int timeSinceLastUpdate = game.getGameTime()->getElapsedSinceLastUpdate() / 1000;
-				if (timeSinceLastUpdate >= 0)
+				int timeSinceLastUpdate = game.getGameTime()->getElapsedSinceLastUpdate() / 1000.0f;
+				if (timeSinceLastUpdate >= 0.0f)
 				{
 					if ((_lastTimeSinceAdvertisementChange += timeSinceLastUpdate) >= _advertisementRefreshRate)
 					{
-						_lastTimeSinceAdvertisementChange = 0;
 						loadAdvertisement();
+						_lastTimeSinceAdvertisementChange = 0.0f;
 					}
 				}
 			}
@@ -144,7 +163,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 
-			if (*_advertisement != "")
+			if (_advertisementIndex >= 0)
 				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
 
 			_menu->draw(&game);
@@ -154,61 +173,24 @@ namespace sdmg {
 
 		void MainMenuState::loadAdvertisement()
 		{
-			if (*_advertisement != "")
+			if (_advertisementIndex >= 0)
 				_game->getEngine()->getDrawEngine()->unload("advertisement");
-			
-			std::string *advertisement = nullptr;
+
+			std::random_device dev;
+			std::default_random_engine dre(dev());
+			std::uniform_int_distribution<int> randomAdvertisement(0, _advertismentList->size() - 1);
+
+			int advertisementIndex = 0;
 			do
-			{
-				delete advertisement;
-				advertisement = getRandomAdvertisement();
-			} while (*advertisement == *_advertisement && *advertisement != "");
-			if (*advertisement != "")
-			{
-				delete _advertisement;
-				_advertisement = advertisement;
-				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + *_advertisement);
+				advertisementIndex = randomAdvertisement(dre);
+			while (advertisementIndex == _advertisementIndex);
 
-				const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
-				_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
-				_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
-			}
-		}
+			_advertisementIndex = advertisementIndex;
+			_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + *(*_advertismentList)[advertisementIndex]);
 
-		std::string *MainMenuState::getRandomAdvertisement() {
-
-			std::vector<std::string> names;
-			char search_path[200];
-			sprintf_s(search_path, "%s*.*", "assets\\advertisements\\");
-			WIN32_FIND_DATA fd;
-			HANDLE hFind = ::FindFirstFile(search_path, &fd);
-			if (hFind != INVALID_HANDLE_VALUE)
-			{
-				do {
-					if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-					{
-						//_tprintf(TEXT("  %s   <DIR>\n"), fd.cFileName);
-					}
-					else
-					{
-						names.push_back(fd.cFileName);
-					}
-				} while (::FindNextFile(hFind, &fd));
-				::FindClose(hFind);
-			}
-
-			if (names.size() > 0)
-			{
-				std::random_device dev;
-				std::default_random_engine dre(dev());
-				std::uniform_int_distribution<int> randomAdvertisement(0, names.size() - 1);
-
-				if (names.size() > 1)
-					_shouldRefreshAdvertisement = true;
-
-				return new std::string(names[randomAdvertisement(dre)]);
-			}
-			return new std::string("");
+			const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
+			_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
+			_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
 		}
 	}
 }

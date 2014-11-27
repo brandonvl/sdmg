@@ -10,6 +10,7 @@
 #pragma once
 #include "MenuState.h"
 #include <string>
+#include <vector>
 
 using namespace sdmg::engine;
 
@@ -43,10 +44,10 @@ namespace sdmg {
 			GameBase *_game;
 			void loadMenuItems();
 			
+			std::vector<std::string*> *_advertismentList;
 			bool _shouldRefreshAdvertisement;
-			int _advertisementRefreshRate, _lastTimeSinceAdvertisementChange, _advertisementX, _advertisementY;
-			std::string *_advertisement;
-			std::string *getRandomAdvertisement();
+			int _advertisementIndex;
+			float _advertisementRefreshRate, _lastTimeSinceAdvertisementChange, _advertisementX, _advertisementY;
 			void loadAdvertisement();
 		};
 	}

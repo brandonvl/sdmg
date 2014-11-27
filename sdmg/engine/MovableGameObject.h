@@ -55,6 +55,8 @@ namespace sdmg {
 
 			State getState();
 			void setState(State state);
+			bool getRolling();
+			bool getFalling();
 			Direction getDirection();
 			void setDirection(Direction direction);
 			void stateCompleted();

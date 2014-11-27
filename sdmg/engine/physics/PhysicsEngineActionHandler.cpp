@@ -102,6 +102,8 @@ namespace sdmg {
 
 					platform->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 					
+					obj->addPP(-10);
+
 					delete fixturedef;
 					delete shape;
 					delete bodydef;
@@ -235,6 +237,8 @@ namespace sdmg {
 					platform->setBody(body);
 
 					platform->setLocation(&body->GetPosition().x, &body->GetPosition().y);
+
+					obj->addPP(-20);
 
 					_engine->getGame()->getWorld()->addPlatform(platform);
 					delete fixturedef;

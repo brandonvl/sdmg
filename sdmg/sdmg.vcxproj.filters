@@ -273,9 +273,6 @@
     <ClCompile Include="helperclasses\ConfigManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
-    <ClCompile Include="helperclasses\statistics\StatisticsManager.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
     <ClCompile Include="engine\input\Mouse.cpp">
       <Filter>Source Files\engine\input</Filter>
     </ClCompile>
@@ -290,6 +287,18 @@
     </ClCompile>
     <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\BlockAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LongRangeAttackAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\ProgressManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\util\FileManager.cpp">
+      <Filter>Source Files\engine\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -491,9 +500,6 @@
     <ClInclude Include="helperclasses\ConfigManager.h">
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\statistics\StatisticsManager.h">
-      <Filter>Header Files\helperclasses</Filter>
-    </ClInclude>
     <ClInclude Include="engine\input\Mouse.h">
       <Filter>Header Files\engine\input</Filter>
     </ClInclude>
@@ -514,6 +520,15 @@
     </ClInclude>
     <ClInclude Include="model\MovablePlatform.h">
       <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\LongRangeAttackAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\ProgressManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\FileManager.h">
+      <Filter>Header Files\engine\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

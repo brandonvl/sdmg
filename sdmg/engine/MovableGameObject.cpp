@@ -325,6 +325,19 @@ namespace sdmg {
 			}
 		}
 
+		bool MovableGameObject::getRolling()
+		{
+			return _state == (State::IDLE | State::FORWARD_ROLL) || _state == (State::WALKING | State::FORWARD_ROLL)
+				|| _state == (State::JUMPING | State::FORWARD_ROLL) || _state == (State::JUMPINGLEFT | State::FORWARD_ROLL)
+				|| _state == (State::JUMPINGRIGHT | State::FORWARD_ROLL) || _state == (State::FALLING | State::FORWARD_ROLL)
+				|| _state == (State::FALLINGLEFT | State::FORWARD_ROLL) || _state == (State::FALLINGRIGHT | State::FORWARD_ROLL);
+		}
+
+		bool MovableGameObject::getFalling()
+		{
+			return _state == State::FALLING || _state == State::FALLINGLEFT || _state == State::FALLINGRIGHT;
+		}
+
 		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
 		void MovableGameObject::setDirection(Direction direction) { _direction = direction; }
 

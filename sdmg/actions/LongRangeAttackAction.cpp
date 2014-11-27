@@ -22,14 +22,17 @@ namespace sdmg {
 			if (_character->stateIsInterruptible() && _character->getShootBody() == nullptr)
 			{
 				if (_event.type == SDL_KEYDOWN) {
-					if (_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN) &&
-						_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK) &&
-						_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND))
+					if (_character->getPP() >= 20)
 					{
-						if (_character->getState() == MovableGameObject::State::WALKING)
-							_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN);
-						else
-							_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN);
+						if (_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN) &&
+							_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK) &&
+							_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND))
+						{
+							if (_character->getState() == MovableGameObject::State::WALKING)
+								_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN);
+							else
+								_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::LONGRANGEATTACKBEGIN);
+						}
 					}
 				}
 			}
