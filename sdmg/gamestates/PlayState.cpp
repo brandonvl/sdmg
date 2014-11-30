@@ -207,6 +207,10 @@ namespace sdmg {
 				_lastUpdate = curTime;
 				_accumulator += diff;
 
+				for (auto it : game.getWorld()->getPlayers()) {
+					it->update(&gameTime, &game);
+				}
+
 				while (_accumulator > _step) {
 					for (auto obj : game.getWorld()->getPlayers())
 					{
