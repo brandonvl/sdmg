@@ -58,7 +58,6 @@ namespace sdmg {
 			long _fps;
 
 			bool _particlesSet;
-			bool _drawPart;
 
 			friend class GameOverState;
 

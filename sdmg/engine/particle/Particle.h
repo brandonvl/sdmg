@@ -24,6 +24,7 @@ namespace sdmg {
 				void showPixel();
 				bool isDead();
 				bool isDying();
+				void resetLife();
 
 			private:
 				SDL_Surface *_surface;
