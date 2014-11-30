@@ -63,7 +63,10 @@ namespace sdmg {
 
 		JSON::JSONArray &ProgressManager::getStatistics() 
 		{
-			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
+			if (currentSavegame < 0)
+				return JSON::JSONDocument::fromFile("assets/reset")->getRootObject().getArray("characters");
+			else
+				return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 		}
 
 		int ProgressManager::getCharacterIndex(std::string name) 
