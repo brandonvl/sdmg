@@ -103,6 +103,20 @@ namespace sdmg {
 				}
 			}
 
+			void DrawEngine::copyMap(std::string str, MovableGameObject *gameObject) {	
+				std::map<MovableGameObject::State, Surface*> *surfaceMap;
+
+				if (_objectStateSurfaces.count(gameObject)) surfaceMap = _objectStateSurfaces[gameObject];
+				else {
+					surfaceMap = new std::map<MovableGameObject::State, Surface*>;
+					_objectStateSurfaces.insert(std::make_pair(gameObject, surfaceMap));
+				}
+
+				if (_surfaces.count(str)) {
+					surfaceMap->insert(std::make_pair(MovableGameObject::State::IDLE, _surfaces[str]));
+				}
+			}
+
 			void DrawEngine::unload(std::string key) {
 				if (_surfaces.find(key) != _surfaces.end()) {
 					delete _surfaces[key];

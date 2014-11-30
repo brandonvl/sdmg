@@ -11,9 +11,11 @@
 #include "engine\MovableGameObject.h"
 #include "model\Platform.h"
 #include "model\MovablePlatform.h"
+#include "model\Character.h"
 #include "engine\GameBase.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
+#include "engine\World.h"
 #include <iostream>
 
 namespace sdmg {
@@ -74,9 +76,9 @@ namespace sdmg {
 					model::Platform *platform = new model::Platform(true);
 
 					if (obj->getDirection() == MovableGameObject::Direction::LEFT)
-						bodydef->position.Set(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY());
+						bodydef->position.Set(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getMidAttackY());
 					else if (obj->getDirection() == MovableGameObject::Direction::RIGHT)
-						bodydef->position.Set(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY());
+						bodydef->position.Set(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getMidAttackY());
 
 					//  bodydef->type = b2_staticBody;
 					b2Body *body = obj->getBody()->GetWorld()->CreateBody(bodydef);
@@ -91,6 +93,7 @@ namespace sdmg {
 					b2FixtureDef *fixturedef = new b2FixtureDef();
 					fixturedef->shape = shape;
 					fixturedef->density = 1.0f;
+					fixturedef->userData = obj;
 					body->CreateFixture(fixturedef);
 
 					
@@ -99,6 +102,8 @@ namespace sdmg {
 
 					platform->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 					
+					obj->addPP(-10);
+
 					delete fixturedef;
 					delete shape;
 					delete bodydef;
@@ -107,11 +112,11 @@ namespace sdmg {
 				{
 					if (obj->getDirection() == MovableGameObject::Direction::LEFT)
 					{
-						obj->getAttackBody()->SetTransform(b2Vec2(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY()), obj->getAttackBody()->GetAngle());
+						obj->getAttackBody()->SetTransform(b2Vec2(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getMidAttackY()), obj->getAttackBody()->GetAngle());
 					}
 					else if (obj->getDirection() == MovableGameObject::Direction::RIGHT)
 					{
-						obj->getAttackBody()->SetTransform(b2Vec2(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY()), obj->getAttackBody()->GetAngle());
+						obj->getAttackBody()->SetTransform(b2Vec2(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getMidAttackY()), obj->getAttackBody()->GetAngle());
 					}
 				}
 			}
@@ -172,8 +177,8 @@ namespace sdmg {
 				if (obj->getShootBody() == nullptr)
 				{
 					model::MovablePlatform *platform = new model::MovablePlatform();
-					platform->setSize(10, 10);
-					platform->setSpeed(50.0f, 0.0f);
+					platform->setSize(5,5);
+					platform->setSpeed(75.0f, 0.0f);
 					platform->setDamageOnImpact(20);
 					platform->setMoveing(model::MovablePlatform::Moveing::ONCE);
 					platform->setOwner(obj);
@@ -183,28 +188,32 @@ namespace sdmg {
 
 					if (obj->getDirection() == MovableGameObject::Direction::LEFT)
 					{
-						location = b2Vec2(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY());
+						location = b2Vec2(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getLongAttackY());
 						bodydef->position.Set(location.x, location.y);
 						platform->setLocation(location.x, location.y);
-						platform->setStartLocation(b2Vec2(obj->getPixelX() - 30, obj->getPixelY() + (obj->getHeight() / 2) - obj->getAttackY()));
-						platform->setEndLocation(b2Vec2(-100, obj->getPixelY() + (obj->getHeight() / 2) - obj->getAttackY()));
+						platform->setStartLocation(b2Vec2(obj->getPixelX() - 30, obj->getPixelY() + (obj->getHeight() / 2) - obj->getLongAttackY()));
+						platform->setEndLocation(b2Vec2(-100, obj->getPixelY() + (obj->getHeight() / 2) - obj->getLongAttackY()));
 						platform->setDirection(MovableGameObject::Direction::LEFT);
 
 						velocity = b2Vec2(-platform->getSpeed().horizontal, platform->getSpeed().vertical);
 					}
 					else if (obj->getDirection() == MovableGameObject::Direction::RIGHT)
 					{
-						location = b2Vec2(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getAttackY());
+						location = b2Vec2(obj->getX() + (obj->getWidth() * _P2M) - 4, obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getLongAttackY());
 						bodydef->position.Set(location.x, location.y);
 						platform->setLocation(location.x, location.y);
-						platform->setStartLocation(b2Vec2(obj->getPixelX() + obj->getWidth(), obj->getPixelY() + (obj->getHeight() / 2) - obj->getAttackY()));
-						platform->setEndLocation(b2Vec2(1380, obj->getPixelY() + (obj->getHeight() / 2) - obj->getAttackY()));
+						platform->setStartLocation(b2Vec2(obj->getPixelX() + obj->getWidth(), obj->getPixelY() + (obj->getHeight() / 2) - obj->getLongAttackY()));
+						platform->setEndLocation(b2Vec2(1380, obj->getPixelY() + (obj->getHeight() / 2) - obj->getLongAttackY()));
 						platform->setDirection(MovableGameObject::Direction::RIGHT);
 
 						velocity = b2Vec2(platform->getSpeed().horizontal, platform->getSpeed().vertical);
 					}
+					
 
-					_engine->getDrawEngine()->load(platform, "assets/characters/" + obj->getName() + "/bullet");
+					_engine->getDrawEngine()->copyMap(static_cast<model::Character*>(obj)->getKey() +"_bullet", platform);
+
+					//  _engine->getDrawEngine()->load(platform, "assets/characters/" + static_cast<model::Character*>(obj)->getKey() + "/bullet");
+					//  _engine->getDrawEngine()->loadMap(platform, "assets/characters/" + static_cast<model::Character*>(obj)->getKey() + "/bullet", 10, 10);
 
 					bodydef->type = b2_kinematicBody;
 					b2Body *body = obj->getBody()->GetWorld()->CreateBody(bodydef);
@@ -215,11 +224,12 @@ namespace sdmg {
 
 					b2PolygonShape *shape = new b2PolygonShape();
 
-					shape->SetAsBox(_P2M * 20, _P2M * 20);
+					shape->SetAsBox(_P2M * 5, _P2M * 5);
 
 					b2FixtureDef *fixturedef = new b2FixtureDef();
 					fixturedef->shape = shape;
 					fixturedef->density = 1.0f;
+					fixturedef->userData = obj;
 					body->CreateFixture(fixturedef);
 
 					body->SetUserData(platform);
@@ -228,6 +238,9 @@ namespace sdmg {
 
 					platform->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
+					obj->addPP(-20);
+
+					_engine->getGame()->getWorld()->addPlatform(platform);
 					delete fixturedef;
 					delete shape;
 					delete bodydef;

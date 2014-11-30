@@ -36,6 +36,9 @@ namespace sdmg {
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 			
+			if (game.getGameMode() == GameBase::GameMode::SingePlayer)
+				_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+				else if (game.getGameMode() == GameBase::GameMode::Versus)
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
 			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] { changeState(*_game, MainMenuState::getInstance()); });
@@ -85,6 +88,24 @@ namespace sdmg {
 		}
 
 		void GameOverState::replay() {
+			_game->getWorld()->resetWorld();
+			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
+
+			for (int i = 0; i < aliveList.size(); i++)
+			{
+				model::Character *character = static_cast<model::Character*>(aliveList[i]);
+				character->revive();
+				character->setState(MovableGameObject::State::RESPAWN);
+			}
+
+			_game->getEngine()->getPhysicsEngine()->resetBobs();
+
+			_replay = true;
+			_game->getEngine()->getPhysicsEngine()->resume();
+			changeState(*_game, PlayState::getInstance());
+		}
+
+		void GameOverState::next() {
 			_game->getWorld()->resetWorld();
 			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 

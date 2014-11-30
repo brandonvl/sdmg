@@ -12,6 +12,8 @@
 #include "GameObject.h"
 #include "MovableGameObject.h"
 
+#include <algorithm>
+
 namespace sdmg {
 	namespace engine {
 		const std::vector<GameObject*> &World::getGameObjects() {
@@ -102,6 +104,29 @@ namespace sdmg {
 		void World::addPlayer(MovableGameObject *player) {
 			_players.push_back(player);
 			addGameObject(player);
+		}
+
+		void World::removePlatform(GameObject *platform)
+		{
+			//auto it = std::find_if(_platforms.begin(), _platforms.end(), [platform] (const GameObject &obj) { return platform == &obj; });
+			//if (it != _platforms.end())
+				//_platforms.erase(it);
+
+			for (auto it = _platforms.begin(); it != _platforms.end(); it++)
+			{
+				if (*it == platform) {
+					_platforms.erase(it);
+					break;
+				}
+			}
+
+			for (auto it = _gameObjects.begin(); it != _gameObjects.end(); it++)
+			{
+				if (*it == platform) {
+					_gameObjects.erase(it);
+					break;
+				}
+			}
 		}
 	}
 }

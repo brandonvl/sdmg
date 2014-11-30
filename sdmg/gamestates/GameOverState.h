@@ -48,6 +48,7 @@ namespace sdmg {
 			bool _replay;
 
 			void replay();
+			void next();
 		};
 	}
 }
