@@ -282,9 +282,6 @@
     <ClCompile Include="engine\particle\Particle.cpp">
       <Filter>Source Files\engine\particle</Filter>
     </ClCompile>
-    <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="actions\BlockAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -301,6 +298,9 @@
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
     <ClCompile Include="gamestates\ProgressLoadState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
   </ItemGroup>
@@ -515,9 +515,6 @@
     <ClInclude Include="engine\particle\ParticleEngine.h">
       <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\LoadingSinglePlayerState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="model\MovablePlatform.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
@@ -534,7 +531,10 @@
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\ProgressLoadState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingSinglePlayerState.h">
+      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -24,12 +24,18 @@
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\ConfigManager.h"
 #include "helperclasses\HUD.h"
+#include "engine\ai\EasyAIMachine.h"
 
 namespace sdmg {
 	namespace gamestates {
 		void TutorialState::init(GameBase &game)
 		{
 			PlayState::init(game);
+
+			Character *character = static_cast<Character*>(game.getWorld()->getPlayers()[0]);
+			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character);
+
+			character->setAI(*machine);
 
 			_tutorial = new std::vector<std::pair<SDL_Keycode, std::string>>();
 			_toDraw = new std::vector<std::string>();
@@ -141,6 +147,10 @@ namespace sdmg {
 		void TutorialState::update(GameBase &game, GameTime &gameTime)
 		{
 			// PlayState::update(game, gameTime);
+
+			for (auto it : game.getWorld()->getPlayers()) {
+				it->update(&gameTime, &game);
+			}
 
 			if (_showFPS)
 				_fps = game.getFPS() == _fps ? _fps : game.getFPS();

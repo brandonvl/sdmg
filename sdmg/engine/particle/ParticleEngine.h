@@ -8,34 +8,44 @@
 //
 
 #pragma once
-#include <vector>
+#include <map>
 #include "..\..\sdl\include\SDL.h"
 
 namespace sdmg {
 	namespace engine {
 		class Engine;
+		class GameObject;
+		class MovableGameObject;
 		namespace particle {
-			class Particle;
+			class ParticleSet;
 			class ParticleEngine
 			{
 			public:
 				ParticleEngine();
 				virtual ~ParticleEngine();
 
-				void refresh();
-				void setParticles(int max, int x, int y, int width, int height);
-				void loadParticles();
-				SDL_Surface* getSDLSurface();
-				Particle* createParticle();
+				void createParticleSet(std::string key, int max, int x, int y, int width, int height);
+				void continuousShowParticleSet(std::string key);
+				void resetParticleLifeTime(std::string key);
+				void resetParticleSet(std::string key);
+				void showParticleSet(std::string key);
+				SDL_Surface* getParticleSetSurface(std::string key);
+				void gameObjectHit(MovableGameObject *gameObject);
+				void registerGameObject(MovableGameObject *mGameObject);
+
+				int getX();
+				int getY();
+				void resetXY();
 			private:
-				int _x, _y, _max;
-				SDL_Surface* _surface;
-				std::vector<Particle*> _particles;
+				std::map<std::string, ParticleSet*> _particleSets;
+
+				void loadParticles();
 
 				// Particle images
 				SDL_Surface* _ptclRed;
 				SDL_Surface* _ptclYellow;
 
+				int _x, _y;
 			};
 		}
 	}

@@ -186,6 +186,16 @@ namespace sdmg {
 				if (_showFPS)
 					_fps = game.getFPS() == _fps ? _fps : game.getFPS();
 
+				// ------------------------------------------- PARTICLE TEST --------------------------------------
+				if (!_particlesSet) {
+					for (auto obj : game.getWorld()->getPlayers()) {
+						game.getEngine()->getParticleEngine()->registerGameObject(obj);
+					}
+
+					game.getEngine()->getParticleEngine()->createParticleSet("hit", 3, 175, 175, 350, 350);
+					_particlesSet = true;
+				}
+				// ------------------------------------------- PARTICLE TEST --------------------------------------
 
 				game.getEngine()->getInputEngine()->update(game);
 				game.getEngine()->getDrawEngine()->update();
@@ -196,6 +206,10 @@ namespace sdmg {
 
 				_lastUpdate = curTime;
 				_accumulator += diff;
+
+				for (auto it : game.getWorld()->getPlayers()) {
+					it->update(&gameTime, &game);
+				}
 
 				while (_accumulator > _step) {
 					for (auto obj : game.getWorld()->getPlayers())
@@ -228,7 +242,7 @@ namespace sdmg {
 			if (_showClickBoxes)
 				game.getEngine()->getDrawEngine()->drawHitBoxes(game.getEngine()->getInputEngine()->getMouse().getClickBoxes());
 
-			for (auto obj : game.getWorld()->getGameObjects())
+			for (auto obj : game.getWorld()->getGameObjects()) 
 				game.getEngine()->getDrawEngine()->draw(obj);
 			
 			if (_huds) {
@@ -239,6 +253,18 @@ namespace sdmg {
 
 			if (_showFPS)
 				game.getEngine()->getDrawEngine()->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
+
+
+			if (game.getEngine()->getParticleEngine()->getX() != 0) {
+				int x = game.getEngine()->getParticleEngine()->getX();
+				int y = game.getEngine()->getParticleEngine()->getY();
+				SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface("hit");
+				if (surface) {
+					game.getEngine()->getDrawEngine()->refreshSurface(surface);
+					game.getEngine()->getParticleEngine()->showParticleSet("hit");
+					game.getEngine()->getDrawEngine()->drawParticle(surface, x, y);
+				}
+			}
 		}
 	}
 }

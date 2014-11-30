@@ -90,10 +90,16 @@
     <ClCompile Include="actions\RightWalkAction.cpp" />
     <ClCompile Include="actions\RollAction.cpp" />
     <ClCompile Include="ControlsState.cpp" />
+    <ClCompile Include="engine\ai\AIMachine.cpp" />
+    <ClCompile Include="engine\ai\aistates\IdleAIState.cpp" />
+    <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp" />
+    <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp" />
+    <ClCompile Include="engine\ai\EasyAIMachine.cpp" />
     <ClCompile Include="engine\drawing\DynamicTextSurface.cpp" />
     <ClCompile Include="engine\audio\MusicObject.cpp" />
     <ClCompile Include="engine\audio\SampleObject.cpp" />
     <ClCompile Include="engine\input\Mouse.cpp" />
+    <ClCompile Include="engine\util\FileManager.cpp" />
     <ClCompile Include="gamestates\CreditsState.cpp" />
     <ClCompile Include="engine\audio\AudioEngine.cpp" />
     <ClCompile Include="engine\drawing\DrawEngine.cpp" />
@@ -150,6 +156,7 @@
     <ClCompile Include="gamestates\TutorialState.cpp" />
     <ClCompile Include="engine\particle\Particle.cpp" />
     <ClCompile Include="engine\particle\ParticleEngine.cpp" />
+    <ClCompile Include="engine\particle\ParticleSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\Actions.h" />
@@ -163,11 +170,18 @@
     <ClInclude Include="actions\RightWalkAction.h" />
     <ClInclude Include="actions\RollAction.h" />
     <ClInclude Include="ControlsState.h" />
+    <ClInclude Include="engine\ai\AIMachine.h" />
+    <ClInclude Include="engine\ai\aistates\AIState.h" />
+    <ClInclude Include="engine\ai\aistates\IdleAIState.h" />
+    <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h" />
+    <ClInclude Include="engine\ai\aistates\MoveRightAIState.h" />
+    <ClInclude Include="engine\ai\EasyAIMachine.h" />
     <ClInclude Include="engine\drawing\DynamicTextSurface.h" />
     <ClInclude Include="engine\audio\AudioObject.h" />
     <ClInclude Include="engine\audio\MusicObject.h" />
     <ClInclude Include="engine\audio\SampleObject.h" />
     <ClInclude Include="engine\input\Mouse.h" />
+    <ClInclude Include="engine\util\FileManager.h" />
     <ClInclude Include="gamestates\CreditsState.h" />
     <ClInclude Include="engine\audio\AudioEngine.h" />
     <ClInclude Include="engine\Direction.h" />
@@ -226,6 +240,7 @@
     <ClInclude Include="engine\drawing\TextSurface.h" />
     <ClInclude Include="engine\particle\Particle.h" />
     <ClInclude Include="engine\particle\ParticleEngine.h" />
+    <ClInclude Include="engine\particle\ParticleSet.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="gamestates\TutorialState.h" />

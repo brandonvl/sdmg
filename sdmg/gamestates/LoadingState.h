@@ -58,13 +58,13 @@ namespace sdmg {
 			bool _isLoaded, _isError, _isTutorial;
 			std::vector<helperclasses::HUD*> *_huds;
 			std::string *_level, *_progress;
-			int _advertisementX, _advertisementY;
 
 			// LoadingBar
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;
 
 			bool _isAdvertisement;
-			std::string getRandomAdvertisement();
+			int _advertisementX, _advertisementY;
+			std::vector<std::string*> *_advertismentList;
 			void loadAdvertisement();
 		};
 	}

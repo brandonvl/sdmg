@@ -8,81 +8,90 @@
 //
 
 #include "ParticleEngine.h"
-#include "Particle.h"
-#include "..\..\sdl\include\SDL.h"
+#include "ParticleSet.h"
 #include "..\..\sdl\include\SDL_image.h"
-
-#include "engine\drawing\Rectangle.h"
+#include "engine\MovableGameObject.h"
 
 #include <ctime>
+#include <string>
 
 namespace sdmg {
 	namespace engine {
 		namespace particle {
 			ParticleEngine::ParticleEngine() {
+				_particleSets = std::map<std::string, ParticleSet*>();
+
 				// Seed random generator
 				srand(time(0));
 
 				// Load particle images
 				loadParticles();
+			}
 
-				_particles = std::vector<Particle*>();
+			ParticleEngine::~ParticleEngine() {
+				if (_particleSets.size() > 0) {
+					std::map<std::string, ParticleSet*>::iterator itr = _particleSets.begin();
+					while (itr != _particleSets.end()) {
+						delete itr->second;
+						_particleSets.erase(itr++);
+					}
+				}
 			}
 
 			void ParticleEngine::loadParticles() {
 				int pngFlags = IMG_INIT_PNG;
 				if ((IMG_Init(pngFlags) & pngFlags)) {
-					_ptclRed = IMG_Load("assets/particles/red.png");
+					_ptclRed = IMG_Load("assets/particles/blood.png");
 					_ptclYellow = IMG_Load("assets/particles/yellow.png");
 					SDL_SetSurfaceAlphaMod(_ptclRed, SDL_ALPHA_OPAQUE);
 					SDL_SetSurfaceAlphaMod(_ptclYellow, SDL_ALPHA_OPAQUE);
 				}
 			}
 
-			ParticleEngine::~ParticleEngine() {
-				// Delete all particles
-				for (int i = 0; i< _max; i++)
-					delete _particles[i];
+			void ParticleEngine::createParticleSet(std::string key, int max, int x, int y, int width, int height) {
+				ParticleSet *ps = new ParticleSet(max, x, y, width, height, _ptclRed);
+				_particleSets.insert(std::make_pair(key, ps));
 			}
 
-			void ParticleEngine::setParticles(int max, int x, int y, int width, int height) {
-				_surface = SDL_CreateRGBSurface(0, width, height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
-
-				_x = x;
-				_y = y;
-				_max = max;
-
-				// Create particles
-				for (int i = 0; i < _max; i++)
-					_particles.push_back(createParticle());
+			void  ParticleEngine::continuousShowParticleSet(std::string key) {
+				_particleSets[key]->showContinuous();			
 			}
 
-			Particle* ParticleEngine::createParticle() {
-				return new Particle(_x + rand() % 6 - 3, // Particle x position
-									_y + rand() % 6 - 3, // Paritcle y position
-									rand() % 10 + (float)rand() / (float)RAND_MAX - 5, // Particle x velocity
-									rand() % 10 + (float)rand() / (float)RAND_MAX - 5, // Particle y velocity
-									500 + rand() % 1000, rand() % 255, // Particle color
-									_surface); // Surface to draw on
+			void ParticleEngine::resetParticleLifeTime(std::string key) {
+				_particleSets[key]->resetLifeTime();
 			}
 
-			void ParticleEngine::refresh() {
-				for (int i = 0; i < _max; i++)
-				{
-					if (_particles[i]->isDead()) {
-						delete _particles[i];
-						_particles[i] = createParticle();
-					}
-					else {
-						_particles[i]->move();
-						_particles[i]->showByImage(_ptclRed);
-					}
-				} 
+			void ParticleEngine::resetParticleSet(std::string key) {
+				_particleSets[key]->reset();
 			}
 
-			SDL_Surface* ParticleEngine::getSDLSurface() {
-				return _surface;
+			void ParticleEngine::showParticleSet(std::string key) {
+				_particleSets[key]->show();
 			}
+
+			SDL_Surface* ParticleEngine::getParticleSetSurface(std::string key) {
+				return _particleSets[key]->getSDLSurface();
+			}
+
+			void ParticleEngine::gameObjectHit(MovableGameObject *gameObject) {
+				std::string key = "hit";
+				SDL_Surface* surface = _particleSets[key]->getSDLSurface();
+				_x = (gameObject->getPixelX() - (surface->w / 2));
+				_y = (gameObject->getPixelY() - (surface->h / 2));
+				_particleSets[key]->reset();
+			}
+
+			void ParticleEngine::registerGameObject(MovableGameObject *mGameObject) {
+				mGameObject->registerHitCallback(std::bind(&ParticleEngine::gameObjectHit, this, mGameObject));
+			}
+
+			int ParticleEngine::getX() { return _x; }
+			int ParticleEngine::getY() { return _y; }
+			void ParticleEngine::resetXY() {
+				_x = 0; 
+				_y = 0;
+			}
+
 		}
 	}
 }
