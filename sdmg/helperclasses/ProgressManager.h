@@ -16,9 +16,6 @@ namespace sdmg {
 
 			void cleanup();
 
-			void setKey();
-			const int getKey();
-
 			void setStatistics(std::string name, std::string key, std::string value);
 			JSON::JSONArray &getStatistics();
 
@@ -31,15 +28,20 @@ namespace sdmg {
 			void save();
 			void load();
 			void reset();
+			void loaddefaults();
 
-			bool saveIsLoaded();
+			std::string getSaveGameTimestamp(int savegame);
+			std::string getTimestampNow();
+
+			int currentSavegame;
+
+			JSON::JSONObject defaultSavegame();
 
 		private:
 			ProgressManager();
 			JSON::JSONDocument *_jsonDoc;
 
 			int getCharacterIndex(std::string name);
-			bool _isLoaded;
 		};
 	}
 }

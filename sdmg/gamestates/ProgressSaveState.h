@@ -1,8 +1,5 @@
-//
-//
-//  @ Project : SDMG
-//  @ File Name : GameOverState.h
-//  @ Date : 10-11-2014
+//  @ File Name : ProgressSaveState.h
+//  @ Date : 29-11-2014
 //  @ Author : 42IN13SAd
 //
 //
@@ -12,17 +9,19 @@
 
 using namespace sdmg::engine;
 
-
 namespace sdmg {
+	namespace engine {
+		class GameTime;
+	}
+
 	namespace helperclasses {
 		class Menu;
 		class MenuItem;
 	}
 
 	namespace gamestates {
-		class ProgressState :
-			public MenuState
-		{
+		using namespace sdmg::helperclasses;
+		class ProgressSaveState : public MenuState {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
@@ -30,19 +29,16 @@ namespace sdmg {
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
-
-			static ProgressState& getInstance() {
-				static ProgressState _instance;
+			static ProgressSaveState& getInstance() {
+				static ProgressSaveState _instance;
 				return _instance;
 			}
 
+		protected:
+			ProgressSaveState() { }
+
 		private:
-			ProgressState() { }
-			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
-
 			GameBase *_game;
-
-			bool _isEnabled;
 		};
 	}
 }

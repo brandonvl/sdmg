@@ -3,39 +3,57 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
+#include <stdio.h>
+
+struct tm newtime;
+__time32_t aclock;
 
 using namespace std;
 
 namespace sdmg {
 	namespace helperclasses {
 
-		ProgressManager::ProgressManager() {
-			reset();
+		ProgressManager::ProgressManager() 
+		{
+			currentSavegame = -1;
+			loaddefaults();
 		}
 
-		void ProgressManager::cleanup() {
+		void ProgressManager::cleanup() 
+		{
 			delete _jsonDoc;
 		}
 
-		void ProgressManager::reset() {
-			_isLoaded = false;
+		void ProgressManager::loaddefaults()
+		{
 			delete _jsonDoc;
-			_jsonDoc = JSON::JSONDocument::fromFile("assets/reset");
+			_jsonDoc = JSON::JSONDocument::fromFile("assets/defaultprogress");
 		}
 
-		void ProgressManager::load() {
-			_isLoaded = true;
+		void ProgressManager::reset()
+		{
+			delete _jsonDoc;
+			_jsonDoc = JSON::JSONDocument::fromFile("assets/defaultprogress");
+		}
+
+		void ProgressManager::load() 
+		{
 			delete _jsonDoc;
 			_jsonDoc = JSON::JSONDocument::fromFile("assets/progress");
 		}
 
-		void ProgressManager::save() {
-			setTimestamp("yyyy/mm/dd hh:mm");
-			_jsonDoc->saveFile("assets/progress");
+		void ProgressManager::save() 
+		{
+			if (currentSavegame >= 0) {
+				setTimestamp(getTimestampNow());
+				_jsonDoc->saveFile("assets/progress");
+			}
 		}
 
-		void ProgressManager::setStatistics(std::string name, std::string key, std::string value) {
-			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("characters");
+		void ProgressManager::setStatistics(std::string name, std::string key, std::string value) 
+		{
+			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 			JSON::JSONObject characterObj = characterArr.getObject(getCharacterIndex(name));
 			JSON::JSONVariable *var = new JSON::JSONVariable(&characterObj.getObject(0));
 			var->setValue(value);
@@ -43,13 +61,15 @@ namespace sdmg {
 			characterObj.set(name, *var);
 		}
 
-		JSON::JSONArray &ProgressManager::getStatistics() {
-			return _jsonDoc->getRootObject().getArray("characters");
+		JSON::JSONArray &ProgressManager::getStatistics() 
+		{
+			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 		}
 
-		int ProgressManager::getCharacterIndex(std::string name) {
+		int ProgressManager::getCharacterIndex(std::string name) 
+		{
 			int characterIndex = -1;
-			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("characters");
+			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 			for (int i = 0; i < characterArr.size(); i++) {
 				JSON::JSONObject &characterObj = characterArr.getObject(i);
 				if (name == characterObj.getString("name")) {
@@ -60,32 +80,54 @@ namespace sdmg {
 			return characterIndex;
 		}
 
-		void setKey() {
-
+		bool ProgressManager::autosaveEnabled() 
+		{
+			if (_jsonDoc)
+				return _jsonDoc->getRootObject().getBoolean("autosave");
+			return false;
 		}
 
-		const int getKey() {
-			return 0;
-		}
-
-		bool ProgressManager::autosaveEnabled() {
-			return _jsonDoc->getRootObject().getBoolean("autosave");
-		}
-
-		void ProgressManager::setAutosave(bool enable) {
+		void ProgressManager::setAutosave(bool enable) 
+		{
 			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? "true" : "false");
 		}
 
-		bool ProgressManager::saveIsLoaded() {
-			return _isLoaded;
+		std::string ProgressManager::getTimestamp() 
+		{
+			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getString("timestamp");
 		}
 
-		std::string ProgressManager::getTimestamp() {
-			return _jsonDoc->getRootObject().getString("timestamp");
+		void ProgressManager::setTimestamp(std::string time) 
+		{
+			_jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getVariable("timestamp").setValue(time);
 		}
 
-		void ProgressManager::setTimestamp(std::string time) {
-			_jsonDoc->getRootObject().getVariable("timestamp").setValue(time);
+		std::string ProgressManager::getSaveGameTimestamp(int savegame) 
+		{
+			return savegame < _jsonDoc->getRootObject().getArray("savegame").size() && _jsonDoc->getRootObject().getArray("savegame").getObject(savegame).getString("timestamp") != "" ? _jsonDoc->getRootObject().getArray("savegame").getObject(savegame).getString("timestamp") : "";
+		}
+
+		std::string ProgressManager::getTimestampNow() 
+		{			
+			char buffer[32];
+			errno_t errNum;
+			_time32(&aclock);   // Get time in seconds.
+			_localtime32_s(&newtime, &aclock);   // Convert time to struct tm form.
+
+			// Print local time as a string.
+
+			errNum = asctime_s(buffer, 32, &newtime);
+			if (errNum)
+			{
+				printf("Error code: %d", (int)errNum);
+			}
+			printf("Current date and time: %s", buffer);
+			return buffer;
+		}
+
+		JSON::JSONObject ProgressManager::defaultSavegame()
+		{
+			return JSON::JSONDocument::fromFile("assets/reset")->getRootObject();
 		}
 	}
 }
