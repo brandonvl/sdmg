@@ -156,13 +156,13 @@ namespace sdmg {
 					}
 				}
 
+				std::vector<Surface*> v;
+
 				if (_objectStateSurfaces.size() > 0) {
 					std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>::iterator objectStateItr = _objectStateSurfaces.begin();
 					while (objectStateItr != _objectStateSurfaces.end()) {
 						std::map<MovableGameObject::State, Surface*> *stateSurfaces = objectStateItr->second;
 						std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
-
-						std::vector<Surface*> v;
 
 						while (stateItr != stateSurfaces->end()) {
 							if (std::find(v.begin(), v.end(), stateItr->second) == v.end()) {
