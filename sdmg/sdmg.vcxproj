@@ -134,6 +134,7 @@
     <ClCompile Include="gamestates\OptionsState.cpp" />
     <ClCompile Include="gamestates\PauseState.cpp" />
     <ClCompile Include="gamestates\PlayState.cpp" />
+    <ClCompile Include="gamestates\ProgressDeleteState.cpp" />
     <ClCompile Include="gamestates\ProgressLoadState.cpp" />
     <ClCompile Include="gamestates\ProgressSaveState.cpp" />
     <ClCompile Include="gamestates\ProgressState.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="gamestates\OptionsState.h" />
     <ClInclude Include="gamestates\PauseState.h" />
     <ClInclude Include="gamestates\PlayState.h" />
+    <ClInclude Include="gamestates\ProgressDeleteState.h" />
     <ClInclude Include="gamestates\ProgressLoadState.h" />
     <ClInclude Include="gamestates\ProgressSaveState.h" />
     <ClInclude Include="gamestates\ProgressState.h" />

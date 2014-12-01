@@ -348,6 +348,9 @@
     <ClCompile Include="gamestates\ProgressState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
+    <ClCompile Include="gamestates\ProgressDeleteState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -613,6 +616,9 @@
     </ClInclude>
     <ClInclude Include="engine\particle\ParticleSet.h">
       <Filter>Header Files\engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressDeleteState.h">
+      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
