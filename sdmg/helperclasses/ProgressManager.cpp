@@ -63,8 +63,12 @@ namespace sdmg {
 
 		JSON::JSONArray &ProgressManager::getStatistics() 
 		{
-			if (currentSavegame < 0)
-				return JSON::JSONDocument::fromFile("assets/reset")->getRootObject().getArray("characters");
+			if (currentSavegame < 0) {
+				JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/reset");
+				JSON::JSONArray &arr = doc->getRootObject().getArray("characters");
+				delete doc;
+				return arr;
+			}
 			else
 				return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 		}

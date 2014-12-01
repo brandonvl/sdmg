@@ -37,7 +37,7 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 			
 			if (game.getGameMode() == GameBase::GameMode::SingePlayer)
-				_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::next, this));
 				else if (game.getGameMode() == GameBase::GameMode::Versus)
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
 			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
@@ -164,7 +164,9 @@ namespace sdmg {
 				}
 
 				delete huds;
-				huds = nullptr;
+
+				delete PlayState::getInstance()._editor;
+				PlayState::getInstance()._editor = nullptr;
 				//game.getStateManager()->cleanupOthers();
 			}
 

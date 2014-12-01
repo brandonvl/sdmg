@@ -85,7 +85,6 @@ namespace sdmg {
 				SDL_RenderFillRect(_renderer, &rect);
 
 				SDL_RenderPresent(_renderer);
-
 			}
 		}
 

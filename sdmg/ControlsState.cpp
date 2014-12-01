@@ -19,16 +19,15 @@ namespace sdmg {
 			_game = &game;
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 100, game);
-			std::function<void()> callback = std::bind(&ControlsState::menuAction, this);
 
-			_menu->addMenuTextItem("Walk Right", callback);
-			_menu->addMenuTextItem("Walk Left", callback);
-			_menu->addMenuTextItem("Jump", callback);
-			_menu->addMenuTextItem("Roll", callback);
-			_menu->addMenuTextItem("Midrange attack", callback);
-			_menu->addMenuTextItem("Longrange attack", callback);
-			_menu->addMenuTextItem("Block", callback);
-			_menu->addMenuTextItem("Back", callback);
+			_menu->addMenuTextItem("Walk Right", (std::function<void()>)[&] { waitFor(_walkright); });
+			_menu->addMenuTextItem("Walk Left", (std::function<void()>)[&] { waitFor(_walkleft); });
+			_menu->addMenuTextItem("Jump", (std::function<void()>)[&] { waitFor(_jump); });
+			_menu->addMenuTextItem("Roll", (std::function<void()>)[&] { waitFor(_roll); });
+			_menu->addMenuTextItem("Midrange attack", (std::function<void()>)[&] { waitFor(_midrange); });
+			_menu->addMenuTextItem("Longrange attack", (std::function<void()>)[&] { waitFor(_longrange); });
+			_menu->addMenuTextItem("Block", (std::function<void()>)[&] { waitFor(_block); });
+			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			_info = new std::string("Press Left or Right to navigate between players.");
 			_info2 = new std::string("Press Enter to change the key for the selected action. The controls are automatically saved.");
@@ -55,6 +54,12 @@ namespace sdmg {
 
 			_currentplayer = 0;
 			readKeys();
+			game.getEngine()->getInputEngine()->setMouseEnabled();
+		}
+
+		void ControlsState::waitFor(std::string *cur) {
+			*cur = "Press a key";
+			_current = cur;
 		}
 
 		void ControlsState::readKeys()
@@ -69,12 +74,7 @@ namespace sdmg {
 			*_longrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "longrange"));
 			*_block = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentplayer, "block"));
 		}
-
-		void ControlsState::menuAction()
-		{
-
-		}
-
+		
 		void ControlsState::cleanup(GameBase &game)
 		{
 			delete _menu;
@@ -108,6 +108,10 @@ namespace sdmg {
 
 			if (SDL_PollEvent(&event))
 			{
+				if (_current == nullptr) {
+					game.getEngine()->getInputEngine()->handleEvent(event);
+				}
+
 				if (event.type == SDL_QUIT)
 				{
 					game.stop();
@@ -117,7 +121,7 @@ namespace sdmg {
 				{
 					// DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
-					if (!_waiting)
+					if (_current == nullptr)
 					{
 						switch (event.key.keysym.sym)
 						{
@@ -142,64 +146,23 @@ namespace sdmg {
 								break;
 							case SDLK_KP_ENTER:
 							case SDLK_RETURN:
-								changeText(event.key.keysym.sym);
-								_waiting = true;
-								menuAction();
+							case 10:
+								_menu->doAction();
 								break;
 						}
 					}
-					else
-					{
-						InputEngine().findJoysticks();
-						changeText(event.key.keysym.sym);
-						bindKey();
-					}
+					else setKey(event.key.keysym.sym);
 				}
 			}
 		}
 
-		void ControlsState::changeText(const int keyCode)
-		{
-			std::string item = _menu->getSelectedMenuItem()->getTag();
-			std::string text = "Press a key";
-
-			if (_waiting) text = SDL_GetKeyName(keyCode);
-
-			if (item == "Walk Right")
-			{
-				*_walkright = text;
-			}
-			else if (item == "Walk Left")
-			{
-				*_walkleft = text;
-			}
-			else if (item == "Jump")
-			{
-				*_jump = text;
-			}
-			else if (item == "Roll")
-			{
-				*_roll = text;
-			}
-			else if (item == "AttackMidRange")
-			{
-				*_midrange = text;
-			}
-			else if (item == "AttackLongRange")
-			{
-				*_longrange = text;
-			}
-			else if (item == "Block")
-			{
-				*_block = text;
-			}
-			else if (item == "Save")
-			{
-				_game->getStateManager()->popState();
-			}
+		void ControlsState::setKey(int keyCode) {
+			*_current = SDL_GetKeyName(keyCode);
+			save();
+			_current = nullptr;
 		}
 
-		void ControlsState::bindKey()
+		void ControlsState::save()
 		{
 			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "walkRight", SDL_GetKeyFromName(_walkright->c_str()));
 			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "walkLeft", SDL_GetKeyFromName(_walkleft->c_str()));
@@ -208,8 +171,7 @@ namespace sdmg {
 			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "midrange", SDL_GetKeyFromName(_midrange->c_str()));
 			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "longrange", SDL_GetKeyFromName(_longrange->c_str()));
 			helperclasses::ConfigManager::getInstance().setKey(_currentplayer, "block", SDL_GetKeyFromName(_block->c_str()));
-			helperclasses::ConfigManager::getInstance().save();
-			_waiting = false;
+			helperclasses::ConfigManager::getInstance().save();			
 		}
 
 		void ControlsState::update(GameBase &game, GameTime &gameTime)
@@ -223,16 +185,16 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			drawEngine->draw("controls_background");
 
-			drawEngine->drawDynamicText("info", *_info, 425, 40);
-			drawEngine->drawDynamicText("info2", *_info2, 250, 90);
-			drawEngine->drawDynamicText("player", "Player: " + std::to_string(_currentplayer + 1), 250, 30);
-			drawEngine->drawDynamicText("walkright", *_walkright, 850, 155);
-			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 225);
-			drawEngine->drawDynamicText("jump", *_jump, 850, 300);
-			drawEngine->drawDynamicText("roll", *_roll, 850, 375);
-			drawEngine->drawDynamicText("midrange", *_midrange, 850, 445);
-			drawEngine->drawDynamicText("longrange", *_longrange, 850, 515);
-			drawEngine->drawDynamicText("block", *_block, 850, 585);
+			drawEngine->drawDynamicText("info", *_info, 250, 20);
+			drawEngine->drawDynamicText("info2", *_info2, 250, 50);
+			drawEngine->drawDynamicText("player", "Player: " + std::to_string(_currentplayer + 1), 50, 30);
+			drawEngine->drawDynamicText("walkright", *_walkright, 850, 115); // 155
+			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 185);
+			drawEngine->drawDynamicText("jump", *_jump, 850, 260);
+			drawEngine->drawDynamicText("roll", *_roll, 850, 335);
+			drawEngine->drawDynamicText("midrange", *_midrange, 850, 405);
+			drawEngine->drawDynamicText("longrange", *_longrange, 850, 475);
+			drawEngine->drawDynamicText("block", *_block, 850, 545);
 
 			_menu->draw(&game);
 

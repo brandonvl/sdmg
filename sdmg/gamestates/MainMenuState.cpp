@@ -85,12 +85,6 @@ namespace sdmg {
 			delete _advertismentList;
 			_advertismentList = nullptr;
 
-			game.getEngine()->getDrawEngine()->unloadText("play");
-			game.getEngine()->getDrawEngine()->unloadText("tutorial");
-			game.getEngine()->getDrawEngine()->unloadText("options");
-			game.getEngine()->getDrawEngine()->unloadText("credits");
-			game.getEngine()->getDrawEngine()->unloadText("quit");
-			game.getEngine()->getDrawEngine()->unload("mainmenu_background");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -102,7 +96,6 @@ namespace sdmg {
 			if (SDL_PollEvent(&event))
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
-
 
 				if (event.type == SDL_QUIT)
 				{

@@ -40,23 +40,15 @@ namespace sdmg {
 
 		protected:
 			ControlsState() { }
-			void menuAction() override;
-			void bindKey();
-			void changeText(const int keyCode);
+			void save();
+			void setKey(int keyCode);
+			void waitFor(std::string *cur);
+
 			void readKeys();
 		private:
 			GameBase *_game;
-			bool _waiting;
 			int _currentplayer;
-			std::string* _info;
-			std::string* _info2;
-			std::string* _walkright;
-			std::string* _walkleft;
-			std::string* _jump;
-			std::string* _roll;
-			std::string* _midrange;
-			std::string* _longrange;
-			std::string* _block;
+			std::string *_info, *_info2, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current;
 		};
 	}
 }
