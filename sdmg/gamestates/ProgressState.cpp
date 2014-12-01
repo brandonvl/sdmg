@@ -10,6 +10,7 @@
 #include "ProgressState.h"
 #include "ProgressSaveState.h"
 #include "ProgressLoadState.h"
+#include "ProgressDeleteState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
@@ -46,7 +47,7 @@ namespace sdmg {
 				_game->getStateManager()->pushState(ProgressLoadState::getInstance());
 			});
 			_menu->addMenuTextItem("Delete", (std::function<void()>)[&] {
-				//_game->getStateManager()->pushState(ProgressDeleteState::getInstance());
+				_game->getStateManager()->pushState(ProgressDeleteState::getInstance());
 			});
 			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 			game.getEngine()->getInputEngine()->setMouseEnabled();
