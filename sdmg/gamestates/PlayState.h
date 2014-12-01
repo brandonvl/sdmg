@@ -11,6 +11,7 @@
 #include "engine\GameState.h"
 #include "engine\GameObject.h"
 #include "engine\input\Mouse.h"
+#include "helperclasses\Editor.h"
 #include <vector>
 #include <map>
 
@@ -49,29 +50,21 @@ namespace sdmg {
 		private:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;
+			helperclasses::Editor *_editor;
 		protected:
 			PlayState() { }
 			void preformDraw(GameBase &game);
 			std::vector<helperclasses::HUD*> *_huds;
 
-			bool _showFPS, _showHitBoxes, _editMode, _showClickBoxes;
+			bool _showFPS, _showHitBoxes, _showClickBoxes;
 			long _fps;
 
 			bool _particlesSet;
 			bool _drawPart;
 
 			friend class GameOverState;
-
-			void enableEditMode(GameBase &game);
-			void disableEditMode(GameBase &game);
-			void mouseMove(int x, int y);
-			void selectObject(GameObject &gameObject);
-
-			float _mouseDownX, _mouseDownY;
-			GameObject *_curSelectedObject;
-			GameBase *_game;
-
-			std::map<GameObject*, input::Mouse::Hitbox*> *_hitboxes;
+			
+			GameBase *_game;			
 		};
 	}
 }

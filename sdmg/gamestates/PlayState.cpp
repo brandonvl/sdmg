@@ -32,6 +32,7 @@ namespace sdmg {
 		void PlayState::init(GameBase &game)
 		{
 			_game = &game;
+			_editor = new Editor(game);
 			game.getEngine()->getPhysicsEngine()->resume();
 			game.getEngine()->getAudioEngine()->play("bgm", 0);
 
@@ -103,8 +104,7 @@ namespace sdmg {
 							break;
 						case SDLK_F4:
 							if (!event.key.repeat){
-								if (_editMode) disableEditMode(game);
-								else enableEditMode(game);
+								//_editor->toggle();
 							}
 						}
 
@@ -127,55 +127,9 @@ namespace sdmg {
 			}
 		}
 
-		void PlayState::enableEditMode(GameBase &game) {
-			_editMode = true;
-			_hitboxes = new std::map<GameObject*, input::Mouse::Hitbox*>();
-			game.getEngine()->getPhysicsEngine()->pause();
-
-			InputEngine *inputEngine = game.getEngine()->getInputEngine();
-
-			for (auto obj : game.getWorld()->getGameObjects()) {
-				_hitboxes->insert(std::make_pair(obj, inputEngine->getMouse().setClickAction(obj->getX() * 20.0f - obj->getWidth() / 2, obj->getY() * 20.0f - obj->getHeight() / 2, obj->getWidth(), obj->getHeight(), (std::function<void()>)[&, obj] { selectObject(*obj); })));
-			}
-
-			inputEngine->getMouse().setMouseMoveAction((std::function<void(int x, int y)>)[&](int x, int y) { PlayState::mouseMove(x, y); });
-			inputEngine->getMouse().setMouseUpAction((std::function<void()>)[&] { _curSelectedObject = nullptr; });
-			inputEngine->setMouseEnabled(true);
-		}
-
-		void PlayState::mouseMove(int x, int y) {
-			if (_curSelectedObject) {
-				_curSelectedObject->getBody()->SetTransform(b2Vec2((x - _mouseDownX) / 20.f, (y - _mouseDownY) / 20.0f), _curSelectedObject->getBody()->GetAngle());
-
-				if (_hitboxes->count(_curSelectedObject)) {
-					input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
-					hitbox->x = _curSelectedObject->getX() * 20.0f - _curSelectedObject->getWidth() / 2;
-					hitbox->y = _curSelectedObject->getY() * 20.0f - _curSelectedObject->getHeight() / 2;
-				}
-			}
-		}
-
-		void PlayState::disableEditMode(GameBase &game) {
-			_editMode = false;
-
-			game.getEngine()->getInputEngine()->getMouse().clear();
-
-			delete _hitboxes;
-			_hitboxes = nullptr;
-			
-			game.getEngine()->getInputEngine()->setMouseEnabled(false);
-			game.getEngine()->getPhysicsEngine()->resume();
-		}
-
-		void PlayState::selectObject(GameObject &gameObject) {
-			_mouseDownX = _game->getEngine()->getInputEngine()->getMouse().getX() - gameObject.getX() * 20.0f;
-			_mouseDownY = _game->getEngine()->getInputEngine()->getMouse().getY() - gameObject.getY() * 20.0f;
-			_curSelectedObject = &gameObject;
-		}
-
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
-			if (!_editMode) {
+			if (!_editor->isEnabled()) {
 				if (game.getWorld()->isGameOver()) {
 					if (game.getWorld()->getAliveList().size() > 0)
 						game.getWorld()->getAliveList()[0]->die();
@@ -219,26 +173,28 @@ namespace sdmg {
 		}
 
 		void PlayState::preformDraw(GameBase &game) {
-			//DrawEngine *de = game.getEngine()->getDrawEngine();
-			game.getEngine()->getDrawEngine()->draw("background");
+			DrawEngine *de = game.getEngine()->getDrawEngine();
+			de->draw("background");
 
 			if (_showHitBoxes)
-				game.getEngine()->getDrawEngine()->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
+				de->drawBodies(game.getEngine()->getPhysicsEngine()->getBodyList());
 
 			if (_showClickBoxes)
-				game.getEngine()->getDrawEngine()->drawHitBoxes(game.getEngine()->getInputEngine()->getMouse().getClickBoxes());
+				de->drawHitBoxes(game.getEngine()->getInputEngine()->getMouse().getClickBoxes());
 
 			for (auto obj : game.getWorld()->getGameObjects())
-				game.getEngine()->getDrawEngine()->draw(obj);
+				de->draw(obj);
 			
-			if (_huds) {
+			if (_huds && !_editor->isEnabled()) {
 				for (helperclasses::HUD *hud : *_huds) {
-					hud->draw(*game.getEngine()->getDrawEngine());
+					hud->draw(*de);
 				}
 			}
 
 			if (_showFPS)
-				game.getEngine()->getDrawEngine()->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
+				de->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
+
+			_editor->draw();
 		}
 	}
 }

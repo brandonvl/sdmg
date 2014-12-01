@@ -220,21 +220,28 @@ namespace sdmg {
 
 			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
 
-			int platformStep = (_loadingStep / 3) / platformArr.size();
+			if (platformArr.size() > 0) {
+				int platformStep = (_loadingStep / 3) / platformArr.size();
 
-			for (int i = 0; i < platformArr.size(); i++) {
-				JSON::JSONObject &platformObj = platformArr.getObject(i);
+				for (int i = 0; i < platformArr.size(); i++) {
+					JSON::JSONObject &platformObj = platformArr.getObject(i);
 
-				Platform *platform = new model::Platform(false);
-				platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
-				platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
-				pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
-				_game->getWorld()->addPlatform(platform);
-				de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
+					Platform *platform = new model::Platform(false);
+					platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
+					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
+					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
+					_game->getWorld()->addPlatform(platform);
+					de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
 
-				_loadingValue += platformStep;
-				_game->getStateManager()->draw();
+					_loadingValue += platformStep;
+					_game->getStateManager()->draw();
+				}
 			}
+			else {
+				_loadingValue += _loadingStep / 3;
+			}
+			
+
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			//  de->load("background", "assets/levels/" + level + "/data");
 			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);

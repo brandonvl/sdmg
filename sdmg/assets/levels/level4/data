@@ -1,0 +1,11 @@
+{
+	name: "Editor level",
+	gravity: { left: 0, down: 100 },
+	platforms: [],
+	startingPositions: 
+	[
+		{ x: 150, y: -100 },
+		{ x: 1100, y: -100 }
+	],
+	bobs: []
+}
