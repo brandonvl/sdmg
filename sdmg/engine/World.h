@@ -34,6 +34,7 @@ namespace sdmg {
 			const std::vector<GameObject*> &getAliveList();
 			void clearWorld();
 			void resetWorld();
+			void removePlatform(GameObject *platform);
 		private:
 			std::vector<GameObject*> _gameObjects, _deadList, _aliveList, _platforms;
 			std::vector<MovableGameObject*> _players;

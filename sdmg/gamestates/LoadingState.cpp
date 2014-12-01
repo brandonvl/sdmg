@@ -30,8 +30,11 @@
 #include "helperclasses\ConfigManager.h"
 #include <array>
 
+#include "engine\util\FileManager.h"
+
 #include <random>
 // only for windows
+// Advertisement ophalen
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
@@ -69,8 +72,8 @@ namespace sdmg {
 			std::string advertisement = getRandomAdvertisement();
 			if (advertisement != "")
 			{
-				_isAdvertisement = true;
-				game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
+			_isAdvertisement = true;
+			game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
 			}*/
 
 			//  game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "trebucbd", 36);
@@ -78,7 +81,7 @@ namespace sdmg {
 
 			*_progress = "Loading started";
 			_game->getStateManager()->draw();
-			
+
 			load();
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 
@@ -99,6 +102,15 @@ namespace sdmg {
 		void LoadingState::cleanup(GameBase &game)
 		{
 			delete _level;
+
+			for (auto i : *_advertismentList)
+			{
+				delete i;
+				i = nullptr;
+			}
+			delete _advertismentList;
+			_advertismentList = nullptr;
+
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unload("progress");
 			delete _progress;
@@ -162,7 +174,7 @@ namespace sdmg {
 			if (_isAdvertisement)
 				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
 
-			game.getEngine()->getDrawEngine()->drawDynamicText("progress", (*_progress), 100, 100);
+			//game.getEngine()->getDrawEngine()->drawDynamicText("progress", (*_progress), 100, 100);
 
 			/*
 			int marginInner = 3, marginValue = 1;
@@ -309,7 +321,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
-			
+
 			*_progress = "Loading Bullet Bobs";
 			_game->getStateManager()->draw();
 
@@ -327,7 +339,7 @@ namespace sdmg {
 				platform->setLocation(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y"));
 				platform->setStartLocation(b2Vec2(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y")));
 				platform->setEndLocation(b2Vec2(bobObj.getObject("endLocation").getFloat("x"), bobObj.getObject("endLocation").getFloat("y")));
-				platform->setDirection(static_cast< MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
+				platform->setDirection(static_cast<MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
 				platform->setSpeed(bobObj.getObject("speed").getFloat("horizontal"), bobObj.getObject("speed").getFloat("vertical"));
 				platform->setDamageOnImpact(100);
 
@@ -395,7 +407,7 @@ namespace sdmg {
 			std::string fiatJump = SDL_GetKeyName(manager.getKey(0, "jump"));
 			std::string fiatMidRange = SDL_GetKeyName(manager.getKey(0, "midrange"));
 			std::string fiatRoll = SDL_GetKeyName(manager.getKey(0, "roll"));
-			
+
 			std::string nivekLeft = SDL_GetKeyName(manager.getKey(1, "walkLeft"));
 			std::string nivekRight = SDL_GetKeyName(manager.getKey(1, "walkRight"));
 			std::string nivekJump = SDL_GetKeyName(manager.getKey(1, "jump"));
@@ -426,54 +438,28 @@ namespace sdmg {
 		void LoadingState::loadAdvertisement()
 		{
 			*_progress = "Loading Advertisement";
+
 			_game->getStateManager()->draw();
 
-			std::string advertisement = getRandomAdvertisement();
-			if (advertisement != "")
+			_advertismentList = util::FileManager::getInstance().getFiles("assets/advertisements/");
+
+			if (_advertismentList->size() > 0)
 			{
 				_isAdvertisement = true;
-				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
+
+				std::random_device dev;
+				std::default_random_engine dre(dev());
+				std::uniform_int_distribution<int> randomAdvertisement(0, _advertismentList->size() - 1);
+
+				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + *(*_advertismentList)[randomAdvertisement(dre)]);
 
 				const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
 				_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
 				_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
+
 			}
 
 			_loadingValue += _loadingStep;
-		}
-
-		std::string LoadingState::getRandomAdvertisement() {
-
-			std::vector<std::string> names;
-			char search_path[200];
-			sprintf_s(search_path, "%s*.*", "assets\\advertisements\\");
-			WIN32_FIND_DATA fd;
-			HANDLE hFind = ::FindFirstFile(search_path, &fd);
-			if (hFind != INVALID_HANDLE_VALUE)
-			{
-				do {
-					if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-					{
-						//_tprintf(TEXT("  %s   <DIR>\n"), fd.cFileName);
-					}
-					else
-					{
-						names.push_back(fd.cFileName);
-					}
-				} while (::FindNextFile(hFind, &fd));
-				::FindClose(hFind);
-			}
-
-			if (names.size() > 0)
-			{
-				std::random_device dev;
-				std::default_random_engine dre(dev());
-				std::uniform_int_distribution<int> randomAdvertisement(0, names.size() - 1);
-				
-				return names[randomAdvertisement(dre)];
-			}
-
-			return "";
 		}
 	}
 }

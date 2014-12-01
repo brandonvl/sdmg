@@ -91,6 +91,18 @@
     <Filter Include="Source Files\engine\particle">
       <UniqueIdentifier>{2f9856b5-8593-4d99-bb22-f8e388de8e59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\engine\ai">
+      <UniqueIdentifier>{627eba75-fae5-4de6-8882-2632aa3fd1a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\ai\aistates">
+      <UniqueIdentifier>{31d2f842-0fa1-4e92-b918-4474913be840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\ai">
+      <UniqueIdentifier>{2d343cd7-60d7-4c4a-be12-028cca923a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\ai\aistates">
+      <UniqueIdentifier>{6303dcc3-89f3-464d-b014-20cb21ac9bb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -273,29 +285,68 @@
     <ClCompile Include="helperclasses\ConfigManager.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="engine\input\Mouse.cpp">
+      <Filter>Source Files\engine\input</Filter>
+    </ClCompile>
     <ClCompile Include="engine\particle\ParticleEngine.cpp">
       <Filter>Source Files\engine\particle</Filter>
     </ClCompile>
     <ClCompile Include="engine\particle\Particle.cpp">
       <Filter>Source Files\engine\particle</Filter>
     </ClCompile>
-    <ClCompile Include="actions\BlockAction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\LongRangeAttackAction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="engine\input\Mouse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\ProgressState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\ProgressManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="helperclasses\Editor.cpp">
       <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\ProgressManager.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressSaveState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressLoadState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\BlockAction.cpp">
+      <Filter>Source Files\actions</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\AIMachine.cpp">
+      <Filter>Source Files\engine\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\EasyAIMachine.cpp">
+      <Filter>Source Files\engine\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\util\FileManager.cpp">
+      <Filter>Source Files\engine\util</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\IdleAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LongRangeAttackAction.cpp">
+      <Filter>Source Files\engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\ProgressManager.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ParticleSet.cpp">
+      <Filter>Source Files\engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressState.cpp">
+      <Filter>Source Files\gamestates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -449,9 +500,6 @@
     <ClInclude Include="actions\RollAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
-    <ClInclude Include="model\MovablePlatform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="actions\RespawnAction.h">
       <Filter>Header Files\actions</Filter>
     </ClInclude>
@@ -479,12 +527,6 @@
     <ClInclude Include="ControlsState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
-    <ClInclude Include="actions\MidRangeAttackAction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="helperclasses\HUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gamestates\OptionsState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
@@ -500,6 +542,12 @@
     <ClInclude Include="helperclasses\ConfigManager.h">
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
+    <ClInclude Include="engine\input\Mouse.h">
+      <Filter>Header Files\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\BlockAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
     <ClInclude Include="engine\particle\Particle.h">
       <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
@@ -509,20 +557,62 @@
     <ClInclude Include="actions\BlockAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="actions\LongRangeAttackAction.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="model\MovablePlatform.h">
+      <Filter>Header Files\model</Filter>
     </ClInclude>
     <ClInclude Include="engine\input\Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\ProgressState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="helperclasses\ProgressManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="helperclasses\Editor.h">
       <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\ProgressManager.h">
+      <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressSaveState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressLoadState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingSinglePlayerState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\AIMachine.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\AIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\EasyAIMachine.h">
+      <Filter>Header Files\engine\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\FileManager.h">
+      <Filter>Header Files\engine\util</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\HUD.h">
+      <Filter>Header Files\helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\IdleAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\LongRangeAttackAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\MidRangeAttackAction.h">
+      <Filter>Header Files\actions</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\MoveRightAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ParticleSet.h">
+      <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

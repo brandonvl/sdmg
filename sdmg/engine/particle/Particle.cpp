@@ -27,6 +27,10 @@ namespace sdmg {
 			Particle::~Particle() {
 			}
 
+			void Particle::resetLife() {
+				_endTime = SDL_GetTicks() + _life;
+			}
+
 			void Particle::move() {
 				// Move
 				_x += _xVel;
@@ -55,7 +59,7 @@ namespace sdmg {
 			}
 
 			bool Particle::isDying() {
-				return (SDL_GetTicks() >= (_endTime - (_life / 5)));
+				return (SDL_GetTicks() >= (_endTime - (_life / 2)));
 			}
 
 			bool Particle::isDead() {

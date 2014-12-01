@@ -20,7 +20,8 @@
 
 namespace sdmg {
 	namespace engine {
-		Engine::Engine() {
+		Engine::Engine(GameBase &game) {
+			_game = &game;
 			_drawEngine = new DrawEngine();
 			_physicsEngine = new PhysicsEngine(this);
 			_inputEngine = new InputEngine();

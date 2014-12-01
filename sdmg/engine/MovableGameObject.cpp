@@ -305,12 +305,9 @@ namespace sdmg {
 		MovableGameObject::State MovableGameObject::getState() { return _state; }
 		void MovableGameObject::setState(State state)
 		{
-			if (_state == MovableGameObject::State::FALLINGRIGHT)
-				_state = _state;
 			// check if state is changed
 			if (state != _state) {
 				//if (stateIsInterruptible())
-
 				if (_state != (State::WALKING | State::MIDRANGEATTACKBEGIN) && _state != (State::WALKING | State::MIDRANGEATTACK)
 					&& _state != (State::WALKING | State::MIDRANGEATTACKEND) && _state != (State::IDLE | State::MIDRANGEATTACKBEGIN)
 					&& _state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::IDLE | State::MIDRANGEATTACKEND)
@@ -326,6 +323,19 @@ namespace sdmg {
 
 				_state = state;
 			}
+		}
+
+		bool MovableGameObject::getRolling()
+		{
+			return _state == (State::IDLE | State::FORWARD_ROLL) || _state == (State::WALKING | State::FORWARD_ROLL)
+				|| _state == (State::JUMPING | State::FORWARD_ROLL) || _state == (State::JUMPINGLEFT | State::FORWARD_ROLL)
+				|| _state == (State::JUMPINGRIGHT | State::FORWARD_ROLL) || _state == (State::FALLING | State::FORWARD_ROLL)
+				|| _state == (State::FALLINGLEFT | State::FORWARD_ROLL) || _state == (State::FALLINGRIGHT | State::FORWARD_ROLL);
+		}
+
+		bool MovableGameObject::getFalling()
+		{
+			return _state == State::FALLING || _state == State::FALLINGLEFT || _state == State::FALLINGRIGHT;
 		}
 
 		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
@@ -351,14 +361,24 @@ namespace sdmg {
 			_attackSize = Size(width, height);
 		}
 
-		float MovableGameObject::getAttackY()
+		float MovableGameObject::getMidAttackY()
 		{
-			return _attackY;
+			return _midAttackY;
 		}
 
-		void MovableGameObject::setAttackY(float y)
+		void MovableGameObject::setMidAttackY(float y)
 		{
-			_attackY = y;
+			_midAttackY = y;
+		}
+
+		float MovableGameObject::getLongAttackY()
+		{
+			return _longAttackY;
+		}
+
+		void MovableGameObject::setLongAttackY(float y)
+		{
+			_longAttackY = y;
 		}
 
 		void MovableGameObject::registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback) {

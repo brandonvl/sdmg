@@ -126,7 +126,10 @@ namespace sdmg {
 
 						body = body->GetNext();
 						if (kinematicBody->getMustBeDestroyed())
+						{
+							_engine->getGame()->getWorld()->removePlatform(kinematicBody);
 							kinematicBody->getOwner()->destroyShootBody();
+						}
 					}
 					else if (body->GetType() == b2_dynamicBody)
 					{
@@ -380,6 +383,7 @@ namespace sdmg {
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
 				fixturedef->density = 1.0f;
+				fixturedef->userData = object;
 				//  fixturedef->friction = 0.0f;
 				body->CreateFixture(fixturedef);
 
@@ -412,6 +416,7 @@ namespace sdmg {
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
 				fixturedef->density = 1.0f;
+				fixturedef->userData = object;
 				body->CreateFixture(fixturedef);
 
 				body->SetUserData(object);
@@ -447,6 +452,7 @@ namespace sdmg {
 				b2FixtureDef *fixturedef = new b2FixtureDef();
 				fixturedef->shape = shape;
 				fixturedef->density = 1.0f;
+				fixturedef->userData = object;
 				body->CreateFixture(fixturedef);
 
 				if (object->getDirection() == MovableGameObject::Direction::RIGHT || object->getDirection() == MovableGameObject::Direction::DOWN)

@@ -12,6 +12,9 @@
 #include <functional>
 #include <vector>
 
+#define MoveObjState sdmg::engine::MovableGameObject::State
+#define MoveObjDirection sdmg::engine::MovableGameObject::Direction
+
 namespace sdmg {
 	namespace engine {
 		class GameTime;
@@ -46,7 +49,7 @@ namespace sdmg {
 			virtual ~MovableGameObject();
 			void setSpeed(Speed speed);
 			void setSpeed(float horizontalSpeed, float verticalSpeed);
-			void update(GameTime *gameTime, GameBase *game);
+			virtual void update(GameTime *gameTime, GameBase *game);
 			float getHorizontalSpeed();
 			float getVerticalSpeed();
 			Speed getSpeed();
@@ -55,6 +58,8 @@ namespace sdmg {
 
 			State getState();
 			void setState(State state);
+			bool getRolling();
+			bool getFalling();
 			Direction getDirection();
 			void setDirection(Direction direction);
 			void stateCompleted();
@@ -89,8 +94,11 @@ namespace sdmg {
 			b2Body* getShootBody();
 			void setShootBody(b2Body *shootBody);
 			void destroyShootBody();
-			float getAttackY();
-			void setAttackY(float y);
+
+			float getMidAttackY();
+			void setMidAttackY(float y);
+			float getLongAttackY();
+			void setLongAttackY(float y);
 
 			float MovableGameObject::getAttackWidth();
 			float MovableGameObject::getAttackHeight();
@@ -103,7 +111,7 @@ namespace sdmg {
 		private:
 			Direction _spawnDirection;
 			Size _attackSize;
-			float _attackY;
+			float _midAttackY, _longAttackY;
 			std::vector<std::function<void(MovableGameObject *gameObject)>> _stateChangedCallbacks;
 			std::vector<std::function<void(MovableGameObject *gameObject)>> _hitCallbacks;
 			bool _shouldTurnArround;

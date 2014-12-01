@@ -12,6 +12,7 @@
 #include "engine\GameTime.h"
 #include "engine\GameBase.h"
 #include "engine\World.h"
+#include "engine\ai\AIMachine.h"
 
 namespace sdmg {
 	namespace model {
@@ -34,7 +35,9 @@ namespace sdmg {
 		}
 
 		void Character::update(GameTime *gameTime, GameBase *game) {
-		
+			if (_aiMachine != nullptr) {
+				_aiMachine->update(gameTime, game);
+			}
 		}
 				
 		void Character::die() {

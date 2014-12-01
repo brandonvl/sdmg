@@ -16,18 +16,26 @@ namespace sdmg {
 
 			void cleanup();
 
-			void setKey();
-			const int getKey();
-
 			void setStatistics(std::string name, std::string key, std::string value);
 			JSON::JSONArray &getStatistics();
 
 			void setAutosave(bool enable);
 			bool autosaveEnabled();
 
+			std::string getTimestamp();
+			void setTimestamp(std::string time);
+
 			void save();
 			void load();
 			void reset();
+			void loaddefaults();
+
+			std::string getSaveGameTimestamp(int savegame);
+			std::string getTimestampNow();
+
+			int currentSavegame;
+
+			JSON::JSONObject defaultSavegame();
 
 		private:
 			ProgressManager();

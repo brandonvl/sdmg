@@ -28,7 +28,8 @@ namespace sdmg {
 			character->setName(obj.getString("name"));
 			character->setKey(name);
 			character->setAttackSize(obj.getObject("attack").getObject("size").getFloat("width"), obj.getObject("attack").getObject("size").getFloat("height"));
-			character->setAttackY(obj.getObject("attack").getFloat("position"));
+			character->setMidAttackY(obj.getObject("attack").getFloat("midPosition"));
+			character->setLongAttackY(obj.getObject("attack").getFloat("longPosition"));
 
 			loadSpriteMap(character, name, game, obj);
 
@@ -81,6 +82,8 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK, folder + "long_range_attack_walk.sprite", obj.getArray("longRangeAttackWalk").getFloat(0), obj.getArray("longRangeAttackWalk").getFloat(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND, folder + "long_range_attack_walk_end.sprite", obj.getArray("longRangeAttackWalkEnd").getFloat(0), obj.getArray("longRangeAttackWalkEnd").getFloat(1), scale, Surface::AnimationType::ONCE);
 
+			std::string h = character->getKey();
+			drawEngine->loadMap(character->getKey() + "_bullet", folder + "bullet.sprite", obj.getArray("bullet").getFloat(0), obj.getArray("bullet").getFloat(1));
 		}
 	}
 }
