@@ -64,7 +64,6 @@ namespace sdmg {
 
 			bool _isAdvertisement;
 			int _advertisementX, _advertisementY;
-			std::vector<std::string*> *_advertismentList;
 			void loadAdvertisement();
 		};
 	}

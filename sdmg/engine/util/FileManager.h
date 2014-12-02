@@ -17,8 +17,8 @@ namespace sdmg {
 		namespace util {
 			class FileManager {
 			public:
-				std::vector<std::string*> *getFiles(std::string path);
-				std::vector<std::string*> *getFolders(std::string path);
+				const std::vector<std::string> getFiles(std::string path);
+				const std::vector<std::string> getFolders(std::string path);
 				
 				static FileManager& getInstance() {
 					static FileManager _instance;
@@ -33,7 +33,7 @@ namespace sdmg {
 					Folders
 				};
 
-				std::vector<std::string*> *getList(std::string path, Type type);
+				const std::vector<std::string> getList(std::string path, Type type);
 			};
 		}
 	}

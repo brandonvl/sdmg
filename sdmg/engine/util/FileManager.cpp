@@ -19,19 +19,19 @@ namespace sdmg {
 	namespace engine {
 		namespace util {
 
-			std::vector<std::string*> *FileManager::getFiles(std::string path)
+			const std::vector<std::string> FileManager::getFiles(std::string path)
 			{
 				return getList(path, Type::Files);
 			}
 
-			std::vector<std::string*> *FileManager::getFolders(std::string path)
+			const std::vector<std::string> FileManager::getFolders(std::string path)
 			{
 				return getList(path, Type::Folders);
 			}
 
-			std::vector<std::string*> *FileManager::getList(std::string path, Type type)
+			const std::vector<std::string> FileManager::getList(std::string path, Type type)
 			{
-				std::vector<std::string*> *list = new std::vector<std::string*>();
+				std::vector<std::string> list;
 
 				path = path + "*.*";
 				WIN32_FIND_DATA fd;
@@ -40,9 +40,9 @@ namespace sdmg {
 				{
 					do {
 						if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && type == Type::Folders && fd.cFileName[0] != '.')
-							list->push_back(new std::string(fd.cFileName));
+							list.push_back(fd.cFileName);
 						else if (type == Type::Files && fd.cFileName[0] != '.')
-							list->push_back(new std::string(fd.cFileName));
+							list.push_back(fd.cFileName);
 					} while (::FindNextFile(hFind, &fd));
 					::FindClose(hFind);
 				}

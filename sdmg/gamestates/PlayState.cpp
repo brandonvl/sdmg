@@ -104,7 +104,7 @@ namespace sdmg {
 							break;
 						case SDLK_F4:
 							if (!event.key.repeat){
-								//_editor->toggle();
+								_editor->toggle();
 							}
 						}
 

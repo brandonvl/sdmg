@@ -6,9 +6,12 @@
 #include "engine\input\InputEngine.h"
 #include "engine\input\Mouse.h"
 #include "engine\World.h"
+#include "engine\util\FileManager.h"
 
 namespace sdmg {
 	namespace helperclasses {
+		
+
 		Editor::Editor(GameBase &game)
 		{
 			_game = &game;
@@ -24,6 +27,11 @@ namespace sdmg {
 			_hitboxes = nullptr;
 
 			_game->getEngine()->getDrawEngine()->unloadText("editmode");
+
+			for (auto def : _platformDefs) {
+				delete def;
+			}
+			_platformDefs.clear();
 		}
 
 		void Editor::toggle() {
@@ -45,7 +53,7 @@ namespace sdmg {
 			inputEngine->getMouse().setMouseUpAction((std::function<void()>)[&] { _curSelectedObject = nullptr; });
 			inputEngine->setMouseEnabled(true);
 
-			_window = SDL_CreateWindow("Elements", 10, SDL_WINDOWPOS_CENTERED, 200, 720, 0);
+			_window = SDL_CreateWindow("Elements", 10, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 			_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 		}
 
@@ -61,6 +69,16 @@ namespace sdmg {
 			SDL_DestroyWindow(_window);
 		}
 		
+		void Editor::loadPlatformDefs() {
+
+			std::vector<std::string> folders = engine::util::FileManager::getInstance().getFolders(PLATFORM_FOLDER);
+
+			for (auto folder : folders) {
+				_platformDefs.push_back(new PlatformDef(folder));				
+			}
+
+		}
+
 		void Editor::update() {
 
 		}
@@ -70,21 +88,25 @@ namespace sdmg {
 				_game->getEngine()->getDrawEngine()->drawRectangle(Rectangle(0, 0, 1920, 40), 0, 0, 0);
 				_game->getEngine()->getDrawEngine()->drawText("editmode", 10, 10);
 
-				SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0);
-
+				SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 0);
 				SDL_RenderClear(_renderer);
-
 				SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 0);
 
-				SDL_Rect rect;
-				rect.h = 10;
-				rect.w = 10;
-				rect.x = 10;
-				rect.y = 10;
-
-				SDL_RenderFillRect(_renderer, &rect);
+				drawPlatforms();			
 
 				SDL_RenderPresent(_renderer);
+			}
+		}
+
+		void Editor::drawPlatforms() {
+			for (auto def : _platformDefs) {
+				SDL_Rect rect;
+				rect.h = 50;
+				rect.w = 200;
+				rect.x = 0;
+				rect.y = 0;
+
+				SDL_RenderFillRect(_renderer, &rect);
 			}
 		}
 

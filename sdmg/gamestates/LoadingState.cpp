@@ -102,15 +102,7 @@ namespace sdmg {
 		void LoadingState::cleanup(GameBase &game)
 		{
 			delete _level;
-
-			for (auto i : *_advertismentList)
-			{
-				delete i;
-				i = nullptr;
-			}
-			delete _advertismentList;
-			_advertismentList = nullptr;
-
+			
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unload("progress");
 			delete _progress;
@@ -441,17 +433,17 @@ namespace sdmg {
 
 			_game->getStateManager()->draw();
 
-			_advertismentList = util::FileManager::getInstance().getFiles("assets/advertisements/");
+			std::vector<std::string> advertismentList = util::FileManager::getInstance().getFiles("assets/advertisements/");
 
-			if (_advertismentList->size() > 0)
+			if (advertismentList.size() > 0)
 			{
 				_isAdvertisement = true;
 
 				std::random_device dev;
 				std::default_random_engine dre(dev());
-				std::uniform_int_distribution<int> randomAdvertisement(0, _advertismentList->size() - 1);
+				std::uniform_int_distribution<int> randomAdvertisement(0, advertismentList.size() - 1);
 
-				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + *(*_advertismentList)[randomAdvertisement(dre)]);
+				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertismentList[randomAdvertisement(dre)]);
 
 				const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
 				_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;

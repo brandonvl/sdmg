@@ -64,7 +64,7 @@ namespace sdmg {
 			_advertisementIndex = -1;
 			_advertisementRefreshRate = 15 * 10000;
 			_lastTimeSinceAdvertisementChange = 0;
-			_advertismentList = util::FileManager::getInstance().getFiles("assets/advertisements/");
+			_advertismentList = new std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/advertisements/"));
 
 			if (_advertismentList->size() > 0)
 			{
@@ -76,14 +76,7 @@ namespace sdmg {
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			delete _menu;
-
-			for (auto i : *_advertismentList)
-			{
-				delete i;
-				i = nullptr;
-			}
 			delete _advertismentList;
-			_advertismentList = nullptr;
 
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
@@ -179,7 +172,7 @@ namespace sdmg {
 			while (advertisementIndex == _advertisementIndex);
 
 			_advertisementIndex = advertisementIndex;
-			_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + *(*_advertismentList)[advertisementIndex]);
+			_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + _advertismentList->at(advertisementIndex));
 
 			const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
 			_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;

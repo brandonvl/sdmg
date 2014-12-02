@@ -44,7 +44,7 @@ namespace sdmg {
 			GameBase *_game;
 			void loadMenuItems();
 			
-			std::vector<std::string*> *_advertismentList;
+			std::vector<std::string> *_advertismentList;
 			bool _shouldRefreshAdvertisement;
 			int _advertisementIndex;
 			float _advertisementRefreshRate, _lastTimeSinceAdvertisementChange, _advertisementX, _advertisementY;
