@@ -20,6 +20,14 @@ namespace sdmg {
 				load(path, renderer);
 			}
 
+			Surface::Surface(SDL_Surface *surface, SDL_Renderer *renderer, DrawEngine *drawEngine) : _sliceWidth(0), _sliceHeight(0), _drawEngine(drawEngine) {
+				_width = surface->w;
+				_height = surface->h;
+				_textures.push_back(SDL_CreateTextureFromSurface(renderer, surface));
+				_renderWidth = surface->w;
+				_renderHeight = surface->h;
+			}
+
 			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight), _drawEngine(drawEngine) {
 				load(path, renderer);
 			}

@@ -165,8 +165,6 @@ namespace sdmg {
 
 				delete huds;
 
-				delete PlayState::getInstance()._editor;
-				PlayState::getInstance()._editor = nullptr;
 				//game.getStateManager()->cleanupOthers();
 			}
 

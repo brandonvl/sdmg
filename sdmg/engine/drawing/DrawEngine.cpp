@@ -45,6 +45,14 @@ namespace sdmg {
 				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
+			void DrawEngine::load(GameObject *gameObject, SDL_Surface *srcSurface) {
+				// Create new Surface from specified path
+				Surface *surface = new Surface(srcSurface, _renderer, this);
+				// Add Surface to _surfaces map
+				if (_objectSurfaces.find(gameObject) != _objectSurfaces.end()) { delete _objectSurfaces[gameObject]; _objectSurfaces[gameObject] = surface; }
+				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
+			}
+
 			void DrawEngine::loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight);

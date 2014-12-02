@@ -47,19 +47,8 @@ namespace sdmg {
 
 		void PlayState::cleanup(GameBase &game)
 		{
-			//game.getEngine()->getPhysicsEngine()->cleanUp();
-			//game.getEngine()->getDrawEngine()->unloadAll();
-			//game.getEngine()->getAudioEngine()->unloadAll();
-
-			/*if (_huds) {
-				for (auto it : *_huds) {
-					delete it;
-				}
-				_huds->clear();
-			}
-
-			delete _huds;
-			_huds = nullptr;*/
+			delete _editor;
+			_editor = nullptr;
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -79,51 +68,54 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				game.getEngine()->getInputEngine()->handleEvent(event);
+				if (!_editor->isEnabled()) {
+					game.getEngine()->getInputEngine()->handleEvent(event);
 
-				if (!game.getEngine()->getInputEngine()->handleControllers(event)) {
-					switch (event.type) {
-					case SDL_KEYDOWN:
-						switch (event.key.keysym.sym) {
-						case SDLK_ESCAPE:
-							//changeState(game, MainMenuState::getInstance());
-							break;
-						case SDLK_F1:
-							if (!event.key.repeat)
-								_showFPS = !_showFPS;
-							break;
-						case SDLK_F2:
-							if (!event.key.repeat)
-								//_showHitBoxes = !_showHitBoxes;
-								_showHitBoxes = true;
-							break;
-						case SDLK_F3:
-							if (!event.key.repeat)
-								//_showHitBoxes = !_showHitBoxes;
-								_showClickBoxes = true;
-							break;
-						case SDLK_F4:
-							if (!event.key.repeat){
-								_editor->toggle();
+					if (!game.getEngine()->getInputEngine()->handleControllers(event)) {
+						switch (event.type) {
+						case SDL_KEYDOWN:
+							switch (event.key.keysym.sym) {
+							case SDLK_ESCAPE:
+								//changeState(game, MainMenuState::getInstance());
+								break;
+							case SDLK_F1:
+								if (!event.key.repeat)
+									_showFPS = !_showFPS;
+								break;
+							case SDLK_F2:
+								if (!event.key.repeat)
+									//_showHitBoxes = !_showHitBoxes;
+									_showHitBoxes = true;
+								break;
+							case SDLK_F3:
+								if (!event.key.repeat)
+									//_showHitBoxes = !_showHitBoxes;
+									_showClickBoxes = true;
+								break;
+							case SDLK_F4:
+								if (!event.key.repeat){
+									_editor->toggle();
+								}
 							}
-						}
 
-						break;
-					case SDL_QUIT:
-						if (_huds) {
-							for (auto it : *_huds) {
-								delete it;
+							break;
+						case SDL_QUIT:
+							if (_huds) {
+								for (auto it : *_huds) {
+									delete it;
+								}
+								_huds->clear();
 							}
-							_huds->clear();
+
+							delete _huds;
+							_huds = nullptr;
+
+							game.stop();
+							break;
 						}
-
-						delete _huds;
-						_huds = nullptr;
-
-						game.stop();
-						break;
 					}
 				}
+				else _editor->handleEvent(event);
 			}
 		}
 
@@ -196,7 +188,10 @@ namespace sdmg {
 			if (_showClickBoxes)
 				de->drawHitBoxes(game.getEngine()->getInputEngine()->getMouse().getClickBoxes());
 
-			for (auto obj : game.getWorld()->getGameObjects())
+			for (auto obj : game.getWorld()->getPlatforms())
+				de->draw(obj);
+
+			for (auto obj : game.getWorld()->getPlayers())
 				de->draw(obj);
 			
 			if (_huds && !_editor->isEnabled()) {

@@ -100,7 +100,7 @@
     <Filter Include="Header Files\engine\ai\aistates">
       <UniqueIdentifier>{6303dcc3-89f3-464d-b014-20cb21ac9bb5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\input\drawing">
+    <Filter Include="Source Files\engine\drawing">
       <UniqueIdentifier>{c3f93732-958f-46ce-8af2-c30d1739b8e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -166,7 +166,7 @@
       <Filter>Source Files\engine\audio</Filter>
     </ClCompile>
     <ClCompile Include="engine\drawing\DrawEngine.cpp">
-      <Filter>Source Files\engine\input\drawing</Filter>
+      <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
     <ClCompile Include="engine\Engine.cpp">
       <Filter>Source Files\engine</Filter>
@@ -199,13 +199,13 @@
       <Filter>Source Files\engine\input</Filter>
     </ClCompile>
     <ClCompile Include="engine\drawing\Rectangle.cpp">
-      <Filter>Source Files\engine\input\drawing</Filter>
+      <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
     <ClCompile Include="gamestates\LevelSelectionState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
     <ClCompile Include="engine\drawing\Surface.cpp">
-      <Filter>Source Files\engine\input\drawing</Filter>
+      <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
     <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp">
       <Filter>Source Files\engine\physics</Filter>
@@ -220,7 +220,7 @@
       <Filter>Source Files\engine\util</Filter>
     </ClCompile>
     <ClCompile Include="engine\drawing\TextSurface.cpp">
-      <Filter>Source Files\engine\input\drawing</Filter>
+      <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
     <ClCompile Include="factories\CharacterFactory.cpp">
       <Filter>Source Files\factories</Filter>
@@ -274,7 +274,7 @@
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
     <ClCompile Include="engine\drawing\DynamicTextSurface.cpp">
-      <Filter>Source Files\engine\input\drawing</Filter>
+      <Filter>Source Files\engine\drawing</Filter>
     </ClCompile>
     <ClCompile Include="actions\MidRangeAttackAction.cpp">
       <Filter>Source Files\actions</Filter>
@@ -296,9 +296,6 @@
     </ClCompile>
     <ClCompile Include="engine\input\Mouse.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\Editor.cpp">
-      <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
     <ClCompile Include="gamestates\ProgressState.cpp">
       <Filter>Source Files\gamestates</Filter>
@@ -350,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="gamestates\ProgressDeleteState.cpp">
       <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\Editor.cpp">
+      <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

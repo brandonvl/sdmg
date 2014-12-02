@@ -39,6 +39,7 @@ namespace sdmg {
 				virtual ~DrawEngine();
 				void load(std::string key, std::string path);
 				void load(GameObject *gameObject, std::string path);
+				void load(GameObject *gameObject, SDL_Surface *srcSurface);
 				void loadText(std::string key, std::string text, SDL_Color fgColor, std::string fontName, int fontSize);
 				void loadDynamicText(std::string key, SDL_Color fgColor, std::string fontName, int fontSize);
 				void loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight);
@@ -84,6 +85,7 @@ namespace sdmg {
 				void createStep(MovableGameObject *gameObject);
 				int getWindowHeight();
 				int getWindowWidth();
+				int getWindowId() { return SDL_GetWindowID(_window); }
 			private:
 				Engine *_engine;
 				SDL_Window *_window;

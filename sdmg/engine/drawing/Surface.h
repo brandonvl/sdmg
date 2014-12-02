@@ -27,6 +27,7 @@ namespace sdmg {
 				enum class AnimationType { ONCE, REPEAT, HOLDLAST };
 
 				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine);
+				Surface(SDL_Surface *surface, SDL_Renderer *renderer, DrawEngine *drawEngine);
 				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight);
 				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight);
 				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight, AnimationType animationType);
