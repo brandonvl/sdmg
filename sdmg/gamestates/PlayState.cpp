@@ -96,22 +96,25 @@ namespace sdmg {
 								if (!event.key.repeat){
 									_editor->toggle();
 								}
-							}
-						case SDLK_PAGEUP:
-							if (!event.key.repeat){
-								for (auto obj : game.getWorld()->getPlayers()) {
-									obj->setSpeed(Speed(obj->getHorizontalSpeed() * 2, obj->getVerticalSpeed()));
-								}
-							}
-							break;
-						case SDLK_PAGEDOWN:
-							if (!event.key.repeat){
-								for (auto obj : game.getWorld()->getPlayers()) {
-									if (obj->getHorizontalSpeed() > 2){
-										obj->setSpeed(Speed(obj->getHorizontalSpeed() / 2, obj->getVerticalSpeed()));
+								break;
+							case SDLK_PAGEUP:
+								if (!event.key.repeat){
+									for (auto obj : game.getWorld()->getPlayers()) {
+										obj->setSpeed(Speed(obj->getHorizontalSpeed() * 2, obj->getVerticalSpeed()));
 									}
 								}
-							}
+								break;
+							case SDLK_PAGEDOWN:
+								if (!event.key.repeat){
+									for (auto obj : game.getWorld()->getPlayers()) {
+										if (obj->getHorizontalSpeed() > 2){
+											obj->setSpeed(Speed(obj->getHorizontalSpeed() / 2, obj->getVerticalSpeed()));
+										}
+									}
+								}
+								break;
+							
+						}
 							break;
 						case SDL_QUIT:
 							if (_huds) {
@@ -120,13 +123,9 @@ namespace sdmg {
 								}
 								_huds->clear();
 							}
-
-							delete _huds;
-							_huds = nullptr;
-
 							game.stop();
-							break;
 						}
+						break;
 					}
 				}
 				else _editor->handleEvent(event);
