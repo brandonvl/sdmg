@@ -127,7 +127,8 @@ namespace sdmg {
 						break;
 					default:
 						_drawEngine->resetStep(gameObject);
-						sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
+						if (_maxSliceIndex == 0) sliceIndex = 0;
+						else sliceIndex = sliceIndex - floor(sliceIndex / _maxSliceIndex) * _maxSliceIndex;
 						break;
 					}
 				}

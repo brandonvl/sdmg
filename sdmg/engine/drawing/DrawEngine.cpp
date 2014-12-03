@@ -164,6 +164,8 @@ namespace sdmg {
 					}
 				}
 
+				std::vector<Surface*> deletedSurfaces;
+
 				if (_objectStateSurfaces.size() > 0) {
 					std::map<MovableGameObject*, std::map<MovableGameObject::State, Surface*>*>::iterator objectStateItr = _objectStateSurfaces.begin();
 					while (objectStateItr != _objectStateSurfaces.end()) {
@@ -171,9 +173,9 @@ namespace sdmg {
 						std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
 
 						while (stateItr != stateSurfaces->end()) {
-							if (std::find(_deletedSurfaces.begin(), _deletedSurfaces.end(), stateItr->second) != _deletedSurfaces.end()) {
+							if (std::find(deletedSurfaces.begin(), deletedSurfaces.end(), stateItr->second) == deletedSurfaces.end()) {
 								delete stateItr->second;
-								_deletedSurfaces.push_back(stateItr->second);
+								deletedSurfaces.push_back(stateItr->second);
 							}
 							
 							stateSurfaces->erase(stateItr++);
