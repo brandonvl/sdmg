@@ -19,6 +19,7 @@ namespace sdmg {
 	namespace engine {
 		class GameTime;
 		class GameBase;
+		class Engine;
 		enum class Direction;
 		struct Speed
 		{
@@ -94,7 +95,7 @@ namespace sdmg {
 			void destroyAttackBody();
 			b2Body* getShootBody();
 			void setShootBody(b2Body *shootBody);
-			void destroyShootBody();
+			void destroyShootBody(Engine &engine);
 
 			float getMidAttackY();
 			void setMidAttackY(float y);

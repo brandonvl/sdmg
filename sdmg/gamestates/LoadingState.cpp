@@ -85,6 +85,8 @@ namespace sdmg {
 			load();
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 
+			_game->getEngine()->getPhysicsEngine()->resume();
+
 			_game->getStateManager()->update();
 
 			/*

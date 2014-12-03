@@ -13,6 +13,8 @@
 #include "GameTime.h"
 #include "GameBase.h"
 #include "World.h"
+#include "engine\Engine.h"
+#include "engine\drawing\DrawEngine.h"
 
 #include <string>
 #include <iostream>
@@ -336,12 +338,13 @@ namespace sdmg {
 			}
 		}
 
-		void MovableGameObject::destroyShootBody()
+		void MovableGameObject::destroyShootBody(Engine &engine)
 		{
 			if (_shootBody != nullptr)
 			{
 				model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(_shootBody->GetUserData());
 				getWorld()->removePlatform(platform);
+				engine.getDrawEngine()->unloadCopy(platform);
 				delete platform;
 				_shootBody->GetWorld()->DestroyBody(_shootBody);
 				_shootBody = nullptr;

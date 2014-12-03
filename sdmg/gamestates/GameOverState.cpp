@@ -33,6 +33,9 @@ namespace sdmg {
 		void GameOverState::init(GameBase &game)
 		{
 			_game = &game;
+
+			_game->getEngine()->getPhysicsEngine()->pause();
+
 			std::cout << "Initing IntroState ... " << std::endl;
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);

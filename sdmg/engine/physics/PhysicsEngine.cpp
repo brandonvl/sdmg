@@ -90,6 +90,8 @@ namespace sdmg {
 						_world->DestroyBody(body);
 					}
 				}
+				else
+					int h = 0;
 			}
 
 			b2Body *PhysicsEngine::getBodyList()
@@ -128,7 +130,7 @@ namespace sdmg {
 						if (kinematicBody->getMustBeDestroyed())
 						{
 							//  _engine->getGame()->getWorld()->removePlatform(kinematicBody);
-							kinematicBody->getOwner()->destroyShootBody();
+							kinematicBody->getOwner()->destroyShootBody(*_engine);
 						}
 					}
 					else if (body->GetType() == b2_dynamicBody)
