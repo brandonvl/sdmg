@@ -16,7 +16,7 @@ using namespace sdmg;
 #include "gamestates\LoadingState.h"
 #include "helperclasses\ConfigManager.h"
 
-#include "vld\include\vld.h"
+// #include "vld\include\vld.h"
 
 int main(int argc, char **argv)
 {
