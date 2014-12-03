@@ -33,6 +33,8 @@ namespace sdmg {
 				void gameObjectHit(MovableGameObject *gameObject);
 				void registerGameObject(MovableGameObject *mGameObject);
 
+				void unloadAll();
+
 				int getX();
 				int getY();
 				void resetXY();

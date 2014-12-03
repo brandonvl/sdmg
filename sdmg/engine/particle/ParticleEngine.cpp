@@ -36,6 +36,12 @@ namespace sdmg {
 						_particleSets.erase(itr++);
 					}
 				}
+
+				delete _ptclRed;
+				delete _ptclYellow;
+
+				_ptclRed = nullptr;
+				_ptclYellow = nullptr;
 			}
 
 			void ParticleEngine::loadParticles() {
@@ -54,7 +60,7 @@ namespace sdmg {
 			}
 
 			void  ParticleEngine::continuousShowParticleSet(std::string key) {
-				_particleSets[key]->showContinuous();			
+				_particleSets[key]->showContinuous();
 			}
 
 			void ParticleEngine::resetParticleLifeTime(std::string key) {
@@ -88,10 +94,29 @@ namespace sdmg {
 			int ParticleEngine::getX() { return _x; }
 			int ParticleEngine::getY() { return _y; }
 			void ParticleEngine::resetXY() {
-				_x = 0; 
+				_x = 0;
 				_y = 0;
 			}
 
+			void ParticleEngine::unloadAll()
+			{
+				if (_particleSets.size() > 0) {
+					std::map<std::string, ParticleSet*>::iterator itr = _particleSets.begin();
+					while (itr != _particleSets.end()) {
+						delete
+							itr->second;
+						_particleSets.erase(itr++);
+					}
+				}
+
+				/*
+				delete _ptclRed;
+				delete _ptclYellow;
+
+				_ptclRed = nullptr;
+				_ptclYellow = nullptr;
+				*/
+			}
 		}
 	}
 }

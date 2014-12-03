@@ -175,11 +175,11 @@ namespace sdmg {
 							player->addPP(-10);
 						else
 						{
-							player->hit(platform->getDamageOnImpact());
 							if (player->getX() > platform->getX())
 								player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
 							else
 								player->setState(MovableGameObject::State::KNOCKBACKLEFT);
+							player->hit(platform->getDamageOnImpact());
 						}
 						platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
 					}

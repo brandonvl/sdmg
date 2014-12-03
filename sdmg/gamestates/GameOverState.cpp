@@ -23,6 +23,7 @@
 #include "engine\audio\AudioEngine.h"
 #include "LoadingState.h"
 #include "engine\physics\PhysicsEngine.h"
+#include "engine\particle\ParticleEngine.h"
 #include "PlayState.h"
 #include "helperclasses\ProgressManager.h"
 
@@ -147,9 +148,9 @@ namespace sdmg {
 			else
 			{
 				game.getEngine()->getPhysicsEngine()->cleanUp();
-				game.getEngine()->getAudioEngine()->unload("winner");
-				game.getEngine()->getAudioEngine()->unload("bgm");
+				game.getEngine()->getAudioEngine()->unloadAll();
 				game.getEngine()->getDrawEngine()->unloadAll();
+				game.getEngine()->getParticleEngine()->unloadAll();
 				game.getEngine()->getInputEngine()->clearBindings();
 
 				game.getWorld()->clearWorld();
