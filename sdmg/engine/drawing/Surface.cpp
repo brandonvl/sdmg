@@ -28,15 +28,15 @@ namespace sdmg {
 				_renderHeight = surface->h;
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight), _drawEngine(drawEngine) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight), _drawEngine(drawEngine) {
 				load(path, renderer);
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _drawEngine(drawEngine) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _drawEngine(drawEngine) {
 				load(path, renderer);
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight, AnimationType animationType) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _animationType(animationType), _drawEngine(drawEngine) {
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight, AnimationType animationType) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _animationType(animationType), _drawEngine(drawEngine) {
 				load(path, renderer);
 			}
 

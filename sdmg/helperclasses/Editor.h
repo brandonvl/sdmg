@@ -65,7 +65,7 @@ namespace sdmg {
 			void Editor::selectObject(GameObject &gameObject);
 
 			bool _enabled;
-			float _mouseDownX, _mouseDownY;
+			int _mouseDownX, _mouseDownY;
 			GameObject *_curSelectedObject;
 			std::map<GameObject*, input::Mouse::Hitbox*> *_hitboxes;
 

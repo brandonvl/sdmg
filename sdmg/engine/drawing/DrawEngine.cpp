@@ -53,37 +53,37 @@ namespace sdmg {
 				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
-			void DrawEngine::loadMap(std::string key, std::string path, float sliceWidth, float sliceHeight) {
+			void DrawEngine::loadMap(std::string key, std::string path, int sliceWidth, int sliceHeight) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight);
 				// Add Surface to _surfaces map
 				_surfaces.insert(std::pair<std::string, Surface*>(key, surface));
 			}
 			
-			void DrawEngine::loadMap(GameObject* gameObject, std::string path, float sliceWidth, float sliceHeight) {
+			void DrawEngine::loadMap(GameObject* gameObject, std::string path, int sliceWidth, int sliceHeight) {
 				// Create new Surface from specified path
 				Surface *surface = new Surface(path, _renderer, this, sliceWidth, sliceHeight);
 				// Add Surface to _surfaces map
 				_objectSurfaces.insert(std::pair<GameObject*, Surface*>(gameObject, surface));
 			}
 
-			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight) {
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, int sliceWidth, int sliceHeight) {
 				loadMap(gameObject, state, path, sliceWidth, sliceHeight, sliceWidth, sliceHeight);
 			}
 
-			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float scale) {
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, int sliceWidth, int sliceHeight, float scale) {
 				loadMap(gameObject, state, path, sliceWidth, sliceHeight, sliceWidth * scale, sliceHeight * scale);
 			}
 
-			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float scale, Surface::AnimationType animationType) {
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, int sliceWidth, int sliceHeight, float scale, Surface::AnimationType animationType) {
 				loadMap(gameObject, state, path, sliceWidth, sliceHeight, sliceWidth * scale, sliceHeight * scale, animationType);
 			}
 
-			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight) {
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, int sliceWidth, int sliceHeight, int renderWidth, int renderHeight) {
 				loadMap(gameObject, state, path, sliceWidth, sliceHeight, renderWidth, renderHeight, Surface::AnimationType::REPEAT);
 			}
 
-			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, float sliceWidth, float sliceHeight, float renderWidth, float renderHeight, Surface::AnimationType animationType) {
+			void DrawEngine::loadMap(MovableGameObject *gameObject, MovableGameObject::State state, std::string path, int sliceWidth, int sliceHeight, int renderWidth, int renderHeight, Surface::AnimationType animationType) {
 				std::map<MovableGameObject::State, Surface*> *surfaceMap;
 
 				if (_objectStateSurfaces.count(gameObject)) surfaceMap = _objectStateSurfaces[gameObject];
@@ -211,7 +211,7 @@ namespace sdmg {
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, nullptr);
 			}
 
-			void DrawEngine::draw(std::string key, float x, float y) {
+			void DrawEngine::draw(std::string key, int x, int y) {
 				Surface *surface = _surfaces[key];
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
@@ -225,7 +225,7 @@ namespace sdmg {
 						drawSlice(gameObject);
 					}
 					else {
-						float x, y;
+						int x, y;
 						calcXY(gameObject, surface, x, y);
 						SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 					}
@@ -237,7 +237,7 @@ namespace sdmg {
 				}
 			}
 			
-			void DrawEngine::draw(std::string key, float x, float y, int slice) {
+			void DrawEngine::draw(std::string key, int x, int y, int slice) {
 				Surface *surface = _surfaces[key];
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(slice, nullptr), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
@@ -246,7 +246,7 @@ namespace sdmg {
 				createStep(gameObject);
 
 				Surface *surface = _objectSurfaces[gameObject];
-				float x, y;
+				int x, y;
 				calcXY(gameObject, surface, x, y);
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(_steps[gameObject], gameObject), nullptr, &Rectangle(x, y, surface->getRenderWidth(), surface->getRenderHeight()).toSDLRect());
 			}
@@ -259,7 +259,7 @@ namespace sdmg {
 				createStep(gameObject);
 				
 				Surface *surface = (*_objectStateSurfaces[gameObject])[state];
-				float x, y;
+				int x, y;
 				calcXY(gameObject, surface, x, y);
 
 				std::function<void()> callback = std::bind(&MovableGameObject::stateCompleted, gameObject);
@@ -287,8 +287,8 @@ namespace sdmg {
 				SDL_FillRect(surface, &surface->clip_rect, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
 			}
 
-			void DrawEngine::calcXY(GameObject *gameObject, Surface *surface, float &x, float &y) {
-				float fixtureHeight = (((b2PolygonShape*)gameObject->getBody()->GetFixtureList()->GetShape())->GetVertex(2).y - ((b2PolygonShape*)gameObject->getBody()->GetFixtureList()->GetShape())->GetVertex(0).y) * 20.0f;
+			void DrawEngine::calcXY(GameObject *gameObject, Surface *surface, int &x, int &y) {
+				int fixtureHeight = (((b2PolygonShape*)gameObject->getBody()->GetFixtureList()->GetShape())->GetVertex(2).y - ((b2PolygonShape*)gameObject->getBody()->GetFixtureList()->GetShape())->GetVertex(0).y) * 20.0f;
 				x = gameObject->getPixelX() - (surface->getRenderWidth() / 2);
 				y = gameObject->getPixelY() + (fixtureHeight / 2) - surface->getRenderHeight();
 			}
@@ -323,12 +323,12 @@ namespace sdmg {
 				else _dynTextSurfaces.insert(std::pair<std::string, DynamicTextSurface*>(key, tSurface));
 			}
 
-			void DrawEngine::drawDynamicText(std::string key, std::string text, float x, float y) {
+			void DrawEngine::drawDynamicText(std::string key, std::string text, int x, int y) {
 				DynamicTextSurface *tSurface = _dynTextSurfaces[key];
 				SDL_RenderCopy(_renderer, tSurface->drawTexture(_renderer, text), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
 
-			void DrawEngine::drawText(std::string key, float x, float y) {
+			void DrawEngine::drawText(std::string key, int x, int y) {
 				TextSurface *tSurface = _textSurfaces[key];
 				SDL_RenderCopy(_renderer, tSurface->getSDLTexture(), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
 			}
@@ -343,20 +343,22 @@ namespace sdmg {
 				SDL_DestroyTexture(tSurface->getSDLTexture());
 			}
 
-			const std::array<float, 2> DrawEngine::getTextSize(std::string key) {
+			const std::array<int, 2> DrawEngine::getTextSize(std::string key) {
 				if (_textSurfaces.count(key)) {
-					std::array<float, 2> size = { _textSurfaces[key]->getRenderWidth(), _textSurfaces[key]->getRenderHeight() };
+					std::array<int, 2> size = { _textSurfaces[key]->getRenderWidth(), _textSurfaces[key]->getRenderHeight() };
 					return size;
 				}
+				return std::array<int, 2>();
 			}
 
-			const std::array<float, 2> DrawEngine::getImageSize(std::string key)
+			const std::array<int, 2> DrawEngine::getImageSize(std::string key)
 			{
 				if (_surfaces.count(key))
 				{
-					std::array<float, 2> size = {_surfaces[key]->getRenderWidth(), _surfaces[key]->getRenderHeight() };
+					std::array<int, 2> size = { _surfaces[key]->getRenderWidth(), _surfaces[key]->getRenderHeight() };
 					return size;
 				}
+				return std::array<int, 2>();
 			}
 
 			void DrawEngine::prepareForDraw() {
@@ -387,11 +389,11 @@ namespace sdmg {
 					leftUpperPoint += body->GetWorldCenter();
 					rightBottomPoint += body->GetWorldCenter();
 
-					r.x = leftUpperPoint.x * 20.0f;
-					r.y = leftUpperPoint.y * 20.0f;
+					r.x = (int)(leftUpperPoint.x * 20.0f);
+					r.y = (int)(leftUpperPoint.y * 20.0f);
 
-					r.w = (rightBottomPoint.x - leftUpperPoint.x) * 20.0f;
-					r.h = (rightBottomPoint.y - leftUpperPoint.y) * 20.0f;
+					r.w = (int)((rightBottomPoint.x - leftUpperPoint.x) * 20.0f);
+					r.h = (int)((rightBottomPoint.y - leftUpperPoint.y) * 20.0f);
 					
 					SDL_RenderFillRect(_renderer, &r);
 

@@ -174,7 +174,7 @@ namespace sdmg {
 			_advertisementIndex = advertisementIndex;
 			_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + _advertismentList->at(advertisementIndex));
 
-			const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
+			const std::array<int, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
 			_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
 			_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
 		}

@@ -53,8 +53,8 @@ namespace sdmg {
 			void setLocation(const float32 x, const float32 y);
 			float getX();
 			float getY();
-			float getPixelX();
-			float getPixelY();
+			int getPixelX();
+			int getPixelY();
 			void bindWorld(World *world, int id);
 			World *getWorld();
 			const Flags &getFlags();

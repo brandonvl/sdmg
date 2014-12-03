@@ -9,28 +9,25 @@
 
 #pragma once
 
-class SDL_Rect;
+struct SDL_Rect;
 
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
 			class Rectangle {
 			public:
-				Rectangle(float x, float y, float width, float height);
-				float getX();
-				void setX(float x);
-				float getY();
-				void setY(float y);
-				float getWidth();
-				void setWidth(float width);
-				float getHeight();
-				void setHeight(float height);
+				Rectangle(int x, int y, int width, int height);
+				int getX();
+				void setX(int x);
+				int getY();
+				void setY(int y);
+				int getWidth();
+				void setWidth(int width);
+				int getHeight();
+				void setHeight(int height);
 				SDL_Rect toSDLRect();
 			private:
-				float _x;
-				float _y;
-				float _width;
-				float _height;
+				int _x, _y, _width, _height;
 			};
 		}
 	}

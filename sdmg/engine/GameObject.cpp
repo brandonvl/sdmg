@@ -98,8 +98,8 @@ namespace sdmg {
 			return *_y;
 		}
 
-		float GameObject::getPixelX() { return *_x * 20.0f; }
-		float GameObject::getPixelY() { return *_y * 20.0f; }
+		int GameObject::getPixelX() { return (int)(*_x * 20.0f); }
+		int GameObject::getPixelY() { return (int)(*_y * 20.0f); }
 
 		int GameObject::getWidth()
 		{

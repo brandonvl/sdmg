@@ -39,17 +39,17 @@ namespace sdmg {
 
 			std::vector<Mouse::Hitbox*> &Mouse::getClickBoxes() { return _clickBoxes; }
 
-			Mouse::Hitbox *Mouse::setHoverAction(float x, float y, float width, float height, std::function<void()> &hoverCallback) {
+			Mouse::Hitbox *Mouse::setHoverAction(int x, int y, int width, int height, std::function<void()> &hoverCallback) {
 				_hoverBoxes.push_back(new Hitbox{ x, y, width, height, hoverCallback });
 				return _hoverBoxes[_hoverBoxes.size() - 1];
 			}
 			
-			Mouse::Hitbox *Mouse::setLeaveAction(float x, float y, float width, float height, std::function<void()> &leaveCallback) {
+			Mouse::Hitbox *Mouse::setLeaveAction(int x, int y, int width, int height, std::function<void()> &leaveCallback) {
 				_leaveBoxes.push_back(new Hitbox{ x, y, width, height, leaveCallback });
 				return _leaveBoxes[_leaveBoxes.size() - 1];
 			}
 
-			Mouse::Hitbox *Mouse::setClickAction(float x, float y, float width, float height, std::function<void()> &clickCallback) {
+			Mouse::Hitbox *Mouse::setClickAction(int x, int y, int width, int height, std::function<void()> &clickCallback) {
 				_clickBoxes.push_back(new Hitbox{ x, y, width, height, clickCallback });
 				return _clickBoxes[_clickBoxes.size() - 1];
 			}

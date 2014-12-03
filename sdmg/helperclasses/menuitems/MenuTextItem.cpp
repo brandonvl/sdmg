@@ -21,14 +21,14 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->loadText("MI_" + _text + "_SEL", _text, { 255, 255, 255 }, FONTNAME, FONTSIZE);
 			}
 
-			void MenuTextItem::draw(GameBase *engine, const float x, const float y, const float width)
+			void MenuTextItem::draw(GameBase *engine, const int x, const int y, const int width)
 			{
 				DrawEngine *drawEngine = engine->getEngine()->getDrawEngine();
 
 				drawEngine->drawRectangle(Rectangle(x, y, width, _height), 217, 13, 13);
 
-				float textWidth = drawEngine->getTextSize("MI_" + _text)[0];
-				float centeredX = (width - textWidth) / 2 + x;
+				const int textWidth = drawEngine->getTextSize("MI_" + _text)[0];
+				const int centeredX = (width - textWidth) / 2 + x;
 
 				if (_isSelected)
 					drawEngine->drawText("MI_" + _text + "_SEL", centeredX, y + 13);

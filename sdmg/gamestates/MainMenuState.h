@@ -46,8 +46,7 @@ namespace sdmg {
 			
 			std::vector<std::string> *_advertismentList;
 			bool _shouldRefreshAdvertisement;
-			int _advertisementIndex;
-			float _advertisementRefreshRate, _lastTimeSinceAdvertisementChange, _advertisementX, _advertisementY;
+			int _advertisementIndex, _advertisementRefreshRate, _lastTimeSinceAdvertisementChange, _advertisementX, _advertisementY;
 			void loadAdvertisement();
 		};
 	}

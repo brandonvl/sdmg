@@ -13,11 +13,11 @@ namespace sdmg {
 		class MenuItem
 		{
 		public:
-			MenuItem(const float height, std::function<void()> &callback, int index) : _height(height), _callback(callback), _index(index) {};
+			MenuItem(const int height, std::function<void()> &callback, int index) : _height(height), _callback(callback), _index(index) {};
 			virtual ~MenuItem() { };
-			virtual void draw(GameBase *engine, const float x, const float y, const float width) = 0;
+			virtual void draw(GameBase *engine, const int x, const int y, const int width) = 0;
 			bool isSelected() { return _isSelected; }
-			float getHeight() { return _height; }
+			int getHeight() { return _height; }
 			void setSelected(const bool selected = true) { _isSelected = selected; }
 			void doAction() { _callback(); }
 			virtual std::string getTag() = 0;
@@ -25,8 +25,7 @@ namespace sdmg {
 			std::function<void()> &getCallback() { return _callback; }
 		protected:
 			bool _isSelected = false;
-			float _height;
-			int _index;
+			int _height, _index;
 			Engine *_engine;
 			std::function<void()> _callback;
 		};

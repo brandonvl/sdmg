@@ -14,42 +14,37 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			Rectangle::Rectangle(float x, float y, float width, float height) {
-				setX(x);
-				setY(y);
-				setWidth(width);
-				setHeight(height);
-			}
+			Rectangle::Rectangle(int x, int y, int width, int height) : _x(x), _y(y), _width(width), _height(height) { }
 
-			float Rectangle::getX() {
+			int Rectangle::getX() {
 				return _x;
 			}
 			
-			void Rectangle::setX(float x) {
+			void Rectangle::setX(int x) {
 				_x = x;
 			}
 			
-			float Rectangle::getY() {
+			int Rectangle::getY() {
 				return _y;
 			}
 			
-			void Rectangle::setY(float y) {
+			void Rectangle::setY(int y) {
 				_y = y;
 			}
 			
-			float Rectangle::getWidth() {
+			int Rectangle::getWidth() {
 				return _width;
 			}
 			
-			void Rectangle::setWidth(float width) {
+			void Rectangle::setWidth(int width) {
 				_width = width;
 			}
 			
-			float Rectangle::getHeight() {
+			int Rectangle::getHeight() {
 				return _height;
 			}
 			
-			void Rectangle::setHeight(float height) {
+			void Rectangle::setHeight(int height) {
 				_height = height;
 			}
 

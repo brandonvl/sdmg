@@ -98,7 +98,7 @@ namespace sdmg {
 					int x, y;
 					SDL_GetMouseState(&x, &y);
 
-					int i = floor(y / 40);
+					uint32 i = (int)floor(y / 40.0f);
 					if (i < _platformDefs.size()) {
 						_currentPlatformDef = _platformDefs[i];
 					}
@@ -128,7 +128,7 @@ namespace sdmg {
 		}
 
 		void Editor::createHitbox(GameObject *obj) {
-			_hitboxes->insert(std::make_pair(obj, _game->getEngine()->getInputEngine()->getMouse().setClickAction(obj->getX() * 20.0f - obj->getWidth() / 2, obj->getY() * 20.0f - obj->getHeight() / 2, obj->getWidth(), obj->getHeight(), (std::function<void()>)[&, obj] { selectObject(*obj); })));
+			_hitboxes->insert(std::make_pair(obj, _game->getEngine()->getInputEngine()->getMouse().setClickAction((int)(obj->getPixelX() - obj->getWidth() / 2), (int)(obj->getPixelY() - obj->getHeight() / 2), obj->getWidth(), obj->getHeight(), (std::function<void()>)[&, obj] { selectObject(*obj); })));
 		}
 
 		void Editor::createPlatform(){
@@ -136,15 +136,15 @@ namespace sdmg {
 			SDL_GetMouseState(&x, &y);
 			
 			w = _currentPlatformDef->calcWidth(x - _mouseDownX);
-			int posX = _mouseDownX + w / 2;
+			int posX = (int)(_mouseDownX + w / 2);
 			
 			model::Platform *platform = new model::Platform(false);
-			platform->setSize(w, h);
-			platform->setLocation(posX, y);
+			platform->setSize((float)w, (float)h);
+			platform->setLocation((float32)posX, (float32)y);
 
 			int bodyPaddingX = 30, bodyPaddingY = 20;
 
-			_game->getEngine()->getPhysicsEngine()->addBody(platform, bodyPaddingX, bodyPaddingY);
+			_game->getEngine()->getPhysicsEngine()->addBody(platform, (float)bodyPaddingX, (float)bodyPaddingY);
 			_game->getWorld()->addPlatform(platform);
 
 			SDL_Surface *surface = _currentPlatformDef->getSurface(w);
@@ -217,15 +217,15 @@ namespace sdmg {
 
 				if (_hitboxes->count(_curSelectedObject)) {
 					input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
-					hitbox->x = _curSelectedObject->getX() * 20.0f - _curSelectedObject->getWidth() / 2;
-					hitbox->y = _curSelectedObject->getY() * 20.0f - _curSelectedObject->getHeight() / 2;
+					hitbox->x = _curSelectedObject->getPixelX() - _curSelectedObject->getWidth() / 2;
+					hitbox->y = _curSelectedObject->getPixelY() - _curSelectedObject->getHeight() / 2;
 				}
 			}
 		}
 
 		void Editor::selectObject(GameObject &gameObject) {
-			_mouseDownX = _game->getEngine()->getInputEngine()->getMouse().getX() - gameObject.getX() * 20.0f;
-			_mouseDownY = _game->getEngine()->getInputEngine()->getMouse().getY() - gameObject.getY() * 20.0f;
+			_mouseDownX = _game->getEngine()->getInputEngine()->getMouse().getX() - gameObject.getPixelX();
+			_mouseDownY = _game->getEngine()->getInputEngine()->getMouse().getY() - gameObject.getPixelY();
 			_curSelectedObject = &gameObject;
 		}
 
@@ -294,7 +294,7 @@ namespace sdmg {
 
 			if (space > 0) {
 				auto basic = _blocks["basic"];
-				int numOfBasicBlocks = ceil(space / basic->w);
+				int numOfBasicBlocks = (int)ceil(space / basic->w);
 				SDL_Rect rect{ 0, 0, basic->w, basic->h };
 				for (int i = 0; i < numOfBasicBlocks; i++) {
 					rect.x = leftSpacePadding + basic->w * i;

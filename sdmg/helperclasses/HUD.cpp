@@ -37,7 +37,7 @@ namespace sdmg {
 			const int HEART_WIDTH = 29;
 			float heartFillWidth = _character->getHP() / 100.0f * HEART_WIDTH;
 
-			const int xPadding = _rectangle.getX() + 75;
+			const int xPadding = (int)_rectangle.getX() + 75;
 			for (int i = 0; i < NUMLIFES; i++) {
 				int xPos = xPadding + 33 * i;
 

@@ -18,7 +18,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 100, game);
+			_menu = new Menu((int)(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f), 100, game);
 
 			_menu->addMenuTextItem("Walk Right", (std::function<void()>)[&] { waitFor(_walkright); });
 			_menu->addMenuTextItem("Walk Left", (std::function<void()>)[&] { waitFor(_walkleft); });

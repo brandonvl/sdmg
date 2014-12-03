@@ -13,7 +13,7 @@ namespace sdmg {
 		class Menu
 		{
 		public:
-			Menu(const float x, const float y, GameBase &game) : _startingX(x), _startingY(y), _game(&game) { };
+			Menu(const int x, const int y, GameBase &game) : _startingX(x), _startingY(y), _game(&game) { };
 			virtual ~Menu();
 			void draw(GameBase *engine);
 			void addMenuTextItem(std::string text, std::function<void()> &callback);
@@ -24,20 +24,16 @@ namespace sdmg {
 			void rebuildHitboxes();
 			void doAction();
 
-			float getWidth() { return _width; }
+			int getWidth() { return _width; }
 			//void doAction();
 			MenuItem *getSelectedMenuItem() { return _selected; }
 		private:
 			std::vector<MenuItem*> _menuItems;
-			float _startingX;
-			float _startingY;
-			float _currentY;
-			float _itemPaddingY = 5.0f;
-			float _width = 375.0f;
+			int _startingX, _startingY, _currentY, _itemPaddingY = 5, _width = 375;
 			MenuItem *_selected;
 			GameBase *_game;
 
-			void buildHitbox(MenuItem *item, float y);
+			void buildHitbox(MenuItem *item, int y);
 		};
 	}
 }

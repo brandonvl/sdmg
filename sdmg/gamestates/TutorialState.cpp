@@ -169,7 +169,7 @@ namespace sdmg {
 			
 			if (_toDraw->size() > 0) {
 				std::string key = _toDraw->back();
-				std::array<float, 2> size = game.getEngine()->getDrawEngine()->getTextSize(key);
+				std::array<int, 2> size = game.getEngine()->getDrawEngine()->getTextSize(key);
 				float f = size.at(0); // Text width
 				int width = game.getEngine()->getDrawEngine()->getWindowWidth(); // Window width
 				int x = (width / 2) - (f / 2); // Draw text at center

@@ -28,9 +28,9 @@ namespace sdmg {
 
 				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine);
 				Surface(SDL_Surface *surface, SDL_Renderer *renderer, DrawEngine *drawEngine);
-				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight);
-				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight);
-				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const float sliceWidth, const float sliceHeight, const float renderWidth, const float renderHeight, AnimationType animationType);
+				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight);
+				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight);
+				Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight, AnimationType animationType);
 				virtual ~Surface();
 
 				//SDL_Surface* getSDLSurface();
@@ -45,8 +45,8 @@ namespace sdmg {
 			private:
 				//SDL_Surface *_surface;
 				//SDL_Texture *_texture;
-				float _width, _height, _renderWidth, _renderHeight;
-				const float _sliceWidth, _sliceHeight;
+				int _width, _height, _renderWidth, _renderHeight;
+				const int _sliceWidth, _sliceHeight;
 				int _maxSliceIndex;
 				std::vector<SDL_Texture*> _textures;
 				AnimationType _animationType;

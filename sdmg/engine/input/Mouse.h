@@ -10,7 +10,7 @@ namespace sdmg {
 			{
 			public:
 				struct Hitbox {
-					float x, y, width, height;
+					int x, y, width, height;
 					std::function<void()> callback;
 				};
 
@@ -18,9 +18,9 @@ namespace sdmg {
 				virtual ~Mouse();
 				
 				void handleMouseEvent(SDL_Event &event);
-				Hitbox *setHoverAction(float x, float y, float width, float height, std::function<void()> &hoverCallback);
-				Hitbox *setLeaveAction(float x, float y, float width, float height, std::function<void()> &leaveCallback);
-				Hitbox *setClickAction(float x, float y, float width, float height, std::function<void()> &clickCallback);
+				Hitbox *setHoverAction(int x, int y, int width, int height, std::function<void()> &hoverCallback);
+				Hitbox *setLeaveAction(int x, int y, int width, int height, std::function<void()> &leaveCallback);
+				Hitbox *setClickAction(int x, int y, int width, int height, std::function<void()> &clickCallback);
 				void setMouseUpAction(std::function<void()> &clickCallback);
 				void setMouseMoveAction(std::function<void(int x, int y)> &mouseMoveCallback);
 				void clear();

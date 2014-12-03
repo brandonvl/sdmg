@@ -43,7 +43,7 @@ namespace sdmg {
 		}
 
 		void Menu::rebuildHitboxes() {
-			float currentY = 0;
+			int currentY = 0;
 
 			for (MenuItem *item : _menuItems) {
 				buildHitbox(item, currentY);
@@ -51,7 +51,7 @@ namespace sdmg {
 			}
 		}
 
-		void Menu::buildHitbox(MenuItem *item, float y) {
+		void Menu::buildHitbox(MenuItem *item, int y) {
 			_game->getEngine()->getInputEngine()->getMouse().setClickAction(_startingX, _startingY + y, _width, item->getHeight(), item->getCallback());
 			_game->getEngine()->getInputEngine()->getMouse().setHoverAction(_startingX, _startingY + y, _width, item->getHeight(), (std::function<void()>)[&, item] { setSelected(item); });
 		}
@@ -91,9 +91,9 @@ namespace sdmg {
 		
 		void Menu::draw(GameBase *engine)
 		{
-			float xOffSet = _startingX, yOffSet = _startingY;
+			int xOffSet = _startingX, yOffSet = _startingY;
 
-			for (auto i : _menuItems)
+			for (auto &i : _menuItems)
 			{
 				i->draw(engine, xOffSet, yOffSet, _width);
 				yOffSet += i->getHeight() + _itemPaddingY;
