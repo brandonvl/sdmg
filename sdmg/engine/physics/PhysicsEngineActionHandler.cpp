@@ -136,13 +136,13 @@ namespace sdmg {
 			void PhysicsEngineActionHandler::knockbackLeft(MovableGameObject *obj) {
 				if (obj->getAttackBody() != nullptr)
 					midRangeAttackEnd(obj);
-				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f * -1, -2.0f));
+				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f * -1, obj->getBody()->GetLinearVelocity().y));
 			}
 
 			void PhysicsEngineActionHandler::knockbackRight(MovableGameObject *obj) {
 				if (obj->getAttackBody() != nullptr)
 					midRangeAttackEnd(obj);
-				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f, -2.0f));
+				obj->getBody()->SetLinearVelocity(b2Vec2(50.0f, obj->getBody()->GetLinearVelocity().y));
 			}
 
 			void PhysicsEngineActionHandler::respawn(MovableGameObject *obj)

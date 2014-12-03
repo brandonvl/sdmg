@@ -153,24 +153,17 @@ namespace sdmg {
 		}
 		
 		void MovableGameObject::stateCompleted() {
+			/*
 			switch (_state) {
-			case State::FORWARD_ROLL:
 			case State::KNOCKBACKLEFT:
 			case State::KNOCKBACKRIGHT:
-			case State::LONGRANGEATTACK:
-			case State::MIDRANGEATTACKEND:
 				_state = State::IDLE;
 				break;
 			case State::KNEELING:
 				_state = State::RESPAWN;
 				break;
-			case State::MIDRANGEATTACKBEGIN:
-				_state = State::MIDRANGEATTACK;
-				break;
-			case State::MIDRANGEATTACK:
-				_state = State::MIDRANGEATTACKEND;
-				break;
 			}
+			*/
 
 			if (_shouldTurnArround)
 			{
@@ -181,7 +174,16 @@ namespace sdmg {
 				_shouldTurnArround = false;
 			}
 
-			if (_state == (State::IDLE | State::FORWARD_ROLL))
+			if (_state == State::KNEELING)
+				_state = State::RESPAWN;
+			else if (_state == State::KNOCKBACKLEFT || _state == State::KNOCKBACKRIGHT)
+			{
+				if (_isJumping)
+					_state = State::FALLING;
+				else
+					_state = State::IDLE;
+			}
+			else if (_state == (State::IDLE | State::FORWARD_ROLL))
 				_state = State::IDLE;
 			else if (_state == (State::WALKING | State::FORWARD_ROLL))
 				_state = State::WALKING;
@@ -215,7 +217,7 @@ namespace sdmg {
 			else if (_state == (State::WALKING | State::MIDRANGEATTACK))
 				_state = State::WALKING | State::MIDRANGEATTACKEND;
 			else if (_state == (State::WALKING | State::MIDRANGEATTACKEND)){
-				if (_body->GetLinearVelocity().y > 0)
+				if (_body->GetLinearVelocity().y > 1.0)
 				{
 					if (_direction == Direction::LEFT)
 						_state = State::FALLINGLEFT;
@@ -224,7 +226,7 @@ namespace sdmg {
 					else
 						_state = State::WALKING;
 				}
-				else if (_body->GetLinearVelocity().y < 0)
+				else if (_body->GetLinearVelocity().y < -1.0)
 				{
 					if (_direction == Direction::LEFT)
 						_state = State::JUMPINGLEFT;
@@ -360,8 +362,8 @@ namespace sdmg {
 
 				_state = state;
 
-				if (_state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::WALKING | State::MIDRANGEATTACK))
-					destroyAttackBody();
+				//  if (_state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::WALKING | State::MIDRANGEATTACK))
+				//	destroyAttackBody();
 			}
 		}
 

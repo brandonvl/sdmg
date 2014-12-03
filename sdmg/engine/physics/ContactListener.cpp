@@ -132,6 +132,7 @@ namespace sdmg {
 
 			void ContactListener::resetJump(b2Body *upper, b2Body *lower)
 			{
+				model::Platform *platform = nullptr;
 				bool resetWalk = false;
 				if (lower->GetType() == b2_dynamicBody)
 					resetWalk = true;
@@ -219,12 +220,12 @@ namespace sdmg {
 				if (yPlayer + 5.0f > platformBody->GetPosition().y)
 				{
 					bool enabled = true;
-					if ((player->getIsJumping() || player->getFalling()) && player->getBody()->GetLinearVelocity().y >= -8 && platformBody != player->getAttackBody())
+					model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(platformBody->GetUserData());
+					if ((player->getIsJumping() || player->getFalling()) && player->getBody()->GetLinearVelocity().y >= -8 && platform->getDamageOnImpact() == 0 && platformBody != player->getAttackBody())
 						player->setState(MovableGameObject::State::IDLE);
 
 					if (platformBody->GetType() == b2_kinematicBody)
 					{
-						model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(platformBody->GetUserData());
 						if (platform->getDamageOnImpact() <= 0)
 							contact->SetEnabled(false);
 					}
