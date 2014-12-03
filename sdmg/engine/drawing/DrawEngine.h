@@ -110,6 +110,8 @@ namespace sdmg {
 
 				void drawSlice(GameObject *gameObject);
 				void drawSlice(MovableGameObject *gameObject, MovableGameObject::State state, MovableGameObject::Direction direction);
+
+				std::vector<Surface*> _deletedSurfaces;
 			};
 		}
 	}
