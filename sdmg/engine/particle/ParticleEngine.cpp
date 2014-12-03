@@ -37,9 +37,9 @@ namespace sdmg {
 					}
 				}
 
-				delete _ptclRed;
-				delete _ptclYellow;
-
+				SDL_FreeSurface(_ptclRed);
+				SDL_FreeSurface(_ptclYellow);
+				
 				_ptclRed = nullptr;
 				_ptclYellow = nullptr;
 			}
