@@ -125,6 +125,20 @@ namespace sdmg {
 				}
 			}
 
+			void DrawEngine::unload(MovableGameObject *obj) {
+				delete _objectSurfaces[obj];
+
+				std::map<MovableGameObject::State, Surface*> *sub = _objectStateSurfaces[obj];
+				if (sub) {
+					for (auto &i : *sub) {
+						delete i.second;
+						sub->erase(i.first);
+					}
+					_objectStateSurfaces.erase(obj);
+					delete sub;
+				}
+			}
+
 			void DrawEngine::unload(std::string key) {
 				if (_surfaces.find(key) != _surfaces.end()) {
 					delete _surfaces[key];

@@ -52,6 +52,7 @@ namespace sdmg {
 				void copyMap(MovableGameObject *gameObject, MovableGameObject::State copyFrom, MovableGameObject::State copyTo);
 				void copyMap(std::string str, MovableGameObject *gameObject);
 				void unload(std::string key);
+				void DrawEngine::unload(MovableGameObject *obj);
 				void unloadText(std::string key);
 				void unloadAll();
 				
