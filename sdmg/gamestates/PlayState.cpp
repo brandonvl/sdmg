@@ -140,6 +140,14 @@ namespace sdmg {
 					if (game.getWorld()->getAliveList().size() > 0)
 						game.getWorld()->getAliveList()[0]->die();
 					game.getEngine()->getPhysicsEngine()->pause();
+
+					auto players = game.getWorld()->getPlayers();
+					for (auto p : players)
+					{
+						p->destroyAttackBody();
+						p->destroyShootBody(*game.getEngine());
+					}
+
 					changeState(game, GameOverState::getInstance());
 				}
 
