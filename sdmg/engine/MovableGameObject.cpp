@@ -214,15 +214,42 @@ namespace sdmg {
 				_state = State::WALKING | State::MIDRANGEATTACK;
 			else if (_state == (State::WALKING | State::MIDRANGEATTACK))
 				_state = State::WALKING | State::MIDRANGEATTACKEND;
-			else if (_state == (State::WALKING | State::MIDRANGEATTACKEND))
-				_state = State::WALKING;
+			else if (_state == (State::WALKING | State::MIDRANGEATTACKEND)){
+				if (_body->GetLinearVelocity().y > 0)
+				{
+					if (_direction == Direction::LEFT)
+						_state = State::FALLINGLEFT;
+					else if (_direction == Direction::RIGHT)
+						_state = State::FALLINGRIGHT;
+					else
+						_state = State::WALKING;
+				}
+				else if (_body->GetLinearVelocity().y < 0)
+				{
+					if (_direction == Direction::LEFT)
+						_state = State::JUMPINGLEFT;
+					else if (_direction == Direction::RIGHT)
+						_state = State::JUMPINGRIGHT;
+					else
+						_state = State::WALKING;
+				}
+				else
+					_state = State::WALKING;
+			}
 
 			else if (_state == (State::IDLE | State::MIDRANGEATTACKBEGIN))
 				_state = State::IDLE | State::MIDRANGEATTACK;
 			else if (_state == (State::IDLE | State::MIDRANGEATTACK))
 				_state = State::IDLE | State::MIDRANGEATTACKEND;
 			else if (_state == (State::IDLE | State::MIDRANGEATTACKEND))
-				_state = State::IDLE;
+			{
+				if (_body->GetLinearVelocity().y > 1.0)
+					_state = State::FALLING;
+				else if (_body->GetLinearVelocity().y < -1.0)
+					_state = State::JUMPING;
+				else
+					_state = State::IDLE;
+			}
 
 			else if (_state == (State::WALKING | State::LONGRANGEATTACKBEGIN))
 				_state = State::WALKING | State::LONGRANGEATTACK;
@@ -292,6 +319,16 @@ namespace sdmg {
 			_shootBody = shootBody;
 		}
 
+		void MovableGameObject::destroyAttackBody()
+		{
+			if (_attackBody != nullptr)
+			{
+				delete static_cast<model::MovablePlatform*>(_attackBody->GetUserData());
+				_attackBody->GetWorld()->DestroyBody(_attackBody);
+				_attackBody = nullptr;
+			}
+		}
+
 		void MovableGameObject::destroyShootBody()
 		{
 			if (_shootBody != nullptr)
@@ -322,6 +359,9 @@ namespace sdmg {
 				triggerStateChangedCallbacks();
 
 				_state = state;
+
+				if (_state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::WALKING | State::MIDRANGEATTACK))
+					destroyAttackBody();
 			}
 		}
 

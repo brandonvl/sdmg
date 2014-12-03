@@ -91,6 +91,7 @@ namespace sdmg {
 						
 			b2Body* getAttackBody();
 			void setAttackBody(b2Body *attackBody);
+			void destroyAttackBody();
 			b2Body* getShootBody();
 			void setShootBody(b2Body *shootBody);
 			void destroyShootBody();

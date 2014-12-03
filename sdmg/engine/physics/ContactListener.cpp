@@ -143,15 +143,19 @@ namespace sdmg {
 				if (resetWalk)
 				{
 					MovableGameObject *object = static_cast<MovableGameObject*>(upper->GetUserData());
-					object->setIsJumping(false);
 
-					MovableGameObject::State state = object->getState();
+					if (lower != object->getAttackBody() && lower != object->getShootBody())
+					{
+						object->setIsJumping(false);
 
-					if (state == MovableGameObject::State::FALLING || state == MovableGameObject::State::JUMPING)
-						object->setState(MovableGameObject::State::IDLE);
-					else if (state == MovableGameObject::State::FALLINGLEFT || state == MovableGameObject::State::FALLINGRIGHT
-						|| state == MovableGameObject::State::JUMPINGLEFT || state == MovableGameObject::State::JUMPINGRIGHT)
-						object->setState(MovableGameObject::State::WALKING);
+						MovableGameObject::State state = object->getState();
+
+						if (state == MovableGameObject::State::FALLING || state == MovableGameObject::State::JUMPING)
+							object->setState(MovableGameObject::State::IDLE);
+						else if (state == MovableGameObject::State::FALLINGLEFT || state == MovableGameObject::State::FALLINGRIGHT
+							|| state == MovableGameObject::State::JUMPINGLEFT || state == MovableGameObject::State::JUMPINGRIGHT)
+							object->setState(MovableGameObject::State::WALKING);
+					}
 				}
 			}
 
@@ -169,7 +173,13 @@ namespace sdmg {
 						if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
 							player->addPP(-10);
 						else
+						{
 							player->hit(platform->getDamageOnImpact());
+							if (player->getX() > platform->getX())
+								player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+							else
+								player->setState(MovableGameObject::State::KNOCKBACKLEFT);
+						}
 						platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
 					}
 				}
@@ -209,7 +219,7 @@ namespace sdmg {
 				if (yPlayer + 5.0f > platformBody->GetPosition().y)
 				{
 					bool enabled = true;
-					if ((player->getIsJumping() || player->getFalling()) && player->getBody()->GetLinearVelocity().y >= -8)
+					if ((player->getIsJumping() || player->getFalling()) && player->getBody()->GetLinearVelocity().y >= -8 && platformBody != player->getAttackBody())
 						player->setState(MovableGameObject::State::IDLE);
 
 					if (platformBody->GetType() == b2_kinematicBody)

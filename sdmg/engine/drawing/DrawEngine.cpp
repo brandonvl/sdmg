@@ -181,7 +181,6 @@ namespace sdmg {
 							stateSurfaces->erase(stateItr++);
 						}
 
-
 						delete objectStateItr->second;
 						_objectStateSurfaces.erase(objectStateItr++);
 					}
@@ -361,7 +360,6 @@ namespace sdmg {
 					return size;
 				}
 			}
-
 
 			void DrawEngine::prepareForDraw() {
 				if (!_preparing) {

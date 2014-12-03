@@ -24,6 +24,7 @@ namespace sdmg {
 				if (_event.type == SDL_KEYDOWN) {
 					if (_character->getPP() >= 10)
 					{
+						/*
 						if (_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN) &&
 							_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACK) &&
 							_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKEND))
@@ -33,6 +34,14 @@ namespace sdmg {
 							else
 								_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN);
 						}
+						*/
+
+						if (_character->getState() == MovableGameObject::State::WALKING || _character->getState() == MovableGameObject::State::FALLINGLEFT
+							|| _character->getState() == MovableGameObject::State::FALLINGRIGHT || _character->getState() == MovableGameObject::State::JUMPINGLEFT
+							|| _character->getState() == MovableGameObject::State::JUMPINGRIGHT)
+							_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::MIDRANGEATTACKBEGIN);
+						else
+							_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN);
 					}
 				}
 				else {
