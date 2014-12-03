@@ -19,8 +19,8 @@
 #include "factories\CharacterFactory.h"
 #include "engine\input\InputEngine.h"
 #include "actions\Actions.h"
-#include "MainMenuState.h"
 #include "GameOverState.h"
+#include "PauseState.h"
 #include "engine\World.h"
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\HUD.h"
@@ -53,13 +53,13 @@ namespace sdmg {
 
 		void PlayState::pause(GameBase &game)
 		{
-			std::cout << "Pausing IntroState ... " << std::endl;
+			_game->getEngine()->getPhysicsEngine()->pause();
 		}
 
 		void PlayState::resume(GameBase &game)
 		{
-			game.getEngine()->getAudioEngine()->play("bgm", 0);
-			// std::cout << "Resuming IntroState ... " << std::endl;
+			_game->getEngine()->getPhysicsEngine()->resume();
+			_lastUpdate = std::chrono::high_resolution_clock::now();
 		}
 
 		void PlayState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -72,58 +72,59 @@ namespace sdmg {
 					game.getEngine()->getInputEngine()->handleEvent(event);
 
 					if (!game.getEngine()->getInputEngine()->handleControllers(event)) {
-						switch (event.type) {
-						case SDL_KEYDOWN:
-							switch (event.key.keysym.sym) {
-							case SDLK_ESCAPE:
-								//changeState(game, MainMenuState::getInstance());
-								break;
-							case SDLK_F1:
-								if (!event.key.repeat)
-									_showFPS = !_showFPS;
-								break;
-							case SDLK_F2:
-								if (!event.key.repeat)
-									//_showHitBoxes = !_showHitBoxes;
-									_showHitBoxes = true;
-								break;
-							case SDLK_F3:
-								if (!event.key.repeat)
-									//_showHitBoxes = !_showHitBoxes;
-									_showClickBoxes = true;
-								break;
-							case SDLK_F4:
-								if (!event.key.repeat){
-									_editor->toggle();
-								}
-								break;
-							case SDLK_PAGEUP:
-								if (!event.key.repeat){
-									for (auto obj : game.getWorld()->getPlayers()) {
-										obj->setSpeed(Speed(obj->getHorizontalSpeed() * 2, obj->getVerticalSpeed()));
+						if (!event.key.repeat){
+							switch (event.type) {
+							case SDL_KEYDOWN:
+								switch (event.key.keysym.sym) {
+								case SDLK_ESCAPE:
+									game.getStateManager()->pushState(PauseState::getInstance());
+									break;
+								case SDLK_F1:
+									if (!event.key.repeat)
+										_showFPS = !_showFPS;
+									break;
+								case SDLK_F2:
+									if (!event.key.repeat)
+										//_showHitBoxes = !_showHitBoxes;
+										_showHitBoxes = true;
+									break;
+								case SDLK_F3:
+									if (!event.key.repeat)
+										//_showHitBoxes = !_showHitBoxes;
+										_showClickBoxes = true;
+									break;
+								case SDLK_F4:
+									if (!event.key.repeat){
+										_editor->toggle();
 									}
-								}
-								break;
-							case SDLK_PAGEDOWN:
-								if (!event.key.repeat){
-									for (auto obj : game.getWorld()->getPlayers()) {
-										if (obj->getHorizontalSpeed() > 2){
-											obj->setSpeed(Speed(obj->getHorizontalSpeed() / 2, obj->getVerticalSpeed()));
+									break;
+								case SDLK_PAGEUP:
+									if (!event.key.repeat){
+										for (auto obj : game.getWorld()->getPlayers()) {
+											obj->setSpeed(Speed(obj->getHorizontalSpeed() * 2, obj->getVerticalSpeed()));
 										}
 									}
+									break;
+								case SDLK_PAGEDOWN:
+									if (!event.key.repeat){
+										for (auto obj : game.getWorld()->getPlayers()) {
+											if (obj->getHorizontalSpeed() > 2){
+												obj->setSpeed(Speed(obj->getHorizontalSpeed() / 2, obj->getVerticalSpeed()));
+											}
+										}
+									}
+									break;
 								}
 								break;
-							
-						}
-							break;
-						case SDL_QUIT:
-							if (_huds) {
-								for (auto it : *_huds) {
-									delete it;
+							case SDL_QUIT:
+								if (_huds) {
+									for (auto it : *_huds) {
+										delete it;
+									}
+									_huds->clear();
 								}
-								_huds->clear();
+								game.stop();
 							}
-							game.stop();
 						}
 						break;
 					}
@@ -187,11 +188,11 @@ namespace sdmg {
 		void PlayState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
-			preformDraw(game);
+			performDraw(game);
 			game.getEngine()->getDrawEngine()->render();
 		}
 
-		void PlayState::preformDraw(GameBase &game) {
+		void PlayState::performDraw(GameBase &game) {
 			DrawEngine *de = game.getEngine()->getDrawEngine();
 			de->draw("background");
 

@@ -47,19 +47,19 @@ namespace sdmg {
 			void setPlatform(model::Platform *platform);
 			void setBullets(std::vector<model::MovablePlatform *> *bullets);
 			void setHUDs(std::vector<helperclasses::HUD *> *huds);
+			void performDraw(GameBase &game);
 		private:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;
 			helperclasses::Editor *_editor;
 		protected:
 			PlayState() { }
-			void preformDraw(GameBase &game);
 			std::vector<helperclasses::HUD*> *_huds;
 
 			bool _showFPS, _showHitBoxes, _showClickBoxes;
 			long _fps;
 
-			bool _particlesSet;
+			bool _particlesSet, _isPaused;
 
 			friend class GameOverState;
 			

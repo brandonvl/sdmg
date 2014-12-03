@@ -55,6 +55,7 @@ namespace sdmg {
 			void loadTutorial();
 			void loadLevel();
 			void loadKeybindings();
+			void clearEventQueue();
 			bool _isLoaded, _isError, _isTutorial;
 			std::vector<helperclasses::HUD*> *_huds;
 			std::string *_level, *_progress;

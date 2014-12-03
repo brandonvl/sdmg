@@ -8,19 +8,28 @@
 //
 
 #pragma once
-#include "engine\GameState.h"
+#include "MenuState.h"
+#include <string>
+#include <vector>
 
 using namespace sdmg::engine;
 
 namespace sdmg {
+	namespace engine {
+		class GameTime;
+	}
+
+	namespace helperclasses {
+		class Menu;
+		class MenuItem;
+	}
+
 	namespace gamestates {
-		class PauseState : public GameState {
+		using namespace sdmg::helperclasses;
+		class PauseState : public MenuState {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
-
-			void pause(GameBase &game);
-			void resume(GameBase &game);
 
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
@@ -32,6 +41,7 @@ namespace sdmg {
 		protected:
 			PauseState() { }
 		private:
+			GameBase *_game;
 		};
 	}
 }

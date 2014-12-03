@@ -130,6 +130,8 @@ namespace sdmg {
 		void GameOverState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
+
 			if (_replay)
 			{
 				DrawEngine *de = game.getEngine()->getDrawEngine();
@@ -147,6 +149,7 @@ namespace sdmg {
 				}
 
 				PlayState::getInstance().resume(game);
+				_replay = false;
 			}
 			else
 			{

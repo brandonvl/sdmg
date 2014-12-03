@@ -195,7 +195,6 @@ namespace sdmg {
 		}
 
 		void LoadingState::load() {
-
 			int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
 			_loadingStep = _isTutorial ? maxLoadingValue / 4 : maxLoadingValue / 3;
 
@@ -209,6 +208,12 @@ namespace sdmg {
 			_loadingValue = maxLoadingValue;
 
 			_isLoaded = true;
+			clearEventQueue();
+		}
+
+		void LoadingState::clearEventQueue() {
+			SDL_Event event;
+			while (SDL_PollEvent(&event));
 		}
 
 		void LoadingState::loadLevel() {

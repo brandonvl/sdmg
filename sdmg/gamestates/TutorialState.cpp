@@ -165,7 +165,7 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 
-			preformDraw(game);
+			performDraw(game);
 			
 			if (_toDraw->size() > 0) {
 				std::string key = _toDraw->back();
