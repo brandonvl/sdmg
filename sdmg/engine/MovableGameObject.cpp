@@ -12,6 +12,7 @@
 #include "model/MovablePlatform.h"
 #include "GameTime.h"
 #include "GameBase.h"
+#include "World.h"
 
 #include <string>
 #include <iostream>
@@ -23,7 +24,11 @@ namespace sdmg {
 			_state = State::IDLE;
 		}
 
-		MovableGameObject::~MovableGameObject() { }
+		MovableGameObject::~MovableGameObject()
+		{
+			_stateChangedCallbacks.clear();
+			_hitCallbacks.clear();
+		}
 
 		void MovableGameObject::update(GameTime *gameTime, GameBase *game) {
 			_speed = Speed(0.0f, 0.0f);
@@ -335,9 +340,11 @@ namespace sdmg {
 		{
 			if (_shootBody != nullptr)
 			{
-					delete static_cast<model::MovablePlatform*>(_shootBody->GetUserData());
-					_shootBody->GetWorld()->DestroyBody(_shootBody);
-					_shootBody = nullptr;
+				model::MovablePlatform *platform = static_cast<model::MovablePlatform*>(_shootBody->GetUserData());
+				getWorld()->removePlatform(platform);
+				delete platform;
+				_shootBody->GetWorld()->DestroyBody(_shootBody);
+				_shootBody = nullptr;
 			}
 		}
 

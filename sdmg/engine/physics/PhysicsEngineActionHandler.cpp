@@ -72,7 +72,6 @@ namespace sdmg {
 				{
 					b2BodyDef *bodydef = new b2BodyDef();
 
-
 					model::Platform *platform = new model::Platform(true);
 
 					if (obj->getDirection() == MovableGameObject::Direction::LEFT)

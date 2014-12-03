@@ -171,7 +171,7 @@ namespace sdmg {
 						std::map<MovableGameObject::State, Surface*>::iterator stateItr = stateSurfaces->begin();
 
 						while (stateItr != stateSurfaces->end()) {
-							if (std::find(_deletedSurfaces.begin(), _deletedSurfaces.end(), stateItr->second) == _deletedSurfaces.end()) {
+							if (std::find(_deletedSurfaces.begin(), _deletedSurfaces.end(), stateItr->second) != _deletedSurfaces.end()) {
 								delete stateItr->second;
 								_deletedSurfaces.push_back(stateItr->second);
 							}
