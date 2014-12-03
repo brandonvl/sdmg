@@ -104,11 +104,10 @@ namespace sdmg {
 		void LoadingState::cleanup(GameBase &game)
 		{
 			delete _level;
+			delete _progress;
 			
 			game.getEngine()->getDrawEngine()->unload("loading");
-			game.getEngine()->getDrawEngine()->unload("progress");
-			delete _progress;
-			// game.getEngine()->getAudioEngine()->unload("bgm");
+			game.getEngine()->getDrawEngine()->unloadText("progress");
 		}
 
 		void LoadingState::pause(GameBase &game)
@@ -353,7 +352,7 @@ namespace sdmg {
 
 		void LoadingState::loadKeybindings() {
 
-			*_progress = "Loading controls jonguh!";
+			*_progress = "Loading controls";
 			_game->getStateManager()->draw();
 
 			try{
@@ -395,7 +394,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadTutorial() {
-			_progress = new std::string("Loading Tutorial");
+			*_progress = "Loading Tutorial";
 			_game->getStateManager()->draw();
 
 			DrawEngine *de = _game->getEngine()->getDrawEngine();

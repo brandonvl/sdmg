@@ -81,6 +81,7 @@ namespace sdmg {
 			delete _huds;
 			_huds = nullptr;
 
+			/*
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro");
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro2");
 			game.getEngine()->getDrawEngine()->unloadText("tutIntro3");
@@ -99,6 +100,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("tutFiat6");
 			game.getEngine()->getDrawEngine()->unloadText("tutFiat7");
 			game.getEngine()->getDrawEngine()->unloadText("tutEnd");
+			*/
 
 			game.getEngine()->getPhysicsEngine()->cleanUp();
 			game.getEngine()->getDrawEngine()->unloadAll();
@@ -108,6 +110,9 @@ namespace sdmg {
 
 			delete _tutorial;
 			delete _toDraw;
+
+			delete _editor;
+			_editor = nullptr;
 		}
 
 		void TutorialState::handleEvents(GameBase &game, GameTime &gameTime)

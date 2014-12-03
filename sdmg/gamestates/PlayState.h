@@ -51,7 +51,6 @@ namespace sdmg {
 		private:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;
-			helperclasses::Editor *_editor;
 		protected:
 			PlayState() { }
 			std::vector<helperclasses::HUD*> *_huds;
@@ -62,7 +61,9 @@ namespace sdmg {
 			bool _particlesSet, _isPaused;
 
 			friend class GameOverState;
-			
+
+			helperclasses::Editor *_editor;
+
 			GameBase *_game;			
 		};
 	}

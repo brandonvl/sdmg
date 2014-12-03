@@ -37,6 +37,11 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 300, game);
 
 			_menu->addMenuTextItem("Resume", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Level selection", (std::function<void()>)[&] {
+				GameOverState::getInstance().cleanup(*_game);
+				PlayState::getInstance().cleanup(*_game);
+				_game->getStateManager()->changeState(LevelSelectionState::getInstance());
+			});
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] { 
 				GameOverState::getInstance().cleanup(*_game);
 				PlayState::getInstance().cleanup(*_game);
