@@ -38,6 +38,7 @@ namespace sdmg {
 
 			_step = 1.0f / 4.0f;
 			_lastUpdate = std::chrono::high_resolution_clock::now();
+			_canDie = true;
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -133,7 +134,7 @@ namespace sdmg {
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
 			if (!_editor->isEnabled()) {
-				if (game.getWorld()->isGameOver()) {
+				if (_canDie && game.getWorld()->isGameOver()) {
 					if (game.getWorld()->getAliveList().size() > 0)
 						game.getWorld()->getAliveList()[0]->die();
 					game.getEngine()->getPhysicsEngine()->pause();

@@ -37,15 +37,15 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 300, game);
 
 			_menu->addMenuTextItem("Resume", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			_menu->addMenuTextItem("Level selection", (std::function<void()>)[&] {
-				GameOverState::getInstance().cleanup(*_game);
-				PlayState::getInstance().cleanup(*_game);
-				_game->getStateManager()->changeState(LevelSelectionState::getInstance());
+			_menu->addMenuTextItem("Level selection", (std::function<void()>)[&game] {
+				GameOverState::getInstance().cleanup(game);
+				PlayState::getInstance().cleanup(game);
+				game.getStateManager()->changeState(LevelSelectionState::getInstance());
 			});
-			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] { 
-				GameOverState::getInstance().cleanup(*_game);
-				PlayState::getInstance().cleanup(*_game);
-				_game->getStateManager()->changeState(MainMenuState::getInstance()); 
+			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&game] { 
+				GameOverState::getInstance().cleanup(game);
+				PlayState::getInstance().cleanup(game);
+				game.getStateManager()->changeState(MainMenuState::getInstance());
 			});
 
 			game.getEngine()->getDrawEngine()->loadText("pause", "Pause", { 255, 255, 255 }, "arial", 70);
