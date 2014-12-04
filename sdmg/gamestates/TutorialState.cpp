@@ -32,6 +32,9 @@ namespace sdmg {
 		{
 			PlayState::init(game);
 
+			_step = 1.0f / 4.0f;
+			_lastUpdate = std::chrono::high_resolution_clock::now();
+
 			/*
 			Character *character = static_cast<Character*>(game.getWorld()->getPlayers()[0]);
 			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character);
@@ -152,10 +155,25 @@ namespace sdmg {
 
 		void TutorialState::update(GameBase &game, GameTime &gameTime)
 		{
-			// PlayState::update(game, gameTime);
+			 PlayState::update(game, gameTime);
 
+			 /*
 			for (auto it : game.getWorld()->getPlayers()) {
 				it->update(&gameTime, &game);
+			}
+			
+			auto curTime = std::chrono::high_resolution_clock::now();
+			float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
+
+			_lastUpdate = curTime;
+			_accumulator += diff;
+
+			while (_accumulator > _step) {
+				for (auto obj : game.getWorld()->getPlayers())
+				{
+					obj->addPP(1);
+				}
+				_accumulator -= _step;
 			}
 
 			if (_showFPS)
@@ -164,6 +182,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->update(game);
 			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
+			*/
 		}
 
 		void TutorialState::draw(GameBase &game, GameTime &gameTime)

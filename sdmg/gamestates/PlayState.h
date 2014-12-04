@@ -49,9 +49,10 @@ namespace sdmg {
 			void setHUDs(std::vector<helperclasses::HUD *> *huds);
 			void performDraw(GameBase &game);
 		private:
+		protected:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;
-		protected:
+
 			PlayState() { }
 			std::vector<helperclasses::HUD*> *_huds;
 
