@@ -35,6 +35,7 @@ namespace sdmg {
 				_world->SetContactFilter(_contactFilter);
 				_step = 1.0f / 60.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
+				_speed = 1000.0f;
 
 				initializeActions();
 			}
@@ -52,7 +53,7 @@ namespace sdmg {
 				if (_enabled)
 				{
 					auto curTime = std::chrono::high_resolution_clock::now();
-					float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
+					float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / _speed;
 
 					_lastUpdate = curTime;
 					_accumulator += diff;
@@ -341,6 +342,16 @@ namespace sdmg {
 			b2Vec2 PhysicsEngine::getWorldGravity()
 			{
 				return _world->GetGravity();
+			}
+
+			void PhysicsEngine::setSpeed(float speed)
+			{
+				_speed = speed;
+			}
+
+			float PhysicsEngine::getSpeed()
+			{
+				return _speed;
 			}
 
 			void PhysicsEngine::setWorldGravity(const float leftGravity, const float downGravity)

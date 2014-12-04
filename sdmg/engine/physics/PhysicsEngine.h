@@ -44,6 +44,8 @@ namespace sdmg {
 				b2Body *getBodyList();
 				void setWorldGravity(const float leftGravity, const float downGravity);
 				b2Vec2 getWorldGravity();
+				void setSpeed(float speed);
+				float getSpeed();
 				b2Body *addBody(GameObject *object);
 				b2Body *addBody(MovableGameObject *object);
 				b2Body *addBody(GameObject *object, float paddingX, float paddingY);
@@ -70,7 +72,7 @@ namespace sdmg {
 				void checkMovableBodies();
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
-				float _step, _accumulator;
+				float _step, _accumulator, _speed;
 
 				typedef void(PhysicsEngineActionHandler::*ActionFunction)(MovableGameObject*);
 				void addAction(Action action, ActionFunction function);

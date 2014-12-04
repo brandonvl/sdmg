@@ -100,18 +100,12 @@ namespace sdmg {
 									break;
 								case SDLK_PAGEUP:
 									if (!event.key.repeat){
-										for (auto obj : game.getWorld()->getPlayers()) {
-											obj->setSpeed(Speed(obj->getHorizontalSpeed() * 2, obj->getVerticalSpeed()));
-										}
+										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() / 2);
 									}
 									break;
 								case SDLK_PAGEDOWN:
 									if (!event.key.repeat){
-										for (auto obj : game.getWorld()->getPlayers()) {
-											if (obj->getHorizontalSpeed() > 2){
-												obj->setSpeed(Speed(obj->getHorizontalSpeed() / 2, obj->getVerticalSpeed()));
-											}
-										}
+										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * 2);
 									}
 									break;
 								}
