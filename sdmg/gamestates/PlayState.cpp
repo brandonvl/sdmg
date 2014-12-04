@@ -100,33 +100,30 @@ namespace sdmg {
 									break;
 								case SDLK_PAGEUP:
 									if (!event.key.repeat){
-										for (auto obj : game.getWorld()->getPlayers()) {
-											obj->setSpeed(Speed(obj->getHorizontalSpeed() * 2, obj->getVerticalSpeed()));
-										}
+										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() / 2);
 									}
 									break;
 								case SDLK_PAGEDOWN:
 									if (!event.key.repeat){
-										for (auto obj : game.getWorld()->getPlayers()) {
-											if (obj->getHorizontalSpeed() > 2){
-												obj->setSpeed(Speed(obj->getHorizontalSpeed() / 2, obj->getVerticalSpeed()));
-											}
-										}
+										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * 2);
 									}
 									break;
 								}
 								break;
 							case SDL_QUIT:
-								if (_huds) {
-									for (auto it : *_huds) {
-										delete it;
-									}
-									_huds->clear();
-								}
-								game.stop();
+								
+								break;
 							}
 						}
-						break;
+						else if (event.type == SDL_QUIT){
+							if (_huds) {
+								for (auto it : *_huds) {
+									delete it;
+								}
+								_huds->clear();
+							}
+							game.stop();
+						}
 					}
 				}
 				else _editor->handleEvent(event);
