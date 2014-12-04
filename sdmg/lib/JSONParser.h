@@ -84,6 +84,9 @@ namespace JSON {
 		int getInt();
 		bool getBoolean();
 		void setValue(std::string value);
+		void setValue(int value);
+		void setValue(float value);
+		void setValue(bool value);
 		std::string str() override;
 		ValueType getValueType();
 		void setValueType(ValueType type);
