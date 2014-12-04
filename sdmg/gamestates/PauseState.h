@@ -41,6 +41,8 @@ namespace sdmg {
 		protected:
 			PauseState() { }
 		private:
+			void returnToMainMenu();
+			void returnToLevelSelection();
 			GameBase *_game;
 		};
 	}

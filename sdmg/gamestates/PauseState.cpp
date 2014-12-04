@@ -29,24 +29,33 @@
 
 namespace sdmg {
 	namespace gamestates {
+
+		void PauseState::returnToMainMenu()
+		{
+			GameOverState::getInstance().cleanup(*_game);
+			PlayState::getInstance().cleanup(*_game);
+			_game->getStateManager()->changeState(MainMenuState::getInstance());
+		}
+
+		void PauseState::returnToLevelSelection()
+		{
+			GameOverState::getInstance().cleanup(*_game);
+			PlayState::getInstance().cleanup(*_game);
+			_game->getStateManager()->changeState(LevelSelectionState::getInstance());
+		}
+
 		void PauseState::init(GameBase &game)
 		{
 			_game = &game;
 
-			//std::function<void(MenuItem *item)> callBack = &PauseState::menuAction;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 300, game);
 
+			std::function<void()> callBackMainMenu = std::bind(&PauseState::returnToMainMenu, this);
+			std::function<void()> callBackLevelSelection = std::bind(&PauseState::returnToLevelSelection, this);
+
 			_menu->addMenuTextItem("Resume", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			_menu->addMenuTextItem("Level selection", (std::function<void()>)[&game] {
-				GameOverState::getInstance().cleanup(game);
-				PlayState::getInstance().cleanup(game);
-				game.getStateManager()->changeState(LevelSelectionState::getInstance());
-			});
-			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&game] { 
-				GameOverState::getInstance().cleanup(game);
-				PlayState::getInstance().cleanup(game);
-				game.getStateManager()->changeState(MainMenuState::getInstance());
-			});
+			_menu->addMenuTextItem("Level selection", callBackLevelSelection);
+			_menu->addMenuTextItem("Main menu", callBackMainMenu);
 
 			game.getEngine()->getDrawEngine()->loadText("pause", "Pause", { 255, 255, 255 }, "arial", 70);
 

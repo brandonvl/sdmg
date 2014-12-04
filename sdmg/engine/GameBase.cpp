@@ -84,7 +84,6 @@ namespace sdmg {
 
 
 			Uint32 fps_lasttime = SDL_GetTicks(); //the last recorded time.
-			Uint32 fps_current; //the current FPS.
 			Uint32 fps_frames = 0; //frames passed since the last recorded fps
 			//SDL_Event event;
 			while (_running) {
