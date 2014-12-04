@@ -63,6 +63,7 @@ namespace sdmg {
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::WALKING | MovableGameObject::State::FORWARD_ROLL);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::JUMPING | MovableGameObject::State::FORWARD_ROLL);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::JUMPINGLEFT | MovableGameObject::State::FORWARD_ROLL);
+			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::JUMPINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::FALLING | MovableGameObject::State::FORWARD_ROLL);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::FALLINGLEFT | MovableGameObject::State::FORWARD_ROLL);
 			drawEngine->copyMap(character, MovableGameObject::State::FORWARD_ROLL, MovableGameObject::State::FALLINGRIGHT | MovableGameObject::State::FORWARD_ROLL);
@@ -82,7 +83,6 @@ namespace sdmg {
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK, folder + "long_range_attack_walk.sprite", obj.getArray("longRangeAttackWalk").getInt(0), obj.getArray("longRangeAttackWalk").getInt(1), scale, Surface::AnimationType::ONCE);
 			drawEngine->loadMap(character, MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND, folder + "long_range_attack_walk_end.sprite", obj.getArray("longRangeAttackWalkEnd").getInt(0), obj.getArray("longRangeAttackWalkEnd").getInt(1), scale, Surface::AnimationType::ONCE);
 
-			std::string h = character->getKey();
 			drawEngine->loadMap(character->getKey() + "_bullet", folder + "bullet.sprite", obj.getArray("bullet").getInt(0), obj.getArray("bullet").getInt(1));
 		}
 	}

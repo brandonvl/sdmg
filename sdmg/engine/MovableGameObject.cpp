@@ -194,29 +194,67 @@ namespace sdmg {
 				_state = State::IDLE;
 			else if (_state == (State::WALKING | State::FORWARD_ROLL))
 				_state = State::WALKING;
-			else if(_state == (State::JUMPING | State::FORWARD_ROLL))
-				_state = State::JUMPING;
+			else if (_state == (State::JUMPING | State::FORWARD_ROLL))
+			{
+				if (_body->GetLinearVelocity().y < 0)
+					_state = State::JUMPING;
+				else if (_body->GetLinearVelocity().y > 0)
+					_state = State::FALLING;
+				else
+					_state = State::IDLE;
+			}
 			else if (_state == (State::JUMPINGLEFT | State::FORWARD_ROLL))
 			{
 				_direction = Direction::LEFT;
-				_state = State::JUMPINGLEFT;
+
+				if (_body->GetLinearVelocity().y < 0)
+					_state = State::JUMPINGLEFT;
+				else if (_body->GetLinearVelocity().y > 0)
+					_state = State::FALLINGLEFT;
+				else
+					_state = State::IDLE;
 			}
 			else if (_state == (State::JUMPINGRIGHT | State::FORWARD_ROLL))
 			{
 				_direction = Direction::RIGHT;
-				_state = State::JUMPINGRIGHT;
+
+				if (_body->GetLinearVelocity().y < 0)
+					_state = State::JUMPINGRIGHT;
+				else if (_body->GetLinearVelocity().y > 0)
+					_state = State::FALLINGRIGHT;
+				else
+					_state = State::IDLE;
 			}
-			else if(_state == (State::FALLING | State::FORWARD_ROLL))
-				_state = State::FALLING;
+			else if (_state == (State::FALLING | State::FORWARD_ROLL))
+			{
+				if (_body->GetLinearVelocity().y < 0)
+					_state = State::JUMPING;
+				else if (_body->GetLinearVelocity().y > 0)
+					_state = State::FALLING;
+				else
+					_state = State::IDLE;
+			}
 			else if (_state == (State::FALLINGLEFT | State::FORWARD_ROLL))
 			{
 				_direction = Direction::LEFT;
-				_state = State::FALLINGLEFT;
+
+				if (_body->GetLinearVelocity().y < 0)
+					_state = State::JUMPINGLEFT;
+				else if (_body->GetLinearVelocity().y > 0)
+					_state = State::FALLINGLEFT;
+				else
+					_state = State::WALKING;
 			}
 			else if (_state == (State::FALLINGRIGHT | State::FORWARD_ROLL))
 			{
-				_direction = Direction::RIGHT;
-				_state = State::FALLINGRIGHT;
+				// _direction = Direction::RIGHT;
+
+				if (_body->GetLinearVelocity().y < 0)
+					_state = State::JUMPINGRIGHT;
+				else if (_body->GetLinearVelocity().y > 0)
+					_state = State::FALLINGRIGHT;
+				else
+					_state = State::WALKING;
 			}
 
 			else if (_state == (State::WALKING | State::MIDRANGEATTACKBEGIN))
