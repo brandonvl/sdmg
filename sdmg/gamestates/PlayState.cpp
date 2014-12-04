@@ -117,16 +117,19 @@ namespace sdmg {
 								}
 								break;
 							case SDL_QUIT:
-								if (_huds) {
-									for (auto it : *_huds) {
-										delete it;
-									}
-									_huds->clear();
-								}
-								game.stop();
+								
+								break;
 							}
 						}
-						break;
+						else if (event.type == SDL_QUIT){
+							if (_huds) {
+								for (auto it : *_huds) {
+									delete it;
+								}
+								_huds->clear();
+							}
+							game.stop();
+						}
 					}
 				}
 				else _editor->handleEvent(event);
