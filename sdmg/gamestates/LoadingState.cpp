@@ -264,7 +264,7 @@ namespace sdmg {
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
-
+			de->loadDynamicText("speed", { 255, 255, 255 }, "arial", 18);
 			delete doc;
 		}
 

@@ -58,6 +58,7 @@ namespace sdmg {
 
 			bool _showFPS, _showHitBoxes, _showClickBoxes, _canDie;
 			long _fps;
+			float _multiplier;
 
 			bool _particlesSet, _isPaused;
 

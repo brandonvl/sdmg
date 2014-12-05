@@ -36,6 +36,7 @@ namespace sdmg {
 			game.getEngine()->getPhysicsEngine()->resume();
 			game.getEngine()->getAudioEngine()->play("bgm", 0);
 
+			_multiplier = 1.0f;
 			_step = 1.0f / 4.0f;
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 			_canDie = true;
@@ -99,14 +100,26 @@ namespace sdmg {
 										_editor->toggle();
 									}
 									break;
+								case SDLK_HOME:
+									if (!event.key.repeat){
+										_multiplier = 1.0f;
+									}
+									break;
 								case SDLK_PAGEUP:
 									if (!event.key.repeat){
-										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() / 2);
+										if (_multiplier > 0.1f)
+										{
+											_multiplier = _multiplier - 0.1;
+										}
 									}
 									break;
 								case SDLK_PAGEDOWN:
-									if (!event.key.repeat){
-										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * 2);
+									if (!event.key.repeat)
+									{
+										if (_multiplier < 1.5f)
+										{
+											_multiplier = _multiplier + 0.1;
+										}
 									}
 									break;
 								}
@@ -148,6 +161,10 @@ namespace sdmg {
 
 					changeState(game, GameOverState::getInstance());
 				}
+
+
+				_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
+				_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
 
 				if (_showFPS)
 					_fps = game.getFPS() == _fps ? _fps : game.getFPS();
@@ -222,6 +239,24 @@ namespace sdmg {
 
 			if (_showFPS)
 				game.getEngine()->getDrawEngine()->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
+			
+			if (_multiplier != 1.0f) {
+				std::string result;
+				float temp = _multiplier * 100.0f;
+				if (_multiplier > 1.0f)
+				{
+					temp = 100.0f - (temp - 100.0f);
+				}
+				else
+				{
+					temp = 100.0f + (100.0f - temp);
+				}
+
+				result = std::to_string(temp + .05);
+				result = result.substr(0, result.size() - 7);
+				result = result + "%";
+				game.getEngine()->getDrawEngine()->drawDynamicText("speed", "SPEED: " + result, game.getEngine()->getDrawEngine()->getWindowWidth() - 150, 250);
+			}
 
 			_editor->draw();
 			if (game.getEngine()->getParticleEngine()->getX() != 0) {
