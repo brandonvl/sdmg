@@ -13,6 +13,7 @@
 #include "HelpState.h"
 #include "CreditsState.h"
 #include "ControlsState.h"
+#include "StatisticsState.h"
 
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
@@ -33,6 +34,7 @@ namespace sdmg {
 
 			_menu->addMenuTextItem("Controls", (std::function<void()>)[&] { _game->getStateManager()->pushState(ControlsState::getInstance()); });
 			//_menu->addMenuTextItem("Save / Load", (std::function<void()>)[&] { _game->getStateManager()->pushState(ProgressState::getInstance()); });
+			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			_menu->addMenuTextItem("Help", (std::function<void()>)[&] { _game->getStateManager()->pushState(HelpState::getInstance()); });
 			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 			game.getEngine()->getInputEngine()->setMouseEnabled();

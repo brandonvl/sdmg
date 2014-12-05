@@ -37,7 +37,7 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->play("bgm", 0);
 
 			_multiplier = 1.0f;
-			_step = 1.0f / 4.0f;
+			_step = 1.0f / 7.0f;
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 			_canDie = true;
 		}

@@ -5,6 +5,8 @@
 #include "OptionsState.h"
 #include "lib\JSONParser.h"
 #include "helperclasses\ProgressManager.h"
+#include "helperclasses\Menu.h"
+#include "helperclasses\menuitems\MenuTextItem.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -12,6 +14,12 @@ namespace sdmg {
 		void StatisticsState::init(GameBase &game)
 		{
 			_game = &game;
+
+			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_menu = new Menu(100, 600, game);
+
+			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
 
 			// Load header text
@@ -35,6 +43,9 @@ namespace sdmg {
 
 		void StatisticsState::cleanup(GameBase &game)
 		{
+			delete _menu;
+			_menu = nullptr;
+
 			// Load statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
 
@@ -51,28 +62,27 @@ namespace sdmg {
 			}
 		}
 
-		void StatisticsState::pause(GameBase &game)
-		{
-		}
-
-		void StatisticsState::resume(GameBase &game)
-		{
-		}
-
 		void StatisticsState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
 
 			while (SDL_PollEvent(&event))
 			{
-				switch (event.type) {
-				case SDL_KEYDOWN:
-				case SDL_MOUSEBUTTONDOWN:
-					game.getStateManager()->popState();
-					break;
-				case SDL_QUIT:
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
+				if (event.type == SDL_QUIT)
 					game.stop();
-					break;
+				if (event.type == SDL_KEYDOWN)
+				{
+					switch (event.key.keysym.sym)
+					{
+					case SDLK_ESCAPE:
+					case SDLK_KP_ENTER:
+					case SDLK_RETURN:
+					case 10:
+						_menu->doAction();
+						break;
+					}
 				}
 			}
 		}
@@ -112,6 +122,8 @@ namespace sdmg {
 
 				vpos += 48;
 			}
+			
+			_menu->draw(_game);
 
 			drawEngine->render();
 		}

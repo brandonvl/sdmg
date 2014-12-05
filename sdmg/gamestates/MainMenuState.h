@@ -34,6 +34,7 @@ namespace sdmg {
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
+
 			static MainMenuState& getInstance() {
 				static MainMenuState _instance;
 				return _instance;
@@ -42,7 +43,6 @@ namespace sdmg {
 			MainMenuState() { }
 		private:
 			GameBase *_game;
-			void loadMenuItems();
 			
 			std::vector<std::string> *_advertismentList;
 			bool _shouldRefreshAdvertisement;

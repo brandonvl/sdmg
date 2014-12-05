@@ -86,7 +86,7 @@ namespace sdmg {
 		{
 			SDL_Event event;
 
-			if (SDL_PollEvent(&event))
+			while (SDL_PollEvent(&event))
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
@@ -101,10 +101,6 @@ namespace sdmg {
 					{
 					case SDLK_ESCAPE:
 						game.stop();
-						break;
-					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						//changeState(game, LoadingState::getInstance());
 						break;
 					case SDLK_DOWN:
 					case 1:
