@@ -9,6 +9,11 @@
 namespace sdmg {
 	namespace gamestates {
 
+		void CreditsState::returnToMainMenu()
+		{
+			_game->getStateManager()->popState();
+		}
+
 		void CreditsState::init(GameBase &game)
 		{
 			_game = &game;
@@ -18,7 +23,10 @@ namespace sdmg {
 			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 			_menu = new Menu(100, 600, game);
 
-			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			std::function<void()> callBackMainMenu = std::bind(&CreditsState::returnToMainMenu, this);
+			
+			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back", callBackMainMenu);
 
 			game.getEngine()->getDrawEngine()->load("credits_background", "assets/screens/mainbackground");
 			
@@ -33,6 +41,7 @@ namespace sdmg {
 
 			loadText("starring", "Starring", "trebucbd", 36);
 			loadText("bob", "Bullet Bob", "trebucbd", 36);
+
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
@@ -40,7 +49,7 @@ namespace sdmg {
 		{
 			delete _menu;
 			_menu = nullptr;
-
+			
 			game.getEngine()->getDrawEngine()->unload("credits_background");
 			game.getEngine()->getDrawEngine()->unloadText("title");
 			game.getEngine()->getDrawEngine()->unloadText("developers");
@@ -52,6 +61,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("este");
 			game.getEngine()->getDrawEngine()->unloadText("starring");
 			game.getEngine()->getDrawEngine()->unloadText("bob");
+
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void CreditsState::handleEvents(GameBase &game, GameTime &gameTime)

@@ -9,13 +9,21 @@
 namespace sdmg {
 	namespace gamestates {
 
+		void HelpState::returnToOptionsMenu()
+		{
+			_game->getStateManager()->popState();
+		}
+
 		void HelpState::init(GameBase &game)
 		{
 			_game = &game;
 
 			_menu = new Menu(100, 600, game);
 
-			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			std::function<void()> CallBackOptionsMenu = std::bind(&HelpState::returnToOptionsMenu, this);
+
+			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back", CallBackOptionsMenu);
 
 			game.getEngine()->getDrawEngine()->load("help_background", "assets/screens/mainbackground");
 
@@ -24,6 +32,8 @@ namespace sdmg {
 			loadText("howtowin2", "or into Bullet Bob.", "trebucbd", 36);
 			loadText("howtowin3", "Victory shall be yours, when your opponent runs out of", "trebucbd", 36);
 			loadText("howtowin4", "lives.", "trebucbd", 36);
+
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void HelpState::cleanup(GameBase &game)
@@ -39,6 +49,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("howtowin4");
 			
 			//  game.getEngine()->getDrawEngine()->unloadAll();
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void HelpState::handleEvents(GameBase &game, GameTime &gameTime)

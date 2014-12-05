@@ -11,6 +11,11 @@
 namespace sdmg {
 	namespace gamestates {
 
+		void StatisticsState::returnToOptionsMenu()
+		{
+			_game->getStateManager()->popState();
+		}
+
 		void StatisticsState::init(GameBase &game)
 		{
 			_game = &game;
@@ -18,7 +23,10 @@ namespace sdmg {
 			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 			_menu = new Menu(100, 600, game);
 
-			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			std::function<void()> CallBackOptionsMenu = std::bind(&StatisticsState::returnToOptionsMenu, this);
+
+			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back", CallBackOptionsMenu);
 
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
 
@@ -39,6 +47,8 @@ namespace sdmg {
 				loadText(characterObj.getString("name") + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
 				loadText(characterObj.getString("name") + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
 			}
+
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void StatisticsState::cleanup(GameBase &game)
@@ -60,6 +70,8 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "wins");
 				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "losses");
 			}
+
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void StatisticsState::handleEvents(GameBase &game, GameTime &gameTime)
