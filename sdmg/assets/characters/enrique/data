@@ -1,0 +1,33 @@
+{
+	name: "Enrique The Suit Is Banana's Maso",
+	size: { width: 110, height: 143 },
+	attack: {
+		size: { width: 30, height: 10 },
+		midPosition: 3.3,
+		longPosition: 3.3
+	},
+	speed: { horizontal: 20, vertical: 2.5 },
+	scale: 0.3,
+	idle: [308,657],
+	walking: [373,676],
+	jumping: [354,696],
+	jumpEnd: [354,696],
+	falling: [354,696],
+	forwardRoll: [974,797],
+	knockback: [316,679],
+	kneeling: [330,676],
+	midRangeAttackBegin: [447,667],
+	midRangeAttack: [447,667],
+	midRangeAttackEnd: [447,667],
+	midRangeAttackWalkBegin: [374,678],
+	midRangeAttackWalk: [374,678],
+	midRangeAttackWalkEnd: [374,678],
+	blocking: [375, 662],
+	longRangeAttackBegin: [364,662],
+	longRangeAttack: [364,662],
+	longRangeAttackEnd: [364,662],
+	longRangeAttackWalkBegin: [402,676],
+	longRangeAttackWalk: [402,676],
+	longRangeAttackWalkEnd: [402,676],
+	bullet: [52,22]
+}

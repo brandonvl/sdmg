@@ -87,13 +87,11 @@ namespace sdmg {
 									break;
 								case SDLK_F2:
 									if (!event.key.repeat)
-										//_showHitBoxes = !_showHitBoxes;
-										_showHitBoxes = true;
+										_showHitBoxes = !_showHitBoxes;
 									break;
 								case SDLK_F3:
 									if (!event.key.repeat)
-										//_showHitBoxes = !_showHitBoxes;
-										_showClickBoxes = true;
+										_showClickBoxes = !_showClickBoxes;
 									break;
 								case SDLK_F4:
 									if (!event.key.repeat){

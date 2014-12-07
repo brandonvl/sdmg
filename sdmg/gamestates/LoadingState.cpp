@@ -269,7 +269,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
-			std::string loadCharacters[] = { "fiat", "nivek" };
+			std::string loadCharacters[] = { "enrique", "mind" };
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			//int characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
