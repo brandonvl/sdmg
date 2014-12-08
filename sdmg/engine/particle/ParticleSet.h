@@ -11,17 +11,19 @@ namespace sdmg {
 			{
 			public:
 				ParticleSet(int max, int x, int y, int width, int height, SDL_Surface *image);
+				ParticleSet(const ParticleSet& other);
 				virtual ~ParticleSet();
 				
 				void reset();
 				void show();
 				void showContinuous();
 				void resetLifeTime();
+				bool isDead();
 				void initParticles(int max, int x, int y, int width, int height, SDL_Surface *image);
 				SDL_Surface* getSDLSurface();
 				Particle* createParticle();
 			private:
-				int _x, _y, _max;
+				int _x, _y, _max, _width, _height;
 				SDL_Surface* _surface;
 				SDL_Surface* _image;
 				std::vector<Particle*> _particles;

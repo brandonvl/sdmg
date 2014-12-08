@@ -351,6 +351,9 @@
     <ClCompile Include="helperclasses\Editor.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="engine\particle\ParticleInstance.cpp">
+      <Filter>Source Files\engine\particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -619,6 +622,9 @@
     </ClInclude>
     <ClInclude Include="gamestates\ProgressDeleteState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ParticleInstance.h">
+      <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

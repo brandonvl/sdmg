@@ -24,8 +24,10 @@
 #include "engine\World.h"
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\HUD.h"
-
+#include "engine\particle\ParticleInstance.h"
 #include "engine\particle\ParticleEngine.h"
+
+#include <vector>
 
 namespace sdmg {
 	namespace gamestates {
@@ -157,7 +159,7 @@ namespace sdmg {
 						game.getEngine()->getParticleEngine()->registerGameObject(obj);
 					}
 
-					game.getEngine()->getParticleEngine()->createParticleSet("hit", 3, 175, 175, 350, 350);
+					game.getEngine()->getParticleEngine()->createParticleSet("hit", 3, 175, 175, 350, 350, "blood");
 					_particlesSet = true;
 				}
 				// ------------------------------------------- PARTICLE TEST --------------------------------------
@@ -223,14 +225,17 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->drawDynamicText("fps", "FPS: " + std::to_string(_fps), game.getEngine()->getDrawEngine()->getWindowWidth() - 100, 10);
 
 			_editor->draw();
-			if (game.getEngine()->getParticleEngine()->getX() != 0) {
-				int x = game.getEngine()->getParticleEngine()->getX();
-				int y = game.getEngine()->getParticleEngine()->getY();
-				SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface("hit");
-				if (surface) {
+
+			if (game.getEngine()->getParticleEngine()->hasNextParticleInstance()) {
+				std::vector<ParticleInstance*> container = game.getEngine()->getParticleEngine()->getNextParticleInstance();
+				std::vector<ParticleInstance*>::iterator itr = container.begin();
+				while (itr != container.end()) {
+					ParticleInstance* i = (*itr);
+					SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface(i);
 					game.getEngine()->getDrawEngine()->refreshSurface(surface);
-					game.getEngine()->getParticleEngine()->showParticleSet("hit");
-					game.getEngine()->getDrawEngine()->drawParticle(surface, x, y);
+					game.getEngine()->getParticleEngine()->showParticleSet(i);
+					game.getEngine()->getDrawEngine()->drawParticle(surface, i->GetX(), i->GetY());
+					itr++;
 				}
 			}
 		}

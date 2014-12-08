@@ -160,6 +160,7 @@
     <ClCompile Include="engine\particle\Particle.cpp" />
     <ClCompile Include="engine\particle\ParticleEngine.cpp" />
     <ClCompile Include="engine\particle\ParticleSet.cpp" />
+    <ClCompile Include="engine\particle\ParticleInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\Actions.h" />
@@ -246,6 +247,7 @@
     <ClInclude Include="engine\particle\Particle.h" />
     <ClInclude Include="engine\particle\ParticleEngine.h" />
     <ClInclude Include="engine\particle\ParticleSet.h" />
+    <ClInclude Include="engine\particle\ParticleInstance.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="gamestates\TutorialState.h" />
