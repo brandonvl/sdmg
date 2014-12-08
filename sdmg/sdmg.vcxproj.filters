@@ -351,6 +351,9 @@
     <ClCompile Include="helperclasses\Editor.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="helperclasses\RandomGenerator.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -619,6 +622,9 @@
     </ClInclude>
     <ClInclude Include="gamestates\ProgressDeleteState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\RandomGenerator.h">
+      <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

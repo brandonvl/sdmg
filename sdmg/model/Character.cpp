@@ -22,7 +22,12 @@ namespace sdmg {
 			setState(MovableGameObject::State::FALLING);
 		}
 
-		Character::~Character() { }
+		Character::~Character() {
+
+			if (_aiMachine)
+				delete _aiMachine;
+
+		}
 
 		std::string Character::getKey()
 		{

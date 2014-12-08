@@ -10,6 +10,11 @@
 #pragma once
 
 namespace sdmg {
+
+	namespace helperclasses {
+		class RandomGenerator;
+	}
+
 	namespace engine {
 		class World;
 		class Engine;
@@ -29,6 +34,7 @@ namespace sdmg {
 			long getFPS();
 			GameTime *getGameTime();
 			GameStateManager *getStateManager() { return _gameStateManager; };
+			helperclasses::RandomGenerator *getRandomGenerator() { return _randomGenerator; }
 
 			enum GameMode
 			{
@@ -46,6 +52,7 @@ namespace sdmg {
 			virtual void initialize() = 0;
 		private:
 			GameStateManager *_gameStateManager;
+			helperclasses::RandomGenerator *_randomGenerator;
 			GameTime *_gameTime;
 			Engine *_engine;
 			bool _running;

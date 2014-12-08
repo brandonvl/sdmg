@@ -21,6 +21,7 @@
 #include "gamestates\PlayState.h"
 #include "helperclasses\ConfigManager.h"
 #include "helperclasses\ProgressManager.h"
+#include "helperclasses\RandomGenerator.h"
 
 namespace sdmg {
 	namespace engine {
@@ -35,6 +36,7 @@ namespace sdmg {
 			delete _world;
 			delete _engine;
 			delete _gameStateManager;
+			delete _randomGenerator;
 		}
 
 		void GameBase::start() {
@@ -48,6 +50,7 @@ namespace sdmg {
 			_world = new World();
 			_engine = new Engine(*this);
 			_gameStateManager = new GameStateManager(this);
+			_randomGenerator = new helperclasses::RandomGenerator();
 		}
 
 		void GameBase::stop() {
