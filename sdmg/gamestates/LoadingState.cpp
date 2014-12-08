@@ -264,12 +264,12 @@ namespace sdmg {
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
-
+			de->loadDynamicText("speed", { 255, 255, 255 }, "arial", 18);
 			delete doc;
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
-			std::string loadCharacters[] = { "fiat", "nivek" };
+			std::string loadCharacters[] = { "enrique", "mind" };
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			//int characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);

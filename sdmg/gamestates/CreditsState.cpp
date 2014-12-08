@@ -3,14 +3,30 @@
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
 #include "OptionsState.h"
+#include "helperclasses\Menu.h"
+#include "helperclasses\menuitems\MenuTextItem.h"
 
 namespace sdmg {
 	namespace gamestates {
+
+		void CreditsState::returnToMainMenu()
+		{
+			_game->getStateManager()->popState();
+		}
 
 		void CreditsState::init(GameBase &game)
 		{
 			_game = &game;
 			game.getEngine()->getInputEngine()->clearBindings();
+
+			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
+			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_menu = new Menu(100, 600, game);
+
+			std::function<void()> callBackMainMenu = std::bind(&CreditsState::returnToMainMenu, this);
+			
+			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back", callBackMainMenu);
 
 			game.getEngine()->getDrawEngine()->load("credits_background", "assets/screens/mainbackground");
 			
@@ -25,11 +41,15 @@ namespace sdmg {
 
 			loadText("starring", "Starring", "trebucbd", 36);
 			loadText("bob", "Bullet Bob", "trebucbd", 36);
+
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void CreditsState::cleanup(GameBase &game)
 		{
+			delete _menu;
+			_menu = nullptr;
+			
 			game.getEngine()->getDrawEngine()->unload("credits_background");
 			game.getEngine()->getDrawEngine()->unloadText("title");
 			game.getEngine()->getDrawEngine()->unloadText("developers");
@@ -41,14 +61,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("este");
 			game.getEngine()->getDrawEngine()->unloadText("starring");
 			game.getEngine()->getDrawEngine()->unloadText("bob");
-		}
 
-		void CreditsState::pause(GameBase &game)
-		{
-		}
-
-		void CreditsState::resume(GameBase &game)
-		{
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void CreditsState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -57,15 +71,21 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				switch (event.type) {
-				case SDL_KEYDOWN:
-				case SDL_MOUSEBUTTONDOWN:
-					//changeState(game, OptionsState::getInstance());
-					_game->getStateManager()->popState();
-					break;
-				case SDL_QUIT:
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
+				if (event.type == SDL_QUIT)
 					game.stop();
-					break;
+				if (event.type == SDL_KEYDOWN)
+				{
+					switch (event.key.keysym.sym)
+					{
+					case SDLK_ESCAPE:
+					case SDLK_KP_ENTER:
+					case SDLK_RETURN:
+					case 10:
+						_menu->doAction();
+						break;
+					}
 				}
 			}
 		}
@@ -93,6 +113,7 @@ namespace sdmg {
 			drawEngine->drawText("starring", 100, 500);
 			drawEngine->drawText("bob", 400, 500);
 
+			_menu->draw(&game);
 			drawEngine->render();
 		}
 

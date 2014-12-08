@@ -1,0 +1,156 @@
+{
+	name: "Plinko",
+	gravity: { left: 0, down: 100 },
+	platforms: 
+	[
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 240, y: 300 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 440, y: 300 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 640, y: 300 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 840, y: 300 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 1040, y: 300 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		
+		
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 140, y: 400 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 340, y: 400 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 540, y: 400 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 740, y: 400 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 940, y: 400 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 1140, y: 400 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		
+		
+		
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 240, y: 500 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 440, y: 500 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 640, y: 500 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 840, y: 500 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 1040, y: 500 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		
+		
+		
+		
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 140, y: 600 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 340, y: 600 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 540, y: 600 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 740, y: 600 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 940, y: 600 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+		{
+			size: { width: 24, height: 120 },
+			location: { x: 1140, y: 600 },
+			bodyPadding: { x: 0, y: 45 },
+			image: "platform_wood"
+		},
+	],
+	startingPositions: 
+	[
+		{ x: 150, y: -100 },
+		{ x: 1150, y: -100 }
+	],
+	bobs:
+	[
+	]
+}

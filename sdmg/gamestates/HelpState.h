@@ -1,20 +1,27 @@
 #pragma once
+#include "MenuState.h"
 #include "engine\GameState.h"
 
 using namespace sdmg::engine;
 
 namespace sdmg {
+
+	namespace engine {
+		class GameTime;
+	}
+	namespace helperclasses {
+		class Menu;
+		class MenuItem;
+	}
 	namespace gamestates {
+		using namespace sdmg::helperclasses;
 		class HelpState :
-			public GameState
+			public MenuState
 		{
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
-
-			void pause(GameBase &game);
-			void resume(GameBase &game);
-
+			
 			void handleEvents(GameBase &game, GameTime &gameTime);
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
@@ -27,9 +34,10 @@ namespace sdmg {
 		protected:
 			HelpState() { }
 		private:
-			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
-
 			GameBase *_game;
+
+			void returnToOptionsMenu();
+			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 		};
 	}
 }

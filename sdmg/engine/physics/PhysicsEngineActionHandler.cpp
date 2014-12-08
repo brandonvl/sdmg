@@ -177,7 +177,7 @@ namespace sdmg {
 				{
 					model::MovablePlatform *platform = new model::MovablePlatform();
 					platform->setSize(5,5);
-					platform->setSpeed(75.0f, 0.0f);
+					platform->setSpeed(150.0f, 0.0f);
 					platform->setDamageOnImpact(20);
 					platform->setMoveing(model::MovablePlatform::Moveing::ONCE);
 					platform->setOwner(obj);

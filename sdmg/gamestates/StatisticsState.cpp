@@ -5,13 +5,29 @@
 #include "OptionsState.h"
 #include "lib\JSONParser.h"
 #include "helperclasses\ProgressManager.h"
+#include "helperclasses\Menu.h"
+#include "helperclasses\menuitems\MenuTextItem.h"
 
 namespace sdmg {
 	namespace gamestates {
 
+		void StatisticsState::returnToOptionsMenu()
+		{
+			_game->getStateManager()->popState();
+		}
+
 		void StatisticsState::init(GameBase &game)
 		{
 			_game = &game;
+
+			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_menu = new Menu(100, 600, game);
+
+			std::function<void()> CallBackOptionsMenu = std::bind(&StatisticsState::returnToOptionsMenu, this);
+
+			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back", CallBackOptionsMenu);
+
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
 
 			// Load header text
@@ -31,10 +47,15 @@ namespace sdmg {
 				loadText(characterObj.getString("name") + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
 				loadText(characterObj.getString("name") + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
 			}
+
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void StatisticsState::cleanup(GameBase &game)
 		{
+			delete _menu;
+			_menu = nullptr;
+
 			// Load statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
 
@@ -49,14 +70,8 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "wins");
 				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "losses");
 			}
-		}
 
-		void StatisticsState::pause(GameBase &game)
-		{
-		}
-
-		void StatisticsState::resume(GameBase &game)
-		{
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void StatisticsState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -65,14 +80,21 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				switch (event.type) {
-				case SDL_KEYDOWN:
-				case SDL_MOUSEBUTTONDOWN:
-					game.getStateManager()->popState();
-					break;
-				case SDL_QUIT:
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
+				if (event.type == SDL_QUIT)
 					game.stop();
-					break;
+				if (event.type == SDL_KEYDOWN)
+				{
+					switch (event.key.keysym.sym)
+					{
+					case SDLK_ESCAPE:
+					case SDLK_KP_ENTER:
+					case SDLK_RETURN:
+					case 10:
+						_menu->doAction();
+						break;
+					}
 				}
 			}
 		}
@@ -112,6 +134,8 @@ namespace sdmg {
 
 				vpos += 48;
 			}
+			
+			_menu->draw(_game);
 
 			drawEngine->render();
 		}

@@ -84,6 +84,8 @@ namespace sdmg {
 				void gameObjectStateChanged(MovableGameObject *gameObject);
 				void createStep(GameObject *gameObject);
 				void createStep(MovableGameObject *gameObject);
+				void setSpeed(float speed);
+				float getSpeed();
 				int getWindowHeight();
 				int getWindowWidth();
 				int getWindowId() { return SDL_GetWindowID(_window); }
@@ -105,8 +107,8 @@ namespace sdmg {
 				std::map<GameObject*, int> _steps;
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
-				float _step, _accumulator;
-
+				float _step, _accumulator, _speed;
+				const float _standardspeed = 500.0f;
 				bool _preparing;
 
 				void drawSlice(GameObject *gameObject);

@@ -51,7 +51,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib;$(ProjectDir)lib;$(ProjectDir)vld/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;sdl2_mixer.lib;Box2D.lib;JSONParser.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)sdl\dll\*" "$(OutDir)*"</Command>
@@ -148,6 +148,7 @@
     <ClCompile Include="helperclasses\MenuItem.cpp" />
     <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
     <ClCompile Include="helperclasses\ProgressManager.cpp" />
+    <ClCompile Include="helperclasses\RandomGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="helperclasses\MenuItem.h" />
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
     <ClInclude Include="helperclasses\ProgressManager.h" />
+    <ClInclude Include="helperclasses\RandomGenerator.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />

@@ -34,12 +34,13 @@ namespace sdmg {
 
 			_step = 1.0f / 4.0f;
 			_lastUpdate = std::chrono::high_resolution_clock::now();
+			_canDie = false;
 
-			/*
+			
 			Character *character = static_cast<Character*>(game.getWorld()->getPlayers()[0]);
 			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character);
 
-			character->setAI(*machine);*/
+			character->setAI(*machine);
 
 			_tutorial = new std::vector<std::pair<SDL_Keycode, std::string>>();
 			_toDraw = new std::vector<std::string>();

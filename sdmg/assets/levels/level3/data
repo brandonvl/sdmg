@@ -43,7 +43,7 @@
 	startingPositions: 
 	[
 		{ x: 100, y: -100 },
-		{ x: 1100, y: -100 }
+		{ x: 1150, y: -100 }
 	],
 	bobs:
 	[

@@ -35,7 +35,7 @@ namespace sdmg {
 				_world->SetContactFilter(_contactFilter);
 				_step = 1.0f / 60.0f;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
-				_speed = 1000.0f;
+				_speed = _standardspeed;
 
 				initializeActions();
 			}
@@ -351,7 +351,7 @@ namespace sdmg {
 
 			float PhysicsEngine::getSpeed()
 			{
-				return _speed;
+				return _standardspeed;
 			}
 
 			void PhysicsEngine::setWorldGravity(const float leftGravity, const float downGravity)

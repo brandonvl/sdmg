@@ -213,6 +213,7 @@ namespace sdmg {
 				//_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, SDL_WINDOW_FULLSCREEN);
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 				_step = 1.0f / 15.0f;
+				_speed = _standardspeed;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 
 			}
@@ -434,9 +435,19 @@ namespace sdmg {
 				return _windowWidth;
 			}
 
+			void DrawEngine::setSpeed(float speed)
+			{
+				_speed = speed;
+			}
+
+			float DrawEngine::getSpeed()
+			{
+				return _standardspeed;
+			}
+
 			void DrawEngine::update() {
 				auto curTime = std::chrono::high_resolution_clock::now();
-				float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 500.0f;
+				float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / _speed;
 
 				_lastUpdate = curTime;
 				_accumulator += diff;

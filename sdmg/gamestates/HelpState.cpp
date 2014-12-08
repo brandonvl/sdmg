@@ -3,13 +3,27 @@
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
 #include "MainMenuState.h"
+#include "helperclasses\Menu.h"
+#include "helperclasses\menuitems\MenuTextItem.h"
 
 namespace sdmg {
 	namespace gamestates {
 
+		void HelpState::returnToOptionsMenu()
+		{
+			_game->getStateManager()->popState();
+		}
+
 		void HelpState::init(GameBase &game)
 		{
 			_game = &game;
+
+			_menu = new Menu(100, 600, game);
+
+			std::function<void()> CallBackOptionsMenu = std::bind(&HelpState::returnToOptionsMenu, this);
+
+			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back", CallBackOptionsMenu);
 
 			game.getEngine()->getDrawEngine()->load("help_background", "assets/screens/mainbackground");
 
@@ -18,10 +32,15 @@ namespace sdmg {
 			loadText("howtowin2", "or into Bullet Bob.", "trebucbd", 36);
 			loadText("howtowin3", "Victory shall be yours, when your opponent runs out of", "trebucbd", 36);
 			loadText("howtowin4", "lives.", "trebucbd", 36);
+
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void HelpState::cleanup(GameBase &game)
 		{
+			delete _menu;
+			_menu = nullptr;
+
 			game.getEngine()->getDrawEngine()->unload("help_background");
 			game.getEngine()->getDrawEngine()->unloadText("title");
 			game.getEngine()->getDrawEngine()->unloadText("howtowin1");
@@ -30,14 +49,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("howtowin4");
 			
 			//  game.getEngine()->getDrawEngine()->unloadAll();
-		}
-
-		void HelpState::pause(GameBase &game)
-		{
-		}
-
-		void HelpState::resume(GameBase &game)
-		{
+			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
 		void HelpState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -46,14 +58,21 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				switch (event.type) {
-				case SDL_KEYDOWN:
-				case SDL_MOUSEBUTTONDOWN:
-					game.getStateManager()->popState();
-					break;
-				case SDL_QUIT:
+				game.getEngine()->getInputEngine()->handleEvent(event);
+
+				if (event.type == SDL_QUIT)
 					game.stop();
-					break;
+				if (event.type == SDL_KEYDOWN)
+				{
+					switch (event.key.keysym.sym)
+					{
+					case SDLK_ESCAPE:
+					case SDLK_KP_ENTER:
+					case SDLK_RETURN:
+					case 10:
+						_menu->doAction();
+						break;
+					}
 				}
 			}
 		}
@@ -74,6 +93,8 @@ namespace sdmg {
 			drawEngine->drawText("howtowin2", 100, 248);
 			drawEngine->drawText("howtowin3", 100, 296);
 			drawEngine->drawText("howtowin4", 100, 344);
+
+			_menu->draw(_game);
 
 			drawEngine->render();
 		}

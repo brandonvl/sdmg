@@ -56,8 +56,9 @@ namespace sdmg {
 			PlayState() { }
 			std::vector<helperclasses::HUD*> *_huds;
 
-			bool _showFPS, _showHitBoxes, _showClickBoxes;
+			bool _showFPS, _showHitBoxes, _showClickBoxes, _canDie;
 			long _fps;
+			float _multiplier;
 
 			bool _particlesSet, _isPaused;
 

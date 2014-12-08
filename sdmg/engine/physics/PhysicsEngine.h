@@ -63,6 +63,7 @@ namespace sdmg {
 				bool _enabled;
 				const float _M2P = 20.0f;
 				const float _P2M = 1.0f / _M2P;
+				const float _standardspeed = 1000.0f;
 
 				ContactListener *_contactListener;
 				b2ContactFilter *_contactFilter;

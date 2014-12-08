@@ -79,7 +79,7 @@ namespace sdmg {
 			}
 			
 			// Save progress if autosave is enabled
-			if (ProgressManager::getInstance().autosaveEnabled());
+			if (ProgressManager::getInstance().autosaveEnabled())
 				ProgressManager::getInstance().save();
 			
 			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
