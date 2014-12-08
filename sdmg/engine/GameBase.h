@@ -32,7 +32,7 @@ namespace sdmg {
 
 			enum GameMode
 			{
-				SingePlayer,
+				SinglePlayer,
 				Versus,
 				Survival
 			};

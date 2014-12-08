@@ -10,11 +10,10 @@
 
 #include "MainMenuState.h"
 #include "PlayState.h"
-#include "LoadingState.h"
 #include "ControlsState.h"
 #include "CreditsState.h"
 #include "OptionsState.h"
-#include "LevelSelectionState.h"
+#include "GameModeState.h"
 #include "TutorialState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
@@ -28,15 +27,6 @@
 #include "engine\util\FileManager.h"
 
 #include <random>
-// only for windows
-// Advertisement ophalen
-/*
-#include <array>
-#include <vector>
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-*/
 
 namespace sdmg {
 	namespace gamestates {
@@ -48,7 +38,7 @@ namespace sdmg {
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 
-			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, LevelSelectionState::getInstance()); });
+			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, GameModeState::getInstance()); });
 			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
 			_menu->addMenuTextItem("Quit", (std::function<void()>)[&] { _game->stop(); });
@@ -58,9 +48,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("mainmenu_background", "assets/screens/mainmenu");
 			game.getEngine()->getAudioEngine()->play("main_menu_bgm", 0);
 			game.getEngine()->getInputEngine()->setMouseEnabled();
-
-
-
+			
 			_advertisementIndex = -1;
 			_advertisementRefreshRate = 15 * 10000;
 			_lastTimeSinceAdvertisementChange = 0;

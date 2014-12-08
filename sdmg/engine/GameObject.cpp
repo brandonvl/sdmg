@@ -133,9 +133,19 @@ namespace sdmg {
 			return _name;
 		}
 
+		std::string GameObject::getLevel()
+		{
+			return _level;
+		}
+
 		void GameObject::setName(std::string name)
 		{
 			_name = name;
+		}
+
+		void GameObject::setLevel(std::string level)
+		{
+			_level = level;
 		}
 
 		void GameObject::bindWorld(World *world, int id) { _world = world; _id = id; }

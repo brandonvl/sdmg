@@ -1,16 +1,13 @@
-/*
-
 //
 //
 //  @ Project : SDMG
-//  @ File Name : LoadingState.cpp
-//  @ Date : 26-9-2014
+//  @ File Name : LoadingSinglePlayerState.ccp
+//  @ Date : 8-12-2014
 //  @ Author : 42IN13SAd
 //
 //
 
-
-#include "LoadingState.h"
+#include "LoadingSinglePlayerState.h"
 #include "PlayState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -32,8 +29,11 @@
 #include "helperclasses\ConfigManager.h"
 #include <array>
 
+#include "engine\util\FileManager.h"
+
 #include <random>
 // only for windows
+// Advertisement ophalen
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
@@ -41,14 +41,13 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void LoadingState::init(GameBase &game)
+		void LoadingSinglePlayerState::init(GameBase &game)
 		{
 			_game = &game;
 			_game->getWorld()->clearWorld();
-			//  _game->getStateManager()->cleanupOthers();
 
-			// Default level
-			// _level = new std::string("level1");
+			if (!_enemies)
+				_enemies = new std::vector<std::string*>();
 
 			// LoadingBar
 			_loadingValue = 0;
@@ -58,62 +57,22 @@ namespace sdmg {
 			_totalHeight = 23;
 			_loadingBarX = game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - _totalWidth / 2;
 			_loadingBarY = 565;
-
-			_isLoaded = false;
-			_isError = false;
-			_isAdvertisement = false;
-
-			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
-
-			/*
-			//  loadAdvertisement();
-			std::string advertisement = getRandomAdvertisement();
-			if (advertisement != "")
-			{
-			_isAdvertisement = true;
-			game.getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
-			}
-
-			//  game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "trebucbd", 36);
-			game.getEngine()->getDrawEngine()->loadDynamicText("progress", { 0, 0, 0 }, "arial", 36);
-
-			_progress = new std::string("Loading started");
-			_game->getStateManager()->draw();
-
-			load();
-			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
-
-			_game->getStateManager()->update();
-
-			
-
-			printf("\nSimple SDL_CreateThread test:");
-
-			// Simply create a thread
-			thread = SDL_CreateThread(loadThread, "LoadThread", (void *)this);
-			//  SDL_WaitThread(thread, NULL);
-			//load();
-			//  SDL_DetachThread(thread);
-			
 		}
 
-		void LoadingState::cleanup(GameBase &game)
+		void LoadingSinglePlayerState::cleanup(GameBase &game)
 		{
-			delete _level;
 			game.getEngine()->getDrawEngine()->unload("loading");
-			//  game.getEngine()->getDrawEngine()->unload("progress");
-			// game.getEngine()->getAudioEngine()->unload("bgm");
 		}
 
-		void LoadingState::pause(GameBase &game)
+		void LoadingSinglePlayerState::pause(GameBase &game)
 		{
 		}
 
-		void LoadingState::resume(GameBase &game)
+		void LoadingSinglePlayerState::resume(GameBase &game)
 		{
 		}
 
-		void LoadingState::handleEvents(GameBase &game, GameTime &gameTime)
+		void LoadingSinglePlayerState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
 			if (SDL_PollEvent(&event))
@@ -135,11 +94,11 @@ namespace sdmg {
 			}
 		}
 
-		void LoadingState::update(GameBase &game, GameTime &gameTime)
+		void LoadingSinglePlayerState::update(GameBase &game, GameTime &gameTime)
 		{
 			if (_isLoaded)
 			{
-				PlayState &state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
+				PlayState &state = PlayState::getInstance();
 				state.setHUDs(_huds);
 				changeState(game, state);
 			}
@@ -149,26 +108,13 @@ namespace sdmg {
 			}
 		}
 
-		void LoadingState::setIsTutorial(bool tutorial)
-		{
-			_isTutorial = tutorial;
-		}
-
-		void LoadingState::draw(GameBase &game, GameTime &gameTime)
+		void LoadingSinglePlayerState::draw(GameBase &game, GameTime &gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("loading");
 
 			if (_isAdvertisement)
 				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
-
-			//game.getEngine()->getDrawEngine()->drawDynamicText("progress", (*_progress), 100, 100);
-
-			/*
-			int marginInner = 3, marginValue = 1;
-			int totalWidth = 300, totalHeight = 23;
-			int x = game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - totalWidth / 2, y = 565;
-			
 
 			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(_loadingBarX, _loadingBarY, _totalWidth, _totalHeight), 200, 200, 200);
 			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(_loadingBarX + _marginInner, _loadingBarY + _marginInner, _totalWidth - (_marginInner * 2), _totalHeight - (_marginInner * 2)), 255, 255, 255);
@@ -177,40 +123,30 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->render();
 		}
 
-		void LoadingState::setLevel(std::string *level)
-		{
-			_level = level;
-		}
-
-		int LoadingState::loadThread(void *ptr)
-		{
-			((LoadingState*)ptr)->load();
-			return 0;
-		}
-
-		void LoadingState::load() {
-
+		void LoadingSinglePlayerState::load() {
 			int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
-			_loadingStep = _isTutorial ? maxLoadingValue / 4 : maxLoadingValue / 3;
+			_loadingStep = maxLoadingValue / 3;
 
 			loadAdvertisement();
-			loadLevel();
+			loadCharacters();
 			loadKeybindings();
-
-			if (_isTutorial)
-				loadTutorial();
 
 			_loadingValue = maxLoadingValue;
 
 			_isLoaded = true;
+			clearEventQueue();
 		}
 
-		void LoadingState::loadLevel() {
+		void LoadingSinglePlayerState::clearEventQueue() {
+			SDL_Event event;
+			while (SDL_PollEvent(&event));
+		}
 
-			_progress = new std::string("Loading awesome level!");
+		void LoadingSinglePlayerState::loadLevel(std::string level) {
+
 			_game->getStateManager()->draw();
 
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + level + "/data");
 			JSON::JSONObject &levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
@@ -220,42 +156,110 @@ namespace sdmg {
 
 			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
 
-			int platformStep = (_loadingStep / 3) / platformArr.size();
+			if (platformArr.size() > 0) {
+				int platformStep = (_loadingStep / 3) / platformArr.size();
 
-			for (int i = 0; i < platformArr.size(); i++) {
-				JSON::JSONObject &platformObj = platformArr.getObject(i);
+				for (int i = 0; i < platformArr.size(); i++) {
+					JSON::JSONObject &platformObj = platformArr.getObject(i);
 
-				Platform *platform = new model::Platform(false);
-				platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
-				platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
-				pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
-				_game->getWorld()->addPlatform(platform);
-				de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
+					Platform *platform = new model::Platform(false);
+					platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
+					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
+					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
+					_game->getWorld()->addPlatform(platform);
+					de->load(platform, "assets/levels/" + level + "/" + platformObj.getString("image"));
 
-				_loadingValue += platformStep;
-				_game->getStateManager()->draw();
+					_loadingValue += platformStep;
+					_game->getStateManager()->draw();
+				}
 			}
-			de->load("background", "assets/levels/" + (*_level) + "/background");
-			//  de->load("background", "assets/levels/" + level + "/data");
-			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
-			//  _game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
-			_game->getEngine()->getAudioEngine()->load("bgm", "assets/levels/" + (*_level) + "/bgm.mp3", AUDIOTYPE::MUSIC);
+			else {
+				_loadingValue += _loadingStep / 3;
+			}
 
-			loadCharacters(levelObj.getArray("startingPositions"));
+			de->load("background", "assets/levels/" + level + "/background");
+			_game->getEngine()->getAudioEngine()->load("bgm", "assets/levels/" + level + "/bgm.mp3", AUDIOTYPE::MUSIC);
+
+			std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
+			
+			for (size_t i = 0; i < players.size(); i++)
+			{
+				JSON::JSONObject &posObj = levelObj.getArray("startingPositions").getObject(i);
+				players[i]->setSpawnLocation(posObj.getFloat("x"), posObj.getFloat("y"));
+			}
 
 			loadBulletBobs(levelObj.getArray("bobs"));
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
-
+			de->loadDynamicText("speed", { 255, 255, 255 }, "arial", 18);
 			delete doc;
 		}
 
-		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
-			std::string loadCharacters[] = { "fiat", "nivek" };
-			std::vector<Character*> characters(sizeof(loadCharacters));
+		void LoadingSinglePlayerState::unloadAll()
+		{
+			delete _player;
 
-			//int characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
+			if (_enemies) {
+				for (auto it : *_enemies) {
+					delete it;
+				}
+				_enemies->clear();
+			}
+
+			delete _enemies;
+		}
+
+		bool LoadingSinglePlayerState::hasFinished()
+		{
+			return _enemies->size() <= 1;
+		}
+
+		std::string LoadingSinglePlayerState::getPlayerName()
+		{
+			return *_player;
+		}
+
+		void LoadingSinglePlayerState::setPlayerName(std::string playerName)
+		{
+			_player = new std::string(playerName);
+		}
+
+		void LoadingSinglePlayerState::loadNextFight()
+		{
+			_isLoaded = false;
+			_isError = false;
+			_isAdvertisement = false;
+
+			_game->getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
+			_game->getStateManager()->draw();
+
+
+			if (_enemies->size() == 0)
+			{
+				std::vector<std::string> enemies = util::FileManager::getInstance().getFolders("assets/characters/");
+
+				for (std::string e : enemies)
+					if (e != *_player)
+						_enemies->push_back(new std::string(e));
+			}
+			else
+			{
+				delete (*_enemies)[0];
+				_enemies->erase(_enemies->begin());
+			}
+
+			load();
+			_game->getEngine()->getAudioEngine()->unload("main_menu_bgm");
+
+			_game->getEngine()->getPhysicsEngine()->resume();
+
+			_game->getStateManager()->update();
+		}
+
+		void LoadingSinglePlayerState::loadCharacters() {
+			std::string loadCharacters[] = { *_player, *(*_enemies)[0] }, level;
+			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			int characterStep = 0;
 			if (characterStep <= 0)
@@ -265,14 +269,16 @@ namespace sdmg {
 
 			for (int i = 0; i < 2; i++) {
 
-				_progress = new std::string("Loading " + loadCharacters[i]);
 				_game->getStateManager()->draw();
 
 				int retries = 0;
 				do{
-					JSON::JSONObject &posObj = startingPositions.getObject(i);
-					characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
+					if (i==0)
+						characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, 100.0f, -100.0f);
+					else
+						characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, 1100.0f, -100.0f);
 					_game->getWorld()->addPlayer(characters[i]);
+					level = characters[i]->getLevel();
 					if (retries++ > 10){
 						_isError = true;
 						return;
@@ -286,7 +292,6 @@ namespace sdmg {
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
-			_progress = new std::string("Loading fancy hudjes");
 			_game->getStateManager()->draw();
 
 			// Create a HUD for each player
@@ -299,11 +304,11 @@ namespace sdmg {
 			_huds->push_back(hudNivek);
 
 			_loadingValue += characterStep;
+
+			loadLevel(level);
 		}
 
-		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
-
-			_progress = new std::string("Loading Bullet Bobs");
+		void LoadingSinglePlayerState::loadBulletBobs(JSON::JSONArray &bobs) {
 			_game->getStateManager()->draw();
 
 			int bobStep = 0;
@@ -320,7 +325,7 @@ namespace sdmg {
 				platform->setLocation(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y"));
 				platform->setStartLocation(b2Vec2(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y")));
 				platform->setEndLocation(b2Vec2(bobObj.getObject("endLocation").getFloat("x"), bobObj.getObject("endLocation").getFloat("y")));
-				platform->setDirection(static_cast< MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
+				platform->setDirection(static_cast<MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
 				platform->setSpeed(bobObj.getObject("speed").getFloat("horizontal"), bobObj.getObject("speed").getFloat("vertical"));
 				platform->setDamageOnImpact(100);
 
@@ -333,9 +338,7 @@ namespace sdmg {
 			}
 		}
 
-		void LoadingState::loadKeybindings() {
-
-			_progress = new std::string("Loading controls jonguh!");
+		void LoadingSinglePlayerState::loadKeybindings() {
 			_game->getStateManager()->draw();
 
 			try{
@@ -376,98 +379,29 @@ namespace sdmg {
 			}
 		}
 
-		void LoadingState::loadTutorial() {
-			_progress = new std::string("Loading Tutorial");
-			_game->getStateManager()->draw();
-
-			DrawEngine *de = _game->getEngine()->getDrawEngine();
-
-			ConfigManager &manager = ConfigManager::getInstance();
-			std::string fiatLeft = SDL_GetKeyName(manager.getKey(0, "walkLeft"));
-			std::string fiatRight = SDL_GetKeyName(manager.getKey(0, "walkRight"));
-			std::string fiatJump = SDL_GetKeyName(manager.getKey(0, "jump"));
-			std::string fiatMidRange = SDL_GetKeyName(manager.getKey(0, "midrange"));
-			std::string fiatRoll = SDL_GetKeyName(manager.getKey(0, "roll"));
-
-			std::string nivekLeft = SDL_GetKeyName(manager.getKey(1, "walkLeft"));
-			std::string nivekRight = SDL_GetKeyName(manager.getKey(1, "walkRight"));
-			std::string nivekJump = SDL_GetKeyName(manager.getKey(1, "jump"));
-			std::string nivekMidRange = SDL_GetKeyName(manager.getKey(1, "midrange"));
-			std::string nivekRoll = SDL_GetKeyName(manager.getKey(1, "roll"));
-
-			//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutIntro", "Welcome to the tutorial! [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutIntro2", "The heart icons in the top of your screen show the amount of lives you have left [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutIntro3", "If you get defeated by an opponent or fall from the platform you will lose one life [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutIntro4", "The bar below the heart icons shows the energy you have left [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek1", "We shall begin with Nivek, Press '" + nivekLeft + "' to move left", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek2", "Press '" + nivekRight + "' to move right", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek3", "Press '" + nivekJump + "' to jump", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek4", "We will now learn attacking movements [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek5", "To perform a mid range attack, press the '" + nivekMidRange + "' key", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek6", "To dodge an enemy attack, execute a roll, press '" + nivekRoll + "'", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat1", "Now we shall explain Fiat's movements [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat2", "Press '" + fiatLeft + "' to move left", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat3", "Press '" + fiatRight + "' to move right", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat4", "Press '" + fiatJump + "' to jump", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat5", "We will now learn attacking movements [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat6", "To perform a mid range attack, press the '" + fiatMidRange + "' key", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press '" + fiatRoll + "'", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutEnd", "You have successfully passed the tutorial, you are ready to play the game, press 'Esc' to quit!", { 255, 255, 255 }, "arial", 30);
-		}
-
-		void LoadingState::loadAdvertisement()
+		void LoadingSinglePlayerState::loadAdvertisement()
 		{
-			_progress = new std::string("Loading Advertisement");
 			_game->getStateManager()->draw();
 
-			std::string advertisement = getRandomAdvertisement();
-			if (advertisement != "")
+			std::vector<std::string> advertismentList = util::FileManager::getInstance().getFiles("assets/advertisements/");
+
+			if (advertismentList.size() > 0)
 			{
 				_isAdvertisement = true;
-				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertisement);
 
-				const std::array<float, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
+				std::random_device dev;
+				std::default_random_engine dre(dev());
+				std::uniform_int_distribution<int> randomAdvertisement(0, advertismentList.size() - 1);
+
+				_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + advertismentList[randomAdvertisement(dre)]);
+
+				const std::array<int, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
 				_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
 				_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
+
 			}
 
 			_loadingValue += _loadingStep;
 		}
-
-		std::string LoadingState::getRandomAdvertisement() {
-
-			std::vector<std::string> names;
-			char search_path[200];
-			sprintf_s(search_path, "%s*.*", "assets\\advertisements\\");
-			WIN32_FIND_DATA fd;
-			HANDLE hFind = ::FindFirstFile(search_path, &fd);
-			if (hFind != INVALID_HANDLE_VALUE)
-			{
-				do {
-					if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-					{
-						//_tprintf(TEXT("  %s   <DIR>\n"), fd.cFileName);
-					}
-					else
-					{
-						names.push_back(fd.cFileName);
-					}
-				} while (::FindNextFile(hFind, &fd));
-				::FindClose(hFind);
-			}
-
-			if (names.size() > 0)
-			{
-				std::random_device dev;
-				std::default_random_engine dre(dev());
-				std::uniform_int_distribution<int> randomAdvertisement(0, names.size() - 1);
-
-				return names[randomAdvertisement(dre)];
-			}
-
-			return "";
-		}
 	}
 }
-*/

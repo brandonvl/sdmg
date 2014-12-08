@@ -17,6 +17,7 @@
 #include "engine\input\InputEngine.h"
 #include "engine\audio\AudioEngine.h"
 #include "LoadingState.h"
+#include "LoadingSinglePlayerState.h"
 #include "MainMenuState.h"
 #include "lib\JSONParser.h"
 
@@ -46,9 +47,14 @@ namespace sdmg {
 						JSON::JSONObject &obj = doc->getRootObject();
 						
 						_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, s] {
+
 							LoadingState::getInstance().setIsTutorial(false);
 							LoadingState::getInstance().setLevel(new std::string(s));
 							changeState(*_game, LoadingState::getInstance());
+							/*
+							LoadingSinglePlayerState::getInstance().setPlayer("nivek"); 
+							changeState(*_game, LoadingSinglePlayerState::getInstance());
+							*/
 						});
 
 						delete doc;
@@ -78,10 +84,6 @@ namespace sdmg {
 		void LevelSelectionState::cleanup(GameBase &game)
 		{
 			delete _menu;
-			game.getEngine()->getDrawEngine()->unloadText("Level 1");
-			game.getEngine()->getDrawEngine()->unloadText("Level 2");
-			game.getEngine()->getDrawEngine()->unloadText("tutorial");
-			game.getEngine()->getDrawEngine()->unloadText("levelselect_background");
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -104,8 +106,6 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						//  changeState(game, MainMenuState::getInstance());
-						//_game->getStateManager()->cleanup();
 						changeState(*_game, MainMenuState::getInstance());
 						break;
 					case SDLK_DOWN:

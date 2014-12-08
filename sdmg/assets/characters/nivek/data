@@ -1,5 +1,6 @@
 {
 	name: "Nivek The Assassin",
+	level: "plinko",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },

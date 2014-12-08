@@ -351,6 +351,9 @@
     <ClCompile Include="helperclasses\Editor.cpp">
       <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
+    <ClCompile Include="gamestates\GameModeState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -618,6 +621,9 @@
       <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\ProgressDeleteState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\GameModeState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>

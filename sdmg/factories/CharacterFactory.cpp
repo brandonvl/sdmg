@@ -23,9 +23,9 @@ namespace sdmg {
 			character->setSpawnLocation(xPosition, yPosition);
 			character->setLives(4);
 			character->setHP(100);
-			//  character->setBP(100);
 			character->setPP(100);
 			character->setName(obj.getString("name"));
+			character->setLevel(obj.getString("level"));
 			character->setKey(name);
 			character->setAttackSize(obj.getObject("attack").getObject("size").getFloat("width"), obj.getObject("attack").getObject("size").getFloat("height"));
 			character->setMidAttackY(obj.getObject("attack").getFloat("midPosition"));

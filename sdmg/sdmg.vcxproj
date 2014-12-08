@@ -124,6 +124,7 @@
     <ClCompile Include="factories\CharacterFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="gamestates\CharacterSelectionState.cpp" />
+    <ClCompile Include="gamestates\GameModeState.cpp" />
     <ClCompile Include="gamestates\GameOverState.cpp" />
     <ClCompile Include="gamestates\HelpState.cpp" />
     <ClCompile Include="gamestates\IntroState.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="factories\CharacterFactory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="gamestates\CharacterSelectionState.h" />
+    <ClInclude Include="gamestates\GameModeState.h" />
     <ClInclude Include="gamestates\GameOverState.h" />
     <ClInclude Include="gamestates\HelpState.h" />
     <ClInclude Include="gamestates\IntroState.h" />

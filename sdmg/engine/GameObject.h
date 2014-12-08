@@ -66,6 +66,8 @@ namespace sdmg {
 
 			std::string getName();
 			void setName(std::string name);
+			std::string getLevel();
+			void GameObject::setLevel(std::string level);
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
 			b2Body *_body;
@@ -78,7 +80,7 @@ namespace sdmg {
 			const float32 *_x, *_y;
 			float _spawnX, _spawnY;
 			World *_world;
-			std::string _name;
+			std::string _name, _level;
 			bool _ownsLocation;
 		};
 	}

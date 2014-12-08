@@ -21,7 +21,7 @@
 #include "engine\World.h"
 #include "lib\JSONParser.h"
 #include "engine\audio\AudioEngine.h"
-#include "LoadingState.h"
+#include "LoadingSinglePlayerState.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
 #include "PlayState.h"
@@ -39,15 +39,25 @@ namespace sdmg {
 			std::cout << "Initing IntroState ... " << std::endl;
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
-			
-			if (game.getGameMode() == GameBase::GameMode::SingePlayer)
-				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::next, this));
-				else if (game.getGameMode() == GameBase::GameMode::Versus)
-			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
-			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
-			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] { changeState(*_game, MainMenuState::getInstance()); });
-		
+
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
+
+			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
+			{
+				if (!LoadingSinglePlayerState::getInstance().hasFinished()
+					&& static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
+					_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+			}
+			else if (game.getGameMode() == GameBase::GameMode::Versus)
+			{
+				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
+			}
+			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
+			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
+				LoadingSinglePlayerState::getInstance().unloadAll();
+				changeState(*_game, MainMenuState::getInstance());
+			});
+		
 			Uint8 color = 255;
 			for (int i = deadList.size() - 1; i >= 0; i--) {
 				int rank = (deadList.size() - i);
@@ -110,21 +120,9 @@ namespace sdmg {
 		}
 
 		void GameOverState::next() {
-			_game->getWorld()->resetWorld();
-			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
-
-			for (int i = 0; i < aliveList.size(); i++)
-			{
-				model::Character *character = static_cast<model::Character*>(aliveList[i]);
-				character->revive();
-				character->setState(MovableGameObject::State::RESPAWN);
-			}
-
-			_game->getEngine()->getPhysicsEngine()->resetBobs();
-
-			_replay = true;
-			_game->getEngine()->getPhysicsEngine()->resume();
-			changeState(*_game, PlayState::getInstance());
+			_replay = false;
+			changeState(*_game, LoadingSinglePlayerState::getInstance());
+			LoadingSinglePlayerState::getInstance().loadNextFight();
 		}
 
 		void GameOverState::cleanup(GameBase &game)
@@ -171,8 +169,6 @@ namespace sdmg {
 				}
 
 				delete huds;
-
-				//game.getStateManager()->cleanupOthers();
 			}
 
 			game.getEngine()->getInputEngine()->getMouse().clear();

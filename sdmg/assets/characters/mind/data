@@ -1,5 +1,6 @@
 {
 	name: "Mind The Ice Mage",
+	level: "level3",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },

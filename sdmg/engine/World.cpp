@@ -108,37 +108,12 @@ namespace sdmg {
 
 		void World::removePlatform(GameObject *platform)
 		{
-			/*
-			auto it = std::find_if(_platforms.begin(), _platforms.end(), [platform] (const GameObject &obj) { return platform == &obj; });
-			if (it != _platforms.end())
-				_platforms.erase(it);
-			*/
-
 			// Toch handig dat we precies de presentatie hiervoor hebben gehad :D
 			auto p = remove(_platforms.begin(), _platforms.end(), platform);
 			_platforms.erase(p, _platforms.end());
 
 			auto g = remove(_gameObjects.begin(), _gameObjects.end(), platform);
 			_gameObjects.erase(g, _gameObjects.end());
-
-
-			/*
-			for (auto it = _platforms.begin(); it != _platforms.end(); it++)
-			{
-				if (*it == platform) {
-					_platforms.erase(it);
-					break;
-				}
-			}
-
-			for (auto it = _gameObjects.begin(); it != _gameObjects.end(); it++)
-			{
-				if (*it == platform) {
-					_gameObjects.erase(it);
-					break;
-				}
-			}
-			*/
 		}
 	}
 }
