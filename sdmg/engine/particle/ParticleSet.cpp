@@ -42,7 +42,7 @@ namespace sdmg {
 					_y + rand() % 6 - 3, // Paritcle y position
 					rand() % 10 + (float)rand() / (float)RAND_MAX - _xVel, // Particle x velocity
 					rand() % 10 + (float)rand() / (float)RAND_MAX - _yVel, // Particle y velocity
-					500 + rand() % 1000, // Particle lifetime
+					5 + rand() % 200, // Particle lifetime
 					rand() % 255, // Particle color
 					_surface); // Surface to draw on
 			}

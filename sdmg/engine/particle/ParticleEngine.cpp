@@ -103,8 +103,8 @@ namespace sdmg {
 				std::string key = "hit";
 				SDL_Surface* surface = _particleSets[key]->getSDLSurface();
 
-				int xVel = 0;
-				int yVel = 0;
+				int xVel = _particleSets[key]->getXVel();
+				int yVel = _particleSets[key]->getYVel();
 
 				switch (MovableGameObject::State(gameObject->getState()))
 				{

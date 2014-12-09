@@ -169,16 +169,14 @@ namespace sdmg {
 				if (_showFPS)
 					_fps = game.getFPS() == _fps ? _fps : game.getFPS();
 
-				// ------------------------------------------- PARTICLE TEST --------------------------------------
 				if (!_particlesSet) {
 					for (auto obj : game.getWorld()->getPlayers()) {
 						game.getEngine()->getParticleEngine()->registerGameObject(obj);
 					}
 
-					game.getEngine()->getParticleEngine()->createParticleSet("hit", 5, 175, 175, 5, 5, 350, 350, "red");
+					game.getEngine()->getParticleEngine()->createParticleSet("hit", 25, 175, 175, 5, 5, 350, 350, "red");
 					_particlesSet = true;
 				}
-				// ------------------------------------------- PARTICLE TEST --------------------------------------
 
 				game.getEngine()->getInputEngine()->update(game);
 				game.getEngine()->getDrawEngine()->update();
