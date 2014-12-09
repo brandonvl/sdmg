@@ -21,6 +21,8 @@ namespace sdmg {
 			void setUserConfig(std::string name, std::string value);
 			const std::string getUserConfig(std::string name);
 
+			const std::string ConfigManager::getUnlockableCharacterName(std::string playerName);
+
 			void save();
 
 		private:

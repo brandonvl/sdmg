@@ -44,9 +44,15 @@ namespace sdmg {
 
 			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 			{
-				if (!LoadingSinglePlayerState::getInstance().hasFinished()
-					&& static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
-					_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+				if (!LoadingSinglePlayerState::getInstance().hasFinished())
+				{
+					if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
+						_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+				}
+				else
+				{
+
+				}
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{

@@ -65,7 +65,7 @@ namespace sdmg {
 			int _advertisementX, _advertisementY;
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;
 
-			bool _isAdvertisement;
+			bool _isAdvertisement, _removeFirstEnemy;
 			std::string getRandomAdvertisement();
 			void loadAdvertisement();
 		};
