@@ -37,8 +37,8 @@ namespace sdmg {
 
 			// Create menu
 			_menu->addMenuTextItem("Autosave", (std::function<void()>)[&] { 
-				_isEnabled = !ProgressManager::getInstance().autosaveEnabled();
-				ProgressManager::getInstance().setAutosave(_isEnabled);
+				ProgressManager::getInstance().setAutosave(!_isEnabled);
+				_isEnabled = ProgressManager::getInstance().autosaveEnabled();
 			});
 			_menu->addMenuTextItem("Save", (std::function<void()>)[&] { 
 				_game->getStateManager()->pushState(ProgressSaveState::getInstance());

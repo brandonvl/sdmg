@@ -15,11 +15,13 @@
 #include "OptionsState.h"
 #include "GameModeState.h"
 #include "TutorialState.h"
+#include "ProgressLoadState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
+#include "helperclasses\ProgressManager.h"
 #include "engine\input\InputEngine.h"
 #include "engine\audio\AudioEngine.h"
 #include "actions\Actions.h"
@@ -59,6 +61,10 @@ namespace sdmg {
 				loadAdvertisement();
 				_shouldRefreshAdvertisement = _advertismentList->size() > 1;
 			}
+
+			// Load game
+			if (ProgressManager::getInstance().currentSavegame < 0)
+				_game->getStateManager()->pushState(ProgressLoadState::getInstance());
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
