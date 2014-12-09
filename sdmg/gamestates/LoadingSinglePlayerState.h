@@ -40,6 +40,7 @@ namespace sdmg {
 			}
 
 			void unloadAll();
+			std::string getLevelName();
 			std::string getPlayerName();
 			void setPlayerName(std::string playerName);
 			void loadNextFight();
@@ -59,7 +60,7 @@ namespace sdmg {
 			bool _isLoaded, _isError;
 			std::vector<helperclasses::HUD*> *_huds;
 			
-			std::string *_playerName;
+			std::string *_playerName, *_levelName;
 			std::vector<std::string*> *_enemies;
 			
 			int _advertisementX, _advertisementY;

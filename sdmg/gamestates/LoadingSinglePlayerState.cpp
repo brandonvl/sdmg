@@ -204,11 +204,17 @@ namespace sdmg {
 				_enemies->clear();
 			}
 			delete _enemies;
+			_enemies = nullptr;
 		}
 
 		bool LoadingSinglePlayerState::hasFinished()
 		{
 			return _enemies->size() <= 1;
+		}
+
+		std::string LoadingSinglePlayerState::getLevelName()
+		{
+			return *_levelName;
 		}
 
 		std::string LoadingSinglePlayerState::getPlayerName()
@@ -327,6 +333,7 @@ namespace sdmg {
 
 			_loadingValue += characterStep;
 
+			_levelName = new std::string(level);
 			loadLevel(level);
 		}
 

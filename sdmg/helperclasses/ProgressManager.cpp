@@ -155,7 +155,7 @@ namespace sdmg {
 			return JSON::JSONDocument::fromFile("assets/reset")->getRootObject();
 		}
 
-		bool ProgressManager::isUnlockedCharacter(std::string name) 
+		bool ProgressManager::isUnlockedCharacter(std::string name)
 		{
 			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters").getObject(getCharacterIndex(name)).getBoolean("unlocked");
 		}

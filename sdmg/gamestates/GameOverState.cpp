@@ -16,6 +16,7 @@
 #include "helperclasses\HUD.h"
 #include "MainMenuState.h"
 #include "StatisticsState.h"
+#include "UnlockedState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
@@ -41,6 +42,7 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
+			bool unlocked = false;
 
 			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 			{
@@ -51,13 +53,27 @@ namespace sdmg {
 				}
 				else if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
 				{
-					/*
 					ProgressManager &manager = ProgressManager::getInstance();
-					if (manager.isUnlockedCharacter(deadList[0]))
+
+					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
+					//  if (!manager.isUnlockedCharacter(LoadingSinglePlayerState::getInstance().getPlayerName()))
+					if (!manager.isUnlockedCharacter(static_cast<Character*>(deadList[0])->getName()))
 					{
+						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
+						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
+						manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
+						unlocked = true;
 					}
-					if (manager.isUnlockedLevel(deadList[0])))
-					manager.save();
+
+					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
+					/*
+					if (!manager.isUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName()))
+					{
+						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
+						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
+						//  manager.setIsUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName(), true);
+						unlocked = true;
+					}
 					*/
 				}
 			}
@@ -113,6 +129,12 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
+
+			if (unlocked)
+			{
+				unlocked = false;
+				game.getStateManager()->pushState(UnlockedState::getInstance());
+			}
 		}
 
 		void GameOverState::replay() {

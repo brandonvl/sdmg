@@ -360,6 +360,9 @@
     <ClCompile Include="helperclasses\RandomGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gamestates\UnlockedState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -628,12 +631,15 @@
     </ClInclude>
     <ClInclude Include="gamestates\GameModeState.h">
       <Filter>Header Files\gamestates</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="engine\particle\ParticleInstance.h">
       <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
     <ClInclude Include="helperclasses\RandomGenerator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\UnlockedState.h">
+      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

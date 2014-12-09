@@ -142,6 +142,7 @@
     <ClCompile Include="gamestates\ProgressState.cpp" />
     <ClCompile Include="gamestates\SelectionState.cpp" />
     <ClCompile Include="gamestates\StatisticsState.cpp" />
+    <ClCompile Include="gamestates\UnlockedState.cpp" />
     <ClCompile Include="helperclasses\Editor.cpp" />
     <ClCompile Include="helperclasses\HUD.cpp" />
     <ClCompile Include="helperclasses\ConfigManager.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="gamestates\ProgressState.h" />
     <ClInclude Include="gamestates\SelectionState.h" />
     <ClInclude Include="gamestates\StatisticsState.h" />
+    <ClInclude Include="gamestates\UnlockedState.h" />
     <ClInclude Include="helperclasses\Editor.h" />
     <ClInclude Include="helperclasses\HUD.h" />
     <ClInclude Include="helperclasses\ConfigManager.h" />
