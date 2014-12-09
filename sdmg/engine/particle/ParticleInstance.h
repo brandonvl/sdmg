@@ -7,7 +7,7 @@ namespace sdmg {
 			class ParticleInstance
 			{
 			public:
-				ParticleInstance(ParticleSet* particleSet, int x, int y);
+				ParticleInstance(ParticleSet* particleSet, int x, int y, int xVel, int yVel);
 				virtual ~ParticleInstance();
 				ParticleSet* getParticleSet();
 				int GetX();

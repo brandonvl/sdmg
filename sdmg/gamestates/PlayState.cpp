@@ -175,7 +175,7 @@ namespace sdmg {
 						game.getEngine()->getParticleEngine()->registerGameObject(obj);
 					}
 
-					game.getEngine()->getParticleEngine()->createParticleSet("hit", 3, 175, 175, 350, 350, "blood");
+					game.getEngine()->getParticleEngine()->createParticleSet("hit", 5, 175, 175, 5, 5, 350, 350, "red");
 					_particlesSet = true;
 				}
 				// ------------------------------------------- PARTICLE TEST --------------------------------------
@@ -259,6 +259,11 @@ namespace sdmg {
 			}
 
 			_editor->draw();
+
+			//SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface("hit");
+			//game.getEngine()->getDrawEngine()->refreshSurface(surface);
+			//game.getEngine()->getParticleEngine()->continuousShowParticleSet("hit");
+			//game.getEngine()->getDrawEngine()->drawParticle(surface, 100, 100);
 
 			if (game.getEngine()->getParticleEngine()->hasNextParticleInstance()) {
 				std::vector<ParticleInstance*> container = game.getEngine()->getParticleEngine()->getNextParticleInstance();

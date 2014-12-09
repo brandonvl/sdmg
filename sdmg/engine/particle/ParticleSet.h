@@ -10,8 +10,8 @@ namespace sdmg {
 			class ParticleSet
 			{
 			public:
-				ParticleSet(int max, int x, int y, int width, int height, SDL_Surface *image);
-				ParticleSet(const ParticleSet& other);
+				ParticleSet(int max, int x, int y, int xVel, int yVel, int width, int height, SDL_Surface *image);
+				ParticleSet(const ParticleSet& other, int xVel, int yVel);
 				virtual ~ParticleSet();
 				
 				void reset();
@@ -19,11 +19,13 @@ namespace sdmg {
 				void showContinuous();
 				void resetLifeTime();
 				bool isDead();
-				void initParticles(int max, int x, int y, int width, int height, SDL_Surface *image);
+				void initParticles(int max, int x, int y, int xVel, int yVel, int width, int height, SDL_Surface *image);
 				SDL_Surface* getSDLSurface();
 				Particle* createParticle();
+				int getXVel();
+				int getYVel();
 			private:
-				int _x, _y, _max, _width, _height;
+				int _x, _y, _max, _width, _height, _xVel, _yVel;
 				SDL_Surface* _surface;
 				SDL_Surface* _image;
 				std::vector<Particle*> _particles;

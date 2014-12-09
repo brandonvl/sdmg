@@ -4,8 +4,8 @@
 namespace sdmg {
 	namespace engine {
 		namespace particle {
-			ParticleInstance::ParticleInstance(ParticleSet* particleSet, int x, int y) {
-				_particleSet = new ParticleSet(*particleSet);
+			ParticleInstance::ParticleInstance(ParticleSet* particleSet, int x, int y, int xVel, int yVel) {
+				_particleSet = new ParticleSet(*particleSet, xVel, yVel);
 				_x = x;
 				_y = y;
 			}

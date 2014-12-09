@@ -190,7 +190,6 @@
     <ClInclude Include="engine\util\FileManager.h" />
     <ClInclude Include="gamestates\CreditsState.h" />
     <ClInclude Include="engine\audio\AudioEngine.h" />
-    <ClInclude Include="engine\Direction.h" />
     <ClInclude Include="engine\drawing\DrawEngine.h" />
     <ClInclude Include="engine\drawing\Rectangle.h" />
     <ClInclude Include="engine\drawing\Surface.h" />
