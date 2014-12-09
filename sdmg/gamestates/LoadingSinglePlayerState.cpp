@@ -198,7 +198,7 @@ namespace sdmg {
 
 		void LoadingSinglePlayerState::unloadAll()
 		{
-			delete _player;
+			delete _playerName;
 
 			if (_enemies) {
 				for (auto it : *_enemies) {
@@ -217,12 +217,12 @@ namespace sdmg {
 
 		std::string LoadingSinglePlayerState::getPlayerName()
 		{
-			return *_player;
+			return *_playerName;
 		}
 
 		void LoadingSinglePlayerState::setPlayerName(std::string playerName)
 		{
-			_player = new std::string(playerName);
+			_playerName = new std::string(playerName);
 		}
 
 		void LoadingSinglePlayerState::loadNextFight()
@@ -240,7 +240,7 @@ namespace sdmg {
 				std::vector<std::string> enemies = util::FileManager::getInstance().getFolders("assets/characters/");
 
 				for (std::string e : enemies)
-					if (e != *_player)
+					if (e != *_playerName)
 						_enemies->push_back(new std::string(e));
 			}
 			else
@@ -258,7 +258,7 @@ namespace sdmg {
 		}
 
 		void LoadingSinglePlayerState::loadCharacters() {
-			std::string loadCharacters[] = { *_player, *(*_enemies)[0] }, level;
+			std::string loadCharacters[] = { *_playerName, *(*_enemies)[0] }, level;
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			int characterStep = 0;

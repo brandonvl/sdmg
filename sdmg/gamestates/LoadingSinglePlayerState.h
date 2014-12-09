@@ -58,7 +58,7 @@ namespace sdmg {
 			bool _isLoaded, _isError;
 			std::vector<helperclasses::HUD*> *_huds;
 			
-			std::string *_player, *_enemy;
+			std::string *_playerName;
 			std::vector<std::string*> *_enemies;
 			
 			int _advertisementX, _advertisementY;

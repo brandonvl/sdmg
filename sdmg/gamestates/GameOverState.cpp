@@ -54,7 +54,8 @@ namespace sdmg {
 			}
 			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
-				LoadingSinglePlayerState::getInstance().unloadAll();
+				if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
+					LoadingSinglePlayerState::getInstance().unloadAll();
 				changeState(*_game, MainMenuState::getInstance());
 			});
 		
