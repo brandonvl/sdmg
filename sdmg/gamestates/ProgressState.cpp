@@ -34,11 +34,12 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->loadDynamicText("TextAutosave", { 255, 255, 255 }, "arial", 36);
 
 			_isEnabled = ProgressManager::getInstance().autosaveEnabled();
+			_hasChanged = true;
 
 			// Create menu
 			_menu->addMenuTextItem("Autosave", (std::function<void()>)[&] { 
 				ProgressManager::getInstance().setAutosave(!_isEnabled);
-				_isEnabled = ProgressManager::getInstance().autosaveEnabled();
+				_hasChanged = true;
 			});
 			_menu->addMenuTextItem("Save", (std::function<void()>)[&] { 
 				_game->getStateManager()->pushState(ProgressSaveState::getInstance());
@@ -107,6 +108,11 @@ namespace sdmg {
 
 			_menu->draw(&game);
 
+			if (_hasChanged) {
+				_isEnabled = ProgressManager::getInstance().autosaveEnabled();
+				_hasChanged = false;
+			}
+
 			game.getEngine()->getDrawEngine()->drawDynamicText("TextAutosave", _isEnabled ? "[X]" : "[  ]", 470, 352);
 
 			drawEngine->render();
@@ -115,6 +121,10 @@ namespace sdmg {
 		void ProgressState::loadText(std::string key, std::string text, std::string fontName, int fontSize)
 		{
 			_game->getEngine()->getDrawEngine()->loadText(key, text, { 255, 255, 255 }, fontName, fontSize);
+		}
+
+		void ProgressState::setChanged() {
+			_hasChanged = true;
 		}
 	}
 }

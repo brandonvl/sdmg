@@ -35,6 +35,7 @@ namespace sdmg {
 				static ProgressState _instance;
 				return _instance;
 			}
+			void setChanged();
 
 		private:
 			ProgressState() { }
@@ -43,6 +44,7 @@ namespace sdmg {
 			GameBase *_game;
 
 			bool _isEnabled;
+			bool _hasChanged;
 		};
 	}
 }

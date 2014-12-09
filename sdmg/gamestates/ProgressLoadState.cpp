@@ -8,6 +8,7 @@
 //
 
 #include "ProgressLoadState.h"
+#include "ProgressState.h"
 
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
@@ -31,21 +32,25 @@ namespace sdmg {
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(0) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(0) : "New game", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 0;
 				ProgressManager::getInstance().load();
+				ProgressState::getInstance().setChanged();
 				_game->getStateManager()->popState();
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(1) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(1) : "New game", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 1;
 				ProgressManager::getInstance().load();
+				ProgressState::getInstance().setChanged();
 				_game->getStateManager()->popState();
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(2) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(2) : "New game", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 2;
 				ProgressManager::getInstance().load();
+				ProgressState::getInstance().setChanged();
 				_game->getStateManager()->popState();
 			});
-			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			game.getEngine()->getInputEngine()->setMouseEnabled();
+			if (ProgressManager::getInstance().currentSavegame >= 0)
+				_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
+			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void ProgressLoadState::cleanup(GameBase &game) {
