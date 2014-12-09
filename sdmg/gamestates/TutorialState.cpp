@@ -49,15 +49,18 @@ namespace sdmg {
 
 			_tutorial->push_back(std::make_pair(manager.getKey(0, "roll"), "tutEnd"));
 			// Panda
-			_tutorial->push_back(std::make_pair(manager.getKey(0, "midrange"), "tutFiat7"));
-			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat6"));
-			_tutorial->push_back(std::make_pair(manager.getKey(0, "jump"), "tutFiat5"));
-			_tutorial->push_back(std::make_pair(manager.getKey(0, "walkRight"), "tutFiat4"));
-			_tutorial->push_back(std::make_pair(manager.getKey(0, "walkLeft"), "tutFiat3"));
-			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat2"));
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "roll"), "tutFiat1"));
+			//_tutorial->push_back(std::make_pair(manager.getKey(0, "midrange"), "tutFiat7"));
+			//_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat6"));
+			//_tutorial->push_back(std::make_pair(manager.getKey(0, "jump"), "tutFiat5"));
+			//_tutorial->push_back(std::make_pair(manager.getKey(0, "walkRight"), "tutFiat4"));
+			//_tutorial->push_back(std::make_pair(manager.getKey(0, "walkLeft"), "tutFiat3"));
+			//_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutFiat2"));
+			//_tutorial->push_back(std::make_pair(manager.getKey(1, "roll"), "tutFiat1"));
+			
 			// Nivek
-
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "roll"), "tutEnd"));
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "block"), "tutNivek8"));
+			_tutorial->push_back(std::make_pair(manager.getKey(1, "longrange"), "tutNivek7"));
 			_tutorial->push_back(std::make_pair(manager.getKey(1, "midrange"), "tutNivek6"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutNivek5"));
 			_tutorial->push_back(std::make_pair(manager.getKey(1, "jump"), "tutNivek4"));
