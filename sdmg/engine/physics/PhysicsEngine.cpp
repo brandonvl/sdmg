@@ -140,9 +140,13 @@ namespace sdmg {
 						MovableGameObject::State state = gameObject->getState();
 
 						//  float y = body->GetPosition().y * 20.0f;
-						if (body->GetPosition().y * 20.0f > 1000.0f || state == MovableGameObject::State::RESPAWN)
+						if (state == MovableGameObject::State::RESPAWN)
 						{
 							doAction(gameObject, PhysicsEngine::Action::RESPAWN);
+						}
+						else if (body->GetPosition().y * 20.0f > 1000.0f)
+						{
+							gameObject->setState(MovableGameObject::State::RESPAWN);
 						}
 						else
 						{
