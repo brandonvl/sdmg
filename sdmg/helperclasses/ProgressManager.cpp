@@ -106,14 +106,12 @@ namespace sdmg {
 
 		bool ProgressManager::autosaveEnabled()
 		{
-			if (_jsonDoc)
-				return _jsonDoc->getRootObject().getBoolean("autosave");
-			return false;
+			return _jsonDoc->getRootObject().getBoolean("autosave");
 		}
 
 		void ProgressManager::setAutosave(bool enable)
 		{
-			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? "true" : "false");
+			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? true : false);
 		}
 
 		std::string ProgressManager::getTimestamp()
