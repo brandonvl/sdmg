@@ -21,11 +21,9 @@ namespace sdmg {
 			_hitboxes = new std::map<GameObject*, input::Mouse::Hitbox*>();
 
 			_game->getEngine()->getDrawEngine()->loadText("editmode", "Edit mode", { 255, 255, 255 }, "arial", 18);
-
 			_font = TTF_OpenFont("assets/fonts/arial.ttf", 14);
 		}
-
-
+		
 		Editor::~Editor()
 		{
 			delete _hitboxes;
@@ -56,8 +54,57 @@ namespace sdmg {
 
 			_window = SDL_CreateWindow("Elements", 10, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 			_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
-			
+
+			loadToolbox();
 			loadPlatformDefs();
+		}
+
+		void Editor::loadToolbox() {
+			_buttons.push_back(_editButton = new ToolbarButton(*this, "edit"));
+			_editButton->setClickAction([&] {
+				if (_platformDefs.size() > 0)
+					_currentPlatformDef = _platformDefs[0];
+			});
+			_editButton->setMouseDownOnLevelAction([&] {
+				if (_currentPlatformDef) {
+					int x, y;
+					SDL_GetMouseState(&x, &y);
+					_mouseDownX = x;
+				}
+			});
+			_editButton->setMouseUpOnLevelAction([&] {
+				if (_currentPlatformDef) {
+					createPlatform();
+					_mouseDownX = -1;
+				}
+			});
+
+			_buttons.push_back(_moveButton = new ToolbarButton(*this, "move"));
+			_moveButton->setClickAction([&] { _currentPlatformDef = nullptr; });
+			_moveButton->setMouseMoveOnLevelAction([&](int x, int y) {
+				if (_curSelectedObject) {
+					_curSelectedObject->getBody()->SetTransform(b2Vec2((x - _mouseDownX) / 20.f, (y - _mouseDownY) / 20.0f), _curSelectedObject->getBody()->GetAngle());
+
+					if (_hitboxes->count(_curSelectedObject)) {
+						input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
+						hitbox->x = _curSelectedObject->getPixelX() - _curSelectedObject->getWidth() / 2;
+						hitbox->y = _curSelectedObject->getPixelY() - _curSelectedObject->getHeight() / 2;
+					}
+				}
+			});
+
+			_buttons.push_back(_eraserButton = new ToolbarButton(*this, "eraser"));
+			_eraserButton->setMouseDownOnLevelAction([&]() {
+				_curSelectedObject->getBody()->GetWorld()->DestroyBody(_curSelectedObject->getBody());
+				_game->getWorld()->removePlatform(_curSelectedObject);			
+			});
+			_eraserButton->setClickAction([&] { _currentPlatformDef = nullptr; });
+
+			_buttons.push_back(_saveButton = new ToolbarButton(*this, "save"));
+			_saveButton->setClickAction([&] { /* SAVE CODE */ });
+
+			// set default selected button
+			_currentToolbarButton = _moveButton;
 		}
 
 		void Editor::disable() {
@@ -76,6 +123,10 @@ namespace sdmg {
 			}
 			_platformDefs.clear();
 			_currentPlatformDef = nullptr;
+
+			for (auto btn : _buttons)
+				delete btn;
+			_buttons.clear();
 		}
 		
 		void Editor::loadPlatformDefs() {
@@ -90,7 +141,8 @@ namespace sdmg {
 
 		void Editor::handleEvent(SDL_Event &event) {
 			if (event.type == SDL_KEYDOWN) {
-				if (event.key.keysym.sym == SDLK_F4)
+				if (event.key.keysym.sym == SDLK_F4 ||
+					event.key.keysym.sym == SDLK_ESCAPE)
 					disable();
 			}
 			else if (event.window.windowID == SDL_GetWindowID(_window)) {
@@ -98,32 +150,36 @@ namespace sdmg {
 					int x, y;
 					SDL_GetMouseState(&x, &y);
 
-					uint32 i = (int)floor(y / 40.0f);
-					if (i < _platformDefs.size()) {
-						_currentPlatformDef = _platformDefs[i];
+					if (y > WINDOW_HEIGHT - 32) {
+						int buttonIndex = x / 32;
+						if (buttonIndex < _buttons.size()) {
+							_currentToolbarButton = _buttons[buttonIndex];
+							_currentToolbarButton->click();
+						}
 					}
 					else {
-						_currentPlatformDef = nullptr;
-					}
+						uint32 i = (int)floor(y / 40.0f);
+						if (i < _platformDefs.size()) {
+							_currentPlatformDef = _platformDefs[i];
+							_currentToolbarButton = _editButton;
+						}
+						else {
+							_currentPlatformDef = nullptr;
+							_currentToolbarButton = _moveButton;
+						}
 
-					_mouseDownX = -1;
+						_mouseDownX = -1;
+					}
 				}
 			}
 			else if (_currentPlatformDef == nullptr) {
 				_game->getEngine()->getInputEngine()->handleEvent(event);
 			}
-			else {
-				if (event.type == SDL_MOUSEBUTTONDOWN) {
-					int x, y;
-					SDL_GetMouseState(&x, &y);
-					_mouseDownX = x;
-					printf("Mouse down\n");
-				}
-				else if (event.type == SDL_MOUSEBUTTONUP){
-					createPlatform();
-					_mouseDownX = -1;
-					printf("Mouse up\n");
-				}
+			else if (_currentToolbarButton && event.window.windowID != SDL_GetWindowID(_window)) {
+				if (event.type == SDL_MOUSEBUTTONDOWN) 
+					_currentToolbarButton->mouseDownOnLevel();
+				else if (event.type == SDL_MOUSEBUTTONUP)
+					_currentToolbarButton->mouseUpOnLevel();
 			}
 		}
 
@@ -167,9 +223,22 @@ namespace sdmg {
 
 				drawPlatforms();		
 				drawMouseBlock();
-
+				drawToolbar();
+				
 				SDL_RenderPresent(_renderer);
 			}
+		}
+
+		void Editor::drawToolbar() {
+
+			int toolbarY = WINDOW_HEIGHT - 32;
+			SDL_SetRenderDrawColor(_renderer, 220, 220, 220, 0);
+
+			SDL_Rect toolbarRect{ 0, toolbarY, WINDOW_WIDTH, 32 };
+			SDL_RenderFillRect(_renderer, &toolbarRect);
+
+			for (int i = 0; i < _buttons.size(); i++)
+				_buttons[i]->draw(i * 32, toolbarY);
 		}
 
 		void Editor::drawPlatforms() {
@@ -212,21 +281,17 @@ namespace sdmg {
 		}
 
 		void Editor::mouseMove(int x, int y) {
-			if (_curSelectedObject) {
-				_curSelectedObject->getBody()->SetTransform(b2Vec2((x - _mouseDownX) / 20.f, (y - _mouseDownY) / 20.0f), _curSelectedObject->getBody()->GetAngle());
-
-				if (_hitboxes->count(_curSelectedObject)) {
-					input::Mouse::Hitbox *hitbox = _hitboxes->at(_curSelectedObject);
-					hitbox->x = _curSelectedObject->getPixelX() - _curSelectedObject->getWidth() / 2;
-					hitbox->y = _curSelectedObject->getPixelY() - _curSelectedObject->getHeight() / 2;
-				}
-			}
+			if (_currentToolbarButton)
+				_currentToolbarButton->mouseMoveOnLevel(x,y);			
 		}
 
 		void Editor::selectObject(GameObject &gameObject) {
 			_mouseDownX = _game->getEngine()->getInputEngine()->getMouse().getX() - gameObject.getPixelX();
 			_mouseDownY = _game->getEngine()->getInputEngine()->getMouse().getY() - gameObject.getPixelY();
 			_curSelectedObject = &gameObject;
+
+			if (_currentToolbarButton)
+				_currentToolbarButton->mouseDownOnLevel();
 		}
 
 		void Editor::PlatformDef::load() {
@@ -317,6 +382,24 @@ namespace sdmg {
 			auto basic = _blocks["basic"];
 			total += ceil((width - total) / basic->w) * basic->w;
 			return total;
+		}
+
+		Editor::ToolbarButton::ToolbarButton(Editor &editor, std::string image) {
+			SDL_Surface *surface = IMG_Load((editor.ICONS_FOLDER + image).c_str());
+			_texture = SDL_CreateTextureFromSurface(editor._renderer, surface);
+			SDL_FreeSurface(surface);
+			_editor = &editor;
+		}
+
+		void Editor::ToolbarButton::draw(int x, int y) {
+			if (isSelected()) {
+				SDL_SetRenderDrawColor(_editor->_renderer, 240, 240, 240, 0);
+				SDL_Rect toolbarRect{ x, y, 32, 32 };
+				SDL_RenderFillRect(_editor->_renderer, &toolbarRect);
+			}
+
+			SDL_Rect textRect{ x + 4, y + 4, 24, 24 };
+			SDL_RenderCopy(_editor->_renderer, _texture, nullptr, &textRect);
 		}
 	}
 }
