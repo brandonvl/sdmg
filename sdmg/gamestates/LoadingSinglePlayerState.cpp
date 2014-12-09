@@ -223,6 +223,12 @@ namespace sdmg {
 		void LoadingSinglePlayerState::setPlayerName(std::string playerName)
 		{
 			_playerName = new std::string(playerName);
+			setEnemies();
+		}
+
+		void LoadingSinglePlayerState::setEnemies()
+		{
+
 		}
 
 		void LoadingSinglePlayerState::loadNextFight()

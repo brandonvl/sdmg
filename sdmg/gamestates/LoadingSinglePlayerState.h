@@ -55,6 +55,7 @@ namespace sdmg {
 			void loadLevel(std::string level);
 			void loadKeybindings();
 			void clearEventQueue();
+			void setEnemies();
 			bool _isLoaded, _isError;
 			std::vector<helperclasses::HUD*> *_huds;
 			
