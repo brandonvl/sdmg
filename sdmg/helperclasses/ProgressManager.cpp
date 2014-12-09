@@ -164,5 +164,15 @@ namespace sdmg {
 		{
 			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels").getObject(getLevelIndex(name)).getBoolean("unlocked");
 		}
+
+		void ProgressManager::setIsUnlockedCharacter(std::string name, bool unlocked)
+		{
+			_jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters").getObject(getCharacterIndex(name)).getVariable("unlocked").setValue(unlocked);
+		}
+
+		void ProgressManager::setIsUnlockedLevel(std::string name, bool unlocked)
+		{
+			_jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels").getObject(getLevelIndex(name)).getVariable("unlocked").setValue(unlocked);
+		}
 	}
 }
