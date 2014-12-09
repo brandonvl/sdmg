@@ -66,7 +66,7 @@ namespace sdmg {
 
 			helperclasses::Editor *_editor;
 
-			GameBase *_game;			
+			GameBase *_game;
 		};
 	}
 }

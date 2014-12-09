@@ -42,9 +42,9 @@ namespace sdmg {
 				characterObj.getVariable("wins").setValue(std::to_string(0));
 				characterObj.getVariable("losses").setValue(std::to_string(0));
 				if (characterObj.getString("name") == "Nivek The Assassin" || characterObj.getString("name") == "Fiat Panda")
-					characterObj.getVariable("unlocked").setValue("true");
+					characterObj.getVariable("unlocked").setValue(true);
 				else
-					characterObj.getVariable("unlocked").setValue("false");
+					characterObj.getVariable("unlocked").setValue(false);
 			}
 			
 			// Reset levels

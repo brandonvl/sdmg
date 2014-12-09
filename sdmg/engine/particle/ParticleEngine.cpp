@@ -9,6 +9,7 @@
 
 #include "ParticleEngine.h"
 #include "ParticleSet.h"
+#include "ParticleInstance.h"
 #include "..\..\sdl\include\SDL_image.h"
 #include "engine\MovableGameObject.h"
 
@@ -19,8 +20,6 @@ namespace sdmg {
 	namespace engine {
 		namespace particle {
 			ParticleEngine::ParticleEngine() {
-				_particleSets = std::map<std::string, ParticleSet*>();
-
 				// Seed random generator
 				srand(time(0));
 
@@ -37,25 +36,32 @@ namespace sdmg {
 					}
 				}
 
-				SDL_FreeSurface(_ptclRed);
-				SDL_FreeSurface(_ptclYellow);
-				
-				_ptclRed = nullptr;
-				_ptclYellow = nullptr;
+				//if (_particleImages.size() > 0) {
+				//	std::map<std::string, SDL_Surface*>::iterator itr = _particleImages.begin();
+				//	while (itr != _particleImages.end()) {
+				//		delete itr->second;
+				//		_particleImages.erase(itr++);
+				//	}
+				//}
+
 			}
 
 			void ParticleEngine::loadParticles() {
 				int pngFlags = IMG_INIT_PNG;
 				if ((IMG_Init(pngFlags) & pngFlags)) {
-					_ptclRed = IMG_Load("assets/particles/blood.png");
-					_ptclYellow = IMG_Load("assets/particles/yellow.png");
-					SDL_SetSurfaceAlphaMod(_ptclRed, SDL_ALPHA_OPAQUE);
-					SDL_SetSurfaceAlphaMod(_ptclYellow, SDL_ALPHA_OPAQUE);
+					SDL_Surface* surface = IMG_Load("assets/particles/blood.png");
+					_particleImages.insert(std::make_pair("blood", surface));
+					_particleImages.insert(std::make_pair("red", IMG_Load("assets/particles/red.png")));
+					_particleImages.insert(std::make_pair("orange", IMG_Load("assets/particles/orange.png")));
+					_particleImages.insert(std::make_pair("yellow", IMG_Load("assets/particles/yellow.png")));
+
+					for (auto p : _particleImages)
+						SDL_SetSurfaceAlphaMod(p.second, SDL_ALPHA_OPAQUE);
 				}
 			}
 
-			void ParticleEngine::createParticleSet(std::string key, int max, int x, int y, int width, int height) {
-				ParticleSet *ps = new ParticleSet(max, x, y, width, height, _ptclRed);
+			void ParticleEngine::createParticleSet(std::string key, int max, int x, int y, int width, int height, std::string image) {
+				ParticleSet *ps = new ParticleSet(max, x, y, width, height, _particleImages[image]);
 				_particleSets.insert(std::make_pair(key, ps));
 			}
 
@@ -63,16 +69,32 @@ namespace sdmg {
 				_particleSets[key]->showContinuous();
 			}
 
+			void  ParticleEngine::continuousShowParticleSet(ParticleInstance* instance) {
+				instance->getParticleSet()->showContinuous();
+			}
+
 			void ParticleEngine::resetParticleLifeTime(std::string key) {
 				_particleSets[key]->resetLifeTime();
+			}
+
+			void ParticleEngine::resetParticleLifeTime(ParticleInstance* instance) {
+				instance->getParticleSet()->resetLifeTime();
 			}
 
 			void ParticleEngine::resetParticleSet(std::string key) {
 				_particleSets[key]->reset();
 			}
 
-			void ParticleEngine::showParticleSet(std::string key) {
-				_particleSets[key]->show();
+			void ParticleEngine::resetParticleSet(ParticleInstance* instance) {
+				instance->getParticleSet()->reset();
+			}
+
+			void ParticleEngine::showParticleSet(ParticleInstance* instance) {
+				instance->getParticleSet()->show();
+			}
+
+			SDL_Surface* ParticleEngine::getParticleSetSurface(ParticleInstance* instance) {
+				return instance->getParticleSet()->getSDLSurface();
 			}
 
 			SDL_Surface* ParticleEngine::getParticleSetSurface(std::string key) {
@@ -82,40 +104,42 @@ namespace sdmg {
 			void ParticleEngine::gameObjectHit(MovableGameObject *gameObject) {
 				std::string key = "hit";
 				SDL_Surface* surface = _particleSets[key]->getSDLSurface();
-				_x = (gameObject->getPixelX() - (surface->w / 2));
-				_y = (gameObject->getPixelY() - (surface->h / 2));
-				_particleSets[key]->reset();
+
+				int x = (gameObject->getPixelX() - (surface->w / 2));
+				int y = (gameObject->getPixelY() - (surface->h / 2));
+				ParticleInstance *instance = new ParticleInstance(_particleSets[key], x, y);
+
+				instance->getParticleSet()->reset();
+				_drawContainer.push_back(instance);
 			}
 
 			void ParticleEngine::registerGameObject(MovableGameObject *mGameObject) {
 				mGameObject->registerHitCallback(std::bind(&ParticleEngine::gameObjectHit, this, mGameObject));
 			}
 
-			int ParticleEngine::getX() { return _x; }
-			int ParticleEngine::getY() { return _y; }
-			void ParticleEngine::resetXY() {
-				_x = 0;
-				_y = 0;
+			bool ParticleEngine::hasNextParticleInstance() {
+				if (!_drawContainer.empty()) {
+					while (_drawContainer.size() > 2) {
+						ParticleInstance *i = _drawContainer.front();
+						delete i;
+						_drawContainer.erase(_drawContainer.begin());
+					}
+
+					//std::vector<ParticleInstance*>::iterator it;
+					//for (it = _drawContainer.begin(); it != _drawContainer.end();) {
+					//	if ((*it)->getParticleSet()->isDead()) {
+					//		delete *it;
+					//		it = _drawContainer.erase(it);
+					//	}
+					//}
+				}
+				return !_drawContainer.empty();
 			}
 
-			void ParticleEngine::unloadAll()
-			{
-				if (_particleSets.size() > 0) {
-					std::map<std::string, ParticleSet*>::iterator itr = _particleSets.begin();
-					while (itr != _particleSets.end()) {
-						delete
-							itr->second;
-						_particleSets.erase(itr++);
-					}
-				}
-
-				/*
-				delete _ptclRed;
-				delete _ptclYellow;
-
-				_ptclRed = nullptr;
-				_ptclYellow = nullptr;
-				*/
+			std::vector<ParticleInstance*> ParticleEngine::getNextParticleInstance() {
+				if (!_drawContainer.empty()) {
+					return _drawContainer;
+				} 
 			}
 		}
 	}

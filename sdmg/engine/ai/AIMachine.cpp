@@ -9,6 +9,10 @@ namespace sdmg {
 		namespace ai {
 			AIMachine::~AIMachine() {
 
+				for (auto &it : _states) {
+					delete it.second;
+				}
+
 			}
 
 			void AIMachine::checkState() {

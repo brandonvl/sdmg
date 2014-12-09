@@ -5,9 +5,11 @@ namespace sdmg {
 	namespace engine {
 		namespace particle {
 			ParticleSet::ParticleSet(int max, int x, int y, int width, int height, SDL_Surface *image) {
-				_particles = std::vector<Particle*>();
-
 				initParticles(max, x, y, width, height, image);
+			}
+
+			ParticleSet::ParticleSet(const ParticleSet& other) {
+				initParticles(other._max, other._x, other._y, other._width, other._height, other._image);
 			}
 
 			ParticleSet::~ParticleSet() {
@@ -19,12 +21,14 @@ namespace sdmg {
 			}
 
 			void ParticleSet::initParticles(int max, int x, int y, int width, int height, SDL_Surface *image) {
-				_surface = SDL_CreateRGBSurface(0, width, height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
-
+				_height = height;
+				_width = width;
 				_x = x;
 				_y = y;
 				_max = max;
 				_image = image;
+
+				_surface = SDL_CreateRGBSurface(0, width, height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
 
 				// Create particles
 				for (int i = 0; i < _max; i++)
@@ -73,6 +77,17 @@ namespace sdmg {
 						_particles[i]->showByImage(_image);
 					}
 				}
+			}
+
+			bool ParticleSet::isDead() {
+				bool allDead = true;
+				for (int i = 0; i < _particles.size(); i++)
+				{
+					if (!_particles[i]->isDead()) {
+						allDead = false;
+					}
+				}
+				return allDead;
 			}
 
 			void ParticleSet::resetLifeTime() {
