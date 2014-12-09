@@ -5,6 +5,7 @@
 #include <string>
 #include <time.h>
 #include <stdio.h>
+#include <sstream>
 
 struct tm newtime;
 __time32_t aclock;
@@ -140,14 +141,23 @@ namespace sdmg {
 			_localtime32_s(&newtime, &aclock);   // Convert time to struct tm form.
 
 			// Print local time as a string.
+			char timestamp[32];
+			int year = newtime.tm_year + 1900;
+			int month = newtime.tm_mon + 1;
+			int day = newtime.tm_mday;
 
-			errNum = asctime_s(buffer, 32, &newtime);
+			int hour = newtime.tm_hour;
+			int minutes = newtime.tm_min;
+			int seconds = newtime.tm_sec;
+			sprintf_s(timestamp, "%d/%d/%d %d:%d:%d", year, month, day, hour, minutes, seconds);
+
+			/*errNum = asctime_s(buffer, 32, &newtime);
 			if (errNum)
 			{
 				printf("Error code: %d", (int)errNum);
 			}
-			printf("Current date and time: %s", buffer);
-			return buffer;
+			printf("Current date and time: %s", buffer);*/
+			return timestamp;
 		}
 
 		JSON::JSONObject ProgressManager::defaultSavegame()
