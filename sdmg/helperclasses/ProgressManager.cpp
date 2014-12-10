@@ -28,8 +28,11 @@ namespace sdmg {
 
 		void ProgressManager::reset()
 		{
+			// Reset autosave
+			setAutosave(false);
+
 			// Reset timestamp
-			_jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getVariable("timestamp").setValue("");
+			setTimestamp("");
 
 			// Reset characters
 			for (auto i = 0; i < getStatistics().size(); i++) {
@@ -54,11 +57,8 @@ namespace sdmg {
 
 		void ProgressManager::save()
 		{
-			if (currentSavegame >= 0) {
+			_jsonDoc->saveFile("assets/progress");
 
-				setTimestamp(getTimestampNow());
-				_jsonDoc->saveFile("assets/progress");
-			}
 		}
 
 		void ProgressManager::setStatistics(std::string name, std::string key, std::string value)
@@ -106,14 +106,12 @@ namespace sdmg {
 
 		bool ProgressManager::autosaveEnabled()
 		{
-			if (_jsonDoc)
-				return _jsonDoc->getRootObject().getBoolean("autosave");
-			return false;
+			return _jsonDoc->getRootObject().getBoolean("autosave");
 		}
 
 		void ProgressManager::setAutosave(bool enable)
 		{
-			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? "true" : "false");
+			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? true : false);
 		}
 
 		std::string ProgressManager::getTimestamp()
@@ -154,15 +152,10 @@ namespace sdmg {
 			/*errNum = asctime_s(buffer, 32, &newtime);
 			if (errNum)
 			{
-				printf("Error code: %d", (int)errNum);
+			printf("Error code: %d", (int)errNum);
 			}
 			printf("Current date and time: %s", buffer);*/
 			return timestamp;
-		}
-
-		JSON::JSONObject ProgressManager::defaultSavegame()
-		{
-			return JSON::JSONDocument::fromFile("assets/reset")->getRootObject();
 		}
 
 		bool ProgressManager::isUnlockedCharacter(std::string name)

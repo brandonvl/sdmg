@@ -34,7 +34,6 @@ namespace sdmg {
 
 			int currentSavegame;
 
-			JSON::JSONObject defaultSavegame();
 			bool isUnlockedCharacter(std::string name);
 			bool isUnlockedLevel(std::string name);
 			void setIsUnlockedCharacter(std::string name, bool unlocked);
