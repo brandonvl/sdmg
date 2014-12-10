@@ -400,17 +400,19 @@ namespace sdmg {
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
 			ConfigManager &manager = ConfigManager::getInstance();
-			std::string fiatLeft = SDL_GetKeyName(manager.getKey(0, "walkLeft"));
-			std::string fiatRight = SDL_GetKeyName(manager.getKey(0, "walkRight"));
-			std::string fiatJump = SDL_GetKeyName(manager.getKey(0, "jump"));
-			std::string fiatMidRange = SDL_GetKeyName(manager.getKey(0, "midrange"));
-			std::string fiatRoll = SDL_GetKeyName(manager.getKey(0, "roll"));
+			//std::string fiatLeft = SDL_GetKeyName(manager.getKey(0, "walkLeft"));
+			//std::string fiatRight = SDL_GetKeyName(manager.getKey(0, "walkRight"));
+			//std::string fiatJump = SDL_GetKeyName(manager.getKey(0, "jump"));
+			//std::string fiatMidRange = SDL_GetKeyName(manager.getKey(0, "midrange"));
+			//std::string fiatRoll = SDL_GetKeyName(manager.getKey(0, "roll"));
 
 			std::string nivekLeft = SDL_GetKeyName(manager.getKey(1, "walkLeft"));
 			std::string nivekRight = SDL_GetKeyName(manager.getKey(1, "walkRight"));
 			std::string nivekJump = SDL_GetKeyName(manager.getKey(1, "jump"));
 			std::string nivekMidRange = SDL_GetKeyName(manager.getKey(1, "midrange"));
 			std::string nivekRoll = SDL_GetKeyName(manager.getKey(1, "roll"));
+			std::string nivekLongRange = SDL_GetKeyName(manager.getKey(1, "longrange"));
+			std::string nivekBlock = SDL_GetKeyName(manager.getKey(1, "block"));
 
 			//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutIntro", "Welcome to the tutorial! [ENTER]", { 255, 255, 255 }, "arial", 30);
@@ -422,15 +424,17 @@ namespace sdmg {
 			de->loadText("tutNivek3", "Press '" + nivekJump + "' to jump", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutNivek4", "We will now learn attacking movements [ENTER]", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutNivek5", "To perform a mid range attack, press the '" + nivekMidRange + "' key", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutNivek6", "To dodge an enemy attack, execute a roll, press '" + nivekRoll + "'", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat1", "Now we shall explain Fiat's movements [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat2", "Press '" + fiatLeft + "' to move left", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat3", "Press '" + fiatRight + "' to move right", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat4", "Press '" + fiatJump + "' to jump", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat5", "We will now learn attacking movements [ENTER]", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat6", "To perform a mid range attack, press the '" + fiatMidRange + "' key", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press '" + fiatRoll + "'", { 255, 255, 255 }, "arial", 30);
-			de->loadText("tutEnd", "You have successfully passed the tutorial, you are ready to play the game, press 'Esc' to quit!", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek6", "To perform a long range attack, press the '" + nivekLongRange + "' key", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek7", "To block an enemy attack, press '" + nivekBlock + "'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutNivek8", "To dodge an enemy attack, execute a roll, press '" + nivekRoll + "'", { 255, 255, 255 }, "arial", 30);
+			//de->loadText("tutFiat1", "Now we shall explain Fiat's movements [ENTER]", { 255, 255, 255 }, "arial", 30);
+			//de->loadText("tutFiat2", "Press '" + fiatLeft + "' to move left", { 255, 255, 255 }, "arial", 30);
+			//de->loadText("tutFiat3", "Press '" + fiatRight + "' to move right", { 255, 255, 255 }, "arial", 30);
+			//de->loadText("tutFiat4", "Press '" + fiatJump + "' to jump", { 255, 255, 255 }, "arial", 30);
+			//de->loadText("tutFiat5", "We will now learn attacking movements [ENTER]", { 255, 255, 255 }, "arial", 30);
+			//de->loadText("tutFiat6", "To perform a mid range attack, press the '" + fiatMidRange + "' key", { 255, 255, 255 }, "arial", 30);
+			//de->loadText("tutFiat7", "To dodge an enemy attack, execute a roll, press '" + fiatRoll + "'", { 255, 255, 255 }, "arial", 30);
+			de->loadText("tutEnd", "You have successfully passed the tutorial, you are ready to play the game, press [ESC] to quit", { 255, 255, 255 }, "arial", 30);
 		}
 
 		void LoadingState::loadAdvertisement()

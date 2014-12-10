@@ -26,7 +26,7 @@ namespace sdmg {
 				ParticleEngine();
 				virtual ~ParticleEngine();
 
-				void createParticleSet(std::string key, int max, int x, int y, int width, int height, std::string image);
+				void createParticleSet(std::string key, int max, int x, int y, int xVel, int yVel, int width, int height, std::string image);
 				void continuousShowParticleSet(std::string key);
 				void continuousShowParticleSet(ParticleInstance* instance);
 				void resetParticleLifeTime(std::string key);

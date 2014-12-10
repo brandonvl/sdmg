@@ -51,5 +51,9 @@ namespace sdmg {
 		const int ConfigManager::getKey(int playerIndex, std::string action) {
 			return _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getObject("keys").getInt(action);
 		}
+
+		const std::string ConfigManager::getUnlockableCharacterName(std::string playerName) {
+			return _jsonDoc->getRootObject().getObject("unlockables").getString(playerName);
+		}
 	}
 }

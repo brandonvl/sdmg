@@ -3,6 +3,7 @@
 #include <vector>
 #include "engine\GameObject.h"
 #include "engine\input\Mouse.h"
+#include <functional>
 #include <sdl\include\SDL_ttf.h>
 
 using namespace sdmg::engine;
@@ -43,6 +44,28 @@ namespace sdmg {
 				int _width, _height;
 			};
 
+			class ToolbarButton {
+			public:
+				ToolbarButton(Editor &editor, std::string image);
+				void draw(int x, int y);
+				bool isSelected() { return _editor->_currentToolbarButton == this; }
+				void setClickAction(std::function<void()> action) { _clickAction = action; }
+				void setMouseDownOnLevelAction(std::function<void()> action) { _mouseDownOnLevelAction = action; }
+				void setMouseMoveOnLevelAction(std::function<void(int x, int y)> action) { _mouseMoveOnLevelAction = action; }
+				void setMouseUpOnLevelAction(std::function<void()> action) { _mouseUpOnLevelAction = action; }
+
+				void click() { if (_clickAction) _clickAction(); }
+				void mouseDownOnLevel() { if (_mouseDownOnLevelAction) _mouseDownOnLevelAction(); }
+				void mouseMoveOnLevel(int x, int y) { if (_mouseMoveOnLevelAction) _mouseMoveOnLevelAction(x, y); }
+				void mouseUpOnLevel() { if (_mouseUpOnLevelAction) _mouseUpOnLevelAction(); }
+
+			private:
+				SDL_Texture *_texture;
+				Editor *_editor;
+				std::function<void()> _clickAction, _mouseDownOnLevelAction, _mouseUpOnLevelAction;
+				std::function<void(int x, int y)> _mouseMoveOnLevelAction;
+			};
+
 			Editor(GameBase &game);
 			virtual ~Editor();
 			
@@ -58,8 +81,10 @@ namespace sdmg {
 			void loadPlatformDefs();
 			void drawPlatforms();
 			void drawMouseBlock();
+			void drawToolbar();
 			void createPlatform();
 			void createHitbox(GameObject *obj);
+			void loadToolbox();
 
 			void mouseMove(int x, int y);
 			void Editor::selectObject(GameObject &gameObject);
@@ -74,10 +99,12 @@ namespace sdmg {
 			GameBase *_game;
 			TTF_Font *_font;
 			PlatformDef* _currentPlatformDef;
+			ToolbarButton *_currentToolbarButton, *_editButton, *_moveButton, *_eraserButton, *_saveButton;
 
 			std::vector<PlatformDef*> _platformDefs;
+			std::vector<ToolbarButton*> _buttons;
 
-			const std::string PLATFORM_FOLDER = "assets/platforms/";
+			const std::string PLATFORM_FOLDER = "assets/platforms/", ICONS_FOLDER = "assets/editor/";
 			const int WINDOW_WIDTH = 200, WINDOW_HEIGHT = 720, ITEM_HEIGHT = 40;
 		};
 	}

@@ -29,17 +29,17 @@ namespace sdmg {
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 
-			_menu->addMenuTextItem("Single Player", (std::function<void()>)[&] {
+			_menu->addMenuTextItem("Versus", (std::function<void()>)[&] {
+				_game->setGameMode(GameBase::GameMode::Versus);
+				changeState(*_game, LevelSelectionState::getInstance());
+			});
+			_menu->addMenuTextItem("Singleplayer", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::SinglePlayer);
 				LoadingSinglePlayerState::getInstance().setPlayerName("nivek");
 				changeState(*_game, LoadingSinglePlayerState::getInstance());
 				LoadingSinglePlayerState::getInstance().loadNextFight();
 			});
-			_menu->addMenuTextItem("Multi Player", (std::function<void()>)[&] {
-				_game->setGameMode(GameBase::GameMode::Versus);
-				changeState(*_game, LevelSelectionState::getInstance());
-			});
-			_menu->addMenuTextItem("Survival mode", (std::function<void()>)[&] {
+			_menu->addMenuTextItem("Survival", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::Survival);
 			});
 

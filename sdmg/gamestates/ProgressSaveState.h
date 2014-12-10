@@ -39,6 +39,7 @@ namespace sdmg {
 
 		private:
 			GameBase *_game;
+			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 		};
 	}
 }

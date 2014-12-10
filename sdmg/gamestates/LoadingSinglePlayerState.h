@@ -40,6 +40,7 @@ namespace sdmg {
 			}
 
 			void unloadAll();
+			std::string getLevelName();
 			std::string getPlayerName();
 			void setPlayerName(std::string playerName);
 			void loadNextFight();
@@ -55,16 +56,17 @@ namespace sdmg {
 			void loadLevel(std::string level);
 			void loadKeybindings();
 			void clearEventQueue();
+			void setEnemies();
 			bool _isLoaded, _isError;
 			std::vector<helperclasses::HUD*> *_huds;
 			
-			std::string *_player, *_enemy;
+			std::string *_playerName, *_levelName;
 			std::vector<std::string*> *_enemies;
 			
 			int _advertisementX, _advertisementY;
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;
 
-			bool _isAdvertisement;
+			bool _isAdvertisement, _removeFirstEnemy;
 			std::string getRandomAdvertisement();
 			void loadAdvertisement();
 		};

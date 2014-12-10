@@ -45,10 +45,7 @@ namespace sdmg {
 		{
 			_game = &game;
 			_game->getWorld()->clearWorld();
-
-			if (!_enemies)
-				_enemies = new std::vector<std::string*>();
-
+			
 			// LoadingBar
 			_loadingValue = 0;
 			_marginInner = 3;
@@ -198,7 +195,7 @@ namespace sdmg {
 
 		void LoadingSinglePlayerState::unloadAll()
 		{
-			delete _player;
+			delete _playerName;
 
 			if (_enemies) {
 				for (auto it : *_enemies) {
@@ -206,8 +203,8 @@ namespace sdmg {
 				}
 				_enemies->clear();
 			}
-
 			delete _enemies;
+			_enemies = nullptr;
 		}
 
 		bool LoadingSinglePlayerState::hasFinished()
@@ -215,14 +212,53 @@ namespace sdmg {
 			return _enemies->size() <= 1;
 		}
 
+		std::string LoadingSinglePlayerState::getLevelName()
+		{
+			return *_levelName;
+		}
+
 		std::string LoadingSinglePlayerState::getPlayerName()
 		{
-			return *_player;
+			return *_playerName;
 		}
 
 		void LoadingSinglePlayerState::setPlayerName(std::string playerName)
 		{
-			_player = new std::string(playerName);
+			_playerName = new std::string(playerName);
+			setEnemies();
+		}
+
+		void LoadingSinglePlayerState::setEnemies()
+		{
+			if (_enemies) {
+				for (auto it : *_enemies) {
+					delete it;
+				}
+				_enemies->clear();
+			}
+			delete _enemies;
+
+			_enemies = new std::vector<std::string*>();
+			std::vector<std::string> enemies = util::FileManager::getInstance().getFolders("assets/characters/");
+
+			for (std::string e : enemies)
+				if (e != *_playerName)
+					_enemies->push_back(new std::string(e));
+
+			std::string boss = ConfigManager::getInstance().getUnlockableCharacterName(*_playerName);
+
+			for (size_t i = 0; i < enemies.size(); i++)
+			{
+				if (*(*_enemies)[i] == boss)
+				{
+					delete (*_enemies)[i];
+					(*_enemies).erase((*_enemies).begin() + i);
+					break;
+				}
+			}
+			_enemies->push_back(new std::string(boss));
+			
+			_removeFirstEnemy = false;
 		}
 
 		void LoadingSinglePlayerState::loadNextFight()
@@ -234,20 +270,12 @@ namespace sdmg {
 			_game->getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
 			_game->getStateManager()->draw();
 
-
-			if (_enemies->size() == 0)
-			{
-				std::vector<std::string> enemies = util::FileManager::getInstance().getFolders("assets/characters/");
-
-				for (std::string e : enemies)
-					if (e != *_player)
-						_enemies->push_back(new std::string(e));
-			}
-			else
+			if (_removeFirstEnemy)
 			{
 				delete (*_enemies)[0];
 				_enemies->erase(_enemies->begin());
 			}
+			_removeFirstEnemy = true;
 
 			load();
 			_game->getEngine()->getAudioEngine()->unload("main_menu_bgm");
@@ -258,7 +286,7 @@ namespace sdmg {
 		}
 
 		void LoadingSinglePlayerState::loadCharacters() {
-			std::string loadCharacters[] = { *_player, *(*_enemies)[0] }, level;
+			std::string loadCharacters[] = { *_playerName, *(*_enemies)[0] }, level;
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			int characterStep = 0;
@@ -305,6 +333,7 @@ namespace sdmg {
 
 			_loadingValue += characterStep;
 
+			_levelName = new std::string(level);
 			loadLevel(level);
 		}
 

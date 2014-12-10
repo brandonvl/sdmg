@@ -4,12 +4,12 @@
 namespace sdmg {
 	namespace engine {
 		namespace particle {
-			ParticleSet::ParticleSet(int max, int x, int y, int width, int height, SDL_Surface *image) {
-				initParticles(max, x, y, width, height, image);
+			ParticleSet::ParticleSet(int max, int x, int y, int xVel, int yVel, int width, int height, SDL_Surface *image) {
+				initParticles(max, x, y, xVel, yVel, width, height, image);
 			}
 
-			ParticleSet::ParticleSet(const ParticleSet& other) {
-				initParticles(other._max, other._x, other._y, other._width, other._height, other._image);
+			ParticleSet::ParticleSet(const ParticleSet& other, int xVel, int yVel) {
+				initParticles(other._max, other._x, other._y, xVel, yVel, other._width, other._height, other._image);
 			}
 
 			ParticleSet::~ParticleSet() {
@@ -20,11 +20,13 @@ namespace sdmg {
 				}
 			}
 
-			void ParticleSet::initParticles(int max, int x, int y, int width, int height, SDL_Surface *image) {
+			void ParticleSet::initParticles(int max, int x, int y, int xVel, int yVel, int width, int height, SDL_Surface *image) {
 				_height = height;
 				_width = width;
 				_x = x;
 				_y = y;
+				_xVel = xVel;
+				_yVel = yVel;
 				_max = max;
 				_image = image;
 
@@ -38,9 +40,9 @@ namespace sdmg {
 			Particle* ParticleSet::createParticle() {
 				return new Particle(_x + rand() % 6 - 3, // Particle x position
 					_y + rand() % 6 - 3, // Paritcle y position
-					rand() % 10 + (float)rand() / (float)RAND_MAX - 5, // Particle x velocity
-					rand() % 10 + (float)rand() / (float)RAND_MAX - 5, // Particle y velocity
-					500 + rand() % 1000, // Particle lifetime
+					rand() % 10 + (float)rand() / (float)RAND_MAX - _xVel, // Particle x velocity
+					rand() % 10 + (float)rand() / (float)RAND_MAX - _yVel, // Particle y velocity
+					5 + rand() % 200, // Particle lifetime
 					rand() % 255, // Particle color
 					_surface); // Surface to draw on
 			}
@@ -101,6 +103,14 @@ namespace sdmg {
 
 			SDL_Surface* ParticleSet::getSDLSurface() {
 				return _surface;
+			}
+
+			int ParticleSet::getXVel() {
+				return _xVel;
+			}
+
+			int ParticleSet::getYVel() {
+				return _yVel;
 			}
 		}
 	}

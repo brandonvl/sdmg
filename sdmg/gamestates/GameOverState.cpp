@@ -16,6 +16,7 @@
 #include "helperclasses\HUD.h"
 #include "MainMenuState.h"
 #include "StatisticsState.h"
+#include "UnlockedState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
@@ -41,12 +42,40 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
+			bool unlocked = false;
 
 			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 			{
-				if (!LoadingSinglePlayerState::getInstance().hasFinished()
-					&& static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
-					_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+				if (!LoadingSinglePlayerState::getInstance().hasFinished())
+				{
+					if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
+						_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+				}
+				else if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
+				{
+					ProgressManager &manager = ProgressManager::getInstance();
+
+					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
+					//  if (!manager.isUnlockedCharacter(LoadingSinglePlayerState::getInstance().getPlayerName()))
+					if (!manager.isUnlockedCharacter(static_cast<Character*>(deadList[0])->getName()))
+					{
+						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
+						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
+						manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
+						unlocked = true;
+					}
+
+					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
+					/*
+					if (!manager.isUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName()))
+					{
+						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
+						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
+						//  manager.setIsUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName(), true);
+						unlocked = true;
+					}
+					*/
+				}
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
@@ -54,7 +83,8 @@ namespace sdmg {
 			}
 			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
-				LoadingSinglePlayerState::getInstance().unloadAll();
+				if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
+					LoadingSinglePlayerState::getInstance().unloadAll();
 				changeState(*_game, MainMenuState::getInstance());
 			});
 		
@@ -99,6 +129,12 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
+
+			if (unlocked)
+			{
+				unlocked = false;
+				game.getStateManager()->pushState(UnlockedState::getInstance());
+			}
 		}
 
 		void GameOverState::replay() {

@@ -28,20 +28,23 @@ namespace sdmg {
 			void save();
 			void load();
 			void reset();
-			void loaddefaults();
 
 			std::string getSaveGameTimestamp(int savegame);
 			std::string getTimestampNow();
 
 			int currentSavegame;
 
-			JSON::JSONObject defaultSavegame();
+			bool isUnlockedCharacter(std::string name);
+			bool isUnlockedLevel(std::string name);
+			void setIsUnlockedCharacter(std::string name, bool unlocked);
+			void setIsUnlockedLevel(std::string name, bool unlocked);
 
 		private:
 			ProgressManager();
 			JSON::JSONDocument *_jsonDoc;
 
 			int getCharacterIndex(std::string name);
+			int getLevelIndex(std::string name);
 		};
 	}
 }

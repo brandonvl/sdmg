@@ -26,20 +26,24 @@ namespace sdmg {
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 			
-			//for (int i = 0; i < 3; i++) {
+			loadText("title", "Select Save Slot", "trebucbd", 48);
+			
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(0) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(0) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 0;
+				ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
 				ProgressManager::getInstance().save();
 				_game->getStateManager()->popState();
 
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(1) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(1) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 1;
+				ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
 				ProgressManager::getInstance().save();
 				_game->getStateManager()->popState();
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(2) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(2) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 2;
+				ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
 				ProgressManager::getInstance().save();
 				_game->getStateManager()->popState();
 			});
@@ -50,6 +54,7 @@ namespace sdmg {
 
 		void ProgressSaveState::cleanup(GameBase &game) {
 			delete _menu;
+			game.getEngine()->getDrawEngine()->unload("title");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
@@ -99,8 +104,16 @@ namespace sdmg {
 		void ProgressSaveState::draw(GameBase &game, GameTime &gameTime) {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
+
+			game.getEngine()->getDrawEngine()->drawText("title", (game.getEngine()->getDrawEngine()->getWindowWidth() / 2) - (game.getEngine()->getDrawEngine()->getTextSize("title")[0] / 2), 70);
+
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
+		}
+
+		void ProgressSaveState::loadText(std::string key, std::string text, std::string fontName, int fontSize)
+		{
+			_game->getEngine()->getDrawEngine()->loadText(key, text, { 255, 255, 255 }, fontName, fontSize);
 		}
 	}
 }

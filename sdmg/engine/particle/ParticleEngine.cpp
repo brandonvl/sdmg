@@ -12,7 +12,6 @@
 #include "ParticleInstance.h"
 #include "..\..\sdl\include\SDL_image.h"
 #include "engine\MovableGameObject.h"
-
 #include <ctime>
 #include <string>
 
@@ -49,8 +48,7 @@ namespace sdmg {
 			void ParticleEngine::loadParticles() {
 				int pngFlags = IMG_INIT_PNG;
 				if ((IMG_Init(pngFlags) & pngFlags)) {
-					SDL_Surface* surface = IMG_Load("assets/particles/blood.png");
-					_particleImages.insert(std::make_pair("blood", surface));
+					_particleImages.insert(std::make_pair("blood", IMG_Load("assets/particles/blood.png")));
 					_particleImages.insert(std::make_pair("red", IMG_Load("assets/particles/red.png")));
 					_particleImages.insert(std::make_pair("orange", IMG_Load("assets/particles/orange.png")));
 					_particleImages.insert(std::make_pair("yellow", IMG_Load("assets/particles/yellow.png")));
@@ -60,8 +58,8 @@ namespace sdmg {
 				}
 			}
 
-			void ParticleEngine::createParticleSet(std::string key, int max, int x, int y, int width, int height, std::string image) {
-				ParticleSet *ps = new ParticleSet(max, x, y, width, height, _particleImages[image]);
+			void ParticleEngine::createParticleSet(std::string key, int max, int x, int y, int xVel, int yVel, int width, int height, std::string image) {
+				ParticleSet *ps = new ParticleSet(max, x, y, xVel, yVel, width, height, _particleImages[image]);
 				_particleSets.insert(std::make_pair(key, ps));
 			}
 
@@ -105,9 +103,24 @@ namespace sdmg {
 				std::string key = "hit";
 				SDL_Surface* surface = _particleSets[key]->getSDLSurface();
 
+				int xVel = _particleSets[key]->getXVel();
+				int yVel = _particleSets[key]->getYVel();
+
+				switch (MovableGameObject::State(gameObject->getState()))
+				{
+				case MovableGameObject::State::KNOCKBACKRIGHT:
+					xVel = 13;
+					yVel = 5;
+					break;
+				case MovableGameObject::State::KNOCKBACKLEFT:
+					xVel = -5;
+					yVel = 5;
+					break;
+				}
+
 				int x = (gameObject->getPixelX() - (surface->w / 2));
 				int y = (gameObject->getPixelY() - (surface->h / 2));
-				ParticleInstance *instance = new ParticleInstance(_particleSets[key], x, y);
+				ParticleInstance *instance = new ParticleInstance(_particleSets[key], x, y, xVel, yVel);
 
 				instance->getParticleSet()->reset();
 				_drawContainer.push_back(instance);
