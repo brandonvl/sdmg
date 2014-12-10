@@ -12,6 +12,7 @@
 #include "PlayState.h"
 #include "MainMenuState.h"
 #include "GameOverState.h"
+#include "GameOverSurvivalState.h"
 #include "CreditsState.h"
 #include "OptionsState.h"
 #include "LevelSelectionState.h"
@@ -32,15 +33,25 @@ namespace sdmg {
 
 		void PauseState::returnToMainMenu()
 		{
-			GameOverState::getInstance().cleanup(*_game);
-			PlayState::getInstance().cleanup(*_game);
+			if (_game->getGameMode() == GameBase::GameMode::Survival)
+				GameOverSurvivalState::getInstance().cleanup(*_game);
+			else
+			{
+				GameOverState::getInstance().cleanup(*_game);
+				PlayState::getInstance().cleanup(*_game);
+			}
 			_game->getStateManager()->changeState(MainMenuState::getInstance());
 		}
 
 		void PauseState::returnToLevelSelection()
 		{
-			GameOverState::getInstance().cleanup(*_game);
-			PlayState::getInstance().cleanup(*_game);
+			if (_game->getGameMode() == GameBase::GameMode::Survival)
+				GameOverSurvivalState::getInstance().cleanup(*_game);
+			else
+			{
+				GameOverState::getInstance().cleanup(*_game);
+				PlayState::getInstance().cleanup(*_game);
+			}
 			_game->getStateManager()->changeState(LevelSelectionState::getInstance());
 		}
 

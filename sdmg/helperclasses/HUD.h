@@ -21,6 +21,7 @@ namespace sdmg {
 			HUD(Character &character, const int x) : _character(&character), _isInitialized(false), _rectangle(x, 10, 230, 75) {}
 			virtual ~HUD();
 			void draw(DrawEngine &drawEngine);
+			void changeOwner(Character *owner);
 		private:
 			void init(DrawEngine &drawEngine);
 			Character *_character;

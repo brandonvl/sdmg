@@ -27,6 +27,14 @@ namespace sdmg {
 			_character = nullptr;
 		}
 
+		void HUD::changeOwner(Character *owner)
+		{
+			_character = owner;
+			_drawengine->unload(_spriteKeyPrefix + "head");
+			_spriteKeyPrefix = "hud_" + _character->getName() + "_";
+			_drawengine->load(_spriteKeyPrefix + "head", "assets/characters/" + _character->getKey() + "/head");
+		}
+
 		void HUD::draw(DrawEngine &drawEngine) {
 
 			if (!_isInitialized) init(drawEngine);

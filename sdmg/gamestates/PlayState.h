@@ -48,7 +48,16 @@ namespace sdmg {
 			void setBullets(std::vector<model::MovablePlatform *> *bullets);
 			void setHUDs(std::vector<helperclasses::HUD *> *huds);
 			void performDraw(GameBase &game);
+
+			void chooseRandomEnemy();
+			void setPlayer(model::Character *player);
+			void setEnemies(std::vector<model::Character*> *enemies);
+
+			int getEnemiesKilled();
+
 		private:
+			model::Character *_player;
+			std::vector<model::Character*> *_enemies;
 		protected:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;
@@ -59,10 +68,12 @@ namespace sdmg {
 			bool _showFPS, _showHitBoxes, _showClickBoxes, _canDie;
 			long _fps;
 			float _multiplier;
+			int _enemiesKilled;
 
 			bool _particlesSet, _isPaused;
 
 			friend class GameOverState;
+			friend class GameOverSurvivalState;
 
 			helperclasses::Editor *_editor;
 

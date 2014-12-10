@@ -29,9 +29,11 @@ namespace sdmg {
 			void addPlatform(GameObject *platform);
 			void onDead(GameObject* gameObject);
 			bool isGameOver();
-			void addAliveToDead();
+			void addAlive(GameObject *gameObject);
 			const std::vector<GameObject*> &getDeadList();
+			void clearDeadList();
 			const std::vector<GameObject*> &getAliveList();
+			void clearAliveList();
 			void clearWorld();
 			void resetWorld();
 			void removePlatform(GameObject *platform);

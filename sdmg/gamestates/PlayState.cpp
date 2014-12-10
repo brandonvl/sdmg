@@ -20,12 +20,14 @@
 #include "engine\input\InputEngine.h"
 #include "actions\Actions.h"
 #include "GameOverState.h"
+#include "GameOverSurvivalState.h"
 #include "PauseState.h"
 #include "engine\World.h"
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\HUD.h"
 #include "engine\particle\ParticleInstance.h"
 #include "engine\particle\ParticleEngine.h"
+#include "helperclasses\RandomGenerator.h"
 
 #include <vector>
 
@@ -42,6 +44,7 @@ namespace sdmg {
 			_step = 1.0f / 7.0f;
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 			_canDie = true;
+			_enemiesKilled = 0;
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -53,6 +56,11 @@ namespace sdmg {
 		{
 			delete _editor;
 			_editor = nullptr;
+
+			if (game.getGameMode() == GameBase::GameMode::Survival)
+			{
+				delete _enemies;
+			}
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -144,24 +152,90 @@ namespace sdmg {
 			}
 		}
 
+		void PlayState::chooseRandomEnemy()
+		{
+			_enemiesKilled++;
+
+			std::random_device dev;
+			std::default_random_engine dre(dev());
+			std::uniform_int_distribution<int> randomAdvertisement(0, (*_enemies).size() - 1);
+
+			model::Character *enemy = nullptr;
+			do{
+				int enemyID = randomAdvertisement(dre);
+				enemy = (*_enemies)[enemyID];
+			} while (enemy->getName() == _game->getWorld()->getDeadList()[0]->getName());
+
+			_game->getWorld()->clearDeadList();
+
+			enemy->getBody()->SetActive(true);
+			enemy->setLives(5);
+			enemy->setState(MovableGameObject::State::RESPAWN);
+			(*_huds)[1]->changeOwner(enemy);
+			_game->getWorld()->addAlive(enemy);
+		}
+
+		void PlayState::setPlayer(model::Character *player)
+		{
+			_player = player;
+		}
+
+		void PlayState::setEnemies(std::vector<model::Character*> *enemies)
+		{
+			_enemies = enemies;
+		}
+
+		int PlayState::getEnemiesKilled()
+		{
+			return _enemiesKilled;
+		}
+
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
 			if (!_editor->isEnabled()) {
 				if (_canDie && game.getWorld()->isGameOver()) {
-					if (game.getWorld()->getAliveList().size() > 0)
-						game.getWorld()->getAliveList()[0]->die();
-					game.getEngine()->getPhysicsEngine()->pause();
-
-					auto players = game.getWorld()->getPlayers();
-					for (auto p : players)
+					if (game.getGameMode() == GameBase::GameMode::SinglePlayer || game.getGameMode() == GameBase::GameMode::Versus)
 					{
-						p->destroyAttackBody();
-						p->destroyShootBody(*game.getEngine());
+						game.getEngine()->getPhysicsEngine()->pause();
+						if (game.getWorld()->getAliveList().size() > 0)
+							game.getWorld()->getAliveList()[0]->die();
+
+						auto players = game.getWorld()->getPlayers();
+						for (auto p : players)
+						{
+							p->destroyAttackBody();
+							p->destroyShootBody(*game.getEngine());
+						}
+
+						changeState(game, GameOverState::getInstance());
 					}
+					else if (game.getGameMode() == GameBase::GameMode::Survival)
+					{
+						if (game.getWorld()->getDeadList()[0] == _player)
+						{
+							game.getEngine()->getPhysicsEngine()->pause();
+							if (game.getWorld()->getAliveList().size() > 0)
+								game.getWorld()->getAliveList()[0]->die();
 
-					changeState(game, GameOverState::getInstance());
+							auto players = game.getWorld()->getPlayers();
+							for (auto p : players)
+							{
+								p->destroyAttackBody();
+								p->destroyShootBody(*game.getEngine());
+							}
+
+							changeState(game, GameOverSurvivalState::getInstance());
+							return;
+						}
+						else
+						{
+							MovableGameObject *bla = static_cast<MovableGameObject*>(game.getWorld()->getDeadList()[0]);
+							bla->destroyAttackBody();
+							bla->getBody()->SetActive(false);
+							chooseRandomEnemy();
+						}
+					}
 				}
-
 
 				_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
 				_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);

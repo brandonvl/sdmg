@@ -126,11 +126,13 @@
     <ClCompile Include="gamestates\CharacterSelectionState.cpp" />
     <ClCompile Include="gamestates\GameModeState.cpp" />
     <ClCompile Include="gamestates\GameOverState.cpp" />
+    <ClCompile Include="gamestates\GameOverSurvivalState.cpp" />
     <ClCompile Include="gamestates\HelpState.cpp" />
     <ClCompile Include="gamestates\IntroState.cpp" />
     <ClCompile Include="gamestates\LevelSelectionState.cpp" />
     <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp" />
     <ClCompile Include="gamestates\LoadingState.cpp" />
+    <ClCompile Include="gamestates\LoadingSurvivalState.cpp" />
     <ClCompile Include="gamestates\MainMenuState.cpp" />
     <ClCompile Include="gamestates\MenuState.cpp" />
     <ClCompile Include="gamestates\OptionsState.cpp" />
@@ -216,11 +218,13 @@
     <ClInclude Include="gamestates\CharacterSelectionState.h" />
     <ClInclude Include="gamestates\GameModeState.h" />
     <ClInclude Include="gamestates\GameOverState.h" />
+    <ClInclude Include="gamestates\GameOverSurvivalState.h" />
     <ClInclude Include="gamestates\HelpState.h" />
     <ClInclude Include="gamestates\IntroState.h" />
     <ClInclude Include="gamestates\LevelSelectionState.h" />
     <ClInclude Include="gamestates\LoadingSinglePlayerState.h" />
     <ClInclude Include="gamestates\LoadingState.h" />
+    <ClInclude Include="gamestates\LoadingSurvivalState.h" />
     <ClInclude Include="gamestates\MainMenuState.h" />
     <ClInclude Include="gamestates\MenuState.h" />
     <ClInclude Include="gamestates\OptionsState.h" />

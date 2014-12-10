@@ -60,12 +60,27 @@ namespace sdmg {
 			return _aliveList.size() <= 1;
 		}
 
+		void World::addAlive(GameObject *gameObject)
+		{
+			_aliveList.push_back(gameObject);
+		}
+
 		const std::vector<GameObject*> &World::getDeadList() {
 			return _deadList;
 		}
 
+		void World::clearDeadList()
+		{
+			_deadList.clear();
+		}
+
 		const std::vector<GameObject*> &World::getAliveList() {
 			return _aliveList;
+		}
+
+		void World::clearAliveList()
+		{
+			_aliveList.clear();
 		}
 
 		const std::vector<GameObject*> &World::getPlatforms() {
