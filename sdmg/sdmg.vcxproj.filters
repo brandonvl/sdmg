@@ -357,8 +357,11 @@
     <ClCompile Include="engine\particle\ParticleInstance.cpp">
       <Filter>Source Files\engine\particle</Filter>
     </ClCompile>
-    <ClCompile Include="helperclasses\RandomGenerator.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="engine\physics\RayCastCallBack.cpp">
+      <Filter>Source Files\engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\AABBDetectionCallBack.cpp">
+      <Filter>Source Files\engine\physics</Filter>
     </ClCompile>
     <ClCompile Include="gamestates\UnlockedState.cpp">
       <Filter>Source Files\gamestates</Filter>
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="gamestates\GameOverSurvivalState.cpp">
       <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\RandomGenerator.cpp">
+      <Filter>Source Files\helperclasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -641,8 +647,11 @@
     <ClInclude Include="engine\particle\ParticleInstance.h">
       <Filter>Header Files\engine\particle</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\RandomGenerator.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="engine\physics\RayCastCallBack.h">
+      <Filter>Header Files\engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\AABBDetectionCallBack.h">
+      <Filter>Header Files\engine\physics</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\UnlockedState.h">
       <Filter>Header Files\gamestates</Filter>
@@ -652,6 +661,9 @@
     </ClInclude>
     <ClInclude Include="gamestates\GameOverSurvivalState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\RandomGenerator.h">
+      <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
