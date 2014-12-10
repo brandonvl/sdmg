@@ -12,6 +12,7 @@
 #include <vector>
 #include "engine\physics\KinematicBody.h"
 #include <chrono>
+#include <functional>
 
 class b2World;
 class b2Body;
@@ -30,6 +31,7 @@ namespace sdmg {
 		namespace physics {
 			class PhysicsEngineActionHandler;
 			class ContactListener;
+			class RayCastCallBack;
 
 			class PhysicsEngine {
 			public:
@@ -44,8 +46,10 @@ namespace sdmg {
 				b2Body *getBodyList();
 				void setWorldGravity(const float leftGravity, const float downGravity);
 				b2Vec2 getWorldGravity();
+				b2World *getWorld();
 				void setSpeed(float speed);
 				float getSpeed();
+				void performRayCast(RayCastCallBack &rayCast);
 				b2Body *addBody(GameObject *object);
 				b2Body *addBody(MovableGameObject *object);
 				b2Body *addBody(GameObject *object, float paddingX, float paddingY);

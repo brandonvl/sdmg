@@ -19,6 +19,7 @@
 #include "engine\GameTime.h"
 #include "Box2D\Box2D.h"
 #include "PhysicsEngineActionHandler.h"
+#include "RayCastCallBack.h"
 
 namespace sdmg {
 	namespace engine {
@@ -38,6 +39,15 @@ namespace sdmg {
 				_speed = _standardspeed;
 
 				initializeActions();
+			}
+
+			void PhysicsEngine::performRayCast(RayCastCallBack &rayCast) {
+				rayCast.setPhysicsEngine(this);
+				_world->RayCast(&rayCast, rayCast.getPointOne(), rayCast.getPointTwo());
+			}
+
+			b2World *PhysicsEngine::getWorld() {
+				return _world;
 			}
 
 			PhysicsEngine::~PhysicsEngine()
