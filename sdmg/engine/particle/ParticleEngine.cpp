@@ -35,6 +35,13 @@ namespace sdmg {
 					}
 				}
 
+				if (_drawContainer.size() > 0) {
+					std::vector<ParticleInstance*>::iterator it;
+					for (it = _drawContainer.begin(); it != _drawContainer.end();) {
+						delete *it;
+						it = _drawContainer.erase(it);
+					}
+				}
 				//if (_particleImages.size() > 0) {
 				//	std::map<std::string, SDL_Surface*>::iterator itr = _particleImages.begin();
 				//	while (itr != _particleImages.end()) {
@@ -101,14 +108,14 @@ namespace sdmg {
 
 			void ParticleEngine::gameObjectStateChange(MovableGameObject *gameObject) {
 				if (gameObject->getState() == MovableGameObject::State::RESPAWN && gameObject->getHP() > 0) {
-					std::string key = "hit";
+					std::string key = "fall";
 					SDL_Surface* surface = _particleSets[key]->getSDLSurface();
 
 					int xVel = _particleSets[key]->getXVel();
 					int yVel = _particleSets[key]->getYVel();
 
 					int x = (gameObject->getPixelX() - (surface->w / 2));
-					int y = (gameObject->getPixelY() - (surface->h / 2));
+					int y = 400;
 					ParticleInstance *instance = new ParticleInstance(_particleSets[key], x, y, xVel, yVel);
 
 					instance->getParticleSet()->reset();

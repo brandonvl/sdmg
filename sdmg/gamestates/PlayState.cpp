@@ -249,6 +249,7 @@ namespace sdmg {
 					}
 
 					game.getEngine()->getParticleEngine()->createParticleSet("hit", 200, 175, 175, 5, 5, 350, 350, "blood");
+					game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 15, 350, 450, "blood");
 					_particlesSet = true;
 				}
 
