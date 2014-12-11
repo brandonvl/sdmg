@@ -45,13 +45,8 @@ namespace sdmg {
 
 		void PauseState::returnToLevelSelection()
 		{
-			if (_game->getGameMode() == GameBase::GameMode::Survival)
-				GameOverSurvivalState::getInstance().cleanup(*_game);
-			else
-			{
-				GameOverState::getInstance().cleanup(*_game);
-				PlayState::getInstance().cleanup(*_game);
-			}
+			GameOverState::getInstance().cleanup(*_game);
+			PlayState::getInstance().cleanup(*_game);
 			_game->getStateManager()->changeState(LevelSelectionState::getInstance());
 		}
 
@@ -65,7 +60,8 @@ namespace sdmg {
 			std::function<void()> callBackLevelSelection = std::bind(&PauseState::returnToLevelSelection, this);
 
 			_menu->addMenuTextItem("Resume", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			_menu->addMenuTextItem("Level selection", callBackLevelSelection);
+			if (game.getGameMode() == GameBase::GameMode::Versus)
+				_menu->addMenuTextItem("Level selection", callBackLevelSelection);
 			_menu->addMenuTextItem("Main menu", callBackMainMenu);
 
 			game.getEngine()->getDrawEngine()->loadText("pause", "Pause", { 255, 255, 255 }, "arial", 70);
