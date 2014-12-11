@@ -406,9 +406,9 @@ namespace sdmg {
 					&& _state != (State::JUMPINGRIGHT | State::FORWARD_ROLL) && _state != (State::FALLING | State::FORWARD_ROLL)
 					&& _state != (State::FALLINGLEFT | State::FORWARD_ROLL) && _state != (State::FALLINGRIGHT | State::FORWARD_ROLL)
 					)
-				_state = state;
-
 				triggerStateChangedCallbacks();
+
+				_state = state;
 
 
 
