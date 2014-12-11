@@ -48,7 +48,7 @@ namespace sdmg {
 			void ParticleEngine::loadParticles() {
 				int pngFlags = IMG_INIT_PNG;
 				if ((IMG_Init(pngFlags) & pngFlags)) {
-					_particleImages.insert(std::make_pair("blood", IMG_Load("assets/particles/blood.png")));
+					_particleImages.insert(std::make_pair("blood", IMG_Load("assets/particles/blood_4x4.png")));
 					_particleImages.insert(std::make_pair("red", IMG_Load("assets/particles/red.png")));
 					_particleImages.insert(std::make_pair("orange", IMG_Load("assets/particles/orange.png")));
 					_particleImages.insert(std::make_pair("yellow", IMG_Load("assets/particles/yellow.png")));
@@ -99,6 +99,23 @@ namespace sdmg {
 				return _particleSets[key]->getSDLSurface();
 			}
 
+			void ParticleEngine::gameObjectStateChange(MovableGameObject *gameObject) {
+				if (gameObject->getState() == MovableGameObject::State::RESPAWN && gameObject->getHP() > 0) {
+					std::string key = "hit";
+					SDL_Surface* surface = _particleSets[key]->getSDLSurface();
+
+					int xVel = _particleSets[key]->getXVel();
+					int yVel = _particleSets[key]->getYVel();
+
+					int x = (gameObject->getPixelX() - (surface->w / 2));
+					int y = (gameObject->getPixelY() - (surface->h / 2));
+					ParticleInstance *instance = new ParticleInstance(_particleSets[key], x, y, xVel, yVel);
+
+					instance->getParticleSet()->reset();
+					_drawContainer.push_back(instance);
+				}
+			}
+
 			void ParticleEngine::gameObjectHit(MovableGameObject *gameObject) {
 				std::string key = "hit";
 				SDL_Surface* surface = _particleSets[key]->getSDLSurface();
@@ -128,23 +145,16 @@ namespace sdmg {
 
 			void ParticleEngine::registerGameObject(MovableGameObject *mGameObject) {
 				mGameObject->registerHitCallback(std::bind(&ParticleEngine::gameObjectHit, this, mGameObject));
+				mGameObject->registerStateChangedCallback(std::bind(&ParticleEngine::gameObjectStateChange, this, mGameObject));
 			}
 
 			bool ParticleEngine::hasNextParticleInstance() {
 				if (!_drawContainer.empty()) {
-					while (_drawContainer.size() > 2) {
+					while (_drawContainer.size() > allowed_instances) {
 						ParticleInstance *i = _drawContainer.front();
 						delete i;
 						_drawContainer.erase(_drawContainer.begin());
 					}
-
-					//std::vector<ParticleInstance*>::iterator it;
-					//for (it = _drawContainer.begin(); it != _drawContainer.end();) {
-					//	if ((*it)->getParticleSet()->isDead()) {
-					//		delete *it;
-					//		it = _drawContainer.erase(it);
-					//	}
-					//}
 				}
 				return !_drawContainer.empty();
 			}

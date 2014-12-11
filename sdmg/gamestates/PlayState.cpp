@@ -248,7 +248,7 @@ namespace sdmg {
 						game.getEngine()->getParticleEngine()->registerGameObject(obj);
 					}
 
-					game.getEngine()->getParticleEngine()->createParticleSet("hit", 25, 175, 175, 5, 5, 350, 350, "red");
+					game.getEngine()->getParticleEngine()->createParticleSet("hit", 200, 175, 175, 5, 5, 350, 350, "blood");
 					_particlesSet = true;
 				}
 
@@ -332,20 +332,14 @@ namespace sdmg {
 
 			_editor->draw();
 
-			//SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface("hit");
-			//game.getEngine()->getDrawEngine()->refreshSurface(surface);
-			//game.getEngine()->getParticleEngine()->continuousShowParticleSet("hit");
-			//game.getEngine()->getDrawEngine()->drawParticle(surface, 100, 100);
-
 			if (game.getEngine()->getParticleEngine()->hasNextParticleInstance()) {
 				std::vector<ParticleInstance*> container = game.getEngine()->getParticleEngine()->getNextParticleInstance();
 				std::vector<ParticleInstance*>::iterator itr = container.begin();
 				while (itr != container.end()) {
-					ParticleInstance* i = (*itr);
-					SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface(i);
+					SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface((*itr));
 					game.getEngine()->getDrawEngine()->refreshSurface(surface);
-					game.getEngine()->getParticleEngine()->showParticleSet(i);
-					game.getEngine()->getDrawEngine()->drawParticle(surface, i->GetX(), i->GetY());
+					game.getEngine()->getParticleEngine()->showParticleSet((*itr));
+					game.getEngine()->getDrawEngine()->drawParticle(surface, (*itr)->GetX(), (*itr)->GetY());
 					itr++;
 				}
 			}

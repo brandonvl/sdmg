@@ -37,10 +37,13 @@ namespace sdmg {
 				SDL_Surface* getParticleSetSurface(ParticleInstance* instance);
 				SDL_Surface* ParticleEngine::getParticleSetSurface(std::string key);
 				void gameObjectHit(MovableGameObject *gameObject);
+				void gameObjectStateChange(MovableGameObject *gameObject);
 				void registerGameObject(MovableGameObject *mGameObject);
 				std::vector<ParticleInstance*> getNextParticleInstance();
 				bool hasNextParticleInstance();
 			private:
+				const int allowed_instances = 2;
+
 				std::map<std::string, ParticleSet*> _particleSets;
 				std::map<std::string, SDL_Surface*> _particleImages;
 				std::vector<ParticleInstance*> _drawContainer;
