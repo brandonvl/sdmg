@@ -1,7 +1,5 @@
 #pragma once
-
 #include "AIState.h"
-
 namespace sdmg {
 
 	namespace model {
@@ -13,11 +11,11 @@ namespace sdmg {
 		class GameBase;
 		namespace ai {
 			namespace aistate {
-				class MoveRightAIState : public AIState
+				class ShortAttackAIState : public AIState
 				{
-					public:
-					MoveRightAIState(AIMachine &machine) : AIState("moveRight", machine) {};
-					virtual ~MoveRightAIState() { }
+				public:
+					ShortAttackAIState(AIMachine &machine) : AIState("shortAttack", machine) {};
+					virtual ~ShortAttackAIState() { }
 					void enter(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void update(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void exit(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
@@ -26,3 +24,4 @@ namespace sdmg {
 		}
 	}
 }
+

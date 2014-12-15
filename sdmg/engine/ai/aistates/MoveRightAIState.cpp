@@ -15,6 +15,10 @@ namespace sdmg {
 		namespace ai {
 			namespace aistate {
 
+				void MoveRightAIState::enter(model::Character &controlled, GameTime &gameTime, GameBase &game) {
+
+				}
+
 				void MoveRightAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
 					MovableGameObject *enemy = game.getWorld()->getPlayers()[1];
@@ -40,6 +44,10 @@ namespace sdmg {
 					}
 					else
 						_machine->setState("moveLeft");
+				}
+
+				void MoveRightAIState::exit(model::Character &controlled, GameTime &gameTime, GameBase &game) {
+
 				}
 
 

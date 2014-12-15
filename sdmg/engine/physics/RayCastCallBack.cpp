@@ -16,6 +16,20 @@ namespace sdmg {
 			{
 			}
 
+			void RayCastCallBack::clearResults() {
+				_results.clear();
+			}
+
+			void RayCastCallBack::setPointOne(float x, float y) {
+				_pointOne.x = x;
+				_pointOne.y = y;
+			}
+
+			void RayCastCallBack::setPointTwo(float x, float y) {
+				_pointTwo.x = x;
+				_pointTwo.y = y;
+			}
+
 			float32 RayCastCallBack::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
 			{
 				float32 returnValue = 1.0F;

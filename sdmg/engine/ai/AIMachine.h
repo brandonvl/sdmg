@@ -28,8 +28,9 @@ namespace sdmg {
 					//virtual void setDefaultState(const std::string &stateName);
 					virtual void setState(const std::string &stateKey);
 					virtual void update(GameTime *gameTime, GameBase *game);
+					virtual void revertToPreviousState();
 				private:
-					void checkState();
+					void checkState(GameTime *gameTime, GameBase *game);
 					std::map<std::string, aistate::AIState*> _states;
 					aistate::AIState *_defaultState;
 					aistate::AIState *_activeState;

@@ -22,7 +22,9 @@ namespace sdmg {
 						virtual bool isComplete() { return _transition != ""; };
 						std::string getStateKey() { return _key; };
 						std::string getTransition() { return _transition; };
+						virtual void enter(model::Character &controlled, GameTime &gameTime, GameBase &game) = 0;
 						virtual void update(model::Character &controlled, GameTime &gameTime, GameBase &game) = 0;
+						virtual void exit(model::Character &controlled, GameTime &gameTime, GameBase &game) = 0;
 					protected:
 						AIMachine *_machine;
 						std::string _transition = "";

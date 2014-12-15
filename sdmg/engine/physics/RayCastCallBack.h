@@ -21,6 +21,9 @@ namespace sdmg {
 			public:
 				RayCastCallBack(float x1, float y1, float x2, float y2, std::function<float32(b2Body*)> *callBack);
 				virtual ~RayCastCallBack();
+				void clearResults();
+				void setPointOne(float x, float y);
+				void setPointTwo(float x, float y);
 				std::vector<b2Body*> &getResults() { return _results; }
 				const b2Vec2 getPointOne() { return _pointOne; }
 				const b2Vec2 getPointTwo() { return _pointTwo; }

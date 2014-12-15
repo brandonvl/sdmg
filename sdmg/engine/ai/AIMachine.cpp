@@ -15,10 +15,14 @@ namespace sdmg {
 
 			}
 
-			void AIMachine::checkState() {
+			void AIMachine::checkState(GameTime *gameTime, GameBase *game) {
 
 				if (_activeState != nullptr) {
-
+					if (_activeState->isComplete()) {
+						setState(_activeState->getTransition());
+						_previousState->exit(*_controlled, *gameTime, *game);
+						_activeState->enter(*_controlled, *gameTime, *game);
+					}
 				}
 				else {
 					if (_defaultState != nullptr) {
@@ -48,12 +52,22 @@ namespace sdmg {
 				}
 			}*/
 
+			void AIMachine::revertToPreviousState() {
+				// TO DO
+			}
+
 			void AIMachine::setState(const std::string &stateKey) {
-				_activeState = _states[stateKey];
+
+				auto state = _states.find(stateKey);
+
+				if (state->second != nullptr) {
+					_previousState = _activeState;
+					_activeState = _states[stateKey];
+				}
 			}
 
 			void AIMachine::update(GameTime *gameTime, GameBase *game) {
-				checkState();
+				checkState(gameTime, game);
 
 				if (_activeState != nullptr) {
 					_activeState->update(*_controlled, *gameTime, *game);

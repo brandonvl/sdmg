@@ -13,15 +13,28 @@ namespace sdmg {
 		namespace ai {
 			namespace aistate {
 
+				void MoveLeftAIState::enter(model::Character &controlled, GameTime &gameTime, GameBase &game) {
+
+					if (!_platformRayCast)
+						_platformRayCast = new RayCastCallBack(controlled.getX() - 2.0F, controlled.getY(), controlled.getX() - 2.0F, 1500.0F, nullptr);
+
+					if (_transition != "")
+						_transition = "";
+
+				}
+
 				void MoveLeftAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
 					MovableGameObject *enemy = game.getWorld()->getPlayers()[1];
 
-					RayCastCallBack rayCast = RayCastCallBack(controlled.getX() - 2.0F, controlled.getY(), controlled.getX() - 2.0F, 1500.0F, nullptr);
-					game.getEngine()->getPhysicsEngine()->performRayCast(rayCast);
+					_platformRayCast->clearResults();
+					_platformRayCast->setPointOne(controlled.getX() - 2.0F, controlled.getY());
+					_platformRayCast->setPointTwo(controlled.getX() - 2.0F, 1500.0F);
+
+					game.getEngine()->getPhysicsEngine()->performRayCast(*_platformRayCast);
 
 
-					if (rayCast.getResults().size() > 0){
+					if (_platformRayCast->getResults().size() > 0){
 
 						/*if (enemy->getX() > controlled.getX()) {
 							_machine->setState("moveRight");
@@ -34,7 +47,18 @@ namespace sdmg {
 						}
 					}
 					else {
-						_machine->setState("moveRight");
+						_transition = "moveRight";
+					}
+				}
+
+				void MoveLeftAIState::exit(model::Character &controlled, GameTime &gameTime, GameBase &game) {
+					_transition = "";
+				}
+
+				MoveLeftAIState::~MoveLeftAIState() {
+					if (_platformRayCast) {
+						delete _platformRayCast;
+						_platformRayCast = nullptr;
 					}
 				}
 			}
