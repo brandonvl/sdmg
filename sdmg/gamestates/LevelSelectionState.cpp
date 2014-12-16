@@ -32,7 +32,7 @@ namespace sdmg {
 		{
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
-			
+
 			std::vector<std::string> levelList = std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/levels/"));
 
 			for (size_t i = 0; i < levelList.size(); i++)
@@ -43,19 +43,29 @@ namespace sdmg {
 
 				if (!ifile.fail())
 				{
-					JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-					JSON::JSONObject &obj = doc->getRootObject();
+					JSON::JSONDocument *doc = nullptr;
+					try
+					{
+						doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
+						if (&doc->getRootObject() == nullptr)
+							continue;
+						JSON::JSONObject &obj = doc->getRootObject();
 
-					_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
+						_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
 
-						LoadingState::getInstance().setIsTutorial(false);
-						LoadingState::getInstance().setLevel(new std::string(levelFolder));
-						changeState(*_game, LoadingState::getInstance());
-						/*
-						LoadingSinglePlayerState::getInstance().setPlayer("nivek");
-						changeState(*_game, LoadingSinglePlayerState::getInstance());
-						*/
-					});
+							LoadingState::getInstance().setIsTutorial(false);
+							LoadingState::getInstance().setLevel(new std::string(levelFolder));
+							changeState(*_game, LoadingState::getInstance());
+						});
+					}
+					catch (JSON::JSONException &ex)
+					{
+						std::cout << "LevelSelection: Error bij laden " + levelFolder;
+					}
+					catch(...)
+					{
+						std::cout << "LevelSelection: Error bij laden " + levelFolder;
+					}
 
 					delete doc;
 				}
