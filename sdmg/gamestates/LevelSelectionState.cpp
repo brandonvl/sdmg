@@ -20,87 +20,47 @@
 #include "LoadingSinglePlayerState.h"
 #include "MainMenuState.h"
 #include "lib\JSONParser.h"
-
 #include "engine\util\FileManager.h"
 
 #include <vector>
-
-
-// only for windows
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
+#include <fstream>
 
 namespace sdmg {
 	namespace gamestates {
-
-		void LevelSelectionState::listLevels() {
-			std::vector<std::string> names;
-			char search_path[200];
-			sprintf_s(search_path, "%s*.*", "assets\\levels\\");
-			WIN32_FIND_DATA fd;
-			HANDLE hFind = ::FindFirstFile(search_path, &fd);
-			if (hFind != INVALID_HANDLE_VALUE)
-			{
-				do {
-					if ((fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && fd.cFileName[0] != '.') {
-						const std::string s = fd.cFileName;
-						JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + s + "/data");
-						JSON::JSONObject &obj = doc->getRootObject();
-						
-						_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, s] {
-
-							LoadingState::getInstance().setIsTutorial(false);
-							LoadingState::getInstance().setLevel(new std::string(s));
-							changeState(*_game, LoadingState::getInstance());
-							/*
-							LoadingSinglePlayerState::getInstance().setPlayer("nivek"); 
-							changeState(*_game, LoadingSinglePlayerState::getInstance());
-							*/
-						});
-
-						delete doc;
-					}
-				} while (::FindNextFile(hFind, &fd));
-				::FindClose(hFind);
-			}
-		}
 
 		void LevelSelectionState::init(GameBase &game)
 		{
 			_game = &game;
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 			
-			// listLevels();
-
 			std::vector<std::string> levelList = std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/levels/"));
 
 			for (size_t i = 0; i < levelList.size(); i++)
 			{
 				const std::string levelFolder = levelList[i];
-				JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-				JSON::JSONObject &obj = doc->getRootObject();
 
-				_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
+				std::ifstream ifile("assets/levels/" + levelFolder + "/data");
 
-					LoadingState::getInstance().setIsTutorial(false);
-					LoadingState::getInstance().setLevel(new std::string(levelFolder));
-					changeState(*_game, LoadingState::getInstance());
-					/*
-					LoadingSinglePlayerState::getInstance().setPlayer("nivek");
-					changeState(*_game, LoadingSinglePlayerState::getInstance());
-					*/
-				});
+				if (!ifile.fail())
+				{
+					JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
+					JSON::JSONObject &obj = doc->getRootObject();
 
-				delete doc;
+					_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
+
+						LoadingState::getInstance().setIsTutorial(false);
+						LoadingState::getInstance().setLevel(new std::string(levelFolder));
+						changeState(*_game, LoadingState::getInstance());
+						/*
+						LoadingSinglePlayerState::getInstance().setPlayer("nivek");
+						changeState(*_game, LoadingSinglePlayerState::getInstance());
+						*/
+					});
+
+					delete doc;
+				}
 			}
-
-			_menu->addMenuTextItem("Tutorial", (std::function<void()>)[&] { 
-				LoadingState::getInstance().setIsTutorial(true);
-				LoadingState::getInstance().setLevel(new std::string("level1"));
-				changeState(*_game, LoadingState::getInstance());
-			});
-
+			
 			game.getEngine()->getDrawEngine()->load("levelselect_background", "assets/screens/mainmenu");
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
