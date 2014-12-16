@@ -38,7 +38,7 @@ namespace sdmg {
 
 			
 			Character *character = static_cast<Character*>(game.getWorld()->getPlayers()[0]);
-			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character);
+			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character, *character);
 
 			character->setAI(*machine);
 
