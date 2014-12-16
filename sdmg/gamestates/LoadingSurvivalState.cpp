@@ -113,6 +113,7 @@ namespace sdmg {
 				_enemyNames->clear();
 			}
 			delete _enemyNames;
+			_enemyNames = nullptr;
 
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unloadText("progress");

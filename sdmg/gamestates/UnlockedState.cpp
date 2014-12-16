@@ -30,9 +30,12 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, 550, game);
 			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
-			_game->getEngine()->getDrawEngine()->load("unlocked_background", "assets/screens/unlocked");
-			_game->getEngine()->getDrawEngine()->load("character", "assets/characters/" + *_playerName + "/win.sprite");
-			_game->getEngine()->getDrawEngine()->load("level", "assets/levels/" + *_levelName + "/preview");
+			DrawEngine *de = _game->getEngine()->getDrawEngine();
+
+			de->loadText("unlocked_text", *_playerName + " and " + *_playerName + "'s level", { 255, 255, 255 }, "Arial", 24);
+			de->load("unlocked_background", "assets/screens/unlocked");
+			de->load("character", "assets/characters/" + *_playerName + "/win.sprite");
+			de->load("level", "assets/levels/" + *_levelName + "/preview");
 			
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
@@ -42,7 +45,8 @@ namespace sdmg {
 			delete _menu;
 			delete _playerName;
 			delete _levelName;
-
+			
+			game.getEngine()->getDrawEngine()->unloadText("unlocked_text");
 			game.getEngine()->getDrawEngine()->unload("unlocked_background");
 			game.getEngine()->getDrawEngine()->unload("character");
 			game.getEngine()->getDrawEngine()->unload("level");
@@ -96,13 +100,16 @@ namespace sdmg {
 
 		void UnlockedState::draw(GameBase &game, GameTime &gameTime)
 		{
-			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("unlocked_background");
-			game.getEngine()->getDrawEngine()->draw("character", 190, 190);
-			game.getEngine()->getDrawEngine()->draw("level", 900, 325);
+			DrawEngine *de = game.getEngine()->getDrawEngine();
+
+			de->prepareForDraw();
+			de->draw("unlocked_background");
+			de->drawText("unlocked_text", de->getWindowWidth() / 2 - de->getTextSize("unlocked_text")[0] / 2 , 170);
+			de->draw("character", 190, 190);
+			de->draw("level", 900, 325);
 			
 			_menu->draw(&game);
-			game.getEngine()->getDrawEngine()->render();
+			de->render();
 		}
 
 		void UnlockedState::setPlayerName(std::string playerName)
