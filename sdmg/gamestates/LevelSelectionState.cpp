@@ -47,8 +47,6 @@ namespace sdmg {
 					try
 					{
 						doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-						if (&doc->getRootObject() == nullptr)
-							continue;
 						JSON::JSONObject &obj = doc->getRootObject();
 
 						_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
