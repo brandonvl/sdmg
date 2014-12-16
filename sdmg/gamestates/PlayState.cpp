@@ -56,11 +56,6 @@ namespace sdmg {
 		{
 			delete _editor;
 			_editor = nullptr;
-
-			if (game.getGameMode() == GameBase::GameMode::Survival)
-			{
-				delete _enemies;
-			}
 		}
 
 		void PlayState::pause(GameBase &game)
@@ -188,6 +183,11 @@ namespace sdmg {
 		int PlayState::getEnemiesKilled()
 		{
 			return _enemiesKilled;
+		}
+
+		void PlayState::setEnemiesKilled(int count)
+		{
+			_enemiesKilled = count;
 		}
 
 		void PlayState::update(GameBase &game, GameTime &gameTime)

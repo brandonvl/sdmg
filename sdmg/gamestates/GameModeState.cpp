@@ -17,6 +17,7 @@
 #include "engine\audio\AudioEngine.h"
 #include "LoadingSinglePlayerState.h"
 #include "LoadingSurvivalState.h"
+#include "LoadingState.h"
 #include "LevelSelectionState.h"
 #include "MainMenuState.h"
 
@@ -44,6 +45,11 @@ namespace sdmg {
 				_game->setGameMode(GameBase::GameMode::Survival);
 				LoadingSurvivalState::getInstance().setPlayerName("nivek");
 				changeState(*_game, LoadingSurvivalState::getInstance());
+			});
+			_menu->addMenuTextItem("Tutorial", (std::function<void()>)[&] {
+				LoadingState::getInstance().setIsTutorial(true);
+				LoadingState::getInstance().setLevel(new std::string("level1"));
+				changeState(*_game, LoadingState::getInstance());
 			});
 
 			game.getEngine()->getDrawEngine()->load("gamemodeselect_background", "assets/screens/mainmenu");

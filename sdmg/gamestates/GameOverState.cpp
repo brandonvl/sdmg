@@ -61,7 +61,7 @@ namespace sdmg {
 					{
 						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
 						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
-						manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
+						//  manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
 						unlocked = true;
 					}
 

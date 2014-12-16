@@ -50,7 +50,14 @@ namespace sdmg {
 				changeState(*_game, MainMenuState::getInstance());
 			});
 
-			game.getEngine()->getDrawEngine()->loadText("enemies_killed", std::to_string(PlayState::getInstance().getEnemiesKilled()) , { 255, 255, 255 }, "arial", 54);
+			game.getEngine()->getDrawEngine()->loadText("killed", "You have defeated", { 255, 255, 255 }, "arial", 54);
+			game.getEngine()->getDrawEngine()->loadText("enemies_killed", std::to_string(PlayState::getInstance().getEnemiesKilled()), { 255, 255, 255 }, "arial", 74);
+
+			if (PlayState::getInstance().getEnemiesKilled() == 1)
+				game.getEngine()->getDrawEngine()->loadText("enemies", "enemy", { 255, 255, 255 }, "arial", 54);
+			else
+				game.getEngine()->getDrawEngine()->loadText("enemies", "enemies", { 255, 255, 255 }, "arial", 54);
+
 			game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/gameover");
 
 			game.getEngine()->getAudioEngine()->stopMusic();
@@ -60,7 +67,6 @@ namespace sdmg {
 
 		// Even checken of dit wel klopt voor survival mode
 		void GameOverSurvivalState::replay() {
-			/*
 			_game->getWorld()->resetWorld();
 			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 
@@ -71,12 +77,9 @@ namespace sdmg {
 				character->setState(MovableGameObject::State::RESPAWN);
 			}
 
-			_game->getEngine()->getPhysicsEngine()->resetBobs();
-
 			_replay = true;
 			_game->getEngine()->getPhysicsEngine()->resume();
 			changeState(*_game, PlayState::getInstance());
-			*/
 		}
 
 		void GameOverSurvivalState::cleanup(GameBase &game)
@@ -91,10 +94,13 @@ namespace sdmg {
 				de->unload("gameoversurvivalbackground");
 				de->unloadText("replay");
 				de->unloadText("main menu");
-				game.getEngine()->getDrawEngine()->unloadText("enemies_killed");
+				de->unloadText("killed");
+				de->unloadText("enemies_killed");
+				de->unloadText("enemies");
 
 				game.getEngine()->getAudioEngine()->unload("winner");
 				
+				PlayState::getInstance().setEnemiesKilled(0);
 				PlayState::getInstance().resume(game);
 				_replay = false;
 			}
@@ -107,6 +113,8 @@ namespace sdmg {
 				game.getEngine()->getInputEngine()->clearBindings();
 
 				game.getWorld()->clearWorld();
+
+				delete PlayState::getInstance()._enemies;
 
 				std::vector<HUD*> *huds = PlayState::getInstance()._huds;
 
@@ -164,14 +172,18 @@ namespace sdmg {
 
 		void GameOverSurvivalState::draw(GameBase &game, GameTime &gameTime)
 		{
-			game.getEngine()->getDrawEngine()->prepareForDraw();
-			game.getEngine()->getDrawEngine()->draw("gameoversurvivalbackground");
-			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);
+			DrawEngine *de = game.getEngine()->getDrawEngine();
 
-			game.getEngine()->getDrawEngine()->drawText("enemies_killed", 900, 325);
+			de->prepareForDraw();
+			de->draw("gameoversurvivalbackground");
+			de->draw("winner", 190, 190);
+
+			de->drawText("killed", 900 - de->getTextSize("killed")[0] / 2, 300);
+			de->drawText("enemies_killed", 900 - de->getTextSize("enemies_killed")[0] / 2, 300 + de->getTextSize("killed")[1] + 25);
+			de->drawText("enemies", 900 - de->getTextSize("enemies")[0] / 2, 300 + de->getTextSize("killed")[1] + de->getTextSize("enemies_killed")[1] + 50);
 			
 			_menu->draw(&game);
-			game.getEngine()->getDrawEngine()->render();
+			de->render();
 		}
 	}
 }
