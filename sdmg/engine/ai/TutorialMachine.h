@@ -1,5 +1,7 @@
 #pragma once
 #include "AIMachine.h"
+#include "Box2D\Box2D.h"
+
 namespace sdmg {
 
 	namespace model {
@@ -16,7 +18,7 @@ namespace sdmg {
 			class TutorialMachine : public AIMachine
 			{
 			public:
-				TutorialMachine(model::Character &controlled, model::Character &enemy);
+				TutorialMachine(model::Character &controlled, model::Character &enemy, const float &moveX, const float &moveY);
 				virtual ~TutorialMachine();
 			};
 		}

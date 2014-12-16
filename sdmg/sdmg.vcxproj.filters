@@ -384,6 +384,9 @@
     <ClCompile Include="engine\ai\aistates\MoveToPointAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
+    <ClCompile Include="engine\ai\aistates\TutorialIdleAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -681,6 +684,9 @@
       <Filter>Header Files\engine\ai</Filter>
     </ClInclude>
     <ClInclude Include="engine\ai\aistates\MoveToPointAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\TutorialIdleAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
   </ItemGroup>

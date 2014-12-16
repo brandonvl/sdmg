@@ -14,13 +14,13 @@ namespace sdmg {
 
 		namespace ai {
 			namespace aistate {
-				class MoveToPointAIState : public AIState
+				class TutorialIdleAIState : public AIState
 				{
 				private:
-					b2Vec2 _pointToMoveTo;
+					b2Vec2 *_pointToMoveTo;
 				public:
-					MoveToPointAIState(AIMachine &machine, const float &x, const float &y) : AIState("moveToPoint", machine), _pointToMoveTo(x, y) {};
-					virtual ~MoveToPointAIState() { };
+					TutorialIdleAIState(AIMachine &machine, const float *movetoX = nullptr, const float *movetoY = nullptr);
+					virtual ~TutorialIdleAIState() { if (_pointToMoveTo) delete _pointToMoveTo; };
 					void enter(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void update(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void exit(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
