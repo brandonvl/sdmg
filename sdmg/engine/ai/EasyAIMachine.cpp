@@ -11,7 +11,7 @@ namespace sdmg {
 
 	namespace engine {
 		namespace ai {
-			EasyAIMachine::EasyAIMachine(model::Character &controlled) : AIMachine(controlled)
+			EasyAIMachine::EasyAIMachine(model::Character &controlled, model::Character &enemy) : AIMachine(controlled, enemy)
 			{
 				setDefaultState(new aistate::IdleAIState(*this));
 				addState(new aistate::MoveLeftAIState(*this));

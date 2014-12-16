@@ -19,16 +19,6 @@ namespace sdmg {
 		namespace ai {
 			namespace aistate {
 
-				bool _objFound = false;
-				MovableGameObject *_enemy;
-
-				float32 IdleAIState::testBack(b2Body *body) {
-					std::cout << "called" << std::endl;
-					//if (body)
-
-					return -1.0F;
-				}
-
 				void IdleAIState::enter(model::Character &controlled, GameTime &gameTime, GameBase &game) {
 
 					if (_transition != "")
@@ -37,9 +27,6 @@ namespace sdmg {
 
 				void IdleAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
-					
-					if (!_enemy)
-						_enemy = game.getWorld()->getPlayers()[1];
 
 					_transition = "moveLeft";
 						/*
