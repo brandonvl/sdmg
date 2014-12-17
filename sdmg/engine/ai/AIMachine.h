@@ -28,7 +28,7 @@ namespace sdmg {
 					//virtual void setDefaultState(const std::string &stateName);
 					virtual void setState(const std::string &stateKey);
 					virtual void update(GameTime *gameTime, GameBase *game);
-					virtual void revertToPreviousState();
+					virtual void revertToPreviousState(GameTime *gameTime, GameBase *game);
 					virtual model::Character *getEnemy() { return _enemy; }
 				private:
 					void checkState(GameTime *gameTime, GameBase *game);

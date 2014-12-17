@@ -25,6 +25,7 @@ namespace sdmg {
 					void exit(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 				private:
 					physics::RayCastCallBack *_platformRayCast;
+					physics::RayCastCallBack *_enemyDetectionRayCast;
 				};
 			}
 		}

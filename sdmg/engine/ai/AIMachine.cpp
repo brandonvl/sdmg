@@ -52,8 +52,14 @@ namespace sdmg {
 				}
 			}*/
 
-			void AIMachine::revertToPreviousState() {
-				// TO DO
+			void AIMachine::revertToPreviousState(GameTime *gameTime, GameBase *game) {
+				
+				_activeState->exit(*_controlled, *gameTime, *game);
+
+				_activeState = _previousState ? _previousState : _defaultState;
+
+				if (_activeState)
+					_activeState->enter(*_controlled, *gameTime, *game);
 			}
 
 			void AIMachine::setState(const std::string &stateKey) {
