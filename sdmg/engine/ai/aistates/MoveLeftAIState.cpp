@@ -28,6 +28,13 @@ namespace sdmg {
 
 				void MoveLeftAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
+
+					if (_machine->getEnemy()->getX() - 4.0F > controlled.getX())
+					{
+						_transition = "moveRight";
+						return;
+					}
+
 					_platformRayCast->clearResults();
 					_platformRayCast->setPointOne(controlled.getX() - 2.0F, controlled.getY());
 					_platformRayCast->setPointTwo(controlled.getX() - 2.0F, 1500.0F);
