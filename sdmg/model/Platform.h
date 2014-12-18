@@ -21,14 +21,17 @@ namespace sdmg {
 	namespace model {
 		class Platform : public GameObject {
 		public:
-			Platform(bool isAttack);
+			Platform();
 			virtual ~Platform();
 			void update(GameTime *gameTime, GameBase *game);
 
-			bool getIsAttack();
+			// bool getIsAttack();
+			int getDamageOnImpact();
+			void setDamageOnImpact(int damage);
 
 		protected:
 			bool _isAttack;
+			int _damageOnImpact;
 		};
 	}
 }

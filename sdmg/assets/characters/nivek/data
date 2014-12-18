@@ -5,7 +5,11 @@
 	attack: {
 		size: { width: 30, height: 10 },
 		midPosition: 3.3,
-		longPosition: 3.3
+		longPosition: 3.3,
+		midCost: 10,
+		longCost: 20,
+		midDamage: 10,
+		longDamage: 20
 	},
 	speed: { horizontal: 20, vertical: 2.5 },
 	scale: 0.25,

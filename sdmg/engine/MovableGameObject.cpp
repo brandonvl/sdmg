@@ -69,6 +69,46 @@ namespace sdmg {
 			}
 		}
 
+		int MovableGameObject::getMidCost()
+		{
+			return _midCost;
+		}
+
+		void MovableGameObject::setMidCost(int cost)
+		{
+			_midCost = cost;
+		}
+
+		int MovableGameObject::getLongCost()
+		{
+			return _longCost;
+		}
+
+		void MovableGameObject::setLongCost(int cost)
+		{
+			_longCost = cost;
+		}
+
+		int MovableGameObject::getMidDamage()
+		{
+			return _midCost;
+		}
+
+		void MovableGameObject::setMidDamage(int damage)
+		{
+			_midDamage = damage;
+		}
+
+		int MovableGameObject::getLongDamage()
+		{
+			return _longCost;
+		}
+
+		void MovableGameObject::setLongDamage(int damage)
+		{
+			_longDamage = damage;
+		}
+
 		/*
 		int MovableGameObject::getBP()
 		{

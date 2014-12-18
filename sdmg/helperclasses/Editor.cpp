@@ -194,7 +194,7 @@ namespace sdmg {
 			w = _currentPlatformDef->calcWidth(x - _mouseDownX);
 			int posX = (int)(_mouseDownX + w / 2);
 			
-			model::Platform *platform = new model::Platform(false);
+			model::Platform *platform = new model::Platform();
 			platform->setSize((float)w, (float)h);
 			platform->setLocation((float32)posX, (float32)y);
 
