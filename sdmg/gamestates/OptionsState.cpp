@@ -30,13 +30,16 @@ namespace sdmg {
 		void OptionsState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+
+			_game->getEngine()->getDrawEngine()->loadText("optionstitle", "Options", { 255, 255, 255 }, "trebucbd", 48);
+
+			_menu = new Menu(50, 250, game);
 
 			_menu->addMenuTextItem("Controls", (std::function<void()>)[&] { _game->getStateManager()->pushState(ControlsState::getInstance()); });
 			_menu->addMenuTextItem("Save / Load", (std::function<void()>)[&] { _game->getStateManager()->pushState(ProgressState::getInstance()); });
 			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			_menu->addMenuTextItem("Help", (std::function<void()>)[&] { _game->getStateManager()->pushState(HelpState::getInstance()); });
-			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back to main menu", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 
 		}
@@ -101,6 +104,7 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
+			game.getEngine()->getDrawEngine()->drawText("optionstitle", 50, 70);
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
 		}

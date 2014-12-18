@@ -35,6 +35,12 @@ namespace sdmg {
 					delete it;
 				}
 
+				for (auto it : *Joysticks)
+				{
+					delete it;
+				}
+
+				delete Joysticks;
 				delete _deviceBindings;
 				delete _actions;
 			}
@@ -219,12 +225,10 @@ namespace sdmg {
 					
 					// check if joystick is a mapped controller
 					if (SDL_IsGameController(i))
-					{
-						SDL_Joystick *joy = SDL_JoystickOpen(i);
-						
-						printf("Index \'%i\' is a compatible controller, named \'%s\'\n", SDL_JoystickInstanceID(joy), SDL_GameControllerNameForIndex(i));
-						Joystick *js = new Joystick(SDL_JoystickInstanceID(joy), joy, SDL_GameControllerNameForIndex(i));
-						(Joysticks)->push_back(js);
+					{	
+						int id = SDL_JoystickInstanceID(SDL_JoystickOpen(i));
+						printf("Index \'%i\' is a compatible controller, named \'%s\'\n", id, SDL_GameControllerNameForIndex(i));
+						(Joysticks)->push_back(new Joystick(id, SDL_GameControllerNameForIndex(i)));
 						
 						std::cout << SDL_GameControllerNameForIndex(i) << std::endl;
 						
@@ -232,8 +236,7 @@ namespace sdmg {
 					}
 					else
 					{
-						Joystick *js = new Joystick(i, NULL, "None");
-						(Joysticks)->push_back(js);
+						(Joysticks)->push_back(new Joystick(i, "None"));
 						printf("Index \'%i\' is not a compatible controller.\n", i);
 					}
 				}

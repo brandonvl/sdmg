@@ -53,6 +53,11 @@ namespace JSON {
 		virtual ~JSONObject();
 
 		void add(std::string key, JSONElement &element);
+		void add(std::string key, int value);
+		void add(std::string key, std::string value);
+		void add(std::string key, float value);
+		void add(std::string key, bool value);
+
 		void set(std::string key, JSONElement &element);
 		JSONElement &get(std::string key);
 		std::string getString(std::string key);
@@ -111,9 +116,13 @@ namespace JSON {
 		std::string getString(int i);
 		bool getBoolean(int i);
 		bool exists(int i);
-		
+
 		int size();
 		void push(JSONElement &element);
+		void push(std::string value);
+		void push(int value);
+		void push(float value);
+		void push(bool value);
 		std::string str() override;
 	private:
 		std::vector<JSONElement*> _elements;
@@ -123,6 +132,7 @@ namespace JSON {
 	{
 	public:
 		static JSONDocument *fromFile(std::string path);
+		static JSONDocument *fromRoot(JSON::JSONElement &element);
 		virtual ~JSONDocument();
 		std::string str();
 		JSONElement &getRoot();

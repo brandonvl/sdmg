@@ -14,10 +14,9 @@
 namespace sdmg {
 	namespace engine {
 		namespace input {
-			Joystick::Joystick(int id, SDL_Joystick *stick, std::string name)
+			Joystick::Joystick(int id, std::string name)
 			{
 				ID = id;
-				Stick = stick;
 				Name = name;
 			}
 

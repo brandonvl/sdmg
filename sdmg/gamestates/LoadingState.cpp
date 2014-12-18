@@ -260,7 +260,8 @@ namespace sdmg {
 
 			loadCharacters(levelObj.getArray("startingPositions"));
 
-			loadBulletBobs(levelObj.getArray("bobs"));
+			if (levelObj.exists("bobs"))
+				loadBulletBobs(levelObj.getArray("bobs"));
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
