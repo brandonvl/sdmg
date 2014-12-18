@@ -38,8 +38,6 @@ namespace sdmg {
 			LevelSelectionState() { }
 		private:
 			GameBase *_game;
-
-			void listLevels();
 		};
 	}
 }

@@ -69,6 +69,46 @@ namespace sdmg {
 			}
 		}
 
+		int MovableGameObject::getMidCost()
+		{
+			return _midCost;
+		}
+
+		void MovableGameObject::setMidCost(int cost)
+		{
+			_midCost = cost;
+		}
+
+		int MovableGameObject::getLongCost()
+		{
+			return _longCost;
+		}
+
+		void MovableGameObject::setLongCost(int cost)
+		{
+			_longCost = cost;
+		}
+
+		int MovableGameObject::getMidDamage()
+		{
+			return _midCost;
+		}
+
+		void MovableGameObject::setMidDamage(int damage)
+		{
+			_midDamage = damage;
+		}
+
+		int MovableGameObject::getLongDamage()
+		{
+			return _longCost;
+		}
+
+		void MovableGameObject::setLongDamage(int damage)
+		{
+			_longDamage = damage;
+		}
+
 		/*
 		int MovableGameObject::getBP()
 		{
@@ -395,6 +435,8 @@ namespace sdmg {
 			// check if state is changed
 			if (state != _state) {
 				//if (stateIsInterruptible())
+				_state = state;
+
 				if (_state != (State::WALKING | State::MIDRANGEATTACKBEGIN) && _state != (State::WALKING | State::MIDRANGEATTACK)
 					&& _state != (State::WALKING | State::MIDRANGEATTACKEND) && _state != (State::IDLE | State::MIDRANGEATTACKBEGIN)
 					&& _state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::IDLE | State::MIDRANGEATTACKEND)
@@ -407,13 +449,6 @@ namespace sdmg {
 					&& _state != (State::FALLINGLEFT | State::FORWARD_ROLL) && _state != (State::FALLINGRIGHT | State::FORWARD_ROLL)
 					)
 				triggerStateChangedCallbacks();
-
-				_state = state;
-
-
-
-				//  if (_state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::WALKING | State::MIDRANGEATTACK))
-				//	destroyAttackBody();
 			}
 		}
 

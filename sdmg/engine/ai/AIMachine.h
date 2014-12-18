@@ -21,14 +21,15 @@ namespace sdmg {
 			class AIMachine
 			{
 				public:
-					AIMachine(model::Character &controlled) : _controlled(&controlled), _defaultState(nullptr), _activeState(nullptr), _previousState(nullptr) { };
+					AIMachine(model::Character &controlled, model::Character &enemy) : _controlled(&controlled), _enemy(&enemy), _defaultState(nullptr), _activeState(nullptr), _previousState(nullptr) { };
 					virtual ~AIMachine();
 					virtual void addState(aistate::AIState *state);
 					virtual void setDefaultState(aistate::AIState *state);
 					//virtual void setDefaultState(const std::string &stateName);
 					virtual void setState(const std::string &stateKey);
 					virtual void update(GameTime *gameTime, GameBase *game);
-					virtual void revertToPreviousState();
+					virtual void revertToPreviousState(GameTime *gameTime, GameBase *game);
+					virtual model::Character *getEnemy() { return _enemy; }
 				private:
 					void checkState(GameTime *gameTime, GameBase *game);
 					std::map<std::string, aistate::AIState*> _states;
@@ -36,6 +37,7 @@ namespace sdmg {
 					aistate::AIState *_activeState;
 					aistate::AIState *_previousState;
 					model::Character *_controlled;
+					model::Character *_enemy;
 			};
 		}
 	}

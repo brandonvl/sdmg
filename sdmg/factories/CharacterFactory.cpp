@@ -30,6 +30,10 @@ namespace sdmg {
 			character->setAttackSize(obj.getObject("attack").getObject("size").getFloat("width"), obj.getObject("attack").getObject("size").getFloat("height"));
 			character->setMidAttackY(obj.getObject("attack").getFloat("midPosition"));
 			character->setLongAttackY(obj.getObject("attack").getFloat("longPosition"));
+			character->setMidCost(obj.getObject("attack").getFloat("midCost"));
+			character->setLongCost(obj.getObject("attack").getFloat("longCost"));
+			character->setMidDamage(obj.getObject("attack").getFloat("midDamage"));
+			character->setLongDamage(obj.getObject("attack").getFloat("longDamage"));
 
 			loadSpriteMap(character, name, game, obj);
 

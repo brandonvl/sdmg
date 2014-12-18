@@ -17,22 +17,32 @@ using namespace sdmg::engine;
 namespace sdmg {
 	namespace model {
 
-		Platform::Platform(bool isAttack)
+		Platform::Platform()
 		{
-			_isAttack = isAttack;
+			_damageOnImpact = 0;
 		}
 
 		Platform::~Platform() { }
 
 		void Platform::update(GameTime *gameTime, GameBase *game) {
-		
+
 		}
-		
+
+		/*
 		bool Platform::getIsAttack()
 		{
 			return _isAttack;
 		}
+		*/
 
+		int Platform::getDamageOnImpact()
+		{
+			return _damageOnImpact;
+		}
 
+		void Platform::setDamageOnImpact(int damage)
+		{
+			_damageOnImpact = damage;
+		}
 	}
 }

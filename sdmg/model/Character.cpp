@@ -51,6 +51,8 @@ namespace sdmg {
 
 		void Character::revive()
 		{
+			_hp = -10;
+			setState(MovableGameObject::State::RESPAWN);
 			_hp = 100;
 			_lives = 5;
 		}

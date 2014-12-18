@@ -61,7 +61,7 @@ namespace sdmg {
 					{
 						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
 						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
-						manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
+						//  manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
 						unlocked = true;
 					}
 
@@ -145,7 +145,7 @@ namespace sdmg {
 			{
 				model::Character *character = static_cast<model::Character*>(aliveList[i]);
 				character->revive();
-				character->setState(MovableGameObject::State::RESPAWN);
+				//  character->setState(MovableGameObject::State::RESPAWN);
 			}
 
 			_game->getEngine()->getPhysicsEngine()->resetBobs();

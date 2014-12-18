@@ -113,6 +113,7 @@ namespace sdmg {
 				_enemyNames->clear();
 			}
 			delete _enemyNames;
+			_enemyNames = nullptr;
 
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unloadText("progress");
@@ -216,7 +217,7 @@ namespace sdmg {
 				for (int i = 0; i < platformArr.size(); i++) {
 					JSON::JSONObject &platformObj = platformArr.getObject(i);
 
-					Platform *platform = new model::Platform(false);
+					Platform *platform = new model::Platform();
 					platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
 					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));

@@ -72,8 +72,8 @@ namespace sdmg {
 				{
 					b2BodyDef *bodydef = new b2BodyDef();
 
-					model::Platform *platform = new model::Platform(true);
-
+					model::Platform *platform = new model::Platform();
+					
 					if (obj->getDirection() == MovableGameObject::Direction::LEFT)
 						bodydef->position.Set(obj->getX() - (_P2M * 30), obj->getY() + ((obj->getHeight() * _P2M) / 2) - obj->getMidAttackY());
 					else if (obj->getDirection() == MovableGameObject::Direction::RIGHT)
@@ -100,8 +100,9 @@ namespace sdmg {
 					obj->setAttackBody(body);
 
 					platform->setLocation(&body->GetPosition().x, &body->GetPosition().y);
+					platform->setDamageOnImpact(obj->getMidDamage());
 					
-					obj->addPP(-10);
+					obj->addPP(-obj->getMidCost());
 
 					delete fixturedef;
 					delete shape;
@@ -177,7 +178,7 @@ namespace sdmg {
 					model::MovablePlatform *platform = new model::MovablePlatform();
 					platform->setSize(5,5);
 					platform->setSpeed(150.0f, 0.0f);
-					platform->setDamageOnImpact(20);
+					platform->setDamageOnImpact(obj->getLongDamage());
 					platform->setMoveing(model::MovablePlatform::Moveing::ONCE);
 					platform->setOwner(obj);
 
@@ -236,7 +237,7 @@ namespace sdmg {
 
 					platform->setLocation(&body->GetPosition().x, &body->GetPosition().y);
 
-					obj->addPP(-20);
+					obj->addPP(-obj->getLongCost());
 
 					_engine->getGame()->getWorld()->addPlatform(platform);
 					delete fixturedef;

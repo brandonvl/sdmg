@@ -8,7 +8,8 @@
 #include "engine\Engine.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\physics\RayCastCallBack.h"
-#include <iostream>
+#include "engine\input\InputEngine.h"
+#include "actions\RightWalkAction.h"
 
 namespace sdmg {
 	namespace engine {
@@ -17,37 +18,68 @@ namespace sdmg {
 
 				void MoveRightAIState::enter(model::Character &controlled, GameTime &gameTime, GameBase &game) {
 
+					if (!_platformRayCast)
+						_platformRayCast = new RayCastCallBack(controlled.getX() - 2.0F, controlled.getY(), controlled.getX() - 2.0F, 1500.0F, nullptr);
+
+					if (!_enemyDetectionRayCast)
+						_enemyDetectionRayCast = new RayCastCallBack(controlled.getX(), controlled.getY(), controlled.getX(), controlled.getY(), nullptr);
+
+					_transition = "";
 				}
 
 				void MoveRightAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
-					MovableGameObject *enemy = game.getWorld()->getPlayers()[1];
-
-					RayCastCallBack rayCast = RayCastCallBack(controlled.getX() + 2.0F, controlled.getY(), controlled.getX() + 2.0F, 1500.0F, nullptr);
-					game.getEngine()->getPhysicsEngine()->performRayCast(rayCast);
-
-
-					if (rayCast.getResults().size() > 0) {
-						/*if (enemy->getX() == controlled.getX()){
-						_machine->setState("idle");
+					if (_machine->getEnemy()->getY() < controlled.getY() && _machine->getEnemy()->getX() + 4.0F >= controlled.getX())
+					{
+						_transition = "jumping";
 						return;
-						}
-						else if (enemy->getX() < controlled.getX()) {
-						_machine->setState("moveLeft");
+					}
+					else if (_machine->getEnemy()->getX() + 4.0F < controlled.getX())
+					{
+						_transition = "moveLeft";
 						return;
-						}*/
+					}
+
+					_platformRayCast->clearResults();
+					_platformRayCast->setPointOne(controlled.getX() + 2.0F, controlled.getY());
+					_platformRayCast->setPointTwo(controlled.getX() + 2.0F, 1500.0F);
+
+					_enemyDetectionRayCast->clearResults();
+					_enemyDetectionRayCast->setPointOne(controlled.getX(), controlled.getY());
+					_enemyDetectionRayCast->setPointTwo(controlled.getX() + 3.0F, controlled.getY());
+
+					game.getEngine()->getPhysicsEngine()->performRayCast(*_platformRayCast);
+					game.getEngine()->getPhysicsEngine()->performRayCast(*_enemyDetectionRayCast);
+
+					if (_enemyDetectionRayCast->getResults().size() > 0 && _enemyDetectionRayCast->getResults()[0] == _machine->getEnemy()->getBody()) {
+						_transition = "shortAttack";
+					}
+					else if (_platformRayCast->getResults().size() > 0 && _platformRayCast->getResults()[0]->GetType() == b2_staticBody) {
 
 						if ((controlled.getState() != MoveObjState::WALKING || controlled.getDirection() != MoveObjDirection::RIGHT) && controlled.stateIsInterruptible()) {
-							controlled.setState(MoveObjState::WALKING);
-							controlled.setDirection(MoveObjDirection::RIGHT);
+							actions::RightWalkAction action = actions::RightWalkAction(&controlled);
+							game.getEngine()->getInputEngine()->pushAction(action);
 						}
 					}
 					else
-						_machine->setState("moveLeft");
+						_transition = "moveLeft";
 				}
 
 				void MoveRightAIState::exit(model::Character &controlled, GameTime &gameTime, GameBase &game) {
+					if (_transition != "")
+						_transition = "";
+				}
 
+				MoveRightAIState::~MoveRightAIState() {
+					if (_platformRayCast) {
+						delete _platformRayCast;
+						_platformRayCast = nullptr;
+					}
+
+					if (_enemyDetectionRayCast) {
+						delete _enemyDetectionRayCast;
+						_enemyDetectionRayCast = nullptr;
+					}
 				}
 
 

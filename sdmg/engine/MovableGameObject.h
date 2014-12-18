@@ -74,11 +74,15 @@ namespace sdmg {
 			void hit(int damage);
 			void setHP(int hp);
 
-			/*
-			int getBP();
-			void addBP(int bp);
-			void setBP(int bp);
-			*/
+			int getMidCost();
+			void setMidCost(int cost);
+			int getLongCost();
+			void setLongCost(int cost);
+
+			int getMidDamage();
+			void setMidDamage(int damage);
+			int getLongDamage();
+			void setLongDamage(int damage);
 
 			int getPP();
 			void addPP(int pp);
@@ -120,7 +124,7 @@ namespace sdmg {
 
 			void triggerStateChangedCallbacks();
 		protected:
-			int _lives, _hp, _bp, _pp;
+			int _lives, _hp, _bp, _pp, _midCost, _longCost, _midDamage, _longDamage;
 			b2Body *_attackBody, *_shootBody;
 			Direction _direction;
 			bool _isJumping;

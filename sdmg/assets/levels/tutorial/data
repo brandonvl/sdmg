@@ -1,0 +1,33 @@
+{
+	name: "Tutorial",
+	gravity: { left: 0, down: 100 },
+	platforms: 
+	[
+		{
+			size: { width: 490, height: 94 },
+			location: { x: 640.5, y: 663 },
+			bodyPadding: { x: 30, y: 20 },
+			image: "platform_big_middle"
+		},
+		{
+			size: { width: 350, height: 94 },
+			location: { x: 200, y: 550 },
+			bodyPadding: { x: 30, y: 20 },
+			image: "platform_small_left"
+		},
+		{
+			size: { width: 350, height: 94 },
+			location: { x: 1080, y: 550 },
+			bodyPadding: { x: 30, y: 20 },
+			image: "platform_small_right"
+		}
+	],
+	startingPositions: 
+	[
+		{ x: 150, y: -100 },
+		{ x: 1100, y: -100 }
+	],
+	bobs:
+	[
+	]
+}

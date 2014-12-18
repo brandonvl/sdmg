@@ -54,6 +54,7 @@ namespace sdmg {
 			void setEnemies(std::vector<model::Character*> *enemies);
 
 			int getEnemiesKilled();
+			void setEnemiesKilled(int count);
 
 		private:
 			model::Character *_player;

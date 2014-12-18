@@ -13,7 +13,7 @@ namespace sdmg {
 			class EasyAIMachine : public AIMachine
 			{
 				public:
-					EasyAIMachine(model::Character &controlled);
+					EasyAIMachine(model::Character &controlled, model::Character &enemy);
 			};
 		}
 	}

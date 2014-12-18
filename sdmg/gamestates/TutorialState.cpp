@@ -24,6 +24,7 @@
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\ConfigManager.h"
 #include "helperclasses\HUD.h"
+#include "engine\ai\TutorialMachine.h"
 #include "engine\ai\EasyAIMachine.h"
 
 namespace sdmg {
@@ -38,7 +39,9 @@ namespace sdmg {
 
 			
 			Character *character = static_cast<Character*>(game.getWorld()->getPlayers()[0]);
-			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character);
+			Character *enemy = static_cast<Character*>(game.getWorld()->getPlayers()[1]);
+			// 25.0F,1.0F
+			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character, *enemy);
 
 			character->setAI(*machine);
 

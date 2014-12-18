@@ -1,5 +1,7 @@
 #pragma once
 #include "AIState.h"
+#include "Box2D\Box2D.h"
+#include <iostream>
 
 namespace sdmg {
 
@@ -10,24 +12,20 @@ namespace sdmg {
 	namespace engine {
 		class GameTime;
 		class GameBase;
-		namespace physics {
-			class RayCastCallBack;
-		}
+
 		namespace ai {
 			namespace aistate {
-				class MoveLeftAIState : public AIState
+				class JumpingAIState : public AIState
 				{
-					public:
-					MoveLeftAIState(AIMachine &machine) : AIState("moveLeft", machine) {};
-					virtual ~MoveLeftAIState();
+				public:
+					JumpingAIState(AIMachine &machine) : AIState("jumping", machine) {};
+					virtual ~JumpingAIState() { };
 					void enter(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void update(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void exit(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
-				private:
-					physics::RayCastCallBack *_platformRayCast;
-					physics::RayCastCallBack *_enemyDetectionRayCast;
 				};
 			}
 		}
 	}
 }
+

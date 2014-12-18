@@ -37,10 +37,12 @@ namespace sdmg {
 			return _jsonDoc->getRootObject().getObject("userconfig").getString(name);
 		}
 
-		void ConfigManager::setKey(int playerIndex, std::string action, int key) {
-			JSON::JSONObject &keys = _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getObject("keys");
-
+		void ConfigManager::setKey(int playerIndex, std::string action, int key, std::string device) {
+			JSON::JSONObject &binding = _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex);
+			JSON::JSONObject &keys = binding.getObject("keys");
+			JSON::JSONVariable &deviceName = binding.getVariable("device");
 			keys.getVariable(action).setValue(std::to_string(key));
+			deviceName.setValue(device);
 			/*
 			JSON::JSONVariable *var = new JSON::JSONVariable(&keys);
 			var->setValue(std::to_string(key));
@@ -50,6 +52,10 @@ namespace sdmg {
 
 		const int ConfigManager::getKey(int playerIndex, std::string action) {
 			return _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getObject("keys").getInt(action);
+		}
+
+		const std::string ConfigManager::getDeviceName(int playerIndex){
+			return _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getVariable("device").getString();
 		}
 
 		const std::string ConfigManager::getUnlockableCharacterName(std::string playerName) {
