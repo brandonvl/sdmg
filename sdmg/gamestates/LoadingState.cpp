@@ -357,7 +357,7 @@ namespace sdmg {
 
 			try{
 				ConfigManager &manager = ConfigManager::getInstance();
-				InputDeviceBinding *binding = new InputDeviceBinding();
+				
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
 
@@ -372,6 +372,7 @@ namespace sdmg {
 
 				for (int i = 0; i < players.size(); i++)
 				{
+					InputDeviceBinding *binding = new InputDeviceBinding();
 					Character *character = static_cast<Character*>(players[i]);
 					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction(character));
 					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction(character));
@@ -381,15 +382,16 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
 
+					
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
+					_game->getEngine()->getInputEngine()->setDeviceBinding(manager.getDeviceName(i), binding);
 				}
-
-				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+				
 			}
 			catch (...)
 			{
-				std::cout << "Cannot load keyboard bindings.";
+				std::cout << "Cannot load bindings.";
 			}
 		}
 

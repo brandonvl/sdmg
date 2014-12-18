@@ -23,6 +23,17 @@ namespace sdmg {
 
 			Joystick::~Joystick() {
 			}
+
+			int Joystick::getID()
+			{
+				return ID;
+			}
+
+			std::string Joystick::getName()
+			{
+				return Name;
+			}
+
 		}
 	}
 }

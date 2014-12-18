@@ -34,6 +34,7 @@ namespace sdmg {
 				void findJoysticks();
 				Mouse &getMouse() { return _mouse; }
 				void setMouseEnabled(bool enabled = true) { _mouseEnabled = enabled; }
+				std::string InputEngine::getUsedControllerName(SDL_Event &event);
 			private:
 				Engine *_engine;
 				Mouse _mouse;
@@ -43,7 +44,7 @@ namespace sdmg {
 				//SDL_Event _event;
 				//SDL_Thread *_thread;
 				const int JOYSTICK_DEAD_ZONE = 3200;
-				std::map<Uint8, Joystick> Joysticks;
+				std::vector<Joystick*> *Joysticks;
 				void initialize();
 				void handleKey(const std::string device, SDL_Event &event);
 			};

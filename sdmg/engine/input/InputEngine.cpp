@@ -21,6 +21,7 @@ namespace sdmg {
 
 				// add controller mappings
 				SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
+				Joysticks = new std::vector<Joystick*>;
 				findJoysticks();
 			}
 
@@ -44,6 +45,24 @@ namespace sdmg {
 				_active = true;
 			}
 
+			std::string InputEngine::getUsedControllerName(SDL_Event &event)
+			{
+				for (int i = 0; i < Joysticks->size(); i++)
+				{
+					if (Joysticks->at(i)->getID() == event.jbutton.which)
+					{
+						if (SDL_IsGameController(i))
+						{
+							std::cout << Joysticks->at(i)->getName() << std::endl;
+							return Joysticks->at(i)->getName();
+						}
+						//printf("Index \'%i\' is a compatible controller, named \'%s\'\n", Joysticks->at(i)->getID(), Joysticks->at(i)->getName());
+					}
+				}
+
+				return "keyboard";
+			}
+
 			bool InputEngine::handleControllers(SDL_Event &event) {
 				SDL_JoystickUpdate();
 
@@ -51,6 +70,9 @@ namespace sdmg {
 					printf("Joystick %d button %d down\n",
 						event.jbutton.which,
 						event.jbutton.button);
+
+					getUsedControllerName(event);
+
 					//printf("Joystick %d", SDL_GameControllerNameForIndex(event.jbutton.which));
 					if (event.type == SDL_JOYBUTTONDOWN)
 						event.type = SDL_KEYDOWN;
@@ -58,66 +80,73 @@ namespace sdmg {
 					if (event.type == SDL_JOYBUTTONUP)
 						event.type = SDL_KEYUP;
 
-					event.key.keysym.sym = event.jbutton.button;
-					handleKey(Joysticks[event.jbutton.which].Name, event);
+					std::string formatted = std::to_string(event.jbutton.button);
+					if (!formatted.empty() && formatted[formatted.size() - 1] == '\r')
+					{
+						formatted.erase(formatted.size() - 1);
+					}
+
+					event.key.keysym.sym = atoi(formatted.c_str());
+
+					handleKey(getUsedControllerName(event), event);
 					return true;
 				}
 
-				if (event.type == SDL_JOYAXISMOTION)
-				{
-					if (event.jaxis.value < 0 && (int)event.jaxis.value > -abs(JOYSTICK_DEAD_ZONE))
-					{
-						event.type = SDL_KEYUP;
-						event.key.keysym.sym = 2;
-						handleKey(Joysticks[event.jbutton.which].Name, event);
-						return true;
-					}
-					else if (event.jaxis.value > 0 && event.jaxis.value < JOYSTICK_DEAD_ZONE)
-					{
-						event.type = SDL_KEYUP;
-						event.key.keysym.sym = 3;
-						handleKey(Joysticks[event.jbutton.which].Name, event);
-						return true;
-					}
+				//if (event.type == SDL_JOYAXISMOTION)
+				//{
+				//	if (event.jaxis.value < 0 && (int)event.jaxis.value > -abs(JOYSTICK_DEAD_ZONE))
+				//	{
+				//		event.type = SDL_KEYUP;
+				//		event.key.keysym.sym = 2;
+				//		handleKey(Joysticks->at(event.jbutton.which)->Name, event);
+				//		return true;
+				//	}
+				//	else if (event.jaxis.value > 0 && event.jaxis.value < JOYSTICK_DEAD_ZONE)
+				//	{
+				//		event.type = SDL_KEYUP;
+				//		event.key.keysym.sym = 3;
+				//		handleKey(Joysticks->at(event.jbutton.which)->Name, event);
+				//		return true;
+				//	}
 
-					if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
+				//	if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
 
-						if (event.jaxis.axis == 0)
-						{
-							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
-							{
-								// LEFT
-								event.type = SDL_KEYDOWN;
-								event.key.keysym.sym = 2;
-								handleKey(Joysticks[event.jbutton.which].Name, event);
-								return true;
-							}
-							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-							{
-								// RIGHT
-								event.type = SDL_KEYDOWN;
-								event.key.keysym.sym = 3;
-								handleKey(Joysticks[event.jbutton.which].Name, event);
-								return true;
-							}
-						}
-						if (event.jaxis.axis == 1)
-						{
-							if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
-							{
-								// DOWN
-								event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
-							}
-							else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-							{
-								// UP
-								event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_UP;
-							}
-						}
-					}
-					//event.key.keysym.sym = event.jbutton.button;
-					
-				}
+				//		if (event.jaxis.axis == 0)
+				//		{
+				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+				//			{
+				//				// LEFT
+				//				event.type = SDL_KEYDOWN;
+				//				event.key.keysym.sym = 2;
+				//				handleKey(Joysticks->at(event.jbutton.which)->Name, event);
+				//				return true;
+				//			}
+				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+				//			{
+				//				// RIGHT
+				//				event.type = SDL_KEYDOWN;
+				//				event.key.keysym.sym = 3;
+				//				handleKey(Joysticks->at(event.jbutton.which)->Name, event);
+				//				return true;
+				//			}
+				//		}
+				//		if (event.jaxis.axis == 1)
+				//		{
+				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
+				//			{
+				//				// DOWN
+				//				event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+				//			}
+				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+				//			{
+				//				// UP
+				//				event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_UP;
+				//			}
+				//		}
+				//	}
+				//	//event.key.keysym.sym = event.jbutton.button;
+				//	
+				//}
 				return false;
 			}
 
@@ -179,23 +208,24 @@ namespace sdmg {
 				// loop through joysticks
 				for (int i = 0; i < SDL_NumJoysticks(); i++)
 				{
+					
 					// check if joystick is a mapped controller
 					if (SDL_IsGameController(i))
 					{
-						printf("Index \'%i\' is a compatible controller, named \'%s\'\n", i, SDL_GameControllerNameForIndex(i));
-
-						if (!Joysticks[i].Stick)
-						{
-							std::cout << SDL_GameControllerNameForIndex(i) << std::endl;
-							// set values
-							Joysticks[i].ID = i;
-							Joysticks[i].Stick = SDL_JoystickOpen(i);
-							Joysticks[i].Name = SDL_GameControllerNameForIndex(i);
-						}
+						SDL_Joystick *joy = SDL_JoystickOpen(i);
+						
+						printf("Index \'%i\' is a compatible controller, named \'%s\'\n", SDL_JoystickInstanceID(joy), SDL_GameControllerNameForIndex(i));
+						Joystick *js = new Joystick(SDL_JoystickInstanceID(joy), joy, SDL_GameControllerNameForIndex(i));
+						(Joysticks)->push_back(js);
+						
+						std::cout << SDL_GameControllerNameForIndex(i) << std::endl;
+						
 						SDL_JoystickEventState(SDL_ENABLE);
 					}
 					else
 					{
+						Joystick *js = new Joystick(i, NULL, "None");
+						(Joysticks)->push_back(js);
 						printf("Index \'%i\' is not a compatible controller.\n", i);
 					}
 				}

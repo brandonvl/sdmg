@@ -28,6 +28,9 @@ namespace sdmg {
 				SDL_Joystick *Stick;
 				std::string Name;
 
+				int getID();
+				std::string getName();
+
 			private:
 				void initialize();
 			};
