@@ -70,12 +70,13 @@ namespace sdmg {
 			delete _level;
 			delete _fileName;
 
-
 			for (auto it : *_characters)
 				delete it;
 			_characters->clear();
 			delete _characters;
 			_characters = nullptr;
+
+			_recordQueue = nullptr;
 
 			game.getEngine()->getDrawEngine()->unload("loading");
 		}

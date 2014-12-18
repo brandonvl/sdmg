@@ -63,6 +63,8 @@ namespace sdmg {
 				JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
 				_recordQueue->push(new RecordStep(stepObj.getString("action"), stepObj.getInt("character"), stepObj.getFloat("timestamp"), stepObj.getBoolean("keyDown")));
 			}
+
+			delete doc;
 		}
 
 		void PlayBackState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -288,6 +290,11 @@ namespace sdmg {
 
 		void PlayBackState::setPlaybackSteps(std::queue<RecordStep*> *recordQueue)
 		{
+			while (!_recordQueue->empty()) {
+				delete _recordQueue->front();
+				_recordQueue->pop();
+			}
+			delete _recordQueue;
 			_recordQueue = recordQueue;
 		}
 

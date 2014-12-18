@@ -26,6 +26,7 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
 #include "PlayState.h"
+#include "PlayBackState.h"
 #include "helperclasses\ProgressManager.h"
 #include "helperclasses\Recorder.h"
 
@@ -200,9 +201,9 @@ namespace sdmg {
 
 				game.getWorld()->clearWorld();
 
-				std::vector<HUD*> *huds = PlayState::getInstance()._huds;
+				std::vector<HUD*> *huds = game.getGameMode() == GameBase::GameMode::Playback ? PlayBackState::getInstance()._huds : PlayState::getInstance()._huds;
 
-				if (huds->size() > 0) {
+				if (huds) {
 					for (auto it : *huds) {
 						delete it;
 					}
