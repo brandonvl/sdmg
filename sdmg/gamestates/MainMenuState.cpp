@@ -16,6 +16,7 @@
 #include "GameModeState.h"
 #include "TutorialState.h"
 #include "ProgressLoadState.h"
+#include "LoadingPlayBackState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -46,6 +47,11 @@ namespace sdmg {
 			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, GameModeState::getInstance()); });
 			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
+			_menu->addMenuTextItem("Playback", (std::function<void()>)[&] {
+				_game->setGameMode(GameBase::GameMode::Playback);
+				LoadingPlayBackState::getInstance().setPlaybackFileName("recording");
+				_game->getStateManager()->changeState(LoadingPlayBackState::getInstance());
+			});
 			_menu->addMenuTextItem("Quit", (std::function<void()>)[&] { _game->stop(); });
 
 			game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/mainmenu/bgm.mp3", AUDIOTYPE::MUSIC);

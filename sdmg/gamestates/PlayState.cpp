@@ -28,7 +28,7 @@
 #include "engine\particle\ParticleInstance.h"
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\RandomGenerator.h"
-
+#include "helperclasses\Recorder.h"
 #include <vector>
 
 namespace sdmg {
@@ -45,7 +45,7 @@ namespace sdmg {
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 			_canDie = true;
 			_enemiesKilled = 0;
-
+			
 			if (!_particlesSet) {
 				for (auto obj : game.getWorld()->getPlayers()) {
 					game.getEngine()->getParticleEngine()->registerGameObject(obj);
@@ -55,6 +55,8 @@ namespace sdmg {
 				game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 22.5, 350, 550, "burst");
 				_particlesSet = true;
 			}
+			
+			game.getRecorder().start(game);
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -267,7 +269,7 @@ namespace sdmg {
 
 				if (_showFPS)
 					_fps = game.getFPS() == _fps ? _fps : game.getFPS();
-
+					
 				auto curTime = std::chrono::high_resolution_clock::now();
 				float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
 

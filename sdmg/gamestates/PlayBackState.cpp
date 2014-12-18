@@ -71,11 +71,11 @@ namespace sdmg {
 
 		void PlayBackState::cleanup(GameBase &game)
 		{
-			while (_recordQueue->front() != nullptr)
-			{
+			while (!_recordQueue->empty()) {
 				delete _recordQueue->front();
 				_recordQueue->pop();
 			}
+			delete _recordQueue;
 			_recordQueue = nullptr;
 
 			if (_recordMap->size() > 0) {
@@ -85,6 +85,7 @@ namespace sdmg {
 					_recordMap->erase(itr++);
 				}
 			}
+			delete _recordMap;
 			_recordMap = nullptr;
 		}
 
@@ -101,6 +102,7 @@ namespace sdmg {
 
 		void PlayBackState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
+			/*
 			SDL_Event event;
 
 			while (SDL_PollEvent(&event))
@@ -134,49 +136,63 @@ namespace sdmg {
 					game.getEngine()->getInputEngine()->handleControllers(event);
 				}
 			}
+			*/
 		}
 
 
 		void PlayBackState::update(GameBase &game, GameTime &gameTime)
 		{
-			RecordStep *step = _recordQueue->front();
-			int timeRunning = timeRunning = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - _timeStart).count();;
-
-			while (step->_timestamp < timeRunning)
+			if (_recordQueue->size() > 0)
 			{
-				//  _game->getEngine()->getInputEngine()->pushAction(*(*_recordMap)[step->_action], step->_keyDown);
-				(*_recordMap)[step->_action + std::to_string(step->_characterID)]->run(*_game);
+				RecordStep *step = _recordQueue->front();
+				int timeRunning = timeRunning = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - _timeStart).count();;
 
-				delete step;
-				_recordQueue->pop();
-				step = _recordQueue->front();
-			}
-
-			if (game.getWorld()->isGameOver()) {
-				if (game.getGameMode() == GameBase::GameMode::SinglePlayer || game.getGameMode() == GameBase::GameMode::Versus)
+				while (step->_timestamp < timeRunning && _recordQueue->size() > 0)
 				{
-					game.getEngine()->getPhysicsEngine()->pause();
-					if (game.getWorld()->getAliveList().size() > 0)
-						game.getWorld()->getAliveList()[0]->die();
+					std::string name = step->_action + std::to_string(step->_characterID);
+					auto it = _recordMap->find(name);
 
-					auto players = game.getWorld()->getPlayers();
-					for (auto p : players)
-					{
-						p->destroyAttackBody();
-						p->destroyShootBody(*game.getEngine());
+					if (it != _recordMap->cend()) {
+						// create fake event
+						SDL_Event event;
+						event.type = step->_keyDown ? SDL_KEYDOWN : SDL_KEYUP;
+
+						// create and run action
+						auto action = it->second->create(event);
+						action->run(*_game);
+
+						std::cout << std::to_string(step->_characterID) + " performs " + step->_action << std::endl;
+
+						delete action;
+						delete step;
+						_recordQueue->pop();
+						if (_recordQueue->size() > 0)
+							step = _recordQueue->front();
 					}
-
-					game.getEngine()->getParticleEngine()->unloadAll();
-					_particlesSet = false;
-
-					changeState(game, GameOverState::getInstance());
-					return;
+					else {
+						printf("Cannot find action %s\n", name);
+					}
 				}
 			}
 
-			game.getEngine()->getInputEngine()->update(game);
-			game.getEngine()->getDrawEngine()->update();
-			game.getEngine()->getPhysicsEngine()->update();
+			if (game.getWorld()->isGameOver()) {
+				game.getEngine()->getPhysicsEngine()->pause();
+				if (game.getWorld()->getAliveList().size() > 0)
+					game.getWorld()->getAliveList()[0]->die();
+
+				auto players = game.getWorld()->getPlayers();
+				for (auto p : players)
+				{
+					p->destroyAttackBody();
+					p->destroyShootBody(*game.getEngine());
+				}
+
+				game.getEngine()->getParticleEngine()->unloadAll();
+				_particlesSet = false;
+
+				changeState(game, GameOverState::getInstance());
+				return;
+			}
 
 			auto curTime = std::chrono::high_resolution_clock::now();
 			float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
@@ -196,7 +212,7 @@ namespace sdmg {
 				_accumulator -= _step;
 			}
 
-			game.getEngine()->getInputEngine()->update(game);
+			//  game.getEngine()->getInputEngine()->update(game);
 			game.getEngine()->getDrawEngine()->update();
 			game.getEngine()->getPhysicsEngine()->update();
 		}

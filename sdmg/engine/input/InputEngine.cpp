@@ -12,6 +12,7 @@
 #include "InputEngine.h"
 #include "sdl\include\SDL.h"
 #include "sdl\include\SDL_thread.h"
+#include "lib\JSONParser.h"
 
 namespace sdmg {
 	namespace engine {
@@ -183,9 +184,13 @@ namespace sdmg {
 					Action *action = (*_deviceBindings)[device]->createAction(event);
 
 					if (action != nullptr) {
-						_actions->push_back(action);
+						addAction(*action, event.type == SDL_KEYDOWN);
 					}
 				}
+			}
+
+			void InputEngine::addAction(Action &action, bool keyDown) {
+				_actions->push_back(&action);
 			}
 			
 			void InputEngine::setDeviceBinding(std::string device, InputDeviceBinding *binding) {
@@ -198,8 +203,8 @@ namespace sdmg {
 
 				SDL_Event event = SDL_Event();
 				event.type = keyDown ? SDL_KEYDOWN : SDL_KEYUP;
-
-				_actions->push_back(action.create(event));
+				
+				addAction(*action.create(event), keyDown);
 			}
 			
 			void InputEngine::clearBindings() {

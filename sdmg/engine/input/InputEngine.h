@@ -14,13 +14,17 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <stack>
 #include "Mouse.h"
+#include <chrono>
 
 namespace sdmg {
 	namespace engine {
 		class Engine;
 
 		namespace input {
+			class Action;
+
 			class InputEngine {
 			public:
 				InputEngine();
@@ -35,7 +39,7 @@ namespace sdmg {
 				void pushAction(Action &action, bool keyDown = true);
 				Mouse &getMouse() { return _mouse; }
 				void setMouseEnabled(bool enabled = true) { _mouseEnabled = enabled; }
-				std::string InputEngine::getUsedControllerName(SDL_Event &event);
+				std::string getUsedControllerName(SDL_Event &event);
 			private:
 				Engine *_engine;
 				Mouse _mouse;
@@ -48,6 +52,7 @@ namespace sdmg {
 				std::vector<Joystick*> *Joysticks;
 				void initialize();
 				void handleKey(const std::string device, SDL_Event &event);
+				void addAction(Action &action, bool keyDown);
 			};
 		}
 	}

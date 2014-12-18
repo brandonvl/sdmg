@@ -84,7 +84,7 @@ namespace sdmg {
 		std::vector<std::vector<std::string>> *ProgressManager::getHighscores()
 		{
 			std::vector<std::vector<std::string>> *highscores = new std::vector<std::vector<std::string>>();
-			JSON::JSONArray jHighscores = _jsonDoc->getRootObject().getArray("highscores");
+			JSON::JSONArray &jHighscores = _jsonDoc->getRootObject().getArray("highscores");
 			for (auto i = 0, ilen = jHighscores.size(); i < ilen; ++i) {
 				highscores->push_back({ jHighscores.getObject(i).getString("number"), jHighscores.getObject(i).getString("name"), jHighscores.getObject(i).getString("score") });
 			}

@@ -70,6 +70,13 @@ namespace sdmg {
 			delete _level;
 			delete _fileName;
 
+
+			for (auto it : *_characters)
+				delete it;
+			_characters->clear();
+			delete _characters;
+			_characters = nullptr;
+
 			game.getEngine()->getDrawEngine()->unload("loading");
 		}
 
@@ -153,8 +160,10 @@ namespace sdmg {
 
 		void LoadingPlayBackState::loadPlaybackSteps()
 		{
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/records/" + *_fileName);
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/playbacks/" + *_fileName);
 			JSON::JSONObject &obj = doc->getRootObject();
+
+			_recordQueue = new std::queue<PlayBackState::RecordStep*>();
 
 			int numberOfSteps = obj.getArray("steps").size();
 			for (int i = 0; i < numberOfSteps; i++)
@@ -163,17 +172,19 @@ namespace sdmg {
 				_recordQueue->push(new PlayBackState::RecordStep(stepObj.getString("action"), stepObj.getInt("character"), stepObj.getFloat("timestamp"), stepObj.getBoolean("keyDown")));
 			}
 
-			_level = new std::string(obj.getString("level"));
+			_level = new std::string("level1");
+			//  _level = new std::string(obj.getString("level"));
 
-			int numberOfCharacters = obj.getArray("steps").size();
+			int numberOfCharacters = obj.getArray("characters").size();
+			_characters = new std::vector<std::string*>(numberOfCharacters);
 			for (int i = 0; i < numberOfCharacters; i++)
 			{
-				_characters->push_back(new std::string(obj.getArray("characters").getObject(i).getString("key")));
+				(*_characters)[obj.getArray("characters").getObject(i).getInt("index")] = new std::string(obj.getArray("characters").getObject(i).getString("key"));
 			}
 
 			PlayBackState::getInstance().setPlaybackSteps(_recordQueue);
 
-			//  PlayBackState::getInstance().addAction("asd", new actions::LeftWalkAction());
+			delete doc;
 		}
 
 		void LoadingPlayBackState::clearEventQueue() {
@@ -254,13 +265,14 @@ namespace sdmg {
 						return;
 					}
 
-					PlayBackState::getInstance().addAction("blockAction" + std::to_string(i), new actions::BlockAction(characters[i]));
-					PlayBackState::getInstance().addAction("jumpAction" + std::to_string(i), new actions::JumpAction(characters[i]));
-					PlayBackState::getInstance().addAction("leftWalkAction" + std::to_string(i), new actions::LeftWalkAction(characters[i]));
-					PlayBackState::getInstance().addAction("midRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction(characters[i]));
-					PlayBackState::getInstance().addAction("respawnAction" + std::to_string(i), new actions::RespawnAction(characters[i]));
-					PlayBackState::getInstance().addAction("rightWalkAction" + std::to_string(i), new actions::RightWalkAction(characters[i]));
-					PlayBackState::getInstance().addAction("rollAction" + std::to_string(i), new actions::RollAction(characters[i]));
+					PlayBackState::getInstance().addAction("BlockAction" + std::to_string(i), new actions::BlockAction(characters[i]));
+					PlayBackState::getInstance().addAction("JumpAction" + std::to_string(i), new actions::JumpAction(characters[i]));
+					PlayBackState::getInstance().addAction("LeftWalkAction" + std::to_string(i), new actions::LeftWalkAction(characters[i]));
+					PlayBackState::getInstance().addAction("LongRangeAttackAction" + std::to_string(i), new actions::LongRangeAttackAction(characters[i]));
+					PlayBackState::getInstance().addAction("MidRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction(characters[i]));
+					PlayBackState::getInstance().addAction("RespawnAction" + std::to_string(i), new actions::RespawnAction(characters[i]));
+					PlayBackState::getInstance().addAction("RightWalkAction" + std::to_string(i), new actions::RightWalkAction(characters[i]));
+					PlayBackState::getInstance().addAction("RollAction" + std::to_string(i), new actions::RollAction(characters[i]));
 
 				} while (characters[i] == nullptr);
 
@@ -323,6 +335,7 @@ namespace sdmg {
 
 			_game->getStateManager()->draw();
 
+			/*
 			try{
 				ConfigManager &manager = ConfigManager::getInstance();
 
@@ -363,6 +376,7 @@ namespace sdmg {
 			{
 				std::cout << "Cannot load bindings.";
 			}
+			*/
 		}
 
 		void LoadingPlayBackState::loadAdvertisement()

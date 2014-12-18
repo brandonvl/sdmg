@@ -41,7 +41,6 @@ namespace sdmg {
 			//void loadDynamicText(std::string key, int r, int g, int b, std::string fontName, int fontSize);
 
 			Menu *_menu;
-			void returnToOptionsMenu();
 			std::vector<std::vector<std::string>> *_highscores;
 		};
 	}

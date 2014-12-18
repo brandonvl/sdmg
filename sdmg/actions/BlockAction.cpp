@@ -17,10 +17,12 @@
 
 namespace sdmg {
 	namespace actions {
-		BlockAction::BlockAction(Character *character) : CharacterAction(character) {}
-		BlockAction::BlockAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
+		BlockAction::BlockAction(Character *character) : CharacterAction(character, "BlockAction") {}
+		BlockAction::BlockAction(Character *character, SDL_Event event) : CharacterAction(character, event, "BlockAction") {}
 
 		bool BlockAction::run(engine::GameBase &game) {
+			CharacterAction::run(game);
+
 			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {

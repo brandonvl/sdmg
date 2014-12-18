@@ -72,7 +72,7 @@ namespace sdmg {
 			std::chrono::high_resolution_clock::time_point _timeStart;
 			float _step, _accumulator, _multiplier;
 
-			PlayBackState() { }
+			PlayBackState() { _recordMap = new std::map<std::string, Action*>(); _recordQueue = new std::queue<RecordStep*>(); }
 			std::vector<helperclasses::HUD*> *_huds;
 			
 			std::queue<RecordStep*> *_recordQueue;

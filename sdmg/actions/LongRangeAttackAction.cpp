@@ -15,10 +15,12 @@
 
 namespace sdmg {
 	namespace actions {
-		LongRangeAttackAction::LongRangeAttackAction(Character *character) : CharacterAction(character) {}
-		LongRangeAttackAction::LongRangeAttackAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
+		LongRangeAttackAction::LongRangeAttackAction(Character *character) : CharacterAction(character, "LongRangeAttackAction") {}
+		LongRangeAttackAction::LongRangeAttackAction(Character *character, SDL_Event event) : CharacterAction(character, event, "LongRangeAttackAction") {}
 
 		bool LongRangeAttackAction::run(engine::GameBase &game) {
+			CharacterAction::run(game);
+
 			if (_character->stateIsInterruptible() && _character->getShootBody() == nullptr)
 			{
 				if (_event.type == SDL_KEYDOWN) {
