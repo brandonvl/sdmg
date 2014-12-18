@@ -43,7 +43,7 @@ namespace sdmg {
 				if ((IMG_Init(pngFlags) & pngFlags)) {
 					_particleImages.insert(std::make_pair("blood", IMG_Load("assets/particles/blood_4x4.png")));
 					_particleImages.insert(std::make_pair("red", IMG_Load("assets/particles/red.png")));
-					_particleImages.insert(std::make_pair("teal", IMG_Load("assets/particles/teal.png")));
+					_particleImages.insert(std::make_pair("burst", IMG_Load("assets/particles/burst.png")));
 					//_particleImages.insert(std::make_pair("yellow", IMG_Load("assets/particles/yellow.png")));
 
 					for (auto p : _particleImages)

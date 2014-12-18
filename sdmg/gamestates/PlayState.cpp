@@ -207,9 +207,10 @@ namespace sdmg {
 							p->destroyShootBody(*game.getEngine());
 						}
 
-						game.getEngine()->getParticleEngine()->unloadParticleInstances();
-
+						//game.getEngine()->getParticleEngine()->unloadParticleInstances();
+						_particlesSet = false;
 						changeState(game, GameOverState::getInstance());
+						return;
 					}
 					else if (game.getGameMode() == GameBase::GameMode::Survival)
 					{
@@ -226,8 +227,9 @@ namespace sdmg {
 								p->destroyShootBody(*game.getEngine());
 							}
 
-							game.getEngine()->getParticleEngine()->unloadParticleInstances();
+							//game.getEngine()->getParticleEngine()->unloadParticleInstances();
 
+							_particlesSet = false;
 							changeState(game, GameOverSurvivalState::getInstance());
 							return;
 						}
@@ -253,8 +255,7 @@ namespace sdmg {
 					}
 
 					game.getEngine()->getParticleEngine()->createParticleSet("hit", 200, 175, 175, 5, 5, 350, 350, "blood");
-					//game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 15, 350, 450, "teal");
-					game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 22.5, 350, 550, "teal");
+					game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 22.5, 350, 550, "burst");
 					_particlesSet = true;
 				}
 
@@ -337,12 +338,6 @@ namespace sdmg {
 			}
 
 			_editor->draw();
-
-			//SDL_Surface *surface = game.getEngine()->getParticleEngine()->getParticleSetSurface("fall");
-			//game.getEngine()->getDrawEngine()->refreshSurface(surface);
-			//game.getEngine()->getParticleEngine()->continuousShowParticleSet("fall");
-			//game.getEngine()->getDrawEngine()->drawParticle(surface, 200, 200);
-
 
 			if (game.getEngine()->getParticleEngine()->hasNextParticleInstance()) {
 				std::vector<ParticleInstance*> container = game.getEngine()->getParticleEngine()->getNextParticleInstance();
