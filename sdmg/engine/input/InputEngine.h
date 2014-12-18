@@ -32,6 +32,7 @@ namespace sdmg {
 				const std::vector<Action*> *getActions();
 				void update(GameBase &game);
 				void findJoysticks();
+				void pushAction(Action &action, bool keyDown = true);
 				Mouse &getMouse() { return _mouse; }
 				void setMouseEnabled(bool enabled = true) { _mouseEnabled = enabled; }
 				std::string InputEngine::getUsedControllerName(SDL_Event &event);

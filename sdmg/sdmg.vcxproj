@@ -93,6 +93,7 @@
     <ClCompile Include="ControlsState.cpp" />
     <ClCompile Include="engine\ai\AIMachine.cpp" />
     <ClCompile Include="engine\ai\aistates\IdleAIState.cpp" />
+    <ClCompile Include="engine\ai\aistates\JumpingAIState.cpp" />
     <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp" />
     <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp" />
     <ClCompile Include="engine\ai\aistates\MoveToPointAIState.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="engine\ai\AIMachine.h" />
     <ClInclude Include="engine\ai\aistates\AIState.h" />
     <ClInclude Include="engine\ai\aistates\IdleAIState.h" />
+    <ClInclude Include="engine\ai\aistates\JumpingAIState.h" />
     <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h" />
     <ClInclude Include="engine\ai\aistates\MoveRightAIState.h" />
     <ClInclude Include="engine\ai\aistates\MoveToPointAIState.h" />

@@ -9,6 +9,8 @@
 #include "engine\Engine.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\physics\RayCastCallBack.h"
+#include "engine\input\InputEngine.h"
+#include "actions\MidRangeAttackAction.h"
 
 namespace sdmg {
 	namespace engine {
@@ -26,7 +28,9 @@ namespace sdmg {
 				void ShortAttackAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
 					if (!_commandSend) {
-						controlled.setState(MoveObjState::WALKING | MoveObjState::MIDRANGEATTACKBEGIN);
+						//controlled.setState(MoveObjState::WALKING | MoveObjState::MIDRANGEATTACKBEGIN);
+						actions::MidRangeAttackAction action = actions::MidRangeAttackAction(&controlled);
+						game.getEngine()->getInputEngine()->pushAction(action);
 						_commandSend = true;
 						return;
 					}

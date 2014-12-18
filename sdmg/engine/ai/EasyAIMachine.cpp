@@ -6,6 +6,7 @@
 #include "aistates\MoveLeftAIState.h"
 #include "aistates\MoveRightAIState.h"
 #include "aistates\ShortAttackAIState.h"
+#include "aistates\JumpingAIState.h"
 
 
 namespace sdmg {
@@ -18,6 +19,7 @@ namespace sdmg {
 				addState(new aistate::MoveLeftAIState(*this));
 				addState(new aistate::MoveRightAIState(*this));
 				addState(new aistate::ShortAttackAIState(*this));
+				addState(new aistate::JumpingAIState(*this));
 			}
 		}
 	}

@@ -8,7 +8,8 @@
 #include "engine\Engine.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\physics\RayCastCallBack.h"
-#include <iostream>
+#include "engine\input\InputEngine.h"
+#include "actions\RightWalkAction.h"
 
 namespace sdmg {
 	namespace engine {
@@ -28,7 +29,12 @@ namespace sdmg {
 
 				void MoveRightAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
-					if (_machine->getEnemy()->getX() + 4.0F < controlled.getX())
+					if (_machine->getEnemy()->getY() < controlled.getY() && _machine->getEnemy()->getX() + 4.0F >= controlled.getX())
+					{
+						_transition = "jumping";
+						return;
+					}
+					else if (_machine->getEnemy()->getX() + 4.0F < controlled.getX())
 					{
 						_transition = "moveLeft";
 						return;
@@ -49,18 +55,10 @@ namespace sdmg {
 						_transition = "shortAttack";
 					}
 					else if (_platformRayCast->getResults().size() > 0 && _platformRayCast->getResults()[0]->GetType() == b2_staticBody) {
-						/*if (enemy->getX() == controlled.getX()){
-						_machine->setState("idle");
-						return;
-						}
-						else if (enemy->getX() < controlled.getX()) {
-						_machine->setState("moveLeft");
-						return;
-						}*/
 
 						if ((controlled.getState() != MoveObjState::WALKING || controlled.getDirection() != MoveObjDirection::RIGHT) && controlled.stateIsInterruptible()) {
-							controlled.setState(MoveObjState::WALKING);
-							controlled.setDirection(MoveObjDirection::RIGHT);
+							actions::RightWalkAction action = actions::RightWalkAction(&controlled);
+							game.getEngine()->getInputEngine()->pushAction(action);
 						}
 					}
 					else

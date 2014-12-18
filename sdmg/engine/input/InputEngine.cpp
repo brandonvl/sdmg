@@ -187,6 +187,14 @@ namespace sdmg {
 				if (_deviceBindings->count(device)) { delete (*_deviceBindings)[device]; (*_deviceBindings)[device] = binding; } // replace
 				else _deviceBindings->insert(std::pair<std::string, InputDeviceBinding*>(device, binding)); // insert
 			}
+
+			void InputEngine::pushAction(Action &action, bool keyDown) {
+
+				SDL_Event event = SDL_Event();
+				event.type = keyDown ? SDL_KEYDOWN : SDL_KEYUP;
+
+				_actions->push_back(action.create(event));
+			}
 			
 			void InputEngine::clearBindings() {
 
