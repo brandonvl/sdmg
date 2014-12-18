@@ -10,21 +10,23 @@
 namespace sdmg {
 	namespace gamestates {
 
+		void HighScoreState::returnToOptionsMenu()
+		{
+			_game->getStateManager()->popState();
+		}
 		void HighScoreState::init(GameBase &game)
 		{
 			_game = &game;
 			_menu = new Menu(100, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
 
+			std::function<void()> CallBackOptionsMenu = std::bind(&HighScoreState::returnToOptionsMenu, this);
+
 			// Create menu
-			_menu->addMenuTextItem("Back", (std::function<void()>)[&] {
-				_game->getStateManager()->popState();
-			});
+			_menu->addMenuTextItem("Back to options", CallBackOptionsMenu);
 
 			// Load header text
-			loadText("title", "Highscores", "trebucbd", 48);
-
-			//loadDynamicText("Highscore_1", 255, 255, 255, "arial", 36);
+			loadText("title_highscore", "Highscores", "trebucbd", 48);
 
 			_highscores = ProgressManager::getInstance().getHighscores();
 			for (auto i = 0; i < _highscores->size(); i++) {
@@ -38,18 +40,20 @@ namespace sdmg {
 
 		void HighScoreState::cleanup(GameBase &game)
 		{
-			game.getEngine()->getDrawEngine()->unload("statics_background");
-			game.getEngine()->getDrawEngine()->unload("title");
+			delete _menu;
+			_menu = nullptr;
+			//game.getEngine()->getDrawEngine()->unload("statics_background");
+			game.getEngine()->getDrawEngine()->unload("title_highscore");
 
 			for (auto i = 0; i < _highscores->size(); i++) {
 				game.getEngine()->getDrawEngine()->unload("number_" + std::to_string(i));
 				game.getEngine()->getDrawEngine()->unload("name_" + std::to_string(i));
 				game.getEngine()->getDrawEngine()->unload("score_" + std::to_string(i));
 			}
+			delete _highscores;
+			_highscores = nullptr;
 
 			game.getEngine()->getInputEngine()->getMouse().clear();
-			delete _menu;
-			delete _highscores;
 		}
 
 		void HighScoreState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -68,16 +72,9 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						_game->getStateManager()->popState();
-						break;
-					case SDLK_DOWN:
-						_menu->selectNext();
-						break;
-					case SDLK_UP:
-						_menu->selectPrevious();
-						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
+					case 10:
 						_menu->doAction();
 						break;
 					}
@@ -100,7 +97,7 @@ namespace sdmg {
 			int hpos = 50;
 			int vpos = 100;
 
-			game.getEngine()->getDrawEngine()->drawText("title", vpos, hpos);
+			game.getEngine()->getDrawEngine()->drawText("title_highscore", vpos, hpos);
 
 			hpos += 100;
 			vpos = 700;

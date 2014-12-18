@@ -29,15 +29,6 @@ namespace sdmg {
 				{
 
 					_transition = "moveLeft";
-						/*
-						if (controlled.getState() != (MoveObjState::LONGRANGEATTACKBEGIN | MoveObjState::WALKING) && controlled.stateIsInterruptible())
-							controlled.setState(MoveObjState::LONGRANGEATTACKBEGIN | MoveObjState::WALKING);
-						else if (controlled.stateIsInterruptible())
-							_machine->setState("moveRight");*/
-					/*if (enemy->getX() > controlled.getX())
-						_machine->setState("moveRight");
-					else if (enemy->getX() < controlled.getX())
-						_machine->setState("moveLeft");*/
 				}
 
 				void IdleAIState::exit(model::Character &controlled, GameTime &gameTime, GameBase &game) {

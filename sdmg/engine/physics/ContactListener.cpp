@@ -24,26 +24,26 @@ namespace sdmg {
 					resetJump(bodyB, bodyA);
 				// Springen terugzetten ---------------------------------------------------
 
-				// In aaraking komen met een kinematic body -------------------------------
+				// Een dynamic body in aanraking komen met een kinematic body -------------------------------
 				if (bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_kinematicBody)
 					ContactDynamicBodyWithKinematicBody(bodyA, bodyB, contact);
 				else if (bodyA->GetType() == b2_kinematicBody && bodyB->GetType() == b2_dynamicBody)
 					ContactDynamicBodyWithKinematicBody(bodyB, bodyA, contact);
-				// In aaraking komen met een kinematic body -------------------------------
+				// Een dynamic body in aanraking komen met een kinematic body -------------------------------
 
-				// Een kinematic body in aaraking komen met een kinematic body -------------------------------
+				// Een kinematic body in aanraking komen met een kinematic body -------------------------------
 				if (bodyA->GetType() == b2_kinematicBody && bodyB->GetType() == b2_kinematicBody)
 					ContactKinematicBodyWithKinematicBody(bodyA, bodyB);
 				else if (bodyB->GetType() == b2_kinematicBody && bodyA->GetType() == b2_kinematicBody)
 					ContactKinematicBodyWithKinematicBody(bodyB, bodyA);
-				// Een kinematic body in aaraking komen met een kinematic body -------------------------------
+				// Een kinematic body in aanraking komen met een kinematic body -------------------------------
 
-				// Een kinematic body in aaraking komen met een static body -------------------------------
+				// Een kinematic body in aanraking komen met een static body -------------------------------
 				if (bodyA->GetType() == b2_kinematicBody && bodyB->GetType() == b2_staticBody)
 					ContactKinematicBodyWithStaticBody(bodyA, bodyB);
 				else if (bodyB->GetType() == b2_kinematicBody && bodyA->GetType() == b2_staticBody)
 					ContactKinematicBodyWithStaticBody(bodyB, bodyA);
-				// Een kinematic body in aaraking komen met een static body -------------------------------
+				// Een kinematic body in aanraking komen met een static body -------------------------------
 
 				// Iemand raak slaan ------------------------------------------------------
 				if (bodyA->GetType() == b2_dynamicBody && bodyB->GetType() == b2_staticBody)
@@ -139,7 +139,8 @@ namespace sdmg {
 				else
 				{
 					model::Platform *platform = static_cast<model::Platform*>(lower->GetUserData());
-					resetWalk = !platform->getIsAttack();
+					// resetWalk = !platform->getIsAttack();
+					resetWalk = platform->getDamageOnImpact() == 0;
 				}
 				if (resetWalk)
 				{
@@ -172,7 +173,7 @@ namespace sdmg {
 					else if (kinematic != player->getShootBody())
 					{
 						if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
-							player->addPP(-10);
+							player->addPP(-platform->getDamageOnImpact());
 						else
 						{
 							if (player->getX() > platform->getX())
@@ -189,23 +190,23 @@ namespace sdmg {
 			void ContactListener::gotHit(b2Body *playerBody, b2Body *weapon)
 			{
 				model::Platform *platform = static_cast<model::Platform*>(weapon->GetUserData());
-				if (platform->getIsAttack())
+				if (platform->getDamageOnImpact() > 0)
 				{
 					MovableGameObject *player = static_cast<MovableGameObject*>(playerBody->GetUserData());
 					MovableGameObject::State state = player->getState();
 					if (weapon != player->getAttackBody())
 					{
-						if (state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT && !player->getRolling())
+						if (state != MovableGameObject::State::KNEELING && state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT && !player->getRolling())
 						{
 							if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
-								player->addPP(-10);
+								player->addPP(-platform->getDamageOnImpact());
 							else
 							{
 								if (player->getX() > platform->getX())
 									player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
 								else
 									player->setState(MovableGameObject::State::KNOCKBACKLEFT);
-								player->hit(10);
+								player->hit(platform->getDamageOnImpact());
 							}
 						}
 					}

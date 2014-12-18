@@ -76,9 +76,10 @@ namespace sdmg {
 			while (SDL_PollEvent(&event))
 			{
 				if (!_editor->isEnabled()) {
-					game.getEngine()->getInputEngine()->handleEvent(event);
+					if (game.getEngine()->getInputEngine()->getUsedControllerName(event) == "keyboard")
+					{
+						game.getEngine()->getInputEngine()->handleEvent(event);
 
-					if (!game.getEngine()->getInputEngine()->handleControllers(event)) {
 						if (!event.key.repeat){
 							switch (event.type) {
 							case SDL_KEYDOWN:
@@ -128,7 +129,7 @@ namespace sdmg {
 								}
 								break;
 							case SDL_QUIT:
-								
+
 								break;
 							}
 						}
@@ -141,6 +142,10 @@ namespace sdmg {
 							}
 							game.stop();
 						}
+					}
+					else
+					{
+						game.getEngine()->getInputEngine()->handleControllers(event);
 					}
 				}
 				else _editor->handleEvent(event);
@@ -207,7 +212,11 @@ namespace sdmg {
 							p->destroyShootBody(*game.getEngine());
 						}
 
+						game.getEngine()->getParticleEngine()->unloadAll();
+						_particlesSet = false;
+
 						changeState(game, GameOverState::getInstance());
+						return;
 					}
 					else if (game.getGameMode() == GameBase::GameMode::Survival)
 					{
@@ -223,6 +232,9 @@ namespace sdmg {
 								p->destroyAttackBody();
 								p->destroyShootBody(*game.getEngine());
 							}
+
+							game.getEngine()->getParticleEngine()->unloadAll();
+							_particlesSet = false;
 
 							changeState(game, GameOverSurvivalState::getInstance());
 							return;
@@ -249,7 +261,7 @@ namespace sdmg {
 					}
 
 					game.getEngine()->getParticleEngine()->createParticleSet("hit", 200, 175, 175, 5, 5, 350, 350, "blood");
-					game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 15, 350, 450, "blood");
+					game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 22.5, 350, 550, "burst");
 					_particlesSet = true;
 				}
 

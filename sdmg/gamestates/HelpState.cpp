@@ -18,20 +18,20 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			_menu = new Menu(100, 600, game);
+			_menu = new Menu(50, 600, game);
 
 			std::function<void()> CallBackOptionsMenu = std::bind(&HelpState::returnToOptionsMenu, this);
 
 			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			_menu->addMenuTextItem("Back", CallBackOptionsMenu);
+			_menu->addMenuTextItem("Back to options", CallBackOptionsMenu);
 
-			game.getEngine()->getDrawEngine()->load("help_background", "assets/screens/mainbackground");
+			game.getEngine()->getDrawEngine()->load("help_background", "assets/screens/mainmenu");
 
 			loadText("title", "Help", "trebucbd", 48);
-			loadText("howtowin1", "To win the game try to push your opponent of the edge", "trebucbd", 36);
-			loadText("howtowin2", "or into Bullet Bob.", "trebucbd", 36);
-			loadText("howtowin3", "Victory shall be yours, when your opponent runs out of", "trebucbd", 36);
-			loadText("howtowin4", "lives.", "trebucbd", 36);
+			loadText("howtowin1", "To win the game try to push your opponent of the edge", "trebuc", 36);
+			loadText("howtowin2", "or into Bullet Bob.", "trebuc", 36);
+			loadText("howtowin3", "Victory shall be yours, when your opponent runs out of", "trebuc", 36);
+			loadText("howtowin4", "lives.", "trebuc", 36);
 
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
@@ -88,11 +88,11 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			drawEngine->draw("help_background");
 
-			drawEngine->drawText("title", 100, 100);
-			drawEngine->drawText("howtowin1", 100, 200);
-			drawEngine->drawText("howtowin2", 100, 248);
-			drawEngine->drawText("howtowin3", 100, 296);
-			drawEngine->drawText("howtowin4", 100, 344);
+			drawEngine->drawText("title", 50, 70);
+			drawEngine->drawText("howtowin1", 50, 250);
+			drawEngine->drawText("howtowin2", 50, 298);
+			drawEngine->drawText("howtowin3", 50, 346);
+			drawEngine->drawText("howtowin4", 50, 394);
 
 			_menu->draw(_game);
 

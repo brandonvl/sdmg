@@ -21,12 +21,14 @@ namespace sdmg {
 		namespace input {
 			class Joystick {
 			public:
-				Joystick(int id = 255, SDL_Joystick *stick = NULL, std::string name = "Joystick");
+				Joystick(int id = 255, std::string name = "Joystick");
 				~Joystick();
 
 				int ID;
-				SDL_Joystick *Stick;
 				std::string Name;
+
+				int getID();
+				std::string getName();
 
 			private:
 				void initialize();

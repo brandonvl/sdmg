@@ -42,6 +42,7 @@ namespace sdmg {
 				float getRenderHeight();
 				float getRenderWidth();
 				bool isAnimated();
+				std::string getPath() { return _path; }
 			private:
 				//SDL_Surface *_surface;
 				//SDL_Texture *_texture;
@@ -52,8 +53,9 @@ namespace sdmg {
 				AnimationType _animationType;
 				DrawEngine *_drawEngine;
 
-				void load(std::string path, SDL_Renderer *renderer);
+				void load(SDL_Renderer *renderer);
 				void loadMap(SDL_Surface *surface, SDL_Renderer *renderer);
+				std::string _path;
 			};
 		}
 	}

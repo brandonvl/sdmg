@@ -145,7 +145,7 @@ namespace sdmg {
 			{
 				model::Character *character = static_cast<model::Character*>(aliveList[i]);
 				character->revive();
-				character->setState(MovableGameObject::State::RESPAWN);
+				//  character->setState(MovableGameObject::State::RESPAWN);
 			}
 
 			_game->getEngine()->getPhysicsEngine()->resetBobs();

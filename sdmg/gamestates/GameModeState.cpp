@@ -29,7 +29,8 @@ namespace sdmg {
 		void GameModeState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_menu = new Menu(50, 250, game);
+			_game->getEngine()->getDrawEngine()->loadText("gamemodetitle", "Select a game mode", { 255, 255, 255 }, "trebucbd", 48);
 
 			_menu->addMenuTextItem("Versus", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::Versus);
@@ -48,7 +49,7 @@ namespace sdmg {
 			});
 			_menu->addMenuTextItem("Tutorial", (std::function<void()>)[&] {
 				LoadingState::getInstance().setIsTutorial(true);
-				LoadingState::getInstance().setLevel(new std::string("level1"));
+				LoadingState::getInstance().setLevel(new std::string("tutorial"));
 				changeState(*_game, LoadingState::getInstance());
 			});
 
@@ -111,6 +112,7 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("gamemodeselect_background");
+			game.getEngine()->getDrawEngine()->drawText("gamemodetitle", 50, 70);
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
 		}

@@ -21,7 +21,7 @@ namespace sdmg {
 			character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
 			character->setLocation(xPosition, yPosition);
 			character->setSpawnLocation(xPosition, yPosition);
-			character->setLives(1);
+			character->setLives(4);
 			character->setHP(100);
 			character->setPP(100);
 			character->setName(obj.getString("name"));
@@ -30,6 +30,10 @@ namespace sdmg {
 			character->setAttackSize(obj.getObject("attack").getObject("size").getFloat("width"), obj.getObject("attack").getObject("size").getFloat("height"));
 			character->setMidAttackY(obj.getObject("attack").getFloat("midPosition"));
 			character->setLongAttackY(obj.getObject("attack").getFloat("longPosition"));
+			character->setMidCost(obj.getObject("attack").getFloat("midCost"));
+			character->setLongCost(obj.getObject("attack").getFloat("longCost"));
+			character->setMidDamage(obj.getObject("attack").getFloat("midDamage"));
+			character->setLongDamage(obj.getObject("attack").getFloat("longDamage"));
 
 			loadSpriteMap(character, name, game, obj);
 
