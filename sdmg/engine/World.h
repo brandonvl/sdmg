@@ -13,11 +13,13 @@
 
 namespace sdmg {
 	namespace engine {
+		class GameBase;
 		class GameObject;
 		class MovableGameObject;
 
 		class World {
 		public:
+			World(GameBase &game) : _game(&game) {};
 			virtual ~World();
 			const std::vector<GameObject*> &getGameObjects();
 			const std::vector<GameObject*> &getPlatforms();
@@ -37,10 +39,11 @@ namespace sdmg {
 			void clearWorld();
 			void resetWorld();
 			void removePlatform(GameObject *platform);
+			void destroyShootBodies();
 		private:
 			std::vector<GameObject*> _gameObjects, _deadList, _aliveList, _platforms;
 			std::vector<MovableGameObject*> _players;
-
+			GameBase *_game;
 			b2World *_physicsWorld;
 		};
 	}

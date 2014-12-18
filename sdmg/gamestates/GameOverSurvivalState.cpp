@@ -106,6 +106,7 @@ namespace sdmg {
 			}
 			else
 			{
+				game.getWorld()->destroyShootBodies();
 				game.getEngine()->getPhysicsEngine()->cleanUp();
 				game.getEngine()->getAudioEngine()->unloadAll();
 				game.getEngine()->getDrawEngine()->unloadAll();

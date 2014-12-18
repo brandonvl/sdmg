@@ -28,6 +28,7 @@
 #include "lib\JSONParser.h"
 #include "helperclasses\ConfigManager.h"
 #include <array>
+#include "engine\ai\EasyAIMachine.h"
 
 #include "engine\util\FileManager.h"
 
@@ -325,6 +326,10 @@ namespace sdmg {
 
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
+
+			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
+
+			characters[1]->setAI(*machine);
 
 			_game->getStateManager()->draw();
 
