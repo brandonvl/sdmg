@@ -435,6 +435,8 @@ namespace sdmg {
 			// check if state is changed
 			if (state != _state) {
 				//if (stateIsInterruptible())
+				_state = state;
+
 				if (_state != (State::WALKING | State::MIDRANGEATTACKBEGIN) && _state != (State::WALKING | State::MIDRANGEATTACK)
 					&& _state != (State::WALKING | State::MIDRANGEATTACKEND) && _state != (State::IDLE | State::MIDRANGEATTACKBEGIN)
 					&& _state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::IDLE | State::MIDRANGEATTACKEND)
@@ -447,13 +449,6 @@ namespace sdmg {
 					&& _state != (State::FALLINGLEFT | State::FORWARD_ROLL) && _state != (State::FALLINGRIGHT | State::FORWARD_ROLL)
 					)
 				triggerStateChangedCallbacks();
-
-				_state = state;
-
-
-
-				//  if (_state != (State::IDLE | State::MIDRANGEATTACK) && _state != (State::WALKING | State::MIDRANGEATTACK))
-				//	destroyAttackBody();
 			}
 		}
 
