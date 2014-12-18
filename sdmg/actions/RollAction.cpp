@@ -23,7 +23,8 @@ namespace sdmg {
 		bool RollAction::run(engine::GameBase &game) {
 			if (_character->stateIsInterruptible())
 			{
-				if (_character->getPP() >= 10)
+				const int rollPower = 10;
+				if (_character->getPP() >= rollPower)
 				{
 					if (_event.type == SDL_KEYDOWN) {
 						if (_character->getState() == MovableGameObject::State::WALKING)
@@ -47,7 +48,7 @@ namespace sdmg {
 						else
 							_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::FORWARD_ROLL);
 
-						_character->addPP(-10);
+						_character->addPP(-rollPower);
 						//  game.getEngine()->getPhysicsEngine()->doAction(_character, _character->getDirection() == MovableGameObject::Direction::RIGHT ? PhysicsEngine::Action::MOVERIGHT : PhysicsEngine::Action::MOVELEFT);
 					}
 				}
