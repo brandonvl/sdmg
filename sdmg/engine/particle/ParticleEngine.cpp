@@ -35,21 +35,7 @@ namespace sdmg {
 					}
 				}
 
-				if (_drawContainer.size() > 0) {
-					std::vector<ParticleInstance*>::iterator it;
-					for (it = _drawContainer.begin(); it != _drawContainer.end();) {
-						delete *it;
-						it = _drawContainer.erase(it);
-					}
-				}
-				//if (_particleImages.size() > 0) {
-				//	std::map<std::string, SDL_Surface*>::iterator itr = _particleImages.begin();
-				//	while (itr != _particleImages.end()) {
-				//		delete itr->second;
-				//		_particleImages.erase(itr++);
-				//	}
-				//}
-
+				unloadParticleInstances();
 			}
 
 			void ParticleEngine::loadParticles() {
@@ -57,8 +43,8 @@ namespace sdmg {
 				if ((IMG_Init(pngFlags) & pngFlags)) {
 					_particleImages.insert(std::make_pair("blood", IMG_Load("assets/particles/blood_4x4.png")));
 					_particleImages.insert(std::make_pair("red", IMG_Load("assets/particles/red.png")));
-					_particleImages.insert(std::make_pair("orange", IMG_Load("assets/particles/orange.png")));
-					_particleImages.insert(std::make_pair("yellow", IMG_Load("assets/particles/yellow.png")));
+					_particleImages.insert(std::make_pair("teal", IMG_Load("assets/particles/teal.png")));
+					//_particleImages.insert(std::make_pair("yellow", IMG_Load("assets/particles/yellow.png")));
 
 					for (auto p : _particleImages)
 						SDL_SetSurfaceAlphaMod(p.second, SDL_ALPHA_OPAQUE);
@@ -170,6 +156,16 @@ namespace sdmg {
 				if (!_drawContainer.empty()) {
 					return _drawContainer;
 				} 
+			}
+
+			void ParticleEngine::unloadParticleInstances() {
+				if (_drawContainer.size() > 0) {
+					std::vector<ParticleInstance*>::iterator it;
+					for (it = _drawContainer.begin(); it != _drawContainer.end();) {
+						delete *it;
+						it = _drawContainer.erase(it);
+					}
+				}
 			}
 		}
 	}
