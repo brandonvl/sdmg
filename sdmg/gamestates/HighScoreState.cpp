@@ -10,20 +10,14 @@
 namespace sdmg {
 	namespace gamestates {
 
-		void HighScoreState::returnToOptionsMenu()
-		{
-			_game->getStateManager()->popState();
-		}
 		void HighScoreState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(100, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
-			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
-
-			std::function<void()> CallBackOptionsMenu = std::bind(&HighScoreState::returnToOptionsMenu, this);
+			_menu = new Menu(50, 250, game);
+			game.getEngine()->getDrawEngine()->load("highscore_background", "assets/screens/mainmenu");
 
 			// Create menu
-			_menu->addMenuTextItem("Back to options", CallBackOptionsMenu);
+			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			// Load header text
 			loadText("title_highscore", "Highscores", "trebucbd", 48);
@@ -42,8 +36,10 @@ namespace sdmg {
 		{
 			delete _menu;
 			_menu = nullptr;
-			//game.getEngine()->getDrawEngine()->unload("statics_background");
-			game.getEngine()->getDrawEngine()->unload("title_highscore");
+
+			//game.getEngine()->getDrawEngine()->unload("mainmenu_background");
+
+			game.getEngine()->getDrawEngine()->unload("highscore_background");
 
 			for (auto i = 0; i < _highscores->size(); i++) {
 				game.getEngine()->getDrawEngine()->unload("number_" + std::to_string(i));
@@ -92,24 +88,24 @@ namespace sdmg {
 			DrawEngine *drawEngine = game.getEngine()->getDrawEngine();
 
 			drawEngine->prepareForDraw();
-			drawEngine->draw("statics_background");
+			drawEngine->draw("highscore_background");
 
 			int hpos = 50;
-			int vpos = 100;
+			int vpos = 70;
 
-			game.getEngine()->getDrawEngine()->drawText("title_highscore", vpos, hpos);
+			game.getEngine()->getDrawEngine()->drawText("title_highscore", hpos, vpos);
 
-			hpos += 100;
-			vpos = 700;
+			hpos = 700;
+			vpos = 250;
 
 			for (auto i = 0; i < _highscores->size(); i++) {
-				drawEngine->drawText(("number_" + std::to_string(i)), vpos, hpos);
-				vpos += 100;
-				drawEngine->drawText(("name_" + std::to_string(i)), vpos, hpos);
-				vpos += 300;
-				drawEngine->drawText(("score_" + std::to_string(i)), vpos, hpos);
-				hpos += 50;
-				vpos = 700;
+				drawEngine->drawText(("number_" + std::to_string(i)), hpos, vpos);
+				hpos += 100;
+				drawEngine->drawText(("name_" + std::to_string(i)), hpos, vpos);
+				hpos += 300;
+				drawEngine->drawText(("score_" + std::to_string(i)), hpos, vpos);
+				hpos = 700;
+				vpos += 50;
 			}
 
 			_menu->draw(_game);

@@ -30,7 +30,7 @@ namespace sdmg {
 
 			_menu = new Menu(50, 250, game);
 
-			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
+			game.getEngine()->getDrawEngine()->load("mainmenu_background", "assets/screens/mainmenu");
 
 			// Load dynamic text
 			game.getEngine()->getDrawEngine()->loadDynamicText("TextAutosave", { 255, 255, 255 }, "arial", 36);
