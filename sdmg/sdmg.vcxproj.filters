@@ -327,9 +327,6 @@
     <ClCompile Include="engine\ai\aistates\IdleAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
-    <ClCompile Include="actions\LongRangeAttackAction.cpp">
-      <Filter>Source Files\engine\audio</Filter>
-    </ClCompile>
     <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
@@ -389,6 +386,12 @@
     </ClCompile>
     <ClCompile Include="engine\ai\aistates\JumpingAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\Recorder.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LongRangeAttackAction.cpp">
+      <Filter>Source Files\actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -694,6 +697,9 @@
     </ClInclude>
     <ClInclude Include="engine\ai\aistates\JumpingAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\Recorder.h">
+      <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

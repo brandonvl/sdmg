@@ -27,6 +27,7 @@
 #include "engine\particle\ParticleEngine.h"
 #include "PlayState.h"
 #include "helperclasses\ProgressManager.h"
+#include "helperclasses\Recorder.h"
 
 
 namespace sdmg {
@@ -80,6 +81,7 @@ namespace sdmg {
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
 				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
+				_menu->addMenuTextItem("Save replay", (std::function<void()>)[&] { _game->getRecorder().save("assets/recording"); });
 			}
 			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {

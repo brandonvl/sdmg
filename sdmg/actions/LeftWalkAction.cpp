@@ -16,10 +16,12 @@
 
 namespace sdmg {
 	namespace actions {
-		LeftWalkAction::LeftWalkAction(Character *character) : CharacterAction(character) {}
-		LeftWalkAction::LeftWalkAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
+		LeftWalkAction::LeftWalkAction(Character *character) : CharacterAction(character, "LeftWalkAction") {}
+		LeftWalkAction::LeftWalkAction(Character *character, SDL_Event event) : CharacterAction(character, event, "LeftWalkAction") {}
 
 		bool LeftWalkAction::run(engine::GameBase &game) {
+			CharacterAction::run(game);
+
 			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {

@@ -17,10 +17,12 @@
 
 namespace sdmg {
 	namespace actions {
-		RespawnAction::RespawnAction(Character *character) : CharacterAction(character) {}
-		RespawnAction::RespawnAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
+		RespawnAction::RespawnAction(Character *character) : CharacterAction(character, "RespawnAction") {}
+		RespawnAction::RespawnAction(Character *character, SDL_Event event) : CharacterAction(character, event, "RespawnAction") {}
 
 		bool RespawnAction::run(engine::GameBase &game) {
+			CharacterAction::run(game);
+
 			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {

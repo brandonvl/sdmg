@@ -17,10 +17,12 @@
 
 namespace sdmg {
 	namespace actions {
-		JumpAction::JumpAction(Character *character) : CharacterAction(character) {}
-		JumpAction::JumpAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
+		JumpAction::JumpAction(Character *character) : CharacterAction(character, "JumpAction") {}
+		JumpAction::JumpAction(Character *character, SDL_Event event) : CharacterAction(character, event, "JumpAction") {}
 
 		bool JumpAction::run(engine::GameBase &game) {
+			CharacterAction::run(game);
+
 			if (_character->stateIsInterruptible())
 			{
 				if (_event.type == SDL_KEYDOWN) {

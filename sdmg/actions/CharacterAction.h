@@ -11,11 +11,12 @@ namespace sdmg {
 		class CharacterAction : public Action
 		{
 		public:
-			CharacterAction(Character *character);
+			CharacterAction(Character *character, std::string name);
 			virtual ~CharacterAction();
+			virtual bool run(engine::GameBase &game) override;
 		protected:
 			Character *_character;
-			CharacterAction(Character *character, SDL_Event event);
+			CharacterAction(Character *character, SDL_Event event, std::string name);
 		};
 	}
 }
