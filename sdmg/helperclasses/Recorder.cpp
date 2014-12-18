@@ -49,7 +49,7 @@ namespace sdmg
 		}
 
 		void Recorder::registerCharacter(model::Character &character) {
-			_characters->insert(std::make_pair(&character, ++_characterIndex));
+			_characters->insert(std::make_pair(&character, _characterIndex++));
 		}
 
 		void Recorder::save(std::string path) {
@@ -59,7 +59,7 @@ namespace sdmg
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromRoot(*recordingObj);
 
 			JSON::JSONArray *characterArr = new JSON::JSONArray(recordingObj);
-
+			
 			for (auto it : *_characters) {
 				JSON::JSONObject *characterObj = new JSON::JSONObject(characterArr);
 				characterObj->add("index", it.second);
