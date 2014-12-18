@@ -387,6 +387,9 @@
     <ClCompile Include="engine\ai\aistates\TutorialIdleAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
+    <ClCompile Include="gamestates\HighScoreState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -688,6 +691,9 @@
     </ClInclude>
     <ClInclude Include="engine\ai\aistates\TutorialIdleAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\HighScoreState.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
