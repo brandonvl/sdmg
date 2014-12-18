@@ -48,7 +48,7 @@ namespace sdmg {
 			});
 			_menu->addMenuTextItem("Tutorial", (std::function<void()>)[&] {
 				LoadingState::getInstance().setIsTutorial(true);
-				LoadingState::getInstance().setLevel(new std::string("level1"));
+				LoadingState::getInstance().setLevel(new std::string("tutorial"));
 				changeState(*_game, LoadingState::getInstance());
 			});
 

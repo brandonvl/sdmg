@@ -196,7 +196,9 @@ namespace sdmg {
 		void LoadingSinglePlayerState::unloadAll()
 		{
 			delete _playerName;
+			_playerName = nullptr;
 			delete _levelName;
+			_levelName = nullptr;
 
 			if (_enemies) {
 				for (auto it : *_enemies) {
@@ -265,6 +267,7 @@ namespace sdmg {
 		void LoadingSinglePlayerState::loadNextFight()
 		{
 			delete _levelName;
+			_levelName = nullptr;
 
 			_isLoaded = false;
 			_isError = false;
