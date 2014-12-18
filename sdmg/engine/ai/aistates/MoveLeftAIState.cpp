@@ -18,6 +18,9 @@ namespace sdmg {
 					if (!_platformRayCast)
 						_platformRayCast = new RayCastCallBack(controlled.getX() - 2.0F, controlled.getY(), controlled.getX() - 2.0F, 1500.0F, nullptr);
 
+					if (!_enemyDetectionRayCast)
+						_enemyDetectionRayCast = new RayCastCallBack(controlled.getX(), controlled.getY(), controlled.getX(), controlled.getY(), nullptr);
+
 					if (_transition != "")
 						_transition = "";
 
@@ -25,16 +28,21 @@ namespace sdmg {
 
 				void MoveLeftAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
-					MovableGameObject *enemy = game.getWorld()->getPlayers()[1];
-
 					_platformRayCast->clearResults();
 					_platformRayCast->setPointOne(controlled.getX() - 2.0F, controlled.getY());
 					_platformRayCast->setPointTwo(controlled.getX() - 2.0F, 1500.0F);
 
+					_enemyDetectionRayCast->clearResults();
+					_enemyDetectionRayCast->setPointOne(controlled.getX(), controlled.getY());
+					_enemyDetectionRayCast->setPointTwo(controlled.getX() - 3.0F, controlled.getY());
+
 					game.getEngine()->getPhysicsEngine()->performRayCast(*_platformRayCast);
+					game.getEngine()->getPhysicsEngine()->performRayCast(*_enemyDetectionRayCast);
 
-
-					if (_platformRayCast->getResults().size() > 0){
+					if (_enemyDetectionRayCast->getResults().size() > 0 && _enemyDetectionRayCast->getResults()[0] == _machine->getEnemy()->getBody()) {
+						_transition = "shortAttack";
+					}
+					else if (_platformRayCast->getResults().size() > 0 && _platformRayCast->getResults()[0]->GetType() == b2_staticBody){
 
 						/*if (enemy->getX() > controlled.getX()) {
 							_machine->setState("moveRight");
@@ -59,6 +67,11 @@ namespace sdmg {
 					if (_platformRayCast) {
 						delete _platformRayCast;
 						_platformRayCast = nullptr;
+					}
+
+					if (_enemyDetectionRayCast) {
+						delete _enemyDetectionRayCast;
+						_enemyDetectionRayCast = nullptr;
 					}
 				}
 			}

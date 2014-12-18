@@ -378,6 +378,15 @@
     <ClCompile Include="engine\ai\aistates\ShortAttackAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
+    <ClCompile Include="engine\ai\TutorialMachine.cpp">
+      <Filter>Source Files\engine\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveToPointAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\TutorialIdleAIState.cpp">
+      <Filter>Source Files\engine\ai\aistates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actions\JumpAction.h">
@@ -669,6 +678,15 @@
       <Filter>Header Files\helperclasses</Filter>
     </ClInclude>
     <ClInclude Include="engine\ai\aistates\ShortAttackAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\TutorialMachine.h">
+      <Filter>Header Files\engine\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\MoveToPointAIState.h">
+      <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\TutorialIdleAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,8 +24,6 @@ namespace sdmg {
 					void enter(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void update(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
 					void exit(model::Character &controlled, GameTime &gameTime, GameBase &game) override;
-					private:
-						float32 testBack(b2Body *body);
 				};
 			}
 		}

@@ -9,10 +9,6 @@
 #include "engine\Engine.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\physics\RayCastCallBack.h"
-#include <random>
-//#include <functional>
-
-#include <iostream>
 
 namespace sdmg {
 	namespace engine {
@@ -23,16 +19,25 @@ namespace sdmg {
 
 					if (_transition != "")
 						_transition = "";
+
+					_commandSend = false;
 				}
 
 				void ShortAttackAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
+					if (!_commandSend) {
+						controlled.setState(MoveObjState::WALKING | MoveObjState::MIDRANGEATTACKBEGIN);
+						_commandSend = true;
+						return;
+					}
 
-					_transition = "moveLeft";
+					if (controlled.stateIsInterruptible() && _commandSend)
+						_machine->revertToPreviousState(&gameTime, &game);
 				}
 
 				void ShortAttackAIState::exit(model::Character &controlled, GameTime &gameTime, GameBase &game) {
 					_transition = "";
+					_commandSend = false;
 				}
 			}
 		}
