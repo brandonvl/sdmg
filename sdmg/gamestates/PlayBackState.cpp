@@ -9,6 +9,7 @@
 
 
 #include "PlayBackState.h"
+#include "MainMenuState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "engine\physics\PhysicsEngine.h"
@@ -102,6 +103,22 @@ namespace sdmg {
 
 		void PlayBackState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
+			SDL_Event event;
+
+			while (SDL_PollEvent(&event))
+			{
+				if (!event.key.repeat){
+					switch (event.type) {
+					case SDL_KEYDOWN:
+						switch (event.key.keysym.sym) {
+						case SDLK_ESCAPE:
+							GameOverState::getInstance().cleanup(*_game);
+							_game->getStateManager()->changeState(MainMenuState::getInstance());
+							break;
+						}
+					}
+				}
+			}
 			/*
 			SDL_Event event;
 

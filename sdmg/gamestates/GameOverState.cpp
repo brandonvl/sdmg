@@ -202,7 +202,7 @@ namespace sdmg {
 
 				std::vector<HUD*> *huds = PlayState::getInstance()._huds;
 
-				if (huds) {
+				if (huds->size() > 0) {
 					for (auto it : *huds) {
 						delete it;
 					}
