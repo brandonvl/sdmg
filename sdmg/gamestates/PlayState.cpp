@@ -45,6 +45,16 @@ namespace sdmg {
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 			_canDie = true;
 			_enemiesKilled = 0;
+
+			if (!_particlesSet) {
+				for (auto obj : game.getWorld()->getPlayers()) {
+					game.getEngine()->getParticleEngine()->registerGameObject(obj);
+				}
+
+				game.getEngine()->getParticleEngine()->createParticleSet("hit", 200, 175, 175, 5, 5, 350, 350, "blood");
+				game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 22.5, 350, 550, "burst");
+				_particlesSet = true;
+			}
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -107,6 +117,8 @@ namespace sdmg {
 								case SDLK_HOME:
 									if (!event.key.repeat){
 										_multiplier = 1.0f;
+										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
+										_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
 									}
 									break;
 								case SDLK_PAGEUP:
@@ -114,6 +126,8 @@ namespace sdmg {
 										if (_multiplier > 0.1f)
 										{
 											_multiplier = _multiplier - 0.1;
+											_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
+											_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
 										}
 									}
 									break;
@@ -123,6 +137,8 @@ namespace sdmg {
 										if (_multiplier < 1.5f)
 										{
 											_multiplier = _multiplier + 0.1;
+											_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
+											_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
 										}
 									}
 									break;
@@ -249,25 +265,8 @@ namespace sdmg {
 					}
 				}
 
-				_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
-				_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
-
 				if (_showFPS)
 					_fps = game.getFPS() == _fps ? _fps : game.getFPS();
-
-				if (!_particlesSet) {
-					for (auto obj : game.getWorld()->getPlayers()) {
-						game.getEngine()->getParticleEngine()->registerGameObject(obj);
-					}
-
-					game.getEngine()->getParticleEngine()->createParticleSet("hit", 200, 175, 175, 5, 5, 350, 350, "blood");
-					game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 22.5, 350, 550, "burst");
-					_particlesSet = true;
-				}
-
-				game.getEngine()->getInputEngine()->update(game);
-				game.getEngine()->getDrawEngine()->update();
-				game.getEngine()->getPhysicsEngine()->update();
 
 				auto curTime = std::chrono::high_resolution_clock::now();
 				float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
@@ -281,9 +280,7 @@ namespace sdmg {
 
 				while (_accumulator > _step) {
 					for (auto obj : game.getWorld()->getPlayers())
-					{
 						obj->addPP(1);
-					}
 					_accumulator -= _step;
 				}
 
