@@ -10,6 +10,7 @@
 #include <sdl\include\SDL_image.h>
 #include <sdl\include\SDL.h>
 #include "model\Platform.h"
+#include "lib\JSONParser.h"
 
 namespace sdmg {
 	namespace helperclasses {
@@ -101,7 +102,7 @@ namespace sdmg {
 			_eraserButton->setClickAction([&] { _currentPlatformDef = nullptr; });
 
 			_buttons.push_back(_saveButton = new ToolbarButton(*this, "save"));
-			_saveButton->setClickAction([&] { /* SAVE CODE */ });
+			_saveButton->setClickAction([&] { save("test"); });
 
 			// set default selected button
 			_currentToolbarButton = _moveButton;
@@ -205,6 +206,7 @@ namespace sdmg {
 
 			SDL_Surface *surface = _currentPlatformDef->getSurface(w);
 			_game->getEngine()->getDrawEngine()->load(platform, surface);
+			_drawnPlatformSurfaces.insert(std::make_pair(platform, surface));
 
 			createHitbox(platform);
 		}
@@ -400,6 +402,79 @@ namespace sdmg {
 
 			SDL_Rect textRect{ x + 4, y + 4, 24, 24 };
 			SDL_RenderCopy(_editor->_renderer, _texture, nullptr, &textRect);
+		}
+
+		void Editor::save(std::string name) {
+			JSON::JSONObject *rootObj = new JSON::JSONObject(nullptr);
+			JSON::JSONDocument *doc = JSON::JSONDocument::fromRoot(*rootObj);
+
+			rootObj->add("name", name);
+
+			JSON::JSONArray *startingPositionsArr = new JSON::JSONArray(rootObj);
+
+			JSON::JSONObject *posObj1 = new JSON::JSONObject(startingPositionsArr);
+			posObj1->add("x", 150);
+			posObj1->add("y", -100);
+			startingPositionsArr->push(*posObj1);
+
+			JSON::JSONObject *posObj2 = new JSON::JSONObject(startingPositionsArr);
+			posObj2->add("x", 1100);
+			posObj2->add("y", -100);
+			startingPositionsArr->push(*posObj2);
+
+			rootObj->add("startingPositions", *startingPositionsArr);
+
+			JSON::JSONObject *gravityObj = new JSON::JSONObject(rootObj);
+			gravityObj->add("left", 0);
+			gravityObj->add("down", 100);
+			rootObj->add("gravity", *gravityObj);
+
+			JSON::JSONArray *platformArr = new JSON::JSONArray(rootObj);
+			int imageIndex = 0;
+
+			for (auto platform : _game->getWorld()->getPlatforms()) {
+				std::string imageStr = "platform_" + std::to_string(imageIndex);
+				SDL_Surface *surface;
+				if (_drawnPlatformSurfaces.find(platform) != _drawnPlatformSurfaces.end()) {
+					surface = _drawnPlatformSurfaces.at(platform);
+				}
+				else {
+					surface = IMG_Load(_game->getEngine()->getDrawEngine()->getImagePath(platform).c_str());
+				}
+				IMG_SavePNG(surface, ("assets/levels/" + name + "/" + imageStr).c_str());
+
+				JSON::JSONObject *levelObj = new JSON::JSONObject(platformArr);
+
+				JSON::JSONObject *sizeObj = new JSON::JSONObject(levelObj);
+				sizeObj->add("width", platform->getWidth());
+				sizeObj->add("height", platform->getHeight());
+				levelObj->add("size", *sizeObj);
+
+				JSON::JSONObject *locationObj = new JSON::JSONObject(levelObj);
+				locationObj->add("x", platform->getPixelX());
+				locationObj->add("y", platform->getPixelY());
+				levelObj->add("location", *locationObj);
+
+				JSON::JSONObject *bodyPaddingObj = new JSON::JSONObject(levelObj);
+				bodyPaddingObj->add("x", 0);
+				bodyPaddingObj->add("y", 20);
+				levelObj->add("bodyPadding", *bodyPaddingObj);
+
+				levelObj->add("image", imageStr);
+
+				platformArr->push(*levelObj);
+				++imageIndex;
+			}
+
+			rootObj->add("platforms", *platformArr);
+
+			doc->saveFile("assets/levels/" + name + "/data");
+			delete doc;
+
+			//SDL_GetRenderer
+
+			//SDL_CreateRenderer(nullptr, -1, 0);
+			//IMG_SavePNG()
 		}
 	}
 }

@@ -67,7 +67,9 @@ namespace sdmg {
 		void LevelSelectionState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_game->getEngine()->getDrawEngine()->loadText("levelselecttitle", "Select a level", { 255, 255, 255 }, "trebucbd", 48);
+
+			_menu = new Menu(50, 250, game);
 			
 			listLevels();
 
@@ -136,6 +138,7 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("levelselect_background");
+			game.getEngine()->getDrawEngine()->drawText("levelselecttitle", 50, 70);
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
 		}

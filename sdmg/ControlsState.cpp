@@ -18,7 +18,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			_menu = new Menu((int)(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f), 100, game);
+			_menu = new Menu(50, 250, game);
 
 			_menu->addMenuTextItem("Walk Right", (std::function<void()>)[&] { waitFor(_walkright); });
 			_menu->addMenuTextItem("Walk Left", (std::function<void()>)[&] { waitFor(_walkleft); });
@@ -27,7 +27,7 @@ namespace sdmg {
 			_menu->addMenuTextItem("Midrange attack", (std::function<void()>)[&] { waitFor(_midrange); });
 			_menu->addMenuTextItem("Longrange attack", (std::function<void()>)[&] { waitFor(_longrange); });
 			_menu->addMenuTextItem("Block", (std::function<void()>)[&] { waitFor(_block); });
-			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			_info = new std::string("Press Left or Right to navigate between players.");
 			_info2 = new std::string("Press Enter to change the key for the selected action. The controls are automatically saved.");
