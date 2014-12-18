@@ -45,7 +45,6 @@ namespace sdmg {
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 20);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info2", { 255, 255, 255 }, "trebucbd", 20);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("devicename", { 255, 255, 255 }, "trebucbd", 20);
-			_game->getEngine()->getDrawEngine()->loadDynamicText("player", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("walkright", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("walkleft", { 255, 255, 255 }, "trebucbd", 36);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("jump", { 255, 255, 255 }, "trebucbd", 36);
@@ -100,7 +99,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("controls_background");
 			game.getEngine()->getDrawEngine()->unload("info");
 			game.getEngine()->getDrawEngine()->unload("info2");
-			game.getEngine()->getDrawEngine()->unload("player");
+			game.getEngine()->getDrawEngine()->unload("devicename");
 			game.getEngine()->getDrawEngine()->unload("walkright");
 			game.getEngine()->getDrawEngine()->unload("walkleft");
 			game.getEngine()->getDrawEngine()->unload("jump");
@@ -115,8 +114,11 @@ namespace sdmg {
 			delete _midrange;
 			delete _info;
 			delete _info2;
+			delete _devicename;
 			delete _longrange;
 			delete _block;
+
+			delete _keys;
 			//game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -272,7 +274,6 @@ namespace sdmg {
 			drawEngine->drawDynamicText("info", *_info, 250, 20);
 			drawEngine->drawDynamicText("info2", *_info2, 250, 50);
 			drawEngine->drawDynamicText("devicename", *_devicename, 50, 70);
-			drawEngine->drawDynamicText("player", "Player: " + std::to_string(_currentplayer + 1), 50, 30);
 			drawEngine->drawDynamicText("walkright", *_walkright, 850, 115);
 			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 185);
 			drawEngine->drawDynamicText("jump", *_jump, 850, 260);
