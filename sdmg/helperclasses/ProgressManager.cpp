@@ -35,7 +35,7 @@ namespace sdmg {
 			setTimestamp("");
 
 			// Reset characters
-			for (auto i = 0; i < getStatistics().size(); i++) {
+			for (auto i = 0, ilen = getStatistics().size(); i < ilen; ++i) {
 				JSON::JSONObject &characterObj = getStatistics().getObject(i);
 				characterObj.getVariable("wins").setValue(std::to_string(0));
 				characterObj.getVariable("losses").setValue(std::to_string(0));
@@ -74,6 +74,21 @@ namespace sdmg {
 		JSON::JSONArray &ProgressManager::getStatistics()
 		{
 			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
+		}
+
+		void ProgressManager::setHighscores()
+		{
+			//TODO
+		}
+
+		std::vector<std::vector<std::string>> *ProgressManager::getHighscores()
+		{
+			std::vector<std::vector<std::string>> *highscores = new std::vector<std::vector<std::string>>();
+			JSON::JSONArray &jHighscores = _jsonDoc->getRootObject().getArray("highscores");
+			for (auto i = 0, ilen = jHighscores.size(); i < ilen; ++i) {
+				highscores->push_back({ jHighscores.getObject(i).getString("number"), jHighscores.getObject(i).getString("name"), jHighscores.getObject(i).getString("score") });
+			}
+			return highscores;
 		}
 
 		int ProgressManager::getCharacterIndex(std::string name)

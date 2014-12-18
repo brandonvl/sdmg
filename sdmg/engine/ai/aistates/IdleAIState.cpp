@@ -27,8 +27,13 @@ namespace sdmg {
 
 				void IdleAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
+					if (controlled.stateIsInterruptible()) {
 
-					_transition = "moveLeft";
+						if (controlled.getX() > _machine->getEnemy()->getX())
+							_transition = "moveRight";
+						else if (controlled.getX() < _machine->getEnemy()->getX())
+							_transition = "moveLeft";
+					}
 				}
 
 				void IdleAIState::exit(model::Character &controlled, GameTime &gameTime, GameBase &game) {

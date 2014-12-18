@@ -112,11 +112,13 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("tutEnd");
 			*/
 
+			game.getWorld()->destroyShootBodies();
 			game.getEngine()->getPhysicsEngine()->cleanUp();
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getAudioEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 			game.getWorld()->clearWorld();
+			
 
 			delete _tutorial;
 			delete _toDraw;

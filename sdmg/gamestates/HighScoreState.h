@@ -1,6 +1,7 @@
 #pragma once
 #include "MenuState.h"
 #include "engine\GameState.h"
+#include <vector>
 
 using namespace sdmg::engine;
 
@@ -14,9 +15,10 @@ namespace sdmg {
 		class Menu;
 		class MenuItem;
 	}
+
 	namespace gamestates {
 		using namespace sdmg::helperclasses;
-		class StatisticsState :	public MenuState {
+		class HighScoreState : public MenuState {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
@@ -25,17 +27,21 @@ namespace sdmg {
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
 
-			static StatisticsState& getInstance() {
-				static StatisticsState _instance;
+			static HighScoreState& getInstance() {
+				static HighScoreState _instance;
 				return _instance;
 			}
 
 		protected:
-			StatisticsState() { }
+			HighScoreState() { }
+
 		private:
 			GameBase *_game;
-
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
+			//void loadDynamicText(std::string key, int r, int g, int b, std::string fontName, int fontSize);
+
+			Menu *_menu;
+			std::vector<std::vector<std::string>> *_highscores;
 		};
 	}
 }

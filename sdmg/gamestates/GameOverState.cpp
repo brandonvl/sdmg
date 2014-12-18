@@ -189,9 +189,10 @@ namespace sdmg {
 			}
 			else
 			{
-				game.getEngine()->getPhysicsEngine()->cleanUp();
+				game.getWorld()->destroyShootBodies();
 				game.getEngine()->getAudioEngine()->unloadAll();
 				game.getEngine()->getDrawEngine()->unloadAll();
+				game.getEngine()->getPhysicsEngine()->cleanUp();
 				//  game.getEngine()->getParticleEngine()->unloadAll();
 				game.getEngine()->getInputEngine()->clearBindings();
 

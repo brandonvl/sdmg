@@ -94,6 +94,7 @@
     <ClCompile Include="engine\ai\AIMachine.cpp" />
     <ClCompile Include="engine\ai\aistates\IdleAIState.cpp" />
     <ClCompile Include="engine\ai\aistates\JumpingAIState.cpp" />
+    <ClCompile Include="engine\ai\aistates\LongAttackAIState.cpp" />
     <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp" />
     <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp" />
     <ClCompile Include="engine\ai\aistates\MoveToPointAIState.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="gamestates\GameOverState.cpp" />
     <ClCompile Include="gamestates\GameOverSurvivalState.cpp" />
     <ClCompile Include="gamestates\HelpState.cpp" />
+    <ClCompile Include="gamestates\HighScoreState.cpp" />
     <ClCompile Include="gamestates\IntroState.cpp" />
     <ClCompile Include="gamestates\LevelSelectionState.cpp" />
     <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp" />
@@ -191,6 +193,7 @@
     <ClInclude Include="engine\ai\aistates\AIState.h" />
     <ClInclude Include="engine\ai\aistates\IdleAIState.h" />
     <ClInclude Include="engine\ai\aistates\JumpingAIState.h" />
+    <ClInclude Include="engine\ai\aistates\LongAttackAIState.h" />
     <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h" />
     <ClInclude Include="engine\ai\aistates\MoveRightAIState.h" />
     <ClInclude Include="engine\ai\aistates\MoveToPointAIState.h" />
@@ -235,6 +238,7 @@
     <ClInclude Include="gamestates\GameOverState.h" />
     <ClInclude Include="gamestates\GameOverSurvivalState.h" />
     <ClInclude Include="gamestates\HelpState.h" />
+    <ClInclude Include="gamestates\HighScoreState.h" />
     <ClInclude Include="gamestates\IntroState.h" />
     <ClInclude Include="gamestates\LevelSelectionState.h" />
     <ClInclude Include="gamestates\LoadingSinglePlayerState.h" />

@@ -10,25 +10,15 @@
 
 namespace sdmg {
 	namespace gamestates {
-
-		void StatisticsState::returnToOptionsMenu()
-		{
-			_game->getStateManager()->popState();
-		}
-
+		
 		void StatisticsState::init(GameBase &game)
 		{
 			_game = &game;
 
-			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
 			_menu = new Menu(50, 600, game);
+			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
-			std::function<void()> CallBackOptionsMenu = std::bind(&StatisticsState::returnToOptionsMenu, this);
-
-			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			_menu->addMenuTextItem("Back to options", CallBackOptionsMenu);
-
-			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainmenu");
+			game.getEngine()->getDrawEngine()->load("highscore_background", "assets/screens/mainmenu");
 
 			// Load header text
 			loadText("title", "Statistics", "trebucbd", 48);
@@ -59,7 +49,7 @@ namespace sdmg {
 			// Load statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
 
-			game.getEngine()->getDrawEngine()->unload("statics_background");
+			game.getEngine()->getDrawEngine()->unload("highscore_background");
 			game.getEngine()->getDrawEngine()->unload("title");
 			game.getEngine()->getDrawEngine()->unload("wins");
 			game.getEngine()->getDrawEngine()->unload("losses");
@@ -109,7 +99,7 @@ namespace sdmg {
 			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
 
 			drawEngine->prepareForDraw();
-			drawEngine->draw("statics_background");
+			drawEngine->draw("statistics_background");
 
 			drawEngine->drawText("title", 50, 70);
 

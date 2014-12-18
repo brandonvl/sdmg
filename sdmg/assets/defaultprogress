@@ -1,5 +1,32 @@
 {
 	autosave:false,	
+	highscores:[
+		{
+			number:"1",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"2",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"3",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"4",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"5",
+			name:" ",
+			score:"0"
+		}
+	],
 	savegame:[
 		{
 			characters:[
