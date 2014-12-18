@@ -360,7 +360,7 @@ namespace sdmg {
 				
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
-
+				InputDeviceBinding *binding = new InputDeviceBinding();
 				//  int controlStep = (_loadingStep / 3) / players.size();
 				int controlStep = 0;
 				if (controlStep <= 0)
@@ -372,7 +372,7 @@ namespace sdmg {
 
 				for (int i = 0; i < players.size(); i++)
 				{
-					InputDeviceBinding *binding = new InputDeviceBinding();
+					
 					Character *character = static_cast<Character*>(players[i]);
 					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction(character));
 					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction(character));
@@ -385,8 +385,10 @@ namespace sdmg {
 					
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
-					_game->getEngine()->getInputEngine()->setDeviceBinding(manager.getDeviceName(i), binding);
+					
 				}
+
+				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 				
 			}
 			catch (...)
