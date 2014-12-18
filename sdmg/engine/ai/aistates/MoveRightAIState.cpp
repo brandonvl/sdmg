@@ -28,7 +28,11 @@ namespace sdmg {
 
 				void MoveRightAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
-					MovableGameObject *enemy = game.getWorld()->getPlayers()[1];
+					if (_machine->getEnemy()->getX() + 4.0F < controlled.getX())
+					{
+						_transition = "moveLeft";
+						return;
+					}
 
 					_platformRayCast->clearResults();
 					_platformRayCast->setPointOne(controlled.getX() + 2.0F, controlled.getY());
