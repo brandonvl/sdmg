@@ -27,15 +27,7 @@ namespace sdmg {
 			}
 
 			ParticleEngine::~ParticleEngine() {
-				if (_particleSets.size() > 0) {
-					std::map<std::string, ParticleSet*>::iterator itr = _particleSets.begin();
-					while (itr != _particleSets.end()) {
-						delete itr->second;
-						_particleSets.erase(itr++);
-					}
-				}
-
-				unloadParticleInstances();
+				unloadAll();
 			}
 
 			void ParticleEngine::loadParticles() {
@@ -158,7 +150,15 @@ namespace sdmg {
 				} 
 			}
 
-			void ParticleEngine::unloadParticleInstances() {
+			void ParticleEngine::unloadAll() {
+				if (_particleSets.size() > 0) {
+					std::map<std::string, ParticleSet*>::iterator itr = _particleSets.begin();
+					while (itr != _particleSets.end()) {
+						delete itr->second;
+						_particleSets.erase(itr++);
+					}
+				}
+
 				if (_drawContainer.size() > 0) {
 					std::vector<ParticleInstance*>::iterator it;
 					for (it = _drawContainer.begin(); it != _drawContainer.end();) {

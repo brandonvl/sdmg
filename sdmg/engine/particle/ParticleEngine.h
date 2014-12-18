@@ -41,7 +41,7 @@ namespace sdmg {
 				void registerGameObject(MovableGameObject *mGameObject);
 				std::vector<ParticleInstance*> getNextParticleInstance();
 				bool hasNextParticleInstance();
-				void unloadParticleInstances();
+				void unloadAll();
 			private:
 				const int allowed_instances{ 2 };
 

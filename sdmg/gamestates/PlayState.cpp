@@ -207,8 +207,9 @@ namespace sdmg {
 							p->destroyShootBody(*game.getEngine());
 						}
 
-						//game.getEngine()->getParticleEngine()->unloadParticleInstances();
+						game.getEngine()->getParticleEngine()->unloadAll();
 						_particlesSet = false;
+
 						changeState(game, GameOverState::getInstance());
 						return;
 					}
@@ -227,9 +228,9 @@ namespace sdmg {
 								p->destroyShootBody(*game.getEngine());
 							}
 
-							//game.getEngine()->getParticleEngine()->unloadParticleInstances();
-
+							game.getEngine()->getParticleEngine()->unloadAll();
 							_particlesSet = false;
+
 							changeState(game, GameOverSurvivalState::getInstance());
 							return;
 						}
