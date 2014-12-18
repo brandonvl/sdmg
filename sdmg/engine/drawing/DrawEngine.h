@@ -89,6 +89,7 @@ namespace sdmg {
 				int getWindowHeight();
 				int getWindowWidth();
 				int getWindowId() { return SDL_GetWindowID(_window); }
+				std::string getImagePath(GameObject *gameObject) { return _objectSurfaces[gameObject]->getPath(); }
 			private:
 				Engine *_engine;
 				SDL_Window *_window;

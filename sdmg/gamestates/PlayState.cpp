@@ -76,9 +76,10 @@ namespace sdmg {
 			while (SDL_PollEvent(&event))
 			{
 				if (!_editor->isEnabled()) {
-					game.getEngine()->getInputEngine()->handleEvent(event);
+					if (game.getEngine()->getInputEngine()->getUsedControllerName(event) == "keyboard")
+					{
+						game.getEngine()->getInputEngine()->handleEvent(event);
 
-					if (!game.getEngine()->getInputEngine()->handleControllers(event)) {
 						if (!event.key.repeat){
 							switch (event.type) {
 							case SDL_KEYDOWN:
@@ -128,7 +129,7 @@ namespace sdmg {
 								}
 								break;
 							case SDL_QUIT:
-								
+
 								break;
 							}
 						}
@@ -141,6 +142,10 @@ namespace sdmg {
 							}
 							game.stop();
 						}
+					}
+					else
+					{
+						game.getEngine()->getInputEngine()->handleControllers(event);
 					}
 				}
 				else _editor->handleEvent(event);

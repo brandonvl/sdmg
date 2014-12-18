@@ -40,15 +40,17 @@ namespace sdmg {
 
 		protected:
 			ControlsState() { }
-			void save();
-			void setKey(int keyCode);
+			void save(std::string deviceName);
+			void setKey(int keyCode, std::string deviceName);
 			void waitFor(std::string *cur);
-
+			bool checkKey(int keyCode);
 			void readKeys();
+			void setKeys();
 		private:
 			GameBase *_game;
 			int _currentplayer;
-			std::string *_info, *_info2, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current;
+			std::vector<std::string> *_keys;
+			std::string *_info, *_info2, *_devicename, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current;
 		};
 	}
 }

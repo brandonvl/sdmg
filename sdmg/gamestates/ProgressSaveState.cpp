@@ -24,9 +24,9 @@ namespace sdmg {
 
 		void ProgressSaveState::init(GameBase &game) {
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_menu = new Menu(50, 250, game);
 			
-			loadText("title", "Select Save Slot", "trebucbd", 48);
+			loadText("selectsavetitle", "Select Save Slot", "trebucbd", 48);
 			
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(0) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(0) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 0;
@@ -47,14 +47,14 @@ namespace sdmg {
 				ProgressManager::getInstance().save();
 				_game->getStateManager()->popState();
 			});
-			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back to progress", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 
 		}
 
 		void ProgressSaveState::cleanup(GameBase &game) {
 			delete _menu;
-			game.getEngine()->getDrawEngine()->unload("title");
+			game.getEngine()->getDrawEngine()->unloadText("selectsavetitle");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
@@ -105,7 +105,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 
-			game.getEngine()->getDrawEngine()->drawText("title", (game.getEngine()->getDrawEngine()->getWindowWidth() / 2) - (game.getEngine()->getDrawEngine()->getTextSize("title")[0] / 2), 70);
+			game.getEngine()->getDrawEngine()->drawText("selectsavetitle", 50, 70);
 
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();

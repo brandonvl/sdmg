@@ -11,6 +11,7 @@
 #include "World.h"
 #include "GameObject.h"
 #include "MovableGameObject.h"
+#include "GameBase.h"
 
 #include <algorithm>
 
@@ -32,6 +33,14 @@ namespace sdmg {
 		
 		b2World* World::getPhysicsWorld() {
 			return _physicsWorld;
+		}
+
+		void World::destroyShootBodies() {
+
+			for (auto &obj : _players) {
+				obj->destroyShootBody(*_game->getEngine());
+			}
+
 		}
 		
 		void World::addGameObject(GameObject *gameObject) {

@@ -47,7 +47,7 @@ namespace sdmg {
 
 		void GameBase::internalInitialize() {
 			_gameTime = new GameTime();
-			_world = new World();
+			_world = new World(*this);
 			_engine = new Engine(*this);
 			_gameStateManager = new GameStateManager(this);
 			_randomGenerator = new helperclasses::RandomGenerator();

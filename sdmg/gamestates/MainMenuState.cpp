@@ -37,8 +37,11 @@ namespace sdmg {
 		{
 			_game = &game;
 
+			
+			_game->getEngine()->getDrawEngine()->loadText("maintitle", "Main menu", { 255, 255, 255 }, "trebucbd", 48);
+
 			//std::function<void(MenuItem *item)> callBack = &MainMenuState::menuAction;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_menu = new Menu(50, 250, game);
 
 			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, GameModeState::getInstance()); });
 			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
@@ -138,6 +141,8 @@ namespace sdmg {
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
+
+			game.getEngine()->getDrawEngine()->drawText("maintitle", 50, 70);
 
 			if (_advertisementIndex >= 0)
 				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);

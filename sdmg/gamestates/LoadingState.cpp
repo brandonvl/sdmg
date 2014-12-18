@@ -260,7 +260,8 @@ namespace sdmg {
 
 			loadCharacters(levelObj.getArray("startingPositions"));
 
-			loadBulletBobs(levelObj.getArray("bobs"));
+			if (levelObj.exists("bobs"))
+				loadBulletBobs(levelObj.getArray("bobs"));
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
@@ -357,10 +358,10 @@ namespace sdmg {
 
 			try{
 				ConfigManager &manager = ConfigManager::getInstance();
-				InputDeviceBinding *binding = new InputDeviceBinding();
+				
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
-
+				InputDeviceBinding *binding = new InputDeviceBinding();
 				//  int controlStep = (_loadingStep / 3) / players.size();
 				int controlStep = 0;
 				if (controlStep <= 0)
@@ -372,6 +373,7 @@ namespace sdmg {
 
 				for (int i = 0; i < players.size(); i++)
 				{
+					
 					Character *character = static_cast<Character*>(players[i]);
 					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction(character));
 					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction(character));
@@ -381,15 +383,18 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
 
+					
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
+					
 				}
 
 				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+				
 			}
 			catch (...)
 			{
-				std::cout << "Cannot load keyboard bindings.";
+				std::cout << "Cannot load bindings.";
 			}
 		}
 

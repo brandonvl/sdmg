@@ -11,6 +11,7 @@ using namespace sdmg::engine;
 namespace sdmg {
 	namespace engine{
 		class GameBase;
+		class GameObject;
 	}
 	namespace helperclasses {
 		class Editor
@@ -74,6 +75,7 @@ namespace sdmg {
 			void update();
 			void handleEvent(SDL_Event &event);
 			bool isEnabled() { return _enabled; }
+			void save(std::string name);
 
 		private:
 			void enable();
@@ -103,6 +105,7 @@ namespace sdmg {
 
 			std::vector<PlatformDef*> _platformDefs;
 			std::vector<ToolbarButton*> _buttons;
+			std::map<GameObject*, SDL_Surface*> _drawnPlatformSurfaces;
 
 			const std::string PLATFORM_FOLDER = "assets/platforms/", ICONS_FOLDER = "assets/editor/";
 			const int WINDOW_WIDTH = 200, WINDOW_HEIGHT = 720, ITEM_HEIGHT = 40;

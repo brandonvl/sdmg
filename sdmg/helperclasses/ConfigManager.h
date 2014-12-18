@@ -15,9 +15,11 @@ namespace sdmg {
 
 			void cleanup();
 
-			void setKey(int playerIndex, std::string action, int key);
+			void setKey(int playerIndex, std::string action, int key, std::string device);
 			const int getKey(int playerIndex, std::string action);
 			
+			const std::string getDeviceName(int playerIndex);
+
 			void setUserConfig(std::string name, std::string value);
 			const std::string getUserConfig(std::string name);
 

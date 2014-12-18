@@ -27,6 +27,11 @@ namespace sdmg {
 						if (controlled.getState() != MoveObjState::IDLE) {
 							controlled.setState(MoveObjState::IDLE);
 						}
+
+						if (_machine->getEnemy()->getX() > controlled.getX() + 3.0F && controlled.getDirection() != MoveObjDirection::RIGHT)
+							controlled.setDirection(MoveObjDirection::RIGHT);
+						else if (_machine->getEnemy()->getX() < controlled.getX() - 3.0F && controlled.getDirection() != MoveObjDirection::LEFT)
+							controlled.setDirection(MoveObjDirection::LEFT);
 					}
 
 				}

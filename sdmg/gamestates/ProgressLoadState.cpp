@@ -25,9 +25,9 @@ namespace sdmg {
 
 		void ProgressLoadState::init(GameBase &game) {
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
+			_menu = new Menu(50, 250, game);
 
-			loadText("title", "Select Game to Load", "trebucbd", 48);
+			loadText("progressloadtitle", "Select Game to Load", "trebucbd", 48);
 
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(0) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(0) : "New game", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 0;
@@ -48,14 +48,14 @@ namespace sdmg {
 				_game->getStateManager()->popState();
 			});
 			if (ProgressManager::getInstance().currentSavegame >= 0)
-				_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+				_menu->addMenuTextItem("Back to progress", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
 		void ProgressLoadState::cleanup(GameBase &game) {
 			delete _menu;
-			game.getEngine()->getDrawEngine()->unload("title");
+			game.getEngine()->getDrawEngine()->unloadText("progressloadtitle");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
 
@@ -106,7 +106,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 
-			game.getEngine()->getDrawEngine()->drawText("title", (game.getEngine()->getDrawEngine()->getWindowWidth() / 2) - (game.getEngine()->getDrawEngine()->getTextSize("title")[0] / 2), 70);
+			game.getEngine()->getDrawEngine()->drawText("progressloadtitle", 50, 70);
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
 		}

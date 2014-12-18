@@ -1,4 +1,4 @@
-//
+﻿//
 //
 //  @ Project : SDMG
 //  @ File Name : GameOverState.h
@@ -26,7 +26,9 @@ namespace sdmg {
 		void ProgressState::init(GameBase &game)
 		{
 			_game = &game;
-			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2.1, game);
+			_game->getEngine()->getDrawEngine()->loadText("progresstitle", "Progress", { 255, 255, 255 }, "trebucbd", 48);
+
+			_menu = new Menu(50, 250, game);
 
 			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
 
@@ -50,7 +52,7 @@ namespace sdmg {
 			_menu->addMenuTextItem("Delete", (std::function<void()>)[&] {
 				_game->getStateManager()->pushState(ProgressDeleteState::getInstance());
 			});
-			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
@@ -106,6 +108,7 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 
+			game.getEngine()->getDrawEngine()->drawText("progresstitle", 50, 70);
 			_menu->draw(&game);
 
 			if (_hasChanged) {
@@ -113,7 +116,7 @@ namespace sdmg {
 				_hasChanged = false;
 			}
 
-			game.getEngine()->getDrawEngine()->drawDynamicText("TextAutosave", _isEnabled ? "[X]" : "[  ]", 470, 352);
+			game.getEngine()->getDrawEngine()->drawDynamicText("TextAutosave", _isEnabled ? "[x]" : "[ ]", 65, 262);
 
 			drawEngine->render();
 		}

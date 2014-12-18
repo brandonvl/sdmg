@@ -27,17 +27,13 @@ namespace sdmg {
 
 				void IdleAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
+					if (controlled.stateIsInterruptible()) {
 
-					_transition = "moveLeft";
-						/*
-						if (controlled.getState() != (MoveObjState::LONGRANGEATTACKBEGIN | MoveObjState::WALKING) && controlled.stateIsInterruptible())
-							controlled.setState(MoveObjState::LONGRANGEATTACKBEGIN | MoveObjState::WALKING);
-						else if (controlled.stateIsInterruptible())
-							_machine->setState("moveRight");*/
-					/*if (enemy->getX() > controlled.getX())
-						_machine->setState("moveRight");
-					else if (enemy->getX() < controlled.getX())
-						_machine->setState("moveLeft");*/
+						if (controlled.getX() > _machine->getEnemy()->getX())
+							_transition = "moveRight";
+						else if (controlled.getX() < _machine->getEnemy()->getX())
+							_transition = "moveLeft";
+					}
 				}
 
 				void IdleAIState::exit(model::Character &controlled, GameTime &gameTime, GameBase &game) {

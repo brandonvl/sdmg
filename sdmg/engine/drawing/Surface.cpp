@@ -16,8 +16,8 @@
 namespace sdmg {
 	namespace engine {
 		namespace drawing {
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine) : _sliceWidth(0), _sliceHeight(0), _renderWidth(0), _renderHeight(0), _drawEngine(drawEngine) {
-				load(path, renderer);
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine) : _path(path), _sliceWidth(0), _sliceHeight(0), _renderWidth(0), _renderHeight(0), _drawEngine(drawEngine) {
+				load(renderer);
 			}
 
 			Surface::Surface(SDL_Surface *surface, SDL_Renderer *renderer, DrawEngine *drawEngine) : _sliceWidth(0), _sliceHeight(0), _drawEngine(drawEngine) {
@@ -28,16 +28,16 @@ namespace sdmg {
 				_renderHeight = surface->h;
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight), _drawEngine(drawEngine) {
-				load(path, renderer);
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight) : _path(path), _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(sliceWidth), _renderHeight(sliceHeight), _drawEngine(drawEngine) {
+				load(renderer);
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _drawEngine(drawEngine) {
-				load(path, renderer);
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight) : _path(path), _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _drawEngine(drawEngine) {
+				load(renderer);
 			}
 
-			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight, AnimationType animationType) : _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _animationType(animationType), _drawEngine(drawEngine) {
-				load(path, renderer);
+			Surface::Surface(const std::string path, SDL_Renderer *renderer, DrawEngine *drawEngine, const int sliceWidth, const int sliceHeight, const int renderWidth, const int renderHeight, AnimationType animationType) : _path(path), _sliceWidth(sliceWidth), _sliceHeight(sliceHeight), _renderWidth(renderWidth), _renderHeight(renderHeight), _animationType(animationType), _drawEngine(drawEngine) {
+				load(renderer);
 			}
 
 			Surface::~Surface() {
@@ -45,7 +45,7 @@ namespace sdmg {
 					SDL_DestroyTexture(texture);
 			}
 
-			void Surface::load(std::string path, SDL_Renderer *renderer) {
+			void Surface::load(SDL_Renderer *renderer) {
 				// Initialize SDL_image with PNG loading flags
 				int pngFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(pngFlags) & pngFlags))
@@ -53,8 +53,8 @@ namespace sdmg {
 				else
 				{
 					// Load image at specified path
-					SDL_Surface *surface = IMG_Load(path.c_str());
-					if (surface != NULL) {
+					SDL_Surface *surface = IMG_Load(_path.c_str());
+					if (surface) {
 
 						
 						if (_sliceWidth > 0 && _sliceHeight > 0) {
@@ -73,7 +73,7 @@ namespace sdmg {
 
 						SDL_FreeSurface(surface);
 					}
-					else printf("Unable to load image %s\n", path.c_str());			
+					else printf("Unable to load image %s\n", _path.c_str());			
 				}
 			}
 

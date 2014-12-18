@@ -21,19 +21,19 @@ namespace sdmg {
 			_game = &game;
 
 			//  _menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() / 2 - 187.5f, game.getEngine()->getDrawEngine()->getWindowHeight() / 2, game);
-			_menu = new Menu(100, 600, game);
+			_menu = new Menu(50, 600, game);
 
 			std::function<void()> CallBackOptionsMenu = std::bind(&StatisticsState::returnToOptionsMenu, this);
 
 			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			_menu->addMenuTextItem("Back", CallBackOptionsMenu);
+			_menu->addMenuTextItem("Back to options", CallBackOptionsMenu);
 
-			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainbackground");
+			game.getEngine()->getDrawEngine()->load("statics_background", "assets/screens/mainmenu");
 
 			// Load header text
 			loadText("title", "Statistics", "trebucbd", 48);
-			loadText("wins", "Wins", "trebucbd", 36);
-			loadText("losses", "Losses", "trebucbd", 36);
+			loadText("wins", "Wins", "trebucbd", 34);
+			loadText("losses", "Losses", "trebucbd", 34);
 
 			// Load statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
@@ -41,11 +41,11 @@ namespace sdmg {
 			for (int i = 0; i < statistics.size(); i++) {
 				JSON::JSONObject &characterObj = statistics.getObject(i);
 				// Load character name text
-				loadText(characterObj.getString("name") + "name", characterObj.getString("name"), "trebucbd", 36);
+				loadText(characterObj.getString("name") + "name", characterObj.getString("name"), "trebucbd", 34);
 
 				// Set character statistics
-				loadText(characterObj.getString("name") + "wins", std::to_string(characterObj.getInt("wins")), "trebucbd", 36);
-				loadText(characterObj.getString("name") + "losses", std::to_string(characterObj.getInt("losses")), "trebucbd", 36);
+				loadText(characterObj.getString("name") + "wins", std::to_string(characterObj.getInt("wins")), "trebuc", 34);
+				loadText(characterObj.getString("name") + "losses", std::to_string(characterObj.getInt("losses")), "trebuc", 34);
 			}
 
 			game.getEngine()->getInputEngine()->setMouseEnabled();
@@ -111,15 +111,15 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			drawEngine->draw("statics_background");
 
-			drawEngine->drawText("title", 100, 100);
+			drawEngine->drawText("title", 50, 70);
 
 			int winspos = 680;
 			int lossespos = 900;
 
-			drawEngine->drawText("wins", winspos, 200);
-			drawEngine->drawText("losses", lossespos, 200);
+			drawEngine->drawText("wins", winspos, 240);
+			drawEngine->drawText("losses", lossespos, 240);
 
-			int vpos = 248;
+			int vpos = 290;
 			winspos += 10;
 			lossespos += 10;
 
@@ -128,7 +128,7 @@ namespace sdmg {
 
 			for (int i = 0; i < statistics.size(); i++) {
 				JSON::JSONObject &characterObj = statistics.getObject(i);
-				drawEngine->drawText(characterObj.getString("name") + "name", 100, vpos);
+				drawEngine->drawText(characterObj.getString("name") + "name", 50, vpos);
 				drawEngine->drawText(characterObj.getString("name") + "wins", winspos, vpos);
 				drawEngine->drawText(characterObj.getString("name") + "losses", lossespos, vpos);
 
