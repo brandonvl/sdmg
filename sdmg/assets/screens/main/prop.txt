@@ -1,0 +1,5 @@
+grootte
+630, 430
+
+positie
+585, 243

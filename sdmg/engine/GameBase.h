@@ -13,6 +13,7 @@ namespace sdmg {
 
 	namespace helperclasses {
 		class RandomGenerator;
+		class Recorder;
 	}
 
 	namespace engine {
@@ -35,12 +36,14 @@ namespace sdmg {
 			GameTime *getGameTime();
 			GameStateManager *getStateManager() { return _gameStateManager; };
 			helperclasses::RandomGenerator *getRandomGenerator() { return _randomGenerator; }
+			helperclasses::Recorder &getRecorder() { return *_recorder; }
 
 			enum GameMode
 			{
 				SinglePlayer,
 				Versus,
-				Survival
+				Survival,
+				Playback
 			};
 
 			GameMode getGameMode();
@@ -55,6 +58,7 @@ namespace sdmg {
 			helperclasses::RandomGenerator *_randomGenerator;
 			GameTime *_gameTime;
 			Engine *_engine;
+			helperclasses::Recorder *_recorder;
 			bool _running;
 			bool _calculateFPS;
 			GameMode _gameMode;

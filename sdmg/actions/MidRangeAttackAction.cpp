@@ -15,10 +15,12 @@
 
 namespace sdmg {
 	namespace actions {
-		MidRangeAttackAction::MidRangeAttackAction(Character *character) : CharacterAction(character) {}
-		MidRangeAttackAction::MidRangeAttackAction(Character *character, SDL_Event event) : CharacterAction(character, event) {}
+		MidRangeAttackAction::MidRangeAttackAction(Character *character) : CharacterAction(character, "MidRangeAttackAction") {}
+		MidRangeAttackAction::MidRangeAttackAction(Character *character, SDL_Event event) : CharacterAction(character, event, "MidRangeAttackAction") {}
 
 		bool MidRangeAttackAction::run(engine::GameBase &game) {
+			CharacterAction::run(game);
+
 			if (_character->stateIsInterruptible() && _character->getAttackBody() == nullptr)
 			{
 				if (_event.type == SDL_KEYDOWN) {

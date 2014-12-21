@@ -140,6 +140,7 @@
     <ClCompile Include="gamestates\HighScoreState.cpp" />
     <ClCompile Include="gamestates\IntroState.cpp" />
     <ClCompile Include="gamestates\LevelSelectionState.cpp" />
+    <ClCompile Include="gamestates\LoadingPlayBackState.cpp" />
     <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp" />
     <ClCompile Include="gamestates\LoadingState.cpp" />
     <ClCompile Include="gamestates\LoadingSurvivalState.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="gamestates\MenuState.cpp" />
     <ClCompile Include="gamestates\OptionsState.cpp" />
     <ClCompile Include="gamestates\PauseState.cpp" />
+    <ClCompile Include="gamestates\PlayBackState.cpp" />
     <ClCompile Include="gamestates\PlayState.cpp" />
     <ClCompile Include="gamestates\ProgressDeleteState.cpp" />
     <ClCompile Include="gamestates\ProgressLoadState.cpp" />
@@ -163,6 +165,7 @@
     <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp" />
     <ClCompile Include="helperclasses\ProgressManager.cpp" />
     <ClCompile Include="helperclasses\RandomGenerator.cpp" />
+    <ClCompile Include="helperclasses\Recorder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model\AICharacter.cpp" />
     <ClCompile Include="model\Character.cpp" />
@@ -242,6 +245,7 @@
     <ClInclude Include="gamestates\HighScoreState.h" />
     <ClInclude Include="gamestates\IntroState.h" />
     <ClInclude Include="gamestates\LevelSelectionState.h" />
+    <ClInclude Include="gamestates\LoadingPlayBackState.h" />
     <ClInclude Include="gamestates\LoadingSinglePlayerState.h" />
     <ClInclude Include="gamestates\LoadingState.h" />
     <ClInclude Include="gamestates\LoadingSurvivalState.h" />
@@ -249,6 +253,7 @@
     <ClInclude Include="gamestates\MenuState.h" />
     <ClInclude Include="gamestates\OptionsState.h" />
     <ClInclude Include="gamestates\PauseState.h" />
+    <ClInclude Include="gamestates\PlayBackState.h" />
     <ClInclude Include="gamestates\PlayState.h" />
     <ClInclude Include="gamestates\ProgressDeleteState.h" />
     <ClInclude Include="gamestates\ProgressLoadState.h" />
@@ -265,6 +270,7 @@
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
     <ClInclude Include="helperclasses\ProgressManager.h" />
     <ClInclude Include="helperclasses\RandomGenerator.h" />
+    <ClInclude Include="helperclasses\Recorder.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />

@@ -327,9 +327,6 @@
     <ClCompile Include="engine\ai\aistates\IdleAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
-    <ClCompile Include="actions\LongRangeAttackAction.cpp">
-      <Filter>Source Files\engine\audio</Filter>
-    </ClCompile>
     <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
@@ -387,17 +384,29 @@
     <ClCompile Include="engine\ai\aistates\TutorialIdleAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
-    <ClCompile Include="gamestates\HighScoreState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="engine\ai\aistates\JumpingAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
+    <ClCompile Include="helperclasses\Recorder.cpp">
+      <Filter>Source Files\helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LongRangeAttackAction.cpp">
+      <Filter>Source Files\actions</Filter>
+	</ClCompile>  
     <ClCompile Include="engine\ai\aistates\LongAttackAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
     <ClCompile Include="gamestates\HighScoreInputState.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\PlayBackState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\HighScoreState.cpp">
+      <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingPlayBackState.cpp">
+      <Filter>Source Files\gamestates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -701,17 +710,26 @@
     <ClInclude Include="engine\ai\aistates\TutorialIdleAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\HighScoreState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="engine\ai\aistates\JumpingAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
+    <ClInclude Include="helperclasses\Recorder.h">
+      <Filter>Header Files\helperclasses</Filter>
+	</ClInclude>
     <ClInclude Include="engine\ai\aistates\LongAttackAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\HighScoreInputState.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\PlayBackState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\HighScoreState.h">
+      <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingPlayBackState.h">
+      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

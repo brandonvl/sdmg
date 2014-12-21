@@ -16,6 +16,7 @@
 #include "GameModeState.h"
 #include "TutorialState.h"
 #include "ProgressLoadState.h"
+#include "LoadingPlayBackState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -46,14 +47,25 @@ namespace sdmg {
 			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, GameModeState::getInstance()); });
 			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
+			_menu->addMenuTextItem("Playback", (std::function<void()>)[&] {
+				_game->setGameMode(GameBase::GameMode::Playback);
+				LoadingPlayBackState::getInstance().setPlaybackFileName("recording");
+				_game->getStateManager()->changeState(LoadingPlayBackState::getInstance());
+			});
 			_menu->addMenuTextItem("Quit", (std::function<void()>)[&] { _game->stop(); });
 
 			game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/mainmenu/bgm.mp3", AUDIOTYPE::MUSIC);
 			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);
-			game.getEngine()->getDrawEngine()->load("mainmenu_background", "assets/screens/mainmenu");
 			game.getEngine()->getAudioEngine()->play("main_menu_bgm", 0);
 			game.getEngine()->getInputEngine()->setMouseEnabled();
-			
+
+			game.getEngine()->getDrawEngine()->load("mainmenu_background", "assets/screens/mainmenu");
+			game.getEngine()->getDrawEngine()->load("menu_play", "assets/screens/main/play");
+			game.getEngine()->getDrawEngine()->load("menu_options", "assets/screens/main/options");
+			game.getEngine()->getDrawEngine()->load("menu_credits", "assets/screens/mainm/credits");
+			game.getEngine()->getDrawEngine()->load("menu_quit", "assets/screens/main/quit");
+
+
 			_advertisementIndex = -1;
 			_advertisementRefreshRate = 15 * 10000;
 			_lastTimeSinceAdvertisementChange = 0;
@@ -143,6 +155,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("mainmenu_background");
 
 			game.getEngine()->getDrawEngine()->drawText("maintitle", 50, 70);
+
+			game.getEngine()->getDrawEngine()->draw("menu_play", 585, 243);
 
 			if (_advertisementIndex >= 0)
 				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);

@@ -26,7 +26,9 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
 #include "PlayState.h"
+#include "PlayBackState.h"
 #include "helperclasses\ProgressManager.h"
+#include "helperclasses\Recorder.h"
 
 
 namespace sdmg {
@@ -76,12 +78,15 @@ namespace sdmg {
 					}
 					*/
 				}
+				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
 				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
+				_menu->addMenuTextItem("Save replay", (std::function<void()>)[&] { _game->getRecorder().save("assets/recording"); });
+				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
-			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
+
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
 				if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 					LoadingSinglePlayerState::getInstance().unloadAll();
@@ -196,7 +201,7 @@ namespace sdmg {
 
 				game.getWorld()->clearWorld();
 
-				std::vector<HUD*> *huds = PlayState::getInstance()._huds;
+				std::vector<HUD*> *huds = game.getGameMode() == GameBase::GameMode::Playback ? PlayBackState::getInstance()._huds : PlayState::getInstance()._huds;
 
 				if (huds) {
 					for (auto it : *huds) {
