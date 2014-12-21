@@ -136,6 +136,7 @@
     <ClCompile Include="gamestates\GameOverState.cpp" />
     <ClCompile Include="gamestates\GameOverSurvivalState.cpp" />
     <ClCompile Include="gamestates\HelpState.cpp" />
+    <ClCompile Include="gamestates\HighScoreInputState.cpp" />
     <ClCompile Include="gamestates\HighScoreState.cpp" />
     <ClCompile Include="gamestates\IntroState.cpp" />
     <ClCompile Include="gamestates\LevelSelectionState.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="gamestates\GameOverState.h" />
     <ClInclude Include="gamestates\GameOverSurvivalState.h" />
     <ClInclude Include="gamestates\HelpState.h" />
+    <ClInclude Include="gamestates\HighScoreInputState.h" />
     <ClInclude Include="gamestates\HighScoreState.h" />
     <ClInclude Include="gamestates\IntroState.h" />
     <ClInclude Include="gamestates\LevelSelectionState.h" />

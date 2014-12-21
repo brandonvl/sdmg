@@ -1,4 +1,5 @@
 #include "HighScoreState.h"
+#include "HighScoreInputState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
@@ -17,10 +18,11 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("highscore_background", "assets/screens/mainmenu");
 
 			// Create menu
+			_menu->addMenuTextItem("Input highscore", (std::function<void()>)[&] { _game->getStateManager()->pushState(HighScoreInputState::getInstance()); });
 			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			// Load header text
-			loadText("title_highscore", "Highscores", "trebucbd", 48);
+			loadText("highscore_title", "Highscores", "trebucbd", 48);
 
 			_highscores = ProgressManager::getInstance().getHighscores();
 			for (auto i = 0; i < _highscores->size(); i++) {
@@ -36,16 +38,16 @@ namespace sdmg {
 		{
 			delete _menu;
 			_menu = nullptr;
-
-			//game.getEngine()->getDrawEngine()->unload("mainmenu_background");
-
+			
 			game.getEngine()->getDrawEngine()->unload("highscore_background");
+			game.getEngine()->getDrawEngine()->unload("highscore_title");
 
 			for (auto i = 0; i < _highscores->size(); i++) {
 				game.getEngine()->getDrawEngine()->unload("number_" + std::to_string(i));
 				game.getEngine()->getDrawEngine()->unload("name_" + std::to_string(i));
 				game.getEngine()->getDrawEngine()->unload("score_" + std::to_string(i));
 			}
+
 			delete _highscores;
 			_highscores = nullptr;
 
@@ -93,7 +95,7 @@ namespace sdmg {
 			int hpos = 50;
 			int vpos = 70;
 
-			game.getEngine()->getDrawEngine()->drawText("title_highscore", hpos, vpos);
+			game.getEngine()->getDrawEngine()->drawText("highscore_title", hpos, vpos);
 
 			hpos = 700;
 			vpos = 250;
@@ -117,10 +119,5 @@ namespace sdmg {
 		{
 			_game->getEngine()->getDrawEngine()->loadText(key, text, { 255, 255, 255 }, fontName, fontSize);
 		}
-		
-		/*void HighScoreState::loadDynamicText(std::string key, int r, int g, int b, std::string fontName, int fontSize)
-		{
-			_game->getEngine()->getDrawEngine()->loadDynamicText(key, { r, g, b }, fontName, fontSize);
-		}*/
 	}
 }

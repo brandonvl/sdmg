@@ -17,7 +17,7 @@ namespace sdmg {
 
 	namespace gamestates {
 		using namespace sdmg::helperclasses;
-		class HighScoreState : public MenuState {
+		class HighScoreInputState : public MenuState {
 		public:
 			void init(GameBase &game);
 			void cleanup(GameBase &game);
@@ -26,20 +26,24 @@ namespace sdmg {
 			void update(GameBase &game, GameTime &gameTime);
 			void draw(GameBase &game, GameTime &gameTime);
 
-			static HighScoreState& getInstance() {
-				static HighScoreState _instance;
+			static HighScoreInputState& getInstance() {
+				static HighScoreInputState _instance;
 				return _instance;
 			}
-
+		
 		protected:
-			HighScoreState() { }
+			HighScoreInputState() { }
 
 		private:
 			GameBase *_game;
-			Menu *_menu;
-			std::vector<std::vector<std::string>> *_highscores;
+			std::vector<Menu*> *_keyboard;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
+			void loadDynamicText(std::string key, int r, int g, int b, std::string fontName, int fontSize);
+
+			void initKeyboard(GameBase &game);
+
+			std::string *_highscoreInitials;
 		};
 	}
 }

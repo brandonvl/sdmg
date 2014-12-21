@@ -99,5 +99,10 @@ namespace sdmg {
 				yOffSet += i->getHeight() + _itemPaddingY;
 			}
 		}
+
+		void Menu::setWidth(int width)
+		{
+			_width = width;
+		}
 	}
 }
