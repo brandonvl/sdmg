@@ -329,7 +329,8 @@ namespace sdmg {
 
 			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
 
-			characters[1]->setAI(*machine);
+			//characters[1]->setAI(*machine);
+			characters[1]->setLives(1);
 
 			_game->getStateManager()->draw();
 

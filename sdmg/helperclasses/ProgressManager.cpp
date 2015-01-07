@@ -39,7 +39,7 @@ namespace sdmg {
 				JSON::JSONObject &characterObj = getStatistics().getObject(i);
 				characterObj.getVariable("wins").setValue(std::to_string(0));
 				characterObj.getVariable("losses").setValue(std::to_string(0));
-				if (characterObj.getString("name") == "Nivek The Assassin" || characterObj.getString("name") == "Fiat Panda")
+				if (characterObj.getString("key") == "nivek" || characterObj.getString("key") == "fiat")
 					characterObj.getVariable("unlocked").setValue(true);
 				else
 					characterObj.getVariable("unlocked").setValue(false);
@@ -97,7 +97,7 @@ namespace sdmg {
 			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 			for (int i = 0; i < characterArr.size(); i++) {
 				JSON::JSONObject &characterObj = characterArr.getObject(i);
-				if (name == characterObj.getString("name")) {
+				if (name == characterObj.getString("name") || name == characterObj.getString("key")) {
 					characterIndex = i;
 					break;
 				}
@@ -111,7 +111,7 @@ namespace sdmg {
 			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
 			for (int i = 0; i < characterArr.size(); i++) {
 				JSON::JSONObject &characterObj = characterArr.getObject(i);
-				if (name == characterObj.getString("name")) {
+				if (name == characterObj.getString("name") || name == characterObj.getString("key")) {
 					characterIndex = i;
 					break;
 				}
