@@ -28,11 +28,10 @@ namespace sdmg {
 		void CharacterSelectionState::init(GameBase &game)
 		{
 			_game = &game;
-			_game->getEngine()->getDrawEngine()->loadText("characterselecttitle", "Select a characters", { 255, 255, 255 }, "trebucbd", 48);
-			_menu = new Menu(50, 250, game);
+			_game->getEngine()->getDrawEngine()->loadText("characterselecttitle", "Select characters", { 255, 255, 255 }, "trebucbd", 48);
 
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
-			_slots = new std::vector<std::string>();
+			_slots = new std::array<std::string, 4>();
 
 			std::vector<std::string> characterList = std::vector<std::string>(util::FileManager::getInstance().getFolders("assets/characters/"));
 
@@ -91,18 +90,20 @@ namespace sdmg {
 						break;
 					case SDLK_DOWN:
 					case 1:
-						_menu->selectNext();
+					case SDLK_RIGHT:
+						selectNext();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_UP:
 					case 0:
-						_menu->selectPrevious();
+					case SDLK_LEFT:
+						selectPrevious();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						_menu->doAction();
+						game.getStateManager()->changeState(LevelSelectionState::getInstance());
 						break;
 					}
 				}
@@ -120,6 +121,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->drawText("characterselecttitle", 50, 70);
 		
 			drawCharacters(game);
+			drawSelectedCharacters(game);
 
 			game.getEngine()->getDrawEngine()->render();
 		}
@@ -142,13 +144,41 @@ namespace sdmg {
 		void CharacterSelectionState::drawSelectedCharacters(GameBase &game) {
 			auto de = game.getEngine()->getDrawEngine();
 
-			int curPos = 10;
-			int yPos = 100;
-			for (auto slot : *_slots) {
-				de->drawRectangle(Rectangle(curPos + 2, yPos + 2, 100, 100), 81, 167, 204);
+			int padding = 10;
+			int blockWidth = (de->getWindowWidth() - padding * _slots->size() - padding) / _slots->size();
 
-				curPos+=
+			int curPos = 10;
+			int yPos = 230;
+			for (auto slot : *_slots) {
+				de->drawRectangle(Rectangle(curPos, yPos, blockWidth, 300), 81, 167, 204);
+
+				if (!slot.empty())
+					de->draw("s_" + slot + "_head", curPos, yPos);
+
+				curPos += blockWidth + padding;
 			}
+		}
+
+		void CharacterSelectionState::selectNext() {
+			auto it = _characters->find(*_currentCharacter);
+			it++;
+
+			delete _currentCharacter;
+			if (it == _characters->end()) _currentCharacter = new std::string(_characters->begin()->first);
+			else _currentCharacter = new std::string(it->first);
+		}
+
+		void CharacterSelectionState::selectPrevious() {
+			auto it = _characters->find(*_currentCharacter);
+			it--;
+
+			delete _currentCharacter;
+			if (it == _characters->begin()) _currentCharacter = new std::string(_characters->end()->first);
+			else _currentCharacter = new std::string(it->first);
+		}
+
+		void CharacterSelectionState::select() {
+
 		}
 	}
 }
