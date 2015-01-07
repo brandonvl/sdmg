@@ -60,10 +60,10 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 
 			game.getEngine()->getDrawEngine()->load("mainmenu_background", "assets/screens/mainmenu");
-			game.getEngine()->getDrawEngine()->load("menu_play", "assets/screens/main/play");
-			game.getEngine()->getDrawEngine()->load("menu_options", "assets/screens/main/options");
-			game.getEngine()->getDrawEngine()->load("menu_credits", "assets/screens/mainm/credits");
-			game.getEngine()->getDrawEngine()->load("menu_quit", "assets/screens/main/quit");
+			//game.getEngine()->getDrawEngine()->load("menu_play", "assets/screens/main/play");
+			//game.getEngine()->getDrawEngine()->load("menu_options", "assets/screens/main/options");
+			//game.getEngine()->getDrawEngine()->load("menu_credits", "assets/screens/mainm/credits");
+			//game.getEngine()->getDrawEngine()->load("menu_quit", "assets/screens/main/quit");
 
 
 			_advertisementIndex = -1;
@@ -156,10 +156,11 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->drawText("maintitle", 50, 70);
 
-			game.getEngine()->getDrawEngine()->draw("menu_play", 585, 243);
+			//game.getEngine()->getDrawEngine()->draw("menu_play", 585, 243);
+			game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
 
 			if (_advertisementIndex >= 0)
-				game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
+				//game.getEngine()->getDrawEngine()->draw("advertisement", _advertisementX, _advertisementY);
 
 			_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
@@ -184,8 +185,8 @@ namespace sdmg {
 			_game->getEngine()->getDrawEngine()->load("advertisement", "assets\\advertisements\\" + _advertismentList->at(advertisementIndex));
 
 			const std::array<int, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
-			_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
-			_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
+			_advertisementX = _advertisementStartX + (size[0] / 2);
+			_advertisementY = _advertisementStartY + (size[1] / 2);
 		}
 	}
 }
