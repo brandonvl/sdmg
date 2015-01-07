@@ -147,7 +147,7 @@ namespace sdmg {
 			for (auto slot : *_slots) {
 				de->drawRectangle(Rectangle(curPos + 2, yPos + 2, 100, 100), 81, 167, 204);
 
-				curPos+=
+				curPos += 6;
 			}
 		}
 	}

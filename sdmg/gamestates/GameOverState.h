@@ -46,7 +46,9 @@ namespace sdmg {
 			int _characterCount;
 			GameBase *_game;
 			bool _replay;
+			bool _savedReplay = false;
 
+			void saveReplay();
 			void replay();
 			void next();
 		};

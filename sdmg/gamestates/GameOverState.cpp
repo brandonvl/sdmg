@@ -40,7 +40,7 @@ namespace sdmg {
 
 			_game->getEngine()->getPhysicsEngine()->pause();
 
-			std::cout << "Initing IntroState ... " << std::endl;
+			_savedReplay = false;
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
@@ -86,7 +86,7 @@ namespace sdmg {
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
 				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
-				_menu->addMenuTextItem("Save replay", (std::function<void()>)[&] { _game->getRecorder().save("assets/playbacks/recording"); });
+				_menu->addMenuTextItem("Save replay", (std::function<void()>)std::bind(&GameOverState::saveReplay, this));
 				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
 
@@ -143,6 +143,14 @@ namespace sdmg {
 				unlocked = false;
 				game.getStateManager()->pushState(UnlockedState::getInstance());
 			}
+		}
+
+		void GameOverState::saveReplay() {
+			_game->getRecorder().save("assets/playbacks/recording");
+
+			_savedReplay = true;
+
+			static_cast<helperclasses::menuitems::MenuTextItem*>(_menu->getSelectedMenuItem())->setText("Saved",*_game);
 		}
 
 		void GameOverState::replay() {

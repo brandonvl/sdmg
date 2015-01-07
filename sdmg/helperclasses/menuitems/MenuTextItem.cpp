@@ -16,6 +16,12 @@ namespace sdmg {
 				}
 			}
 
+			void MenuTextItem::setText(const std::string &text, GameBase &game) {
+				game.getEngine()->getDrawEngine()->unloadText("MI_" + _text);
+				_text = text;
+				loadText(game);
+			}
+
 			void MenuTextItem::loadText(GameBase &game) {
 				game.getEngine()->getDrawEngine()->loadText("MI_" + _text, _text, { 173, 14, 14 }, FONTNAME, FONTSIZE);
 				game.getEngine()->getDrawEngine()->loadText("MI_" + _text + "_SEL", _text, { 255, 255, 255 }, FONTNAME, FONTSIZE);
