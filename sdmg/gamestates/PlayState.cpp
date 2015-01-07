@@ -30,6 +30,7 @@
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\RandomGenerator.h"
 #include "helperclasses\Recorder.h"
+#include "engine\ai\EasyAIMachine.h"
 #include <vector>
 
 namespace sdmg {
@@ -202,6 +203,7 @@ namespace sdmg {
 
 			enemy->getBody()->SetActive(true);
 			enemy->setLives(5);
+			enemy->getAI()->resume();
 			enemy->setState(MovableGameObject::State::RESPAWN);
 			(*_huds)[1]->changeOwner(enemy);
 			_game->getWorld()->addAlive(enemy);
@@ -273,9 +275,10 @@ namespace sdmg {
 						}
 						else
 						{
-							MovableGameObject *bla = static_cast<MovableGameObject*>(game.getWorld()->getDeadList()[0]);
-							bla->destroyAttackBody();
-							bla->getBody()->SetActive(false);
+							Character *deadEnemy = static_cast<Character*>(game.getWorld()->getDeadList()[0]);
+							deadEnemy->destroyAttackBody();
+							deadEnemy->getAI()->pause();
+							deadEnemy->getBody()->SetActive(false);
 							chooseRandomEnemy();
 						}
 					}
