@@ -120,8 +120,7 @@ namespace sdmg {
 								case SDLK_HOME:
 									if (!event.key.repeat){
 										_multiplier = 1.0f;
-										_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
-										_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
+										setGameplaySpeed();
 									}
 									break;
 								case SDLK_PAGEUP:
@@ -129,8 +128,7 @@ namespace sdmg {
 										if (_multiplier > 0.1f)
 										{
 											_multiplier = _multiplier - 0.1;
-											_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
-											_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
+											setGameplaySpeed();
 										}
 									}
 									break;
@@ -140,15 +138,15 @@ namespace sdmg {
 										if (_multiplier < 1.5f)
 										{
 											_multiplier = _multiplier + 0.1;
-											_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
-											_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
+											setGameplaySpeed();
 										}
 									}
 									break;
 								}
 								break;
 							case SDL_QUIT:
-
+								_multiplier = 1.0f;
+								setGameplaySpeed();
 								if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
 								{
 									LoadingSinglePlayerState::getInstance().unloadAll();
@@ -158,6 +156,8 @@ namespace sdmg {
 							}
 						}
 						else if (event.type == SDL_QUIT){
+							_multiplier = 1.0f;
+							setGameplaySpeed();
 							if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
 							{
 								LoadingSinglePlayerState::getInstance().unloadAll();
@@ -179,6 +179,12 @@ namespace sdmg {
 				}
 				else _editor->handleEvent(event);
 			}
+		}
+		
+		void PlayState::setGameplaySpeed()
+		{
+			_game->getEngine()->getPhysicsEngine()->setSpeed(_game->getEngine()->getPhysicsEngine()->getSpeed() * _multiplier);
+			_game->getEngine()->getDrawEngine()->setSpeed(_game->getEngine()->getDrawEngine()->getSpeed() * _multiplier);
 		}
 
 		void PlayState::chooseRandomEnemy()
@@ -228,6 +234,8 @@ namespace sdmg {
 		{
 			if (!_editor->isEnabled()) {
 				if (_canDie && game.getWorld()->isGameOver()) {
+					_multiplier = 1.0f;
+					setGameplaySpeed();
 					if (game.getGameMode() == GameBase::GameMode::SinglePlayer || game.getGameMode() == GameBase::GameMode::Versus)
 					{
 						game.getEngine()->getPhysicsEngine()->pause();

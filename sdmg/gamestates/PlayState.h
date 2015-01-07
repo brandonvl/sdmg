@@ -50,6 +50,7 @@ namespace sdmg {
 			void performDraw(GameBase &game);
 
 			void chooseRandomEnemy();
+			void setGameplaySpeed();
 			void setPlayer(model::Character *player);
 			void setEnemies(std::vector<model::Character*> *enemies);
 
