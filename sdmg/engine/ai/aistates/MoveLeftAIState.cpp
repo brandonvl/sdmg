@@ -9,6 +9,7 @@
 #include "engine\physics\RayCastCallBack.h"
 #include "engine\input\InputEngine.h"
 #include "actions\LeftWalkAction.h"
+#include "helperclasses\RandomGenerator.h"
 
 namespace sdmg {
 	namespace engine {
@@ -30,8 +31,13 @@ namespace sdmg {
 
 				void MoveLeftAIState::update(model::Character &controlled, GameTime &gameTime, GameBase &game)
 				{
+					int number = game.getRandomGenerator()->random(1, 100);
 
-					if (_machine->getEnemy()->getY() < controlled.getY() && _machine->getEnemy()->getX() - 4.0F <= controlled.getX())
+					if (number > 99 && controlled.getPP() >= controlled.getLongCost()) {
+						_transition = "longAttack";
+						return;
+					}
+					else if ((_machine->getEnemy()->getY() - controlled.getY()) > 1.0F && _machine->getEnemy()->getX() - 4.0F <= controlled.getX())
 					{
 						_transition = "jumping";
 						return;

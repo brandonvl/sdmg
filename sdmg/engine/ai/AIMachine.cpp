@@ -4,6 +4,7 @@
 #include "engine\GameBase.h"
 #include "engine\GameTime.h"
 
+
 namespace sdmg {
 	namespace engine {
 		namespace ai {

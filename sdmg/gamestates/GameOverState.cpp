@@ -83,7 +83,7 @@ namespace sdmg {
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
 				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
-				_menu->addMenuTextItem("Save replay", (std::function<void()>)[&] { _game->getRecorder().save("assets/recording"); });
+				_menu->addMenuTextItem("Save replay", (std::function<void()>)[&] { _game->getRecorder().save("assets/playbacks/recording"); });
 				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
 
