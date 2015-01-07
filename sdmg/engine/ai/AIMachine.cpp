@@ -73,10 +73,14 @@ namespace sdmg {
 			}
 
 			void AIMachine::update(GameTime *gameTime, GameBase *game) {
-				checkState(gameTime, game);
 
-				if (_activeState != nullptr) {
-					_activeState->update(*_controlled, *gameTime, *game);
+				if (!_paused){
+
+					checkState(gameTime, game);
+
+					if (_activeState != nullptr) {
+						_activeState->update(*_controlled, *gameTime, *game);
+					}
 				}
 			}
 		}

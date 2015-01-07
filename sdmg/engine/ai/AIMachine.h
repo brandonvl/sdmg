@@ -30,6 +30,8 @@ namespace sdmg {
 					virtual void update(GameTime *gameTime, GameBase *game);
 					virtual void revertToPreviousState(GameTime *gameTime, GameBase *game);
 					virtual model::Character *getEnemy() { return _enemy; }
+					virtual void pause() { _paused = true; }
+					virtual void resume() { _paused = false; }
 				private:
 					void checkState(GameTime *gameTime, GameBase *game);
 					std::map<std::string, aistate::AIState*> _states;
@@ -38,6 +40,7 @@ namespace sdmg {
 					aistate::AIState *_previousState;
 					model::Character *_controlled;
 					model::Character *_enemy;
+					bool _paused = false;
 			};
 		}
 	}
