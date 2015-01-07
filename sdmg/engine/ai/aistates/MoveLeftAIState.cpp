@@ -37,7 +37,7 @@ namespace sdmg {
 						_transition = "longAttack";
 						return;
 					}
-					else if ((_machine->getEnemy()->getY() - controlled.getY()) > 1.0F && _machine->getEnemy()->getX() - 4.0F <= controlled.getX())
+					else if ((_machine->getEnemy()->getY() - controlled.getY()) < -1.0F && _machine->getEnemy()->getX() - 4.0F <= controlled.getX())
 					{
 						_transition = "jumping";
 						return;
