@@ -330,6 +330,7 @@ namespace sdmg {
 			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
 
 			characters[1]->setAI(*machine);
+			characters[1]->setLives(1);
 
 			_game->getStateManager()->draw();
 
@@ -397,8 +398,7 @@ namespace sdmg {
 				_game->getEngine()->getInputEngine()->clearBindings();
 
 				int playerCharacterID = 0;
-
-
+				
 				Character *character = static_cast<Character*>(players[playerCharacterID]);
 				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkRight"), new actions::RightWalkAction(character));
 				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkLeft"), new actions::LeftWalkAction(character));

@@ -30,6 +30,7 @@
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\RandomGenerator.h"
 #include "helperclasses\Recorder.h"
+#include "engine\ai\EasyAIMachine.h"
 #include <vector>
 
 namespace sdmg {
@@ -47,17 +48,14 @@ namespace sdmg {
 			_canDie = true;
 			_enemiesKilled = 0;
 			
-			if (!_particlesSet) {
-				for (auto obj : game.getWorld()->getPlayers()) {
-					game.getEngine()->getParticleEngine()->registerGameObject(obj);
-				}
-
-				game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
-				game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
-				_particlesSet = true;
+			for (auto obj : game.getWorld()->getPlayers()) {
+				game.getEngine()->getParticleEngine()->registerGameObject(obj);
 			}
+
+			game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
+			game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
 			
-			game.getRecorder().start(game);
+			game.getRecorder().start(game,*_level);
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -65,9 +63,14 @@ namespace sdmg {
 			_huds = huds;
 		}
 
+		void PlayState::setLevel(std::string *level) {
+			_level = new std::string(*level);
+		}
+
 		void PlayState::cleanup(GameBase &game)
 		{
 			delete _editor;
+			delete _level;
 			_editor = nullptr;
 		}
 
@@ -205,6 +208,7 @@ namespace sdmg {
 
 			enemy->getBody()->SetActive(true);
 			enemy->setLives(5);
+			enemy->getAI()->resume();
 			enemy->setState(MovableGameObject::State::RESPAWN);
 			(*_huds)[1]->changeOwner(enemy);
 			_game->getWorld()->addAlive(enemy);
@@ -250,7 +254,6 @@ namespace sdmg {
 						}
 
 						game.getEngine()->getParticleEngine()->unloadAll();
-						_particlesSet = false;
 
 						changeState(game, GameOverState::getInstance());
 						return;
@@ -271,16 +274,16 @@ namespace sdmg {
 							}
 
 							game.getEngine()->getParticleEngine()->unloadAll();
-							_particlesSet = false;
 
 							changeState(game, GameOverSurvivalState::getInstance());
 							return;
 						}
 						else
 						{
-							MovableGameObject *bla = static_cast<MovableGameObject*>(game.getWorld()->getDeadList()[0]);
-							bla->destroyAttackBody();
-							bla->getBody()->SetActive(false);
+							Character *deadEnemy = static_cast<Character*>(game.getWorld()->getDeadList()[0]);
+							deadEnemy->destroyAttackBody();
+							deadEnemy->getAI()->pause();
+							deadEnemy->getBody()->SetActive(false);
 							chooseRandomEnemy();
 						}
 					}

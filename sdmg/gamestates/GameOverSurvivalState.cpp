@@ -25,7 +25,7 @@
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\ProgressManager.h"
 #include "HighScoreInputState.h"
-
+#include "engine\ai\EasyAIMachine.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -42,6 +42,9 @@ namespace sdmg {
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
+
+			model::Character *enemy = static_cast<model::Character*>(deadList[1]);
+			enemy->getAI()->pause();
 
 			model::Character *chas = static_cast<model::Character*>(deadList[0]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
@@ -82,6 +85,9 @@ namespace sdmg {
 				model::Character *character = static_cast<model::Character*>(aliveList[i]);
 				character->revive();
 				character->setState(MovableGameObject::State::RESPAWN);
+
+				if (i == 1)
+					character->getAI()->resume();
 			}
 
 			_replay = true;

@@ -39,14 +39,11 @@ namespace sdmg {
 			});
 			_menu->addMenuTextItem("Singleplayer", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::SinglePlayer);
-				LoadingSinglePlayerState::getInstance().setPlayerName("nivek");
-				changeState(*_game, LoadingSinglePlayerState::getInstance());
-				LoadingSinglePlayerState::getInstance().loadNextFight();
+				changeState(*_game, CharacterSelectionState::getInstance());
 			});
 			_menu->addMenuTextItem("Survival", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::Survival);
-				LoadingSurvivalState::getInstance().setPlayerName("nivek");
-				changeState(*_game, LoadingSurvivalState::getInstance());
+				changeState(*_game, CharacterSelectionState::getInstance());
 			});
 			_menu->addMenuTextItem("Tutorial", (std::function<void()>)[&] {
 				LoadingState::getInstance().setIsTutorial(true);

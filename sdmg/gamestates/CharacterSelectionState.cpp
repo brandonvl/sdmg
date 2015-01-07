@@ -18,6 +18,7 @@
 #include "engine\audio\AudioEngine.h"
 #include "LoadingState.h"
 #include "LoadingSinglePlayerState.h"
+#include "LoadingSurvivalState.h"
 #include "MainMenuState.h"
 #include "engine\util\FileManager.h"
 #include <vector>
@@ -28,10 +29,17 @@ namespace sdmg {
 		void CharacterSelectionState::init(GameBase &game)
 		{
 			_game = &game;
-			_game->getEngine()->getDrawEngine()->loadText("characterselecttitle", "Select characters", { 255, 255, 255 }, "trebucbd", 48);
+
+			
 
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
-			_slots = new std::array<std::string, 4>();
+			_slots = new std::vector<std::string>();
+			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
+
+			std::string titleText = "Select character";
+			if (_slots->size() != 1) titleText += "s";
+
+			_game->getEngine()->getDrawEngine()->loadText("characterselecttitle", titleText, { 255, 255, 255 }, "trebucbd", 48);
 
 			std::vector<std::string> characterList = std::vector<std::string>(util::FileManager::getInstance().getFolders("assets/characters/"));
 
@@ -49,7 +57,8 @@ namespace sdmg {
 						_characters->insert({ characterFolder, doc });
 
 						game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_head", "assets/characters/" + characterFolder + "/preview");
-						game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_big", "assets/characters/" + characterFolder + "/win");
+						game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_big", "assets/characters/" + characterFolder + "/preview_big");
+						game.getEngine()->getDrawEngine()->loadText("s_" + characterFolder + "_name", doc->getRootObject().getString("name"), { 255, 255, 255 }, "trebucbd", 12);
 					}
 					catch (...)
 					{
@@ -61,11 +70,21 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("characterselect_background", "assets/screens/mainmenu");
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 
-			_currentCharacter = new std::string("nivek");
+			_currentCharacter = new std::string(_characters->begin()->first);
 		}
 
 		void CharacterSelectionState::cleanup(GameBase &game)
 		{
+			delete _currentCharacter;
+			game.getEngine()->getDrawEngine()->unloadAll();
+
+			game.getEngine()->getInputEngine()->getMouse().clear();
+
+			for (auto it : *_characters) {
+				delete it.second;
+			}
+			delete _characters;
+			delete _slots;
 		}
 		
 		void CharacterSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -88,22 +107,23 @@ namespace sdmg {
 					case SDLK_ESCAPE:
 						changeState(*_game, MainMenuState::getInstance());
 						break;
-					case SDLK_DOWN:
-					case 1:
-					case SDLK_RIGHT:
-						selectNext();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
-						break;
 					case SDLK_UP:
-					case 0:
+					case SDLK_RIGHT:
+					case 1:
+						selectNext();
+						break;
+					case SDLK_DOWN:
 					case SDLK_LEFT:
+					case 0:
 						selectPrevious();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+						break;
+					case SDLK_SPACE:
+					case 10:
+						select();
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-					case 10:
-						game.getStateManager()->changeState(LevelSelectionState::getInstance());
+						nextState();
 						break;
 					}
 				}
@@ -130,11 +150,17 @@ namespace sdmg {
 			auto de = game.getEngine()->getDrawEngine();
 
 			int curPos = 10;
-			int yPos = 610;
+			int yPos = 590;
 			for (auto p : *_characters) {
-				if (p.first == *_currentCharacter) de->drawRectangle(Rectangle(curPos, yPos, 104, 104), 217, 13, 13);
+				if (p.first == *_currentCharacter) de->drawRectangle(Rectangle(curPos, yPos, 104, 126), 217, 13, 13);
 				de->drawRectangle(Rectangle(curPos + 2, yPos + 2, 100, 100), 81, 167, 204);
 				de->draw("s_" + p.first + "_head", curPos + 2, yPos + 2);
+
+				auto size = de->getTextSize("s_" + p.first + "_name");
+				int textX = curPos + (104 - size[0]) / 2;
+
+				de->drawRectangle(Rectangle(curPos + 2, yPos + 100, 100, 24), 53, 121, 151);
+				de->drawText("s_" + p.first + "_name", textX, yPos + 105);
 
 				curPos += 110;
 			}
@@ -146,14 +172,20 @@ namespace sdmg {
 
 			int padding = 10;
 			int blockWidth = (de->getWindowWidth() - padding * _slots->size() - padding) / _slots->size();
+			int blockHeight = 300;
 
 			int curPos = 10;
 			int yPos = 230;
 			for (auto slot : *_slots) {
-				de->drawRectangle(Rectangle(curPos, yPos, blockWidth, 300), 81, 167, 204);
+				de->drawRectangle(Rectangle(curPos, yPos, blockWidth, blockHeight), 81, 167, 204);
 
-				if (!slot.empty())
-					de->draw("s_" + slot + "_head", curPos, yPos);
+				if (!slot.empty()) {
+					auto size = de->getImageSize("s_" + slot + "_big");
+					int imgPosX = curPos + (blockWidth - size[0]) / 2;
+					int imgPosY = yPos + (blockHeight - size[1]) / 2;
+
+					de->draw("s_" + slot + "_big", imgPosX, imgPosY);
+				}
 
 				curPos += blockWidth + padding;
 			}
@@ -170,15 +202,55 @@ namespace sdmg {
 
 		void CharacterSelectionState::selectPrevious() {
 			auto it = _characters->find(*_currentCharacter);
-			it--;
 
 			delete _currentCharacter;
-			if (it == _characters->begin()) _currentCharacter = new std::string(_characters->end()->first);
-			else _currentCharacter = new std::string(it->first);
+
+			if (it == _characters->begin()) {
+				it = _characters->end();
+			}
+			it--;
+			_currentCharacter = new std::string(it->first);
 		}
 
 		void CharacterSelectionState::select() {
+			
+			if (_slots->size() > 1) {
+				for (int i = 0; i < _slots->size(); i++) {
+					if ((*_slots)[i].empty()) {
+						(*_slots)[i] = *_currentCharacter;
+						return;
+					}
+				}
+			}
+			else (*_slots)[0] = *_currentCharacter;
+		}
 
+		void CharacterSelectionState::nextState() {
+			
+			switch (_game->getGameMode()) {
+			case GameBase::GameMode::Versus:
+				LoadingState::getInstance().resetCharacters();
+
+				for (auto &slot : *_slots) {
+					if (!slot.empty())
+						LoadingState::getInstance().addCharacter(slot);
+				}
+				changeState(*_game, LevelSelectionState::getInstance());
+				break;
+
+			case GameBase::GameMode::SinglePlayer:
+				LoadingSinglePlayerState::getInstance().setPlayerName((*_slots)[0]);
+				changeState(*_game, LoadingSinglePlayerState::getInstance());
+				LoadingSinglePlayerState::getInstance().loadNextFight();
+				break;
+
+			case GameBase::GameMode::Survival:
+				LoadingSurvivalState::getInstance().setPlayerName((*_slots)[0]);
+				changeState(*_game, LoadingSurvivalState::getInstance());
+				break;
+
+			}
+			
 		}
 	}
 }

@@ -95,6 +95,8 @@ namespace sdmg {
 
 				if (event.type == SDL_QUIT)
 				{
+					cleanup(game);
+					LoadingState::getInstance().cleanup(game);
 					game.stop();
 				}
 

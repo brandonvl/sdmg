@@ -56,10 +56,11 @@ namespace sdmg {
 
 			int getEnemiesKilled();
 			void setEnemiesKilled(int count);
-
+			void setLevel(std::string *level);
 		private:
 			model::Character *_player;
 			std::vector<model::Character*> *_enemies;
+			std::string *_level;
 		protected:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;
@@ -72,7 +73,7 @@ namespace sdmg {
 			float _multiplier;
 			int _enemiesKilled;
 
-			bool _particlesSet, _isPaused;
+			bool _isPaused;
 
 			friend class GameOverState;
 			friend class GameOverSurvivalState;

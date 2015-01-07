@@ -105,7 +105,8 @@ namespace sdmg {
 		{
 			delete _level;
 			delete _progress;
-			
+			delete _characters;
+
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unloadText("progress");
 		}
@@ -125,7 +126,8 @@ namespace sdmg {
 			{
 				if (event.type == SDL_QUIT)
 				{
-					// game.stop();
+					cleanup(game);
+					game.stop();
 				}
 
 				if (event.type == SDL_KEYDOWN)
@@ -145,6 +147,7 @@ namespace sdmg {
 			if (_isLoaded)
 			{
 				PlayState &state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
+				state.setLevel(_level);
 				state.setHUDs(_huds);
 				changeState(game, state);
 			}
@@ -270,7 +273,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
-			std::string loadCharacters[] = { "enrique", "mind" };
+			auto loadCharacters = *_characters;
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			//int characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
@@ -279,7 +282,7 @@ namespace sdmg {
 			if (characterStep <= 0)
 				characterStep = (_loadingStep / 3);
 			else
-				characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
+				characterStep = (_loadingStep / 3) / (loadCharacters.size() + 1);
 
 			for (int i = 0; i < 2; i++) {
 

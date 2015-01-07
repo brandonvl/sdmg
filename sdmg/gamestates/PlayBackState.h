@@ -87,6 +87,8 @@ namespace sdmg {
 			bool _particlesSet, _isPaused;
 
 			GameBase *_game;
+
+			friend class LoadingPlayBackState;
 		};
 	}
 }

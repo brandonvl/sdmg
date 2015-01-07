@@ -11,7 +11,7 @@
 #include "SelectionState.h"
 #include <map>
 #include <string>
-#include <array>
+#include <vector>
 #include "lib\JSONParser.h"
 
 using namespace sdmg::engine;
@@ -38,7 +38,7 @@ namespace sdmg {
 		private:
 			GameBase *_game;
 			std::map<std::string, JSON::JSONDocument*> *_characters;
-			std::array<std::string, 4> *_slots;
+			std::vector<std::string> *_slots;
 			std::string *_currentCharacter;
 
 			void drawCharacters(GameBase &game);
@@ -46,6 +46,7 @@ namespace sdmg {
 			void selectNext();
 			void selectPrevious();
 			void select();
+			void nextState();
 		};
 	}
 }

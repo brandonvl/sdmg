@@ -61,25 +61,24 @@ namespace sdmg {
 					ProgressManager &manager = ProgressManager::getInstance();
 
 					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
-					//  if (!manager.isUnlockedCharacter(LoadingSinglePlayerState::getInstance().getPlayerName()))
+					//if (!manager.isUnlockedCharacter(LoadingSinglePlayerState::getInstance().getPlayerName()))
 					if (!manager.isUnlockedCharacter(static_cast<Character*>(deadList[0])->getName()))
 					{
 						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
 						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
-						//  manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
+						manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
 						unlocked = true;
 					}
 
 					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
-					/*
 					if (!manager.isUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName()))
 					{
 						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
 						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
-						//  manager.setIsUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName(), true);
+						manager.setIsUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName(), true);
 						unlocked = true;
 					}
-					*/
+					
 				}
 				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
@@ -146,11 +145,14 @@ namespace sdmg {
 		}
 
 		void GameOverState::saveReplay() {
-			_game->getRecorder().save("assets/playbacks/recording");
 
-			_savedReplay = true;
+			if (!_savedReplay) {
+				_game->getRecorder().save("assets/playbacks/recording");
 
-			static_cast<helperclasses::menuitems::MenuTextItem*>(_menu->getSelectedMenuItem())->setText("Saved",*_game);
+				_savedReplay = true;
+
+				static_cast<helperclasses::menuitems::MenuTextItem*>(_menu->getSelectedMenuItem())->setText("Saved", *_game);
+			}
 		}
 
 		void GameOverState::replay() {

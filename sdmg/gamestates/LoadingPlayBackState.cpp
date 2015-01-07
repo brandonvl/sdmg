@@ -52,6 +52,7 @@ namespace sdmg {
 			_isLoaded = false;
 			_isError = false;
 			_isAdvertisement = false;
+			_recordQueue = new std::queue<PlayBackState::RecordStep*>();
 
 			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
 
