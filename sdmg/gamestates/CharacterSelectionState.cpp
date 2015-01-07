@@ -30,11 +30,15 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			
-
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
 			_slots = new std::vector<std::string>();
 			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
+			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
+
+			for (int i = 0; i < _slots->size(); i++) {
+				int x = (SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING) * i + SELECTED_CHARACTER_BOX_PADDING;
+				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT, (std::function<void()>)[&, i] { (*_slots)[i].clear(); });
+			}
 
 			std::string titleText = "Select character";
 			if (_slots->size() != 1) titleText += "s";
@@ -59,6 +63,11 @@ namespace sdmg {
 						game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_head", "assets/characters/" + characterFolder + "/preview");
 						game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_big", "assets/characters/" + characterFolder + "/preview_big");
 						game.getEngine()->getDrawEngine()->loadText("s_" + characterFolder + "_name", doc->getRootObject().getString("name"), { 255, 255, 255 }, "trebucbd", 12);
+
+						int x = (SMALL_CHARACTER_BOX_WIDTH + SMALL_CHARACTER_BOX_PADDING) * i + SMALL_CHARACTER_BOX_PADDING;
+
+						game.getEngine()->getInputEngine()->getMouse().setHoverAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)[&, characterFolder] { _currentCharacter = new std::string(characterFolder); });
+						game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)std::bind(&CharacterSelectionState::select, this));
 					}
 					catch (...)
 					{
@@ -78,7 +87,7 @@ namespace sdmg {
 			delete _currentCharacter;
 			game.getEngine()->getDrawEngine()->unloadAll();
 
-			game.getEngine()->getInputEngine()->getMouse().clear();
+			game.getEngine()->getInputEngine()->clearBindings();
 
 			for (auto it : *_characters) {
 				delete it.second;
@@ -97,7 +106,8 @@ namespace sdmg {
 
 				if (event.type == SDL_QUIT)
 				{
-					game.stop();
+					//cleanup(game);
+					//game.stop();
 				}
 
 				if (event.type == SDL_KEYDOWN)
@@ -149,20 +159,20 @@ namespace sdmg {
 		void CharacterSelectionState::drawCharacters(GameBase &game) {
 			auto de = game.getEngine()->getDrawEngine();
 
-			int curPos = 10;
-			int yPos = 590;
+			int curPos = SMALL_CHARACTER_BOX_PADDING;
+
 			for (auto p : *_characters) {
-				if (p.first == *_currentCharacter) de->drawRectangle(Rectangle(curPos, yPos, 104, 126), 217, 13, 13);
-				de->drawRectangle(Rectangle(curPos + 2, yPos + 2, 100, 100), 81, 167, 204);
-				de->draw("s_" + p.first + "_head", curPos + 2, yPos + 2);
+				if (p.first == *_currentCharacter) de->drawRectangle(Rectangle(curPos, SMALL_CHARACTER_BOX_YPOS, 104, 126), 217, 13, 13);
+				de->drawRectangle(Rectangle(curPos + 2, SMALL_CHARACTER_BOX_YPOS + 2, SMALL_CHARACTER_BOX_WIDTH, SMALL_CHARACTER_BOX_HEIGHT), 81, 167, 204);
+				de->draw("s_" + p.first + "_head", curPos + 2, SMALL_CHARACTER_BOX_YPOS + 2);
 
 				auto size = de->getTextSize("s_" + p.first + "_name");
 				int textX = curPos + (104 - size[0]) / 2;
 
-				de->drawRectangle(Rectangle(curPos + 2, yPos + 100, 100, 24), 53, 121, 151);
-				de->drawText("s_" + p.first + "_name", textX, yPos + 105);
+				de->drawRectangle(Rectangle(curPos + 2, SMALL_CHARACTER_BOX_YPOS + SMALL_CHARACTER_BOX_WIDTH, SMALL_CHARACTER_BOX_HEIGHT, 24), 53, 121, 151);
+				de->drawText("s_" + p.first + "_name", textX, SMALL_CHARACTER_BOX_YPOS + 105);
 
-				curPos += 110;
+				curPos += SMALL_CHARACTER_BOX_WIDTH + SMALL_CHARACTER_BOX_PADDING;
 			}
 
 		}
@@ -170,24 +180,20 @@ namespace sdmg {
 		void CharacterSelectionState::drawSelectedCharacters(GameBase &game) {
 			auto de = game.getEngine()->getDrawEngine();
 
-			int padding = 10;
-			int blockWidth = (de->getWindowWidth() - padding * _slots->size() - padding) / _slots->size();
-			int blockHeight = 300;
+			int xPos = SELECTED_CHARACTER_BOX_PADDING;
 
-			int curPos = 10;
-			int yPos = 230;
 			for (auto slot : *_slots) {
-				de->drawRectangle(Rectangle(curPos, yPos, blockWidth, blockHeight), 81, 167, 204);
+				de->drawRectangle(Rectangle(xPos, SELECTED_CHARACTER_BOX_YPOS, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT), 81, 167, 204);
 
 				if (!slot.empty()) {
 					auto size = de->getImageSize("s_" + slot + "_big");
-					int imgPosX = curPos + (blockWidth - size[0]) / 2;
-					int imgPosY = yPos + (blockHeight - size[1]) / 2;
+					int imgPosX = xPos + (SELECTED_CHARACTER_BOX_WIDTH - size[0]) / 2;
+					int imgPosY = SELECTED_CHARACTER_BOX_YPOS + (SELECTED_CHARACTER_BOX_HEIGHT - size[1]) / 2;
 
 					de->draw("s_" + slot + "_big", imgPosX, imgPosY);
 				}
 
-				curPos += blockWidth + padding;
+				xPos += SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING;
 			}
 		}
 
