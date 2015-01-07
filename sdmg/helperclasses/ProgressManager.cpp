@@ -76,9 +76,50 @@ namespace sdmg {
 			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 		}
 
-		void ProgressManager::setHighscores()
+		void ProgressManager::addHighscore(std::string initials, int highscore)
 		{
-			//TODO
+			std::string val;
+			auto &highscores = _jsonDoc->getRootObject().getArray("highscores");
+			for (auto i = 0, ilen = highscores.size(); i < ilen; ++i) {
+				if (stoi(highscores.getObject(i).getString("score")) < highscore) {
+					for (auto j = i, jlen = highscores.size(); j < jlen; ++j) {
+						JSON::JSONVariable *var = new JSON::JSONVariable(&highscores.getObject(j));
+						var->setValueType(JSON::JSONVariable::ValueType::String);
+						// Set number
+						val = std::to_string(stoi(highscores.getObject(j).getString("number")) + 1);
+						var->setValue(val);
+						if (j + 1 < jlen)
+							highscores.getObject(j + 1).set("number", *var);
+
+						// Set initials
+						val = highscores.getObject(j).getString("name");
+						var->setValue(val);
+						if (j + 1 < jlen)
+							highscores.getObject(j + 1).set("name", *var);
+
+						// Set score
+						val = highscores.getObject(j).getString("score");
+						var->setValue(val);
+						if (j + 1 < jlen)
+							highscores.getObject(j + 1).set("score", *var);
+					}
+					JSON::JSONVariable *var = new JSON::JSONVariable(&highscores.getObject(i));
+					var->setValueType(JSON::JSONVariable::ValueType::String);
+					// Set number
+					val = highscores.getObject(i).getString("number");
+					var->setValue(val);
+					highscores.getObject(i).set("number", *var);
+
+					// Set initials
+					var->setValue(initials);
+					highscores.getObject(i).set("name", *var);
+
+					// Set score
+					var->setValue(std::to_string(highscore));
+					highscores.getObject(i).set("score", *var);
+					break;
+				}
+			}
 		}
 
 		std::vector<std::vector<std::string>> *ProgressManager::getHighscores()
@@ -89,6 +130,11 @@ namespace sdmg {
 				highscores->push_back({ jHighscores.getObject(i).getString("number"), jHighscores.getObject(i).getString("name"), jHighscores.getObject(i).getString("score") });
 			}
 			return highscores;
+		}
+
+		int ProgressManager::getLowestHighscore()
+		{
+			return stoi(getHighscores()->back().back());
 		}
 
 		int ProgressManager::getCharacterIndex(std::string name)

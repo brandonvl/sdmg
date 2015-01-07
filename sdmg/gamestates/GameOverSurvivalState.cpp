@@ -24,6 +24,7 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\ProgressManager.h"
+#include "HighScoreInputState.h"
 
 
 namespace sdmg {
@@ -50,10 +51,11 @@ namespace sdmg {
 				changeState(*_game, MainMenuState::getInstance());
 			});
 
+			int highscore = PlayState::getInstance().getEnemiesKilled();
 			game.getEngine()->getDrawEngine()->loadText("killed", "You have defeated", { 255, 255, 255 }, "arial", 54);
-			game.getEngine()->getDrawEngine()->loadText("enemies_killed", std::to_string(PlayState::getInstance().getEnemiesKilled()), { 255, 255, 255 }, "arial", 74);
+			game.getEngine()->getDrawEngine()->loadText("enemies_killed", std::to_string(highscore), { 255, 255, 255 }, "arial", 74);
 
-			if (PlayState::getInstance().getEnemiesKilled() == 1)
+			if (highscore == 1)
 				game.getEngine()->getDrawEngine()->loadText("enemies", "enemy", { 255, 255, 255 }, "arial", 54);
 			else
 				game.getEngine()->getDrawEngine()->loadText("enemies", "enemies", { 255, 255, 255 }, "arial", 54);
@@ -63,6 +65,11 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
+
+			if (ProgressManager::getInstance().getLowestHighscore() < highscore) {
+				HighScoreInputState::getInstance().setHighscore(highscore);
+				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
+			}
 		}
 
 		// Even checken of dit wel klopt voor survival mode
