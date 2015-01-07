@@ -30,6 +30,8 @@ namespace sdmg {
 				static HighScoreInputState _instance;
 				return _instance;
 			}
+
+			void setHighscore(int score) { _highscore = score; }
 		
 		protected:
 			HighScoreInputState() { }
@@ -37,6 +39,7 @@ namespace sdmg {
 		private:
 			GameBase *_game;
 			Menu *_menu;
+			int _highscore;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 

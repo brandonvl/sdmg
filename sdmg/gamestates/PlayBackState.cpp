@@ -41,6 +41,14 @@ namespace sdmg {
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 			_timeStart = std::chrono::high_resolution_clock::now();
 
+			if (_recordMap == nullptr) {
+				_recordMap = new std::map<std::string, Action*>();
+			}
+			
+			if (_recordQueue == nullptr){
+				_recordQueue = new std::queue<RecordStep*>();
+			}
+
 			if (!_particlesSet) {
 				for (auto obj : game.getWorld()->getPlayers()) {
 					game.getEngine()->getParticleEngine()->registerGameObject(obj);
@@ -290,16 +298,20 @@ namespace sdmg {
 
 		void PlayBackState::setPlaybackSteps(std::queue<RecordStep*> *recordQueue)
 		{
-			while (!_recordQueue->empty()) {
-				delete _recordQueue->front();
-				_recordQueue->pop();
+			if (_recordQueue != nullptr) {
+				while (!_recordQueue->empty()) {
+					delete _recordQueue->front();
+					_recordQueue->pop();
+				}
+				delete _recordQueue;
 			}
-			delete _recordQueue;
 			_recordQueue = recordQueue;
 		}
 
 		void PlayBackState::addAction(std::string name, Action *action)
 		{
+			if (_recordMap == nullptr)
+				_recordMap = new std::map<std::string, Action*>();
 			_recordMap->insert(std::pair<std::string, Action*>(name, action));
 		}
 	}

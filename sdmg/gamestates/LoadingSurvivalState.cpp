@@ -27,6 +27,7 @@
 #include "engine\util\FileParser.h"
 #include "lib\JSONParser.h"
 #include "helperclasses\ConfigManager.h"
+#include "engine\ai\EasyAIMachine.h"
 #include <array>
 #include <random>
 
@@ -364,6 +365,15 @@ namespace sdmg {
 				binding->setKeyBinding(manager.getKey(0, "midrange"), new actions::MidRangeAttackAction(character));
 				binding->setKeyBinding(manager.getKey(0, "longrange"), new actions::LongRangeAttackAction(character));
 				binding->setKeyBinding(manager.getKey(0, "block"), new actions::BlockAction(character));
+
+				for (size_t i = 1; i < players.size(); i++)
+				{
+					engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*static_cast<Character*>(players[i]), *static_cast<Character*>(players[0]));
+					static_cast<Character*>(players[i])->setAI(*machine);
+
+					if (i > 1)
+						machine->pause();
+				}
 
 				_loadingValue += controlStep;
 				_game->getStateManager()->draw();

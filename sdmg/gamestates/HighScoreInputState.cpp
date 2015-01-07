@@ -17,6 +17,9 @@ namespace sdmg {
 		{
 			_game = &game;
 			game.getEngine()->getDrawEngine()->load("highscoreinput_background", "assets/screens/mainmenu");
+
+			_highscoreInitials = new std::string();
+			_highscore = 1;
 			
 			// Create menu
 			_menu = new Menu(50, 250, game);
@@ -24,7 +27,8 @@ namespace sdmg {
 				_highscoreInitials = new std::string();
 			});
 			_menu->addMenuTextItem("Confirm", (std::function<void()>)[&] {
-				//TODO save highscore
+				ProgressManager::getInstance().addHighscore(*_highscoreInitials, _highscore);
+				ProgressManager::getInstance().save();
 			});
 			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { 
 				game.getStateManager()->popState(); 
@@ -33,8 +37,6 @@ namespace sdmg {
 			// Load text
 			loadText("highscoreinput_title", "Highscore: Input your Initials", "trebucbd", 48);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("highscoreinput_initials", { 255, 255, 255 }, "trebucbd", 240);
-
-			_highscoreInitials = new std::string();
 
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}

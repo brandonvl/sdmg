@@ -49,7 +49,7 @@ namespace sdmg {
 
 			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 			{
-				//static_cast<Character*>(game.getWorld()->getPlayers()[1])->getAI()->pause();
+				static_cast<Character*>(game.getWorld()->getPlayers()[1])->getAI()->pause();
 
 				if (!LoadingSinglePlayerState::getInstance().hasFinished())
 				{

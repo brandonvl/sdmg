@@ -19,9 +19,10 @@ namespace sdmg {
 			void setStatistics(std::string name, std::string key, std::string value);
 			JSON::JSONArray &getStatistics();
 
-			void setHighscores();
+			void addHighscore(std::string initials, int highscore);
 			std::vector<std::vector<std::string>> *getHighscores();
-
+			int getLowestHighscore();
+			
 			void setAutosave(bool enable);
 			bool autosaveEnabled();
 
