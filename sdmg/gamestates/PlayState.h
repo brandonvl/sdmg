@@ -72,7 +72,7 @@ namespace sdmg {
 			float _multiplier;
 			int _enemiesKilled;
 
-			bool _particlesSet, _isPaused;
+			bool _isPaused;
 
 			friend class GameOverState;
 			friend class GameOverSurvivalState;

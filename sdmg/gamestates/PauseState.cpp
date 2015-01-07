@@ -28,12 +28,14 @@
 #include "actions\Actions.h"
 #include "engine\GameTime.h"
 #include "engine\util\FileManager.h"
+#include "engine\particle\ParticleEngine.h"
 
 namespace sdmg {
 	namespace gamestates {
 
 		void PauseState::returnToMainMenu()
 		{
+			_game->getEngine()->getParticleEngine()->unloadAll();
 			if (_game->getGameMode() == GameBase::GameMode::Survival)
 				GameOverSurvivalState::getInstance().cleanup(*_game);
 			else if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
@@ -51,6 +53,7 @@ namespace sdmg {
 
 		void PauseState::returnToLevelSelection()
 		{
+			_game->getEngine()->getParticleEngine()->unloadAll();
 			GameOverState::getInstance().cleanup(*_game);
 			PlayState::getInstance().cleanup(*_game);
 			_game->getStateManager()->changeState(LevelSelectionState::getInstance());

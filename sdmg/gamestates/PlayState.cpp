@@ -47,15 +47,12 @@ namespace sdmg {
 			_canDie = true;
 			_enemiesKilled = 0;
 			
-			if (!_particlesSet) {
-				for (auto obj : game.getWorld()->getPlayers()) {
-					game.getEngine()->getParticleEngine()->registerGameObject(obj);
-				}
-
-				game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
-				game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
-				_particlesSet = true;
+			for (auto obj : game.getWorld()->getPlayers()) {
+				game.getEngine()->getParticleEngine()->registerGameObject(obj);
 			}
+
+			game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
+			game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
 			
 			game.getRecorder().start(game);
 		}
@@ -250,7 +247,6 @@ namespace sdmg {
 						}
 
 						game.getEngine()->getParticleEngine()->unloadAll();
-						_particlesSet = false;
 
 						changeState(game, GameOverState::getInstance());
 						return;
@@ -271,7 +267,6 @@ namespace sdmg {
 							}
 
 							game.getEngine()->getParticleEngine()->unloadAll();
-							_particlesSet = false;
 
 							changeState(game, GameOverSurvivalState::getInstance());
 							return;
