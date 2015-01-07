@@ -42,6 +42,7 @@ namespace sdmg {
 
 			_keys = new std::vector<std::string>;
 
+			_game->getEngine()->getDrawEngine()->loadText("controlstitle", "Controls", { 255, 255, 255 }, "trebucbd", 48);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 20);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info2", { 255, 255, 255 }, "trebucbd", 20);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("devicename", { 255, 255, 255 }, "trebucbd", 20);
@@ -97,6 +98,7 @@ namespace sdmg {
 		{
 			delete _menu;
 			game.getEngine()->getDrawEngine()->unload("controls_background");
+			game.getEngine()->getDrawEngine()->unloadText("controlstitle");
 			game.getEngine()->getDrawEngine()->unload("info");
 			game.getEngine()->getDrawEngine()->unload("info2");
 			game.getEngine()->getDrawEngine()->unload("devicename");
@@ -271,6 +273,7 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			drawEngine->draw("controls_background");
 
+			game.getEngine()->getDrawEngine()->drawText("controlstitle", 50, 70);
 			drawEngine->drawDynamicText("info", *_info, 250, 20);
 			drawEngine->drawDynamicText("info2", *_info2, 250, 50);
 			drawEngine->drawDynamicText("devicename", "Device: " + *_devicename, 250, 90);
