@@ -46,6 +46,7 @@ namespace sdmg {
 			void selectNext();
 			void selectPrevious();
 			void select();
+			void selectLevel();
 		};
 	}
 }

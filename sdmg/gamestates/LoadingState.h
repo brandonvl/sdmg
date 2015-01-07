@@ -43,6 +43,15 @@ namespace sdmg {
 			void setIsTutorial(bool tutorial);
 			void setLevel(std::string *level);
 
+			void resetCharacters() {
+				delete _characters;
+				_characters = new std::vector<std::string>();
+			}
+
+			void addCharacter(std::string character) {
+				_characters->push_back(character);
+			}
+
 		protected:
 			LoadingState() { }
 		private:
@@ -58,6 +67,7 @@ namespace sdmg {
 			void clearEventQueue();
 			bool _isLoaded, _isError, _isTutorial;
 			std::vector<helperclasses::HUD*> *_huds;
+			std::vector<std::string> *_characters;
 			std::string *_level, *_progress;
 
 			// LoadingBar

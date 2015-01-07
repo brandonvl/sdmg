@@ -270,7 +270,7 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
-			std::string loadCharacters[] = { "enrique", "mind" };
+			auto loadCharacters = *_characters;
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			//int characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
@@ -279,7 +279,7 @@ namespace sdmg {
 			if (characterStep <= 0)
 				characterStep = (_loadingStep / 3);
 			else
-				characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
+				characterStep = (_loadingStep / 3) / (loadCharacters.size() + 1);
 
 			for (int i = 0; i < 2; i++) {
 
