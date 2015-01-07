@@ -105,7 +105,8 @@ namespace sdmg {
 		{
 			delete _level;
 			delete _progress;
-			
+			delete _characters;
+
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unloadText("progress");
 		}
