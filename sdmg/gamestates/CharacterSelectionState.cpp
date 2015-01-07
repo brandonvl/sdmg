@@ -226,29 +226,34 @@ namespace sdmg {
 		}
 
 		void CharacterSelectionState::nextState() {
-			
-			switch (_game->getGameMode()) {
-			case GameBase::GameMode::Versus:
-				LoadingState::getInstance().resetCharacters();
+			int numPlayerCount = std::count_if(_slots->begin(), _slots->end(), [](std::string slot) { return !slot.empty(); });
 
-				for (auto &slot : *_slots) {
-					if (!slot.empty())
-						LoadingState::getInstance().addCharacter(slot);
+			if (numPlayerCount >= 1) {
+				switch (_game->getGameMode()) {
+				case GameBase::GameMode::Versus:
+					if (numPlayerCount >= 2) {
+						LoadingState::getInstance().resetCharacters();
+
+						for (auto &slot : *_slots) {
+							if (!slot.empty())
+								LoadingState::getInstance().addCharacter(slot);
+						}
+						changeState(*_game, LevelSelectionState::getInstance());
+					}
+					break;
+
+				case GameBase::GameMode::SinglePlayer:
+					LoadingSinglePlayerState::getInstance().setPlayerName((*_slots)[0]);
+					changeState(*_game, LoadingSinglePlayerState::getInstance());
+					LoadingSinglePlayerState::getInstance().loadNextFight();
+					break;
+
+				case GameBase::GameMode::Survival:
+					LoadingSurvivalState::getInstance().setPlayerName((*_slots)[0]);
+					changeState(*_game, LoadingSurvivalState::getInstance());
+					break;
+
 				}
-				changeState(*_game, LevelSelectionState::getInstance());
-				break;
-
-			case GameBase::GameMode::SinglePlayer:
-				LoadingSinglePlayerState::getInstance().setPlayerName((*_slots)[0]);
-				changeState(*_game, LoadingSinglePlayerState::getInstance());
-				LoadingSinglePlayerState::getInstance().loadNextFight();
-				break;
-
-			case GameBase::GameMode::Survival:
-				LoadingSurvivalState::getInstance().setPlayerName((*_slots)[0]);
-				changeState(*_game, LoadingSurvivalState::getInstance());
-				break;
-
 			}
 			
 		}
