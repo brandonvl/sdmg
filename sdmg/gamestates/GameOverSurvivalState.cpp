@@ -43,7 +43,7 @@ namespace sdmg {
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
 
 			model::Character *chas = static_cast<model::Character*>(deadList[0]);
-			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
+			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 			
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverSurvivalState::replay, this));
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {

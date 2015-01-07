@@ -52,7 +52,6 @@ namespace sdmg {
 						JSON::JSONObject &obj = doc->getRootObject();
 
 						_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
-
 							LoadingState::getInstance().setIsTutorial(false);
 							LoadingState::getInstance().setLevel(new std::string(levelFolder));
 							changeState(*_game, LoadingState::getInstance());

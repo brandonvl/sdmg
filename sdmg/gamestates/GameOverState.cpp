@@ -106,7 +106,7 @@ namespace sdmg {
 
 			_characterCount = deadList.size();
 			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
-			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win.sprite");
+			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 
 			// Update statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();

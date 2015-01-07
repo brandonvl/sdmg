@@ -9,6 +9,10 @@
 
 #pragma once
 #include "SelectionState.h"
+#include <map>
+#include <string>
+#include <vector>
+#include "lib\JSONParser.h"
 
 using namespace sdmg::engine;
 
@@ -29,6 +33,13 @@ namespace sdmg {
 		protected:
 			CharacterSelectionState() { }
 		private:
+			GameBase *_game;
+			std::map<std::string, JSON::JSONDocument*> *_characters;
+			std::vector<std::string> *_slots;
+			std::string *_currentCharacter;
+
+			void drawCharacters(GameBase &game);
+			void drawSelectedCharacters(GameBase &game);
 		};
 	}
 }

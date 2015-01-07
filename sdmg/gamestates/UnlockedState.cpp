@@ -34,7 +34,7 @@ namespace sdmg {
 
 			de->loadText("unlocked_text", *_playerName + " and " + *_playerName + "'s level", { 255, 255, 255 }, "Arial", 24);
 			de->load("unlocked_background", "assets/screens/unlocked");
-			de->load("character", "assets/characters/" + *_playerName + "/win.sprite");
+			de->load("character", "assets/characters/" + *_playerName + "/win");
 			de->load("level", "assets/levels/" + *_levelName + "/preview");
 			
 			game.getEngine()->getInputEngine()->setMouseEnabled();

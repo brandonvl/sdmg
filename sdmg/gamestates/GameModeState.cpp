@@ -20,6 +20,7 @@
 #include "LoadingState.h"
 #include "LevelSelectionState.h"
 #include "MainMenuState.h"
+#include "CharacterSelectionState.h"
 
 #include <vector>
 
@@ -34,7 +35,7 @@ namespace sdmg {
 
 			_menu->addMenuTextItem("Versus", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::Versus);
-				changeState(*_game, LevelSelectionState::getInstance());
+				changeState(*_game, CharacterSelectionState::getInstance());
 			});
 			_menu->addMenuTextItem("Singleplayer", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::SinglePlayer);
