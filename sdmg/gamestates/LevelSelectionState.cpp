@@ -83,8 +83,6 @@ namespace sdmg {
 			delete _menu;
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
-
-			LoadingState::getInstance().cleanup(game);
 		}
 		
 		void LevelSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -97,6 +95,8 @@ namespace sdmg {
 
 				if (event.type == SDL_QUIT)
 				{
+					cleanup(game);
+					LoadingState::getInstance().cleanup(game);
 					game.stop();
 				}
 

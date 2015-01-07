@@ -43,6 +43,10 @@ namespace sdmg {
 			void setIsTutorial(bool tutorial);
 			void setLevel(std::string *level);
 
+			void cleanCharacters() {
+				delete _characters;
+			}
+
 			void resetCharacters() {
 				delete _characters;
 				_characters = new std::vector<std::string>();

@@ -126,7 +126,8 @@ namespace sdmg {
 			{
 				if (event.type == SDL_QUIT)
 				{
-					// game.stop();
+					cleanup(game);
+					game.stop();
 				}
 
 				if (event.type == SDL_KEYDOWN)
