@@ -185,8 +185,8 @@ namespace sdmg {
 									player->setState(MovableGameObject::State::KNOCKBACKLEFT);
 								player->hit(platform->getDamageOnImpact());
 							}
-							platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
 						}
+						platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
 					}
 				}
 			}
