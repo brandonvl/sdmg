@@ -13,6 +13,7 @@
 #include "MainMenuState.h"
 #include "GameOverState.h"
 #include "GameOverSurvivalState.h"
+#include "LoadingSinglePlayerState.h"
 #include "CreditsState.h"
 #include "OptionsState.h"
 #include "LevelSelectionState.h"
@@ -35,6 +36,11 @@ namespace sdmg {
 		{
 			if (_game->getGameMode() == GameBase::GameMode::Survival)
 				GameOverSurvivalState::getInstance().cleanup(*_game);
+			else if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
+			{
+				LoadingSinglePlayerState::getInstance().unloadAll();
+				GameOverState::getInstance().cleanup(*_game);
+			}
 			else
 			{
 				GameOverState::getInstance().cleanup(*_game);

@@ -172,17 +172,21 @@ namespace sdmg {
 						contact->SetEnabled(false);
 					else if (kinematic != player->getShootBody())
 					{
-						if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
-							player->addPP(-platform->getDamageOnImpact());
-						else
+						MovableGameObject::State state = player->getState();
+						if (state != MovableGameObject::State::KNEELING && state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT)
 						{
-							if (player->getX() > platform->getX())
-								player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+							if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
+								player->addPP(-platform->getDamageOnImpact());
 							else
-								player->setState(MovableGameObject::State::KNOCKBACKLEFT);
-							player->hit(platform->getDamageOnImpact());
+							{
+								if (player->getX() > platform->getX())
+									player->setState(MovableGameObject::State::KNOCKBACKRIGHT);
+								else
+									player->setState(MovableGameObject::State::KNOCKBACKLEFT);
+								player->hit(platform->getDamageOnImpact());
+							}
+							platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
 						}
-						platform->setMustBeDestroyed(platform->getDamageOnImpact() < 100);
 					}
 				}
 			}

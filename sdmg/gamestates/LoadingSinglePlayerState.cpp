@@ -392,24 +392,24 @@ namespace sdmg {
 				if (controlStep <= 0)
 					_loadingValue += (_loadingStep / 3);
 				else
-					controlStep = (_loadingStep / 3) / players.size();
+					controlStep = (_loadingStep / 3) / players.size() - 1;
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
-				for (int i = 0; i < players.size(); i++)
-				{
-					Character *character = static_cast<Character*>(players[i]);
-					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "jump"), new actions::JumpAction(character));
-					binding->setKeyBinding(manager.getKey(i, "roll"), new actions::RollAction(character));
-					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
+				int playerCharacterID = 0;
 
-					_loadingValue += controlStep;
-					_game->getStateManager()->draw();
-				}
+
+				Character *character = static_cast<Character*>(players[playerCharacterID]);
+				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkRight"), new actions::RightWalkAction(character));
+				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkLeft"), new actions::LeftWalkAction(character));
+				binding->setKeyBinding(manager.getKey(playerCharacterID, "jump"), new actions::JumpAction(character));
+				binding->setKeyBinding(manager.getKey(playerCharacterID, "roll"), new actions::RollAction(character));
+				binding->setKeyBinding(manager.getKey(playerCharacterID, "midrange"), new actions::MidRangeAttackAction(character));
+				binding->setKeyBinding(manager.getKey(playerCharacterID, "longrange"), new actions::LongRangeAttackAction(character));
+				binding->setKeyBinding(manager.getKey(playerCharacterID, "block"), new actions::BlockAction(character));
+
+				_loadingValue += controlStep;
+				_game->getStateManager()->draw();
 
 				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 			}

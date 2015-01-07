@@ -9,6 +9,7 @@
 
 
 #include "LevelSelectionState.h"
+#include "GameModeState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -69,7 +70,11 @@ namespace sdmg {
 					delete doc;
 				}
 			}
-			
+
+			_menu->addMenuTextItem("Back to Game mode menu", (std::function<void()>)[&] {
+				changeState(*_game, GameModeState::getInstance());
+			});
+
 			game.getEngine()->getDrawEngine()->load("levelselect_background", "assets/screens/mainmenu");
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}

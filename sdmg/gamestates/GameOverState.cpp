@@ -13,6 +13,7 @@
 #include "engine\input\InputEngine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "model\Character.h"
+#include "engine\ai\AIMachine.h"
 #include "helperclasses\HUD.h"
 #include "MainMenuState.h"
 #include "StatisticsState.h"
@@ -48,6 +49,8 @@ namespace sdmg {
 
 			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 			{
+				static_cast<Character*>(game.getWorld()->getPlayers()[1])->getAI()->pause();
+
 				if (!LoadingSinglePlayerState::getInstance().hasFinished())
 				{
 					if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
@@ -83,7 +86,7 @@ namespace sdmg {
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
 				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
-				_menu->addMenuTextItem("Save replay", (std::function<void()>)[&] { _game->getRecorder().save("assets/recording"); });
+				_menu->addMenuTextItem("Save replay", (std::function<void()>)[&] { _game->getRecorder().save("assets/playbacks/recording"); });
 				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
 
