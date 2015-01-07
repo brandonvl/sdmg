@@ -18,6 +18,7 @@
 #include "engine\audio\AudioEngine.h"
 #include "LoadingState.h"
 #include "LoadingSinglePlayerState.h"
+#include "LoadingSurvivalState.h"
 #include "MainMenuState.h"
 #include "engine\util\FileManager.h"
 #include <vector>
@@ -28,10 +29,17 @@ namespace sdmg {
 		void CharacterSelectionState::init(GameBase &game)
 		{
 			_game = &game;
-			_game->getEngine()->getDrawEngine()->loadText("characterselecttitle", "Select characters", { 255, 255, 255 }, "trebucbd", 48);
+
+			
 
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
-			_slots = new std::array<std::string, 4>();
+			_slots = new std::vector<std::string>();
+			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
+
+			std::string titleText = "Select character";
+			if (_slots->size() != 1) titleText += "s";
+
+			_game->getEngine()->getDrawEngine()->loadText("characterselecttitle", titleText, { 255, 255, 255 }, "trebucbd", 48);
 
 			std::vector<std::string> characterList = std::vector<std::string>(util::FileManager::getInstance().getFolders("assets/characters/"));
 
@@ -115,7 +123,7 @@ namespace sdmg {
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						selectLevel();
+						nextState();
 						break;
 					}
 				}
@@ -206,23 +214,43 @@ namespace sdmg {
 
 		void CharacterSelectionState::select() {
 			
-			for (int i = 0; i < _slots->size(); i++) {
-				if ((*_slots)[i].empty()) {
-					(*_slots)[i] = *_currentCharacter;
-					return;
+			if (_slots->size() > 1) {
+				for (int i = 0; i < _slots->size(); i++) {
+					if ((*_slots)[i].empty()) {
+						(*_slots)[i] = *_currentCharacter;
+						return;
+					}
 				}
 			}
+			else (*_slots)[0] = *_currentCharacter;
 		}
 
-		void CharacterSelectionState::selectLevel() {
-			LoadingState::getInstance().resetCharacters();
+		void CharacterSelectionState::nextState() {
+			
+			switch (_game->getGameMode()) {
+			case GameBase::GameMode::Versus:
+				LoadingState::getInstance().resetCharacters();
 
-			for (auto &slot : *_slots) {
-				if (!slot.empty())
-					LoadingState::getInstance().addCharacter(slot);
+				for (auto &slot : *_slots) {
+					if (!slot.empty())
+						LoadingState::getInstance().addCharacter(slot);
+				}
+				changeState(*_game, LevelSelectionState::getInstance());
+				break;
+
+			case GameBase::GameMode::SinglePlayer:
+				LoadingSinglePlayerState::getInstance().setPlayerName((*_slots)[0]);
+				changeState(*_game, LoadingSinglePlayerState::getInstance());
+				LoadingSinglePlayerState::getInstance().loadNextFight();
+				break;
+
+			case GameBase::GameMode::Survival:
+				LoadingSurvivalState::getInstance().setPlayerName((*_slots)[0]);
+				changeState(*_game, LoadingSurvivalState::getInstance());
+				break;
+
 			}
-
-			_game->getStateManager()->changeState(LevelSelectionState::getInstance());
+			
 		}
 	}
 }
