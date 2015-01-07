@@ -36,12 +36,9 @@ namespace sdmg {
 
 		private:
 			GameBase *_game;
-			std::vector<Menu*> *_keyboard;
+			Menu *_menu;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
-			void loadDynamicText(std::string key, int r, int g, int b, std::string fontName, int fontSize);
-
-			void initKeyboard(GameBase &game);
 
 			std::string *_highscoreInitials;
 		};
