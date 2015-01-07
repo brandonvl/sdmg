@@ -51,8 +51,8 @@ namespace sdmg {
 					game.getEngine()->getParticleEngine()->registerGameObject(obj);
 				}
 
-				game.getEngine()->getParticleEngine()->createParticleSet("hit", 200, 175, 175, 5, 5, 350, 350, "blood");
-				game.getEngine()->getParticleEngine()->createParticleSet("fall", 200, 175, 350, 5, 22.5, 350, 550, "burst");
+				game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
+				game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
 				_particlesSet = true;
 			}
 			

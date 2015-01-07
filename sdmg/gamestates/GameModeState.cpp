@@ -52,6 +52,9 @@ namespace sdmg {
 				LoadingState::getInstance().setLevel(new std::string("tutorial"));
 				changeState(*_game, LoadingState::getInstance());
 			});
+			_menu->addMenuTextItem("Back to Main menu", (std::function<void()>)[&] {
+				changeState(*_game, MainMenuState::getInstance());
+			});
 
 			game.getEngine()->getDrawEngine()->load("gamemodeselect_background", "assets/screens/mainmenu");
 			game.getEngine()->getInputEngine()->setMouseEnabled();
