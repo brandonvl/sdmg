@@ -67,6 +67,7 @@ namespace sdmg {
 			bool _isAdvertisement;
 			int _advertisementX, _advertisementY;
 			void loadAdvertisement();
+			std::unordered_map<std::string, Action*> *_recordMap = nullptr;
 		};
 	}
 }

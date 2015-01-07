@@ -14,7 +14,7 @@
 #include "engine\input\Action.h"
 #include "actions\Actions.h"
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <queue>
 #include <string>
 
@@ -52,20 +52,19 @@ namespace sdmg {
 			void setHUDs(std::vector<helperclasses::HUD *> *huds);
 			void performDraw(GameBase &game);
 
-			void loadPlayback(std::string name);
+			//void loadPlayback(std::string name);
 
 			struct RecordStep
 			{
-				std::string _action;
-				int _characterID;
-				long long _timestamp;
-				bool _keyDown;
+				Action *_action;
+				int _timestamp;
 
-				RecordStep(std::string action, int characterID, long long timestamp, bool keyDown) : _action(action), _characterID(characterID), _timestamp(timestamp), _keyDown(keyDown){};
+				RecordStep(Action *action, int timestamp) : _action(action), _timestamp(timestamp){
+					
+				};
 			};
 
 			void setPlaybackSteps(std::queue<RecordStep*> *recordQueue);
-			void addAction(std::string name, Action *action);
 
 		private:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
@@ -73,22 +72,22 @@ namespace sdmg {
 			float _step, _accumulator, _multiplier;
 
 			PlayBackState() {
-				_recordMap = new std::map<std::string, Action*>();
 				_recordQueue = new std::queue<RecordStep*>();
 			}
 
 			std::vector<helperclasses::HUD*> *_huds;
 			
 			std::queue<RecordStep*> *_recordQueue;
-			std::map<std::string, Action*> *_recordMap;
 
 			friend class GameOverState;
 
-			bool _particlesSet, _isPaused;
+			bool _particlesSet, _isPaused, _threadSpawned, _running = true;
 
 			GameBase *_game;
 
 			friend class LoadingPlayBackState;
+
+			void actionThread();
 		};
 	}
 }

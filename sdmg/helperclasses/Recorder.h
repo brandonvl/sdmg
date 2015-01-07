@@ -24,6 +24,7 @@ namespace sdmg
 			void record(std::string action, model::Character &character, bool keyDown);
 			void save(std::string path);
 			void registerCharacter(model::Character &character);
+			void reset() { init(); }
 
 		private:
 			std::string *_level;
@@ -44,7 +45,7 @@ namespace sdmg
 			std::queue<RecordItem*> *_recordQueue;
 			std::map<model::Character*, int> *_characters;
 			std::chrono::high_resolution_clock::time_point *_recordStartTime;
-			int _characterIndex;
+			int _characterIndex = 0;
 			bool _enabled;
 
 			void init();

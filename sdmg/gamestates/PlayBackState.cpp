@@ -28,10 +28,13 @@
 #include "engine\particle\ParticleInstance.h"
 #include "engine\particle\ParticleEngine.h"
 
+#include <thread>
+
 namespace sdmg {
 	namespace gamestates {
 		void PlayBackState::init(GameBase &game)
 		{
+			_running = true;
 			_game = &game;
 			game.getEngine()->getPhysicsEngine()->resume();
 			game.getEngine()->getAudioEngine()->play("bgm", 0);
@@ -40,15 +43,7 @@ namespace sdmg {
 			_step = 1.0f / 7.0f;
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 			_timeStart = std::chrono::high_resolution_clock::now();
-
-			if (_recordMap == nullptr) {
-				_recordMap = new std::map<std::string, Action*>();
-			}
-			
-			if (_recordQueue == nullptr){
-				_recordQueue = new std::queue<RecordStep*>();
-			}
-
+					
 			if (!_particlesSet) {
 				for (auto obj : game.getWorld()->getPlayers()) {
 					game.getEngine()->getParticleEngine()->registerGameObject(obj);
@@ -60,21 +55,6 @@ namespace sdmg {
 			}
 		}
 
-		void PlayBackState::loadPlayback(std::string name)
-		{
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/records/" + name);
-			JSON::JSONObject &obj = doc->getRootObject();
-
-			int numberOfSteps = obj.getArray("steps").size();
-			for (int i = 0; i < numberOfSteps; i++)
-			{
-				JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
-				_recordQueue->push(new RecordStep(stepObj.getString("action"), stepObj.getInt("character"), stepObj.getFloat("timestamp"), stepObj.getBoolean("keyDown")));
-			}
-
-			delete doc;
-		}
-
 		void PlayBackState::setHUDs(std::vector<helperclasses::HUD *> *huds)
 		{
 			_huds = huds;
@@ -82,22 +62,16 @@ namespace sdmg {
 
 		void PlayBackState::cleanup(GameBase &game)
 		{
+			_running = false;
+
 			while (!_recordQueue->empty()) {
+				delete _recordQueue->front()->_action;
 				delete _recordQueue->front();
 				_recordQueue->pop();
 			}
 			delete _recordQueue;
 			_recordQueue = nullptr;
-
-			if (_recordMap->size() > 0) {
-				std::map<std::string, Action*>::iterator itr = _recordMap->begin();
-				while (itr != _recordMap->end()) {
-					delete itr->second;
-					_recordMap->erase(itr++);
-				}
-			}
-			delete _recordMap;
-			_recordMap = nullptr;
+			_threadSpawned = false;
 		}
 
 		void PlayBackState::pause(GameBase &game)
@@ -122,86 +96,46 @@ namespace sdmg {
 					case SDL_KEYDOWN:
 						switch (event.key.keysym.sym) {
 						case SDLK_ESCAPE:
-							GameOverState::getInstance().cleanup(*_game);
 							_game->getStateManager()->changeState(MainMenuState::getInstance());
 							break;
 						}
 					}
 				}
 			}
-			/*
-			SDL_Event event;
-
-			while (SDL_PollEvent(&event))
-			{
-				if (game.getEngine()->getInputEngine()->getUsedControllerName(event) == "keyboard")
-				{
-					game.getEngine()->getInputEngine()->handleEvent(event);
-
-					if (!event.key.repeat){
-						switch (event.type) {
-						case SDL_KEYDOWN:
-							switch (event.key.keysym.sym) {
-							case SDLK_ESCAPE:
-								game.getStateManager()->pushState(PauseState::getInstance());
-								break;
-							}
-						}
-					}
-					else if (event.type == SDL_QUIT){
-						if (_huds) {
-							for (auto it : *_huds) {
-								delete it;
-							}
-							_huds->clear();
-						}
-						game.stop();
-					}
-				}
-				else
-				{
-					game.getEngine()->getInputEngine()->handleControllers(event);
-				}
-			}
-			*/
 		}
 
+		void PlayBackState::actionThread() {
+			while (!_recordQueue->empty() && _running) {
+				RecordStep *step = _recordQueue->front();
+				//  long long timeRunning = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - _timeStart).count();
+				long long timeRunning = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - _timeStart).count();
+
+				if (step->_timestamp <= timeRunning)
+				{
+					RecordStep cStep = *step;
+
+					std::thread thread{ [&, cStep] {
+						if (_running) {
+							cStep._action->run(*_game);
+							delete cStep._action;
+						}
+					} };
+					thread.detach();
+
+					delete step;
+					_recordQueue->pop();
+				}
+			}
+		}
 
 		void PlayBackState::update(GameBase &game, GameTime &gameTime)
 		{
-			if (_recordQueue->size() > 0)
-			{
-				RecordStep *step = _recordQueue->front();
-				int timeRunning = timeRunning = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - _timeStart).count();;
-
-				while (step->_timestamp < timeRunning && _recordQueue->size() > 0)
-				{
-					std::string name = step->_action + std::to_string(step->_characterID);
-					auto it = _recordMap->find(name);
-
-					if (it != _recordMap->cend()) {
-						// create fake event
-						SDL_Event event;
-						event.type = step->_keyDown ? SDL_KEYDOWN : SDL_KEYUP;
-
-						// create and run action
-						auto action = it->second->create(event);
-						action->run(*_game);
-
-						std::cout << std::to_string(step->_characterID) + " performs " + step->_action << std::endl;
-
-						delete action;
-						delete step;
-						_recordQueue->pop();
-						if (_recordQueue->size() > 0)
-							step = _recordQueue->front();
-					}
-					else {
-						printf("Cannot find action %s\n", name);
-					}
-				}
+			if (!_threadSpawned) {
+				std::thread thread{ std::bind(&PlayBackState::actionThread, this) };
+				thread.detach();
+				_threadSpawned = true;
 			}
-
+			
 			if (game.getWorld()->isGameOver()) {
 				game.getEngine()->getPhysicsEngine()->pause();
 				if (game.getWorld()->getAliveList().size() > 0)
@@ -308,11 +242,5 @@ namespace sdmg {
 			_recordQueue = recordQueue;
 		}
 
-		void PlayBackState::addAction(std::string name, Action *action)
-		{
-			if (_recordMap == nullptr)
-				_recordMap = new std::map<std::string, Action*>();
-			_recordMap->insert(std::pair<std::string, Action*>(name, action));
-		}
 	}
 }

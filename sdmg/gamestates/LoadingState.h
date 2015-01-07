@@ -45,6 +45,7 @@ namespace sdmg {
 
 			void cleanCharacters() {
 				delete _characters;
+				_characters = nullptr;
 			}
 
 			void resetCharacters() {
