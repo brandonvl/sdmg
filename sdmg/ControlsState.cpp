@@ -273,7 +273,7 @@ namespace sdmg {
 
 			drawEngine->drawDynamicText("info", *_info, 250, 20);
 			drawEngine->drawDynamicText("info2", *_info2, 250, 50);
-			drawEngine->drawDynamicText("devicename", "Device: " + *_devicename, 50, 70);
+			drawEngine->drawDynamicText("devicename", "Device: " + *_devicename, 250, 90);
 			drawEngine->drawDynamicText("walkright", *_walkright, 650, 145);
 			drawEngine->drawDynamicText("walkleft", *_walkleft, 650, 215);
 			drawEngine->drawDynamicText("jump", *_jump, 650, 290);
