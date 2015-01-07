@@ -18,7 +18,7 @@ namespace sdmg {
 		{
 			_game = &game;
 
-			_menu = new Menu(50, 250, game);
+			_menu = new Menu(250, 125, game);
 
 			_menu->addMenuTextItem("Walk Right", (std::function<void()>)[&] { waitFor(_walkright); });
 			_menu->addMenuTextItem("Walk Left", (std::function<void()>)[&] { waitFor(_walkleft); });
@@ -273,14 +273,14 @@ namespace sdmg {
 
 			drawEngine->drawDynamicText("info", *_info, 250, 20);
 			drawEngine->drawDynamicText("info2", *_info2, 250, 50);
-			drawEngine->drawDynamicText("devicename", *_devicename, 50, 70);
-			drawEngine->drawDynamicText("walkright", *_walkright, 850, 115);
-			drawEngine->drawDynamicText("walkleft", *_walkleft, 850, 185);
-			drawEngine->drawDynamicText("jump", *_jump, 850, 260);
-			drawEngine->drawDynamicText("roll", *_roll, 850, 335);
-			drawEngine->drawDynamicText("midrange", *_midrange, 850, 405);
-			drawEngine->drawDynamicText("longrange", *_longrange, 850, 475);
-			drawEngine->drawDynamicText("block", *_block, 850, 545);
+			drawEngine->drawDynamicText("devicename", "Device: " + *_devicename, 50, 70);
+			drawEngine->drawDynamicText("walkright", *_walkright, 650, 145);
+			drawEngine->drawDynamicText("walkleft", *_walkleft, 650, 215);
+			drawEngine->drawDynamicText("jump", *_jump, 650, 290);
+			drawEngine->drawDynamicText("roll", *_roll, 650, 365);
+			drawEngine->drawDynamicText("midrange", *_midrange, 650, 435);
+			drawEngine->drawDynamicText("longrange", *_longrange, 650, 505);
+			drawEngine->drawDynamicText("block", *_block, 650, 575);
 
 			_menu->draw(&game);
 

@@ -396,6 +396,9 @@
     <ClCompile Include="engine\ai\aistates\LongAttackAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
+    <ClCompile Include="gamestates\HighScoreInputState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="gamestates\PlayBackState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
@@ -715,6 +718,9 @@
 	</ClInclude>
     <ClInclude Include="engine\ai\aistates\LongAttackAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\HighScoreInputState.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\PlayBackState.h">
       <Filter>Header Files\gamestates</Filter>

@@ -24,6 +24,7 @@ namespace sdmg {
 			void rebuildHitboxes();
 			void doAction();
 
+			void setWidth(int width);
 			int getWidth() { return _width; }
 			//void doAction();
 			MenuItem *getSelectedMenuItem() { return _selected; }
