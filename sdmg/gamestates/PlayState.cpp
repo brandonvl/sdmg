@@ -55,7 +55,7 @@ namespace sdmg {
 			game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
 			game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
 			
-			game.getRecorder().start(game);
+			game.getRecorder().start(game,*_level);
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -63,9 +63,14 @@ namespace sdmg {
 			_huds = huds;
 		}
 
+		void PlayState::setLevel(std::string *level) {
+			_level = new std::string(*level);
+		}
+
 		void PlayState::cleanup(GameBase &game)
 		{
 			delete _editor;
+			delete _level;
 			_editor = nullptr;
 		}
 

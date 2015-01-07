@@ -20,12 +20,13 @@ namespace sdmg
 			Recorder();
 			~Recorder();
 
-			void start(engine::GameBase &game);
+			void start(engine::GameBase &game, const std::string &level);
 			void record(std::string action, model::Character &character, bool keyDown);
 			void save(std::string path);
 			void registerCharacter(model::Character &character);
 
 		private:
+			std::string *_level;
 			class RecordItem {
 			public:
 				RecordItem(std::string action, int character, int timestamp, bool keyDown) : _action(action), _character(character), _timestamp(timestamp), _keyDown(keyDown) {}

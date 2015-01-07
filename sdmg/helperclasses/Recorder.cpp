@@ -3,6 +3,7 @@
 #include "model\Character.h"
 #include "engine\World.h"
 #include "engine\GameBase.h"
+#include "gamestates\LoadingState.h"
 
 namespace sdmg
 {
@@ -10,8 +11,9 @@ namespace sdmg
 		Recorder::Recorder() { }
 		Recorder::~Recorder() { cleanup(); }
 
-		void Recorder::start(GameBase &game) {
-			init();	
+		void Recorder::start(GameBase &game, const std::string &level) {
+			init();
+			_level = new std::string(level);
 			_enabled = true;
 
 			for (auto player : game.getWorld()->getPlayers()) {
@@ -36,6 +38,7 @@ namespace sdmg
 			delete _recordQueue;
 			delete _characters;
 			delete _recordStartTime;
+			delete _level;
 		}
 
 		void Recorder::record(std::string action, model::Character &character, bool keyDown) {
@@ -74,6 +77,7 @@ namespace sdmg
 			}
 
 			recordingObj->add("characters", *characterArr);
+			recordingObj->add("level", *_level);
 
 			JSON::JSONArray *stepArr = new JSON::JSONArray(recordingObj);
 
@@ -93,6 +97,7 @@ namespace sdmg
 
 			recordingObj->add("steps", *stepArr);
 			doc->saveFile(path);
+
 		}
 	}
 }
