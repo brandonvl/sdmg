@@ -360,7 +360,7 @@ namespace sdmg {
 			|| _state == State::MIDRANGEATTACKBEGIN || _state == State::MIDRANGEATTACK || _state == State::MIDRANGEATTACKEND ||
 			_state == State::LONGRANGEATTACK)
 			*/
-			if (_state == State::KNEELING || _state == State::KNOCKBACKLEFT || _state == State::KNOCKBACKRIGHT ||
+			if (_state == State::KNEELING || _state == State::KNOCKBACKLEFT || _state == State::KNOCKBACKRIGHT || _state == State::RESPAWN ||
 				_state == (State::WALKING | State::MIDRANGEATTACKBEGIN) || _state == (State::WALKING | State::MIDRANGEATTACK)
 				|| _state == (State::WALKING | State::MIDRANGEATTACKEND) || _state == (State::IDLE | State::MIDRANGEATTACKBEGIN)
 				|| _state == (State::IDLE | State::MIDRANGEATTACK) || _state == (State::IDLE | State::MIDRANGEATTACKEND)
