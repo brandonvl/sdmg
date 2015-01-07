@@ -55,7 +55,8 @@ namespace sdmg {
 			game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
 			game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
 			
-			game.getRecorder().start(game,*_level);
+			if (game.getGameMode() == GameBase::GameMode::Versus)
+				game.getRecorder().start(game,*_level);
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
