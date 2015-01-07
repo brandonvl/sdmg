@@ -18,7 +18,7 @@ namespace sdmg {
 			_menu = new Menu(50, 600, game);
 			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
-			game.getEngine()->getDrawEngine()->load("highscore_background", "assets/screens/mainmenu");
+			game.getEngine()->getDrawEngine()->load("statistics_background", "assets/screens/mainmenu");
 
 			// Load header text
 			loadText("title", "Statistics", "trebucbd", 48);

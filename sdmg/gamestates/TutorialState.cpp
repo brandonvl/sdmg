@@ -41,7 +41,7 @@ namespace sdmg {
 			Character *character = static_cast<Character*>(game.getWorld()->getPlayers()[0]);
 			Character *enemy = static_cast<Character*>(game.getWorld()->getPlayers()[1]);
 			// 25.0F,1.0F
-			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*character, *enemy);
+			engine::ai::AIMachine *machine = new engine::ai::TutorialMachine(*character, *enemy,25.0F,1.0F);
 
 			character->setAI(*machine);
 
