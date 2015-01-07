@@ -20,6 +20,7 @@
 #include "LoadingSinglePlayerState.h"
 #include "LoadingSurvivalState.h"
 #include "MainMenuState.h"
+#include "GameModeState.h"
 #include "engine\util\FileManager.h"
 #include <vector>
 #include <fstream>
@@ -44,6 +45,12 @@ namespace sdmg {
 			if (_slots->size() != 1) titleText += "s";
 
 			_game->getEngine()->getDrawEngine()->loadText("characterselecttitle", titleText, { 255, 255, 255 }, "trebucbd", 48);
+
+			// init menu
+			_menu = new Menu(895, SMALL_CHARACTER_BOX_YPOS, game);
+			_menu->addMenuTextItem(game.getGameMode() == GameBase::GameMode::Versus ? "Select level" : "Play", (std::function<void()>)std::bind(&CharacterSelectionState::nextState, this));
+			_menu->addMenuTextItem("Back to game modes", (std::function<void()>)[&] { changeState(game, GameModeState::getInstance()); });
+
 
 			std::vector<std::string> characterList = std::vector<std::string>(util::FileManager::getInstance().getFolders("assets/characters/"));
 
@@ -115,25 +122,30 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						changeState(*_game, MainMenuState::getInstance());
+						changeState(*_game, GameModeState::getInstance());
 						break;
-					case SDLK_UP:
 					case SDLK_RIGHT:
-					case 1:
 						selectNext();
 						break;
-					case SDLK_DOWN:
 					case SDLK_LEFT:
-					case 0:
 						selectPrevious();
 						break;
 					case SDLK_SPACE:
-					case 10:
 						select();
+						break;
+
+					case SDLK_DOWN:
+					case 1:
+						_menu->selectNext();
+						break;
+					case SDLK_UP:
+					case 0:
+						_menu->selectPrevious();
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						nextState();
+					case 10:
+						_menu->doAction();
 						break;
 					}
 				}
@@ -149,9 +161,11 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("characterselect_background");
 			game.getEngine()->getDrawEngine()->drawText("characterselecttitle", 50, 70);
-		
+
 			drawCharacters(game);
 			drawSelectedCharacters(game);
+
+			_menu->draw(_game);
 
 			game.getEngine()->getDrawEngine()->render();
 		}
