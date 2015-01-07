@@ -9,6 +9,7 @@
 
 
 #include "PlayState.h"
+#include "LoadingSinglePlayerState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "LoadingState.h"
@@ -148,10 +149,20 @@ namespace sdmg {
 								break;
 							case SDL_QUIT:
 
+								if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
+								{
+									LoadingSinglePlayerState::getInstance().unloadAll();
+									//GameOverState::getInstance().cleanup(*_game);
+								}
 								break;
 							}
 						}
 						else if (event.type == SDL_QUIT){
+							if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
+							{
+								LoadingSinglePlayerState::getInstance().unloadAll();
+								//GameOverState::getInstance().cleanup(*_game);
+							}
 							if (_huds) {
 								for (auto it : *_huds) {
 									delete it;
