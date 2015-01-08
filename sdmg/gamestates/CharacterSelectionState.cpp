@@ -33,7 +33,7 @@ namespace sdmg {
 
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
 			_slots = new std::vector<std::string>();
-			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
+			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
 			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
 
 			for (int i = 0; i < _slots->size(); i++) {
