@@ -183,7 +183,8 @@ namespace sdmg {
 		{
 			delete _menu;
 			_menu = nullptr;
-			_game->getRecorder().reset();
+
+			game.getRecorder().reset();
 
 			if (_replay)
 			{
@@ -206,11 +207,14 @@ namespace sdmg {
 			}
 			else
 			{
+				delete PlayState::getInstance()._level;
+				PlayState::getInstance()._level = nullptr;
+
 				game.getWorld()->destroyShootBodies();
 				game.getEngine()->getAudioEngine()->unloadAll();
 				game.getEngine()->getDrawEngine()->unloadAll();
 				game.getEngine()->getPhysicsEngine()->cleanUp();
-				//  game.getEngine()->getParticleEngine()->unloadAll();
+				game.getEngine()->getParticleEngine()->unloadAll();
 				game.getEngine()->getInputEngine()->clearBindings();
 
 				game.getWorld()->clearWorld();

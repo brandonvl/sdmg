@@ -19,7 +19,7 @@
 	jumpEnd: [494,675],
 	falling: [494,675],
 	forwardRoll: [860,709],
-	knockback: [385,566],
+	knockback: [526,655],
 	kneeling: [567,626],
 	midRangeAttackBegin: [491,595],
 	midRangeAttack: [491,595],

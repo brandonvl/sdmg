@@ -69,8 +69,10 @@ namespace sdmg {
 			std::function<void()> callBackLevelSelection = std::bind(&PauseState::returnToLevelSelection, this);
 
 			_menu->addMenuTextItem("Resume", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			/*
 			if (game.getGameMode() == GameBase::GameMode::Versus)
 				_menu->addMenuTextItem("Level selection", callBackLevelSelection);
+			*/
 			_menu->addMenuTextItem("Main menu", callBackMainMenu);
 
 			game.getEngine()->getDrawEngine()->loadText("pause", "Pause", { 255, 255, 255 }, "arial", 70);

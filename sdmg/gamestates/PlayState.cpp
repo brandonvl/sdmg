@@ -71,7 +71,6 @@ namespace sdmg {
 		void PlayState::cleanup(GameBase &game)
 		{
 			delete _editor;
-			delete _level;
 			_editor = nullptr;
 		}
 
