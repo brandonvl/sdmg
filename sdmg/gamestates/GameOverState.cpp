@@ -183,6 +183,7 @@ namespace sdmg {
 		{
 			delete _menu;
 			_menu = nullptr;
+			_game->getRecorder().reset();
 
 			if (_replay)
 			{

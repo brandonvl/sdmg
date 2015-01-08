@@ -43,11 +43,14 @@ namespace sdmg
 			_recordStartTime = nullptr;
 			delete _level;
 			_level = nullptr;
+			
+			_characterIndex = 0;
 		}
 
 		void Recorder::record(std::string action, model::Character &character, bool keyDown) {
 			if (_enabled) {
-				int timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
+				//  int timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
+				int timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
 
 				auto it = _characters->find(&character);
 				if (it != _characters->cend())
@@ -101,7 +104,6 @@ namespace sdmg
 
 			recordingObj->add("steps", *stepArr);
 			doc->saveFile(path);
-
 		}
 	}
 }

@@ -9,7 +9,7 @@
 
 
 #include "LevelSelectionState.h"
-#include "GameModeState.h"
+#include "CharacterSelectionState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
@@ -70,8 +70,8 @@ namespace sdmg {
 				}
 			}
 
-			_menu->addMenuTextItem("Back to Game mode menu", (std::function<void()>)[&] {
-				changeState(*_game, GameModeState::getInstance());
+			_menu->addMenuTextItem("Back to characters", (std::function<void()>)[&] {
+				changeState(*_game, CharacterSelectionState::getInstance());
 			});
 
 			game.getEngine()->getDrawEngine()->load("levelselect_background", "assets/screens/mainmenu");
@@ -105,7 +105,7 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						changeState(*_game, MainMenuState::getInstance());
+						changeState(*_game, CharacterSelectionState::getInstance());
 						break;
 					case SDLK_DOWN:
 					case 1:

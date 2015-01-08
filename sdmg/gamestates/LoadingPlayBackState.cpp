@@ -80,6 +80,16 @@ namespace sdmg {
 			_characters = nullptr;
 
 			_recordQueue = nullptr;
+			
+			if (_recordMap->size() > 0) {
+				std::unordered_map<std::string, Action*>::iterator itr = _recordMap->begin();
+				while (itr != _recordMap->end()) {
+					delete itr->second;
+					_recordMap->erase(itr++);
+				}
+			}
+			delete _recordMap;
+			_recordMap = nullptr;
 
 			game.getEngine()->getDrawEngine()->unload("loading");
 		}
@@ -151,10 +161,9 @@ namespace sdmg {
 			int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
 			_loadingStep = maxLoadingValue / 3;
 
-			loadPlaybackSteps();
 			loadAdvertisement();
-			loadLevel();
 			loadKeybindings();
+			loadPlaybackSteps();
 			
 			_loadingValue = maxLoadingValue;
 
@@ -167,17 +176,7 @@ namespace sdmg {
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/playbacks/" + *_fileName);
 			JSON::JSONObject &obj = doc->getRootObject();
 
-			_recordQueue = new std::queue<PlayBackState::RecordStep*>();
-
-			int numberOfSteps = obj.getArray("steps").size();
-			for (int i = 0; i < numberOfSteps; i++)
-			{
-				JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
-				_recordQueue->push(new PlayBackState::RecordStep(stepObj.getString("action"), stepObj.getInt("character"), stepObj.getFloat("timestamp"), stepObj.getBoolean("keyDown")));
-			}
-
-			_level = new std::string("level1");
-			//  _level = new std::string(obj.getString("level"));
+			_level = new std::string(obj.getString("level"));
 
 			int numberOfCharacters = obj.getArray("characters").size();
 			_characters = new std::vector<std::string*>(numberOfCharacters);
@@ -186,6 +185,28 @@ namespace sdmg {
 				(*_characters)[obj.getArray("characters").getObject(i).getInt("index")] = new std::string(obj.getArray("characters").getObject(i).getString("key"));
 			}
 
+			loadLevel();
+
+
+			// load steps
+			_recordQueue = new std::queue<PlayBackState::RecordStep*>();
+
+			int numberOfSteps = obj.getArray("steps").size();
+			for (int i = 0; i < numberOfSteps; i++)
+			{
+				JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
+
+				std::string name = stepObj.getString("action") + std::to_string(stepObj.getInt("character"));
+
+				// create fake event
+				SDL_Event event;
+				event.type = stepObj.getBoolean("keyDown") ? SDL_KEYDOWN : SDL_KEYUP;
+
+				// create and run action
+				auto action = (*_recordMap)[name]->create(event);
+
+				_recordQueue->push(new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp")));
+			}
 			PlayBackState::getInstance().setPlaybackSteps(_recordQueue);
 
 			delete doc;
@@ -247,6 +268,9 @@ namespace sdmg {
 
 		void LoadingPlayBackState::loadCharacters(JSON::JSONArray &startingPositions) {
 
+			delete _recordMap;
+			_recordMap = new std::unordered_map<std::string, Action*>();
+
 			std::vector<Character*> characters(_characters->size());
 			
 			int characterStep = 0;
@@ -269,15 +293,16 @@ namespace sdmg {
 						return;
 					}
 
-					PlayBackState::getInstance().addAction("BlockAction" + std::to_string(i), new actions::BlockAction(characters[i]));
-					PlayBackState::getInstance().addAction("JumpAction" + std::to_string(i), new actions::JumpAction(characters[i]));
-					PlayBackState::getInstance().addAction("LeftWalkAction" + std::to_string(i), new actions::LeftWalkAction(characters[i]));
-					PlayBackState::getInstance().addAction("LongRangeAttackAction" + std::to_string(i), new actions::LongRangeAttackAction(characters[i]));
-					PlayBackState::getInstance().addAction("MidRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction(characters[i]));
-					PlayBackState::getInstance().addAction("RespawnAction" + std::to_string(i), new actions::RespawnAction(characters[i]));
-					PlayBackState::getInstance().addAction("RightWalkAction" + std::to_string(i), new actions::RightWalkAction(characters[i]));
-					PlayBackState::getInstance().addAction("RollAction" + std::to_string(i), new actions::RollAction(characters[i]));
-
+					_recordMap->insert({ "BlockAction" + std::to_string(i), new actions::BlockAction(characters[i]) });
+					_recordMap->insert({ "JumpAction" + std::to_string(i), new actions::JumpAction(characters[i]) });
+					_recordMap->insert({ "LeftWalkAction" + std::to_string(i), new actions::LeftWalkAction(characters[i]) });
+					_recordMap->insert({ "LongRangeAttackAction" + std::to_string(i), new actions::LongRangeAttackAction(characters[i]) });
+					_recordMap->insert({ "MidRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction(characters[i]) });
+					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction(characters[i]) });
+					_recordMap->insert({ "RightWalkAction" + std::to_string(i), new actions::RightWalkAction(characters[i]) });
+					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction(characters[i]) });
+					_recordMap->insert({ "RollAction" + std::to_string(i), new actions::RollAction(characters[i]) });
+					
 				} while (characters[i] == nullptr);
 
 				_loadingValue += characterStep;

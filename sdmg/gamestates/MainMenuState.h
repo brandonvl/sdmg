@@ -43,7 +43,8 @@ namespace sdmg {
 			MainMenuState() { }
 		private:
 			GameBase *_game;
-			
+			const int _advertisementStartX = 585;
+			const int _advertisementStartY = 243;
 			std::vector<std::string> *_advertismentList;
 			bool _shouldRefreshAdvertisement;
 			int _advertisementIndex, _advertisementRefreshRate, _lastTimeSinceAdvertisementChange, _advertisementX, _advertisementY;

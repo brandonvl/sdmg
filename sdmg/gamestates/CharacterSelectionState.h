@@ -47,6 +47,19 @@ namespace sdmg {
 			void selectPrevious();
 			void select();
 			void nextState();
+
+			int
+				SELECTED_CHARACTER_BOX_WIDTH = 100;
+
+			const int
+				SELECTED_CHARACTER_BOX_PADDING = 10,
+				SELECTED_CHARACTER_BOX_HEIGHT = 300,
+				SELECTED_CHARACTER_BOX_YPOS = 230,
+				SMALL_CHARACTER_BOX_PADDING = 10,
+				SMALL_CHARACTER_BOX_WIDTH = 100,
+				SMALL_CHARACTER_BOX_HEIGHT = 100,
+				SMALL_CHARACTER_BOX_YPOS = 540;
+
 		};
 	}
 }
