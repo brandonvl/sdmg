@@ -51,7 +51,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib;$(ProjectDir)lib;$(ProjectDir)vld/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;sdl2_mixer.lib;Box2D.lib;JSONParser.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)sdl\dll\*" "$(OutDir)*"</Command>

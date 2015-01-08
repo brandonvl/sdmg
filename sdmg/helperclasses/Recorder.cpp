@@ -53,8 +53,9 @@ namespace sdmg
 				int timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
 
 				auto it = _characters->find(&character);
-				if (it != _characters->cend())
-					_recordQueue->push(new RecordItem(action, it->second, timestamp, keyDown));
+				if (it != _characters->cend()) {
+					_recordQueue->push(new RecordItem(action, it->second, timestamp, keyDown, character.getX(), character.getY(), character.getBody()->GetLinearVelocity().x, character.getBody()->GetLinearVelocity().y, character.getHP(), character.getLives(), character.getPP()));
+				}
 			}
 		}
 
@@ -70,6 +71,8 @@ namespace sdmg
 
 			JSON::JSONArray *characterArr = new JSON::JSONArray(recordingObj);
 			
+			std::map<int, model::Character*> characters;
+
 			for (auto it : *_characters) {
 				JSON::JSONObject *characterObj = new JSON::JSONObject(characterArr);
 				characterObj->add("index", it.second);
@@ -81,18 +84,26 @@ namespace sdmg
 				characterObj->add("position", *positionObj);
 
 				characterArr->push(*characterObj);
+				characters.insert({ it.second, it.first });
 			}
 
 			recordingObj->add("characters", *characterArr);
 			recordingObj->add("level", *_level);
 
 			JSON::JSONArray *stepArr = new JSON::JSONArray(recordingObj);
-
+			
 			while (!_recordQueue->empty()) {
 				RecordItem *item = _recordQueue->front();
 
 				JSON::JSONObject *stepObj = new JSON::JSONObject(stepArr);
 
+				stepObj->add("x", item->getX());
+				stepObj->add("y", item->getY());
+				stepObj->add("velocityx", item->getVelocityX());
+				stepObj->add("velocityy", item->getVelocityY());
+				stepObj->add("lives", item->getLives());
+				stepObj->add("hp", item->getHP());
+				stepObj->add("pp", item->getPP());
 				stepObj->add("action", item->getAction());
 				stepObj->add("character", item->getCharacter());
 				stepObj->add("timestamp", item->getTimestamp());

@@ -116,10 +116,24 @@ namespace sdmg {
 					RecordStep cStep = *step;
 
 					std::thread thread{ [&, cStep] {
+
 						if (_running) {
+							while (cStep._character->getBody()->GetWorld()->IsLocked());
+
+							try{
+								cStep._character->getBody()->SetTransform(b2Vec2(cStep._x, cStep._y), cStep._character->getBody()->GetAngle());
+								cStep._character->getBody()->SetLinearVelocity(b2Vec2(cStep._velocityX, cStep._velocityY));
+							}
+							catch (...){}
+
+							cStep._character->setHP(cStep._hp);
+							cStep._character->setLives(cStep._lives);
+							cStep._character->setPP(cStep._pp);
+
 							cStep._action->run(*_game);
 							delete cStep._action;
 						}
+
 					} };
 					thread.detach();
 

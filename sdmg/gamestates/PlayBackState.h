@@ -57,9 +57,11 @@ namespace sdmg {
 			struct RecordStep
 			{
 				Action *_action;
-				int _timestamp;
+				int _timestamp, _hp, _lives, _pp;
+				float _x, _y, _velocityX, _velocityY;
+				Character *_character;
 
-				RecordStep(Action *action, int timestamp) : _action(action), _timestamp(timestamp){
+				RecordStep(Action *action, int timestamp, float x, float y, float velocityX, float velocityY, Character *character, int hp, int lives, int pp) : _action(action), _timestamp(timestamp), _x(x), _y(y), _velocityX(velocityX), _velocityY(velocityY), _character(character), _hp(hp), _lives(lives), _pp(pp){
 					
 				};
 			};
