@@ -79,7 +79,7 @@ namespace sdmg {
 		
 		void TutorialState::cleanup(GameBase &game)
 		{
-			//PlayState::cleanup(game);
+			PlayState::cleanup(game);
 
 			if (_huds) {
 				for (auto it : *_huds) {

@@ -48,14 +48,16 @@ namespace sdmg {
 					JSON::JSONDocument *doc = nullptr;
 					try
 					{
-						doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-						JSON::JSONObject &obj = doc->getRootObject();
+						if (levelFolder != "tutorial"){
+							doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
+							JSON::JSONObject &obj = doc->getRootObject();
 
-						_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
-							LoadingState::getInstance().setIsTutorial(false);
-							LoadingState::getInstance().setLevel(new std::string(levelFolder));
-							changeState(*_game, LoadingState::getInstance());
-						});
+							_menu->addMenuTextItem(obj.getString("name"), (std::function<void()>)[&, levelFolder] {
+								LoadingState::getInstance().setIsTutorial(false);
+								LoadingState::getInstance().setLevel(new std::string(levelFolder));
+								changeState(*_game, LoadingState::getInstance());
+							});
+						}
 					}
 					catch (JSON::JSONException &ex)
 					{

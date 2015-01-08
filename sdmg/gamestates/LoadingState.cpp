@@ -276,6 +276,13 @@ namespace sdmg {
 		}
 
 		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
+
+			if (_characters == nullptr) {
+				_characters = new std::vector<std::string>();
+				_characters->push_back("fiat");
+				_characters->push_back("nivek");
+			}
+
 			auto loadCharacters = *_characters;
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
