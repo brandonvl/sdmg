@@ -27,8 +27,13 @@ namespace sdmg {
 				_highscoreInitials = new std::string();
 			});
 			_menu->addMenuTextItem("Confirm", (std::function<void()>)[&] {
-				ProgressManager::getInstance().addHighscore(*_highscoreInitials, _highscore);
-				ProgressManager::getInstance().save();
+				if (!_highscoreInitials->empty()) {
+					ProgressManager::getInstance().addHighscore(*_highscoreInitials, _highscore);
+					ProgressManager::getInstance().save();
+					game.getStateManager()->popState();
+				}
+				else 
+					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Warning", "Empty input", NULL);
 			});
 			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { 
 				game.getStateManager()->popState(); 

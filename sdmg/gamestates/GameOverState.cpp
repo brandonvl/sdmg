@@ -125,7 +125,7 @@ namespace sdmg {
 			// Update statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
 			
-			for (auto rank = 0; rank < deadList.size(); rank++) {
+			for (size_t rank = 0, ranklen = deadList.size(); rank < ranklen; rank++) {
 
 				for (auto i = 0; i < statistics.size(); i++) {
 					JSON::JSONObject &characterObj = statistics.getObject(i);
@@ -173,7 +173,7 @@ namespace sdmg {
 			_game->getWorld()->resetWorld();
 			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 
-			for (int i = 0; i < aliveList.size(); i++)
+			for (size_t i = 0, ilen = aliveList.size(); i < ilen; i++)
 			{
 				model::Character *character = static_cast<model::Character*>(aliveList[i]);
 				character->revive();

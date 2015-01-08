@@ -18,14 +18,14 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("highscore_background", "assets/screens/mainmenu");
 
 			// Create menu
-			_menu->addMenuTextItem("Input highscore", (std::function<void()>)[&] { _game->getStateManager()->pushState(HighScoreInputState::getInstance()); });
+			//_menu->addMenuTextItem("Input highscore", (std::function<void()>)[&] { _game->getStateManager()->pushState(HighScoreInputState::getInstance()); });
 			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			// Load header text
 			loadText("highscore_title", "Highscores", "trebucbd", 48);
 
 			_highscores = ProgressManager::getInstance().getHighscores();
-			for (auto i = 0; i < _highscores->size(); i++) {
+			for (size_t i = 0, ilen = _highscores->size(); i < ilen; i++) {
 				loadText(("number_" + std::to_string(i)), _highscores->at(i).at(0) + ".", "trebucbd", 36);
 				loadText(("name_" + std::to_string(i)), _highscores->at(i).at(1), "trebucbd", 36);
 				loadText(("score_" + std::to_string(i)), _highscores->at(i).at(2), "trebucbd", 36);
@@ -42,7 +42,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("highscore_background");
 			game.getEngine()->getDrawEngine()->unload("highscore_title");
 
-			for (auto i = 0; i < _highscores->size(); i++) {
+			for (size_t i = 0, ilen = _highscores->size(); i < ilen; i++) {
 				game.getEngine()->getDrawEngine()->unload("number_" + std::to_string(i));
 				game.getEngine()->getDrawEngine()->unload("name_" + std::to_string(i));
 				game.getEngine()->getDrawEngine()->unload("score_" + std::to_string(i));
@@ -100,7 +100,7 @@ namespace sdmg {
 			hpos = 700;
 			vpos = 250;
 
-			for (auto i = 0; i < _highscores->size(); i++) {
+			for (size_t i = 0, ilen = _highscores->size(); i < ilen; i++) {
 				drawEngine->drawText(("number_" + std::to_string(i)), hpos, vpos);
 				hpos += 100;
 				drawEngine->drawText(("name_" + std::to_string(i)), hpos, vpos);
