@@ -72,25 +72,6 @@ namespace sdmg {
 			delete _recordQueue;
 			_recordQueue = nullptr;
 			_threadSpawned = false;
-
-			game.getWorld()->destroyShootBodies();
-			game.getEngine()->getAudioEngine()->unloadAll();
-			game.getEngine()->getDrawEngine()->unloadAll();
-			game.getEngine()->getPhysicsEngine()->cleanUp();
-			//  game.getEngine()->getParticleEngine()->unloadAll();
-			game.getEngine()->getInputEngine()->clearBindings();
-
-			game.getWorld()->clearWorld();
-
-			if (_huds) {
-				for (auto it : *_huds) {
-					delete it;
-				}
-				_huds->clear();
-			}
-
-			delete _huds;
-			_huds = nullptr;
 		}
 
 		void PlayBackState::pause(GameBase &game)
@@ -115,6 +96,7 @@ namespace sdmg {
 					case SDL_KEYDOWN:
 						switch (event.key.keysym.sym) {
 						case SDLK_ESCAPE:
+							GameOverState::getInstance().cleanup(game);
 							_game->getStateManager()->changeState(MainMenuState::getInstance());
 							break;
 						}
