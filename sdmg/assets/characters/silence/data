@@ -1,5 +1,5 @@
 {
-	name: "Silence Code Ninja",
+	name: "Silence",
 	level: "level2",
 	size: { width: 110, height: 143 },
 	attack: {

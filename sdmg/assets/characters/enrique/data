@@ -1,5 +1,5 @@
 {
-	name: "Enrique The Suit Is Banana's Maso",
+	name: "Enrique",
 	level: "level1",
 	size: { width: 110, height: 143 },
 	attack: {

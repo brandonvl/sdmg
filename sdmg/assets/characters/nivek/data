@@ -1,5 +1,5 @@
 {
-	name: "Nivek The Assassin",
+	name: "Nivek",
 	level: "level1",
 	size: { width: 110, height: 143 },
 	attack: {
