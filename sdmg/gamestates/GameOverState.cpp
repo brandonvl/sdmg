@@ -47,6 +47,8 @@ namespace sdmg {
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
 			bool unlocked = false;
 
+			model::Character *chas = nullptr;
+
 			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 			{
 				static_cast<Character*>(game.getWorld()->getPlayers()[1])->getAI()->pause();
@@ -54,10 +56,20 @@ namespace sdmg {
 				if (!LoadingSinglePlayerState::getInstance().hasFinished())
 				{
 					if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
+					{
+						game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
 						_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+					}
+					else
+					{
+						chas = static_cast<model::Character*>(deadList[0]);
+						game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/loser");
+					}
 				}
 				else if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
 				{
+					game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
+
 					ProgressManager &manager = ProgressManager::getInstance();
 
 					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
@@ -84,7 +96,8 @@ namespace sdmg {
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
-				_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverState::replay, this));
+				game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
+				_menu->addMenuTextItem("Play again", (std::function<void()>)std::bind(&GameOverState::replay, this));
 				_menu->addMenuTextItem("Save replay", (std::function<void()>)std::bind(&GameOverState::saveReplay, this));
 				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
@@ -104,7 +117,9 @@ namespace sdmg {
 			}
 
 			_characterCount = deadList.size();
-			model::Character *chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
+			if (!chas)
+				chas = static_cast<model::Character*>(deadList[_characterCount - 1]);
+
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 
 			// Update statistics
@@ -129,9 +144,6 @@ namespace sdmg {
 			if (ProgressManager::getInstance().autosaveEnabled())
 				ProgressManager::getInstance().save();
 			
-			game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/gameover");
-
-
 			//game.getEngine()->getAudioEngine()->load("winner", "assets/levels/background");
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);

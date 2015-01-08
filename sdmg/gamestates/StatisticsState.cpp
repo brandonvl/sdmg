@@ -16,7 +16,15 @@ namespace sdmg {
 			_game = &game;
 
 			_menu = new Menu(50, 600, game);
-			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+
+			if (_backName)
+			{
+				_menu->addMenuTextItem("Back to " + *_backName, (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+				delete _backName;
+				_backName = nullptr;
+			}
+			else
+				_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			game.getEngine()->getDrawEngine()->load("statistics_background", "assets/screens/mainmenu");
 
@@ -39,6 +47,12 @@ namespace sdmg {
 			}
 
 			game.getEngine()->getInputEngine()->setMouseEnabled();
+		}
+
+		void StatisticsState::setBackName(std::string name)
+		{
+			delete _backName;
+			_backName = new std::string(name);
 		}
 
 		void StatisticsState::cleanup(GameBase &game)

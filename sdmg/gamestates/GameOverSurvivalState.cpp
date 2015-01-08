@@ -63,7 +63,10 @@ namespace sdmg {
 			else
 				game.getEngine()->getDrawEngine()->loadText("enemies", "enemies", { 255, 255, 255 }, "arial", 54);
 
-			game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/gameover");
+			if (highscore < 1)
+				game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/loser");
+			else
+				game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/winner");
 
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);

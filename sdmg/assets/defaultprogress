@@ -32,37 +32,37 @@
 			characters:[
 				{
 					losses:0,
-					name:"Nivek The Assassin",
+					name:"Nivek",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Silence The Code Ninja",
+					name:"Silence",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Fiat Panda",
+					name:"Fiat",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Always Lucky Cowboy",
+					name:"Always",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Mind The Ice Mage",
+					name:"Mind",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Enrique The Suit is Bananas",
+					name:"Enrique",
 					unlocked:false,
 					wins:0
 				}
@@ -87,37 +87,37 @@
 			characters:[
 				{
 					losses:0,
-					name:"Nivek The Assassin",
+					name:"Nivek",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Silence The Code Ninja",
+					name:"Silence",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Fiat Panda",
+					name:"Fiat",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Always Lucky Cowboy",
+					name:"Always",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Mind The Ice Mage",
+					name:"Mind",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Enrique The Suit is Bananas",
+					name:"Enrique",
 					unlocked:false,
 					wins:0
 				}
@@ -142,37 +142,37 @@
 			characters:[
 				{
 					losses:0,
-					name:"Nivek The Assassin",
+					name:"Nivek",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Silence The Code Ninja",
+					name:"Silence",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Fiat Panda",
+					name:"Fiat",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Always Lucky Cowboy",
+					name:"Always",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Mind The Ice Mage",
+					name:"Mind",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Enrique The Suit is Bananas",
+					name:"Enrique",
 					unlocked:false,
 					wins:0
 				}

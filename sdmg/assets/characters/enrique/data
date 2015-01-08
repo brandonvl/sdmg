@@ -1,7 +1,7 @@
 {
 	name: "Enrique",
 	level: "level1",
-	size: { width: 110, height: 143 },
+	size: { width: 110, height: 190 },
 	attack: {
 		size: { width: 30, height: 10 },
 		midPosition: 3.3,
@@ -11,7 +11,7 @@
 		midDamage: 10,
 		longDamage: 20
 	},
-	speed: { horizontal: 20, vertical: 2.5 },
+	speed: { horizontal: 20, vertical: 1.75 },
 	scale: 0.3,
 	idle: [308,657],
 	walking: [373,676],
