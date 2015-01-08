@@ -69,10 +69,12 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
 
+			/*
 			if (ProgressManager::getInstance().getLowestHighscore() < highscore) {
 				HighScoreInputState::getInstance().setHighscore(highscore);
 				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
 			}
+			*/
 		}
 
 		// Even checken of dit wel klopt voor survival mode

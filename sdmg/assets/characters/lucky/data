@@ -1,6 +1,6 @@
 {
 	name: "Always Lucky Cowboy",
-	level: "plinko",
+	level: "level3",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },

@@ -137,11 +137,13 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
 
+			/*
 			if (unlocked)
 			{
 				unlocked = false;
 				game.getStateManager()->pushState(UnlockedState::getInstance());
 			}
+			*/
 		}
 
 		void GameOverState::saveReplay() {

@@ -1,6 +1,6 @@
 {
 	name: "Silence Code Ninja",
-	level: "plinko",
+	level: "level2",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },
