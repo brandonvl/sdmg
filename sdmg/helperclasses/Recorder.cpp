@@ -99,11 +99,14 @@ namespace sdmg
 				stepObj->add("keyDown", item->getKeyDown());
 
 				stepArr->push(*stepObj);
+
+				delete item;
 				_recordQueue->pop();
 			}
 
 			recordingObj->add("steps", *stepArr);
 			doc->saveFile(path);
+			delete doc;
 		}
 	}
 }

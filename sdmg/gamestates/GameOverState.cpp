@@ -210,7 +210,7 @@ namespace sdmg {
 				game.getEngine()->getAudioEngine()->unloadAll();
 				game.getEngine()->getDrawEngine()->unloadAll();
 				game.getEngine()->getPhysicsEngine()->cleanUp();
-				//  game.getEngine()->getParticleEngine()->unloadAll();
+				game.getEngine()->getParticleEngine()->unloadAll();
 				game.getEngine()->getInputEngine()->clearBindings();
 
 				game.getWorld()->clearWorld();
