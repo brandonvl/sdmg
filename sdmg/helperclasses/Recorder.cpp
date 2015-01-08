@@ -36,9 +36,13 @@ namespace sdmg
 			}
 
 			delete _recordQueue;
+			_recordQueue = nullptr;
 			delete _characters;
+			_characters = nullptr;
 			delete _recordStartTime;
+			_recordStartTime = nullptr;
 			delete _level;
+			_level = nullptr;
 		}
 
 		void Recorder::record(std::string action, model::Character &character, bool keyDown) {

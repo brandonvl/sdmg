@@ -69,7 +69,9 @@ namespace sdmg {
 		void LoadingPlayBackState::cleanup(GameBase &game)
 		{
 			delete _level;
+			_level = nullptr;
 			delete _fileName;
+			_fileName = nullptr;
 
 			for (auto it : *_characters)
 				delete it;

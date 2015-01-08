@@ -104,8 +104,11 @@ namespace sdmg {
 		void LoadingState::cleanup(GameBase &game)
 		{
 			delete _level;
+			_level = nullptr;
 			delete _progress;
+			_progress = nullptr;
 			delete _characters;
+			_characters = nullptr;
 
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unloadText("progress");

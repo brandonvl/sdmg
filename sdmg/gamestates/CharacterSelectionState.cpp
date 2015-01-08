@@ -76,6 +76,7 @@ namespace sdmg {
 		void CharacterSelectionState::cleanup(GameBase &game)
 		{
 			delete _currentCharacter;
+			_currentCharacter == nullptr;
 			game.getEngine()->getDrawEngine()->unloadAll();
 
 			game.getEngine()->getInputEngine()->getMouse().clear();
@@ -84,7 +85,9 @@ namespace sdmg {
 				delete it.second;
 			}
 			delete _characters;
+			_characters == nullptr;
 			delete _slots;
+			_slots == nullptr;
 		}
 		
 		void CharacterSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
