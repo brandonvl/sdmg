@@ -72,6 +72,25 @@ namespace sdmg {
 			delete _recordQueue;
 			_recordQueue = nullptr;
 			_threadSpawned = false;
+
+			game.getWorld()->destroyShootBodies();
+			game.getEngine()->getAudioEngine()->unloadAll();
+			game.getEngine()->getDrawEngine()->unloadAll();
+			game.getEngine()->getPhysicsEngine()->cleanUp();
+			//  game.getEngine()->getParticleEngine()->unloadAll();
+			game.getEngine()->getInputEngine()->clearBindings();
+
+			game.getWorld()->clearWorld();
+
+			if (_huds) {
+				for (auto it : *_huds) {
+					delete it;
+				}
+				_huds->clear();
+			}
+
+			delete _huds;
+			_huds = nullptr;
 		}
 
 		void PlayBackState::pause(GameBase &game)

@@ -83,40 +83,49 @@ namespace sdmg {
 			for (auto i = 0, ilen = highscores.size(); i < ilen; ++i) {
 				if (stoi(highscores.getObject(i).getString("score")) < highscore) {
 					for (auto j = i, jlen = highscores.size(); j < jlen; ++j) {
-						JSON::JSONVariable *var = new JSON::JSONVariable(&highscores.getObject(j));
-						var->setValueType(JSON::JSONVariable::ValueType::String);
-						// Set number
-						val = std::to_string(stoi(highscores.getObject(j).getString("number")) + 1);
-						var->setValue(val);
-						if (j + 1 < jlen)
-							highscores.getObject(j + 1).set("number", *var);
+						if (j + 1 < jlen) {
+							//JSON::JSONObject highscoreObj = highscores.getObject(j + 1);
+							// Set number
+							JSON::JSONVariable *number = new JSON::JSONVariable(&highscores.getObject(1));
+							number->setValueType(JSON::JSONVariable::ValueType::String);
+							val = std::to_string(stoi(highscores.getObject(j).getString("number")) + 1);
+							number->setValue(val);
+							highscores.getObject(j + 1).set("number", *number);
 
-						// Set initials
-						val = highscores.getObject(j).getString("name");
-						var->setValue(val);
-						if (j + 1 < jlen)
-							highscores.getObject(j + 1).set("name", *var);
+							// Set initials
+							JSON::JSONVariable *name = new JSON::JSONVariable(&highscores.getObject(0));
+							name->setValueType(JSON::JSONVariable::ValueType::String);
+							val = highscores.getObject(j).getString("name");
+							name->setValue(val);
+							highscores.getObject(j + 1).set("name", *name);
 
-						// Set score
-						val = highscores.getObject(j).getString("score");
-						var->setValue(val);
-						if (j + 1 < jlen)
-							highscores.getObject(j + 1).set("score", *var);
+							// Set score
+							JSON::JSONVariable *score = new JSON::JSONVariable(&highscores.getObject(2));
+							score->setValueType(JSON::JSONVariable::ValueType::String);
+							val = highscores.getObject(j).getString("score");
+							score->setValue(val);
+							highscores.getObject(j + 1).set("score", *score);
+						}
 					}
-					JSON::JSONVariable *var = new JSON::JSONVariable(&highscores.getObject(i));
-					var->setValueType(JSON::JSONVariable::ValueType::String);
+					JSON::JSONObject highscoreObj = highscores.getObject(i);
 					// Set number
+					JSON::JSONVariable *number = new JSON::JSONVariable(&highscores.getObject(1));
+					number->setValueType(JSON::JSONVariable::ValueType::String);
 					val = highscores.getObject(i).getString("number");
-					var->setValue(val);
-					highscores.getObject(i).set("number", *var);
+					number->setValue(val);
+					highscoreObj.set("number", *number);
 
 					// Set initials
-					var->setValue(initials);
-					highscores.getObject(i).set("name", *var);
+					JSON::JSONVariable *name = new JSON::JSONVariable(&highscores.getObject(0));
+					name->setValueType(JSON::JSONVariable::ValueType::String);
+					name->setValue(initials);
+					highscoreObj.set("name", *name);
 
 					// Set score
-					var->setValue(std::to_string(highscore));
-					highscores.getObject(i).set("score", *var);
+					JSON::JSONVariable *score = new JSON::JSONVariable(&highscores.getObject(2));
+					score->setValueType(JSON::JSONVariable::ValueType::String);
+					score->setValue(std::to_string(highscore));
+					highscoreObj.set("score", *score);
 					break;
 				}
 			}

@@ -73,7 +73,10 @@ namespace sdmg {
 
 						int x = (SMALL_CHARACTER_BOX_WIDTH + SMALL_CHARACTER_BOX_PADDING) * i + SMALL_CHARACTER_BOX_PADDING;
 
-						game.getEngine()->getInputEngine()->getMouse().setHoverAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)[&, characterFolder] { _currentCharacter = new std::string(characterFolder); });
+						game.getEngine()->getInputEngine()->getMouse().setHoverAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)[&, characterFolder] { 
+							delete _currentCharacter;
+							_currentCharacter = new std::string(characterFolder); 
+						});
 						game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)std::bind(&CharacterSelectionState::select, this));
 					}
 					catch (...)
@@ -91,6 +94,7 @@ namespace sdmg {
 
 		void CharacterSelectionState::cleanup(GameBase &game)
 		{
+			delete _menu;
 			delete _currentCharacter;
 			_currentCharacter == nullptr;
 			game.getEngine()->getDrawEngine()->unloadAll();
