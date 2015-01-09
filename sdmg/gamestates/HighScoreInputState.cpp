@@ -19,7 +19,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("highscoreinput_background", "assets/screens/mainmenu");
 
 			_highscoreInitials = new std::string();
-			_highscore = 1;
+			_highscore = 0;
 			
 			// Create menu
 			_menu = new Menu(50, 250, game);
