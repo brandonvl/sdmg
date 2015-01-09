@@ -101,6 +101,8 @@ namespace sdmg {
 				_menu->addMenuTextItem("Save replay", (std::function<void()>)std::bind(&GameOverState::saveReplay, this));
 				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
+			else if (game.getGameMode() == GameBase::GameMode::Playback)
+				game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
 
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
 				if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
