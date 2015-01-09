@@ -277,11 +277,7 @@ namespace sdmg {
 
 			_characterObjects = new std::vector<Character*>(_characters->size());
 			
-			int characterStep = 0;
-			if (characterStep <= 0)
-				characterStep = (_loadingStep / 3);
-			else
-				characterStep = (_loadingStep / 3) / (_characters->size() + 1);
+			int characterStep = (_loadingStep / 3) / (_characters->size() + 1);
 
 			for (int i = 0; i < _characters->size(); i++) {
 
@@ -324,11 +320,22 @@ namespace sdmg {
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
 
-			HUD *hudPanda = new HUD(*(*_characterObjects)[0], 10);
-			_huds->push_back(hudPanda);
+			HUD *hud1 = new HUD(*(*_characterObjects)[0], 10);
+			_huds->push_back(hud1);
 
-			HUD *hudNivek = new HUD(*(*_characterObjects)[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
-			_huds->push_back(hudNivek);
+			HUD *hud2 = new HUD(*(*_characterObjects)[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
+			_huds->push_back(hud2);
+
+			if ((*_characterObjects).size() >= 3)
+			{
+				HUD *hud3 = new HUD(*(*_characterObjects)[2], 20 + 230);
+				_huds->push_back(hud3);
+			}
+			if ((*_characterObjects).size() >= 4)
+			{
+				HUD *hud4 = new HUD(*(*_characterObjects)[3], _game->getEngine()->getDrawEngine()->getWindowWidth() - (230 * 2) - 20);
+				_huds->push_back(hud4);
+			}
 
 			_loadingValue += characterStep;
 		}
@@ -366,6 +373,7 @@ namespace sdmg {
 
 		void LoadingPlayBackState::loadKeybindings() {
 
+			_loadingValue += _loadingStep;
 			_game->getStateManager()->draw();
 
 			/*

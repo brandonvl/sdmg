@@ -70,6 +70,8 @@ namespace sdmg {
 					{
 						std::cout << "LevelSelection: Error bij laden " + levelFolder;
 					}
+
+					delete doc;
 				}
 			}
 

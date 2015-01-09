@@ -30,6 +30,8 @@
 #include "helperclasses\ConfigManager.h"
 #include <array>
 
+#include "engine\ai\EasyAIMachine.h"
+
 #include "engine\util\FileManager.h"
 
 #include <random>
@@ -285,16 +287,10 @@ namespace sdmg {
 
 			auto loadCharacters = *_characters;
 			std::vector<Character*> characters(sizeof(loadCharacters));
+			
+			int characterStep = (_loadingStep / 3) / (*_characters).size();
 
-			//int characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
-
-			int characterStep = 0;
-			if (characterStep <= 0)
-				characterStep = (_loadingStep / 3);
-			else
-				characterStep = (_loadingStep / 3) / (loadCharacters.size() + 1);
-
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < (*_characters).size(); i++) {
 
 				*_progress = "Loading " + loadCharacters[i];
 				_game->getStateManager()->draw();
@@ -317,17 +313,48 @@ namespace sdmg {
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
+			/*
+			engine::ai::AIMachine *machine1 = new engine::ai::EasyAIMachine(*characters[0], *characters[1]);
+			characters[0]->setAI(*machine1);
+
+			engine::ai::AIMachine *machine2 = new engine::ai::EasyAIMachine(*characters[1], *characters[2]);
+			characters[1]->setAI(*machine2);
+
+			if ((*_characters).size() >= 3)
+			{
+				engine::ai::AIMachine *machine3 = new engine::ai::EasyAIMachine(*characters[2], *characters[3]);
+				characters[2]->setAI(*machine3);
+			}
+
+			if ((*_characters).size() >= 4)
+			{
+				engine::ai::AIMachine *machine4 = new engine::ai::EasyAIMachine(*characters[3], *characters[0]);
+				characters[3]->setAI(*machine4);
+			}
+			*/
+
 			*_progress = "Loading fancy hudjes";
 			_game->getStateManager()->draw();
 
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
+			
+			HUD *hud1 = new HUD(*characters[0], 10);
+			_huds->push_back(hud1);
 
-			HUD *hudPanda = new HUD(*characters[0], 10);
-			_huds->push_back(hudPanda);
+			HUD *hud2 = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
+			_huds->push_back(hud2);
 
-			HUD *hudNivek = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
-			_huds->push_back(hudNivek);
+			if ((*_characters).size() >= 3)
+			{
+				HUD *hud3 = new HUD(*characters[2], 20 + 230);
+				_huds->push_back(hud3);
+			}
+			if ((*_characters).size() >= 4)
+			{
+				HUD *hud4 = new HUD(*characters[3], _game->getEngine()->getDrawEngine()->getWindowWidth() - (230 * 2) - 20);
+				_huds->push_back(hud4);
+			}
 
 			_loadingValue += characterStep;
 		}
@@ -375,16 +402,13 @@ namespace sdmg {
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
 				InputDeviceBinding *binding = new InputDeviceBinding();
-				//  int controlStep = (_loadingStep / 3) / players.size();
-				int controlStep = 0;
-				if (controlStep <= 0)
-					_loadingValue += (_loadingStep / 3);
-				else
-					controlStep = (_loadingStep / 3) / players.size();
+
+				int controlStep = (_loadingStep) / players.size();
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
-				for (int i = 0; i < players.size(); i++)
+				//  for (int i = 0; i < players.size(); i++)
+				for (int i = 0; i < 2; i++)
 				{
 					
 					Character *character = static_cast<Character*>(players[i]);
@@ -395,11 +419,9 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
-
-					
+										
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
-					
 				}
 
 				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
