@@ -19,13 +19,10 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("highscoreinput_background", "assets/screens/mainmenu");
 
 			_highscoreInitials = new std::string();
-			_highscore = 8;
+			_highscore = 0;
 			
 			// Create menu
 			_menu = new Menu(50, 250, game);
-			_menu->addMenuTextItem("Clear", (std::function<void()>)[&] {
-				_highscoreInitials = new std::string();
-			});
 			_menu->addMenuTextItem("Confirm", (std::function<void()>)[&] {
 				if (!_highscoreInitials->empty()) {
 					ProgressManager::getInstance().addHighscore(*_highscoreInitials, _highscore);
@@ -35,6 +32,9 @@ namespace sdmg {
 				else {
 					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Warning", "Empty input", NULL);
 				}
+			});
+			_menu->addMenuTextItem("Clear", (std::function<void()>)[&] {
+				_highscoreInitials = new std::string();
 			});
 			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { 
 				game.getStateManager()->popState(); 
