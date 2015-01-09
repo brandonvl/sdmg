@@ -83,7 +83,7 @@ namespace sdmg {
 
 			// Load game
 			if (ProgressManager::getInstance().currentSavegame < 0)
-				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
+				_game->getStateManager()->pushState(ProgressLoadState::getInstance());
 		}
 
 		void MainMenuState::cleanup(GameBase &game)
