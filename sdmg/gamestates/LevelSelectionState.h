@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include "lib\JSONParser.h"
 
 using namespace sdmg::engine;
 
@@ -38,6 +39,26 @@ namespace sdmg {
 			LevelSelectionState() { }
 		private:
 			GameBase *_game;
+			std::vector<std::string> *_levels;
+			int _currentLevel;
+
+			int _xPos, _xTargetPos, _xStartPos, _xMinPos, _scrollStep = 2;
+			float _step, _accumulator;
+			std::chrono::high_resolution_clock::time_point _lastUpdate;
+
+			const int
+				PREVIEW_WIDTH = 500,
+				PREVIEW_HEIGHT = 281,
+				PREVIEW_PADDINGX = 50,
+				PREVIEW_YPOS = 230,
+				SCROLL_STEP_SLOW = 4,
+				SCROLL_STEP_QUICK = 8,
+				TEXT_YPADDING = 30;
+
+			void drawLevel(GameBase &game);
+			void selectNext();
+			void selectPrevious();
+			void nextState();
 		};
 	}
 }
