@@ -24,6 +24,7 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\ProgressManager.h"
+#include "HighScoreState.h"
 #include "HighScoreInputState.h"
 #include "engine\ai\EasyAIMachine.h"
 
@@ -76,6 +77,7 @@ namespace sdmg {
 			if (ProgressManager::getInstance().getLowestHighscore() < highscore) {
 				HighScoreInputState::getInstance().setHighscore(highscore);
 				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
+				_game->getStateManager()->pushState(HighScoreState::getInstance());
 			}
 			
 		}
