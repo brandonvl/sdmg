@@ -95,6 +95,7 @@ namespace sdmg {
 									newEnemy = players[i];
 								}
 							}
+							else _concentration = Concentration_SPAN;
 						}
 					}
 					else _concentration++;

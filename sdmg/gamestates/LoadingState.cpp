@@ -313,25 +313,25 @@ namespace sdmg {
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
-			/*
+			
 			engine::ai::AIMachine *machine1 = new engine::ai::EasyAIMachine(*characters[0], *characters[1]);
 			characters[0]->setAI(*machine1);
 
-			engine::ai::AIMachine *machine2 = new engine::ai::EasyAIMachine(*characters[1], *characters[2]);
+			engine::ai::AIMachine *machine2 = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
 			characters[1]->setAI(*machine2);
 
 			if ((*_characters).size() >= 3)
 			{
-				engine::ai::AIMachine *machine3 = new engine::ai::EasyAIMachine(*characters[2], *characters[3]);
+				engine::ai::AIMachine *machine3 = new engine::ai::EasyAIMachine(*characters[2], *characters[1]);
 				characters[2]->setAI(*machine3);
 			}
 
 			if ((*_characters).size() >= 4)
 			{
-				engine::ai::AIMachine *machine4 = new engine::ai::EasyAIMachine(*characters[3], *characters[0]);
+				engine::ai::AIMachine *machine4 = new engine::ai::EasyAIMachine(*characters[3], *characters[2]);
 				characters[3]->setAI(*machine4);
 			}
-			*/
+			
 
 			*_progress = "Loading fancy hudjes";
 			_game->getStateManager()->draw();
