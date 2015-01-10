@@ -88,24 +88,21 @@ namespace sdmg {
 			JSON::JSONObject &highscoreObj = highscoreArr.getObject(index);
 			highscoreObj.getVariable(key).setValue(value);
 		}
+
 		void ProgressManager::addHighscore(std::string initials, int highscore)
 		{
 			auto &highscoreArr = _jsonDoc->getRootObject().getArray("highscores");
 
 			int index = -1;
 
-			for (int i = highscoreArr.size() - 2; i > 0; --i) {
-				auto &highscoreObj = highscoreArr.getObject(i);
+			for (int i = highscoreArr.size() - 2; i >= 0; --i) {
+				// Down rank score
+				setHighscore(i + 1, "name", highscoreArr.getObject(i).getString("name"));
+				setHighscore(i + 1, "score", highscoreArr.getObject(i).getString("score"));
 
-				std::string toBeLoweredName = highscoreObj.getString("name");
-				std::string toBeLoweredScore = highscoreObj.getString("score");
-				setHighscore(i + 1, "name", toBeLoweredName);
-				setHighscore(i + 1, "score", toBeLoweredScore);
-				if (highscore < stoi(highscoreArr.getObject(i + 1).getString("score"))) {
-					break;
-				}
-				index = i;
-				
+				if (highscore < stoi(highscoreArr.getObject(i + 1).getString("score"))) { break; }
+
+				index = i;				
 			} 
 				
 			// Set new highscore at current position
@@ -175,8 +172,6 @@ namespace sdmg {
 
 		std::string ProgressManager::getTimestampNow()
 		{
-			char buffer[32];
-			errno_t errNum;
 			_time32(&aclock);   // Get time in seconds.
 			_localtime32_s(&newtime, &aclock);   // Convert time to struct tm form.
 
@@ -191,12 +186,6 @@ namespace sdmg {
 			int seconds = newtime.tm_sec;
 			sprintf_s(timestamp, "%d/%d/%d %d:%d:%d", year, month, day, hour, minutes, seconds);
 
-			/*errNum = asctime_s(buffer, 32, &newtime);
-			if (errNum)
-			{
-			printf("Error code: %d", (int)errNum);
-			}
-			printf("Current date and time: %s", buffer);*/
 			return timestamp;
 		}
 

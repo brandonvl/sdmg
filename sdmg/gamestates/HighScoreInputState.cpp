@@ -1,5 +1,6 @@
 #include "HighScoreInputState.h"
 #include "HighScoreState.h"
+#include "PlayState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
@@ -19,7 +20,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("highscoreinput_background", "assets/screens/mainmenu");
 
 			_highscoreInitials = new std::string();
-			_highscore = 0;
+			_highscore = PlayState::getInstance().getEnemiesKilled();
 			
 			// Create menu
 			_menu = new Menu(50, 250, game);
@@ -27,7 +28,7 @@ namespace sdmg {
 				if (!_highscoreInitials->empty()) {
 					ProgressManager::getInstance().addHighscore(*_highscoreInitials, _highscore);
 					ProgressManager::getInstance().save();
-					game.getStateManager()->popState();
+					game.getStateManager()->changeState(HighScoreState::getInstance());
 				}
 				else {
 					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Warning", "Empty input", NULL);

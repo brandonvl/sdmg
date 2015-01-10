@@ -47,7 +47,7 @@ namespace sdmg {
 			_menu = new Menu(50, 250, game);
 
 			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, GameModeState::getInstance()); });
-			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(HighScoreState::getInstance()); });
+			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
 			_menu->addMenuTextItem("Playback", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::Playback);

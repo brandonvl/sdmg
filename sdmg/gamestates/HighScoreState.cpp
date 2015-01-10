@@ -11,15 +11,69 @@
 namespace sdmg {
 	namespace gamestates {
 
+		const SDL_MessageBoxButtonData buttons[] = {
+			{ 0, 0, "Yes" },
+			{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Cancel" },
+		};
+
+		const SDL_MessageBoxColorScheme colorScheme = {
+			{ /* .colors (.r, .g, .b) */
+				/* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+				{ 255, 0, 0 },
+				/* [SDL_MESSAGEBOX_COLOR_TEXT] */
+				{ 0, 255, 0 },
+				/* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
+				{ 255, 255, 0 },
+				/* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
+				{ 0, 0, 255 },
+				/* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
+				{ 255, 0, 255 }
+			}
+		};
+
+		const SDL_MessageBoxData messageboxdata = {
+			SDL_MESSAGEBOX_INFORMATION, /* .flags */
+			NULL, /* .window */
+			"Warning!", /* .title */
+			"Clear?", /* .message */
+			SDL_arraysize(buttons), /* .numbuttons */
+			buttons, /* .buttons */
+			&colorScheme /* .colorScheme */
+		};
+
 		void HighScoreState::init(GameBase &game)
 		{
 			_game = &game;
 			_menu = new Menu(50, 250, game);
 			game.getEngine()->getDrawEngine()->load("highscore_background", "assets/screens/mainmenu");
 
+			int buttonid;
+
 			// Create menu
-			//_menu->addMenuTextItem("Input highscore", (std::function<void()>)[&] { _game->getStateManager()->pushState(HighScoreInputState::getInstance()); });
-			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+			_menu->addMenuTextItem("Clear highscores", (std::function<void()>)[&] { 
+				if (SDL_ShowMessageBox(&messageboxdata, &buttonid) < 0) {
+					SDL_Log("error displaying message box");
+				}
+				switch (buttonid) {
+				case -1:
+					SDL_Log("no selection");
+					break;
+				case 0: // Clear highscores
+					for (size_t i = 0, ilen = ProgressManager::getInstance().getHighscores()->size(); i < ilen; ++i) {
+						ProgressManager::getInstance().setHighscore(i, "name", " ");
+						ProgressManager::getInstance().setHighscore(i, "score", "0");
+					}
+					ProgressManager::getInstance().save();
+					changeState(game, getInstance());
+					break;
+				case 1: // Cancel
+					break;
+				default:
+					SDL_Log("selection was %s");
+					break;
+				}
+			});
 
 			// Load header text
 			loadText("highscore_title", "Highscores", "trebucbd", 48);
@@ -28,10 +82,9 @@ namespace sdmg {
 			for (size_t i = 0, ilen = _highscores->size(); i < ilen; i++) {
 				loadText(("number_" + std::to_string(i)), _highscores->at(i).at(0) + ".", "trebucbd", 36);
 				loadText(("name_" + std::to_string(i)), _highscores->at(i).at(1), "trebucbd", 36);
-				loadText(("score_" + std::to_string(i)), _highscores->at(i).at(2), "trebucbd", 36);
+				loadText(("score_" + std::to_string(i)), _highscores->at(i).at(2) == "0" ? " " : _highscores->at(i).at(2), "trebucbd", 36);
 			}
 			game.getEngine()->getInputEngine()->setMouseEnabled();
-
 		}
 
 		void HighScoreState::cleanup(GameBase &game)
@@ -50,7 +103,7 @@ namespace sdmg {
 
 			delete _highscores;
 			_highscores = nullptr;
-
+			
 			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
@@ -69,6 +122,12 @@ namespace sdmg {
 				case SDL_KEYDOWN:
 					switch (event.key.keysym.sym)
 					{
+					case SDLK_UP:
+						_menu->selectPrevious();
+						break;
+					case SDLK_DOWN:
+						_menu->selectNext();
+						break;
 					case SDLK_ESCAPE:
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
