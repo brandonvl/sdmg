@@ -30,10 +30,15 @@ namespace sdmg {
 				return _instance;
 			}
 
+			void setBackName(std::string name);
+
 		protected:
 			StatisticsState() { }
 		private:
 			GameBase *_game;
+			std::string *_backName;
+
+			int _screenNumber;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 		};

@@ -106,7 +106,7 @@ namespace sdmg {
 		}
 
 		void PlayBackState::actionThread() {
-			while (!_recordQueue->empty() && _running) {
+			if (!_recordQueue->empty() && _running) {
 				RecordStep *step = _recordQueue->front();
 				//  long long timeRunning = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - _timeStart).count();
 				long long timeRunning = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - _timeStart).count();
@@ -115,14 +115,25 @@ namespace sdmg {
 				{
 					RecordStep cStep = *step;
 
-					std::thread thread{ [&, cStep] {
-						if (_running) {
-							cStep._action->run(*_game);
-							delete cStep._action;
-						}
+					//std::thread thread{ [&, cStep] {
+
+					if (_running) {
+						//  while (cStep._character->getBody()->GetWorld()->IsLocked());
+
+						cStep._character->getBody()->SetTransform(b2Vec2(cStep._x, cStep._y), cStep._character->getBody()->GetAngle());
+						cStep._character->getBody()->SetLinearVelocity(b2Vec2(cStep._velocityX, cStep._velocityY));
+
+						cStep._character->setHP(cStep._hp);
+						cStep._character->setLives(cStep._lives);
+						cStep._character->setPP(cStep._pp);
+
+						cStep._action->run(*_game);
+						delete cStep._action;
+					}
+					/*
 					} };
 					thread.detach();
-
+					*/
 					delete step;
 					_recordQueue->pop();
 				}
@@ -131,11 +142,14 @@ namespace sdmg {
 
 		void PlayBackState::update(GameBase &game, GameTime &gameTime)
 		{
+			/*
 			if (!_threadSpawned) {
 				std::thread thread{ std::bind(&PlayBackState::actionThread, this) };
 				thread.detach();
 				_threadSpawned = true;
 			}
+			*/
+			actionThread();
 			
 			if (game.getWorld()->isGameOver()) {
 				game.getEngine()->getPhysicsEngine()->pause();

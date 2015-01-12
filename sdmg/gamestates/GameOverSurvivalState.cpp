@@ -24,6 +24,7 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\ProgressManager.h"
+#include "HighScoreState.h"
 #include "HighScoreInputState.h"
 #include "engine\ai\EasyAIMachine.h"
 
@@ -50,6 +51,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 			
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverSurvivalState::replay, this));
+			_menu->addMenuTextItem("Highscores", (std::function<void()>)[&] {
+				game.getStateManager()->pushState(HighScoreState::getInstance());
+			});
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
 				changeState(*_game, MainMenuState::getInstance());
 			});
@@ -63,18 +67,21 @@ namespace sdmg {
 			else
 				game.getEngine()->getDrawEngine()->loadText("enemies", "enemies", { 255, 255, 255 }, "arial", 54);
 
-			game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/gameover");
+			if (highscore < 1)
+				game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/loser");
+			else
+				game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/winner");
 
 			game.getEngine()->getAudioEngine()->stopMusic();
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
 
-			/*
+			
 			if (ProgressManager::getInstance().getLowestHighscore() < highscore) {
 				HighScoreInputState::getInstance().setHighscore(highscore);
 				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
 			}
-			*/
+			
 		}
 
 		// Even checken of dit wel klopt voor survival mode
@@ -82,7 +89,7 @@ namespace sdmg {
 			_game->getWorld()->resetWorld();
 			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 
-			for (int i = 0; i < aliveList.size(); i++)
+			for (size_t i = 0, ilen = aliveList.size(); i < ilen; i++)
 			{
 				model::Character *character = static_cast<model::Character*>(aliveList[i]);
 				character->revive();

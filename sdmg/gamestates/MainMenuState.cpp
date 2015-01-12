@@ -16,6 +16,8 @@
 #include "GameModeState.h"
 #include "TutorialState.h"
 #include "ProgressLoadState.h"
+#include "HighscoreInputState.h"
+#include "HighScoreState.h"
 #include "LoadingPlayBackState.h"
 #include "engine\GameTime.h"
 #include "engine\Engine.h"
@@ -52,7 +54,9 @@ namespace sdmg {
 				LoadingPlayBackState::getInstance().setPlaybackFileName("recording");
 				_game->getStateManager()->changeState(LoadingPlayBackState::getInstance());
 			});
-			_menu->addMenuTextItem("Quit", (std::function<void()>)[&] { _game->stop(); });
+			_menu->addMenuTextItem("Quit", (std::function<void()>)[&] {
+				_game->stop();
+			});
 
 			game.getEngine()->getAudioEngine()->load("main_menu_bgm", "assets/sounds/mainmenu/bgm.mp3", AUDIOTYPE::MUSIC);
 			//game.getEngine()->getAudioEngine()->load("menu_switch_effect", R"(assets/sounds/effects/menu_sound3.ogg)", AUDIOTYPE::SOUND_EFFECT);

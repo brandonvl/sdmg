@@ -1,5 +1,5 @@
 {
-	name: "Always Lucky Cowboy",
+	name: "Lucky",
 	level: "level3",
 	size: { width: 110, height: 143 },
 	attack: {

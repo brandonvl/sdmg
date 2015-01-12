@@ -58,7 +58,8 @@ namespace sdmg {
 			std::vector<helperclasses::HUD*> *_huds;
 			std::string *_level, *_fileName;
 			std::vector<std::string*> *_characters;
-			
+			std::vector<Character*> *_characterObjects;
+
 			std::queue<PlayBackState::RecordStep*> *_recordQueue;
 
 			// LoadingBar
@@ -66,6 +67,7 @@ namespace sdmg {
 
 			bool _isAdvertisement;
 			int _advertisementX, _advertisementY;
+
 			void loadAdvertisement();
 			std::unordered_map<std::string, Action*> *_recordMap = nullptr;
 		};

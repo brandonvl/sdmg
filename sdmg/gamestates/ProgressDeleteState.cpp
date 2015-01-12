@@ -32,19 +32,19 @@ namespace sdmg {
 				ProgressManager::getInstance().currentSavegame = 0;
 				ProgressManager::getInstance().reset();
 				ProgressManager::getInstance().save();
-				_game->getStateManager()->popState();
+				changeState(game, getInstance());
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(1) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(1) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 1;
 				ProgressManager::getInstance().reset();
 				ProgressManager::getInstance().save();
-				_game->getStateManager()->popState();
+				changeState(game, getInstance());
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(2) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(2) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 2;
 				ProgressManager::getInstance().reset();
 				ProgressManager::getInstance().save();
-				_game->getStateManager()->popState();
+				changeState(game, getInstance());
 			});
 			_menu->addMenuTextItem("Back to progress", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 

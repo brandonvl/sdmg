@@ -1,5 +1,5 @@
 {
-	name: "Fiat Panda",
+	name: "Fiat",
 	level: "level2",
 	size: { width: 110, height: 153 },
 	attack: {

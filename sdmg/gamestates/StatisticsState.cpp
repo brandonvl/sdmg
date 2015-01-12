@@ -16,14 +16,27 @@ namespace sdmg {
 			_game = &game;
 
 			_menu = new Menu(50, 600, game);
-			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+
+			_screenNumber = 0;
+
+			if (_backName)
+			{
+				_menu->addMenuTextItem("Back to " + *_backName, (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+				delete _backName;
+				_backName = nullptr;
+			}
+			else
+				_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
 			game.getEngine()->getDrawEngine()->load("statistics_background", "assets/screens/mainmenu");
 
 			// Load header text
-			loadText("title", "Statistics", "trebucbd", 48);
+			loadText("title", "Achievements", "trebucbd", 48);
+
+			// Screen 0 - Characters - Start
 			loadText("wins", "Wins", "trebucbd", 34);
 			loadText("losses", "Losses", "trebucbd", 34);
+			loadText("unlocked", "Unlocked", "trebucbd", 34);
 
 			// Load statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
@@ -36,9 +49,25 @@ namespace sdmg {
 				// Set character statistics
 				loadText(characterObj.getString("name") + "wins", std::to_string(characterObj.getInt("wins")), "trebuc", 34);
 				loadText(characterObj.getString("name") + "losses", std::to_string(characterObj.getInt("losses")), "trebuc", 34);
+
+				std::string unlocked = ProgressManager::getInstance().isUnlockedCharacter(characterObj.getString("name")) ? "Yes" : "No";
+				loadText(characterObj.getString("name") + "unlocked", unlocked, "trebuc", 34);
 			}
+			// Screen 0 - Characters - End
+
+			// Screen 1 - Levels - Start
+			loadText("achievement_character", "Character", "trebucbd", 34);
+			loadText("achievement_unlocked", "Unlocked", "trebucbd", 34);
+
+			// Screen 1 - Levels - End
 
 			game.getEngine()->getInputEngine()->setMouseEnabled();
+		}
+
+		void StatisticsState::setBackName(std::string name)
+		{
+			delete _backName;
+			_backName = new std::string(name);
 		}
 
 		void StatisticsState::cleanup(GameBase &game)
@@ -53,12 +82,14 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("title");
 			game.getEngine()->getDrawEngine()->unload("wins");
 			game.getEngine()->getDrawEngine()->unload("losses");
+			game.getEngine()->getDrawEngine()->unload("unlocked");
 
 			for (int i = 0; i < statistics.size(); i++) {
 				JSON::JSONObject &characterObj = statistics.getObject(i);
 				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "name");
 				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "wins");
 				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "losses");
+				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "unlocked");
 			}
 
 			game.getEngine()->getInputEngine()->getMouse().clear();
@@ -105,13 +136,16 @@ namespace sdmg {
 
 			int winspos = 680;
 			int lossespos = 900;
+			int unlockedpos = 440;
 
 			drawEngine->drawText("wins", winspos, 240);
 			drawEngine->drawText("losses", lossespos, 240);
+			drawEngine->drawText("unlocked", unlockedpos, 240);
 
 			int vpos = 290;
 			winspos += 10;
 			lossespos += 10;
+			unlockedpos += 10;
 
 			// Load statistics
 			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
@@ -121,6 +155,7 @@ namespace sdmg {
 				drawEngine->drawText(characterObj.getString("name") + "name", 50, vpos);
 				drawEngine->drawText(characterObj.getString("name") + "wins", winspos, vpos);
 				drawEngine->drawText(characterObj.getString("name") + "losses", lossespos, vpos);
+				drawEngine->drawText(characterObj.getString("name") + "unlocked", unlockedpos, vpos);
 
 				vpos += 48;
 			}

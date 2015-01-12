@@ -91,6 +91,9 @@ namespace sdmg {
 			delete _recordMap;
 			_recordMap = nullptr;
 
+			delete _characterObjects;
+			_characterObjects = nullptr;
+
 			game.getEngine()->getDrawEngine()->unload("loading");
 		}
 
@@ -205,7 +208,8 @@ namespace sdmg {
 				// create and run action
 				auto action = (*_recordMap)[name]->create(event);
 
-				_recordQueue->push(new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp")));
+				auto player = (*_characterObjects)[stepObj.getInt("character")];
+				_recordQueue->push(new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), stepObj.getFloat("x"), stepObj.getFloat("y"), stepObj.getFloat("velocityx"), stepObj.getFloat("velocityy"), player, stepObj.getInt("hp"), stepObj.getInt("lives"), stepObj.getInt("pp")));
 			}
 			PlayBackState::getInstance().setPlaybackSteps(_recordQueue);
 
@@ -271,13 +275,9 @@ namespace sdmg {
 			delete _recordMap;
 			_recordMap = new std::unordered_map<std::string, Action*>();
 
-			std::vector<Character*> characters(_characters->size());
+			_characterObjects = new std::vector<Character*>(_characters->size());
 			
-			int characterStep = 0;
-			if (characterStep <= 0)
-				characterStep = (_loadingStep / 3);
-			else
-				characterStep = (_loadingStep / 3) / (_characters->size() + 1);
+			int characterStep = (_loadingStep / 3) / (_characters->size() + 1);
 
 			for (int i = 0; i < _characters->size(); i++) {
 
@@ -286,31 +286,30 @@ namespace sdmg {
 				int retries = 0;
 				do{
 					JSON::JSONObject &posObj = startingPositions.getObject(i);
-					characters[i] = factories::CharacterFactory::create(*(*_characters)[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
-					_game->getWorld()->addPlayer(characters[i]);
+					(*_characterObjects)[i] = factories::CharacterFactory::create(*(*_characters)[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
+					_game->getWorld()->addPlayer((*_characterObjects)[i]);
 					if (retries++ > 10){
 						_isError = true;
 						return;
 					}
 
-					_recordMap->insert({ "BlockAction" + std::to_string(i), new actions::BlockAction(characters[i]) });
-					_recordMap->insert({ "JumpAction" + std::to_string(i), new actions::JumpAction(characters[i]) });
-					_recordMap->insert({ "LeftWalkAction" + std::to_string(i), new actions::LeftWalkAction(characters[i]) });
-					_recordMap->insert({ "LongRangeAttackAction" + std::to_string(i), new actions::LongRangeAttackAction(characters[i]) });
-					_recordMap->insert({ "MidRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction(characters[i]) });
-					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction(characters[i]) });
-					_recordMap->insert({ "RightWalkAction" + std::to_string(i), new actions::RightWalkAction(characters[i]) });
-					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction(characters[i]) });
-					_recordMap->insert({ "RollAction" + std::to_string(i), new actions::RollAction(characters[i]) });
+					_recordMap->insert({ "BlockAction" + std::to_string(i), new actions::BlockAction((*_characterObjects)[i]) });
+					_recordMap->insert({ "JumpAction" + std::to_string(i), new actions::JumpAction((*_characterObjects)[i]) });
+					_recordMap->insert({ "LeftWalkAction" + std::to_string(i), new actions::LeftWalkAction((*_characterObjects)[i]) });
+					_recordMap->insert({ "LongRangeAttackAction" + std::to_string(i), new actions::LongRangeAttackAction((*_characterObjects)[i]) });
+					_recordMap->insert({ "MidRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction((*_characterObjects)[i]) });
+					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction((*_characterObjects)[i]) });
+					_recordMap->insert({ "RightWalkAction" + std::to_string(i), new actions::RightWalkAction((*_characterObjects)[i]) });
+					_recordMap->insert({ "RollAction" + std::to_string(i), new actions::RollAction((*_characterObjects)[i]) });
 					
-				} while (characters[i] == nullptr);
+				} while ((*_characterObjects)[i] == nullptr);
 
 				_loadingValue += characterStep;
 				_game->getStateManager()->draw();
 			}
 
-			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
-			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
+			(*_characterObjects)[1]->setDirection(MovableGameObject::Direction::LEFT);
+			(*_characterObjects)[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
 
 
@@ -320,11 +319,22 @@ namespace sdmg {
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
 
-			HUD *hudPanda = new HUD(*characters[0], 10);
-			_huds->push_back(hudPanda);
+			HUD *hud1 = new HUD(*(*_characterObjects)[0], 10);
+			_huds->push_back(hud1);
 
-			HUD *hudNivek = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
-			_huds->push_back(hudNivek);
+			HUD *hud2 = new HUD(*(*_characterObjects)[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
+			_huds->push_back(hud2);
+
+			if ((*_characterObjects).size() >= 3)
+			{
+				HUD *hud3 = new HUD(*(*_characterObjects)[2], 20 + 230);
+				_huds->push_back(hud3);
+			}
+			if ((*_characterObjects).size() >= 4)
+			{
+				HUD *hud4 = new HUD(*(*_characterObjects)[3], _game->getEngine()->getDrawEngine()->getWindowWidth() - (230 * 2) - 20);
+				_huds->push_back(hud4);
+			}
 
 			_loadingValue += characterStep;
 		}
@@ -362,6 +372,7 @@ namespace sdmg {
 
 		void LoadingPlayBackState::loadKeybindings() {
 
+			_loadingValue += _loadingStep;
 			_game->getStateManager()->draw();
 
 			/*

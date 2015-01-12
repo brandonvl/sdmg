@@ -55,6 +55,7 @@ namespace sdmg {
 			setState(MovableGameObject::State::RESPAWN);
 			_hp = 100;
 			_lives = 5;
+			_body->SetActive(true);
 		}
 	}
 }

@@ -396,9 +396,6 @@
     <ClCompile Include="engine\ai\aistates\LongAttackAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
-    <ClCompile Include="gamestates\HighScoreInputState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gamestates\PlayBackState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
@@ -410,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="engine\input\ControllerInputDeviceBinding.cpp">
       <Filter>Source Files\engine\input</Filter>
+	</ClCompile>
+    <ClCompile Include="gamestates\HighScoreInputState.cpp">
+      <Filter>Source Files\gamestates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -722,9 +722,6 @@
     <ClInclude Include="engine\ai\aistates\LongAttackAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\HighScoreInputState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gamestates\PlayBackState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
@@ -736,6 +733,9 @@
     </ClInclude>
     <ClInclude Include="engine\input\ControllerInputDeviceBinding.h">
       <Filter>Header Files\engine\input</Filter>
+	</ClInclude>
+    <ClInclude Include="gamestates\HighScoreInputState.h">
+      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
