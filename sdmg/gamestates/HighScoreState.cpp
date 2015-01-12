@@ -60,13 +60,17 @@ namespace sdmg {
 					SDL_Log("no selection");
 					break;
 				case 0: // Clear highscores
-					for (size_t i = 0, ilen = ProgressManager::getInstance().getHighscores()->size(); i < ilen; ++i) {
+				{
+					std::vector<std::vector<std::string>> *highscores = ProgressManager::getInstance().getHighscores();
+					for (size_t i = 0, ilen = highscores->size(); i < ilen; ++i) {
 						ProgressManager::getInstance().setHighscore(i, "name", " ");
 						ProgressManager::getInstance().setHighscore(i, "score", "0");
 					}
+					delete highscores;
 					ProgressManager::getInstance().save();
 					changeState(game, getInstance());
 					break;
+				}
 				case 1: // Cancel
 					break;
 				default:

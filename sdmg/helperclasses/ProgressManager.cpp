@@ -112,7 +112,10 @@ namespace sdmg {
 
 		int ProgressManager::getLowestHighscore()
 		{
-			return stoi(getHighscores()->back().back());
+			std::vector<std::vector<std::string>> *highscores = getHighscores();
+			int lowest = stoi(highscores->back().back());
+			delete highscores;
+			return lowest;
 		}
 
 		int ProgressManager::getCharacterIndex(std::string name)
