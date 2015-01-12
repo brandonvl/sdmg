@@ -20,7 +20,7 @@ using namespace sdmg;
 
 int main(int argc, char **argv)
 {
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
 	Game *game = new Game();
 	game->start();
 	delete game;

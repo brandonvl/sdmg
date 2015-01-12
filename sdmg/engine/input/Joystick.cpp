@@ -14,10 +14,15 @@
 namespace sdmg {
 	namespace engine {
 		namespace input {
-			Joystick::Joystick(int id, std::string name)
+			Joystick::Joystick(int id, SDL_GameController *pad, std::string name)
 			{
-				ID = id;
-				Name = name;
+				_id = id;
+
+				if (name == "")
+					name = "controller" + std::to_string(id+1);
+
+				_name = name;
+				_pad = pad;
 			}
 
 			Joystick::~Joystick() {
@@ -25,12 +30,22 @@ namespace sdmg {
 
 			int Joystick::getID()
 			{
-				return ID;
+				return _id;
 			}
 
-			std::string Joystick::getName()
+			int Joystick::getSDLID()
 			{
-				return Name;
+				return _id - 1;
+			}
+
+			std::string Joystick::getName() const
+			{
+				return _name;
+			}
+
+			SDL_GameController *Joystick::getController()
+			{
+				return _pad;
 			}
 
 		}

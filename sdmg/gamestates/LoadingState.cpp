@@ -374,7 +374,7 @@ namespace sdmg {
 				
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
-				InputDeviceBinding *binding = new InputDeviceBinding();
+				//InputDeviceBinding *binding = new InputDeviceBinding();
 				//  int controlStep = (_loadingStep / 3) / players.size();
 				int controlStep = 0;
 				if (controlStep <= 0)
@@ -384,25 +384,33 @@ namespace sdmg {
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
+				std::map<MovableGameObject*, std::string> _deviceCombo;
+
+				_deviceCombo.insert({ players[0], "controller1" });
+				if (players.size() > 1) {
+					_deviceCombo.insert({ players[1], "controller2" });
+				}
+
 				for (int i = 0; i < players.size(); i++)
 				{
-					
+					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(_deviceCombo[players[i]]);
+					int deviceIndexInFile = manager.getDeviceIndex(_deviceCombo[players[i]]);
 					Character *character = static_cast<Character*>(players[i]);
-					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "jump"), new actions::JumpAction(character));
-					binding->setKeyBinding(manager.getKey(i, "roll"), new actions::RollAction(character));
-					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
-
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "jump"), new actions::JumpAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "roll"), new actions::RollAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "midrange"), new actions::MidRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "longrange"), new actions::LongRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "block"), new actions::BlockAction(character));
+					_game->getEngine()->getInputEngine()->setDeviceBinding(_deviceCombo[players[i]], binding);
 					
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
 					
 				}
 
-				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+				//_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 				
 			}
 			catch (...)

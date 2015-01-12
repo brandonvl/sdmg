@@ -54,6 +54,19 @@ namespace sdmg {
 			return _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getObject("keys").getInt(action);
 		}
 
+		const int ConfigManager::getDeviceIndex(const std::string &deviceName) {
+
+			JSON::JSONArray &jsArray = _jsonDoc->getRootObject().getArray("keybindings");
+
+			for (int i = 0; i < jsArray.size(); ++i) {
+				if (jsArray.getObject(i).getString("device") == deviceName)
+					return i;
+			}
+
+			return -1;
+
+		}
+
 		const std::string ConfigManager::getDeviceName(int playerIndex){
 			return _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getVariable("device").getString();
 		}

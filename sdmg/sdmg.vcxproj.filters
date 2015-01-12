@@ -392,7 +392,7 @@
     </ClCompile>
     <ClCompile Include="actions\LongRangeAttackAction.cpp">
       <Filter>Source Files\actions</Filter>
-	</ClCompile>  
+    </ClCompile>
     <ClCompile Include="engine\ai\aistates\LongAttackAIState.cpp">
       <Filter>Source Files\engine\ai\aistates</Filter>
     </ClCompile>
@@ -407,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="gamestates\LoadingPlayBackState.cpp">
       <Filter>Source Files\gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\ControllerInputDeviceBinding.cpp">
+      <Filter>Source Files\engine\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -715,7 +718,7 @@
     </ClInclude>
     <ClInclude Include="helperclasses\Recorder.h">
       <Filter>Header Files\helperclasses</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="engine\ai\aistates\LongAttackAIState.h">
       <Filter>Header Files\engine\ai\aistates</Filter>
     </ClInclude>
@@ -730,6 +733,9 @@
     </ClInclude>
     <ClInclude Include="gamestates\LoadingPlayBackState.h">
       <Filter>Header Files\gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\ControllerInputDeviceBinding.h">
+      <Filter>Header Files\engine\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

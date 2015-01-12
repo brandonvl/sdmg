@@ -10,9 +10,10 @@
 #include <iostream>
 #include <cmath>
 #include "InputEngine.h"
+#include "ControllerInputDeviceBinding.h"
 #include "sdl\include\SDL.h"
-#include "sdl\include\SDL_thread.h"
 #include "lib\JSONParser.h"
+#include <algorithm>
 
 namespace sdmg {
 	namespace engine {
@@ -22,7 +23,6 @@ namespace sdmg {
 
 				// add controller mappings
 				SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
-				Joysticks = new std::vector<Joystick*>;
 				findJoysticks();
 			}
 
@@ -36,12 +36,11 @@ namespace sdmg {
 					delete it;
 				}
 
-				for (auto it : *Joysticks)
+				for (auto it : _gameControllers)
 				{
 					delete it;
 				}
 
-				delete Joysticks;
 				delete _deviceBindings;
 				delete _actions;
 			}
@@ -54,14 +53,14 @@ namespace sdmg {
 
 			std::string InputEngine::getUsedControllerName(SDL_Event &event)
 			{
-				for (int i = 0; i < Joysticks->size(); i++)
+				for (int i = 0; i < _gameControllers.size(); i++)
 				{
-					if (Joysticks->at(i)->getID() == event.jbutton.which)
+					if (_gameControllers.at(i)->getID() == event.jbutton.which)
 					{
 						if (SDL_IsGameController(i))
 						{
-							std::cout << Joysticks->at(i)->getName() << std::endl;
-							return Joysticks->at(i)->getName();
+							std::cout << _gameControllers.at(i)->getName() << std::endl;
+							return _gameControllers.at(i)->getName();
 						}
 						//printf("Index \'%i\' is a compatible controller, named \'%s\'\n", Joysticks->at(i)->getID(), Joysticks->at(i)->getName());
 					}
@@ -70,8 +69,9 @@ namespace sdmg {
 				return "keyboard";
 			}
 
-			bool InputEngine::handleControllers(SDL_Event &event) {
+			/*bool InputEngine::handleControllers(SDL_Event &event) {
 				SDL_JoystickUpdate();
+				
 
 				if (event.type == SDL_JOYBUTTONDOWN || event.type == SDL_JOYBUTTONUP) {
 					printf("Joystick %d button %d down\n",
@@ -155,14 +155,54 @@ namespace sdmg {
 				//	
 				//}
 				return false;
+			}*/
+
+			InputDeviceBinding *InputEngine::createBinding(const std::string &deviceName) {
+
+				auto result = _devices.find(deviceName);
+
+				if (result != _devices.end()) {
+
+					switch (result->second)
+					{
+					case InputType::GAMECONTROLLER:
+							{
+								auto it = std::find_if(_gameControllers.begin(), _gameControllers.end(), [&result](const Joystick *joystick) { return joystick->getName() == result->first; });
+
+								return new ControllerInputDeviceBinding(*it);
+								break;
+							}		
+						default:
+							return new InputDeviceBinding();
+							break;
+					}
+
+				}
+
+				return new InputDeviceBinding();
 			}
 
 			void InputEngine::handleEvent(SDL_Event &event) {
-				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
-					handleKey("keyboard", event);
+				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN || event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP) {
+					std::string deviceName = getDevice(event);
+
+					if(_devices[deviceName] == InputType::GAMECONTROLLER)
+						event.type = event.type == SDL_CONTROLLERBUTTONDOWN ? SDL_KEYDOWN : SDL_KEYUP;
+
+					handleKey(deviceName, event);
 				}
 
 				if (_mouseEnabled) _mouse.handleMouseEvent(event);
+			}
+
+			std::string InputEngine::getDevice(SDL_Event &event) {
+
+				for (auto &it : *_deviceBindings) {
+					if (it.second->hasBinding(event))
+						return it.first;
+				}
+
+				return "";
 			}
 
 			const std::vector<Action*> *InputEngine::getActions() {
@@ -171,7 +211,7 @@ namespace sdmg {
 
 			void InputEngine::update(GameBase &game) {
 				for each (Action *action in (*_actions)) {
-					action->run(game);					
+ 					action->run(game);					
 					delete action;
 				}
 				_actions->clear();
@@ -184,7 +224,7 @@ namespace sdmg {
 					Action *action = (*_deviceBindings)[device]->createAction(event);
 
 					if (action != nullptr) {
-						addAction(*action, event.type == SDL_KEYDOWN);
+						addAction(*action, (event.type == SDL_KEYDOWN || event.type == SDL_CONTROLLERBUTTONDOWN));
 					}
 				}
 			}
@@ -229,20 +269,19 @@ namespace sdmg {
 				{
 					
 					// check if joystick is a mapped controller
-					if (SDL_IsGameController(i))
-					{	
-						int id = SDL_JoystickInstanceID(SDL_JoystickOpen(i));
-						printf("Index \'%i\' is a compatible controller, named \'%s\'\n", id, SDL_GameControllerNameForIndex(i));
-						(Joysticks)->push_back(new Joystick(id, SDL_GameControllerNameForIndex(i)));
-						
-						std::cout << SDL_GameControllerNameForIndex(i) << std::endl;
-						
-						SDL_JoystickEventState(SDL_ENABLE);
-					}
-					else
-					{
-						(Joysticks)->push_back(new Joystick(i, "None"));
-						printf("Index \'%i\' is not a compatible controller.\n", i);
+					if (SDL_IsGameController(i)) {
+						SDL_GameController *pad = SDL_GameControllerOpen(i);
+
+						if (pad) {
+							std::cout << "I found a new device! = " << i << "\n";
+							SDL_Joystick *joy = SDL_GameControllerGetJoystick(pad);
+							int instanceID = SDL_JoystickInstanceID(joy);
+
+							// You can add to your own map of joystick IDs to controllers here.
+							Joystick *controller = new Joystick{ i, pad };
+							_gameControllers.push_back(controller);
+							_devices.insert({ controller->getName(), InputType::GAMECONTROLLER });
+						}
 					}
 				}
 			}

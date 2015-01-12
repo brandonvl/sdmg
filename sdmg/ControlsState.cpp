@@ -29,7 +29,7 @@ namespace sdmg {
 			_menu->addMenuTextItem("Block", (std::function<void()>)[&] { waitFor(_block); });
 			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
-			_info = new std::string("Press Left or Right to navigate between players.");
+			_info = new std::string("Press Left or Right to navigate between devices.");
 			_info2 = new std::string("Press Enter to change the key for the selected action. The controls are automatically saved.");
 			_devicename = new std::string("keyboard");
 			_walkright = new std::string("Right");
@@ -133,7 +133,7 @@ namespace sdmg {
 			{
 				if (_current == nullptr) {
 					game.getEngine()->getInputEngine()->handleEvent(event);
-					game.getEngine()->getInputEngine()->handleControllers(event);
+					//game.getEngine()->getInputEngine()->handleControllers(event);
 				}
 
 				if (event.type == SDL_QUIT)

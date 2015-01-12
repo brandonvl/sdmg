@@ -105,6 +105,7 @@
     <ClCompile Include="engine\drawing\DynamicTextSurface.cpp" />
     <ClCompile Include="engine\audio\MusicObject.cpp" />
     <ClCompile Include="engine\audio\SampleObject.cpp" />
+    <ClCompile Include="engine\input\ControllerInputDeviceBinding.cpp" />
     <ClCompile Include="engine\input\Mouse.cpp" />
     <ClCompile Include="engine\physics\AABBDetectionCallBack.cpp" />
     <ClCompile Include="engine\physics\RayCastCallBack.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="engine\audio\AudioObject.h" />
     <ClInclude Include="engine\audio\MusicObject.h" />
     <ClInclude Include="engine\audio\SampleObject.h" />
+    <ClInclude Include="engine\input\ControllerInputDeviceBinding.h" />
     <ClInclude Include="engine\input\Mouse.h" />
     <ClInclude Include="engine\physics\AABBDetectionCallBack.h" />
     <ClInclude Include="engine\physics\RayCastCallBack.h" />
