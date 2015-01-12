@@ -314,11 +314,11 @@ namespace sdmg {
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
 			
-			engine::ai::AIMachine *machine1 = new engine::ai::EasyAIMachine(*characters[0], *characters[1]);
+			/*engine::ai::AIMachine *machine1 = new engine::ai::EasyAIMachine(*characters[0], *characters[1]);
 			characters[0]->setAI(*machine1);
 
 			engine::ai::AIMachine *machine2 = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
-			characters[1]->setAI(*machine2);
+			characters[1]->setAI(*machine2);*/
 
 			if ((*_characters).size() >= 3)
 			{
