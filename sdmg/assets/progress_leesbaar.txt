@@ -34,42 +34,42 @@
 			[
 				{
 					key:"nivek",
-					name:"Nivek The Assassin",
-					wins:19,
-					losses:9,
+					name:"Nivek",
+					wins:0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"silence",
-					name:"Silence The Code Ninja",
+					name:"Silence",
 					wins:0,
 					losses:0,
 					unlocked:false
 				},
 				{
 					key:"fiat",
-					name:"Fiat Panda",
-					wins:1,
-					losses:7,
+					name:"Fiat",
+					wins:0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"lucky",
-					name:"Always Lucky Cowboy",
+					name:"Lucky",
 					wins:0,
 					losses:0,
 					unlocked:false
 				},
 				{
 					key:"mind",
-					name:"Mind The Ice Mage",
-					wins: 4,
-					losses:21,
-					unlocked:false
+					name:"Mind",
+					wins: 0,
+					losses:0,
+					unlocked:true
 				},
 				{
 					key:"enrique"
-					name:"Enrique The Suit is Bananas",
+					name:"Enrique",
 					wins:0,
 					losses:0,
 					unlocked:false,
@@ -78,64 +78,79 @@
 			levels:
 			[
 				{
-					key="level1",
+					key:"level1",
 					name:"Level 1",
 					unlocked:true
 				},
 				{
-					key="level2",
+					key:"level2",
 					name:"Level 2",
 					unlocked:true
 				},
 				{
-					key="level3",
+					key:"level3",
 					name:"Level 3",
+					unlocked:false
+				},
+				{
+					key:"level4",
+					name:"Level 4",
+					unlocked:false
+				},
+				{
+					key:"level5",
+					name:"Level 5",
+					unlocked:false
+				},
+				{
+					key:"level6",
+					name:"Level 6",
 					unlocked:false
 				}
 			]
-			,timestamp:"2014/12/10 11:25:30"
+			,timestamp:""
 		},
 		{
 			characters:
 			[
 				{
 					key:"nivek",
-					name:"Nivek The Assassin",
-					wins:19,
-					losses:9,
+					name:"Nivek",
+					wins:0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"silence",
-					name:"Silence The Code Ninja",
+					name:"Silence",
 					wins:0,
 					losses:0,
 					unlocked:false
 				},
 				{
 					key:"fiat",
-					name:"Fiat Panda",
-					wins:1,
-					losses:7,
+					name:"Fiat",
+					wins:0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"lucky",
-					name:"Always Lucky Cowboy",
+					name:"Lucky",
 					wins:0,
 					losses:0,
 					unlocked:false
 				},
 				{
 					key:"mind",
-					name:"Mind The Ice Mage",
-					wins: 4,
-					losses:21,
+					name:"Mind",
+					wins: 0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"enrique"
-					name:"Enrique The Suit is Bananas",
+					name:"Enrique",
 					wins:0,
 					losses:0,
 					unlocked:false,
@@ -144,64 +159,79 @@
 			levels:
 			[
 				{
-					key="level1",
+					key:"level1",
 					name:"Level 1",
 					unlocked:true
 				},
 				{
-					key="level2",
+					key:"level2",
 					name:"Level 2",
 					unlocked:true
 				},
 				{
-					key="level3",
+					key:"level3",
 					name:"Level 3",
+					unlocked:false
+				},
+				{
+					key:"level4",
+					name:"Level 4",
+					unlocked:false
+				},
+				{
+					key:"level5",
+					name:"Level 5",
+					unlocked:false
+				},
+				{
+					key:"level6",
+					name:"Level 6",
 					unlocked:false
 				}
 			]
-			,timestamp:"2014/12/15 15:12:56"
+			,timestamp:""
 		},
 		{
 			characters:
 			[
 				{
 					key:"nivek",
-					name:"Nivek The Assassin",
-					wins:19,
-					losses:9,
+					name:"Nivek",
+					wins:0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"silence",
-					name:"Silence The Code Ninja",
+					name:"Silence",
 					wins:0,
 					losses:0,
 					unlocked:false
 				},
 				{
 					key:"fiat",
-					name:"Fiat Panda",
-					wins:1,
-					losses:7,
+					name:"Fiat",
+					wins:0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"lucky",
-					name:"Always Lucky Cowboy",
+					name:"Lucky",
 					wins:0,
 					losses:0,
 					unlocked:false
 				},
 				{
 					key:"mind",
-					name:"Mind The Ice Mage",
-					wins: 4,
-					losses:21,
+					name:"Mind",
+					wins: 0,
+					losses:0,
 					unlocked:true
 				},
 				{
 					key:"enrique"
-					name:"Enrique The Suit is Bananas",
+					name:"Enrique",
 					wins:0,
 					losses:0,
 					unlocked:false,
@@ -210,18 +240,33 @@
 			levels:
 			[
 				{
-					key="level1",
+					key:"level1",
 					name:"Level 1",
 					unlocked:true
 				},
 				{
-					key="level2",
+					key:"level2",
 					name:"Level 2",
 					unlocked:true
 				},
 				{
-					key="level3",
+					key:"level3",
 					name:"Level 3",
+					unlocked:false
+				},
+				{
+					key:"level4",
+					name:"Level 4",
+					unlocked:false
+				},
+				{
+					key:"level5",
+					name:"Level 5",
+					unlocked:false
+				},
+				{
+					key:"level6",
+					name:"Level 6",
 					unlocked:false
 				}
 			]

@@ -72,6 +72,18 @@ namespace sdmg {
 			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
 		}
 
+		void ProgressManager::setLevel(std::string name, std::string key, std::string value)
+		{
+			JSON::JSONArray &levelArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
+			JSON::JSONObject levelObj = levelArr.getObject(getLevelIndex(name));
+			levelObj.getVariable(key).setValue(value);
+		}
+
+		JSON::JSONArray &ProgressManager::getLevels()
+		{
+			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
+		}
+
 		std::vector<std::vector<std::string>> *ProgressManager::getHighscores()
 		{
 			std::vector<std::vector<std::string>> *highscores = new std::vector<std::vector<std::string>>();
