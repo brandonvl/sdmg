@@ -21,7 +21,7 @@ namespace sdmg {
 		class CharacterFactory
 		{
 		public:
-			static Character *create(const std::string name, engine::GameBase &game, float xPosition, float yPosition);
+			static Character *create(const std::string name, engine::GameBase &game, const float &xPosition, const float &yPosition);
 		private:
 			static void loadSpriteMap(Character *character, const std::string name, engine::GameBase &game, JSON::JSONObject &obj);
 		};

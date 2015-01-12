@@ -70,18 +70,18 @@ namespace sdmg {
 			void GameObject::setLevel(std::string level);
 		protected:
 			b2Body* createBody(b2BodyDef *bodyDef);
-			b2Body *_body;
-			b2Vec2 *_spawnLocation;
+			b2Body *_body = nullptr;
+			b2Vec2 *_spawnLocation = nullptr;
 			Flags _flags;
 		private:
 			uint32 _id;
 			std::string _spriteName;
 			Size _size;
-			const float32 *_x, *_y;
+			const float32 *_x = nullptr, *_y = nullptr;
 			float _spawnX, _spawnY;
-			World *_world;
+			World *_world = nullptr;
 			std::string _name, _level;
-			bool _ownsLocation;
+			bool _ownsLocation = false;
 		};
 	}
 }

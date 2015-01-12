@@ -10,10 +10,10 @@
 
 namespace sdmg {
 	namespace factories {
-		Character *CharacterFactory::create(const std::string name, engine::GameBase &game, float xPosition, float yPosition) {
+		Character *CharacterFactory::create(const std::string name, engine::GameBase &game,const float &xPosition, const float &yPosition) {
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/characters/" + name + "/data");
-			JSON::JSONObject &obj = doc->getRootObject();
-
+			JSON::JSONObject &obj = JSON::JSONObject(nullptr);
+			obj = doc->getRootObject();
 			Character *character = new Character();
 			character->setSize(obj.getObject("size").getFloat("width"), obj.getObject("size").getFloat("height"));
 			character->setSpeed(obj.getObject("speed").getFloat("horizontal"), obj.getObject("speed").getFloat("vertical"));

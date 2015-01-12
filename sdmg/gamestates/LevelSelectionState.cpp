@@ -54,7 +54,8 @@ namespace sdmg {
 					{
 						if (levelFolder != "tutorial"){
 							doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-							JSON::JSONObject &obj = doc->getRootObject();
+							JSON::JSONObject &obj = JSON::JSONObject(nullptr);
+							obj = doc->getRootObject();
 
 							if (game.getGameMode() != GameBase::GameMode::Edit || obj.getBoolean("editable")) {
 								game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");

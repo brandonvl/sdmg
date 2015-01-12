@@ -23,6 +23,7 @@ namespace sdmg {
 			}
 
 			void MenuTextItem::loadText(GameBase &game) {
+				_engine = game.getEngine();
 				game.getEngine()->getDrawEngine()->loadText("MI_" + _text, _text, { 173, 14, 14 }, FONTNAME, FONTSIZE);
 				game.getEngine()->getDrawEngine()->loadText("MI_" + _text + "_SEL", _text, { 255, 255, 255 }, FONTNAME, FONTSIZE);
 			}
