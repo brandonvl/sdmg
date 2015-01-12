@@ -300,7 +300,6 @@ namespace sdmg {
 					_recordMap->insert({ "MidRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction((*_characterObjects)[i]) });
 					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction((*_characterObjects)[i]) });
 					_recordMap->insert({ "RightWalkAction" + std::to_string(i), new actions::RightWalkAction((*_characterObjects)[i]) });
-					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction((*_characterObjects)[i]) });
 					_recordMap->insert({ "RollAction" + std::to_string(i), new actions::RollAction((*_characterObjects)[i]) });
 					
 				} while ((*_characterObjects)[i] == nullptr);
