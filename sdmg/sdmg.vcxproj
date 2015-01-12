@@ -51,7 +51,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)/sdl/lib;$(ProjectDir)lib;$(ProjectDir)vld/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sdl2main.lib;sdl2.lib;sdl2_ttf.lib;sdl2_image.lib;sdl2_mixer.lib;Box2D.lib;JSONParser.lib;vld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)sdl\dll\*" "$(OutDir)*"</Command>
@@ -109,6 +109,7 @@
     <ClCompile Include="engine\physics\AABBDetectionCallBack.cpp" />
     <ClCompile Include="engine\physics\RayCastCallBack.cpp" />
     <ClCompile Include="engine\util\FileManager.cpp" />
+    <ClCompile Include="gamestates\CreateLevelState.cpp" />
     <ClCompile Include="gamestates\CreditsState.cpp" />
     <ClCompile Include="engine\audio\AudioEngine.cpp" />
     <ClCompile Include="engine\drawing\DrawEngine.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="engine\physics\AABBDetectionCallBack.h" />
     <ClInclude Include="engine\physics\RayCastCallBack.h" />
     <ClInclude Include="engine\util\FileManager.h" />
+    <ClInclude Include="gamestates\CreateLevelState.h" />
     <ClInclude Include="gamestates\CreditsState.h" />
     <ClInclude Include="engine\audio\AudioEngine.h" />
     <ClInclude Include="engine\drawing\DrawEngine.h" />

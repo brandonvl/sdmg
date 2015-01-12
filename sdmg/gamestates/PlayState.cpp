@@ -57,6 +57,8 @@ namespace sdmg {
 			
 			if (game.getGameMode() == GameBase::GameMode::Versus)
 				game.getRecorder().start(game,*_level);
+			else if (game.getGameMode() == GameBase::GameMode::Edit)
+				_editor->toggle();
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -116,7 +118,7 @@ namespace sdmg {
 										_showClickBoxes = !_showClickBoxes;
 									break;
 								case SDLK_F4:
-									if (!event.key.repeat){
+									if (!event.key.repeat && game.getGameMode() == GameBase::GameMode::Edit){
 										_editor->toggle();
 									}
 									break;

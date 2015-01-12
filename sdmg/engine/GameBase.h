@@ -43,7 +43,8 @@ namespace sdmg {
 				SinglePlayer,
 				Versus,
 				Survival,
-				Playback
+				Playback,
+				Edit
 			};
 
 			GameMode getGameMode();

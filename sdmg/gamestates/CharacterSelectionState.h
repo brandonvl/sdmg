@@ -37,7 +37,7 @@ namespace sdmg {
 			CharacterSelectionState() { }
 		private:
 			GameBase *_game;
-			std::map<std::string, JSON::JSONDocument*> *_characters;
+			std::map<std::string, JSON::JSONDocument*> *_characters, *_lockedCharacters;
 			std::vector<std::string> *_slots;
 			std::string *_currentCharacter;
 
