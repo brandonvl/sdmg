@@ -1,5 +1,6 @@
 #include "HighScoreInputState.h"
 #include "HighScoreState.h"
+#include "PlayState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
@@ -19,21 +20,22 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("highscoreinput_background", "assets/screens/mainmenu");
 
 			_highscoreInitials = new std::string();
-			_highscore = 0;
+			_highscore = PlayState::getInstance().getEnemiesKilled();
 			
 			// Create menu
 			_menu = new Menu(50, 250, game);
-			_menu->addMenuTextItem("Clear", (std::function<void()>)[&] {
-				_highscoreInitials = new std::string();
-			});
 			_menu->addMenuTextItem("Confirm", (std::function<void()>)[&] {
 				if (!_highscoreInitials->empty()) {
 					ProgressManager::getInstance().addHighscore(*_highscoreInitials, _highscore);
 					ProgressManager::getInstance().save();
-					game.getStateManager()->popState();
+					game.getStateManager()->changeState(HighScoreState::getInstance());
 				}
-				else 
+				else {
 					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Warning", "Empty input", NULL);
+				}
+			});
+			_menu->addMenuTextItem("Clear", (std::function<void()>)[&] {
+				_highscoreInitials = new std::string();
 			});
 			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { 
 				game.getStateManager()->popState(); 
@@ -77,6 +79,12 @@ namespace sdmg {
 					int keypressed = event.key.keysym.sym;
 					switch (keypressed)
 					{
+					case SDLK_UP:
+						_menu->selectPrevious();
+						break;
+					case SDLK_DOWN:
+						_menu->selectNext();
+						break;
 					case SDLK_ESCAPE:
 						break;
 					case SDLK_BACKSPACE:
@@ -86,9 +94,7 @@ namespace sdmg {
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						//_keyboard.at(0)->doAction();
-						/*if (_highscoreInitials->size() < 3)
-							_highscoreInitials->append("X");*/
+						_menu->doAction();
 						break;
 					case SDLK_0:
 					case SDLK_1:

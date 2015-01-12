@@ -35,7 +35,8 @@ namespace sdmg {
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
 			_lockedCharacters = new std::map<std::string, JSON::JSONDocument*>();
 			_slots = new std::vector<std::string>();
-			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
+			//  _slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
+			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
 			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
 
 			for (int i = 0; i < _slots->size(); i++) {
@@ -172,6 +173,24 @@ namespace sdmg {
 					case SDLK_RETURN:
 					case 10:
 						_menu->doAction();
+						break;
+					}
+				}
+				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
+				{
+					switch (event.cbutton.button)
+					{
+					case SDL_CONTROLLER_BUTTON_B:
+						game.stop();
+						break;
+					case SDL_CONTROLLER_BUTTON_A:
+						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_UP:
+						_menu->selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+						_menu->selectNext();
 						break;
 					}
 				}

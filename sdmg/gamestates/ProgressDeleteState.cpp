@@ -32,19 +32,19 @@ namespace sdmg {
 				ProgressManager::getInstance().currentSavegame = 0;
 				ProgressManager::getInstance().reset();
 				ProgressManager::getInstance().save();
-				_game->getStateManager()->popState();
+				changeState(game, getInstance());
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(1) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(1) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 1;
 				ProgressManager::getInstance().reset();
 				ProgressManager::getInstance().save();
-				_game->getStateManager()->popState();
+				changeState(game, getInstance());
 			});
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(2) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(2) : "Empty slot", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 2;
 				ProgressManager::getInstance().reset();
 				ProgressManager::getInstance().save();
-				_game->getStateManager()->popState();
+				changeState(game, getInstance());
 			});
 			_menu->addMenuTextItem("Back to progress", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
@@ -90,6 +90,24 @@ namespace sdmg {
 					default:
 						break;
 					}
+					break;
+				case SDL_CONTROLLERBUTTONDOWN:
+					switch (event.cbutton.button)
+					{
+					case SDL_CONTROLLER_BUTTON_B:
+						_game->getStateManager()->popState();
+						break;
+					case SDL_CONTROLLER_BUTTON_A:
+						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_UP:
+						_menu->selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+						_menu->selectNext();
+						break;
+					}
+					break;
 				default:
 					break;
 				}

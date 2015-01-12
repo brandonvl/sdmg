@@ -21,7 +21,18 @@ namespace sdmg {
 
 				clearBindings();
 
-				delete _keyBindings;
+				if (_keyBindings != nullptr){
+					delete _keyBindings;
+					_keyBindings = nullptr;
+				}
+			}
+
+			bool InputDeviceBinding::hasBinding(SDL_Event &event) {
+				if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+					return _keyBindings->count(event.key.keysym.sym);
+				}
+
+				return false;
 			}
 
 			void InputDeviceBinding::setKeyBinding(const int keyCode, Action *action) {
@@ -32,12 +43,14 @@ namespace sdmg {
 			
 			void InputDeviceBinding::clearBindings() {
 
-				for (auto it : *_keyBindings)
-				{
-					delete it.second;
-				}
+				if (_keyBindings != nullptr) {
+					for (auto it : *_keyBindings)
+					{
+						delete it.second;
+					}
 
-				_keyBindings->clear();
+					_keyBindings->clear();
+				}
 			}
 			
 			Action* InputDeviceBinding::createAction(SDL_Event &action) {

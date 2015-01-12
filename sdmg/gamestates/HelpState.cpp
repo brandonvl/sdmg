@@ -74,7 +74,12 @@ namespace sdmg {
 						break;
 					}
 				}
+				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
+				{
+					_menu->doAction();
+				}
 			}
+
 		}
 
 		void HelpState::update(GameBase &game, GameTime &gameTime)

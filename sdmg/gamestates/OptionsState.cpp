@@ -37,7 +37,7 @@ namespace sdmg {
 
 			_menu->addMenuTextItem("Controls", (std::function<void()>)[&] { _game->getStateManager()->pushState(ControlsState::getInstance()); });
 			_menu->addMenuTextItem("Save / Load", (std::function<void()>)[&] { _game->getStateManager()->pushState(ProgressState::getInstance()); });
-			_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { 
+			_menu->addMenuTextItem("Achievements", (std::function<void()>)[&] { 
 				StatisticsState::getInstance().setBackName("options");
 				_game->getStateManager()->pushState(StatisticsState::getInstance());
 			});
@@ -92,6 +92,24 @@ namespace sdmg {
 					case SDLK_RETURN:
 					case 10:
 						_menu->doAction();
+						break;
+					}
+				}
+				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
+				{
+					switch (event.cbutton.button)
+					{
+					case SDL_CONTROLLER_BUTTON_B:
+						_game->getStateManager()->popState();
+						break;
+					case SDL_CONTROLLER_BUTTON_A:
+						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_UP:
+						_menu->selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+						_menu->selectNext();
 						break;
 					}
 				}

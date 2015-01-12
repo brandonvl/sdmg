@@ -3,6 +3,7 @@
 #include "model\Character.h"
 #include "engine\GameBase.h"
 #include "engine\GameTime.h"
+#include "engine\World.h"
 
 
 namespace sdmg {
@@ -76,6 +77,30 @@ namespace sdmg {
 			void AIMachine::update(GameTime *gameTime, GameBase *game) {
 
 				if (!_paused){
+
+					MovableGameObject *newEnemy = nullptr;
+					if (_concentration >= Concentration_SPAN)
+					{
+						_concentration = 0;
+						float smallestDistance = 0.0f;
+						auto players = game->getWorld()->getPlayers();
+						for (size_t i = 0; i < players.size(); i++)
+						{
+							if (players[i] != _controlled && players[i]->getLives() > 0)
+							{
+								float distance = std::abs(sqrt(pow(_controlled->getPixelX() - _enemy->getPixelX(), 2) + pow(_controlled->getPixelY() - _enemy->getPixelY(), 2)));
+								if (distance < smallestDistance)
+								{
+									smallestDistance = distance;
+									newEnemy = players[i];
+								}
+							}
+							else _concentration = Concentration_SPAN;
+						}
+					}
+					else _concentration++;
+					if (newEnemy)
+						_enemy = static_cast<model::Character*>(newEnemy);
 
 					checkState(gameTime, game);
 

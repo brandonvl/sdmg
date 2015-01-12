@@ -94,73 +94,59 @@ namespace sdmg {
 			while (SDL_PollEvent(&event))
 			{
 				if (!_editor->isEnabled()) {
-					if (game.getEngine()->getInputEngine()->getUsedControllerName(event) == "keyboard")
-					{
-						game.getEngine()->getInputEngine()->handleEvent(event);
-
-						if (!event.key.repeat){
-							switch (event.type) {
-							case SDL_KEYDOWN:
-								switch (event.key.keysym.sym) {
-								case SDLK_ESCAPE:
-									game.getStateManager()->pushState(PauseState::getInstance());
-									break;
-								case SDLK_F1:
-									if (!event.key.repeat)
-										_showFPS = !_showFPS;
-									break;
-								case SDLK_F2:
-									if (!event.key.repeat)
-										_showHitBoxes = !_showHitBoxes;
-									break;
-								case SDLK_F3:
-									if (!event.key.repeat)
-										_showClickBoxes = !_showClickBoxes;
-									break;
-								case SDLK_F4:
-									if (!event.key.repeat && game.getGameMode() == GameBase::GameMode::Edit){
-										_editor->toggle();
-									}
-									break;
-								case SDLK_HOME:
-									if (!event.key.repeat){
-										_multiplier = 1.0f;
-										setGameplaySpeed();
-									}
-									break;
-								case SDLK_PAGEUP:
-									if (!event.key.repeat){
-										if (_multiplier > 0.1f)
-										{
-											_multiplier = _multiplier - 0.1;
-											setGameplaySpeed();
-										}
-									}
-									break;
-								case SDLK_PAGEDOWN:
-									if (!event.key.repeat)
-									{
-										if (_multiplier < 1.5f)
-										{
-											_multiplier = _multiplier + 0.1;
-											setGameplaySpeed();
-										}
-									}
-									break;
+					game.getEngine()->getInputEngine()->handleEvent(event);
+					if (!event.key.repeat){
+						switch (event.type) {
+						case SDL_KEYDOWN:
+							switch (event.key.keysym.sym) {
+							case SDLK_ESCAPE:
+								game.getStateManager()->pushState(PauseState::getInstance());
+								break;
+							case SDLK_F1:
+								if (!event.key.repeat)
+									_showFPS = !_showFPS;
+								break;
+							case SDLK_F2:
+								if (!event.key.repeat)
+									_showHitBoxes = !_showHitBoxes;
+								break;
+							case SDLK_F3:
+								if (!event.key.repeat)
+									_showClickBoxes = !_showClickBoxes;
+								break;
+							case SDLK_F4:
+								if (!event.key.repeat && game.getGameMode() == GameBase::GameMode::Edit){
+									_editor->toggle();
 								}
 								break;
-							case SDL_QUIT:
-								_multiplier = 1.0f;
-								setGameplaySpeed();
-								if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
+							case SDLK_HOME:
+								if (!event.key.repeat){
+									_multiplier = 1.0f;
+									setGameplaySpeed();
+								}
+								break;
+							case SDLK_PAGEUP:
+								if (!event.key.repeat){
+									if (_multiplier > 0.1f)
+									{
+										_multiplier = _multiplier - 0.1;
+										setGameplaySpeed();
+									}
+								}
+								break;
+							case SDLK_PAGEDOWN:
+								if (!event.key.repeat)
 								{
-									LoadingSinglePlayerState::getInstance().unloadAll();
-									//GameOverState::getInstance().cleanup(*_game);
+									if (_multiplier < 1.5f)
+									{
+										_multiplier = _multiplier + 0.1;
+										setGameplaySpeed();
+									}
 								}
 								break;
 							}
-						}
-						else if (event.type == SDL_QUIT){
+							break;
+						case SDL_QUIT:
 							_multiplier = 1.0f;
 							setGameplaySpeed();
 							if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
@@ -168,18 +154,24 @@ namespace sdmg {
 								LoadingSinglePlayerState::getInstance().unloadAll();
 								//GameOverState::getInstance().cleanup(*_game);
 							}
-							if (_huds) {
-								for (auto it : *_huds) {
-									delete it;
-								}
-								_huds->clear();
-							}
-							game.stop();
+							break;
 						}
 					}
-					else
-					{
-						game.getEngine()->getInputEngine()->handleControllers(event);
+					else if (event.type == SDL_QUIT){
+						_multiplier = 1.0f;
+						setGameplaySpeed();
+						if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
+						{
+							LoadingSinglePlayerState::getInstance().unloadAll();
+							//GameOverState::getInstance().cleanup(*_game);
+						}
+						if (_huds) {
+							for (auto it : *_huds) {
+								delete it;
+							}
+							_huds->clear();
+						}
+						game.stop();
 					}
 				}
 				else _editor->handleEvent(event);

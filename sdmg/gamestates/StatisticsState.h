@@ -38,6 +38,8 @@ namespace sdmg {
 			GameBase *_game;
 			std::string *_backName;
 
+			int _screenNumber;
+
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 		};
 	}

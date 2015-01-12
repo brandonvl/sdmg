@@ -24,6 +24,7 @@
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
 #include "helperclasses\ProgressManager.h"
+#include "HighScoreState.h"
 #include "HighScoreInputState.h"
 #include "engine\ai\EasyAIMachine.h"
 
@@ -50,6 +51,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 			
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverSurvivalState::replay, this));
+			_menu->addMenuTextItem("Highscores", (std::function<void()>)[&] {
+				game.getStateManager()->pushState(HighScoreState::getInstance());
+			});
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
 				changeState(*_game, MainMenuState::getInstance());
 			});
