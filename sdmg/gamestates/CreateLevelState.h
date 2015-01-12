@@ -26,6 +26,8 @@ namespace sdmg {
 		private:
 			std::string *_name;
 			GameBase *_game;
+
+			void create();
 		};
 
 	}

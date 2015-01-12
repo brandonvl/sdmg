@@ -407,12 +407,12 @@
     </ClCompile>
     <ClCompile Include="engine\input\ControllerInputDeviceBinding.cpp">
       <Filter>Source Files\engine\input</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="gamestates\HighScoreInputState.cpp">
       <Filter>Source Files\gamestates</Filter>
     </ClCompile>
     <ClCompile Include="gamestates\CreateLevelState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\gamestates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -736,12 +736,12 @@
     </ClInclude>
     <ClInclude Include="engine\input\ControllerInputDeviceBinding.h">
       <Filter>Header Files\engine\input</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="gamestates\HighScoreInputState.h">
       <Filter>Header Files\gamestates</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\CreateLevelState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\gamestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

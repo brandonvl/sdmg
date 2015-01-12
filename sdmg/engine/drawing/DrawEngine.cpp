@@ -336,8 +336,10 @@ namespace sdmg {
 			}
 
 			void DrawEngine::drawDynamicText(std::string key, std::string text, int x, int y) {
-				DynamicTextSurface *tSurface = _dynTextSurfaces[key];
-				SDL_RenderCopy(_renderer, tSurface->drawTexture(_renderer, text), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
+				if (text != "") {
+					DynamicTextSurface *tSurface = _dynTextSurfaces[key];
+					SDL_RenderCopy(_renderer, tSurface->drawTexture(_renderer, text), NULL, &Rectangle(x, y, tSurface->getRenderWidth(), tSurface->getRenderHeight()).toSDLRect());
+				}
 			}
 
 			int DrawEngine::getDynamicTextWidth(std::string key) {
