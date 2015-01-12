@@ -104,7 +104,7 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->unload("name_" + std::to_string(i));
 				game.getEngine()->getDrawEngine()->unload("score_" + std::to_string(i));
 			}
-
+			_highscores->clear();
 			delete _highscores;
 			_highscores = nullptr;
 			
