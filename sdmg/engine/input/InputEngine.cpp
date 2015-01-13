@@ -24,6 +24,8 @@ namespace sdmg {
 				// add controller mappings
 				SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
 				findJoysticks();
+				_devices.insert({ "keyboardLEFT", InputType::KEYBOARD });
+				_devices.insert({ "keyboardRIGHT", InputType::KEYBOARD });
 			}
 
 			InputEngine::~InputEngine() {
@@ -47,6 +49,7 @@ namespace sdmg {
 
 			void InputEngine::initialize() {
 				_deviceBindings = new std::map<std::string, InputDeviceBinding*>;
+				
 				_actions = new std::vector<Action*>;
 				_active = true;
 			}

@@ -48,7 +48,7 @@ namespace sdmg {
 			void setKeys();
 		private:
 			GameBase *_game;
-			int _currentplayer;
+			int _currentdevice;
 			std::vector<std::string> *_keys;
 			std::string *_info, *_info2, *_devicename, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current, *_oldkey;
 		};
