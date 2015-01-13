@@ -123,8 +123,6 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				game.getEngine()->getInputEngine()->handleEvent(event);
-
 				if (event.type == SDL_QUIT)
 					game.stop();
 				if (event.type == SDL_KEYDOWN)
@@ -166,6 +164,8 @@ namespace sdmg {
 							break;
 					}
 				}
+
+				game.getEngine()->getInputEngine()->handleEvent(event);
 			}
 		}
 
