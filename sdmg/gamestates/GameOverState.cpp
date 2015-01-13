@@ -72,8 +72,6 @@ namespace sdmg {
 
 					ProgressManager &manager = ProgressManager::getInstance();
 
-					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
-					//if (!manager.isUnlockedCharacter(LoadingSinglePlayerState::getInstance().getPlayerName()))
 					if (!manager.isUnlockedCharacter(static_cast<Character*>(deadList[0])->getName()))
 					{
 						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
@@ -83,7 +81,6 @@ namespace sdmg {
 						unlocked = true;
 					}
 
-					// Deze gebruiken als Esté de keys heeft toegevoegd in de config
 					if (!manager.isUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName()))
 					{
 						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
@@ -94,7 +91,7 @@ namespace sdmg {
 					}
 					
 				}
-				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
+				_menu->addMenuTextItem("Achievements", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
@@ -153,13 +150,11 @@ namespace sdmg {
 			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 			game.getEngine()->getAudioEngine()->play("winner", 0);
 
-			/*
 			if (unlocked)
 			{
 				unlocked = false;
 				game.getStateManager()->pushState(UnlockedState::getInstance());
 			}
-			*/
 		}
 
 		void GameOverState::saveReplay() {
