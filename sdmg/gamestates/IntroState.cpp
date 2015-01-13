@@ -66,11 +66,12 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->setFullscreen(true);
 				_fullscreen = true;
 			}
-			else if (gameTime.getTotalSecondsRunning() > 5) {
+			else if (gameTime.getTotalSecondsRunning() > 2) {
+				// clear event queue
+				SDL_Event event;
+				while (SDL_PollEvent(&event));
 				changeState(game, MainMenuState::getInstance());
 			}
-
-			//std::cout << "Updating IntroState ... " << std::endl;
 		}
 
 		void IntroState::draw(GameBase &game, GameTime &gameTime)

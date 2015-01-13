@@ -82,9 +82,11 @@ namespace sdmg {
 
 				if (!ifile.fail())
 				{
+					JSON::JSONDocument *doc = nullptr;
+
 					try
 					{
-						auto doc = JSON::JSONDocument::fromFile("assets/characters/" + characterFolder + "/data");
+						doc = JSON::JSONDocument::fromFile("assets/characters/" + characterFolder + "/data");
 
 						if (ProgressManager::getInstance().isUnlockedCharacter(characterFolder)) {					
 							
@@ -109,7 +111,8 @@ namespace sdmg {
 					}
 					catch (...)
 					{
-						std::cout << "LevelSelection: Error loading " + characterFolder;
+						std::cout << "CharacterSelection: Error loading " + characterFolder;
+						delete doc;
 					}
 				}
 			}

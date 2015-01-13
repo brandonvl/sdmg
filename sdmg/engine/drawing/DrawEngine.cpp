@@ -513,7 +513,7 @@ namespace sdmg {
 			}
 
 			void DrawEngine::setFullscreen(bool fullscreen) {
-				SDL_SetWindowFullscreen(_window, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
+				//SDL_SetWindowFullscreen(_window, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
 			}
 		}
 	}
