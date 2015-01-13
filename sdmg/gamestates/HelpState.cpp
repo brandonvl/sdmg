@@ -5,33 +5,41 @@
 #include "MainMenuState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
+#include <sstream>
+#include <fstream>
 
 namespace sdmg {
 	namespace gamestates {
 
-		void HelpState::returnToOptionsMenu()
-		{
-			_game->getStateManager()->popState();
-		}
-
 		void HelpState::init(GameBase &game)
 		{
 			_game = &game;
-
 			_menu = new Menu(50, 600, game);
-
-			std::function<void()> CallBackOptionsMenu = std::bind(&HelpState::returnToOptionsMenu, this);
-
-			//  _menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
-			_menu->addMenuTextItem("Back to options", CallBackOptionsMenu);
+			
+			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] {
+				_game->getStateManager()->popState();
+			});
 
 			game.getEngine()->getDrawEngine()->load("help_background", "assets/screens/mainmenu");
 
 			loadText("title", "Help", "trebucbd", 48);
-			loadText("howtowin1", "To win the game try to push your opponent of the edge", "trebuc", 36);
+			
+			std::ifstream input_file("assets/help.txt");
+			std::string line;
+
+			_text = new std::vector<std::string>();
+			while (std::getline(input_file, line)) { 
+				_text->push_back(line);
+			}
+
+			//_text = split("To win the game try to push your opponent of the edge\n", '\n');
+			for (size_t i = 0, ilen = _text->size(); i < ilen; ++i) {
+				loadText("howtowin" + std::to_string(i), _text->at(i), "trebuc", 24);
+			}
+			/*loadText("howtowin1", "To win the game try to push your opponent of the edge", "trebuc", 36);
 			loadText("howtowin2", "or into Bullet Bob.", "trebuc", 36);
 			loadText("howtowin3", "Victory shall be yours, when your opponent runs out of", "trebuc", 36);
-			loadText("howtowin4", "lives.", "trebuc", 36);
+			loadText("howtowin4", "lives.", "trebuc", 36);*/
 
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
@@ -43,12 +51,13 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->unload("help_background");
 			game.getEngine()->getDrawEngine()->unloadText("title");
-			game.getEngine()->getDrawEngine()->unloadText("howtowin1");
-			game.getEngine()->getDrawEngine()->unloadText("howtowin2");
-			game.getEngine()->getDrawEngine()->unloadText("howtowin3");
-			game.getEngine()->getDrawEngine()->unloadText("howtowin4");
+
+			for (size_t i = 0, ilen = _text->size(); i < ilen; ++i)
+				game.getEngine()->getDrawEngine()->unloadText("howtowin" + std::to_string(i));
+
+			delete _text;
+			_text = nullptr;
 			
-			//  game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
@@ -60,7 +69,7 @@ namespace sdmg {
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
-				if (event.type == SDL_QUIT)
+				/*if (event.type == SDL_QUIT)
 					game.stop();
 				if (event.type == SDL_KEYDOWN)
 				{
@@ -77,6 +86,30 @@ namespace sdmg {
 				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
 				{
 					_menu->doAction();
+				}*/
+
+				switch (event.type) {
+				case SDL_QUIT:
+					game.stop();
+					break;
+				case SDL_KEYDOWN:
+					switch (event.key.keysym.sym)
+					{
+					case SDLK_ESCAPE:
+					case SDLK_KP_ENTER:
+					case SDLK_RETURN:
+					case 10:
+						_menu->doAction();
+						break;
+					default:
+						break;
+					}
+					break;
+				case SDL_CONTROLLERBUTTONDOWN:
+					_menu->doAction();
+					break;
+				default:
+					break;
 				}
 			}
 
@@ -93,11 +126,12 @@ namespace sdmg {
 			drawEngine->prepareForDraw();
 			drawEngine->draw("help_background");
 
-			drawEngine->drawText("title", 50, 70);
-			drawEngine->drawText("howtowin1", 50, 250);
-			drawEngine->drawText("howtowin2", 50, 298);
-			drawEngine->drawText("howtowin3", 50, 346);
-			drawEngine->drawText("howtowin4", 50, 394);
+			int xpos = 50;
+			int vpos = 70;
+			drawEngine->drawText("title", xpos, vpos);
+			vpos = 200;
+			for (size_t i = 0, ilen = _text->size(); i < ilen; ++i)
+				drawEngine->drawText("howtowin" + std::to_string(i), xpos, vpos += 48);
 
 			_menu->draw(_game);
 
@@ -108,5 +142,21 @@ namespace sdmg {
 		{
 			_game->getEngine()->getDrawEngine()->loadText(key, text, { 255, 255, 255 }, fontName, fontSize);
 		}
+
+		/*std::vector<std::string> &HelpState::split(const std::string &s, char delim, std::vector<std::string> &elems) {
+			std::stringstream ss(s);
+			std::string item;
+			while (std::getline(ss, item, delim)) {
+				elems.push_back(item);
+			}
+			return elems;
+		}
+
+
+		std::vector<std::string> HelpState::split(const std::string &s, char delim) {
+			std::vector<std::string> elems;
+			split(s, delim, elems);
+			return elems;
+		}*/
 	}
 }

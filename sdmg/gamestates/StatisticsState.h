@@ -42,7 +42,7 @@ namespace sdmg {
 			int _windowWidth;
 			const int BULLET_SIZE = 48;
 			const int BULLET_MARGIN = 10;
-			const int BULLET_YPOS = 610;
+			const int BULLET_YPOS = 172; // 610;
 			const int FIRST_SCREEN = 1;
 			const int LAST_SCREEN = 2;
 

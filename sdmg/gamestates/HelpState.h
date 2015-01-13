@@ -36,8 +36,12 @@ namespace sdmg {
 		private:
 			GameBase *_game;
 
-			void returnToOptionsMenu();
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
+
+			std::vector<std::string> *_text;
+
+			/*std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+			std::vector<std::string> split(const std::string &s, char delim);*/
 		};
 	}
 }
