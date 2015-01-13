@@ -153,6 +153,7 @@ namespace sdmg {
 			if (_isLoaded)
 			{
 				PlayState &state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
+				state.setSlotKeyBinding(_slotKeyInput, _keys);
 				state.setLevel(_level);
 				state.setHUDs(_huds);
 				changeState(game, state);
