@@ -42,8 +42,10 @@ namespace sdmg {
 			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
 
 			std::map<std::string, engine::input::InputEngine::InputType> map = _game->getEngine()->getInputEngine()->getDevices();
-			for (auto it : map) 
-				_keys->push_back(it.first);
+			for (auto it : map) {
+				if (it.first != "")
+					_keys->push_back(it.first);
+			}
 
 			for (int i = 0; i < _slots->size(); i++) {
 				int x = (SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING) * i + SELECTED_CHARACTER_BOX_PADDING;
@@ -362,6 +364,7 @@ namespace sdmg {
 
 				case GameBase::GameMode::SinglePlayer:
 					LoadingSinglePlayerState::getInstance().setPlayerName((*_slots)[0]);
+					LoadingSinglePlayerState::getInstance().setSlotKeyBinding(_slotKeyInput, _keys);
 					changeState(*_game, LoadingSinglePlayerState::getInstance());
 					LoadingSinglePlayerState::getInstance().loadNextFight();
 					break;

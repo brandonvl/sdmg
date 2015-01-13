@@ -238,6 +238,21 @@ namespace sdmg {
 			setEnemies();
 		}
 
+		void LoadingSinglePlayerState::setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys)
+		{
+			_slotKeyInput = new std::map<std::string, int>(*input);
+			_keys = new std::vector<std::string>(*keys);
+		}
+
+		std::string LoadingSinglePlayerState::getSlotKeyInput(int slot) {
+			std::string key = "slot_key_" + std::to_string(slot);
+			auto it = _slotKeyInput->find(key);
+			if (it != _slotKeyInput->end())
+				return _keys->at(it->second);
+			else
+				return "";
+		}
+
 		void LoadingSinglePlayerState::setEnemies()
 		{
 			if (_enemies) {
@@ -389,7 +404,7 @@ namespace sdmg {
 
 			try{
 				ConfigManager &manager = ConfigManager::getInstance();
-				InputDeviceBinding *binding = new InputDeviceBinding();
+				//InputDeviceBinding *binding = new InputDeviceBinding();
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
 
@@ -404,6 +419,8 @@ namespace sdmg {
 
 				int playerCharacterID = 0;
 				
+				std::string keyBinding = getSlotKeyInput(playerCharacterID);
+				InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
 				Character *character = static_cast<Character*>(players[playerCharacterID]);
 				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkRight"), new actions::RightWalkAction(character));
 				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkLeft"), new actions::LeftWalkAction(character));
@@ -412,6 +429,7 @@ namespace sdmg {
 				binding->setKeyBinding(manager.getKey(playerCharacterID, "midrange"), new actions::MidRangeAttackAction(character));
 				binding->setKeyBinding(manager.getKey(playerCharacterID, "longrange"), new actions::LongRangeAttackAction(character));
 				binding->setKeyBinding(manager.getKey(playerCharacterID, "block"), new actions::BlockAction(character));
+				_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding, binding);
 
 				_loadingValue += controlStep;
 				_game->getStateManager()->draw();

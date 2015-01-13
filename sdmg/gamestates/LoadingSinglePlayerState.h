@@ -10,6 +10,7 @@
 #pragma once
 #include "engine\GameState.h"
 #include <string>
+#include <map>
 struct SDL_Thread;
 
 using namespace sdmg::engine;
@@ -43,6 +44,7 @@ namespace sdmg {
 			std::string getLevelName();
 			std::string getPlayerName();
 			void setPlayerName(std::string playerName);
+			void setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys);
 			void loadNextFight();
 			bool hasFinished();
 
@@ -59,6 +61,8 @@ namespace sdmg {
 			void setEnemies();
 			bool _isLoaded, _isError;
 			std::vector<helperclasses::HUD*> *_huds;
+			std::map<std::string, int> *_slotKeyInput;
+			std::vector<std::string> *_keys;
 			
 			std::string *_playerName, *_levelName;
 			std::vector<std::string*> *_enemies;
@@ -69,6 +73,7 @@ namespace sdmg {
 			bool _isAdvertisement, _removeFirstEnemy;
 			std::string getRandomAdvertisement();
 			void loadAdvertisement();
+			std::string getSlotKeyInput(int slot);
 		};
 	}
 }
