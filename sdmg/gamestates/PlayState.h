@@ -53,6 +53,7 @@ namespace sdmg {
 			void setGameplaySpeed();
 			void setPlayer(model::Character *player);
 			void setEnemies(std::vector<model::Character*> *enemies);
+			void setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys);
 
 			int getEnemiesKilled();
 			void setEnemiesKilled(int count);
@@ -61,6 +62,10 @@ namespace sdmg {
 			model::Character *_player;
 			std::vector<model::Character*> *_enemies;
 			std::string *_level;
+			std::map<std::string, int> *_slotKeyInput;
+			std::vector<std::string> *_keys;
+
+			std::string getSlotKeyInput(int slot);
 		protected:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;

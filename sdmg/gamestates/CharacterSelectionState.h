@@ -33,6 +33,8 @@ namespace sdmg {
 				static CharacterSelectionState _instance;
 				return _instance;
 			}
+
+			std::string getSlotKeyInput(int slot);
 		protected:
 			CharacterSelectionState() { }
 		private:

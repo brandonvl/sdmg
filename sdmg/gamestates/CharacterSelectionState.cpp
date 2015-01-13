@@ -348,6 +348,7 @@ namespace sdmg {
 				case GameBase::GameMode::Versus:
 					if (numPlayerCount >= 2) {
 						LoadingState::getInstance().resetCharacters();
+						LoadingState::getInstance().setSlotKeyBinding(_slotKeyInput, _keys);
 
 						for (auto &slot : *_slots) {
 							if (!slot.empty())
@@ -370,7 +371,15 @@ namespace sdmg {
 
 				}
 			}
-			
+		}
+
+		std::string CharacterSelectionState::getSlotKeyInput(int slot) {
+			std::string key = "slot_key_" + std::to_string(slot);
+			auto it = _slotKeyInput->find(key);
+			if (it != _slotKeyInput->end())
+				return _keys->at(it->second);
+			else
+				return "";
 		}
 	}
 }

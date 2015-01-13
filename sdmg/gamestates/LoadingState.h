@@ -44,6 +44,7 @@ namespace sdmg {
 
 			void setIsTutorial(bool tutorial);
 			void setLevel(std::string *level);
+			void setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys);
 
 			void cleanCharacters() {
 				delete _characters;
@@ -77,6 +78,8 @@ namespace sdmg {
 			std::vector<std::string> *_characters;
 			std::string *_level, *_progress;
 			std::map<MovableGameObject*, std::string> *_deviceCombo;
+			std::map<std::string, int> *_slotKeyInput;
+			std::vector<std::string> *_keys;
 
 			// LoadingBar
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;
@@ -84,6 +87,7 @@ namespace sdmg {
 			bool _isAdvertisement;
 			int _advertisementX, _advertisementY;
 			void loadAdvertisement();
+			std::string getSlotKeyInput(int slot);
 		};
 	}
 }

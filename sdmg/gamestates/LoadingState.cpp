@@ -196,6 +196,12 @@ namespace sdmg {
 			_level = level;
 		}
 
+		void LoadingState::setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys)
+		{
+			_slotKeyInput = new std::map<std::string, int>(*input);
+			_keys = new std::vector<std::string>(*keys);
+		}
+
 		int LoadingState::loadThread(void *ptr)
 		{
 			((LoadingState*)ptr)->load();
@@ -403,24 +409,27 @@ namespace sdmg {
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
-				_deviceCombo->insert({ players[0], "controller1" });
-				if (players.size() > 1) {
-					_deviceCombo->insert({ players[1], "controller2" });
-				}
-				if (players.size() > 2) {
-					_deviceCombo->insert({ players[2], "controller3" });
-				}
-				if (players.size() > 3) {
-					_deviceCombo->insert({ players[3], "controller4" });
-				}
+
+
+				//_deviceCombo->insert({ players[0], "controller1" });
+				//if (players.size() > 1) {
+				//	_deviceCombo->insert({ players[1], "controller2" });
+				//}
+				//if (players.size() > 2) {
+				//	_deviceCombo->insert({ players[2], "controller3" });
+				//}
+				//if (players.size() > 3) {
+				//	_deviceCombo->insert({ players[3], "controller4" });
+				//}
 
 
 				int controlStep = (_loadingStep) / players.size();
 
 				for (int i = 0; i < players.size(); i++)
 				{
-					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(_deviceCombo->at(players[i]));
-					int deviceIndexInFile = manager.getDeviceIndex(_deviceCombo->at(players[i]));
+					std::string keyBinding = getSlotKeyInput(i);
+					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+					int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
 					Character *character = static_cast<Character*>(players[i]);
 
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
@@ -430,7 +439,7 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "midrange"), new actions::MidRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "longrange"), new actions::LongRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "block"), new actions::BlockAction(character));
-					_game->getEngine()->getInputEngine()->setDeviceBinding(_deviceCombo->at(players[i]), binding);
+					_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding, binding);
 
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
@@ -514,6 +523,15 @@ namespace sdmg {
 			}
 
 			_loadingValue += _loadingStep;
+		}
+
+		std::string LoadingState::getSlotKeyInput(int slot) {
+			std::string key = "slot_key_" + std::to_string(slot);
+			auto it = _slotKeyInput->find(key);
+			if (it != _slotKeyInput->end())
+				return _keys->at(it->second);
+			else
+				return "";
 		}
 	}
 }

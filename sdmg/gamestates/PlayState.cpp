@@ -236,6 +236,21 @@ namespace sdmg {
 			_enemiesKilled = count;
 		}
 
+		void PlayState::setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys)
+		{
+			_slotKeyInput = new std::map<std::string, int>(*input);
+			_keys = new std::vector<std::string>(*keys);
+		}
+
+		std::string PlayState::getSlotKeyInput(int slot) {
+			std::string key = "slot_key_" + std::to_string(slot);
+			auto it = _slotKeyInput->find(key);
+			if (it != _slotKeyInput->end())
+				return _keys->at(it->second);
+			else
+				return "";
+		}
+
 		void PlayState::update(GameBase &game, GameTime &gameTime)
 		{
 			if (!_editor->isEnabled()) {
