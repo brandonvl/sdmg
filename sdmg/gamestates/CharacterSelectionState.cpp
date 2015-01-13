@@ -304,8 +304,8 @@ namespace sdmg {
 						_slotKeyInput->insert(std::make_pair(key, slotNumber));
 					int xText = xPos + (SELECTED_CHARACTER_BOX_WIDTH / 2);
 					int textWidth = game.getEngine()->getDrawEngine()->getDynamicTextWidth(key) / 2;
-					game.getEngine()->getDrawEngine()->drawDynamicText(key, _keys->at(_slotKeyInput->at(key)), xText - textWidth, imgPosY - 70);
-					
+					if (slotNumber < _keys->size())
+						game.getEngine()->getDrawEngine()->drawDynamicText(key, _keys->at(_slotKeyInput->at(key)), xText - textWidth, imgPosY - 70);
 				}
 				slotNumber++;
 				xPos += SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING;
