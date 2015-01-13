@@ -162,6 +162,30 @@ namespace sdmg {
 						break;
 					}
 				}
+				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
+				{
+					switch (event.cbutton.button)
+					{
+					case SDL_CONTROLLER_BUTTON_B:
+						changeState(*_game, CharacterSelectionState::getInstance());
+						break;
+					case SDL_CONTROLLER_BUTTON_A:
+						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_UP:
+						_menu->selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+						_menu->selectNext();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+						selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+						selectNext();
+						break;
+					}
+				}
 			}
 		}
 
