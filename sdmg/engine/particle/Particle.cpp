@@ -63,6 +63,7 @@ namespace sdmg {
 			}
 
 			bool Particle::isDead() {
+				if (_surface == NULL) return true;
 				return (SDL_GetTicks() >= _endTime || _x == 0 || _y == 0 || 
 					_x == _surface->w - 1 || _y == _surface->h - 1);
 			}
