@@ -244,7 +244,7 @@ namespace sdmg {
 
 				delete huds;
 
-				if (_game->getGameMode() != GameBase::GameMode::SinglePlayer) {
+				if (game.getGameMode() != GameBase::GameMode::SinglePlayer && game.getGameMode() != GameBase::GameMode::Edit) {
 					delete PlayState::getInstance()._slotKeyInput;
 					PlayState::getInstance()._slotKeyInput = nullptr;
 					delete PlayState::getInstance()._keys;
