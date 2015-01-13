@@ -39,8 +39,9 @@ namespace sdmg {
 				const std::vector<Action*> *getActions();
 				void update(GameBase &game);
 				void findJoysticks();
-				void enable(const std::string &deviceName);
-				void disable(const std::string &deviceName);
+				void enableAllDevices();
+				void enableDevice(const std::string &deviceName);
+				void disableDevice(const std::string &deviceName);
 				void pushAction(Action &action, bool keyDown = true);
 				Mouse &getMouse() { return _mouse; }
 				void setMouseEnabled(bool enabled = true) { _mouseEnabled = enabled; }

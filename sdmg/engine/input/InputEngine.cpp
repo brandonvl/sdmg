@@ -136,7 +136,7 @@ namespace sdmg {
 				_actions->clear();
 			}
 
-			void InputEngine::enable(const std::string &deviceName)
+			void InputEngine::enableDevice(const std::string &deviceName)
 			{
 				auto device = _deviceBindings->find(deviceName);
 
@@ -145,7 +145,7 @@ namespace sdmg {
 				}
 			}
 
-			void InputEngine::disable(const std::string &deviceName)
+			void InputEngine::disableDevice(const std::string &deviceName)
 			{
 				auto device = _deviceBindings->find(deviceName);
 
@@ -187,6 +187,14 @@ namespace sdmg {
 				event.type = keyDown ? SDL_KEYDOWN : SDL_KEYUP;
 				
 				addAction(*action.create(event), keyDown);
+			}
+
+			void InputEngine::enableAllDevices() {
+
+				for (auto &it : *_deviceBindings) {
+					it.second->enable();
+				}
+
 			}
 			
 			void InputEngine::clearBindings() {
