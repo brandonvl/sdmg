@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include "helperclasses\ConfigManager.h"
+#include <algorithm>
 
 namespace sdmg {
 	namespace gamestates {
@@ -42,6 +43,16 @@ namespace sdmg {
 			_oldkey = new std::string("");
 
 			_keys = new std::vector<std::string>;
+			_deviceKeys = new std::vector<std::string>();
+
+			auto deviceMap = _game->getEngine()->getInputEngine()->getDevices();
+
+			for (auto &it : deviceMap)
+			{
+				_deviceKeys->push_back(it.first);
+			}
+
+			_currentdevice = 0;
 
 			_game->getEngine()->getDrawEngine()->loadText("controlstitle", "Controls", { 255, 255, 255 }, "trebucbd", 48);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 20);
@@ -57,7 +68,6 @@ namespace sdmg {
 
 			game.getEngine()->getDrawEngine()->load("controls_background", "assets/screens/mainbackground");
 
-			_currentdevice = 0;
 			readKeys();
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
@@ -70,27 +80,30 @@ namespace sdmg {
 
 		void ControlsState::readKeys()
 		{
-			helperclasses::ConfigManager::getInstance();
-			*_devicename = helperclasses::ConfigManager::getInstance().getDeviceName(_currentdevice);
+			
+			int deviceIndex = helperclasses::ConfigManager::getInstance().getDeviceIndex((*_deviceKeys)[_currentdevice]);
+			//_currentdevice = ;
+
+			*_devicename = (*_deviceKeys)[_currentdevice];
 			if (*_devicename == "keyboardRIGHT" || *_devicename == "keyboardLEFT")
 			{
-				*_walkright = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "walkRight"));
-				*_walkleft = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "walkLeft"));
-				*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "jump"));
-				*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "roll"));
-				*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "midrange"));
-				*_longrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "longrange"));
-				*_block = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "block"));
+				*_walkright = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "walkRight"));
+				*_walkleft = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "walkLeft"));
+				*_jump = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "jump"));
+				*_roll = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "roll"));
+				*_midrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "midrange"));
+				*_longrange = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "longrange"));
+				*_block = SDL_GetKeyName(helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "block"));
 			}
 			else
 			{
-				*_walkright = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "walkRight")));
-				*_walkleft = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "walkLeft")));
-				*_jump = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "jump")));
-				*_roll = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "roll")));
-				*_midrange = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "midrange")));
-				*_longrange = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "longrange")));
-				*_block = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(_currentdevice, "block")));
+				*_walkright = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "walkRight")));
+				*_walkleft = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "walkLeft")));
+				*_jump = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "jump")));
+				*_roll = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "roll")));
+				*_midrange = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "midrange")));
+				*_longrange = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "longrange")));
+				*_block = SDL_GameControllerGetStringForButton(static_cast <SDL_GameControllerButton> (helperclasses::ConfigManager::getInstance().getKey(deviceIndex, "block")));
 			}
 
 			setKeys();
@@ -162,22 +175,21 @@ namespace sdmg {
 									_menu->selectPrevious();
 									break;
 								case SDLK_RIGHT:
-									if (_currentdevice != 5) {
-										_currentdevice++;
-									}
-									else {
+									++_currentdevice;
+
+									if (_currentdevice >= _deviceKeys->size()) {
 										_currentdevice = 0;
 									}
 
 									readKeys();
 									break;
 								case SDLK_LEFT:
-									if (_currentdevice != 0) {
-										_currentdevice--;
+									--_currentdevice;
+
+									if (_currentdevice < 0) {
+										_currentdevice = (_deviceKeys->size() - 1);
 									}
-									else {
-										_currentdevice = 5;
-									}
+
 									readKeys();
 									break;
 								case SDLK_KP_ENTER:
@@ -203,21 +215,21 @@ namespace sdmg {
 								_menu->selectNext();
 								break;
 							case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-								if (_currentdevice != 5) {
-									_currentdevice++;
-								}
-								else {
+								++_currentdevice;
+
+								if (_currentdevice >= _deviceKeys->size()) {
 									_currentdevice = 0;
 								}
+
 								readKeys();
 								break;
 							case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-								if (_currentdevice != 0) {
-									_currentdevice--;
+								--_currentdevice;
+
+								if (_currentdevice < 0) {
+									_currentdevice = (_deviceKeys->size() - 1);
 								}
-								else {
-									_currentdevice = 5;
-								}
+
 								readKeys();
 								break;
 							}

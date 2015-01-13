@@ -50,6 +50,7 @@ namespace sdmg {
 			GameBase *_game;
 			int _currentdevice;
 			std::vector<std::string> *_keys;
+			std::vector<std::string> *_deviceKeys;
 			std::string *_info, *_info2, *_devicename, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current, *_oldkey;
 		};
 	}
