@@ -84,7 +84,6 @@ namespace sdmg {
 					try
 					{
 						auto doc = JSON::JSONDocument::fromFile("assets/characters/" + characterFolder + "/data");
-						_documents->push_back(doc);
 
 						if (ProgressManager::getInstance().isUnlockedCharacter(characterFolder)) {					
 							

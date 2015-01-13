@@ -42,6 +42,10 @@ namespace sdmg {
 			}
 
 		}
+
+		void World::addDeadCallBack(std::function<void(GameObject *gameObject)> &callBack) {
+			_deadCallBacks.push_back(callBack);
+		}
 		
 		void World::addGameObject(GameObject *gameObject) {
 			_gameObjects.push_back(gameObject);
@@ -54,6 +58,10 @@ namespace sdmg {
 
 		void World::onDead(GameObject* gameObject) {
 			_deadList.push_back(gameObject);
+
+			for (auto it : _deadCallBacks) {
+				it(gameObject);
+			}
 
 			for (int i = 0; i < _aliveList.size(); i++)
 			{

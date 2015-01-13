@@ -10,6 +10,7 @@
 #pragma once
 #include <vector>
 #include <Box2D\Box2D.h>
+#include <functional>
 
 namespace sdmg {
 	namespace engine {
@@ -27,6 +28,7 @@ namespace sdmg {
 			GameObject* getGameObjectById(uint32 id);
 			b2World* getPhysicsWorld();
 			void addGameObject(GameObject *gameObject);
+			void addDeadCallBack(std::function<void(GameObject *gameObject)> &callBack);
 			void addPlayer(MovableGameObject *player);
 			void addPlatform(GameObject *platform);
 			void onDead(GameObject* gameObject);
@@ -42,6 +44,7 @@ namespace sdmg {
 			void destroyShootBodies();
 		private:
 			std::vector<GameObject*> _gameObjects, _deadList, _aliveList, _platforms;
+			std::vector<std::function<void(GameObject *gameObject)>> _deadCallBacks;
 			std::vector<MovableGameObject*> _players;
 			GameBase *_game;
 			b2World *_physicsWorld;

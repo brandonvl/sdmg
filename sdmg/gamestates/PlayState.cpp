@@ -32,6 +32,7 @@
 #include "helperclasses\Recorder.h"
 #include "engine\ai\EasyAIMachine.h"
 #include <vector>
+#include <iostream>
 
 namespace sdmg {
 	namespace gamestates {
@@ -54,6 +55,10 @@ namespace sdmg {
 
 			game.getEngine()->getParticleEngine()->createParticleSet("hit", 100, 175, 175, 5, 5, 350, 350, "blood");
 			game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
+
+			game.getWorld()->addDeadCallBack( (std::function<void(GameObject *gameObject)>)[&](GameObject *gameObject){
+				std::cout << "made it " << gameObject->getName() << "\n";
+			});
 			
 			if (game.getGameMode() == GameBase::GameMode::Versus)
 				game.getRecorder().start(game,*_level);
