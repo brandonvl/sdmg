@@ -54,7 +54,12 @@ namespace sdmg
 
 				auto it = _characters->find(&character);
 				if (it != _characters->cend()) {
-					_recordQueue->push(new RecordItem(action, it->second, timestamp, keyDown, character.getX(), character.getY(), character.getBody()->GetLinearVelocity().x, character.getBody()->GetLinearVelocity().y, character.getHP(), character.getLives(), character.getPP()));
+					RecordItem *item = new RecordItem(action, it->second, timestamp, keyDown);
+					for (auto pair : *_characters) {
+						item->addPlayerData({ pair.second, pair.first->getHP(), pair.first->getLives(), pair.first->getPP(), pair.first->getX(), pair.first->getY(), pair.first->getBody()->GetLinearVelocity().x, pair.first->getBody()->GetLinearVelocity().y });
+					}
+
+					_recordQueue->push(item);
 				}
 			}
 		}
@@ -97,13 +102,24 @@ namespace sdmg
 
 				JSON::JSONObject *stepObj = new JSON::JSONObject(stepArr);
 
-				stepObj->add("x", item->getX());
-				stepObj->add("y", item->getY());
-				stepObj->add("velocityx", item->getVelocityX());
-				stepObj->add("velocityy", item->getVelocityY());
-				stepObj->add("lives", item->getLives());
-				stepObj->add("hp", item->getHP());
-				stepObj->add("pp", item->getPP());
+				JSON::JSONArray *characterArr = new JSON::JSONArray(stepObj);
+
+				for (auto data : item->getPlayerData()) {
+					JSON::JSONObject *characterObj = new JSON::JSONObject(characterArr);
+					
+					characterObj->add("x", data->x);
+					characterObj->add("y", data->y);
+					characterObj->add("velocityx", data->velocityX);
+					characterObj->add("velocityy", data->velocityY);
+					characterObj->add("lives", data->lives);
+					characterObj->add("hp", data->hp);
+					characterObj->add("pp", data->pp);
+					characterObj->add("character", data->character);
+
+					characterArr->push(*characterObj);
+				}
+
+				stepObj->add("characters", *characterArr);
 				stepObj->add("action", item->getAction());
 				stepObj->add("character", item->getCharacter());
 				stepObj->add("timestamp", item->getTimestamp());

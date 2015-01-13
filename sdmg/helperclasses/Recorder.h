@@ -30,24 +30,37 @@ namespace sdmg
 			std::string *_level;
 			class RecordItem {
 			public:
-				RecordItem(std::string action, int character, int timestamp, bool keyDown, float x, float y, float velocityX, float velocityY, int hp, int lives, int pp) : _action(action), _character(character), _timestamp(timestamp), _keyDown(keyDown), _x(x), _y(y), _velocityX(velocityX), _velocityY(velocityY), _hp(hp), _lives(lives), _pp(pp) {}
+				RecordItem(std::string action, int character, int timestamp, bool keyDown) : _action(action), _character(character), _timestamp(timestamp), _keyDown(keyDown) {}
+				~RecordItem() {
+					for (auto i : _playerData) delete i;
+					_playerData.clear();
+				}
+
+				struct PlayerData { 
+					int character, hp, lives, pp;
+					float x, y, velocityX, velocityY;
+				};
+
+				void addPlayerData(PlayerData data) { _playerData.push_back(new PlayerData(data)); }
+				std::vector<PlayerData*> &getPlayerData() { return _playerData; }
 
 				const std::string &getAction() { return _action; }
 				const int &getCharacter() { return _character; }
 				const int &getTimestamp() { return _timestamp; }
 				const bool &getKeyDown() { return _keyDown; }
-				const float &getX() { return _x; }
-				const float &getY() { return _y; }
-				const float &getVelocityX() { return _velocityX; }
-				const float &getVelocityY() { return _velocityY; }
-				const int &getHP() { return _hp; }
-				const int &getLives() { return _lives; }
-				const int &getPP() { return _pp; }
+				//const float &getX() { return _x; }
+				//const float &getY() { return _y; }
+				//const float &getVelocityX() { return _velocityX; }
+				//const float &getVelocityY() { return _velocityY; }
+				//const int &getHP() { return _hp; }
+				//const int &getLives() { return _lives; }
+				//const int &getPP() { return _pp; }
 			private:
 				std::string _action;
-				int _character, _timestamp, _hp, _lives, _pp;
+				int _character, _timestamp;// , _hp, _lives, _pp;
 				bool _keyDown;
-				float _x, _y, _velocityX, _velocityY;
+				std::vector<PlayerData*> _playerData;
+				//float _x, _y, _velocityX, _velocityY;
 			};
 
 			std::queue<RecordItem*> *_recordQueue;

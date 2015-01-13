@@ -120,13 +120,15 @@ namespace sdmg {
 					if (_running) {
 						//  while (cStep._character->getBody()->GetWorld()->IsLocked());
 
-						cStep._character->getBody()->SetTransform(b2Vec2(cStep._x, cStep._y), cStep._character->getBody()->GetAngle());
-						cStep._character->getBody()->SetLinearVelocity(b2Vec2(cStep._velocityX, cStep._velocityY));
+						for (auto data : cStep._playerData) {
 
-						cStep._character->setHP(cStep._hp);
-						cStep._character->setLives(cStep._lives);
-						cStep._character->setPP(cStep._pp);
+							data.character->getBody()->SetTransform(b2Vec2(data.x, data.y), cStep._character->getBody()->GetAngle());
+							data.character->getBody()->SetLinearVelocity(b2Vec2(data.velocityX, data.velocityY));
 
+							data.character->setHP(data.hp);
+							data.character->setLives(data.lives);
+							data.character->setPP(data.pp);
+						}
 						cStep._action->run(*_game);
 						delete cStep._action;
 					}
