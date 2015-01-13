@@ -100,6 +100,12 @@ namespace sdmg {
 							_game->getStateManager()->changeState(MainMenuState::getInstance());
 							break;
 						}
+
+					case SDL_CONTROLLERBUTTONDOWN:
+						switch (event.cbutton.button) {
+						case SDL_CONTROLLER_BUTTON_START:
+							game.getStateManager()->pushState(MainMenuState::getInstance());
+						}
 					}
 				}
 			}
