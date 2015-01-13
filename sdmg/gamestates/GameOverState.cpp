@@ -175,6 +175,7 @@ namespace sdmg {
 
 		void GameOverState::replay() {
 			_game->getWorld()->resetWorld();
+			_game->getEngine()->getInputEngine()->enableAllDevices();
 			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
 
 			for (size_t i = 0, ilen = aliveList.size(); i < ilen; i++)

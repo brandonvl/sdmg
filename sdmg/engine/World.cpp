@@ -59,10 +59,6 @@ namespace sdmg {
 		void World::onDead(GameObject* gameObject) {
 			_deadList.push_back(gameObject);
 
-			for (auto it : _deadCallBacks) {
-				it(gameObject);
-			}
-
 			for (int i = 0; i < _aliveList.size(); i++)
 			{
 				if (_aliveList[i] == gameObject)
@@ -70,6 +66,10 @@ namespace sdmg {
 					_aliveList.erase(_aliveList.begin() + i);
 					break;
 				}
+			}
+
+			for (auto it : _deadCallBacks) {
+				it(gameObject);
 			}
 		}
 

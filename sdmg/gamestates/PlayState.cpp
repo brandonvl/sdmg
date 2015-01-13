@@ -32,7 +32,7 @@
 #include "helperclasses\Recorder.h"
 #include "engine\ai\EasyAIMachine.h"
 #include <vector>
-#include <iostream>
+#include "engine\MovableGameObject.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -57,7 +57,15 @@ namespace sdmg {
 			game.getEngine()->getParticleEngine()->createParticleSet("fall", 100, 175, 350, 5, 22.5, 350, 550, "burst");
 
 			game.getWorld()->addDeadCallBack( (std::function<void(GameObject *gameObject)>)[&](GameObject *gameObject){
-				std::cout << "made it " << gameObject->getName() << "\n";
+				auto players = game.getWorld()->getPlayers();
+				auto it = std::find(players.begin(), players.end(), static_cast<MovableGameObject*>(gameObject));
+				
+				if (it != players.end()) {
+					int id = it - players.begin();
+
+					std::string deviceName = getSlotKeyInput(id);
+					game.getEngine()->getInputEngine()->disableDevice(deviceName);
+				}
 			});
 			
 			if (game.getGameMode() == GameBase::GameMode::Versus)
