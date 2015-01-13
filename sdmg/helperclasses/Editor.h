@@ -77,6 +77,8 @@ namespace sdmg {
 			bool isEnabled() { return _enabled; }
 			void save(std::string name);
 
+			void setLevel(std::string name) { _levelName = name; }
+
 		private:
 			void enable();
 			void disable();
@@ -91,6 +93,7 @@ namespace sdmg {
 			void mouseMove(int x, int y);
 			void Editor::selectObject(GameObject &gameObject);
 
+			std::string _levelName;
 			bool _enabled;
 			int _mouseDownX, _mouseDownY;
 			GameObject *_curSelectedObject;

@@ -62,8 +62,10 @@ namespace sdmg {
 			
 			if (game.getGameMode() == GameBase::GameMode::Versus)
 				game.getRecorder().start(game,*_level);
-			else if (game.getGameMode() == GameBase::GameMode::Edit)
+			else if (game.getGameMode() == GameBase::GameMode::Edit) {
 				_editor->toggle();
+				_editor->setLevel(*_level);
+			}
 		}
 
 		void PlayState::setHUDs(std::vector<helperclasses::HUD *> *huds)
@@ -122,6 +124,7 @@ namespace sdmg {
 							case SDLK_F4:
 								if (!event.key.repeat && game.getGameMode() == GameBase::GameMode::Edit){
 									_editor->toggle();
+									_editor->setLevel(*_level);
 								}
 								break;
 							case SDLK_HOME:
@@ -323,6 +326,8 @@ namespace sdmg {
 
 		void PlayState::performDraw(GameBase &game) {
 			DrawEngine *de = game.getEngine()->getDrawEngine();
+
+			
 			de->draw("background");
 
 			if (_showHitBoxes)

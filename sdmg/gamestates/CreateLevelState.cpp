@@ -8,6 +8,7 @@
 #include "LevelSelectionState.h"
 #include "LoadingState.h"
 #include <direct.h>
+#include <algorithm>
 
 namespace sdmg {
 	namespace gamestates {
@@ -72,7 +73,7 @@ namespace sdmg {
 							
 							std::string input = SDL_GetKeyName(event.key.keysym.sym);
 							if (input.size() == 1 && input[0] >= 'A' && input[0] <= 'Z') {
-								*_name += input[0];
+								*_name += _name->size() == 0 ? input[0] : tolower(input[0]);
 							}
 
 						}
@@ -102,8 +103,10 @@ namespace sdmg {
 		}
 
 		void CreateLevelState::create() {
+			std::string pathName = *_name;
+			std::transform(pathName.begin(), pathName.end(), pathName.begin(), ::tolower);
 
-			std::string path = "assets/levels/" + *_name + "/";
+			std::string path = "assets/levels/" + pathName + "/";
 			_mkdir(path.c_str());
 
 

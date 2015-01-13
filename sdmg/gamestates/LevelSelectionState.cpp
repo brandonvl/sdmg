@@ -37,7 +37,10 @@ namespace sdmg {
 			// init menu
 			_menu = new Menu(895, 540, game);
 			_menu->addMenuTextItem(game.getGameMode() == GameBase::GameMode::Versus || game.getGameMode() == GameBase::GameMode::Edit ? "Select" : "Play", (std::function<void()>)std::bind(&LevelSelectionState::nextState, this));
-			_menu->addMenuTextItem("Back to characters", (std::function<void()>)[&] { changeState(game, CharacterSelectionState::getInstance()); });
+			if (game.getGameMode() == GameBase::GameMode::Edit)
+				_menu->addMenuTextItem("Back to main menu", (std::function<void()>)[&] { changeState(game, MainMenuState::getInstance()); });
+			else
+				_menu->addMenuTextItem("Back to characters", (std::function<void()>)[&] { changeState(game, CharacterSelectionState::getInstance()); });
 
 			_levels = new std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/levels/"));
 
@@ -232,7 +235,7 @@ namespace sdmg {
 		}
 
 		void LevelSelectionState::nextState() {
-			if (_game->getGameMode() == GameBase::GameMode::Edit) {
+			if (_game->getGameMode() == GameBase::GameMode::Edit && (*_levels)[_currentLevel] == "$newLevel") {
 				changeState(*_game, CreateLevelState::getInstance());
 			}
 			else {

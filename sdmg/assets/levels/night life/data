@@ -1,6 +1,7 @@
 {
 	name: "Night Life",
 	gravity: { left: 0, down: 100 },
+	editable: false,
 	platforms: 
 	[
 		{

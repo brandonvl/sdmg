@@ -218,6 +218,11 @@ namespace sdmg {
 
 			}
 
+			void DrawEngine::clear() {
+				SDL_SetRenderDrawColor(_renderer, 117, 199, 235, 255);
+				SDL_RenderClear(_renderer);
+			}
+
 			void DrawEngine::draw(std::string key) {
 				Surface *surface = _surfaces[key];
 				SDL_RenderCopy(_renderer, surface->getSDLTexture(), nullptr, nullptr);
@@ -383,7 +388,7 @@ namespace sdmg {
 			void DrawEngine::prepareForDraw() {
 				if (!_preparing) {
 					// clear renderer
-					SDL_RenderClear(_renderer);
+					clear();
 					_preparing = true;
 				}
 			}
@@ -397,6 +402,8 @@ namespace sdmg {
 			}
 
 			void DrawEngine::drawBodies(b2Body *body) {
+				SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+
 				b2Vec2 leftUpperPoint, rightBottomPoint;
 
 				while (body) {
@@ -421,6 +428,7 @@ namespace sdmg {
 			}
 
 			void DrawEngine::drawHitBoxes(std::vector<input::Mouse::Hitbox*> &boxes) {
+				SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
 
 				for (auto box : boxes){
 					SDL_Rect r;
@@ -486,6 +494,21 @@ namespace sdmg {
 					_steps.insert(std::make_pair(gameObject, 0));
 					gameObject->registerStateChangedCallback(std::bind(&DrawEngine::gameObjectStateChanged, this, gameObject));
 				}
+			}
+
+			void DrawEngine::saveScreenshot(std::string path) {
+				SDL_Surface *sshot = SDL_CreateRGBSurface(0, 1280, 720, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+				SDL_RenderReadPixels(_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
+
+				SDL_Rect srcRect{ 0, 0, 1280, 720 };
+				SDL_Rect dstRect{ 0, 0, 500, 281 };
+
+				SDL_Surface *resized = SDL_CreateRGBSurface(0, 500, 281, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+				SDL_BlitScaled(sshot, &srcRect, resized, &dstRect);
+
+				SDL_SaveBMP(resized, path.c_str());
+				SDL_FreeSurface(sshot);
+				SDL_FreeSurface(resized);
 			}
 		}
 	}

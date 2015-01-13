@@ -55,6 +55,7 @@ namespace sdmg {
 				void unloadCopy(MovableGameObject *obj);
 				void unloadText(std::string key);
 				void unloadAll();
+				void clear();
 				
 				void draw(std::string key);
 				void draw(std::string key, int x, int y);
@@ -91,6 +92,8 @@ namespace sdmg {
 				int getWindowId() { return SDL_GetWindowID(_window); }
 				std::string getImagePath(GameObject *gameObject) { return _objectSurfaces[gameObject]->getPath(); }
 				int getDynamicTextWidth(std::string key);
+				void saveScreenshot(std::string path);
+
 			private:
 				Engine *_engine;
 				SDL_Window *_window;

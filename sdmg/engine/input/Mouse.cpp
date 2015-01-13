@@ -89,6 +89,8 @@ namespace sdmg {
 				for (auto box : _clickBoxes)
 					delete box;
 				_clickBoxes.clear();
+
+				_mouseMoveCallback = nullptr;
 			}
 		}
 	}

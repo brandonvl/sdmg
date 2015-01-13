@@ -102,7 +102,7 @@ namespace sdmg {
 			_eraserButton->setClickAction([&] { _currentPlatformDef = nullptr; });
 
 			_buttons.push_back(_saveButton = new ToolbarButton(*this, "save"));
-			_saveButton->setClickAction([&] { save("test"); });
+			_saveButton->setClickAction([&] { save(_levelName); });
 
 			// set default selected button
 			_currentToolbarButton = _moveButton;
@@ -409,20 +409,19 @@ namespace sdmg {
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromRoot(*rootObj);
 
 			rootObj->add("name", name);
+			rootObj->add("editable", true);
 
-			JSON::JSONArray *startingPositionsArr = new JSON::JSONArray(rootObj);
+			JSON::JSONArray *startingArr = new JSON::JSONArray(rootObj);
 
-			JSON::JSONObject *posObj1 = new JSON::JSONObject(startingPositionsArr);
-			posObj1->add("x", 150);
-			posObj1->add("y", -100);
-			startingPositionsArr->push(*posObj1);
+			int xPositions[] = { 150, 450, 750, 1050 };
 
-			JSON::JSONObject *posObj2 = new JSON::JSONObject(startingPositionsArr);
-			posObj2->add("x", 1100);
-			posObj2->add("y", -100);
-			startingPositionsArr->push(*posObj2);
-
-			rootObj->add("startingPositions", *startingPositionsArr);
+			for (int i = 0; i < 4; i++){
+				JSON::JSONObject *startObj = new JSON::JSONObject(startingArr);
+				startObj->add("x", xPositions[i]);
+				startObj->add("y", -100);
+				startingArr->push(*startObj);
+			}
+			rootObj->add("startingPositions", *startingArr);
 
 			JSON::JSONObject *gravityObj = new JSON::JSONObject(rootObj);
 			gravityObj->add("left", 0);
@@ -431,7 +430,7 @@ namespace sdmg {
 
 			JSON::JSONArray *platformArr = new JSON::JSONArray(rootObj);
 			int imageIndex = 0;
-
+			
 			for (auto platform : _game->getWorld()->getPlatforms()) {
 				std::string imageStr = "platform_" + std::to_string(imageIndex);
 				SDL_Surface *surface;
@@ -470,11 +469,8 @@ namespace sdmg {
 
 			doc->saveFile("assets/levels/" + name + "/data");
 			delete doc;
-
-			//SDL_GetRenderer
-
-			//SDL_CreateRenderer(nullptr, -1, 0);
-			//IMG_SavePNG()
+						
+			_game->getEngine()->getDrawEngine()->saveScreenshot("assets/levels/" + name + "/preview_big");
 		}
 	}
 }
