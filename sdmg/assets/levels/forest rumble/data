@@ -21,7 +21,7 @@
 		},
 		{
 			size: { width: 120, height: 80 },
-			location: { x: 590, y: 570 },
+			location: { x: 590, y: 580 },
 			bodyPadding: { x: 0, y: 0 }
 		},
 		{

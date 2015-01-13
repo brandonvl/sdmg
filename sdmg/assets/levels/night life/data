@@ -6,7 +6,7 @@
 	[
 		{
 			size: { width: 150, height: 80 },
-			location: { x: 70, y: 3 },
+			location: { x: 70, y: 400 },
 			bodyPadding: { x: 0, y: 0 }
 		},
 		{
@@ -37,9 +37,9 @@
 	startingPositions: 
 	[
 		{ x: 75, y: -100 },
+		{ x: 1150, y: -100 },
 		{ x: 525, y: -100 },
-		{ x: 700, y: -100 },
-		{ x: 1150, y: -100 }
+		{ x: 700, y: -100 }
 	],
 	bobs:
 	[

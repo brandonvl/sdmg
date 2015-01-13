@@ -170,7 +170,8 @@ namespace sdmg {
 						platform->setCanMoveThroughIt(true);
 
 					_game->getWorld()->addPlatform(platform);
-					de->load(platform, "assets/levels/" + level + "/" + platformObj.getString("image"));
+					if (platformObj.exists("image"))
+						de->load(platform, "assets/levels/" + level + "/" + platformObj.getString("image"));
 
 					_loadingValue += platformStep;
 					_game->getStateManager()->draw();

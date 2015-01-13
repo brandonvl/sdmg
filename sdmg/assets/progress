@@ -41,7 +41,7 @@
 					losses:0,
 					name:"Silence",
 					key:"silence",
-					unlocked:false,
+					unlocked:true,
 					wins:0
 				},
 				{
@@ -55,7 +55,7 @@
 					losses:0,
 					name:"Lucky",
 					key:"lucky",
-					unlocked:false,
+					unlocked:true,
 					wins:0
 				},
 				{
@@ -69,7 +69,7 @@
 					losses:0,
 					name:"Enrique",
 					key:"enrique",
-					unlocked:false,
+					unlocked:true,
 					wins:0
 				}
 			],
