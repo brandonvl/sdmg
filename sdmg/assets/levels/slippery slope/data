@@ -1,7 +1,7 @@
 {
 	name: "Slippery Slope",
-	gravity: { left: 0, down: 100 },
 	editable: false,
+	gravity: { left: 0, down: 100 },
 	platforms: 
 	[
 		{

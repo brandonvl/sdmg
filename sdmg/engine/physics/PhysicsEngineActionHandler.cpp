@@ -154,7 +154,8 @@ namespace sdmg {
 
 				if (obj->getLives() <= 0)
 				{
-					obj->die();
+					if (_engine->getGame()->getGameMode() != GameBase::GameMode::Playback && _engine->getGame()->getGameMode() != GameBase::GameMode::Edit)
+						obj->die();
 					obj->setPP(0);
 					obj->getBody()->SetActive(false);
 					obj->getBody()->SetTransform(b2Vec2(_engine->getDrawEngine()->getWindowWidth() + 300, _engine->getDrawEngine()->getWindowHeight() + 300), obj->getBody()->GetAngle());
