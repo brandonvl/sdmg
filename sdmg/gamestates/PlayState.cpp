@@ -89,10 +89,6 @@ namespace sdmg {
 		{
 			delete _editor;
 			_editor = nullptr;
-			delete _slotKeyInput;
-			_slotKeyInput = nullptr;
-			delete _keys;
-			_keys = nullptr;
 		}
 
 		void PlayState::pause(GameBase &game)
