@@ -93,6 +93,7 @@ namespace sdmg {
 				std::string getImagePath(GameObject *gameObject) { return _objectSurfaces[gameObject]->getPath(); }
 				int getDynamicTextWidth(std::string key);
 				void saveScreenshot(std::string path);
+				void setFullscreen(bool fullscreen);
 
 			private:
 				Engine *_engine;

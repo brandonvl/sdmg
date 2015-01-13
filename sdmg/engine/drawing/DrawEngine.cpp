@@ -211,6 +211,7 @@ namespace sdmg {
 				_windowHeight = 720;
 				_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, 0);
 				//_window = SDL_CreateWindow("SDMG", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowWidth, _windowHeight, SDL_WINDOW_FULLSCREEN);
+				//setFullscreen(true);
 				_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 				_step = 1.0f / 15.0f;
 				_speed = _standardspeed;
@@ -500,7 +501,7 @@ namespace sdmg {
 				SDL_Surface *sshot = SDL_CreateRGBSurface(0, 1280, 720, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 				SDL_RenderReadPixels(_renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
 
-				SDL_Rect srcRect{ 0, 0, 1280, 720 };
+				SDL_Rect srcRect{ 0, 50, 1280, 720 };
 				SDL_Rect dstRect{ 0, 0, 500, 281 };
 
 				SDL_Surface *resized = SDL_CreateRGBSurface(0, 500, 281, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
@@ -509,6 +510,10 @@ namespace sdmg {
 				SDL_SaveBMP(resized, path.c_str());
 				SDL_FreeSurface(sshot);
 				SDL_FreeSurface(resized);
+			}
+
+			void DrawEngine::setFullscreen(bool fullscreen) {
+				SDL_SetWindowFullscreen(_window, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
 			}
 		}
 	}

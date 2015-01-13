@@ -11,18 +11,20 @@
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "LoadingState.h"
+#include "MainMenuState.h"
 
 namespace sdmg {
 	namespace gamestates {
 
 		void IntroState::init(GameBase &game)
 		{
-			std::cout << "Initing IntroState ... " << std::endl;
+			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
+			_fullscreen = false;
 		}
 
 		void IntroState::cleanup(GameBase &game)
 		{
-			std::cout << "Cleaning up IntroState ... " << std::endl;
+			game.getEngine()->getDrawEngine()->unload("loading");
 		}
 
 		void IntroState::pause(GameBase &game)
@@ -53,10 +55,6 @@ namespace sdmg {
 					case SDLK_ESCAPE:
 						game.stop();
 						break;
-					case SDLK_1:
-						std::cout << "Key 1 pressed. Switching State.. " << std::endl;
-						changeState(game, LoadingState::getInstance());
-						break;
 					}
 				}
 			}
@@ -64,12 +62,22 @@ namespace sdmg {
 
 		void IntroState::update(GameBase &game, GameTime &gameTime)
 		{
+			if (gameTime.getTotalSecondsRunning() > 1 && !_fullscreen) {
+				game.getEngine()->getDrawEngine()->setFullscreen(true);
+				_fullscreen = true;
+			}
+			else if (gameTime.getTotalSecondsRunning() > 5) {
+				changeState(game, MainMenuState::getInstance());
+			}
+
 			//std::cout << "Updating IntroState ... " << std::endl;
 		}
 
 		void IntroState::draw(GameBase &game, GameTime &gameTime)
 		{
-
+			game.getEngine()->getDrawEngine()->prepareForDraw();
+			game.getEngine()->getDrawEngine()->draw("loading");
+			game.getEngine()->getDrawEngine()->render();
 		}
 		
 	}

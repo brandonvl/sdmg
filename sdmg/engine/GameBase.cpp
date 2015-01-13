@@ -43,7 +43,7 @@ namespace sdmg {
 
 		void GameBase::start() {
 			_running = true;
-			_gameStateManager->changeState(gamestates::MainMenuState::getInstance());
+			_gameStateManager->changeState(gamestates::IntroState::getInstance());
 			doGameLoop();
 		}
 

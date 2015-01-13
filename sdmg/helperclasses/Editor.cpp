@@ -42,6 +42,7 @@ namespace sdmg {
 		void Editor::enable() {
 			_enabled = true;
 			_game->getEngine()->getPhysicsEngine()->pause();
+			_game->getEngine()->getDrawEngine()->setFullscreen(false);
 
 			InputEngine *inputEngine = _game->getEngine()->getInputEngine();
 
@@ -111,6 +112,7 @@ namespace sdmg {
 		void Editor::disable() {
 			_enabled = false;
 			_hitboxes->clear();
+			_game->getEngine()->getDrawEngine()->setFullscreen(true);
 
 			_game->getEngine()->getInputEngine()->getMouse().clear();
 			_game->getEngine()->getInputEngine()->setMouseEnabled(false);
@@ -141,7 +143,7 @@ namespace sdmg {
 		}
 
 		void Editor::handleEvent(SDL_Event &event) {
-			if (event.type == SDL_KEYDOWN) {
+			if (event.type == SDL_KEYDOWN || (event.type == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(_window))) {
 				if (event.key.keysym.sym == SDLK_F4 ||
 					event.key.keysym.sym == SDLK_ESCAPE)
 					disable();

@@ -35,6 +35,8 @@ namespace sdmg {
 			}
 		protected:
 			IntroState() { }
+		private:
+			bool _fullscreen;
 		};
 	}
 }
