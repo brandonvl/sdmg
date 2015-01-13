@@ -33,56 +33,76 @@
 				{
 					losses:0,
 					name:"Nivek",
+					key:"nivek",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Silence",
+					key:"silence",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Fiat",
+					key:"fiat",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Always",
+					name:"Lucky",
+					key:"lucky",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Mind",
+					key:"mind",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Enrique",
+					key:"enrique",
 					unlocked:false,
 					wins:0
 				}
 			],
 			levels:[
-				{
-					name:"Level 1",
-					unlocked:true
-				},
-				{
-					name:"Level 2",
-					unlocked:true
-				},
-				{
-					name:"Level 3",
-					unlocked:false
-				},
 				{
 					name:"Night Life",
+					key:"night life",
 					unlocked:false
+				},
+				{
+					name:"Forest Rumble",
+					key:"forest rumble",
+					unlocked:false
+				},
+				{
+					name:"Jolly Saloon",
+					key:"jolly saloon",
+					unlocked:false
+				},
+				{
+					name:"Slippery Slope",
+					key:"slippery slope",
+					unlocked:false
+				},
+				{
+					name:"Level 1 Fiat",
+					key:"level1fiat",
+					unlocked:true
+				},
+				{
+					name:"Level 1 Nivek",
+					key:"level1nivek",
+					unlocked:true
 				}
 			],
 			timestamp:""
@@ -92,52 +112,76 @@
 				{
 					losses:0,
 					name:"Nivek",
+					key:"nivek",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Silence",
+					key:"silence",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Fiat",
+					key:"fiat",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Always",
+					name:"Lucky",
+					key:"lucky",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Mind",
+					key:"mind",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Enrique",
+					key:"enrique",
 					unlocked:false,
 					wins:0
 				}
 			],
 			levels:[
 				{
-					name:"Level 1",
-					unlocked:true
-				},
-				{
-					name:"Level 2",
-					unlocked:true
-				},
-				{
-					name:"Level 3",
+					name:"Night Life",
+					key:"night life",
 					unlocked:false
+				},
+				{
+					name:"Forest Rumble",
+					key:"forest rumble",
+					unlocked:false
+				},
+				{
+					name:"Jolly Saloon",
+					key:"jolly saloon",
+					unlocked:false
+				},
+				{
+					name:"Slippery Slope",
+					key:"slippery slope",
+					unlocked:false
+				},
+				{
+					name:"Level 1 Fiat",
+					key:"level1fiat",
+					unlocked:true
+				},
+				{
+					name:"Level 1 Nivek",
+					key:"level1nivek",
+					unlocked:true
 				}
 			],
 			timestamp:""
@@ -147,52 +191,76 @@
 				{
 					losses:0,
 					name:"Nivek",
+					key:"nivek",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Silence",
+					key:"silence",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Fiat",
+					key:"fiat",
 					unlocked:true,
 					wins:0
 				},
 				{
 					losses:0,
-					name:"Always",
+					name:"Lucky",
+					key:"lucky",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Mind",
+					key:"mind",
 					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Enrique",
+					key:"enrique",
 					unlocked:false,
 					wins:0
 				}
 			],
 			levels:[
 				{
-					name:"Level 1",
-					unlocked:true
-				},
-				{
-					name:"Level 2",
-					unlocked:true
-				},
-				{
-					name:"Level 3",
+					name:"Night Life",
+					key:"night life",
 					unlocked:false
+				},
+				{
+					name:"Forest Rumble",
+					key:"forest rumble",
+					unlocked:false
+				},
+				{
+					name:"Jolly Saloon",
+					key:"jolly saloon",
+					unlocked:false
+				},
+				{
+					name:"Slippery Slope",
+					key:"slippery slope",
+					unlocked:false
+				},
+				{
+					name:"Level 1 Fiat",
+					key:"level1fiat",
+					unlocked:true
+				},
+				{
+					name:"Level 1 Nivek",
+					key:"level1nivek",
+					unlocked:true
 				}
 			],
 			timestamp:""

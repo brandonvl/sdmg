@@ -110,7 +110,7 @@ namespace sdmg {
 					}
 					catch (...)
 					{
-						std::cout << "CharacterSelection: Error loading " + characterFolder;
+						std::cout << "CharacterSelection: Error loading " + characterFolder + "\n";
 						delete doc;
 					}
 				}

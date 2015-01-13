@@ -1,6 +1,6 @@
 {
 	name: "Fiat",
-	level: "level2",
+	level: "level1fiat",
 	size: { width: 110, height: 153 },
 	attack: {
 		size: { width: 60, height: 10 },

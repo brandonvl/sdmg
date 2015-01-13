@@ -1,6 +1,6 @@
 {
 	name: "Nivek",
-	level: "level1",
+	level: "level1nivek",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },

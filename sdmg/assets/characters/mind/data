@@ -1,6 +1,6 @@
 {
 	name: "Mind",
-	level: "level3",
+	level: "slippery slope",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },

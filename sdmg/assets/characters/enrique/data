@@ -1,6 +1,6 @@
 {
 	name: "Enrique",
-	level: "level1",
+	level: "forest rumble",
 	size: { width: 110, height: 190 },
 	attack: {
 		size: { width: 30, height: 10 },
