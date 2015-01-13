@@ -124,7 +124,9 @@ namespace sdmg {
 			delete _currentCharacter;
 			_currentCharacter = nullptr;
 			delete _slotKeyInput;
+			_slotKeyInput = nullptr;
 			delete _keys;
+			_keys = nullptr;
 			game.getEngine()->getDrawEngine()->unloadAll();
 
 			game.getEngine()->getInputEngine()->clearBindings();

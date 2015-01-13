@@ -113,6 +113,11 @@ namespace sdmg {
 			delete _characters;
 			_characters = nullptr;
 
+			delete _slotKeyInput;
+			_slotKeyInput = nullptr;
+			delete _keys;
+			_keys = nullptr;
+
 			game.getEngine()->getDrawEngine()->unload("loading");
 			game.getEngine()->getDrawEngine()->unloadText("progress");
 		}
