@@ -177,7 +177,8 @@ namespace sdmg {
 		void LoadingPlayBackState::loadPlaybackSteps()
 		{
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/playbacks/" + *_fileName);
-			JSON::JSONObject &obj = doc->getRootObject();
+			JSON::JSONObject &obj = JSON::JSONObject(nullptr);
+			obj = doc->getRootObject();
 
 			_level = new std::string(obj.getString("level"));
 
@@ -226,7 +227,8 @@ namespace sdmg {
 			_game->getStateManager()->draw();
 
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
-			JSON::JSONObject &levelObj = doc->getRootObject();
+			JSON::JSONObject &levelObj = JSON::JSONObject(nullptr);
+			levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
@@ -301,7 +303,6 @@ namespace sdmg {
 					_recordMap->insert({ "MidRangeAttackAction" + std::to_string(i), new actions::MidRangeAttackAction((*_characterObjects)[i]) });
 					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction((*_characterObjects)[i]) });
 					_recordMap->insert({ "RightWalkAction" + std::to_string(i), new actions::RightWalkAction((*_characterObjects)[i]) });
-					_recordMap->insert({ "RespawnAction" + std::to_string(i), new actions::RespawnAction((*_characterObjects)[i]) });
 					_recordMap->insert({ "RollAction" + std::to_string(i), new actions::RollAction((*_characterObjects)[i]) });
 					
 				} while ((*_characterObjects)[i] == nullptr);

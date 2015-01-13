@@ -19,6 +19,9 @@ namespace sdmg {
 			void setStatistics(std::string name, std::string key, std::string value);
 			JSON::JSONArray &getStatistics();
 
+			void setLevel(std::string name, std::string key, std::string value);
+			JSON::JSONArray &getLevels();
+
 			std::vector<std::vector<std::string>> *getHighscores();
 			void setHighscore(int index, std::string key, std::string value);
 			void addHighscore(std::string initials, int highscore);

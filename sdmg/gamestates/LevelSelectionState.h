@@ -35,6 +35,7 @@ namespace sdmg {
 				static LevelSelectionState _instance;
 				return _instance;
 			}
+
 		protected:
 			LevelSelectionState() { }
 		private:

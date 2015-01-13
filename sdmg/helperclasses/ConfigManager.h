@@ -22,7 +22,7 @@ namespace sdmg {
 
 			void setUserConfig(std::string name, std::string value);
 			const std::string getUserConfig(std::string name);
-
+			const int getDeviceIndex(const std::string &deviceName);
 			const std::string ConfigManager::getUnlockableCharacterName(std::string playerName);
 
 			void save();

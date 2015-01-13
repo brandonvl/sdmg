@@ -38,6 +38,14 @@ namespace sdmg {
 			GameBase *_game;
 			std::string *_backName;
 
+			int _screenNumber;
+			int _windowWidth;
+			const int BULLET_SIZE = 48;
+			const int BULLET_MARGIN = 10;
+			const int BULLET_YPOS = 610;
+			const int FIRST_SCREEN = 1;
+			const int LAST_SCREEN = 2;
+
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 		};
 	}

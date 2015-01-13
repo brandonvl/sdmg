@@ -24,6 +24,7 @@
 #include "engine\util\FileManager.h"
 #include <vector>
 #include <fstream>
+#include "helperclasses\ProgressManager.h"
 
 namespace sdmg {
 	namespace gamestates {
@@ -32,6 +33,7 @@ namespace sdmg {
 			_game = &game;
 
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
+			_lockedCharacters = new std::map<std::string, JSON::JSONDocument*>();
 			_slots = new std::vector<std::string>();
 			//  _slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
 			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
@@ -53,6 +55,8 @@ namespace sdmg {
 			_menu->addMenuTextItem("Back to game modes", (std::function<void()>)[&] { changeState(game, GameModeState::getInstance()); });
 
 
+			game.getEngine()->getDrawEngine()->loadText("locked", "locked", { 51, 51, 51 }, "trebucbd", 12);
+
 			std::vector<std::string> characterList = std::vector<std::string>(util::FileManager::getInstance().getFolders("assets/characters/"));
 
 			for (size_t i = 0; i < characterList.size(); i++)
@@ -66,19 +70,27 @@ namespace sdmg {
 					try
 					{
 						auto doc = JSON::JSONDocument::fromFile("assets/characters/" + characterFolder + "/data");
-						_characters->insert({ characterFolder, doc });
 
-						game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_head", "assets/characters/" + characterFolder + "/preview");
-						game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_big", "assets/characters/" + characterFolder + "/preview_big");
-						game.getEngine()->getDrawEngine()->loadText("s_" + characterFolder + "_name", doc->getRootObject().getString("name"), { 255, 255, 255 }, "trebucbd", 12);
+						if (ProgressManager::getInstance().isUnlockedCharacter(characterFolder)) {					
+							
+							_characters->insert({ characterFolder, doc });
 
-						int x = (SMALL_CHARACTER_BOX_WIDTH + SMALL_CHARACTER_BOX_PADDING) * i + SMALL_CHARACTER_BOX_PADDING;
+							game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_head", "assets/characters/" + characterFolder + "/preview");
+							game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_big", "assets/characters/" + characterFolder + "/preview_big");
+							game.getEngine()->getDrawEngine()->loadText("s_" + characterFolder + "_name", doc->getRootObject().getString("name"), { 255, 255, 255 }, "trebucbd", 12);
 
-						game.getEngine()->getInputEngine()->getMouse().setHoverAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)[&, characterFolder] { 
-							delete _currentCharacter;
-							_currentCharacter = new std::string(characterFolder); 
-						});
-						game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)std::bind(&CharacterSelectionState::select, this));
+							int x = (SMALL_CHARACTER_BOX_WIDTH + SMALL_CHARACTER_BOX_PADDING) * (_characters->size() - 1) + SMALL_CHARACTER_BOX_PADDING;
+
+							game.getEngine()->getInputEngine()->getMouse().setHoverAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)[&, characterFolder] {
+								delete _currentCharacter;
+								_currentCharacter = new std::string(characterFolder);
+							});
+							game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)std::bind(&CharacterSelectionState::select, this));
+						}
+						else {
+							game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_head", "assets/characters/" + characterFolder + "/preview_locked");
+							_lockedCharacters->insert({ characterFolder, doc });
+						}
 					}
 					catch (...)
 					{
@@ -107,6 +119,13 @@ namespace sdmg {
 			}
 			delete _characters;
 			_characters == nullptr;
+
+			for (auto it : *_lockedCharacters) {
+				delete it.second;
+			}
+			delete _lockedCharacters;
+			_lockedCharacters == nullptr;
+
 			delete _slots;
 			_slots == nullptr;
 		}
@@ -157,6 +176,24 @@ namespace sdmg {
 						break;
 					}
 				}
+				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
+				{
+					switch (event.cbutton.button)
+					{
+					case SDL_CONTROLLER_BUTTON_B:
+						game.stop();
+						break;
+					case SDL_CONTROLLER_BUTTON_A:
+						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_UP:
+						_menu->selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+						_menu->selectNext();
+						break;
+					}
+				}
 			}
 		}
 
@@ -193,6 +230,20 @@ namespace sdmg {
 
 				de->drawRectangle(Rectangle(curPos + 2, SMALL_CHARACTER_BOX_YPOS + SMALL_CHARACTER_BOX_WIDTH, SMALL_CHARACTER_BOX_HEIGHT, 24), 53, 121, 151);
 				de->drawText("s_" + p.first + "_name", textX, SMALL_CHARACTER_BOX_YPOS + 105);
+
+				curPos += SMALL_CHARACTER_BOX_WIDTH + SMALL_CHARACTER_BOX_PADDING;
+			}
+
+			auto lockedSize = de->getTextSize("locked");
+
+			for (auto p : *_lockedCharacters) {
+				de->drawRectangle(Rectangle(curPos + 2, SMALL_CHARACTER_BOX_YPOS + 2, SMALL_CHARACTER_BOX_WIDTH, SMALL_CHARACTER_BOX_HEIGHT), 81, 167, 204);
+				de->draw("s_" + p.first + "_head", curPos + 2, SMALL_CHARACTER_BOX_YPOS + 2);
+								
+				int textX = curPos + (104 - lockedSize[0]) / 2;
+
+				de->drawRectangle(Rectangle(curPos + 2, SMALL_CHARACTER_BOX_YPOS + SMALL_CHARACTER_BOX_WIDTH, SMALL_CHARACTER_BOX_HEIGHT, 24), 53, 121, 151);
+				de->drawText("locked", textX, SMALL_CHARACTER_BOX_YPOS + 105);
 
 				curPos += SMALL_CHARACTER_BOX_WIDTH + SMALL_CHARACTER_BOX_PADDING;
 			}

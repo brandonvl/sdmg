@@ -63,9 +63,10 @@
       <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -105,10 +106,12 @@
     <ClCompile Include="engine\drawing\DynamicTextSurface.cpp" />
     <ClCompile Include="engine\audio\MusicObject.cpp" />
     <ClCompile Include="engine\audio\SampleObject.cpp" />
+    <ClCompile Include="engine\input\ControllerInputDeviceBinding.cpp" />
     <ClCompile Include="engine\input\Mouse.cpp" />
     <ClCompile Include="engine\physics\AABBDetectionCallBack.cpp" />
     <ClCompile Include="engine\physics\RayCastCallBack.cpp" />
     <ClCompile Include="engine\util\FileManager.cpp" />
+    <ClCompile Include="gamestates\CreateLevelState.cpp" />
     <ClCompile Include="gamestates\CreditsState.cpp" />
     <ClCompile Include="engine\audio\AudioEngine.cpp" />
     <ClCompile Include="engine\drawing\DrawEngine.cpp" />
@@ -208,10 +211,12 @@
     <ClInclude Include="engine\audio\AudioObject.h" />
     <ClInclude Include="engine\audio\MusicObject.h" />
     <ClInclude Include="engine\audio\SampleObject.h" />
+    <ClInclude Include="engine\input\ControllerInputDeviceBinding.h" />
     <ClInclude Include="engine\input\Mouse.h" />
     <ClInclude Include="engine\physics\AABBDetectionCallBack.h" />
     <ClInclude Include="engine\physics\RayCastCallBack.h" />
     <ClInclude Include="engine\util\FileManager.h" />
+    <ClInclude Include="gamestates\CreateLevelState.h" />
     <ClInclude Include="gamestates\CreditsState.h" />
     <ClInclude Include="engine\audio\AudioEngine.h" />
     <ClInclude Include="engine\drawing\DrawEngine.h" />

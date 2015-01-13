@@ -1,5 +1,6 @@
 {
 	name: "Plinko",
+	editable: false,
 	gravity: { left: 0, down: 100 },
 	platforms: 
 	[

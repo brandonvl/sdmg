@@ -21,6 +21,7 @@
 #include "LoadingSinglePlayerState.h"
 #include "MainMenuState.h"
 #include "engine\util\FileManager.h"
+#include "CreateLevelState.h"
 
 #include <vector>
 #include <fstream>
@@ -31,11 +32,11 @@ namespace sdmg {
 		void LevelSelectionState::init(GameBase &game)
 		{
 			_game = &game;
-			_game->getEngine()->getDrawEngine()->loadText("levelselecttitle", "Select a level", { 255, 255, 255 }, "trebucbd", 48);
+			_game->getEngine()->getDrawEngine()->loadText("levelselecttitle", game.getGameMode() == GameBase::GameMode::Edit ? "Select a level to edit" : "Select a level", { 255, 255, 255 }, "trebucbd", 48);
 			
 			// init menu
 			_menu = new Menu(895, 540, game);
-			_menu->addMenuTextItem(game.getGameMode() == GameBase::GameMode::Versus ? "Select level" : "Play", (std::function<void()>)std::bind(&LevelSelectionState::nextState, this));
+			_menu->addMenuTextItem(game.getGameMode() == GameBase::GameMode::Versus || game.getGameMode() == GameBase::GameMode::Edit ? "Select" : "Play", (std::function<void()>)std::bind(&LevelSelectionState::nextState, this));
 			_menu->addMenuTextItem("Back to characters", (std::function<void()>)[&] { changeState(game, CharacterSelectionState::getInstance()); });
 
 			_levels = new std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/levels/"));
@@ -53,13 +54,21 @@ namespace sdmg {
 					{
 						if (levelFolder != "tutorial"){
 							doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-							JSON::JSONObject &obj = doc->getRootObject();
+							JSON::JSONObject &obj = JSON::JSONObject(nullptr);
+							obj = doc->getRootObject();
 
-							game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
-							game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", obj.getString("name"), { 255, 255, 255 }, "trebucbd", 48);
+							if (game.getGameMode() != GameBase::GameMode::Edit || obj.getBoolean("editable")) {
+								game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
+								game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", obj.getString("name"), { 255, 255, 255 }, "trebucbd", 48);
+							}
+							else {
+								_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
+								i--;
+							}
 						}
 						else {
 							_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
+							i--;
 						}
 					}
 					catch (JSON::JSONException &ex)
@@ -73,6 +82,12 @@ namespace sdmg {
 
 					delete doc;
 				}
+			}
+
+			if (game.getGameMode() == GameBase::GameMode::Edit) {
+				_levels->push_back("$newLevel");
+				game.getEngine()->getDrawEngine()->load("$newLevel_preview", "assets/screens/level_new");
+				game.getEngine()->getDrawEngine()->loadText("$newLevel_title", "Create new level", { 255, 255, 255 }, "trebucbd", 48);
 			}
 
 			game.getEngine()->getDrawEngine()->load("fade", "assets/screens/fadeout");
@@ -193,9 +208,14 @@ namespace sdmg {
 		}
 
 		void LevelSelectionState::nextState() {
-			LoadingState::getInstance().setIsTutorial(false);
-			LoadingState::getInstance().setLevel(new std::string((*_levels)[_currentLevel]));
-			changeState(*_game, LoadingState::getInstance());
+			if (_game->getGameMode() == GameBase::GameMode::Edit) {
+				changeState(*_game, CreateLevelState::getInstance());
+			}
+			else {
+				LoadingState::getInstance().setIsTutorial(false);
+				LoadingState::getInstance().setLevel(new std::string((*_levels)[_currentLevel]));
+				changeState(*_game, LoadingState::getInstance());
+			}
 		}
 
 		void LevelSelectionState::selectNext() {

@@ -203,7 +203,8 @@ namespace sdmg {
 			_game->getStateManager()->draw();
 
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_levelName) + "/data");
-			JSON::JSONObject &levelObj = doc->getRootObject();
+			JSON::JSONObject &levelObj = JSON::JSONObject(nullptr);
+			levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			DrawEngine *de = _game->getEngine()->getDrawEngine();

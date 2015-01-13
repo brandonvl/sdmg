@@ -32,7 +32,7 @@ namespace sdmg {
 				void setDeviceBinding(std::string device, InputDeviceBinding* binding);
 				void clearBindings();
 				void handleEvent(SDL_Event &event);
-				bool handleControllers(SDL_Event &event);
+				//bool handleControllers(SDL_Event &event);
 				const std::vector<Action*> *getActions();
 				void update(GameBase &game);
 				void findJoysticks();
@@ -40,16 +40,17 @@ namespace sdmg {
 				Mouse &getMouse() { return _mouse; }
 				void setMouseEnabled(bool enabled = true) { _mouseEnabled = enabled; }
 				std::string getUsedControllerName(SDL_Event &event);
+				InputDeviceBinding *createBinding(const std::string &deviceName);
 			private:
+				enum class InputType { KEYBOARD, GAMECONTROLLER };
 				Engine *_engine;
 				Mouse _mouse;
 				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
+				std::map<std::string, InputType> _devices;
 				std::vector<Action*> *_actions;
+				std::string getDevice(SDL_Event &event);
 				bool _active, _mouseEnabled;
-				//SDL_Event _event;
-				//SDL_Thread *_thread;
-				const int JOYSTICK_DEAD_ZONE = 3200;
-				std::vector<Joystick*> *Joysticks;
+				std::vector<Joystick*> _gameControllers;
 				void initialize();
 				void handleKey(const std::string device, SDL_Event &event);
 				void addAction(Action &action, bool keyDown);

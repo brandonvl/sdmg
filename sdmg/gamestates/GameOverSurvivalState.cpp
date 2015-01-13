@@ -51,6 +51,9 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 			
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverSurvivalState::replay, this));
+			_menu->addMenuTextItem("Highscores", (std::function<void()>)[&] {
+				game.getStateManager()->pushState(HighScoreState::getInstance());
+			});
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
 				changeState(*_game, MainMenuState::getInstance());
 			});
@@ -77,7 +80,6 @@ namespace sdmg {
 			if (ProgressManager::getInstance().getLowestHighscore() < highscore) {
 				HighScoreInputState::getInstance().setHighscore(highscore);
 				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
-				_game->getStateManager()->pushState(HighScoreState::getInstance());
 			}
 			
 		}

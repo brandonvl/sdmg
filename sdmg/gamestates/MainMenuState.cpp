@@ -30,7 +30,7 @@
 #include "actions\Actions.h"
 #include "engine\GameTime.h"
 #include "engine\util\FileManager.h"
-
+#include "gamestates\LevelSelectionState.h"
 #include <random>
 
 namespace sdmg {
@@ -47,7 +47,11 @@ namespace sdmg {
 			_menu = new Menu(50, 250, game);
 
 			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, GameModeState::getInstance()); });
-			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(HighScoreState::getInstance()); });
+			_menu->addMenuTextItem("Level editor", (std::function<void()>)[&] { 
+				_game->setGameMode(GameBase::GameMode::Edit);
+				_game->getStateManager()->pushState(LevelSelectionState::getInstance()); 
+			});
+			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
 			_menu->addMenuTextItem("Playback", (std::function<void()>)[&] {
 				_game->setGameMode(GameBase::GameMode::Playback);
@@ -129,6 +133,24 @@ namespace sdmg {
 					case SDLK_RETURN:
 					case 10:
 						_menu->doAction();
+						break;
+					}
+				}
+				else if (event.type == SDL_CONTROLLERBUTTONDOWN) 
+				{
+					switch (event.cbutton.button)
+					{
+					case SDL_CONTROLLER_BUTTON_B:
+						game.stop();
+						break;
+					case SDL_CONTROLLER_BUTTON_A:
+						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_UP:
+						_menu->selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+						_menu->selectNext();
 						break;
 					}
 				}

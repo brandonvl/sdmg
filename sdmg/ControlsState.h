@@ -41,7 +41,7 @@ namespace sdmg {
 		protected:
 			ControlsState() { }
 			void save(std::string deviceName);
-			void setKey(int keyCode, std::string deviceName);
+			void setKey(std::string keyCode, std::string deviceName);
 			void waitFor(std::string *cur);
 			bool checkKey(int keyCode);
 			void readKeys();

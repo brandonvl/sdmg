@@ -229,7 +229,8 @@ namespace sdmg {
 			_game->getStateManager()->draw();
 
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
-			JSON::JSONObject &levelObj = doc->getRootObject();
+			JSON::JSONObject &levelObj = JSON::JSONObject(nullptr);
+			levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
@@ -312,13 +313,13 @@ namespace sdmg {
 				_game->getStateManager()->draw();
 			}
 
-
 			/*
 			engine::ai::AIMachine *machine1 = new engine::ai::EasyAIMachine(*characters[0], *characters[1]);
 			characters[0]->setAI(*machine1);
 
 			engine::ai::AIMachine *machine2 = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
 			characters[1]->setAI(*machine2);
+			*/
 
 			if ((*_characters).size() >= 3)
 			{
@@ -331,7 +332,6 @@ namespace sdmg {
 				engine::ai::AIMachine *machine4 = new engine::ai::EasyAIMachine(*characters[3], *characters[2]);
 				characters[3]->setAI(*machine4);
 			}
-			*/
 
 			*_progress = "Loading fancy hudjes";
 			_game->getStateManager()->draw();
@@ -401,30 +401,38 @@ namespace sdmg {
 				
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
-				InputDeviceBinding *binding = new InputDeviceBinding();
-
-				int controlStep = (_loadingStep) / players.size();
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
-				//  for (int i = 0; i < players.size(); i++)
-				for (int i = 0; i < 2; i++)
+				std::map<MovableGameObject*, std::string> _deviceCombo;
+
+				_deviceCombo.insert({ players[0], "controller1" });
+				if (players.size() > 1) {
+					_deviceCombo.insert({ players[1], "controller2" });
+				}
+
+				int controlStep = (_loadingStep) / players.size();
+
+				for (int i = 0; i < players.size(); i++)
 				{
-					
+					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(_deviceCombo[players[i]]);
+					int deviceIndexInFile = manager.getDeviceIndex(_deviceCombo[players[i]]);
 					Character *character = static_cast<Character*>(players[i]);
-					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "jump"), new actions::JumpAction(character));
-					binding->setKeyBinding(manager.getKey(i, "roll"), new actions::RollAction(character));
-					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
-										
+
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "jump"), new actions::JumpAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "roll"), new actions::RollAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "midrange"), new actions::MidRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "longrange"), new actions::LongRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "block"), new actions::BlockAction(character));
+					_game->getEngine()->getInputEngine()->setDeviceBinding(_deviceCombo[players[i]], binding);
+
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
 				}
 
-				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+				//_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 				
 			}
 			catch (...)

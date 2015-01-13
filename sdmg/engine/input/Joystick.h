@@ -21,16 +21,19 @@ namespace sdmg {
 		namespace input {
 			class Joystick {
 			public:
-				Joystick(int id = 255, std::string name = "Joystick");
+				Joystick(int id, SDL_GameController *pad, std::string name = "");
 				~Joystick();
 
-				int ID;
-				std::string Name;
 
 				int getID();
-				std::string getName();
+				int getSDLID();
+				std::string getName() const;
+				SDL_GameController *getController();
 
 			private:
+				int _id;
+				std::string _name;
+				SDL_GameController *_pad;
 				void initialize();
 			};
 		}
