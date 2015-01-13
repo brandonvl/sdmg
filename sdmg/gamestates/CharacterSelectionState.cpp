@@ -30,21 +30,20 @@ namespace sdmg {
 	namespace gamestates {
 		void CharacterSelectionState::init(GameBase &game)
 		{
-			keys = new std::vector<std::string>();
-			keys->push_back("keyboardRIGHT");
-			keys->push_back("keyboardLEFT");
-			keys->push_back("controller1");
-			keys->push_back("controller2");
-
 			_game = &game;
 
 			_slotKeyInput = new std::map<std::string, int>();
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
 			_lockedCharacters = new std::map<std::string, JSON::JSONDocument*>();
 			_slots = new std::vector<std::string>();
+			_keys = new std::vector<std::string>();
 			//  _slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
 			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
 			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
+
+			std::map<std::string, engine::input::InputEngine::InputType> map = _game->getEngine()->getInputEngine()->getDevices();
+			for (auto it : map) 
+				_keys->push_back(it.first);
 
 			for (int i = 0; i < _slots->size(); i++) {
 				int x = (SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING) * i + SELECTED_CHARACTER_BOX_PADDING;
@@ -53,7 +52,7 @@ namespace sdmg {
 				std::string key = "slot_key_" + std::to_string(i);
 				game.getEngine()->getDrawEngine()->loadDynamicText(key, { 255, 255, 255 }, "trebucbd", 20);
 				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS - 60, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT / 5, (std::function<void()>)[&, key] {
-					if (_slotKeyInput->at(key) >= keys->size() - 1) { _slotKeyInput->at(key) = 0; }
+					if (_slotKeyInput->at(key) >= _keys->size() - 1) { _slotKeyInput->at(key) = 0; }
 					else { _slotKeyInput->at(key)++; }
 				});
 			}
@@ -125,7 +124,7 @@ namespace sdmg {
 			delete _currentCharacter;
 			_currentCharacter = nullptr;
 			delete _slotKeyInput;
-			delete keys;
+			delete _keys;
 			game.getEngine()->getDrawEngine()->unloadAll();
 
 			game.getEngine()->getInputEngine()->clearBindings();
@@ -299,7 +298,7 @@ namespace sdmg {
 						_slotKeyInput->insert(std::make_pair(key, slotNumber));
 					int xText = xPos + (SELECTED_CHARACTER_BOX_WIDTH / 2);
 					int textWidth = game.getEngine()->getDrawEngine()->getDynamicTextWidth(key) / 2;
-					game.getEngine()->getDrawEngine()->drawDynamicText(key, keys->at(_slotKeyInput->at(key)), xText - textWidth, imgPosY - 70);
+					game.getEngine()->getDrawEngine()->drawDynamicText(key, _keys->at(_slotKeyInput->at(key)), xText - textWidth, imgPosY - 70);
 					
 				}
 				slotNumber++;
