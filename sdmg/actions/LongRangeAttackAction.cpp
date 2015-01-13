@@ -12,6 +12,7 @@
 #include "engine\MovableGameObject.h"
 #include "engine\GameBase.h"
 #include "engine\Engine.h"
+#include "engine\audio\AudioEngine.h"
 
 namespace sdmg {
 	namespace actions {
@@ -30,6 +31,9 @@ namespace sdmg {
 							_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACK) &&
 							_character->getState() != (MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKEND))
 						{
+							// Geluid inladen
+							game.getEngine()->getAudioEngine()->play("shoot_" + _character->getKey(), 0);
+
 							if (_character->getState() == MovableGameObject::State::WALKING)
 								_character->setState(MovableGameObject::State::WALKING | MovableGameObject::State::LONGRANGEATTACKBEGIN);
 							else

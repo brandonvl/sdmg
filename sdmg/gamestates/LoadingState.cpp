@@ -249,7 +249,8 @@ namespace sdmg {
 					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
 					_game->getWorld()->addPlatform(platform);
-					de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
+					if(platformObj.exists("image"))
+						de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
 
 					_loadingValue += platformStep;
 					_game->getStateManager()->draw();
@@ -260,6 +261,7 @@ namespace sdmg {
 			}
 			
 
+			de->load("overlay", "assets/levels/" + (*_level) + "/overlay");
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			//  de->load("background", "assets/levels/" + level + "/data");
 			//  de->loadText("escape_text", "PRESS 'ESC' TO RETURN TO THE MAINMENU", { 255, 255, 255 }, "arial", 18);
@@ -310,10 +312,8 @@ namespace sdmg {
 				_game->getStateManager()->draw();
 			}
 
-			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
-			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
-			
+			/*
 			engine::ai::AIMachine *machine1 = new engine::ai::EasyAIMachine(*characters[0], *characters[1]);
 			characters[0]->setAI(*machine1);
 
@@ -331,7 +331,7 @@ namespace sdmg {
 				engine::ai::AIMachine *machine4 = new engine::ai::EasyAIMachine(*characters[3], *characters[2]);
 				characters[3]->setAI(*machine4);
 			}
-			
+			*/
 
 			*_progress = "Loading fancy hudjes";
 			_game->getStateManager()->draw();

@@ -12,6 +12,7 @@
 #include "engine\MovableGameObject.h"
 #include "engine\GameBase.h"
 #include "engine\Engine.h"
+#include "engine\audio\AudioEngine.h"
 
 namespace sdmg {
 	namespace actions {
@@ -37,6 +38,8 @@ namespace sdmg {
 								_character->setState(MovableGameObject::State::IDLE | MovableGameObject::State::MIDRANGEATTACKBEGIN);
 						}
 						*/
+
+						game.getEngine()->getAudioEngine()->play("punch_" + _character->getKey(), 0);
 
 						if (_character->getState() == MovableGameObject::State::WALKING || _character->getState() == MovableGameObject::State::FALLINGLEFT
 							|| _character->getState() == MovableGameObject::State::FALLINGRIGHT || _character->getState() == MovableGameObject::State::JUMPINGLEFT

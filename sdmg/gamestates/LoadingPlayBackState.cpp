@@ -246,7 +246,8 @@ namespace sdmg {
 					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
 					_game->getWorld()->addPlatform(platform);
-					de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
+					if (platformObj.exists("image"))
+						de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
 
 					_loadingValue += platformStep;
 					_game->getStateManager()->draw();

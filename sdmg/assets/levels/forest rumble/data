@@ -1,0 +1,57 @@
+{
+	name: "Forest Rumble",
+	gravity: { left: 0, down: 100 },
+	platforms: 
+	[
+		{
+			size: { width: 190, height: 80 },
+			location: { x: 315, y: 260 },
+			bodyPadding: { x: 0, y: 0 }
+		},
+		{
+			size: { width: 120, height: 80 },
+			location: { x: 280, y: 600 },
+			bodyPadding: { x: 0, y: 0 }
+		},
+		{
+			size: { width: 180, height: 80 },
+			location: { x: 660, y: 440 },
+			bodyPadding: { x: 0, y: 0 }
+		},
+		{
+			size: { width: 120, height: 80 },
+			location: { x: 590, y: 570 },
+			bodyPadding: { x: 0, y: 0 }
+		},
+		{
+			size: { width: 50, height: 80 },
+			location: { x: 890, y: 560 },
+			bodyPadding: { x: 0, y: 0 }
+		},
+		{
+			size: { width: 80, height: 80 },
+			location: { x: 1115, y: 440 },
+			bodyPadding: { x: 0, y: 0 }
+		},
+		{
+			size: { width: 100, height: 80 },
+			location: { x: 925, y: 320 },
+			bodyPadding: { x: 0, y: 0 }
+		},
+		{
+			size: { width: 150, height: 60 },
+			location: { x: 625, y: 180 },
+			bodyPadding: { x: 0, y: 0 }
+		}		
+	],
+	startingPositions: 
+	[
+		{ x: 300, y: -100 },
+		{ x: 270, y: 350 },
+		{ x: 1100, y: -100 },
+		{ x: 900, y: -100 }
+	],
+	bobs:
+	[
+	]
+}

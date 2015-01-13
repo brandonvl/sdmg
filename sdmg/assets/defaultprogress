@@ -79,6 +79,10 @@
 				{
 					name:"Level 3",
 					unlocked:false
+				},
+				{
+					name:"Night Life",
+					unlocked:false
 				}
 			],
 			timestamp:""

@@ -1,6 +1,6 @@
 {
 	name: "Silence",
-	level: "level2",
+	level: "night life",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },

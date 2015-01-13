@@ -337,6 +337,8 @@ namespace sdmg {
 			for (auto obj : game.getWorld()->getPlayers())
 				de->draw(obj);
 			
+			de->draw("overlay");
+
 			if (_huds && !_editor->isEnabled()) {
 				for (helperclasses::HUD *hud : *_huds) {
 					hud->draw(*de);

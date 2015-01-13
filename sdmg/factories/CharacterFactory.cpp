@@ -7,6 +7,7 @@
 #include "engine\World.h"
 #include "lib\JSONParser.h"
 #include "model\Platform.h"
+#include "engine\audio\AudioEngine.h"
 
 namespace sdmg {
 	namespace factories {
@@ -17,10 +18,21 @@ namespace sdmg {
 			Character *character = new Character();
 			character->setSize(obj.getObject("size").getFloat("width"), obj.getObject("size").getFloat("height"));
 			character->setSpeed(obj.getObject("speed").getFloat("horizontal"), obj.getObject("speed").getFloat("vertical"));
-			character->setDirection(MovableGameObject::Direction::RIGHT);
-			character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
 			character->setLocation(xPosition, yPosition);
 			character->setSpawnLocation(xPosition, yPosition);
+
+			if (xPosition > game.getEngine()->getDrawEngine()->getWindowWidth() / 2)
+			{
+				character->setSpawnDirection(MovableGameObject::Direction::LEFT);
+				character->setDirection(MovableGameObject::Direction::LEFT);
+			}
+			else
+			{
+				character->setSpawnDirection(MovableGameObject::Direction::RIGHT);
+				character->setDirection(MovableGameObject::Direction::RIGHT);
+			}
+
+
 			character->setLives(4);
 			character->setHP(100);
 			character->setPP(100);
@@ -34,6 +46,10 @@ namespace sdmg {
 			character->setLongCost(obj.getObject("attack").getFloat("longCost"));
 			character->setMidDamage(obj.getObject("attack").getFloat("midDamage"));
 			character->setLongDamage(obj.getObject("attack").getFloat("longDamage"));
+			
+			std::string folder = "assets/characters/" + name + "/";
+			game.getEngine()->getAudioEngine()->load("punch_" + name, folder + "punch", AUDIOTYPE::SOUND_EFFECT);
+			game.getEngine()->getAudioEngine()->load("shoot_" + name, folder + "shoot", AUDIOTYPE::SOUND_EFFECT);
 
 			loadSpriteMap(character, name, game, obj);
 

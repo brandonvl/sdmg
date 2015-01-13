@@ -21,7 +21,7 @@ namespace sdmg {
 			class AIMachine
 			{
 				public:
-					AIMachine(model::Character &controlled, model::Character &enemy) : _controlled(&controlled), _enemy(&enemy), _defaultState(nullptr), _activeState(nullptr), _previousState(nullptr), _concentration(0) { };
+					AIMachine(model::Character &controlled, model::Character &enemy) : _controlled(&controlled), _enemy(&enemy), _defaultState(nullptr), _activeState(nullptr), _previousState(nullptr), _concentration(Concentration_SPAN) { };
 					virtual ~AIMachine();
 					virtual void addState(aistate::AIState *state);
 					virtual void setDefaultState(aistate::AIState *state);
