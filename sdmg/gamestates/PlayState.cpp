@@ -187,6 +187,15 @@ namespace sdmg {
 						}
 						game.stop();
 					}
+					else if (event.type == SDL_CONTROLLERBUTTONDOWN)
+					{
+						switch (event.cbutton.button)
+						{
+							case SDL_CONTROLLER_BUTTON_START:
+								game.getStateManager()->pushState(PauseState::getInstance());
+								break;
+						}
+					}
 				}
 				else _editor->handleEvent(event);
 			}
