@@ -147,10 +147,10 @@ namespace sdmg {
 		int ProgressManager::getLevelIndex(std::string name)
 		{
 			int characterIndex = -1;
-			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
-			for (int i = 0; i < characterArr.size(); i++) {
-				JSON::JSONObject &characterObj = characterArr.getObject(i);
-				if (name == characterObj.getString("name") || name == characterObj.getString("key")) {
+			JSON::JSONArray &levelArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
+			for (int i = 0; i < levelArr.size(); i++) {
+				JSON::JSONObject &levelObj = levelArr.getObject(i);
+				if (name == levelObj.getString("name") || name == levelObj.getString("key")) {
 					characterIndex = i;
 					break;
 				}
@@ -212,6 +212,11 @@ namespace sdmg {
 		bool ProgressManager::isUnlockedLevel(std::string name)
 		{
 			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels").getObject(getLevelIndex(name)).getBoolean("unlocked");
+		}
+
+		bool ProgressManager::isUnlockableLevel(std::string name)
+		{
+			return getLevelIndex(name) >= 0;
 		}
 
 		void ProgressManager::setIsUnlockedCharacter(std::string name, bool unlocked)

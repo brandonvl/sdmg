@@ -41,7 +41,7 @@
 					losses:0,
 					name:"Silence",
 					key:"silence",
-					unlocked:true,
+					unlocked:false,
 					wins:0
 				},
 				{
@@ -55,21 +55,21 @@
 					losses:0,
 					name:"Lucky",
 					key:"lucky",
-					unlocked:true,
+					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Mind",
 					key:"mind",
-					unlocked:true,
+					unlocked:false,
 					wins:0
 				},
 				{
 					losses:0,
 					name:"Enrique",
 					key:"enrique",
-					unlocked:true,
+					unlocked:false,
 					wins:0
 				}
 			],
@@ -105,7 +105,7 @@
 					unlocked:true
 				}
 			],
-			timestamp:""
+			timestamp:"save 1 :)"
 		},
 		{
 			characters:[

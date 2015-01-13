@@ -44,6 +44,7 @@ namespace sdmg {
 
 			bool isUnlockedCharacter(std::string name);
 			bool isUnlockedLevel(std::string name);
+			bool isUnlockableLevel(std::string name);
 			void setIsUnlockedCharacter(std::string name, bool unlocked);
 			void setIsUnlockedLevel(std::string name, bool unlocked);
 

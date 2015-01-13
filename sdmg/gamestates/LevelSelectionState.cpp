@@ -22,6 +22,7 @@
 #include "MainMenuState.h"
 #include "engine\util\FileManager.h"
 #include "CreateLevelState.h"
+#include "helperclasses\ProgressManager.h"
 
 #include <vector>
 #include <fstream>
@@ -60,9 +61,22 @@ namespace sdmg {
 							JSON::JSONObject &obj = doc->getRootObject();
 
 							if (game.getGameMode() != GameBase::GameMode::Edit || obj.getBoolean("editable")) {
-								game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
-								std::string h = obj.getString("name");
-								game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", obj.getString("name"), { 255, 255, 255 }, "trebucbd", 48);
+
+								bool showLevel = true;
+								if (ProgressManager::getInstance().isUnlockableLevel(levelFolder))
+									showLevel = ProgressManager::getInstance().isUnlockedLevel(levelFolder);
+
+								if (showLevel)
+								{
+									game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
+									std::string h = obj.getString("name");
+									game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", obj.getString("name"), { 255, 255, 255 }, "trebucbd", 48);
+								}
+								else
+								{
+									_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
+									i--;
+								}
 							}
 							else {
 								_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());

@@ -1,6 +1,6 @@
 {
 	name: "Lucky",
-	level: "level3",
+	level: "jolly saloon",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },

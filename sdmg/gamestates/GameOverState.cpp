@@ -74,22 +74,15 @@ namespace sdmg {
 
 					if (!manager.isUnlockedCharacter(static_cast<Character*>(deadList[0])->getName()))
 					{
+						std::string asd = static_cast<Character*>(deadList[0])->getKey();
+						std::string has = LoadingSinglePlayerState::getInstance().getLevelName();
 						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
 						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
 						manager.setIsUnlockedCharacter(static_cast<Character*>(deadList[0])->getName(), true);
-						UnlockedState::getInstance().cleanup(game);
-						unlocked = true;
-					}
-
-					if (!manager.isUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName()))
-					{
-						UnlockedState::getInstance().setPlayerName(static_cast<Character*>(deadList[0])->getKey());
-						UnlockedState::getInstance().setLevelName(LoadingSinglePlayerState::getInstance().getLevelName());
 						manager.setIsUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName(), true);
-						UnlockedState::getInstance().cleanup(game);
+						//  UnlockedState::getInstance().cleanup(game);
 						unlocked = true;
-					}
-					
+					}					
 				}
 				_menu->addMenuTextItem("Achievements", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
@@ -152,6 +145,8 @@ namespace sdmg {
 
 			if (unlocked)
 			{
+				if (ProgressManager::getInstance().autosaveEnabled())
+					ProgressManager::getInstance().save();
 				unlocked = false;
 				game.getStateManager()->pushState(UnlockedState::getInstance());
 			}
@@ -244,7 +239,7 @@ namespace sdmg {
 
 				delete huds;
 
-				if (game.getGameMode() != GameBase::GameMode::SinglePlayer && game.getGameMode() != GameBase::GameMode::Edit) {
+				if (game.getGameMode() != GameBase::GameMode::Edit) {
 					delete PlayState::getInstance()._slotKeyInput;
 					PlayState::getInstance()._slotKeyInput = nullptr;
 					delete PlayState::getInstance()._keys;

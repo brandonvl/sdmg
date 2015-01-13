@@ -421,9 +421,7 @@ namespace sdmg {
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
 
 				_game->getEngine()->getInputEngine()->clearBindings();
-
-
-
+				
 				//_deviceCombo->insert({ players[0], "controller1" });
 				//if (players.size() > 1) {
 				//	_deviceCombo->insert({ players[1], "controller2" });
@@ -434,8 +432,7 @@ namespace sdmg {
 				//if (players.size() > 3) {
 				//	_deviceCombo->insert({ players[3], "controller4" });
 				//}
-
-
+				
 				int controlStep = (_loadingStep) / players.size();
 
 				if (_game->getGameMode() == GameBase::GameMode::Edit) {
