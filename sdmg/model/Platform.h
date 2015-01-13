@@ -29,8 +29,11 @@ namespace sdmg {
 			int getDamageOnImpact();
 			void setDamageOnImpact(int damage);
 
+			bool getCanMoveThroughIt();
+			void setCanMoveThroughIt(bool can);
+
 		protected:
-			bool _isAttack;
+			bool _isAttack, _canMoveThroughIt;
 			int _damageOnImpact;
 		};
 	}

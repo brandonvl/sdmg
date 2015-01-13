@@ -164,6 +164,11 @@ namespace sdmg {
 					platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
 					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
 					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
+					if (platformObj.exists("canMoveThroughIt"))
+						platform->setCanMoveThroughIt(false);
+					else
+						platform->setCanMoveThroughIt(true);
+
 					_game->getWorld()->addPlatform(platform);
 					de->load(platform, "assets/levels/" + level + "/" + platformObj.getString("image"));
 

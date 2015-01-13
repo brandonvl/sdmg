@@ -235,7 +235,11 @@ namespace sdmg {
 							contact->SetEnabled(false);
 					}
 					else
-						contact->SetEnabled(false); 
+					{
+						model::Platform *platformStatic = static_cast<model::Platform*>(platformBody->GetUserData());
+						if(platformStatic->getCanMoveThroughIt())
+							contact->SetEnabled(false);
+					}
 				}
 			}
 

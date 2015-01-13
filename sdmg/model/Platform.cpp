@@ -20,6 +20,7 @@ namespace sdmg {
 		Platform::Platform()
 		{
 			_damageOnImpact = 0;
+			_canMoveThroughIt = true;
 		}
 
 		Platform::~Platform() { }
@@ -43,6 +44,16 @@ namespace sdmg {
 		void Platform::setDamageOnImpact(int damage)
 		{
 			_damageOnImpact = damage;
+		}
+
+		bool Platform::getCanMoveThroughIt()
+		{
+			return _canMoveThroughIt;
+		}
+
+		void Platform::setCanMoveThroughIt(bool can)
+		{
+			_canMoveThroughIt = can;
 		}
 	}
 }
