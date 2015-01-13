@@ -151,11 +151,19 @@ namespace sdmg {
 				{
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_B:
-					case SDL_CONTROLLER_BUTTON_A:
-					case SDL_CONTROLLER_BUTTON_START:
-						_menu->doAction();
-						break;
+						case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+							if (_screenNumber < LAST_SCREEN)
+								++_screenNumber;
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+							if (_screenNumber > FIRST_SCREEN)
+								--_screenNumber;
+							break;
+						case SDL_CONTROLLER_BUTTON_B:
+						case SDL_CONTROLLER_BUTTON_A:
+						case SDL_CONTROLLER_BUTTON_START:
+							_menu->doAction();
+							break;
 					}
 				}
 			}
