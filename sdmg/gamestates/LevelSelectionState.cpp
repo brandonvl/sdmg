@@ -54,11 +54,11 @@ namespace sdmg {
 					{
 						if (levelFolder != "tutorial"){
 							doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-							JSON::JSONObject &obj = JSON::JSONObject(nullptr);
-							obj = doc->getRootObject();
+							JSON::JSONObject &obj = doc->getRootObject();
 
 							if (game.getGameMode() != GameBase::GameMode::Edit || obj.getBoolean("editable")) {
 								game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
+								std::string h = obj.getString("name");
 								game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", obj.getString("name"), { 255, 255, 255 }, "trebucbd", 48);
 							}
 							else {

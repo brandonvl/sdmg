@@ -150,17 +150,19 @@ namespace sdmg {
 				if (obj->getAttackBody() != nullptr)
 					midRangeAttackEnd(obj);
 				obj->setState(MovableGameObject::State::FALLING);
-				obj->setHP(100);
-				obj->setPP(100);
 				obj->setLives(obj->getLives() - 1);
 
 				if (obj->getLives() == 0)
 				{
 					obj->die();
+					obj->setPP(0);
 					obj->getBody()->SetActive(false);
+					obj->getBody()->SetTransform(b2Vec2(_engine->getDrawEngine()->getWindowWidth() + 300, _engine->getDrawEngine()->getWindowHeight() + 300), obj->getBody()->GetAngle());
 				}
 				else
 				{
+					obj->setHP(100);
+					obj->setPP(100);
 					obj->setDirection(obj->getSpawnDirection());
 					obj->getBody()->SetTransform(b2Vec2(obj->getSpawnLocationX() / 20.0f, obj->getSpawnLocationY() / 20.0f), obj->getBody()->GetAngle());
 					obj->getBody()->SetLinearVelocity(b2Vec2(0.0f, -1.0f));

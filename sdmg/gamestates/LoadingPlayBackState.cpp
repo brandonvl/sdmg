@@ -177,8 +177,7 @@ namespace sdmg {
 		void LoadingPlayBackState::loadPlaybackSteps()
 		{
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/playbacks/" + *_fileName);
-			JSON::JSONObject &obj = JSON::JSONObject(nullptr);
-			obj = doc->getRootObject();
+			JSON::JSONObject &obj = doc->getRootObject();
 
 			_level = new std::string(obj.getString("level"));
 
@@ -227,8 +226,7 @@ namespace sdmg {
 			_game->getStateManager()->draw();
 
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
-			JSON::JSONObject &levelObj = JSON::JSONObject(nullptr);
-			levelObj = doc->getRootObject();
+			JSON::JSONObject &levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			DrawEngine *de = _game->getEngine()->getDrawEngine();

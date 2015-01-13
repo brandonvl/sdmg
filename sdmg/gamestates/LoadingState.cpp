@@ -229,8 +229,7 @@ namespace sdmg {
 			_game->getStateManager()->draw();
 
 			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
-			JSON::JSONObject &levelObj = JSON::JSONObject(nullptr);
-			levelObj = doc->getRootObject();
+			JSON::JSONObject &levelObj = doc->getRootObject();
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
@@ -319,7 +318,6 @@ namespace sdmg {
 
 			engine::ai::AIMachine *machine2 = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
 			characters[1]->setAI(*machine2);
-			*/
 
 			if ((*_characters).size() >= 3)
 			{
@@ -332,6 +330,7 @@ namespace sdmg {
 				engine::ai::AIMachine *machine4 = new engine::ai::EasyAIMachine(*characters[3], *characters[2]);
 				characters[3]->setAI(*machine4);
 			}
+			*/
 
 			*_progress = "Loading fancy hudjes";
 			_game->getStateManager()->draw();
@@ -410,6 +409,13 @@ namespace sdmg {
 				if (players.size() > 1) {
 					_deviceCombo.insert({ players[1], "controller2" });
 				}
+				if (players.size() > 2) {
+					_deviceCombo.insert({ players[2], "controller3" });
+				}
+				if (players.size() > 3) {
+					_deviceCombo.insert({ players[3], "controller4" });
+				}
+
 
 				int controlStep = (_loadingStep) / players.size();
 
