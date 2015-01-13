@@ -23,9 +23,13 @@ namespace sdmg {
 				virtual ~InputDeviceBinding();
 				virtual void setKeyBinding(const int keyCode, Action *action);
 				virtual bool hasBinding(SDL_Event &event);
+				virtual void disable() { _enabled = false; }
+				virtual void enable() { _enabled = true; }
+				virtual bool isEnabled() { return _enabled; }
 				virtual void clearBindings();
 				virtual Action* createAction(SDL_Event &action);
 			protected:
+				bool _enabled = true;
 				std::map<const int, Action*> *_keyBindings;
 			};
 		}

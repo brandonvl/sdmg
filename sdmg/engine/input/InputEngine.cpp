@@ -217,14 +217,37 @@ namespace sdmg {
 				_actions->clear();
 			}
 
+			void InputEngine::enable(const std::string &deviceName)
+			{
+				auto device = _deviceBindings->find(deviceName);
+
+				if (device != _deviceBindings->end()) {
+					device->second->enable();
+				}
+			}
+
+			void InputEngine::disable(const std::string &deviceName)
+			{
+				auto device = _deviceBindings->find(deviceName);
+
+				if (device != _deviceBindings->end()) {
+					device->second->disable();
+				}
+			}
+
 			void InputEngine::handleKey(const std::string device, SDL_Event &event) {
 				// check if device binding exists
 				if (_deviceBindings->count(device)) {
-					// if found create and add action 
-					Action *action = (*_deviceBindings)[device]->createAction(event);
 
-					if (action != nullptr) {
-						addAction(*action, (event.type == SDL_KEYDOWN || event.type == SDL_CONTROLLERBUTTONDOWN));
+					InputDeviceBinding *binding = (*_deviceBindings)[device];
+
+					if (binding->isEnabled()) {
+						// if found create and add action 
+						Action *action = binding->createAction(event);
+
+						if (action != nullptr) {
+							addAction(*action, (event.type == SDL_KEYDOWN || event.type == SDL_CONTROLLERBUTTONDOWN));
+						}
 					}
 				}
 			}
