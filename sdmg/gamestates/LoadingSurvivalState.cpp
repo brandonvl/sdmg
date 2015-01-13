@@ -233,6 +233,7 @@ namespace sdmg {
 				_loadingValue += _loadingStep / 3;
 			}
 
+			de->load("overlay", "assets/levels/" + (*_levelName) + "/overlay");
 			de->load("background", "assets/levels/" + (*_levelName) + "/background");
 			_game->getEngine()->getAudioEngine()->load("bgm", "assets/levels/" + (*_levelName) + "/bgm.mp3", AUDIOTYPE::MUSIC);
 

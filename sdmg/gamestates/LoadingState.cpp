@@ -260,7 +260,6 @@ namespace sdmg {
 				_loadingValue += _loadingStep / 3;
 			}
 			
-
 			de->load("overlay", "assets/levels/" + (*_level) + "/overlay");
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			//  de->load("background", "assets/levels/" + level + "/data");
