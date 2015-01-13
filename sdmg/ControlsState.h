@@ -43,14 +43,14 @@ namespace sdmg {
 			void save(std::string deviceName);
 			void setKey(std::string keyCode, std::string deviceName);
 			void waitFor(std::string *cur);
-			bool checkKey(int keyCode);
+			bool checkKey(std::string keyCode);
 			void readKeys();
 			void setKeys();
 		private:
 			GameBase *_game;
 			int _currentplayer;
 			std::vector<std::string> *_keys;
-			std::string *_info, *_info2, *_devicename, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current;
+			std::string *_info, *_info2, *_devicename, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current, *_oldkey;
 		};
 	}
 }

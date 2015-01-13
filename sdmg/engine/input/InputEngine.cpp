@@ -69,94 +69,6 @@ namespace sdmg {
 				return "keyboard";
 			}
 
-			/*bool InputEngine::handleControllers(SDL_Event &event) {
-				SDL_JoystickUpdate();
-				
-
-				if (event.type == SDL_JOYBUTTONDOWN || event.type == SDL_JOYBUTTONUP) {
-					printf("Joystick %d button %d down\n",
-						event.jbutton.which,
-						event.jbutton.button);
-
-					getUsedControllerName(event);
-
-					//printf("Joystick %d", SDL_GameControllerNameForIndex(event.jbutton.which));
-					if (event.type == SDL_JOYBUTTONDOWN)
-						event.type = SDL_KEYDOWN;
-
-					if (event.type == SDL_JOYBUTTONUP)
-						event.type = SDL_KEYUP;
-
-					std::string formatted = std::to_string(event.jbutton.button);
-					if (!formatted.empty() && formatted[formatted.size() - 1] == '\r')
-					{
-						formatted.erase(formatted.size() - 1);
-					}
-
-					event.key.keysym.sym = atoi(formatted.c_str());
-
-					handleKey(getUsedControllerName(event), event);
-					return true;
-				}
-
-				//if (event.type == SDL_JOYAXISMOTION)
-				//{
-				//	if (event.jaxis.value < 0 && (int)event.jaxis.value > -abs(JOYSTICK_DEAD_ZONE))
-				//	{
-				//		event.type = SDL_KEYUP;
-				//		event.key.keysym.sym = 2;
-				//		handleKey(Joysticks->at(event.jbutton.which)->Name, event);
-				//		return true;
-				//	}
-				//	else if (event.jaxis.value > 0 && event.jaxis.value < JOYSTICK_DEAD_ZONE)
-				//	{
-				//		event.type = SDL_KEYUP;
-				//		event.key.keysym.sym = 3;
-				//		handleKey(Joysticks->at(event.jbutton.which)->Name, event);
-				//		return true;
-				//	}
-
-				//	if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE) || (event.jaxis.value > JOYSTICK_DEAD_ZONE)) {
-
-				//		if (event.jaxis.axis == 0)
-				//		{
-				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
-				//			{
-				//				// LEFT
-				//				event.type = SDL_KEYDOWN;
-				//				event.key.keysym.sym = 2;
-				//				handleKey(Joysticks->at(event.jbutton.which)->Name, event);
-				//				return true;
-				//			}
-				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-				//			{
-				//				// RIGHT
-				//				event.type = SDL_KEYDOWN;
-				//				event.key.keysym.sym = 3;
-				//				handleKey(Joysticks->at(event.jbutton.which)->Name, event);
-				//				return true;
-				//			}
-				//		}
-				//		if (event.jaxis.axis == 1)
-				//		{
-				//			if (event.jaxis.value < -abs(JOYSTICK_DEAD_ZONE))
-				//			{
-				//				// DOWN
-				//				event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
-				//			}
-				//			else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-				//			{
-				//				// UP
-				//				event.key.keysym.sym = SDL_CONTROLLER_BUTTON_DPAD_UP;
-				//			}
-				//		}
-				//	}
-				//	//event.key.keysym.sym = event.jbutton.button;
-				//	
-				//}
-				return false;
-			}*/
-
 			InputDeviceBinding *InputEngine::createBinding(const std::string &deviceName) {
 
 				auto result = _devices.find(deviceName);
@@ -203,6 +115,10 @@ namespace sdmg {
 				}
 
 				return "";
+			}
+
+			std::map<std::string, InputEngine::InputType> InputEngine::getDevices() {
+				return _devices;
 			}
 
 			const std::vector<Action*> *InputEngine::getActions() {
