@@ -152,7 +152,7 @@ namespace sdmg {
 				obj->setState(MovableGameObject::State::FALLING);
 				obj->setLives(obj->getLives() - 1);
 
-				if (obj->getLives() == 0)
+				if (obj->getLives() <= 0)
 				{
 					obj->die();
 					obj->setPP(0);

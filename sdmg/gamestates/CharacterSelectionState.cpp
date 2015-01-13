@@ -70,6 +70,7 @@ namespace sdmg {
 					try
 					{
 						auto doc = JSON::JSONDocument::fromFile("assets/characters/" + characterFolder + "/data");
+						_documents->push_back(doc);
 
 						if (ProgressManager::getInstance().isUnlockedCharacter(characterFolder)) {					
 							
@@ -109,25 +110,27 @@ namespace sdmg {
 		{
 			delete _menu;
 			delete _currentCharacter;
-			_currentCharacter == nullptr;
+			_currentCharacter = nullptr;
 			game.getEngine()->getDrawEngine()->unloadAll();
 
 			game.getEngine()->getInputEngine()->clearBindings();
 
 			for (auto it : *_characters) {
 				delete it.second;
+				it.second = nullptr;
 			}
 			delete _characters;
-			_characters == nullptr;
+			_characters = nullptr;
 
 			for (auto it : *_lockedCharacters) {
 				delete it.second;
+				it.second = nullptr;
 			}
 			delete _lockedCharacters;
-			_lockedCharacters == nullptr;
+			_lockedCharacters = nullptr;
 
 			delete _slots;
-			_slots == nullptr;
+			_slots = nullptr;
 		}
 		
 		void CharacterSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
