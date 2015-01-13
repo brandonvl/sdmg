@@ -43,7 +43,6 @@ namespace sdmg {
 
 			std::map<std::string, engine::input::InputEngine::InputType> map = _game->getEngine()->getInputEngine()->getDevices();
 			for (auto it : map) {
-				if (it.first != "")
 					_keys->push_back(it.first);
 			}
 

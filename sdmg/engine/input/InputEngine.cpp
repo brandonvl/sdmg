@@ -100,8 +100,8 @@ namespace sdmg {
 			void InputEngine::handleEvent(SDL_Event &event) {
 				if (event.type == SDL_KEYUP || event.type == SDL_KEYDOWN || event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP) {
 					std::string deviceName = getDevice(event);
-
-					if(_devices[deviceName] == InputType::GAMECONTROLLER)
+					auto it = _devices.find(deviceName);
+					if(it != _devices.end() && it->second == InputType::GAMECONTROLLER)
 						event.type = event.type == SDL_CONTROLLERBUTTONDOWN ? SDL_KEYDOWN : SDL_KEYUP;
 
 					handleKey(deviceName, event);
