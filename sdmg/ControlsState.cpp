@@ -39,6 +39,7 @@ namespace sdmg {
 			_midrange = new std::string("1");
 			_longrange = new std::string("2");
 			_block = new std::string("P");
+			_oldkey = new std::string("");
 
 			_keys = new std::vector<std::string>;
 
@@ -62,6 +63,7 @@ namespace sdmg {
 		}
 
 		void ControlsState::waitFor(std::string *cur) {
+			*_oldkey = *cur;
 			*cur = "Press a key";
 			_current = cur;
 		}
@@ -207,7 +209,7 @@ namespace sdmg {
 					{
 						if (*_devicename == "keyboardLEFT" || *_devicename == "keyboardRIGHT")
 						{
-							if (event.type == SDL_KEYDOWN && checkKey(event.key.keysym.sym))
+							if (event.type == SDL_KEYDOWN && checkKey(SDL_GetKeyName(event.key.keysym.sym)))
 							{
 								setKey(SDL_GetKeyName(event.key.keysym.sym), *_devicename);
 								setKeys();
@@ -218,8 +220,11 @@ namespace sdmg {
 							if (event.type == SDL_CONTROLLERBUTTONDOWN)
 							{
 								SDL_GameControllerButton btn = static_cast <SDL_GameControllerButton> (event.cbutton.button);
-								setKey(SDL_GameControllerGetStringForButton(btn), *_devicename);
-								setKeys();
+								if (checkKey(SDL_GameControllerGetStringForButton(btn)))
+								{
+									setKey(SDL_GameControllerGetStringForButton(btn), *_devicename);
+									setKeys();
+								}
 							}
 						}
 					}
@@ -227,10 +232,10 @@ namespace sdmg {
 			}
 		}
 
-		bool ControlsState::checkKey(int keyCode)
+		bool ControlsState::checkKey(std::string keyCode)
 		{
 			for (auto i : (*_keys)) {
-				if (SDL_GetKeyName(keyCode) == i) return false;
+				if (keyCode == i && keyCode != *_oldkey) return false;
 			}
 
 			return true;

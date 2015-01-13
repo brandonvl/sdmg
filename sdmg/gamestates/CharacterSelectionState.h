@@ -40,6 +40,7 @@ namespace sdmg {
 			std::map<std::string, JSON::JSONDocument*> *_characters, *_lockedCharacters;
 			std::vector<std::string> *_slots;
 			std::string *_currentCharacter;
+			std::map<std::string, int> *_slotKeyInput;
 
 			void drawCharacters(GameBase &game);
 			void drawSelectedCharacters(GameBase &game);
@@ -60,6 +61,7 @@ namespace sdmg {
 				SMALL_CHARACTER_BOX_HEIGHT = 100,
 				SMALL_CHARACTER_BOX_YPOS = 540;
 
+			std::vector<std::string> *keys;
 		};
 	}
 }

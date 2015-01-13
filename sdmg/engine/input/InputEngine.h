@@ -26,9 +26,12 @@ namespace sdmg {
 			class Action;
 
 			class InputEngine {
+				
 			public:
 				InputEngine();
 				~InputEngine();
+				
+				enum class InputType { KEYBOARD, GAMECONTROLLER };
 				void setDeviceBinding(std::string device, InputDeviceBinding* binding);
 				void clearBindings();
 				void handleEvent(SDL_Event &event);
@@ -42,9 +45,9 @@ namespace sdmg {
 				Mouse &getMouse() { return _mouse; }
 				void setMouseEnabled(bool enabled = true) { _mouseEnabled = enabled; }
 				std::string getUsedControllerName(SDL_Event &event);
+				std::map<std::string, InputType> getDevices();
 				InputDeviceBinding *createBinding(const std::string &deviceName);
 			private:
-				enum class InputType { KEYBOARD, GAMECONTROLLER };
 				Engine *_engine;
 				Mouse _mouse;
 				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
