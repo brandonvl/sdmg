@@ -62,7 +62,7 @@
 					losses:0,
 					name:"Mind",
 					key:"mind",
-					unlocked:false,
+					unlocked:true,
 					wins:0
 				},
 				{

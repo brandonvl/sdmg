@@ -294,15 +294,17 @@ namespace sdmg {
 			}
 
 			void DrawEngine::drawParticle(SDL_Surface *surface, int x, int y) {
-				// Create texture & draw
-				SDL_Texture* part = SDL_CreateTextureFromSurface(_renderer, surface);
-				SDL_RenderCopy(_renderer, part, nullptr, &Rectangle(x, y, surface->w, surface->h).toSDLRect());
-				// Destroy texture
-				SDL_DestroyTexture(part);
+				if (surface) {
+					// Create texture & draw
+					SDL_Texture* part = SDL_CreateTextureFromSurface(_renderer, surface);
+					SDL_RenderCopy(_renderer, part, nullptr, &Rectangle(x, y, surface->w, surface->h).toSDLRect());
+					// Destroy texture
+					SDL_DestroyTexture(part);
+				}
 			}
 
 			void DrawEngine::refreshSurface(SDL_Surface *surface) {
-				SDL_FillRect(surface, &surface->clip_rect, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
+				if (surface) SDL_FillRect(surface, &surface->clip_rect, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
 			}
 
 			void DrawEngine::calcXY(GameObject *gameObject, Surface *surface, int &x, int &y) {

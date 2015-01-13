@@ -59,8 +59,8 @@ namespace sdmg {
 			game.getWorld()->addDeadCallBack( (std::function<void(GameObject *gameObject)>)[&](GameObject *gameObject){
 				auto players = game.getWorld()->getPlayers();
 				auto it = std::find(players.begin(), players.end(), static_cast<MovableGameObject*>(gameObject));
-				
-				if (it != players.end()) {
+
+				if (it != players.end() && !(*it)->isAI() && game.getGameMode() != GameBase::GameMode::Edit) {
 					int id = it - players.begin();
 
 					std::string deviceName = getSlotKeyInput(id);

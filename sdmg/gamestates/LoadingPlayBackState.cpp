@@ -209,7 +209,17 @@ namespace sdmg {
 				auto action = (*_recordMap)[name]->create(event);
 
 				auto player = (*_characterObjects)[stepObj.getInt("character")];
-				_recordQueue->push(new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), stepObj.getFloat("x"), stepObj.getFloat("y"), stepObj.getFloat("velocityx"), stepObj.getFloat("velocityy"), player, stepObj.getInt("hp"), stepObj.getInt("lives"), stepObj.getInt("pp")));
+				auto step = new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), player);
+
+				auto &players = stepObj.getArray("characters");
+
+				for (int i = 0; i < players.size(); i++) {
+					auto &player = players.getObject(i);
+					auto character = (*_characterObjects)[player.getInt("character")];
+					step->_playerData.push_back({ character, player.getInt("hp"), player.getInt("lives"), player.getInt("pp"), player.getFloat("x"), player.getFloat("y"), player.getFloat("velocityx"), player.getFloat("velocityy") });
+				}
+
+				_recordQueue->push(step);
 			}
 			PlayBackState::getInstance().setPlaybackSteps(_recordQueue);
 
