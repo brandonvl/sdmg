@@ -114,6 +114,7 @@ namespace sdmg {
 			void registerStateChangedCallback(std::function<void(MovableGameObject *gameObject)> stateChangedCallback);
 			void registerHitCallback(std::function<void(MovableGameObject *gameObject)> hitCallback);
 
+			virtual bool isAI() { return false; }
 		private:
 			Direction _spawnDirection;
 			Size _attackSize;

@@ -97,6 +97,7 @@ namespace sdmg {
 			if (_isLoaded)
 			{
 				PlayState &state = PlayState::getInstance();
+				state.setSlotKeyBinding(_slotKeyInput, _keys);
 				state.setHUDs(_huds);
 				changeState(game, state);
 			}
@@ -421,20 +422,22 @@ namespace sdmg {
 				
 				std::string keyBinding = getSlotKeyInput(playerCharacterID);
 				InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+				int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
+
 				Character *character = static_cast<Character*>(players[playerCharacterID]);
-				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkRight"), new actions::RightWalkAction(character));
-				binding->setKeyBinding(manager.getKey(playerCharacterID, "walkLeft"), new actions::LeftWalkAction(character));
-				binding->setKeyBinding(manager.getKey(playerCharacterID, "jump"), new actions::JumpAction(character));
-				binding->setKeyBinding(manager.getKey(playerCharacterID, "roll"), new actions::RollAction(character));
-				binding->setKeyBinding(manager.getKey(playerCharacterID, "midrange"), new actions::MidRangeAttackAction(character));
-				binding->setKeyBinding(manager.getKey(playerCharacterID, "longrange"), new actions::LongRangeAttackAction(character));
-				binding->setKeyBinding(manager.getKey(playerCharacterID, "block"), new actions::BlockAction(character));
+				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
+				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
+				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "jump"), new actions::JumpAction(character));
+				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "roll"), new actions::RollAction(character));
+				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "midrange"), new actions::MidRangeAttackAction(character));
+				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "longrange"), new actions::LongRangeAttackAction(character));
+				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "block"), new actions::BlockAction(character));
 				_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding, binding);
 
 				_loadingValue += controlStep;
 				_game->getStateManager()->draw();
 
-				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
+				//_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
 			}
 			catch (...)
 			{

@@ -244,10 +244,12 @@ namespace sdmg {
 
 				delete huds;
 
-				delete PlayState::getInstance()._slotKeyInput;
-				PlayState::getInstance()._slotKeyInput = nullptr;
-				delete PlayState::getInstance()._keys;
-				PlayState::getInstance()._keys = nullptr;
+				if (_game->getGameMode() != GameBase::GameMode::SinglePlayer) {
+					delete PlayState::getInstance()._slotKeyInput;
+					PlayState::getInstance()._slotKeyInput = nullptr;
+					delete PlayState::getInstance()._keys;
+					PlayState::getInstance()._keys = nullptr;
+				}
 			}
 
 			game.getEngine()->getInputEngine()->getMouse().clear();

@@ -36,6 +36,7 @@ namespace sdmg {
 			void revive();
 			void setAI(ai::AIMachine &machine) { _aiMachine = &machine; }
 			ai::AIMachine *getAI() { return _aiMachine; }
+			bool isAI()override { return _aiMachine; }
 		private:
 			Weapon *_currentWeapon;
 			std::vector<Weapon*> _weapons;
