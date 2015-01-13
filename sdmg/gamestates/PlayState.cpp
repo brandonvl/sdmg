@@ -85,6 +85,8 @@ namespace sdmg {
 
 		void PlayState::pause(GameBase &game)
 		{
+			_multiplier = 1.0f;
+			setGameplaySpeed();
 			_game->getEngine()->getPhysicsEngine()->pause();
 		}
 
