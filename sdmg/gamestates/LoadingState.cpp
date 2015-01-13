@@ -402,8 +402,6 @@ namespace sdmg {
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
-				std::map<MovableGameObject*, std::string> _deviceCombo;
-
 				_deviceCombo.insert({ players[0], "controller1" });
 				if (players.size() > 1) {
 					_deviceCombo.insert({ players[1], "controller2" });

@@ -30,8 +30,15 @@ namespace sdmg {
 	namespace gamestates {
 		void CharacterSelectionState::init(GameBase &game)
 		{
+			keys = new std::vector<std::string>();
+			keys->push_back("keyboardRIGHT");
+			keys->push_back("keyboardLEFT");
+			keys->push_back("controller1");
+			keys->push_back("controller2");
+
 			_game = &game;
 
+			_slotKeyInput = new std::map<std::string, int>();
 			_characters = new std::map<std::string, JSON::JSONDocument*>();
 			_lockedCharacters = new std::map<std::string, JSON::JSONDocument*>();
 			_slots = new std::vector<std::string>();
@@ -42,6 +49,13 @@ namespace sdmg {
 			for (int i = 0; i < _slots->size(); i++) {
 				int x = (SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING) * i + SELECTED_CHARACTER_BOX_PADDING;
 				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT, (std::function<void()>)[&, i] { (*_slots)[i].clear(); });
+				
+				std::string key = "slot_key_" + std::to_string(i);
+				game.getEngine()->getDrawEngine()->loadDynamicText(key, { 255, 255, 255 }, "trebucbd", 20);
+				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS - 60, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT / 5, (std::function<void()>)[&, key] {
+					if (_slotKeyInput->at(key) >= keys->size() - 1) { _slotKeyInput->at(key) = 0; }
+					else { _slotKeyInput->at(key)++; }
+				});
 			}
 
 			std::string titleText = "Select character";
@@ -109,6 +123,8 @@ namespace sdmg {
 		{
 			delete _menu;
 			delete _currentCharacter;
+			delete _slotKeyInput;
+			delete keys;
 			_currentCharacter == nullptr;
 			game.getEngine()->getDrawEngine()->unloadAll();
 
@@ -263,6 +279,7 @@ namespace sdmg {
 			auto de = game.getEngine()->getDrawEngine();
 
 			int xPos = SELECTED_CHARACTER_BOX_PADDING;
+			int slotNumber = 0;
 
 			for (auto slot : *_slots) {
 				de->drawRectangle(Rectangle(xPos, SELECTED_CHARACTER_BOX_YPOS, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT), 81, 167, 204);
@@ -273,8 +290,17 @@ namespace sdmg {
 					int imgPosY = SELECTED_CHARACTER_BOX_YPOS + (SELECTED_CHARACTER_BOX_HEIGHT - size[1]) / 2;
 
 					de->draw("s_" + slot + "_big", imgPosX, imgPosY);
-				}
 
+					de->drawRectangle(Rectangle(xPos, imgPosY - 80, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT / 6), 81, 167, 204);
+					std::string key = "slot_key_" + std::to_string(slotNumber);
+					if (_slotKeyInput->find(key) == _slotKeyInput->end())
+						_slotKeyInput->insert(std::make_pair(key, slotNumber));
+					int xText = xPos + (SELECTED_CHARACTER_BOX_WIDTH / 2);
+					int textWidth = game.getEngine()->getDrawEngine()->getDynamicTextWidth(key) / 2;
+					game.getEngine()->getDrawEngine()->drawDynamicText(key, keys->at(_slotKeyInput->at(key)), xText - textWidth, imgPosY - 70);
+					
+				}
+				slotNumber++;
 				xPos += SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING;
 			}
 		}

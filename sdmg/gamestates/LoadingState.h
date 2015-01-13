@@ -11,6 +11,7 @@
 #pragma once
 #include "engine\GameState.h"
 #include <string>
+#include <map>
 struct SDL_Thread;
 
 using namespace sdmg::engine;
@@ -23,6 +24,7 @@ namespace sdmg {
 		class MovablePlatform;
 	}
 	namespace helperclasses{ class HUD; }
+	namespace engine { class MovableGameObject; }
 	namespace gamestates {
 		class LoadingState : public GameState {
 		public:
@@ -74,6 +76,7 @@ namespace sdmg {
 			std::vector<helperclasses::HUD*> *_huds;
 			std::vector<std::string> *_characters;
 			std::string *_level, *_progress;
+			std::map<MovableGameObject*, std::string> _deviceCombo;
 
 			// LoadingBar
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;
