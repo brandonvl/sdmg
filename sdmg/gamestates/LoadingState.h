@@ -76,7 +76,7 @@ namespace sdmg {
 			std::vector<helperclasses::HUD*> *_huds;
 			std::vector<std::string> *_characters;
 			std::string *_level, *_progress;
-			std::map<MovableGameObject*, std::string> _deviceCombo;
+			std::map<MovableGameObject*, std::string> *_deviceCombo;
 
 			// LoadingBar
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;

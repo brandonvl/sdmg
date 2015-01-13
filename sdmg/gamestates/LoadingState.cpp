@@ -66,6 +66,7 @@ namespace sdmg {
 			_isError = false;
 			_isAdvertisement = false;
 			_progress = new std::string();
+			_deviceCombo = new std::map<MovableGameObject*, std::string>();
 
 			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
 
@@ -402,15 +403,15 @@ namespace sdmg {
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
-				_deviceCombo.insert({ players[0], "controller1" });
+				_deviceCombo->insert({ players[0], "controller1" });
 				if (players.size() > 1) {
-					_deviceCombo.insert({ players[1], "controller2" });
+					_deviceCombo->insert({ players[1], "controller2" });
 				}
 				if (players.size() > 2) {
-					_deviceCombo.insert({ players[2], "controller3" });
+					_deviceCombo->insert({ players[2], "controller3" });
 				}
 				if (players.size() > 3) {
-					_deviceCombo.insert({ players[3], "controller4" });
+					_deviceCombo->insert({ players[3], "controller4" });
 				}
 
 
@@ -418,8 +419,8 @@ namespace sdmg {
 
 				for (int i = 0; i < players.size(); i++)
 				{
-					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(_deviceCombo[players[i]]);
-					int deviceIndexInFile = manager.getDeviceIndex(_deviceCombo[players[i]]);
+					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(_deviceCombo->at(players[i]));
+					int deviceIndexInFile = manager.getDeviceIndex(_deviceCombo->at(players[i]));
 					Character *character = static_cast<Character*>(players[i]);
 
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
@@ -429,7 +430,7 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "midrange"), new actions::MidRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "longrange"), new actions::LongRangeAttackAction(character));
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "block"), new actions::BlockAction(character));
-					_game->getEngine()->getInputEngine()->setDeviceBinding(_deviceCombo[players[i]], binding);
+					_game->getEngine()->getInputEngine()->setDeviceBinding(_deviceCombo->at(players[i]), binding);
 
 					_loadingValue += controlStep;
 					_game->getStateManager()->draw();
