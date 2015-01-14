@@ -64,6 +64,19 @@ namespace sdmg
 			}
 		}
 
+		void Recorder::gameOver() {
+			if (_enabled) {
+				int timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
+
+				RecordItem *item = new RecordItem("GameOver", 0, timestamp, false);
+				for (auto pair : *_characters) {
+					item->addPlayerData({ pair.second, pair.first->getHP(), pair.first->getLives(), pair.first->getPP(), pair.first->getX(), pair.first->getY(), pair.first->getBody()->GetLinearVelocity().x, pair.first->getBody()->GetLinearVelocity().y });
+				}
+
+				_recordQueue->push(item);
+			}
+		}
+
 		void Recorder::registerCharacter(model::Character &character) {
 			_characters->insert(std::make_pair(&character, _characterIndex++));
 		}

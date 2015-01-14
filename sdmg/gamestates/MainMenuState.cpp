@@ -49,7 +49,7 @@ namespace sdmg {
 			_menu->addMenuTextItem("Play", (std::function<void()>)[&] { changeState(*_game, GameModeState::getInstance()); });
 			_menu->addMenuTextItem("Level editor", (std::function<void()>)[&] { 
 				_game->setGameMode(GameBase::GameMode::Edit);
-				_game->getStateManager()->pushState(LevelSelectionState::getInstance()); 
+				_game->getStateManager()->changeState(LevelSelectionState::getInstance()); 
 			});
 			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
@@ -77,6 +77,12 @@ namespace sdmg {
 			_advertisementIndex = -1;
 			_advertisementRefreshRate = 15 * 10000;
 			_lastTimeSinceAdvertisementChange = 0;
+
+			if (_advertismentList != nullptr) {
+				delete _advertismentList;
+				_advertismentList = nullptr;
+			}
+
 			_advertismentList = new std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/advertisements/"));
 
 			if (_advertismentList->size() > 0)

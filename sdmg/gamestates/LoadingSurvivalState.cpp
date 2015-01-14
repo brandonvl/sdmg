@@ -107,6 +107,12 @@ namespace sdmg {
 			delete _levelName;
 			delete _playerName;
 
+
+			delete _slotKeyInput;
+			_slotKeyInput = nullptr;
+			delete _keys;
+			_keys = nullptr;
+
 			if (_enemyNames) {
 				for (auto it : *_enemyNames) {
 					delete it;
@@ -156,6 +162,7 @@ namespace sdmg {
 			{
 				PlayState &state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
 				state.setHUDs(_huds);
+				state.setSlotKeyBinding(_slotKeyInput, _keys);
 				changeState(game, state);
 			}
 			if (_isError) {
@@ -350,23 +357,34 @@ namespace sdmg {
 			}
 		}
 
+		std::string LoadingSurvivalState::getSlotKeyInput(int slot)
+		{
+			std::string key = "slot_key_" + std::to_string(slot);
+			auto it = _slotKeyInput->find(key);
+			if (it != _slotKeyInput->end())
+				return _keys->at(it->second);
+			else
+				return "";
+		}
+
 		void LoadingSurvivalState::loadKeybindings() {
 
 			_game->getStateManager()->draw();
 
 			try{
 				ConfigManager &manager = ConfigManager::getInstance();
-				//InputDeviceBinding *binding = new InputDeviceBinding();
-				InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding("controller1");
-				int deviceIndexInFile = manager.getDeviceIndex("controller1");
-
-				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
+				int playerCharacterID = 0;
 
 				int controlStep = _loadingStep;
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 
-				Character *character = static_cast<Character*>(players[0]);
+				std::string keyBinding = getSlotKeyInput(playerCharacterID);
+				InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+				int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
+				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
+
+				Character *character = static_cast<Character*>(players[playerCharacterID]);
 				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
 				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
 				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "jump"), new actions::JumpAction(character));
@@ -387,12 +405,18 @@ namespace sdmg {
 				_loadingValue += controlStep;
 				_game->getStateManager()->draw();
 
-				_game->getEngine()->getInputEngine()->setDeviceBinding("controller1", binding);
+				_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding, binding);
 			}
 			catch (...)
 			{
-				std::cout << "Cannot load keyboard bindings.";
+				std::cout << "Cannot load bindings.";
 			}
+		}
+
+		void LoadingSurvivalState::setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys)
+		{
+			_slotKeyInput = new std::map<std::string, int>(*input);
+			_keys = new std::vector<std::string>(*keys);
 		}
 
 		void LoadingSurvivalState::loadAdvertisement()

@@ -29,7 +29,7 @@ namespace sdmg {
 		void ProgressManager::reset()
 		{
 			// Reset autosave
-			setAutosave(false);
+			setAutosave(true);
 
 			// Reset timestamp
 			setTimestamp("");
@@ -39,14 +39,20 @@ namespace sdmg {
 				JSON::JSONObject &characterObj = getStatistics().getObject(i);
 				characterObj.getVariable("wins").setValue(std::to_string(0));
 				characterObj.getVariable("losses").setValue(std::to_string(0));
-				if (characterObj.getString("key") == "nivek" || characterObj.getString("key") == "fiat")
+				if (characterObj.getBoolean("persistant") == true)
 					characterObj.getVariable("unlocked").setValue(true);
 				else
 					characterObj.getVariable("unlocked").setValue(false);
 			}
 
 			// Reset levels
-			//TODO
+			for (auto i = 0, ilen = getLevels().size(); i < ilen; ++i) {
+				auto &levelObj = getLevels().getObject(i);
+				if (levelObj.getBoolean("persistant") == true)
+					levelObj.getVariable("unlocked").setValue(true);
+				else
+					levelObj.getVariable("unlocked").setValue(false);
+			}
 		}
 
 		void ProgressManager::load()

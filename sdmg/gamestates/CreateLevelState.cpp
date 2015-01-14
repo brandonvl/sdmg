@@ -9,14 +9,18 @@
 #include "LoadingState.h"
 #include <direct.h>
 #include <algorithm>
+#include "engine\util\FileManager.h"
 
 namespace sdmg {
 	namespace gamestates {
 		void CreateLevelState::init(GameBase &game) {
 			_name = new std::string();
 			_game = &game;
+			_error = new std::string();
 
 			game.getEngine()->getDrawEngine()->loadText("createtitle", "Enter a name for your new level", { 255, 255, 255 }, "trebucbd", 48);
+			game.getEngine()->getDrawEngine()->loadText("existserr", "There already exists a level with this name.", { 217, 13, 13 }, "trebucbd", 20);
+			game.getEngine()->getDrawEngine()->loadText("invaliderr", "Enter a name for your new level.", { 217, 13, 13 }, "trebucbd", 20);
 			game.getEngine()->getDrawEngine()->loadDynamicText("input", { 255, 255, 255 }, "trebucbd", 48);
 			game.getEngine()->getDrawEngine()->load("create_background", "assets/screens/mainmenu");
 
@@ -32,6 +36,7 @@ namespace sdmg {
 		}
 		void CreateLevelState::cleanup(GameBase &game) {
 			delete _name;
+			delete _error;
 			
 			game.getEngine()->getDrawEngine()->unloadAll();
 		}
@@ -98,6 +103,13 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->drawRectangle(Rectangle(x, 250, 600, 80), 102, 175, 207);
 			game.getEngine()->getDrawEngine()->drawDynamicText("input", *_name, x + 20, 260);
 
+			if (!_error->empty()) {
+				auto size = game.getEngine()->getDrawEngine()->getTextSize(*_error);
+				int errX = (game.getEngine()->getDrawEngine()->getWindowWidth() - size[0]) / 2;
+
+				game.getEngine()->getDrawEngine()->drawText(*_error, errX, 210);
+			}
+
 			_menu->draw(&game);
 
 			game.getEngine()->getDrawEngine()->render();
@@ -105,10 +117,24 @@ namespace sdmg {
 		}
 
 		void CreateLevelState::create() {
-			std::string pathName = *_name;
-			std::transform(pathName.begin(), pathName.end(), pathName.begin(), ::tolower);
 
+			std::string pathName = *_name;
 			std::string path = "assets/levels/" + pathName + "/";
+			std::transform(pathName.begin(), pathName.end(), pathName.begin(), ::tolower);
+			
+			pathName.erase(remove_if(pathName.begin(), pathName.end(), isspace), pathName.end());
+			// validate pathname
+			if (pathName.size() == 0) {
+				*_error = "invaliderr";
+				return;
+			}
+			
+			auto curLevels = util::FileManager::getInstance().getFolders("assets/levels/");			
+			if (std::find(curLevels.begin(), curLevels.end(), pathName) != curLevels.end()) {
+				*_error = "existserr";
+				return;
+			}
+
 			_mkdir(path.c_str());
 
 

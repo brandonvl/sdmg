@@ -62,7 +62,7 @@ namespace sdmg {
 		private:
 			model::Character *_player;
 			std::vector<model::Character*> *_enemies;
-			std::string *_level;
+			
 			std::map<std::string, int> *_slotKeyInput;
 			std::vector<std::string> *_keys;
 
@@ -70,7 +70,7 @@ namespace sdmg {
 		protected:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator;
-
+			std::string *_level;
 			PlayState() { }
 			std::vector<helperclasses::HUD*> *_huds;
 

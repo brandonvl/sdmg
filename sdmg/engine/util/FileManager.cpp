@@ -14,6 +14,8 @@
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 namespace sdmg {
 	namespace engine {

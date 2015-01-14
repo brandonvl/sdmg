@@ -91,23 +91,26 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				if (!event.key.repeat){
+				
 					switch (event.type) {
 					case SDL_KEYDOWN:
-						switch (event.key.keysym.sym) {
-						case SDLK_ESCAPE:
-							GameOverState::getInstance().cleanup(game);
-							_game->getStateManager()->changeState(MainMenuState::getInstance());
-							break;
+						if (!event.key.repeat){
+							switch (event.key.keysym.sym) {
+							case SDLK_ESCAPE:
+								GameOverState::getInstance().cleanup(game);
+								_game->getStateManager()->changeState(MainMenuState::getInstance());
+								break;
+							}
 						}
 
 					case SDL_CONTROLLERBUTTONDOWN:
 						switch (event.cbutton.button) {
 						case SDL_CONTROLLER_BUTTON_START:
-							game.getStateManager()->pushState(MainMenuState::getInstance());
+						case SDL_CONTROLLER_BUTTON_A:
+							_game->getStateManager()->changeState(MainMenuState::getInstance());
+							break;
 						}
 					}
-				}
 			}
 		}
 
@@ -128,15 +131,18 @@ namespace sdmg {
 
 						for (auto data : cStep._playerData) {
 
-							data.character->getBody()->SetTransform(b2Vec2(data.x, data.y), cStep._character->getBody()->GetAngle());
+							data.character->getBody()->SetTransform(b2Vec2(data.x, data.y), data.character->getBody()->GetAngle());
 							data.character->getBody()->SetLinearVelocity(b2Vec2(data.velocityX, data.velocityY));
 
 							data.character->setHP(data.hp);
-							data.character->setLives(data.lives);
+							data.character->setLives(data.lives);							
 							data.character->setPP(data.pp);
 						}
-						cStep._action->run(*_game);
-						delete cStep._action;
+
+						if (cStep._action != nullptr){
+							cStep._action->run(*_game);
+							delete cStep._action;
+						}
 					}
 					/*
 					} };

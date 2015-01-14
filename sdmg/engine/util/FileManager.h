@@ -24,6 +24,7 @@ namespace sdmg {
 					static FileManager _instance;
 					return _instance;
 				}
+
 			protected:
 				FileManager() { }
 			private:

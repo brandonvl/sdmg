@@ -25,6 +25,7 @@ namespace sdmg
 			void save(std::string path);
 			void registerCharacter(model::Character &character);
 			void reset() { init(); }
+			void gameOver();
 
 		private:
 			std::string *_level;

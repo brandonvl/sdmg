@@ -88,6 +88,8 @@ namespace sdmg {
 				_huds->clear();
 			}
 
+			delete _level;
+			_level = nullptr;
 			delete _huds;
 			_huds = nullptr;
 

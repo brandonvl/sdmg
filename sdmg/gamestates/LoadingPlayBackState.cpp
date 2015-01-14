@@ -199,17 +199,25 @@ namespace sdmg {
 			{
 				JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
 
-				std::string name = stepObj.getString("action") + std::to_string(stepObj.getInt("character"));
+				PlayBackState::RecordStep *step;
 
-				// create fake event
-				SDL_Event event;
-				event.type = stepObj.getBoolean("keyDown") ? SDL_KEYDOWN : SDL_KEYUP;
+				if (stepObj.getString("action") != "GameOver") {
 
-				// create and run action
-				auto action = (*_recordMap)[name]->create(event);
+					std::string name = stepObj.getString("action") + std::to_string(stepObj.getInt("character"));
 
-				auto player = (*_characterObjects)[stepObj.getInt("character")];
-				auto step = new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), player);
+					// create fake event
+					SDL_Event event;
+					event.type = stepObj.getBoolean("keyDown") ? SDL_KEYDOWN : SDL_KEYUP;
+
+					// create and run action
+					auto action = (*_recordMap)[name]->create(event);
+
+					auto player = (*_characterObjects)[stepObj.getInt("character")];
+					step = new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), player);
+				}
+				else {
+					step = new PlayBackState::RecordStep(nullptr, stepObj.getFloat("timestamp"), nullptr);
+				}
 
 				auto &players = stepObj.getArray("characters");
 

@@ -1,6 +1,6 @@
 Win: Defeat your opponent(s) by fiercly attacking until they yield or plummet into nothingness.
 Lose: Run out of hearts or fall into depths of the abyss.
-Heart: This is your heart don't let your enemy take it from you and defend as it is your life energy.
+Heart: This is your heart, don't let your enemies take it from you. Defend it as it is your life energy.
 PowerBar: Performing an action costs energy from the powerbar, deplete it and you'll be rendered helpless.
 Attacking: You have a short and long-range attack at your disposal, use it at your discretion.
 Blocking: A defensive move to protect you from attacks.

@@ -54,9 +54,6 @@ namespace sdmg {
 			});
 			_menu->addMenuTextItem("Back to options", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
 
-			if (ProgressManager::getInstance().autosaveEnabled())
-				ProgressManager::getInstance().save();
-
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 

@@ -120,6 +120,18 @@ namespace sdmg {
 				return "";
 			}
 
+			std::string InputEngine::getDeviceNameByEvent(SDL_Event &event) {
+
+				if (event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP) {
+					for (auto &it : _gameControllers) {
+						if (it->getID() == event.cbutton.which)
+							return it->getName();
+					}
+				}
+
+				return "";
+			}
+
 			std::map<std::string, InputEngine::InputType> InputEngine::getDevices() {
 				return _devices;
 			}
