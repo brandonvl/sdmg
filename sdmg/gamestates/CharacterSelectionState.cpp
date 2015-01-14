@@ -38,13 +38,14 @@ namespace sdmg {
 			_slots = new std::vector<std::string>();
 			_keys = new std::vector<std::string>();
 			//  _slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
-			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
-			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
+			//_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
 
-			std::map<std::string, engine::input::InputEngine::InputType> map = _game->getEngine()->getInputEngine()->getDevices();
-			for (auto it : map) {
-					_keys->push_back(it.first);
-			}
+
+			loadKeys();
+
+			_slots->resize(game.getGameMode() == GameBase::GameMode::SinglePlayer || game.getGameMode() == GameBase::GameMode::Survival ? 1 : _keys->size());
+
+			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
 
 			for (int i = 0; i < _slots->size(); i++) {
 				int x = (SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING) * i + SELECTED_CHARACTER_BOX_PADDING;
@@ -241,6 +242,30 @@ namespace sdmg {
 						break;
 					}
 				}
+				else if (event.type == SDL_CONTROLLERDEVICEADDED || event.type == SDL_CONTROLLERDEVICEREMOVED) {
+					switch (event.type)
+					{
+					case SDL_CONTROLLERDEVICEADDED:
+						_game->getEngine()->getInputEngine()->registerGameController(event);
+						loadKeys();
+						_slots->resize(_keys->size());
+						break;
+					case SDL_CONTROLLERDEVICEREMOVED:
+						_game->getEngine()->getInputEngine()->removeGameController(event);
+						loadKeys();
+						_slots->resize(_keys->size());
+						break;
+					}
+				}
+			}
+		}
+
+		void CharacterSelectionState::loadKeys()
+		{
+			_keys->clear();
+			std::map<std::string, engine::input::InputEngine::InputType> map = _game->getEngine()->getInputEngine()->getDevices();
+			for (auto it : map) {
+				_keys->push_back(it.first);
 			}
 		}
 
