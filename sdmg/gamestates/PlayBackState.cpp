@@ -137,6 +137,7 @@ namespace sdmg {
 							data.character->setHP(data.hp);
 							data.character->setLives(data.lives);							
 							data.character->setPP(data.pp);
+							data.character->setDirection(data.direction);
 						}
 
 						if (cStep._action != nullptr){
@@ -222,6 +223,8 @@ namespace sdmg {
 
 			for (auto obj : game.getWorld()->getPlayers())
 				de->draw(obj);
+
+			de->draw("overlay");
 
 			for (helperclasses::HUD *hud : *_huds) {
 				hud->draw(*de);

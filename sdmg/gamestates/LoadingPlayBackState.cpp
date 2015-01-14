@@ -224,7 +224,7 @@ namespace sdmg {
 				for (int i = 0; i < players.size(); i++) {
 					auto &player = players.getObject(i);
 					auto character = (*_characterObjects)[player.getInt("character")];
-					step->_playerData.push_back({ character, player.getInt("hp"), player.getInt("lives"), player.getInt("pp"), player.getFloat("x"), player.getFloat("y"), player.getFloat("velocityx"), player.getFloat("velocityy") });
+					step->_playerData.push_back({ character, player.getInt("hp"), player.getInt("lives"), player.getInt("pp"), player.getFloat("x"), player.getFloat("y"), player.getFloat("velocityx"), player.getFloat("velocityy"), static_cast<MovableGameObject::Direction>(player.getInt("direction")) });
 				}
 
 				_recordQueue->push(step);

@@ -55,8 +55,8 @@ namespace sdmg
 				auto it = _characters->find(&character);
 				if (it != _characters->cend()) {
 					RecordItem *item = new RecordItem(action, it->second, timestamp, keyDown);
-					for (auto pair : *_characters) {
-						item->addPlayerData({ pair.second, pair.first->getHP(), pair.first->getLives(), pair.first->getPP(), pair.first->getX(), pair.first->getY(), pair.first->getBody()->GetLinearVelocity().x, pair.first->getBody()->GetLinearVelocity().y });
+					for (auto pair : *_characters) {						
+						item->addPlayerData({ pair.second, pair.first->getHP(), pair.first->getLives(), pair.first->getPP(), pair.first->getX(), pair.first->getY(), pair.first->getBody()->GetLinearVelocity().x, pair.first->getBody()->GetLinearVelocity().y, static_cast<int>(pair.first->getDirection()) });
 					}
 
 					_recordQueue->push(item);
@@ -100,7 +100,6 @@ namespace sdmg
 				positionObj->add("x", it.first->getX());
 				positionObj->add("y", it.first->getY());
 				characterObj->add("position", *positionObj);
-
 				characterArr->push(*characterObj);
 				characters.insert({ it.second, it.first });
 			}
@@ -128,6 +127,7 @@ namespace sdmg
 					characterObj->add("hp", data->hp);
 					characterObj->add("pp", data->pp);
 					characterObj->add("character", data->character);
+					characterObj->add("direction", data->direction);
 
 					characterArr->push(*characterObj);
 				}

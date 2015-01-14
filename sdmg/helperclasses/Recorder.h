@@ -40,6 +40,7 @@ namespace sdmg
 				struct PlayerData { 
 					int character, hp, lives, pp;
 					float x, y, velocityX, velocityY;
+					int direction;
 				};
 
 				void addPlayerData(PlayerData data) { _playerData.push_back(new PlayerData(data)); }
