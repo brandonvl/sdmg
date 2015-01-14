@@ -110,6 +110,21 @@ namespace sdmg {
 				if (_mouseEnabled) _mouse.handleMouseEvent(event);
 			}
 
+			void registerGameController(SDL_Event &event)
+			{
+				if (event.type == SDL_CONTROLLERDEVICEADDED) {
+					
+				}
+
+			}
+
+			void removeGameController(SDL_Event &event)
+			{
+				if (event.type == SDL_CONTROLLERDEVICEREMOVED) {
+
+				}
+			}
+
 			std::string InputEngine::getDevice(SDL_Event &event) {
 
 				for (auto &it : *_deviceBindings) {

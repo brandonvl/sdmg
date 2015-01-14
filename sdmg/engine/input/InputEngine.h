@@ -40,6 +40,8 @@ namespace sdmg {
 				void update(GameBase &game);
 				void findJoysticks();
 				void enableAllDevices();
+				void registerGameController(SDL_Event &event);
+				void removeGameController(SDL_Event &event);
 				void enableDevice(const std::string &deviceName);
 				void disableDevice(const std::string &deviceName);
 				void pushAction(Action &action, bool keyDown = true);
