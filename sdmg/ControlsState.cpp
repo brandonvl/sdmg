@@ -135,6 +135,7 @@ namespace sdmg {
 			delete _longrange;
 			delete _block;
 			delete _oldkey;
+			delete _deviceKeys;
 
 			delete _keys;
 			//game.getEngine()->getDrawEngine()->unloadAll();
