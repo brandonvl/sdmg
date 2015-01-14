@@ -51,18 +51,6 @@ namespace sdmg {
 
 				return list;
 			}
-
-			const bool FileManager::dirExists(std::string path) {
-				struct stat info;
-
-				path = "C:/Users/Wouter/Documents/GitHub/sdmg/sdmg/" + path;
-				if (stat(path.c_str(), &info) != 0)
-					return false;
-				else if (info.st_mode & S_IFDIR)  // S_ISDIR() doesn't exist on my windows 
-					return true;
-				else
-					return false;
-			}
 		}
 	}
 }
