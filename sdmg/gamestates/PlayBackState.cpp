@@ -91,23 +91,26 @@ namespace sdmg {
 
 			while (SDL_PollEvent(&event))
 			{
-				if (!event.key.repeat){
+				
 					switch (event.type) {
 					case SDL_KEYDOWN:
-						switch (event.key.keysym.sym) {
-						case SDLK_ESCAPE:
-							GameOverState::getInstance().cleanup(game);
-							_game->getStateManager()->changeState(MainMenuState::getInstance());
-							break;
+						if (!event.key.repeat){
+							switch (event.key.keysym.sym) {
+							case SDLK_ESCAPE:
+								GameOverState::getInstance().cleanup(game);
+								_game->getStateManager()->changeState(MainMenuState::getInstance());
+								break;
+							}
 						}
 
 					case SDL_CONTROLLERBUTTONDOWN:
 						switch (event.cbutton.button) {
 						case SDL_CONTROLLER_BUTTON_START:
-							game.getStateManager()->pushState(MainMenuState::getInstance());
+						case SDL_CONTROLLER_BUTTON_A:
+							_game->getStateManager()->changeState(MainMenuState::getInstance());
+							break;
 						}
 					}
-				}
 			}
 		}
 
