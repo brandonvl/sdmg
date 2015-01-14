@@ -105,8 +105,8 @@
 					persistant:false
 				},
 				{
-					name:"Level 1 Fiat",
-					key:"level1fiat",
+					name:"Bambooo",
+					key:"bambooo",
 					unlocked:true,
 					persistant:true
 				},
@@ -196,8 +196,8 @@
 					persistant:false
 				},
 				{
-					name:"Level 1 Fiat",
-					key:"level1fiat",
+					name:"Bambooo",
+					key:"bambooo",
 					unlocked:true,
 					persistant:true
 				},
@@ -287,8 +287,8 @@
 					persistant:false
 				},
 				{
-					name:"Level 1 Fiat",
-					key:"level1fiat",
+					name:"Bambooo",
+					key:"bambooo",
 					unlocked:true,
 					persistant:true
 				},
