@@ -110,17 +110,65 @@ namespace sdmg {
 				if (_mouseEnabled) _mouse.handleMouseEvent(event);
 			}
 
-			void registerGameController(SDL_Event &event)
+			void InputEngine::registerGameController(SDL_Event &event)
 			{
 				if (event.type == SDL_CONTROLLERDEVICEADDED) {
+					int i = event.cdevice.which;
+					if (SDL_IsGameController(i)) {
+						SDL_GameController *pad = SDL_GameControllerOpen(i);
+
+						if (pad) {
+							std::cout << "I found a new device! = " << i << "\n";
+							SDL_Joystick *joy = SDL_GameControllerGetJoystick(pad);
+							int instanceID = SDL_JoystickInstanceID(joy);
+
+							// You can add to your own map of joystick IDs to controllers here.
+							Joystick *controller = new Joystick{ i, pad };
+							_gameControllers.push_back(controller);
+							_devices.insert({ controller->getName(), InputType::GAMECONTROLLER });
+						}
+					}
 					
+
 				}
 
 			}
 
-			void removeGameController(SDL_Event &event)
+			void InputEngine::removeGameController(SDL_Event &event)
 			{
 				if (event.type == SDL_CONTROLLERDEVICEREMOVED) {
+
+					Joystick *controller = nullptr;
+
+					std::pair<std::string, InputDeviceBinding*> *selectedBinding = nullptr;
+
+					for (auto &it : *_deviceBindings) {
+						if (it.second->hasThisGamePad(event)) {
+							*selectedBinding = it;
+							controller = static_cast<ControllerInputDeviceBinding*>(it.second)->getController();
+							break;
+						}
+					}
+
+					if (controller == nullptr) {
+						for (auto &contr : _gameControllers) {
+							if (contr->getID() == event.cdevice.which)
+								controller = contr;
+						}
+					}
+
+					if (selectedBinding != nullptr) {
+						_deviceBindings->erase(selectedBinding->first);
+						delete selectedBinding;
+					}
+
+					if (controller != nullptr) {
+						auto pos = std::remove(_gameControllers.begin(), _gameControllers.end(), controller);
+						_gameControllers.erase(pos, _gameControllers.end());
+						_devices.erase(controller->getName());
+						SDL_GameControllerClose(controller->getController());
+						delete controller;
+					}
 
 				}
 			}

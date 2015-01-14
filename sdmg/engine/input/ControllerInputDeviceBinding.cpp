@@ -30,6 +30,10 @@ namespace sdmg {
 				return false;
 			}
 
+			bool ControllerInputDeviceBinding::hasThisGamePad(SDL_Event &event) {
+				return event.cdevice.which == _controller->getID();
+			}
+
 			void ControllerInputDeviceBinding::setKeyBinding(const int keyCode, Action *action) {
 				// check if binding exists
 				if (_keyBindings->count(keyCode)) { delete (*_keyBindings)[keyCode]; (*_keyBindings)[keyCode] = action; } // replace

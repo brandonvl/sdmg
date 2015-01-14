@@ -45,6 +45,7 @@ namespace sdmg {
 			std::map<std::string, int> *_slotKeyInput;
 			std::vector<std::string> *_keys;
 
+			void loadKeys();
 			void drawCharacters(GameBase &game);
 			void drawSelectedCharacters(GameBase &game);
 			void selectNext();
