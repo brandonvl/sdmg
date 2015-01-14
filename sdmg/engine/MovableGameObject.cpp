@@ -24,6 +24,7 @@ namespace sdmg {
 		MovableGameObject::MovableGameObject()
 		{
 			_state = State::IDLE;
+			_isDead = false;
 		}
 
 		MovableGameObject::~MovableGameObject()

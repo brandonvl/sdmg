@@ -128,7 +128,7 @@ namespace sdmg {
 			int _lives, _hp, _bp, _pp, _midCost, _longCost, _midDamage, _longDamage;
 			b2Body *_attackBody, *_shootBody;
 			Direction _direction;
-			bool _isJumping;
+			bool _isJumping, _isDead;
 			Speed _speed;
 			State _state;
 		};

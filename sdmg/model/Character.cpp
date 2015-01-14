@@ -46,7 +46,9 @@ namespace sdmg {
 		}
 				
 		void Character::die() {
-			getWorld()->onDead(this);
+			if (!_isDead)
+				getWorld()->onDead(this);
+			_isDead = true;
 		}
 
 		void Character::revive()
@@ -55,6 +57,7 @@ namespace sdmg {
 			setState(MovableGameObject::State::RESPAWN);
 			_hp = 100;
 			_lives = 5;
+			_isDead = false;
 			_body->SetActive(true);
 		}
 	}

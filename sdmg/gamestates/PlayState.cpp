@@ -60,7 +60,7 @@ namespace sdmg {
 				auto players = game.getWorld()->getPlayers();
 				auto it = std::find(players.begin(), players.end(), static_cast<MovableGameObject*>(gameObject));
 
-				if (it != players.end() && !(*it)->isAI() && game.getGameMode() != GameBase::GameMode::Edit) {
+				if (it != players.end() && !(*it)->isAI() && game.getGameMode() != GameBase::GameMode::Edit && game.getGameMode() != GameBase::GameMode::Playback) {
 					int id = it - players.begin();
 
 					std::string deviceName = getSlotKeyInput(id);

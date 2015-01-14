@@ -196,9 +196,8 @@ namespace sdmg {
 
 			while (_accumulator > _step) {
 				for (auto obj : game.getWorld()->getPlayers())
-				{
-					obj->addPP(1);
-				}
+					if (obj->getLives() > 0)
+						obj->addPP(1);
 				_accumulator -= _step;
 			}
 
