@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <queue>
 #include <string>
+#include "engine\MovableGameObject.h"
 
 using namespace sdmg::engine;
 
@@ -64,6 +65,7 @@ namespace sdmg {
 					Character *character;
 					int hp, lives, pp;
 					float x, y, velocityX, velocityY;
+					MovableGameObject::Direction direction;
 				};
 
 				std::vector<PlayerData> _playerData;
