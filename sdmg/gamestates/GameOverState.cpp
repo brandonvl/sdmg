@@ -239,6 +239,8 @@ namespace sdmg {
 
 				delete huds;
 
+				
+
 				if (game.getGameMode() != GameBase::GameMode::Edit) {
 					delete PlayState::getInstance()._slotKeyInput;
 					PlayState::getInstance()._slotKeyInput = nullptr;
@@ -315,7 +317,7 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);
 
 			for (int i = 1; i <= _characterCount; i++) {
-				game.getEngine()->getDrawEngine()->drawText("rank" + std::to_string(i), 717, 280 + (i * 100));
+				game.getEngine()->getDrawEngine()->drawText("rank" + std::to_string(i), 717, 280 + (i * 75));
 			}
 
 			_menu->draw(&game);
