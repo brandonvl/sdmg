@@ -101,7 +101,7 @@ namespace sdmg {
 								delete _currentCharacter;
 								_currentCharacter = new std::string(characterFolder);
 							});
-							game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)std::bind(&CharacterSelectionState::select, this));
+							game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SMALL_CHARACTER_BOX_YPOS, 104, 126, (std::function<void()>)std::bind(&CharacterSelectionState::select, this, ""));
 						}
 						else {
 							game.getEngine()->getDrawEngine()->load("s_" + characterFolder + "_head", "assets/characters/" + characterFolder + "/preview_locked");
@@ -181,7 +181,7 @@ namespace sdmg {
 						selectPrevious();
 						break;
 					case SDLK_SPACE:
-						select();
+						select("");
 						break;
 
 					case SDLK_DOWN:
@@ -207,7 +207,7 @@ namespace sdmg {
 						changeState(*_game, GameModeState::getInstance());
 						break;
 					case SDL_CONTROLLER_BUTTON_A:
-						select();
+						select(game.getEngine()->getInputEngine()->getDeviceNameByEvent(event));
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
 						selectPrevious();
@@ -333,17 +333,27 @@ namespace sdmg {
 			_currentCharacter = new std::string(it->first);
 		}
 
-		void CharacterSelectionState::select() {
-			
+		void CharacterSelectionState::select(std::string device) {
+			int slotIndex = 0;
+
 			if (_slots->size() > 1) {
 				for (int i = 0; i < _slots->size(); i++) {
 					if ((*_slots)[i].empty()) {
 						(*_slots)[i] = *_currentCharacter;
-						return;
+						slotIndex = i;
+						break;
 					}
 				}
 			}
 			else (*_slots)[0] = *_currentCharacter;
+
+			if (device != "") {
+				auto it = std::find(_keys->begin(), _keys->end(), device);
+
+				if (it != _keys->end()) {
+					_slotKeyInput->insert({ "slot_key_" + std::to_string(slotIndex), it - _keys->begin() });
+				}
+			}
 		}
 
 		void CharacterSelectionState::nextState() {

@@ -49,7 +49,7 @@ namespace sdmg {
 			void drawSelectedCharacters(GameBase &game);
 			void selectNext();
 			void selectPrevious();
-			void select();
+			void select(std::string device);
 			void nextState();
 
 			int
