@@ -9,6 +9,8 @@
 
 #pragma once
 #include "engine\GameState.h"
+#include <map>
+#include <vector>
 #include <string>
 
 using namespace sdmg::engine;
@@ -41,6 +43,7 @@ namespace sdmg {
 			std::string getLevelName();
 			std::string getPlayerName();
 			void setPlayerName(std::string playerName);
+			void setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys);
 			
 		protected:
 			LoadingSurvivalState() { }
@@ -54,11 +57,14 @@ namespace sdmg {
 			void clearEventQueue();
 			void setEnemies();
 			bool _isLoaded, _isError, _isTutorial;
+			std::string getSlotKeyInput(int slot);
 			std::vector<helperclasses::HUD*> *_huds;
 
 			std::string *_playerName, *_levelName;
 			std::vector<std::string*> *_enemyNames;
 			std::vector<model::Character*> *_enemies;
+			std::map<std::string, int> *_slotKeyInput;
+			std::vector<std::string> *_keys;
 
 			// LoadingBar
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;

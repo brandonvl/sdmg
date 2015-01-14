@@ -373,6 +373,7 @@ namespace sdmg {
 
 				case GameBase::GameMode::Survival:
 					LoadingSurvivalState::getInstance().setPlayerName((*_slots)[0]);
+					LoadingSurvivalState::getInstance().setSlotKeyBinding(_slotKeyInput, _keys);
 					changeState(*_game, LoadingSurvivalState::getInstance());
 					break;
 

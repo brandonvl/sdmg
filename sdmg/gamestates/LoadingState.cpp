@@ -66,7 +66,6 @@ namespace sdmg {
 			_isError = false;
 			_isAdvertisement = false;
 			_progress = new std::string();
-			_deviceCombo = new std::map<MovableGameObject*, std::string>();
 
 			game.getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
 
@@ -158,7 +157,7 @@ namespace sdmg {
 			if (_isLoaded)
 			{
 				PlayState &state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
-				if (game.getGameMode() != GameBase::GameMode::Edit)
+				if (game.getGameMode() != GameBase::GameMode::Edit && !_isTutorial)
 					state.setSlotKeyBinding(_slotKeyInput, _keys);
 
 				state.setLevel(_level);
@@ -206,6 +205,12 @@ namespace sdmg {
 
 		void LoadingState::setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys)
 		{
+			if (_slotKeyInput != nullptr)
+				delete _slotKeyInput;
+
+			if (_keys != nullptr)
+				delete _keys;
+
 			_slotKeyInput = new std::map<std::string, int>(*input);
 			_keys = new std::vector<std::string>(*keys);
 		}
@@ -422,20 +427,25 @@ namespace sdmg {
 
 				_game->getEngine()->getInputEngine()->clearBindings();
 				
-				//_deviceCombo->insert({ players[0], "controller1" });
-				//if (players.size() > 1) {
-				//	_deviceCombo->insert({ players[1], "controller2" });
-				//}
-				//if (players.size() > 2) {
-				//	_deviceCombo->insert({ players[2], "controller3" });
-				//}
-				//if (players.size() > 3) {
-				//	_deviceCombo->insert({ players[3], "controller4" });
-				//}
 				
 				int controlStep = (_loadingStep) / players.size();
 
-				if (_game->getGameMode() == GameBase::GameMode::Edit) {
+				if (_isTutorial) {
+					std::string keyBinding = "keyboardRIGHT";
+					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+					int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
+					Character *character = static_cast<Character*>(players[1]);
+
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "jump"), new actions::JumpAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "roll"), new actions::RollAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "midrange"), new actions::MidRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "longrange"), new actions::LongRangeAttackAction(character));
+					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "block"), new actions::BlockAction(character));
+					_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding, binding);
+				}
+				else if (_game->getGameMode() == GameBase::GameMode::Edit) {
 					std::string keyBinding = "keyboardLEFT";
 					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
 					int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
