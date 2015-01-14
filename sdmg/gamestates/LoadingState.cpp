@@ -518,13 +518,13 @@ namespace sdmg {
 			//std::string fiatMidRange = SDL_GetKeyName(manager.getKey(0, "midrange"));
 			//std::string fiatRoll = SDL_GetKeyName(manager.getKey(0, "roll"));
 
-			std::string nivekLeft = SDL_GetKeyName(manager.getKey(1, "walkLeft"));
-			std::string nivekRight = SDL_GetKeyName(manager.getKey(1, "walkRight"));
-			std::string nivekJump = SDL_GetKeyName(manager.getKey(1, "jump"));
-			std::string nivekMidRange = SDL_GetKeyName(manager.getKey(1, "midrange"));
-			std::string nivekRoll = SDL_GetKeyName(manager.getKey(1, "roll"));
-			std::string nivekLongRange = SDL_GetKeyName(manager.getKey(1, "longrange"));
-			std::string nivekBlock = SDL_GetKeyName(manager.getKey(1, "block"));
+			std::string nivekLeft = SDL_GetKeyName(manager.getKey(2, "walkLeft"));
+			std::string nivekRight = SDL_GetKeyName(manager.getKey(2, "walkRight"));
+			std::string nivekJump = SDL_GetKeyName(manager.getKey(2, "jump"));
+			std::string nivekMidRange = SDL_GetKeyName(manager.getKey(2, "midrange"));
+			std::string nivekRoll = SDL_GetKeyName(manager.getKey(2, "roll"));
+			std::string nivekLongRange = SDL_GetKeyName(manager.getKey(2, "longrange"));
+			std::string nivekBlock = SDL_GetKeyName(manager.getKey(2, "block"));
 
 			//de->loadText("tutIntro", "Welcome to the S.D.M.G. tutorial!", { 255, 255, 255 }, "arial", 30);
 			de->loadText("tutIntro", "Welcome to the tutorial! [ENTER]", { 255, 255, 255 }, "arial", 30);

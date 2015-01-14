@@ -61,14 +61,14 @@ namespace sdmg {
 			//_tutorial->push_back(std::make_pair(manager.getKey(1, "roll"), "tutFiat1"));
 			
 			// Nivek
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "roll"), "tutEnd"));
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "block"), "tutNivek8"));
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "longrange"), "tutNivek7"));
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "midrange"), "tutNivek6"));
+			_tutorial->push_back(std::make_pair(manager.getKey(2, "roll"), "tutEnd"));
+			_tutorial->push_back(std::make_pair(manager.getKey(2, "block"), "tutNivek8"));
+			_tutorial->push_back(std::make_pair(manager.getKey(2, "longrange"), "tutNivek7"));
+			_tutorial->push_back(std::make_pair(manager.getKey(2, "midrange"), "tutNivek6"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutNivek5"));
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "jump"), "tutNivek4"));
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "walkRight"), "tutNivek3"));
-			_tutorial->push_back(std::make_pair(manager.getKey(1, "walkLeft"), "tutNivek2"));
+			_tutorial->push_back(std::make_pair(manager.getKey(2, "jump"), "tutNivek4"));
+			_tutorial->push_back(std::make_pair(manager.getKey(2, "walkRight"), "tutNivek3"));
+			_tutorial->push_back(std::make_pair(manager.getKey(2, "walkLeft"), "tutNivek2"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutNivek1"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutIntro4"));
 			_tutorial->push_back(std::make_pair(SDLK_RETURN, "tutIntro3"));
