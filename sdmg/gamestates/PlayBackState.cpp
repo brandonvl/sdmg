@@ -131,15 +131,18 @@ namespace sdmg {
 
 						for (auto data : cStep._playerData) {
 
-							data.character->getBody()->SetTransform(b2Vec2(data.x, data.y), cStep._character->getBody()->GetAngle());
+							data.character->getBody()->SetTransform(b2Vec2(data.x, data.y), data.character->getBody()->GetAngle());
 							data.character->getBody()->SetLinearVelocity(b2Vec2(data.velocityX, data.velocityY));
 
 							data.character->setHP(data.hp);
-							data.character->setLives(data.lives);
+							data.character->setLives(data.lives);							
 							data.character->setPP(data.pp);
 						}
-						cStep._action->run(*_game);
-						delete cStep._action;
+
+						if (cStep._action != nullptr){
+							cStep._action->run(*_game);
+							delete cStep._action;
+						}
 					}
 					/*
 					} };

@@ -154,7 +154,7 @@ namespace sdmg {
 
 				if (obj->getLives() <= 0)
 				{
-					if (_engine->getGame()->getGameMode() != GameBase::GameMode::Playback && _engine->getGame()->getGameMode() != GameBase::GameMode::Edit)
+					if (_engine->getGame()->getGameMode() != GameBase::GameMode::Edit)
 						obj->die();
 					obj->setPP(0);
 					obj->getBody()->SetActive(false);
