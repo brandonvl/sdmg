@@ -24,6 +24,8 @@ namespace sdmg {
 					static FileManager _instance;
 					return _instance;
 				}
+
+				const bool dirExists(std::string path);
 			protected:
 				FileManager() { }
 			private:
