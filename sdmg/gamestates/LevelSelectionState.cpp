@@ -153,7 +153,10 @@ namespace sdmg {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_ESCAPE:
-						changeState(*_game, CharacterSelectionState::getInstance());
+						if (game.getGameMode() == GameBase::GameMode::Edit) 
+							changeState(*_game, MainMenuState::getInstance());
+						else
+							changeState(*_game, CharacterSelectionState::getInstance());
 						break;
 					case SDLK_DOWN:
 					case 1:
