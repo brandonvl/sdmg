@@ -48,11 +48,11 @@ namespace sdmg {
 
 			for (int i = 0; i < _slots->size(); i++) {
 				int x = (SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING) * i + SELECTED_CHARACTER_BOX_PADDING;
-				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT, (std::function<void()>)[&, i] { (*_slots)[i].clear(); });
+				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS + 48, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT - 48, (std::function<void()>)[&, i] { (*_slots)[i].clear(); });
 				
 				std::string key = "slot_key_" + std::to_string(i);
 				game.getEngine()->getDrawEngine()->loadDynamicText(key, { 255, 255, 255 }, "trebucbd", 20);
-				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS - 60, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT / 5, (std::function<void()>)[&, key] {
+				game.getEngine()->getInputEngine()->getMouse().setClickAction(x, SELECTED_CHARACTER_BOX_YPOS, SELECTED_CHARACTER_BOX_WIDTH, 48, (std::function<void()>)[&, key] {
 					if (_slotKeyInput->at(key) >= _keys->size() - 1) { _slotKeyInput->at(key) = 0; }
 					else { _slotKeyInput->at(key)++; }
 				});
@@ -117,6 +117,15 @@ namespace sdmg {
 			}
 
 			game.getEngine()->getDrawEngine()->load("characterselect_background", "assets/screens/mainmenu");
+
+			game.getEngine()->getDrawEngine()->load("controller1", "assets/devices/controller1");
+			game.getEngine()->getDrawEngine()->load("controller2", "assets/devices/controller2");
+			game.getEngine()->getDrawEngine()->load("controller3", "assets/devices/controller3");
+			game.getEngine()->getDrawEngine()->load("controller4", "assets/devices/controller4");
+			game.getEngine()->getDrawEngine()->load("keyboardLEFT", "assets/devices/keyboardLEFT");
+			game.getEngine()->getDrawEngine()->load("keyboardRIGHT", "assets/devices/keyboardRIGHT");
+
+
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 
 			_currentCharacter = new std::string(_characters->begin()->first);
@@ -192,6 +201,9 @@ namespace sdmg {
 					case 0:
 						_menu->selectPrevious();
 						break;
+					case SDLK_BACKSPACE:
+						removeLast();
+						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
@@ -223,6 +235,9 @@ namespace sdmg {
 						break;
 					case SDL_CONTROLLER_BUTTON_START:
 						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_Y:
+						removeLast();
 						break;
 					}
 				}
@@ -282,6 +297,17 @@ namespace sdmg {
 
 		}
 
+		void CharacterSelectionState::removeLast() {
+			int index = 0;
+
+			for (int i = _slots->size() - 1; i >= 0; i--) {
+				if (!(*_slots)[i].empty()) {
+					(*_slots)[i].clear();
+					return;
+				}
+			}
+		}
+
 		void CharacterSelectionState::drawSelectedCharacters(GameBase &game) {
 			auto de = game.getEngine()->getDrawEngine();
 
@@ -298,14 +324,10 @@ namespace sdmg {
 
 					de->draw("s_" + slot + "_big", imgPosX, imgPosY);
 
-					de->drawRectangle(Rectangle(xPos, imgPosY - 80, SELECTED_CHARACTER_BOX_WIDTH, SELECTED_CHARACTER_BOX_HEIGHT / 6), 81, 167, 204);
-					std::string key = "slot_key_" + std::to_string(slotNumber);
-					if (_slotKeyInput->find(key) == _slotKeyInput->end())
-						_slotKeyInput->insert(std::make_pair(key, slotNumber));
-					int xText = xPos + (SELECTED_CHARACTER_BOX_WIDTH / 2);
-					int textWidth = game.getEngine()->getDrawEngine()->getDynamicTextWidth(key) / 2;
-					if (slotNumber < _keys->size())
-						game.getEngine()->getDrawEngine()->drawDynamicText(key, _keys->at(_slotKeyInput->at(key)), xText - textWidth, imgPosY - 70);
+					if (slotNumber < _keys->size()) {
+						de->drawRectangle(Rectangle(xPos, SELECTED_CHARACTER_BOX_YPOS, 90, 48), 53, 121, 151);
+						game.getEngine()->getDrawEngine()->draw(_keys->at(_slotKeyInput->at("slot_key_" + std::to_string(slotNumber))), xPos, SELECTED_CHARACTER_BOX_YPOS);
+					}
 				}
 				slotNumber++;
 				xPos += SELECTED_CHARACTER_BOX_WIDTH + SELECTED_CHARACTER_BOX_PADDING;
@@ -352,8 +374,11 @@ namespace sdmg {
 
 				if (it != _keys->end()) {
 					_slotKeyInput->insert({ "slot_key_" + std::to_string(slotIndex), it - _keys->begin() });
+					return;
 				}
 			}
+
+			_slotKeyInput->insert(std::make_pair("slot_key_" + std::to_string(slotIndex), slotIndex));
 		}
 
 		void CharacterSelectionState::nextState() {

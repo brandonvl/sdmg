@@ -51,6 +51,7 @@ namespace sdmg {
 			void selectPrevious();
 			void select(std::string device);
 			void nextState();
+			void removeLast();
 
 			int
 				SELECTED_CHARACTER_BOX_WIDTH = 100;
