@@ -29,7 +29,7 @@ namespace sdmg {
 		void ProgressManager::reset()
 		{
 			// Reset autosave
-			setAutosave(false);
+			setAutosave(true);
 
 			// Reset timestamp
 			setTimestamp("");

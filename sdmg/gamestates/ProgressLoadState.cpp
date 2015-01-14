@@ -28,23 +28,38 @@ namespace sdmg {
 			_menu = new Menu(50, 250, game);
 
 			loadText("progressloadtitle", "Select Game to Load", "trebucbd", 48);
-
+			
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(0) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(0) : "New game", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 0;
-				ProgressManager::getInstance().load();
 				ProgressState::getInstance().setChanged();
+				ProgressManager::getInstance().load();
+				if (ProgressManager::getInstance().autosaveEnabled())  {
+					ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
+					ProgressManager::getInstance().save();
+				}
 				_game->getStateManager()->popState();
 			});
+			
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(1) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(1) : "New game", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 1;
-				ProgressManager::getInstance().load();
 				ProgressState::getInstance().setChanged();
+				ProgressManager::getInstance().load();
+				if (ProgressManager::getInstance().autosaveEnabled())  {
+					ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
+					ProgressManager::getInstance().save();
+				}
 				_game->getStateManager()->popState();
 			});
+			
 			_menu->addMenuTextItem(ProgressManager::getInstance().getSaveGameTimestamp(2) != "" ? ProgressManager::getInstance().getSaveGameTimestamp(2) : "New game", (std::function<void()>)[&] {
 				ProgressManager::getInstance().currentSavegame = 2;
-				ProgressManager::getInstance().load();
+				ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
 				ProgressState::getInstance().setChanged();
+				ProgressManager::getInstance().load();
+				if (ProgressManager::getInstance().autosaveEnabled())  {
+					ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
+					ProgressManager::getInstance().save();
+				}
 				_game->getStateManager()->popState();
 			});
 			if (ProgressManager::getInstance().currentSavegame >= 0)
