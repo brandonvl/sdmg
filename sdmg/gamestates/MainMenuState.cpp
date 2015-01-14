@@ -93,7 +93,9 @@ namespace sdmg {
 		void MainMenuState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			delete _advertismentList;
+			_advertismentList = nullptr;
 
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
