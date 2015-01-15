@@ -92,7 +92,7 @@ namespace sdmg {
 
 		int MovableGameObject::getMidDamage()
 		{
-			return _midCost;
+			return _midDamage;
 		}
 
 		void MovableGameObject::setMidDamage(int damage)
@@ -102,7 +102,7 @@ namespace sdmg {
 
 		int MovableGameObject::getLongDamage()
 		{
-			return _longCost;
+			return _longDamage;
 		}
 
 		void MovableGameObject::setLongDamage(int damage)
