@@ -6,12 +6,13 @@
 		size: { width: 30, height: 10 },
 		midPosition: 3.3,
 		longPosition: 3.3,
-		midCost: 10,
-		longCost: 20,
-		midDamage: 10,
-		longDamage: 20
+		midCost: 15,
+		longCost: 10,
+		midDamage: 25,
+		longDamage: 5,
+		damageMultiplier: 1.25
 	},
-	speed: { horizontal: 20, vertical: 2.5 },
+	speed: { horizontal: 30, vertical: 2.5 },
 	scale: 0.25,
 	idle: [368,522],
 	walking: [398,545],

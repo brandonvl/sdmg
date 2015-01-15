@@ -1,17 +1,18 @@
 {
 	name: "Nivek",
-	level: "level1nivek",
+	level: "planking stars",
 	size: { width: 110, height: 143 },
 	attack: {
 		size: { width: 30, height: 10 },
 		midPosition: 3.3,
 		longPosition: 3.3,
-		midCost: 10,
-		longCost: 20,
-		midDamage: 10,
-		longDamage: 20
+		midCost: 15,
+		longCost: 15,
+		midDamage: 25,
+		longDamage: 10,
+		damageMultiplier: 1.2
 	},
-	speed: { horizontal: 20, vertical: 2.5 },
+	speed: { horizontal: 27, vertical: 2.5 },
 	scale: 0.25,
 	idle: [394.25,548],
 	walking: [440.25,573],

@@ -49,7 +49,7 @@ namespace sdmg {
 
 		void MovableGameObject::hit(int damage)
 		{
-			setHP(_hp - damage);
+			setHP(_hp - damage * _multiplierOnHit);
 
 			for (auto callback : _hitCallbacks)
 				callback(this);
@@ -428,6 +428,16 @@ namespace sdmg {
 				_shootBody->GetWorld()->DestroyBody(_shootBody);
 				_shootBody = nullptr;
 			}
+		}
+
+		double MovableGameObject::getMultiplierOnHit()
+		{
+			return _multiplierOnHit;
+		}
+
+		void MovableGameObject::setMultiplierOnHit(double multiplier)
+		{
+			_multiplierOnHit = multiplier;
 		}
 
 		MovableGameObject::State MovableGameObject::getState() { return _state; }

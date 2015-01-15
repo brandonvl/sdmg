@@ -1,17 +1,18 @@
 {
 	name: "Fiat",
-	level: "bambooo",
+	level: "river fever",
 	size: { width: 110, height: 153 },
 	attack: {
 		size: { width: 60, height: 10 },
 		midPosition: 3,
 		longPosition: 5,
 		midCost: 10,
-		longCost: 20,
-		midDamage: 10,
-		longDamage: 20
+		longCost: 15,
+		midDamage: 30,
+		longDamage: 5,
+		damageMultiplier: 0.5
 	},
-	speed: { horizontal: 20, vertical: 2.2 },
+	speed: { horizontal: 15, vertical: 2.2 },
 	scale: 0.30,
 	idle: [389,508],
 	walking: [494.25,527],

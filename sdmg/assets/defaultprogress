@@ -111,8 +111,8 @@
 					persistant:true
 				},
 				{
-					name:"Level 1 Nivek",
-					key:"level1nivek",
+					name:"Planking Stars",
+					key:"planking stars",
 					unlocked:true,
 					persistant:true
 				}
@@ -202,8 +202,8 @@
 					persistant:true
 				},
 				{
-					name:"Level 1 Nivek",
-					key:"level1nivek",
+					name:"Planking Stars",
+					key:"planking stars",
 					unlocked:true,
 					persistant:true
 				}
@@ -293,8 +293,8 @@
 					persistant:true
 				},
 				{
-					name:"Level 1 Nivek",
-					key:"level1nivek",
+					name:"Planking Stars",
+					key:"planking stars",
 					unlocked:true,
 					persistant:true
 				}

@@ -30,6 +30,7 @@
 #include "PlayBackState.h"
 #include "helperclasses\ProgressManager.h"
 #include "helperclasses\Recorder.h"
+#include "engine\GameTime.h"
 
 
 namespace sdmg {
@@ -39,9 +40,12 @@ namespace sdmg {
 			_game = &game;
 
 			_game->getEngine()->getPhysicsEngine()->pause();
-
+			
+			_isLoaded = false;
 			_savedReplay = false;
 
+			_enteredGameOverState = game.getGameTime()->getTotalSecondsRunning();
+			
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
@@ -276,14 +280,17 @@ namespace sdmg {
 						changeState(game, MainMenuState::getInstance());
 						break;
 					case SDLK_DOWN:
-						_menu->selectNext();
+						if (_isLoaded)
+							_menu->selectNext();
 						break;
 					case SDLK_UP:
-						_menu->selectPrevious();
+						if (_isLoaded)
+							_menu->selectPrevious();
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						_menu->doAction();
+						if (_isLoaded)
+							_menu->doAction();
 						break;
 					}
 				}
@@ -295,13 +302,16 @@ namespace sdmg {
 						changeState(game, MainMenuState::getInstance());
 						break;
 					case SDL_CONTROLLER_BUTTON_START:
-						_menu->doAction();
+						if (_isLoaded)
+							_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						_menu->selectPrevious();
+						if (_isLoaded)
+							_menu->selectPrevious();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						_menu->selectNext();
+						if (_isLoaded)
+							_menu->selectNext();
 						break;
 					}
 				}
@@ -310,6 +320,8 @@ namespace sdmg {
 
 		void GameOverState::update(GameBase &game, GameTime &gameTime)
 		{
+			if (game.getGameTime()->getTotalSecondsRunning() - _enteredGameOverState > 3)
+				_isLoaded = true;
 			//std::cout << "Updating GameOverState ... " << std::endl;
 		}
 
@@ -327,7 +339,8 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->drawText("rank" + std::to_string(i), 717, 280 + (i * 75));
 			}
 
-			_menu->draw(&game);
+			if (_isLoaded)
+				_menu->draw(&game);
 			game.getEngine()->getDrawEngine()->render();
 		}
 	}

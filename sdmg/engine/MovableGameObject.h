@@ -101,6 +101,9 @@ namespace sdmg {
 			void setShootBody(b2Body *shootBody);
 			void destroyShootBody(Engine &engine);
 
+			double getMultiplierOnHit();
+			void setMultiplierOnHit(double multiplier);
+
 			float getMidAttackY();
 			void setMidAttackY(float y);
 			float getLongAttackY();
@@ -131,6 +134,7 @@ namespace sdmg {
 			bool _isJumping, _isDead;
 			Speed _speed;
 			State _state;
+			double _multiplierOnHit;
 		};
 
 		inline MovableGameObject::State operator|(MovableGameObject::State a, MovableGameObject::State b)

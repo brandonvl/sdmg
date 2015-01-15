@@ -32,7 +32,6 @@ namespace sdmg {
 				character->setDirection(MovableGameObject::Direction::RIGHT);
 			}
 
-
 			character->setLives(4);
 			character->setHP(100);
 			character->setPP(100);
@@ -46,6 +45,7 @@ namespace sdmg {
 			character->setLongCost(obj.getObject("attack").getFloat("longCost"));
 			character->setMidDamage(obj.getObject("attack").getFloat("midDamage"));
 			character->setLongDamage(obj.getObject("attack").getFloat("longDamage"));
+			character->setMultiplierOnHit(obj.getObject("attack").getFloat("damageMultiplier"));
 			
 			std::string folder = "assets/characters/" + name + "/";
 			game.getEngine()->getAudioEngine()->load("punch_" + name, folder + "punch", AUDIOTYPE::SOUND_EFFECT);
