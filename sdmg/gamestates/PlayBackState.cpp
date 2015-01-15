@@ -106,7 +106,8 @@ namespace sdmg {
 					case SDL_CONTROLLERBUTTONDOWN:
 						switch (event.cbutton.button) {
 						case SDL_CONTROLLER_BUTTON_START:
-						case SDL_CONTROLLER_BUTTON_A:
+						case SDL_CONTROLLER_BUTTON_B:
+							GameOverState::getInstance().cleanup(game);
 							_game->getStateManager()->changeState(MainMenuState::getInstance());
 							break;
 						}
