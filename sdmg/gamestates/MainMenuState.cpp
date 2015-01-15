@@ -129,22 +129,25 @@ namespace sdmg {
 						break;
 					case SDLK_DOWN:
 					case 1:
-						_menu->selectNext();
+						if (_menu)
+							_menu->selectNext();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_UP:
 					case 0:
-						_menu->selectPrevious();
+						if (_menu)
+							_menu->selectPrevious();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						_menu->doAction();
+						if (_menu)
+							_menu->doAction();
 						break;
 					}
 				}
-				else if (event.type == SDL_CONTROLLERBUTTONDOWN) 
+				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
 				{
 					switch (event.cbutton.button)
 					{
@@ -152,13 +155,16 @@ namespace sdmg {
 						game.stop();
 						break;
 					case SDL_CONTROLLER_BUTTON_A:
-						_menu->doAction();
+						if (_menu)
+							_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						_menu->selectPrevious();
+						if (_menu)
+							_menu->selectPrevious();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						_menu->selectNext();
+						if (_menu)
+							_menu->selectNext();
 						break;
 					}
 				}
