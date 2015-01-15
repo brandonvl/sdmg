@@ -54,6 +54,13 @@ namespace sdmg {
 
 			_currentdevice = 0;
 
+			game.getEngine()->getDrawEngine()->load("controller1", "assets/devices/controller1");
+			game.getEngine()->getDrawEngine()->load("controller2", "assets/devices/controller2");
+			game.getEngine()->getDrawEngine()->load("controller3", "assets/devices/controller3");
+			game.getEngine()->getDrawEngine()->load("controller4", "assets/devices/controller4");
+			game.getEngine()->getDrawEngine()->load("keyboardLEFT", "assets/devices/keyboardLEFT");
+			game.getEngine()->getDrawEngine()->load("keyboardRIGHT", "assets/devices/keyboardRIGHT");
+
 			_game->getEngine()->getDrawEngine()->loadText("controlstitle", "Controls", { 255, 255, 255 }, "trebucbd", 48);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info", { 255, 255, 255 }, "trebucbd", 20);
 			_game->getEngine()->getDrawEngine()->loadDynamicText("info2", { 255, 255, 255 }, "trebucbd", 20);
@@ -206,7 +213,7 @@ namespace sdmg {
 							case SDL_CONTROLLER_BUTTON_B:
 								_game->getStateManager()->popState();
 								break;
-							case SDL_CONTROLLER_BUTTON_A:
+							case SDL_CONTROLLER_BUTTON_START:
 									_menu->doAction();
 								break;
 							case SDL_CONTROLLER_BUTTON_DPAD_UP:
@@ -333,7 +340,6 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->drawText("controlstitle", 50, 70);
 			drawEngine->drawDynamicText("info", *_info, 250, 20);
 			drawEngine->drawDynamicText("info2", *_info2, 250, 50);
-			drawEngine->drawDynamicText("devicename", "Device: " + *_devicename, 250, 90);
 			drawEngine->drawDynamicText("walkright", *_walkright, 650, 145);
 			drawEngine->drawDynamicText("walkleft", *_walkleft, 650, 215);
 			drawEngine->drawDynamicText("jump", *_jump, 650, 290);
@@ -341,6 +347,8 @@ namespace sdmg {
 			drawEngine->drawDynamicText("midrange", *_midrange, 650, 435);
 			drawEngine->drawDynamicText("longrange", *_longrange, 650, 505);
 			drawEngine->drawDynamicText("block", *_block, 650, 575);
+
+			drawEngine->draw(*_devicename, 750, 80);
 
 			_menu->draw(&game);
 

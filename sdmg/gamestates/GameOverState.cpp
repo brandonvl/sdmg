@@ -155,6 +155,9 @@ namespace sdmg {
 		void GameOverState::saveReplay() {
 
 			if (!_savedReplay) {
+				static_cast<helperclasses::menuitems::MenuTextItem*>(_menu->getSelectedMenuItem())->setText("Saving...", *_game);
+				redraw(*_game);
+
 				_game->getRecorder().save("assets/playbacks/recording");
 
 				_savedReplay = true;
@@ -291,7 +294,7 @@ namespace sdmg {
 					case SDL_CONTROLLER_BUTTON_B:
 						changeState(game, MainMenuState::getInstance());
 						break;
-					case SDL_CONTROLLER_BUTTON_A:
+					case SDL_CONTROLLER_BUTTON_START:
 						_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:
@@ -312,6 +315,10 @@ namespace sdmg {
 
 		void GameOverState::draw(GameBase &game, GameTime &gameTime)
 		{
+			redraw(game);
+		}
+
+		void GameOverState::redraw(GameBase &game) {
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("gameoverbackground");
 			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);

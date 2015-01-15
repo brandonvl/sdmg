@@ -38,12 +38,12 @@ namespace sdmg {
 			_slots = new std::vector<std::string>();
 			_keys = new std::vector<std::string>();
 			//  _slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
-			//_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
+			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
 
 
 			loadKeys();
 
-			_slots->resize(game.getGameMode() == GameBase::GameMode::SinglePlayer || game.getGameMode() == GameBase::GameMode::Survival ? 1 : _keys->size());
+			//_slots->resize(game.getGameMode() == GameBase::GameMode::SinglePlayer || game.getGameMode() == GameBase::GameMode::Survival ? 1 : _keys->size());
 
 			SELECTED_CHARACTER_BOX_WIDTH = (game.getEngine()->getDrawEngine()->getWindowWidth() - SELECTED_CHARACTER_BOX_PADDING * _slots->size() - SELECTED_CHARACTER_BOX_PADDING) / _slots->size();
 
@@ -242,7 +242,7 @@ namespace sdmg {
 						break;
 					}
 				}
-				else if (event.type == SDL_CONTROLLERDEVICEADDED || event.type == SDL_CONTROLLERDEVICEREMOVED) {
+				/*else if (event.type == SDL_CONTROLLERDEVICEADDED || event.type == SDL_CONTROLLERDEVICEREMOVED) {
 					switch (event.type)
 					{
 					case SDL_CONTROLLERDEVICEADDED:
@@ -256,7 +256,7 @@ namespace sdmg {
 						_slots->resize(_keys->size());
 						break;
 					}
-				}
+				}*/
 			}
 		}
 

@@ -1,1 +1,305 @@
-{autosave:true,highscores:[{name:" ",number:"1",score:"0"},{name:" ",number:"2",score:"0"},{name:" ",number:"3",score:"0"},{name:" ",number:"4",score:"0"},{name:" ",number:"5",score:"0"}],savegame:[{characters:[{key:"nivek",losses:0,name:"Nivek",persistant:true,unlocked:true,wins:0},{key:"silence",losses:0,name:"Silence",persistant:false,unlocked:true,wins:0},{key:"fiat",losses:0,name:"Fiat",persistant:true,unlocked:true,wins:0},{key:"lucky",losses:0,name:"Lucky",persistant:false,unlocked:true,wins:0},{key:"mind",losses:0,name:"Mind",persistant:false,unlocked:true,wins:0},{key:"enrique",losses:0,name:"Enrique",persistant:false,unlocked:true,wins:0}],levels:[{key:"night life",name:"Night Life",persistant:false,unlocked:true},{key:"forest rumble",name:"Forest Rumble",persistant:false,unlocked:true},{key:"jolly saloon",name:"Jolly Saloon",persistant:false,unlocked:true},{key:"slippery slope",name:"Slippery Slope",persistant:false,unlocked:true},{key:"bambooo",name:"Bambooo",persistant:true,unlocked:true},{key:"level1nivek",name:"Level 1 Nivek",persistant:true,unlocked:true}],timestamp:"2015/1/15 12:13:55"},{characters:[{key:"nivek",losses:0,name:"Nivek",persistant:true,unlocked:true,wins:0},{key:"silence",losses:0,name:"Silence",persistant:false,unlocked:false,wins:0},{key:"fiat",losses:0,name:"Fiat",persistant:true,unlocked:true,wins:0},{key:"lucky",losses:0,name:"Lucky",persistant:false,unlocked:false,wins:0},{key:"mind",losses:0,name:"Mind",persistant:false,unlocked:false,wins:0},{key:"enrique",losses:0,name:"Enrique",persistant:false,unlocked:false,wins:0}],levels:[{key:"night life",name:"Night Life",persistant:false,unlocked:false},{key:"forest rumble",name:"Forest Rumble",persistant:false,unlocked:false},{key:"jolly saloon",name:"Jolly Saloon",persistant:false,unlocked:false},{key:"slippery slope",name:"Slippery Slope",persistant:false,unlocked:false},{key:"bambooo",name:"Bambooo",persistant:true,unlocked:true},{key:"level1nivek",name:"Level 1 Nivek",persistant:true,unlocked:true}],timestamp:""},{characters:[{key:"nivek",losses:0,name:"Nivek",persistant:true,unlocked:true,wins:0},{key:"silence",losses:0,name:"Silence",persistant:false,unlocked:false,wins:0},{key:"fiat",losses:0,name:"Fiat",persistant:true,unlocked:true,wins:0},{key:"lucky",losses:0,name:"Lucky",persistant:false,unlocked:false,wins:0},{key:"mind",losses:0,name:"Mind",persistant:false,unlocked:false,wins:0},{key:"enrique",losses:0,name:"Enrique",persistant:false,unlocked:false,wins:0}],levels:[{key:"night life",name:"Night Life",persistant:false,unlocked:false},{key:"forest rumble",name:"Forest Rumble",persistant:false,unlocked:false},{key:"jolly saloon",name:"Jolly Saloon",persistant:false,unlocked:false},{key:"slippery slope",name:"Slippery Slope",persistant:false,unlocked:false},{key:"bambooo",name:"Bambooo",persistant:true,unlocked:true},{key:"level1nivek",name:"Level 1 Nivek",persistant:true,unlocked:true}],timestamp:""}]}
+{
+	autosave:false,	
+	highscores:[
+		{
+			number:"1",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"2",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"3",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"4",
+			name:" ",
+			score:"0"
+		}
+		{
+			number:"5",
+			name:" ",
+			score:"0"
+		}
+	],
+	savegame:[
+		{
+			characters:[
+				{
+					losses:0,
+					name:"Nivek",
+					key:"nivek",
+					unlocked:true,
+					wins:0,
+					persistant:true
+				},
+				{
+					losses:0,
+					name:"Silence",
+					key:"silence",
+					unlocked:true,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Fiat",
+					key:"fiat",
+					unlocked:true,
+					wins:0,
+					persistant:true
+				},
+				{
+					losses:0,
+					name:"Lucky",
+					key:"lucky",
+					unlocked:true,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Mind",
+					key:"mind",
+					unlocked:true,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Enrique",
+					key:"enrique",
+					unlocked:true,
+					wins:0,
+					persistant:false
+				}
+			],
+			levels:[
+				{
+					name:"Night Life",
+					key:"night life",
+					unlocked:true,
+					persistant:false
+				},
+				{
+					name:"Forest Rumble",
+					key:"forest rumble",
+					unlocked:true,
+					persistant:false
+				},
+				{
+					name:"Jolly Saloon",
+					key:"jolly saloon",
+					unlocked:true,
+					persistant:false
+				},
+				{
+					name:"Slippery Slope",
+					key:"slippery slope",
+					unlocked:true,
+					persistant:false
+				},
+				{
+					name:"Bambooo",
+					key:"bambooo",
+					unlocked:true,
+					persistant:true
+				},
+				{
+					name:"Level 1 Nivek",
+					key:"level1nivek",
+					unlocked:true,
+					persistant:true
+				}
+			],
+			timestamp:""
+		},
+		{
+			characters:[
+				{
+					losses:0,
+					name:"Nivek",
+					key:"nivek",
+					unlocked:true,
+					wins:0,
+					persistant:true
+				},
+				{
+					losses:0,
+					name:"Silence",
+					key:"silence",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Fiat",
+					key:"fiat",
+					unlocked:true,
+					wins:0,
+					persistant:true
+				},
+				{
+					losses:0,
+					name:"Lucky",
+					key:"lucky",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Mind",
+					key:"mind",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Enrique",
+					key:"enrique",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				}
+			],
+			levels:[
+				{
+					name:"Night Life",
+					key:"night life",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Forest Rumble",
+					key:"forest rumble",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Jolly Saloon",
+					key:"jolly saloon",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Slippery Slope",
+					key:"slippery slope",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Bambooo",
+					key:"bambooo",
+					unlocked:true,
+					persistant:true
+				},
+				{
+					name:"Level 1 Nivek",
+					key:"level1nivek",
+					unlocked:true,
+					persistant:true
+				}
+			],
+			timestamp:""
+		},
+		{
+			characters:[
+				{
+					losses:0,
+					name:"Nivek",
+					key:"nivek",
+					unlocked:true,
+					wins:0,
+					persistant:true
+				},
+				{
+					losses:0,
+					name:"Silence",
+					key:"silence",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Fiat",
+					key:"fiat",
+					unlocked:true,
+					wins:0,
+					persistant:true
+				},
+				{
+					losses:0,
+					name:"Lucky",
+					key:"lucky",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Mind",
+					key:"mind",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				},
+				{
+					losses:0,
+					name:"Enrique",
+					key:"enrique",
+					unlocked:false,
+					wins:0,
+					persistant:false
+				}
+			],
+			levels:[
+				{
+					name:"Night Life",
+					key:"night life",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Forest Rumble",
+					key:"forest rumble",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Jolly Saloon",
+					key:"jolly saloon",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Slippery Slope",
+					key:"slippery slope",
+					unlocked:false,
+					persistant:false
+				},
+				{
+					name:"Bambooo",
+					key:"bambooo",
+					unlocked:true,
+					persistant:true
+				},
+				{
+					name:"Level 1 Nivek",
+					key:"level1nivek",
+					unlocked:true,
+					persistant:true
+				}
+			],
+			timestamp:""
+		}
+	]
+}

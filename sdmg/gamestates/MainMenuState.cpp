@@ -141,18 +141,21 @@ namespace sdmg {
 					{
 					case SDLK_DOWN:
 					case 1:
-						_menu->selectNext();
+						if (_menu)
+							_menu->selectNext();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_UP:
 					case 0:
-						_menu->selectPrevious();
+						if (_menu)
+							_menu->selectPrevious();
 						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
 					case 10:
-						_menu->doAction();
+						if (_menu)
+							_menu->doAction();
 						break;
 					}
 				}

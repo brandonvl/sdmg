@@ -78,7 +78,7 @@ namespace sdmg {
 				case SDL_CONTROLLERBUTTONDOWN:
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_A:
+					case SDL_CONTROLLER_BUTTON_START:
 						_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_B:
