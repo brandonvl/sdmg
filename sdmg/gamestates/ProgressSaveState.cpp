@@ -53,6 +53,7 @@ namespace sdmg {
 
 		void ProgressSaveState::cleanup(GameBase &game) {
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getDrawEngine()->unloadText("selectsavetitle");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}

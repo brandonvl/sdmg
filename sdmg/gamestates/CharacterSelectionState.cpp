@@ -137,6 +137,7 @@ namespace sdmg {
 		void CharacterSelectionState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			delete _currentCharacter;
 			_currentCharacter = nullptr;
 			delete _slotKeyInput;
