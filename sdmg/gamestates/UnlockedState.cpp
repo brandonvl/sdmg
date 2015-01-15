@@ -43,6 +43,7 @@ namespace sdmg {
 		void UnlockedState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			delete _playerName;
 			delete _levelName;
 			

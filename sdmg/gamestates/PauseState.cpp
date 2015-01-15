@@ -83,6 +83,7 @@ namespace sdmg {
 		void PauseState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 

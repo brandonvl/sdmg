@@ -119,6 +119,7 @@ namespace sdmg {
 		void ControlsState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getDrawEngine()->unload("controls_background");
 			game.getEngine()->getDrawEngine()->unloadText("controlstitle");
 			game.getEngine()->getDrawEngine()->unload("info");

@@ -50,6 +50,7 @@ namespace sdmg {
 		void OptionsState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getDrawEngine()->unloadText("controls");
 			game.getEngine()->getDrawEngine()->unloadText("saveload");
 			game.getEngine()->getDrawEngine()->unloadText("help");

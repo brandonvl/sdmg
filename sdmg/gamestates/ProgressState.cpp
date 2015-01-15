@@ -67,6 +67,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->clearBindings();
 			
 			delete _menu;
+			_menu = nullptr;
 		}
 
 		void ProgressState::handleEvents(GameBase &game, GameTime &gameTime)
