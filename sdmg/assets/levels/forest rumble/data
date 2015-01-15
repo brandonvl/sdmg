@@ -40,8 +40,8 @@
 			bodyPadding: { x: 0, y: 0 }
 		},
 		{
-			size: { width: 150, height: 60 },
-			location: { x: 625, y: 180 },
+			size: { width: 150, height: 80 },
+			location: { x: 625, y: 190 },
 			bodyPadding: { x: 0, y: 0 }
 		}		
 	],
