@@ -409,13 +409,27 @@ namespace sdmg {
 			_slotKeyInput->insert(std::make_pair("slot_key_" + std::to_string(slotIndex), slotIndex));
 		}
 
+		bool CharacterSelectionState::hasForDoubleControllers() {
+
+			std::vector<int> foundDevices;
+
+			for (auto it : *_slotKeyInput) {
+				if (std::find(foundDevices.begin(), foundDevices.end(), it.second) == foundDevices.end())
+					foundDevices.push_back(it.second);
+				else
+					return true;
+			}
+
+			return false;
+		}
+
 		void CharacterSelectionState::nextState() {
 			int numPlayerCount = std::count_if(_slots->begin(), _slots->end(), [](std::string slot) { return !slot.empty(); });
 
 			if (numPlayerCount >= 1) {
 				switch (_game->getGameMode()) {
 				case GameBase::GameMode::Versus:
-					if (numPlayerCount >= 2) {
+					if (numPlayerCount >= 2 && !hasForDoubleControllers()) {
 						LoadingState::getInstance().resetCharacters();
 						LoadingState::getInstance().setSlotKeyBinding(_slotKeyInput, _keys);
 

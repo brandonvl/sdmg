@@ -53,6 +53,7 @@ namespace sdmg {
 			void select(std::string device);
 			void nextState();
 			void removeLast();
+			bool hasForDoubleControllers();
 
 			int
 				SELECTED_CHARACTER_BOX_WIDTH = 100;
