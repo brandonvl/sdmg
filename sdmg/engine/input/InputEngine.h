@@ -52,10 +52,12 @@ namespace sdmg {
 				InputDeviceBinding *createBinding(const std::string &deviceName);
 				std::string getDevice(SDL_Event &event);
 				std::string getDeviceNameByEvent(SDL_Event &event);
+				bool isDeviceEnabled(SDL_Event &event);
 			private:
 				Engine *_engine;
 				Mouse _mouse;
 				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
+				
 				std::map<std::string, InputType> _devices;
 				std::vector<Action*> *_actions;
 				bool _active, _mouseEnabled;

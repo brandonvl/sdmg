@@ -16,6 +16,7 @@ namespace sdmg {
 					virtual void clearBindings() override;
 					virtual bool hasBinding(SDL_Event &event) override;
 					virtual bool hasThisGamePad(SDL_Event &event) override;
+					virtual bool isKeyBoard() override { return false; }
 					virtual Action* createAction(SDL_Event &action) override;
 					Joystick *getController() { return _controller; }
 			private:
