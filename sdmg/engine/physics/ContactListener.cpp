@@ -1,5 +1,7 @@
 #include "ContactListener.h"
 #include "engine\physics\KinematicBody.h"
+#include "engine\audio\AudioEngine.h"
+#include "engine\Engine.h"
 #include "engine\MovableGameObject.h"
 #include "model\MovablePlatform.h"
 #include "engine\MovableGameObject.h"
@@ -10,7 +12,11 @@
 namespace sdmg {
 	namespace engine {
 		namespace physics {
-			ContactListener::ContactListener() { }
+			ContactListener::ContactListener(Engine *engine)
+			{
+				_engine = engine;
+			}
+
 			ContactListener::~ContactListener() { }
 
 			void ContactListener::BeginContact(b2Contact* contact) {
@@ -175,6 +181,7 @@ namespace sdmg {
 						MovableGameObject::State state = player->getState();
 						if (state != MovableGameObject::State::KNEELING && state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT)
 						{
+							_engine->getAudioEngine()->play("hurt_shoot", 0);
 							if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
 								player->addPP(-platform->getDamageOnImpact());
 							else
@@ -202,6 +209,7 @@ namespace sdmg {
 					{
 						if (state != MovableGameObject::State::KNEELING && state != MovableGameObject::State::KNOCKBACKLEFT && state != MovableGameObject::State::KNOCKBACKRIGHT && !player->getRolling())
 						{
+							_engine->getAudioEngine()->play("hurt_punch", 0);
 							if (player->getState() == (MovableGameObject::State::IDLE | MovableGameObject::State::BLOCKING))
 								player->addPP(-platform->getDamageOnImpact());
 							else

@@ -281,6 +281,8 @@ namespace sdmg {
 			_isError = false;
 			_isAdvertisement = false;
 
+			_game->getEngine()->getAudioEngine()->load("hurt_punch", "assets\\sounds\\effects\\hurt_punch.ogg", AUDIOTYPE::SOUND_EFFECT);
+			_game->getEngine()->getAudioEngine()->load("hurt_shoot", "assets\\sounds\\effects\\hurt_shoot.ogg", AUDIOTYPE::SOUND_EFFECT);
 			_game->getEngine()->getDrawEngine()->load("loading", "assets\\screens\\loadingscreen");
 			_game->getStateManager()->draw();
 

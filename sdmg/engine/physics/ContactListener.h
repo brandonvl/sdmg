@@ -3,13 +3,14 @@
 
 namespace sdmg {
 	namespace engine {
+		class Engine;
 		namespace physics {
 			class PhysicsEngine;
 
 			class ContactListener : public b2ContactListener
 			{
 			public:
-				ContactListener();
+				ContactListener(Engine *engine);
 				virtual ~ContactListener();
 
 				virtual void BeginContact(b2Contact* contact);
@@ -17,6 +18,8 @@ namespace sdmg {
 				virtual void PreSolve(b2Contact* contact, const b2Manifold *oldManifold);
 				virtual void PostSolve(b2Contact* contact, const b2ContactImpulse *impulse);
 			private:
+				Engine *_engine;
+
 				void resetJump(b2Body *upper, b2Body *lower);
 				void ContactDynamicBodyWithKinematicBody(b2Body *dynamic, b2Body *kinematic, b2Contact *contact);
 				void ContactKinematicBodyWithDynamicBody(b2Body *kinematic, b2Body *dynamic, b2Contact *contact);

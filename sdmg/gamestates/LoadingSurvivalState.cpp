@@ -60,6 +60,8 @@ namespace sdmg {
 
 			_game->getStateManager()->draw();
 
+			game.getEngine()->getAudioEngine()->load("hurt_punch", "assets\\sounds\\effects\\hurt_punch.ogg", AUDIOTYPE::SOUND_EFFECT);
+			game.getEngine()->getAudioEngine()->load("hurt_shoot", "assets\\sounds\\effects\\hurt_shoot.ogg", AUDIOTYPE::SOUND_EFFECT);
 			load();
 			game.getEngine()->getAudioEngine()->unload("main_menu_bgm");
 

@@ -10,9 +10,9 @@
 		longCost: 15,
 		midDamage: 30,
 		longDamage: 5,
-		damageMultiplier: 0.7
+		damageMultiplier: 0.9
 	},
-	speed: { horizontal: 18, vertical: 2.2 },
+	speed: { horizontal: 20, vertical: 2.2 },
 	scale: 0.30,
 	idle: [389,508],
 	walking: [494.25,527],

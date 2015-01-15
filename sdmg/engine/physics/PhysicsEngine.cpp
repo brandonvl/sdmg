@@ -30,7 +30,7 @@ namespace sdmg {
 				_engine = engine;
 				_world = new b2World(b2Vec2(0.0f, 0.0f));
 				_actionHandler = new PhysicsEngineActionHandler(_engine);
-				_contactListener = new ContactListener();
+				_contactListener = new ContactListener(_engine);
 				_contactFilter = new b2ContactFilter();
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
