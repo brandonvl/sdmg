@@ -117,7 +117,9 @@ namespace sdmg {
 						case SDL_KEYDOWN:
 							switch (event.key.keysym.sym) {
 							case SDLK_ESCAPE:
-								game.getStateManager()->pushState(PauseState::getInstance());
+								if (game.getEngine()->getInputEngine()->isDeviceEnabled(event)) {
+									game.getStateManager()->pushState(PauseState::getInstance());
+								}
 								break;
 							case SDLK_F1:
 								if (!event.key.repeat)
@@ -180,7 +182,9 @@ namespace sdmg {
 						switch (event.cbutton.button)
 						{
 							case SDL_CONTROLLER_BUTTON_START:
-								game.getStateManager()->pushState(PauseState::getInstance());
+								if (game.getEngine()->getInputEngine()->isDeviceEnabled(event)){
+									game.getStateManager()->pushState(PauseState::getInstance());
+								}
 								break;
 						}
 					}

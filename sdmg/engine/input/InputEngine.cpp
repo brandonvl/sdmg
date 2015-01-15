@@ -110,6 +110,26 @@ namespace sdmg {
 				if (_mouseEnabled) _mouse.handleMouseEvent(event);
 			}
 
+			bool InputEngine::isDeviceEnabled(SDL_Event &event)
+			{
+				if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+					for (auto &it : *_deviceBindings) {
+						if (it.second->isKeyBoard() && it.second->isEnabled())
+							return true;
+					}
+				}
+				else if(event.type == SDL_CONTROLLERBUTTONDOWN || event.type == SDL_CONTROLLERBUTTONUP) {
+					for (auto &it : *_deviceBindings) {
+						if (!it.second->isKeyBoard() && it.second->isEnabled()){
+							if (static_cast<ControllerInputDeviceBinding*>(it.second)->getController()->getID() == event.cbutton.which)
+								return true;
+						}
+					}
+				}
+
+				return false;
+			}
+
 			void InputEngine::registerGameController(SDL_Event &event)
 			{
 				if (event.type == SDL_CONTROLLERDEVICEADDED) {

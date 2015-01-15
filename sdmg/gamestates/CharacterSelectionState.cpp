@@ -395,6 +395,13 @@ namespace sdmg {
 				auto it = std::find(_keys->begin(), _keys->end(), device);
 
 				if (it != _keys->end()) {
+
+					std::string slotKeyValue = "slot_key_" + std::to_string(slotIndex);
+					auto bindingFound = _slotKeyInput->find(slotKeyValue);
+
+					if (bindingFound != _slotKeyInput->end())
+						_slotKeyInput->erase(bindingFound->first);
+
 					_slotKeyInput->insert({ "slot_key_" + std::to_string(slotIndex), it - _keys->begin() });
 					return;
 				}

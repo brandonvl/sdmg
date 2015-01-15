@@ -27,6 +27,7 @@ namespace sdmg {
 				virtual void enable() { _enabled = true; }
 				virtual bool isEnabled() { return _enabled; }
 				virtual void clearBindings();
+				virtual bool isKeyBoard() { return true; }
 				virtual bool hasThisGamePad(SDL_Event &event) { return false; }
 				virtual Action* createAction(SDL_Event &action);
 			protected:

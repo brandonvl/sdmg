@@ -7,7 +7,7 @@
 		midPosition: 3.3,
 		longPosition: 3.3,
 		midCost: 10,
-		longCost: 20,
+		longCost: 18,
 		midDamage: 10,
 		longDamage: 20,
 		damageMultiplier: 1.0
