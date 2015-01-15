@@ -476,6 +476,8 @@ namespace sdmg {
 			delete doc;
 						
 			_game->getEngine()->getDrawEngine()->saveScreenshot("assets/levels/" + name + "/preview_big");
+
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Saved", "Your level is saved!", NULL);
 		}
 	}
 }

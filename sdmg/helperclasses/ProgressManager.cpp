@@ -6,6 +6,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <sstream>
+#include <sdl\include\SDL.h>
 
 struct tm newtime;
 __time32_t aclock;
@@ -57,8 +58,20 @@ namespace sdmg {
 
 		void ProgressManager::load()
 		{
-			delete _jsonDoc;
-			_jsonDoc = JSON::JSONDocument::fromFile("assets/progress");
+			try{
+				delete _jsonDoc;
+				_jsonDoc = JSON::JSONDocument::fromFile("assets/progress");
+			}
+			catch (...) {
+				try{
+					delete _jsonDoc;
+					_jsonDoc = JSON::JSONDocument::fromFile("assets/defaultprogress");
+					_jsonDoc->saveFile("assets/progress");
+				}
+				catch (...) {
+					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Cannot load progress", "Cannot load progress", NULL);
+				}
+			}
 		}
 
 		void ProgressManager::save()

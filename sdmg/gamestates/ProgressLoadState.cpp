@@ -70,6 +70,7 @@ namespace sdmg {
 
 		void ProgressLoadState::cleanup(GameBase &game) {
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getDrawEngine()->unloadText("progressloadtitle");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -111,11 +112,12 @@ namespace sdmg {
 				case SDL_CONTROLLERBUTTONDOWN:
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_B:
-						_game->getStateManager()->popState();
-						break;
-					case SDL_CONTROLLER_BUTTON_START:
+					case SDL_CONTROLLER_BUTTON_A:
 						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_B:
+						if (ProgressManager::getInstance().currentSavegame >= 0)
+							_game->getStateManager()->popState();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:
 						_menu->selectPrevious();

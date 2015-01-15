@@ -53,6 +53,7 @@ namespace sdmg {
 
 		void ProgressDeleteState::cleanup(GameBase &game) {
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getDrawEngine()->unloadText("progressdeletetitle");
 			game.getEngine()->getInputEngine()->clearBindings();
 		}
@@ -97,7 +98,7 @@ namespace sdmg {
 					case SDL_CONTROLLER_BUTTON_B:
 						_game->getStateManager()->popState();
 						break;
-					case SDL_CONTROLLER_BUTTON_START:
+					case SDL_CONTROLLER_BUTTON_A:
 						_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:

@@ -276,9 +276,6 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_ESCAPE:
-						changeState(game, MainMenuState::getInstance());
-						break;
 					case SDLK_DOWN:
 						if (_isLoaded)
 							_menu->selectNext();
@@ -298,10 +295,7 @@ namespace sdmg {
 				{
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_B:
-						changeState(game, MainMenuState::getInstance());
-						break;
-					case SDL_CONTROLLER_BUTTON_START:
+					case SDL_CONTROLLER_BUTTON_A:
 						if (_isLoaded)
 							_menu->doAction();
 						break;

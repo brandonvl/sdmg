@@ -119,6 +119,7 @@ namespace sdmg {
 		void ControlsState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getDrawEngine()->unload("controls_background");
 			game.getEngine()->getDrawEngine()->unloadText("controlstitle");
 			game.getEngine()->getDrawEngine()->unload("info");
@@ -213,7 +214,7 @@ namespace sdmg {
 							case SDL_CONTROLLER_BUTTON_B:
 								_game->getStateManager()->popState();
 								break;
-							case SDL_CONTROLLER_BUTTON_START:
+							case SDL_CONTROLLER_BUTTON_A:
 									_menu->doAction();
 								break;
 							case SDL_CONTROLLER_BUTTON_DPAD_UP:
@@ -348,7 +349,7 @@ namespace sdmg {
 			drawEngine->drawDynamicText("longrange", *_longrange, 650, 505);
 			drawEngine->drawDynamicText("block", *_block, 650, 575);
 
-			drawEngine->draw(*_devicename, 750, 80);
+			drawEngine->draw(*_devicename, 650, 80);
 
 			_menu->draw(&game);
 

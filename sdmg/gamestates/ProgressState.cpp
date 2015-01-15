@@ -41,6 +41,11 @@ namespace sdmg {
 			// Create menu
 			_menu->addMenuTextItem("Autosave", (std::function<void()>)[&] { 
 				ProgressManager::getInstance().setAutosave(!_isEnabled);
+				if (ProgressManager::getInstance().autosaveEnabled()) {
+					ProgressManager::getInstance().setTimestamp(ProgressManager::getInstance().getTimestampNow());
+					ProgressManager::getInstance().save();
+				}
+
 				_hasChanged = true;
 			});
 			_menu->addMenuTextItem("Save", (std::function<void()>)[&] { 
@@ -62,6 +67,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->clearBindings();
 			
 			delete _menu;
+			_menu = nullptr;
 		}
 
 		void ProgressState::handleEvents(GameBase &game, GameTime &gameTime)
@@ -100,7 +106,7 @@ namespace sdmg {
 					case SDL_CONTROLLER_BUTTON_B:
 						_game->getStateManager()->popState();
 						break;
-					case SDL_CONTROLLER_BUTTON_START:
+					case SDL_CONTROLLER_BUTTON_A:
 						_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:

@@ -38,7 +38,9 @@ namespace sdmg {
 			_slots = new std::vector<std::string>();
 			_keys = new std::vector<std::string>();
 			//  _slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 2 : 1);
-			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? 4 : 1);
+
+			int deviceCount = game.getEngine()->getInputEngine()->getDevices().size();
+			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? (deviceCount > 4 ? 4 : deviceCount) : 1);
 
 
 			loadKeys();
@@ -135,6 +137,7 @@ namespace sdmg {
 		void CharacterSelectionState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			delete _currentCharacter;
 			_currentCharacter = nullptr;
 			delete _slotKeyInput;
