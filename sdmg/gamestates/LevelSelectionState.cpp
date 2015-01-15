@@ -90,14 +90,22 @@ namespace sdmg {
 					}
 					catch (JSON::JSONException &ex)
 					{
+						_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
+						i--;
 						std::cout << "LevelSelection: Error bij laden " + levelFolder;
 					}
 					catch(...)
 					{
+						_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
+						i--;
 						std::cout << "LevelSelection: Error bij laden " + levelFolder;
 					}
 
 					delete doc;
+				}
+				else {
+					_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
+					i--;
 				}
 			}
 
