@@ -51,6 +51,8 @@ namespace sdmg {
 			void saveReplay();
 			void replay();
 			void next();
+
+			void redraw(GameBase &game);
 		};
 	}
 }
