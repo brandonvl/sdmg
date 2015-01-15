@@ -130,10 +130,12 @@ namespace sdmg {
 						//  while (cStep._character->getBody()->GetWorld()->IsLocked());
 
 						for (auto data : cStep._playerData) {
-
-							data.character->getBody()->SetTransform(b2Vec2(data.x, data.y), data.character->getBody()->GetAngle());
-							data.character->getBody()->SetLinearVelocity(b2Vec2(data.velocityX, data.velocityY));
-
+							// only update location for current player
+							if (cStep._character == data.character) {
+								data.character->getBody()->SetTransform(b2Vec2(data.x, data.y), data.character->getBody()->GetAngle());
+								data.character->getBody()->SetLinearVelocity(b2Vec2(data.velocityX, data.velocityY));
+							}
+							
 							data.character->setHP(data.hp);
 							data.character->setLives(data.lives);							
 							data.character->setPP(data.pp);
