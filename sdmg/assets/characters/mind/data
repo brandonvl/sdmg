@@ -7,10 +7,10 @@
 		midPosition: 3.3,
 		longPosition: 3.3,
 		midCost: 5,
-		longCost: 15,
+		longCost: 17,
 		midDamage: 15,
-		longDamage: 25,
-		damageMultiplier: 1.5
+		longDamage: 19,
+		damageMultiplier: 1.2
 	},
 	speed: { horizontal: 20, vertical: 2.5 },
 	scale: 0.25,
