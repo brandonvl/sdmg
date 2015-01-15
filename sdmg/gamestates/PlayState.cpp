@@ -228,7 +228,7 @@ namespace sdmg {
 			_game->getWorld()->clearDeadList();
 
 			enemy->getBody()->SetActive(true);
-			enemy->setLives(5);
+			enemy->revive();
 			enemy->getAI()->resume();
 			enemy->setState(MovableGameObject::State::RESPAWN);
 			(*_huds)[1]->changeOwner(enemy);
