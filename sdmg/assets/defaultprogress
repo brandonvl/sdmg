@@ -105,8 +105,8 @@
 					persistant:false
 				},
 				{
-					name:"Bambooo",
-					key:"bambooo",
+					name:"River Fever",
+					key:"river fever",
 					unlocked:true,
 					persistant:true
 				},
@@ -196,8 +196,8 @@
 					persistant:false
 				},
 				{
-					name:"Bambooo",
-					key:"bambooo",
+					name:"River Fever",
+					key:"river fever",
 					unlocked:true,
 					persistant:true
 				},
@@ -287,8 +287,8 @@
 					persistant:false
 				},
 				{
-					name:"Bambooo",
-					key:"bambooo",
+					name:"River Fever",
+					key:"river fever",
 					unlocked:true,
 					persistant:true
 				},
