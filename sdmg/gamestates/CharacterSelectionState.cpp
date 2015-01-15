@@ -170,15 +170,9 @@ namespace sdmg {
 		{
 			SDL_Event event;
 
-			if (SDL_PollEvent(&event))
+			while (SDL_PollEvent(&event))
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
-
-				if (event.type == SDL_QUIT)
-				{
-					//cleanup(game);
-					//game.stop();
-				}
 
 				if (event.type == SDL_KEYDOWN)
 				{

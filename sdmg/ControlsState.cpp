@@ -154,16 +154,11 @@ namespace sdmg {
 		{
 			SDL_Event event;
 
-			if (SDL_PollEvent(&event))
+			while (SDL_PollEvent(&event))
 			{
 				if (_current == nullptr) {
 					game.getEngine()->getInputEngine()->handleEvent(event);
 					//game.getEngine()->getInputEngine()->handleControllers(event);
-				}
-
-				if (event.type == SDL_QUIT)
-				{
-					game.stop();
 				}
 
 				if (event.type == SDL_KEYDOWN || event.type == SDL_CONTROLLERBUTTONDOWN)

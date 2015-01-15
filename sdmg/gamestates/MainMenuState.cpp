@@ -116,7 +116,6 @@ namespace sdmg {
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
 				switch (event.type) {
-				case SDL_QUIT:
 				case SDLK_ESCAPE:
 					game.stop();
 					break;

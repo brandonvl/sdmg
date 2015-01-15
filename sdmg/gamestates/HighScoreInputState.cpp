@@ -72,9 +72,6 @@ namespace sdmg {
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
 				switch (event.type) {
-				case SDL_QUIT:
-					game.stop();
-					break;
 				case SDL_CONTROLLERBUTTONDOWN:
 					switch (event.cbutton.button)
 					{

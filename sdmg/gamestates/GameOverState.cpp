@@ -263,14 +263,9 @@ namespace sdmg {
 		{
 			SDL_Event event;
 
-			if (SDL_PollEvent(&event))
+			while (SDL_PollEvent(&event))
 			{
 				game.getEngine()->getInputEngine()->getMouse().handleMouseEvent(event);
-
-				if (event.type == SDL_QUIT)
-				{
-					game.stop();
-				}
 
 				if (event.type == SDL_KEYDOWN)
 				{

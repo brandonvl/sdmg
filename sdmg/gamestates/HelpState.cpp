@@ -69,29 +69,7 @@ namespace sdmg {
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
-				/*if (event.type == SDL_QUIT)
-					game.stop();
-				if (event.type == SDL_KEYDOWN)
-				{
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_ESCAPE:
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-					case 10:
-						_menu->doAction();
-						break;
-					}
-				}
-				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
-				{
-					_menu->doAction();
-				}*/
-
 				switch (event.type) {
-				case SDL_QUIT:
-					game.stop();
-					break;
 				case SDL_KEYDOWN:
 					switch (event.key.keysym.sym)
 					{

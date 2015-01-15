@@ -78,13 +78,10 @@ namespace sdmg {
 		void ProgressLoadState::handleEvents(GameBase &game, GameTime &gameTime) {
 			SDL_Event event;
 
-			if (SDL_PollEvent(&event)) {
+			while (SDL_PollEvent(&event)) {
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
 				switch (event.type) {
-				case SDL_QUIT:
-					game.stop();
-					break;
 				case SDL_KEYDOWN:
 					switch (event.key.keysym.sym) {
 					case SDLK_ESCAPE:

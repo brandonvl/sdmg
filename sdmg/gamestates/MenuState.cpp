@@ -39,23 +39,7 @@ namespace sdmg {
 		void MenuState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
-			if (SDL_PollEvent(&event))
-			{
-				if (event.type == SDL_QUIT)
-				{
-					game.stop();
-				}
-
-				if (event.type == SDL_KEYDOWN)
-				{
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_ESCAPE:
-						game.stop();
-						break;
-					}
-				}
-			}
+			while (SDL_PollEvent(&event));
 		}
 
 		void MenuState::update(GameBase &game, GameTime &gameTime)

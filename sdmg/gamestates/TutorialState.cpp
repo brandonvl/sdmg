@@ -157,9 +157,6 @@ namespace sdmg {
 						break;
 					}
 					break;
-				case SDL_QUIT:
-					game.stop();
-					break;
 				}
 			}
 		}

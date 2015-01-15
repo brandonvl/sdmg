@@ -175,22 +175,6 @@ namespace sdmg {
 							break;
 						}
 					}
-					else if (event.type == SDL_QUIT){
-						_multiplier = 1.0f;
-						setGameplaySpeed();
-						if (_game->getGameMode() == GameBase::GameMode::SinglePlayer)
-						{
-							LoadingSinglePlayerState::getInstance().unloadAll();
-							//GameOverState::getInstance().cleanup(*_game);
-						}
-						if (_huds) {
-							for (auto it : *_huds) {
-								delete it;
-							}
-							_huds->clear();
-						}
-						game.stop();
-					}
 					else if (event.type == SDL_CONTROLLERBUTTONDOWN)
 					{
 						switch (event.cbutton.button)

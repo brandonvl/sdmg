@@ -41,13 +41,8 @@ namespace sdmg {
 		{
 			//std::cout << "Handling events IntroState ... " << std::endl;
 			SDL_Event event;
-			if (SDL_PollEvent(&event))
+			while (SDL_PollEvent(&event))
 			{
-				if (event.type == SDL_QUIT)
-				{
-					game.stop();
-				}
-
 				if (event.type == SDL_KEYDOWN)
 				{
 					switch (event.key.keysym.sym)

@@ -137,23 +137,7 @@ namespace sdmg {
 		void LoadingSurvivalState::handleEvents(GameBase &game, GameTime &gameTime)
 		{
 			SDL_Event event;
-			if (SDL_PollEvent(&event))
-			{
-				if (event.type == SDL_QUIT)
-				{
-					// game.stop();
-				}
-
-				if (event.type == SDL_KEYDOWN)
-				{
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_ESCAPE:
-						// game.stop();
-						break;
-					}
-				}
-			}
+			if (SDL_PollEvent(&event));
 		}
 
 		void LoadingSurvivalState::update(GameBase &game, GameTime &gameTime)

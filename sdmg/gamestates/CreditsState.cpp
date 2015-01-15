@@ -74,8 +74,6 @@ namespace sdmg {
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
-				if (event.type == SDL_QUIT)
-					game.stop();
 				if (event.type == SDL_KEYDOWN)
 				{
 					switch (event.key.keysym.sym)
