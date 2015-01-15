@@ -75,15 +75,17 @@ namespace sdmg {
 			delete _fileName;
 			_fileName = nullptr;
 
-			for (auto it : *_characters)
-				delete it;
-			_characters->clear();
+			if (_characters) {
+				for (auto it : *_characters)
+					delete it;
+				_characters->clear();
+			}
 			delete _characters;
 			_characters = nullptr;
 
 			_recordQueue = nullptr;
 			
-			if (_recordMap->size() > 0) {
+			if (_recordMap && _recordMap->size() > 0) {
 				std::unordered_map<std::string, Action*>::iterator itr = _recordMap->begin();
 				while (itr != _recordMap->end()) {
 					delete itr->second;
@@ -163,6 +165,7 @@ namespace sdmg {
 			}
 			catch (...)
 			{
+				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Cannot load recording", "Cannot read the recording file.", nullptr);
 				changeState(*_game, MainMenuState::getInstance());
 			}
 		}
