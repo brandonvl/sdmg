@@ -96,7 +96,7 @@ namespace sdmg {
 					case SDL_CONTROLLER_BUTTON_B:
 						game.stop();
 						break;
-					case SDL_CONTROLLER_BUTTON_START:
+					case SDL_CONTROLLER_BUTTON_A:
 						_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:
