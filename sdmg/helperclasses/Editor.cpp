@@ -97,8 +97,11 @@ namespace sdmg {
 
 			_buttons.push_back(_eraserButton = new ToolbarButton(*this, "eraser"));
 			_eraserButton->setMouseDownOnLevelAction([&]() {
-				_curSelectedObject->getBody()->GetWorld()->DestroyBody(_curSelectedObject->getBody());
-				_game->getWorld()->removePlatform(_curSelectedObject);			
+				if (_curSelectedObject && _game->getWorld()->platformExists(_curSelectedObject)) {
+					_curSelectedObject->getBody()->GetWorld()->DestroyBody(_curSelectedObject->getBody());
+					_game->getWorld()->removePlatform(_curSelectedObject);
+					_curSelectedObject = nullptr;
+				}
 			});
 			_eraserButton->setClickAction([&] { _currentPlatformDef = nullptr; });
 

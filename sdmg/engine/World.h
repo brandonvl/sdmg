@@ -42,6 +42,7 @@ namespace sdmg {
 			void resetWorld();
 			void removePlatform(GameObject *platform);
 			void destroyShootBodies();
+			bool platformExists(GameObject *platform);
 		private:
 			std::vector<GameObject*> _gameObjects, _deadList, _aliveList, _platforms;
 			std::vector<std::function<void(GameObject *gameObject)>> _deadCallBacks;

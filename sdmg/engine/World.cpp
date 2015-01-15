@@ -147,5 +147,9 @@ namespace sdmg {
 			auto g = remove(_gameObjects.begin(), _gameObjects.end(), platform);
 			_gameObjects.erase(g, _gameObjects.end());
 		}
+
+		bool World::platformExists(GameObject *platform) {
+			return std::find(_platforms.begin(), _platforms.end(), platform) != _platforms.end();
+		}
 	}
 }
