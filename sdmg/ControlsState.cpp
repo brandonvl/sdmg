@@ -349,7 +349,7 @@ namespace sdmg {
 			drawEngine->drawDynamicText("longrange", *_longrange, 650, 505);
 			drawEngine->drawDynamicText("block", *_block, 650, 575);
 
-			drawEngine->draw(*_devicename, 750, 80);
+			drawEngine->draw(*_devicename, 650, 80);
 
 			_menu->draw(&game);
 
