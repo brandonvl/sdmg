@@ -45,7 +45,8 @@ namespace sdmg {
 		private:
 			GameBase *_game;
 
-			bool _replay;
+			bool _replay, _isLoaded;
+			long _enteredGameOverState;
 			
 			void replay();
 		};

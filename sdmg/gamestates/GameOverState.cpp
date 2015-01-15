@@ -43,9 +43,9 @@ namespace sdmg {
 			
 			_isLoaded = false;
 			_savedReplay = false;
-			game.getEngine()->getAudioEngine()->stopMusic();
-
 			_enteredGameOverState = game.getGameTime()->getTotalSecondsRunning();
+
+			game.getEngine()->getAudioEngine()->stopMusic();
 			
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
@@ -321,7 +321,6 @@ namespace sdmg {
 		{
 			if (game.getGameTime()->getTotalSecondsRunning() - _enteredGameOverState > 3)
 				_isLoaded = true;
-			//std::cout << "Updating GameOverState ... " << std::endl;
 		}
 
 		void GameOverState::draw(GameBase &game, GameTime &gameTime)
@@ -340,6 +339,7 @@ namespace sdmg {
 
 			if (_isLoaded)
 				_menu->draw(&game);
+
 			game.getEngine()->getDrawEngine()->render();
 		}
 	}

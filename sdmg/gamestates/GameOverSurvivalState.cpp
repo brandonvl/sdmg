@@ -36,7 +36,9 @@ namespace sdmg {
 
 			_game->getEngine()->getPhysicsEngine()->pause();
 
+			_isLoaded = false;
 			_replay = false;
+			_enteredGameOverState = game.getGameTime()->getTotalSecondsRunning();
 
 			game.getEngine()->getAudioEngine()->stopMusic();
 
@@ -185,18 +187,18 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_ESCAPE:
-						changeState(game, MainMenuState::getInstance());
-						break;
 					case SDLK_DOWN:
-						_menu->selectNext();
+						if (_isLoaded)
+							_menu->selectNext();
 						break;
 					case SDLK_UP:
-						_menu->selectPrevious();
+						if (_isLoaded)
+							_menu->selectPrevious();
 						break;
 					case SDLK_KP_ENTER:
 					case SDLK_RETURN:
-						_menu->doAction();
+						if (_isLoaded)
+							_menu->doAction();
 						break;
 					}
 				}
@@ -204,17 +206,17 @@ namespace sdmg {
 				{
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_B:
-						changeState(game, MainMenuState::getInstance());
-						break;
 					case SDL_CONTROLLER_BUTTON_A:
-						_menu->doAction();
+						if (_isLoaded)
+							_menu->doAction();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						_menu->selectPrevious();
+						if (_isLoaded)
+							_menu->selectPrevious();
 						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						_menu->selectNext();
+						if (_isLoaded)
+							_menu->selectNext();
 						break;
 					}
 				}
@@ -223,7 +225,8 @@ namespace sdmg {
 
 		void GameOverSurvivalState::update(GameBase &game, GameTime &gameTime)
 		{
-			//std::cout << "Updating GameOverState ... " << std::endl;
+			if (game.getGameTime()->getTotalSecondsRunning() - _enteredGameOverState > 3)
+				_isLoaded = true;
 		}
 
 		void GameOverSurvivalState::draw(GameBase &game, GameTime &gameTime)
@@ -237,8 +240,10 @@ namespace sdmg {
 			de->drawText("killed", 900 - de->getTextSize("killed")[0] / 2, 300);
 			de->drawText("enemies_killed", 900 - de->getTextSize("enemies_killed")[0] / 2, 300 + de->getTextSize("killed")[1] + 25);
 			de->drawText("enemies", 900 - de->getTextSize("enemies")[0] / 2, 300 + de->getTextSize("killed")[1] + de->getTextSize("enemies_killed")[1] + 50);
-			
-			_menu->draw(&game);
+
+			if (_isLoaded)
+				_menu->draw(&game);
+
 			de->render();
 		}
 	}

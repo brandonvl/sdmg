@@ -175,7 +175,11 @@ namespace sdmg {
 			for (size_t i = 0; i < players.size(); i++)
 			{
 				JSON::JSONObject &posObj = levelObj.getArray("startingPositions").getObject(i);
-				players[i]->setSpawnLocation(posObj.getFloat("x"), posObj.getFloat("y"));
+
+				float xPos = posObj.getFloat("x"), yPos = posObj.getFloat("y");
+
+				players[i]->getBody()->SetTransform(b2Vec2(xPos / 20.0f, yPos / 20.0f), players[i]->getBody()->GetAngle());
+				players[i]->setSpawnLocation(xPos, yPos);
 			}
 
 			loadBulletBobs(levelObj.getArray("bobs"));
