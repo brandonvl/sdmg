@@ -37,17 +37,27 @@ namespace sdmg {
 			_game->getEngine()->getPhysicsEngine()->pause();
 
 			_replay = false;
-			
+
+			game.getEngine()->getAudioEngine()->stopMusic();
+
 			std::cout << "Initing IntroState ... " << std::endl;
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
 			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
+			
+			int playerID = 0, enemyID;
 
-			model::Character *enemy = static_cast<model::Character*>(deadList[1]);
+			for (size_t i = 0; i < deadList.size(); i++)
+				if (deadList[i] == PlayState::getInstance()._player)
+					playerID = i;
+				else
+					enemyID = i;
+
+			model::Character *enemy = static_cast<model::Character*>(deadList[enemyID]);
 			enemy->getAI()->pause();
 
-			model::Character *chas = static_cast<model::Character*>(deadList[0]);
+			model::Character *chas = static_cast<model::Character*>(deadList[playerID]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 			
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverSurvivalState::replay, this));
@@ -68,15 +78,18 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->loadText("enemies", "enemies", { 255, 255, 255 }, "arial", 54);
 
 			if (highscore < 1)
+			{
 				game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/loser");
+				game.getEngine()->getAudioEngine()->load("loser", "assets/sounds/effects/lose.ogg", AUDIOTYPE::SOUND_EFFECT);
+				game.getEngine()->getAudioEngine()->play("loser", 0);
+			}
 			else
+			{
 				game.getEngine()->getDrawEngine()->load("gameoversurvivalbackground", "assets/screens/winner");
+				game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
+				game.getEngine()->getAudioEngine()->play("winner", 0);
+			}
 
-			game.getEngine()->getAudioEngine()->stopMusic();
-			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
-			game.getEngine()->getAudioEngine()->play("winner", 0);
-
-			
 			if (ProgressManager::getInstance().getLowestHighscore() < highscore) {
 				HighScoreInputState::getInstance().setHighscore(highscore);
 				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
@@ -149,6 +162,7 @@ namespace sdmg {
 					huds->clear();
 				}
 				delete huds;
+				huds = nullptr;
 
 				delete PlayState::getInstance()._slotKeyInput;
 				PlayState::getInstance()._slotKeyInput = nullptr;

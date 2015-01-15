@@ -33,8 +33,11 @@ namespace sdmg {
 		}
 
 		void Menu::doAction() {
-			if (_selected != nullptr)
-				_selected->doAction();
+			if (this)
+			{
+				if (_selected != nullptr)
+					_selected->doAction();
+			}
 		}
 
 		void Menu::removeMenuItem(MenuItem *item)
@@ -58,9 +61,12 @@ namespace sdmg {
 
 		void Menu::selectNext()
 		{
-			if (!_menuItems.empty()) {
-				if (_selected->getIndex() < _menuItems.size() - 1) setSelected(_menuItems[_selected->getIndex() + 1]);
-				else setSelected(_menuItems[0]);
+			if (this)
+			{
+				if (!_menuItems.empty()) {
+					if (_selected->getIndex() < _menuItems.size() - 1) setSelected(_menuItems[_selected->getIndex() + 1]);
+					else setSelected(_menuItems[0]);
+				}
 			}
 
 			/*
@@ -77,16 +83,22 @@ namespace sdmg {
 
 		void Menu::selectPrevious()
 		{
-			if (!_menuItems.empty()) {
-				if (_selected->getIndex() > 0) setSelected(_menuItems[_selected->getIndex() - 1]);
-				else setSelected(_menuItems[_menuItems.size() - 1]);
+			if (this)
+			{
+				if (!_menuItems.empty()) {
+					if (_selected->getIndex() > 0) setSelected(_menuItems[_selected->getIndex() - 1]);
+					else setSelected(_menuItems[_menuItems.size() - 1]);
+				}
 			}
 		}
 
 		void Menu::setSelected(MenuItem *selected) {
-			_selected->setSelected(false);
-			_selected = selected;
-			_selected->setSelected();
+			if (this)
+			{
+				_selected->setSelected(false);
+				_selected = selected;
+				_selected->setSelected();
+			}
 		}
 		
 		void Menu::draw(GameBase *engine)

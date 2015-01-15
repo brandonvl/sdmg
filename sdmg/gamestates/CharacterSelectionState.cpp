@@ -42,7 +42,6 @@ namespace sdmg {
 			int deviceCount = game.getEngine()->getInputEngine()->getDevices().size();
 			_slots->resize(game.getGameMode() == GameBase::GameMode::Versus ? (deviceCount > 4 ? 4 : deviceCount) : 1);
 
-
 			loadKeys();
 
 			//_slots->resize(game.getGameMode() == GameBase::GameMode::SinglePlayer || game.getGameMode() == GameBase::GameMode::Survival ? 1 : _keys->size());

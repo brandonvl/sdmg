@@ -43,6 +43,7 @@ namespace sdmg {
 			
 			_isLoaded = false;
 			_savedReplay = false;
+			game.getEngine()->getAudioEngine()->stopMusic();
 
 			_enteredGameOverState = game.getGameTime()->getTotalSecondsRunning();
 			
@@ -63,11 +64,16 @@ namespace sdmg {
 					{
 						game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
 						_menu->addMenuTextItem("Next", (std::function<void()>)std::bind(&GameOverState::next, this));
+						game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
+						game.getEngine()->getAudioEngine()->play("winner", 0);
 					}
 					else
 					{
 						chas = static_cast<model::Character*>(deadList[0]);
 						game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/loser");
+
+						game.getEngine()->getAudioEngine()->load("loser", "assets/sounds/effects/lose.ogg", AUDIOTYPE::SOUND_EFFECT);
+						game.getEngine()->getAudioEngine()->play("loser", 0);
 					}
 				}
 				else if (static_cast<Character*>(deadList[1])->getKey() == LoadingSinglePlayerState::getInstance().getPlayerName())
@@ -86,19 +92,28 @@ namespace sdmg {
 						manager.setIsUnlockedLevel(LoadingSinglePlayerState::getInstance().getLevelName(), true);
 						//  UnlockedState::getInstance().cleanup(game);
 						unlocked = true;
-					}					
+					}
+
+					game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
+					game.getEngine()->getAudioEngine()->play("winner", 0);
 				}
 				_menu->addMenuTextItem("Achievements", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
+				game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
+				game.getEngine()->getAudioEngine()->play("winner", 0);
 				game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
 				_menu->addMenuTextItem("Play again", (std::function<void()>)std::bind(&GameOverState::replay, this));
 				_menu->addMenuTextItem("Save replay", (std::function<void()>)std::bind(&GameOverState::saveReplay, this));
 				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Playback)
+			{
+				game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
+				game.getEngine()->getAudioEngine()->play("winner", 0);
 				game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
+			}
 
 			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
 				if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
@@ -141,11 +156,6 @@ namespace sdmg {
 			// Save progress if autosave is enabled
 			if (ProgressManager::getInstance().autosaveEnabled())
 				ProgressManager::getInstance().save();
-			
-			//game.getEngine()->getAudioEngine()->load("winner", "assets/levels/background");
-			game.getEngine()->getAudioEngine()->stopMusic();
-			game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
-			game.getEngine()->getAudioEngine()->play("winner", 0);
 
 			if (unlocked)
 			{
@@ -245,7 +255,7 @@ namespace sdmg {
 				}
 
 				delete huds;
-
+				huds = nullptr;
 				
 
 				if (game.getGameMode() != GameBase::GameMode::Edit) {

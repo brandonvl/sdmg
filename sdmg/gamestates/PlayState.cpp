@@ -215,7 +215,7 @@ namespace sdmg {
 
 			_game->getWorld()->clearDeadList();
 
-			enemy->getBody()->SetActive(true);
+			//enemy->getBody()->SetActive(true);
 			enemy->revive();
 			enemy->getAI()->resume();
 			enemy->setState(MovableGameObject::State::RESPAWN);
@@ -286,7 +286,18 @@ namespace sdmg {
 					}
 					else if (game.getGameMode() == GameBase::GameMode::Survival)
 					{
-						if (game.getWorld()->getDeadList()[0] == _player)
+						bool hasDied = false;
+						auto deadlist = game.getWorld()->getDeadList();
+						for (size_t i = 0; i < deadlist.size(); i++)
+						{
+							if (deadlist[i] == _player)
+							{
+								hasDied = true;
+								break;
+							}
+						}
+
+						if (hasDied)
 						{
 							game.getEngine()->getPhysicsEngine()->pause();
 							if (game.getWorld()->getAliveList().size() > 0)

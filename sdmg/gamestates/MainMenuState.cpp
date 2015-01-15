@@ -39,7 +39,6 @@ namespace sdmg {
 		void MainMenuState::init(GameBase &game)
 		{
 			_game = &game;
-
 			
 			_game->getEngine()->getDrawEngine()->loadText("maintitle", "Main menu", { 255, 255, 255 }, "trebucbd", 48);
 
