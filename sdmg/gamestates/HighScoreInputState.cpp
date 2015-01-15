@@ -81,6 +81,9 @@ namespace sdmg {
 					case SDL_CONTROLLER_BUTTON_A:
 						_menu->doAction();
 						break;
+					case SDL_CONTROLLER_BUTTON_B:
+						_game->getStateManager()->popState();
+						break;
 					case SDL_CONTROLLER_BUTTON_DPAD_UP:
 						_menu->selectPrevious();
 						break;
@@ -90,8 +93,7 @@ namespace sdmg {
 					}
 					break;
 				case SDL_KEYDOWN:
-					int keypressed = event.key.keysym.sym;
-					switch (keypressed)
+					switch (event.key.keysym.sym)
 					{
 					case SDLK_UP:
 						_menu->selectPrevious();
@@ -147,6 +149,7 @@ namespace sdmg {
 					case SDLK_y:
 					case SDLK_z:
 						if (_highscoreInitials->size() < 3) {
+							int keypressed = event.key.keysym.sym;
 							std::stringstream ss;
 							std::string key;
 

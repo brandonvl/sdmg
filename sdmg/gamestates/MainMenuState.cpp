@@ -115,18 +115,30 @@ namespace sdmg {
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
-				if (event.type == SDL_QUIT)
-				{
+				switch (event.type) {
+				case SDL_QUIT:
+				case SDLK_ESCAPE:
 					game.stop();
-				}
-
-				if (event.type == SDL_KEYDOWN)
-				{
+					break;
+				case SDL_CONTROLLERBUTTONDOWN:
+					switch (event.cbutton.button)
+					{
+					case SDL_CONTROLLER_BUTTON_A:
+						_menu->doAction();
+						break;
+					case SDL_CONTROLLER_BUTTON_B:
+						game.stop();
+					case SDL_CONTROLLER_BUTTON_DPAD_UP:
+						_menu->selectPrevious();
+						break;
+					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+						_menu->selectNext();
+						break;
+					}
+					break;
+				case SDL_KEYDOWN:
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_ESCAPE:
-						game.stop();
-						break;
 					case SDLK_DOWN:
 					case 1:
 						_menu->selectNext();
@@ -141,24 +153,6 @@ namespace sdmg {
 					case SDLK_RETURN:
 					case 10:
 						_menu->doAction();
-						break;
-					}
-				}
-				else if (event.type == SDL_CONTROLLERBUTTONDOWN) 
-				{
-					switch (event.cbutton.button)
-					{
-					case SDL_CONTROLLER_BUTTON_B:
-						game.stop();
-						break;
-					case SDL_CONTROLLER_BUTTON_A:
-						_menu->doAction();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						_menu->selectPrevious();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						_menu->selectNext();
 						break;
 					}
 				}
