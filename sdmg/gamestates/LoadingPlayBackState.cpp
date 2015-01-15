@@ -147,76 +147,91 @@ namespace sdmg {
 		}
 
 		void LoadingPlayBackState::load() {
-			int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
-			_loadingStep = maxLoadingValue / 3;
+			try
+			{
+				int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
+				_loadingStep = maxLoadingValue / 3;
 
-			loadAdvertisement();
-			loadKeybindings();
-			loadPlaybackSteps();
-			
-			_loadingValue = maxLoadingValue;
+				loadAdvertisement();
+				loadKeybindings();
+				loadPlaybackSteps();
 
-			_isLoaded = true;
-			clearEventQueue();
+				_loadingValue = maxLoadingValue;
+
+				_isLoaded = true;
+				clearEventQueue();
+			}
+			catch (...)
+			{
+				changeState(*_game, MainMenuState::getInstance());
+			}
 		}
 
 		void LoadingPlayBackState::loadPlaybackSteps()
 		{
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/playbacks/" + *_fileName);
-			JSON::JSONObject &obj = doc->getRootObject();
-
-			_level = new std::string(obj.getString("level"));
-
-			int numberOfCharacters = obj.getArray("characters").size();
-			_characters = new std::vector<std::string*>(numberOfCharacters);
-			for (int i = 0; i < numberOfCharacters; i++)
+			JSON::JSONDocument *doc = nullptr;
+			try
 			{
-				(*_characters)[obj.getArray("characters").getObject(i).getInt("index")] = new std::string(obj.getArray("characters").getObject(i).getString("key"));
+				doc = JSON::JSONDocument::fromFile("assets/playbacks/" + *_fileName);
+				JSON::JSONObject &obj = doc->getRootObject();
+
+				_level = new std::string(obj.getString("level"));
+
+				int numberOfCharacters = obj.getArray("characters").size();
+				_characters = new std::vector<std::string*>(numberOfCharacters);
+				for (int i = 0; i < numberOfCharacters; i++)
+				{
+					(*_characters)[obj.getArray("characters").getObject(i).getInt("index")] = new std::string(obj.getArray("characters").getObject(i).getString("key"));
+				}
+
+				loadLevel();
+
+
+				// load steps
+				_recordQueue = new std::queue<PlayBackState::RecordStep*>();
+
+				int numberOfSteps = obj.getArray("steps").size();
+				for (int i = 0; i < numberOfSteps; i++)
+				{
+					JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
+
+					PlayBackState::RecordStep *step;
+
+					if (stepObj.getString("action") != "GameOver") {
+
+						std::string name = stepObj.getString("action") + std::to_string(stepObj.getInt("character"));
+
+						// create fake event
+						SDL_Event event;
+						event.type = stepObj.getBoolean("keyDown") ? SDL_KEYDOWN : SDL_KEYUP;
+
+						// create and run action
+						auto action = (*_recordMap)[name]->create(event);
+
+						auto player = (*_characterObjects)[stepObj.getInt("character")];
+						step = new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), player);
+					}
+					else {
+						step = new PlayBackState::RecordStep(nullptr, stepObj.getFloat("timestamp"), nullptr);
+					}
+
+					auto &players = stepObj.getArray("characters");
+
+					for (int i = 0; i < players.size(); i++) {
+						auto &player = players.getObject(i);
+						auto character = (*_characterObjects)[player.getInt("character")];
+						step->_playerData.push_back({ character, player.getInt("hp"), player.getInt("lives"), player.getInt("pp"), player.getFloat("x"), player.getFloat("y"), player.getFloat("velocityx"), player.getFloat("velocityy"), static_cast<MovableGameObject::Direction>(player.getInt("direction")) });
+					}
+
+					_recordQueue->push(step);
+				}
+				PlayBackState::getInstance().setPlaybackSteps(_recordQueue);
 			}
-
-			loadLevel();
-
-
-			// load steps
-			_recordQueue = new std::queue<PlayBackState::RecordStep*>();
-
-			int numberOfSteps = obj.getArray("steps").size();
-			for (int i = 0; i < numberOfSteps; i++)
+			catch (...)
 			{
-				JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
-
-				PlayBackState::RecordStep *step;
-
-				if (stepObj.getString("action") != "GameOver") {
-
-					std::string name = stepObj.getString("action") + std::to_string(stepObj.getInt("character"));
-
-					// create fake event
-					SDL_Event event;
-					event.type = stepObj.getBoolean("keyDown") ? SDL_KEYDOWN : SDL_KEYUP;
-
-					// create and run action
-					auto action = (*_recordMap)[name]->create(event);
-
-					auto player = (*_characterObjects)[stepObj.getInt("character")];
-					step = new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), player);
-				}
-				else {
-					step = new PlayBackState::RecordStep(nullptr, stepObj.getFloat("timestamp"), nullptr);
-				}
-
-				auto &players = stepObj.getArray("characters");
-
-				for (int i = 0; i < players.size(); i++) {
-					auto &player = players.getObject(i);
-					auto character = (*_characterObjects)[player.getInt("character")];
-					step->_playerData.push_back({ character, player.getInt("hp"), player.getInt("lives"), player.getInt("pp"), player.getFloat("x"), player.getFloat("y"), player.getFloat("velocityx"), player.getFloat("velocityy"), static_cast<MovableGameObject::Direction>(player.getInt("direction")) });
-				}
-
-				_recordQueue->push(step);
+				delete doc;
+				throw;
 			}
-			PlayBackState::getInstance().setPlaybackSteps(_recordQueue);
-
 			delete doc;
 		}
 
