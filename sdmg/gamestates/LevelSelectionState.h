@@ -60,6 +60,7 @@ namespace sdmg {
 			void selectNext();
 			void selectPrevious();
 			void nextState();
+			void play();
 		};
 	}
 }

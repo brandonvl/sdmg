@@ -120,12 +120,14 @@ namespace sdmg {
 			_lastUpdate = std::chrono::high_resolution_clock::now();
 
 			game.getEngine()->getInputEngine()->getMouse().setClickAction(0, PREVIEW_YPOS, _xStartPos, 315, (std::function<void()>)std::bind(&LevelSelectionState::selectPrevious, this));
+			game.getEngine()->getInputEngine()->getMouse().setClickAction(_xStartPos, PREVIEW_YPOS, PREVIEW_WIDTH, 315, (std::function<void()>)std::bind(&LevelSelectionState::nextState, this));
 			game.getEngine()->getInputEngine()->getMouse().setClickAction(_xStartPos + PREVIEW_WIDTH, PREVIEW_YPOS, windowWidth - _xStartPos - PREVIEW_WIDTH, 315, (std::function<void()>)std::bind(&LevelSelectionState::selectNext, this));
 		}
 
 		void LevelSelectionState::cleanup(GameBase &game)
 		{
 			delete _menu;
+			_menu = nullptr;
 			game.getEngine()->getDrawEngine()->unloadAll();
 			game.getEngine()->getInputEngine()->clearBindings();
 
@@ -246,8 +248,6 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->draw("fade", 0, 511);
 			_menu->draw(&game);
 
-
-
 			game.getEngine()->getDrawEngine()->render();
 		}
 
@@ -256,10 +256,14 @@ namespace sdmg {
 				changeState(*_game, CreateLevelState::getInstance());
 			}
 			else {
-				LoadingState::getInstance().setIsTutorial(false);
-				LoadingState::getInstance().setLevel(new std::string((*_levels)[_currentLevel]));
-				changeState(*_game, LoadingState::getInstance());
+				play();
 			}
+		}
+
+		void LevelSelectionState::play() {
+			LoadingState::getInstance().setIsTutorial(false);
+			LoadingState::getInstance().setLevel(new std::string((*_levels)[_currentLevel]));
+			changeState(*_game, LoadingState::getInstance());
 		}
 
 		void LevelSelectionState::selectNext() {
