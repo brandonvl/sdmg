@@ -201,6 +201,11 @@ namespace sdmg {
 			}
 			delete _enemies;
 			_enemies = nullptr;
+
+			delete _slotKeyInput;
+			_slotKeyInput = nullptr;
+			delete _keys;
+			_keys = nullptr;
 		}
 
 		bool LoadingSinglePlayerState::hasFinished()
