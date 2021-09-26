@@ -67,20 +67,11 @@
     <Filter Include="helperclasses\menuitems">
       <UniqueIdentifier>{796EAD19-E5A5-F5B0-EEAF-59D45A661CAA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lib">
-      <UniqueIdentifier>{3C8C880B-A895-887C-3111-9F7C9D19947C}</UniqueIdentifier>
-    </Filter>
     <Filter Include="model">
       <UniqueIdentifier>{F603F20F-6218-1AC1-2B9A-BD20976D16F2}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="vendor\JSONParser">
-      <UniqueIdentifier>{E964B106-557B-AF9C-9EF2-3ABE0A488024}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="vendor\JSONParser\include">
-      <UniqueIdentifier>{5C65A5C3-C827-D94D-11D8-67DA7DD9B12B}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\SDL2">
       <UniqueIdentifier>{F7E96DC1-639F-E6B6-EC93-E08D5848DDBA}</UniqueIdentifier>
@@ -419,9 +410,6 @@
     <ClInclude Include="engine\util\FileManager.h">
       <Filter>engine\util</Filter>
     </ClInclude>
-    <ClInclude Include="engine\util\FileParser.h">
-      <Filter>engine\util</Filter>
-    </ClInclude>
     <ClInclude Include="factories\CharacterFactory.h">
       <Filter>factories</Filter>
     </ClInclude>
@@ -539,9 +527,6 @@
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h">
       <Filter>helperclasses\menuitems</Filter>
     </ClInclude>
-    <ClInclude Include="lib\JSONParser.h">
-      <Filter>lib</Filter>
-    </ClInclude>
     <ClInclude Include="model\AICharacter.h">
       <Filter>model</Filter>
     </ClInclude>
@@ -565,9 +550,6 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
-    <ClInclude Include="vendor\JSONParser\include\JSONParser.h">
-      <Filter>vendor\JSONParser\include</Filter>
-    </ClInclude>
     <ClInclude Include="vendor\SDL2\include\SDL.h">
       <Filter>vendor\SDL2\include</Filter>
     </ClInclude>
@@ -1127,9 +1109,6 @@
       <Filter>engine\physics</Filter>
     </ClCompile>
     <ClCompile Include="engine\util\FileManager.cpp">
-      <Filter>engine\util</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\util\FileParser.cpp">
       <Filter>engine\util</Filter>
     </ClCompile>
     <ClCompile Include="factories\CharacterFactory.cpp">

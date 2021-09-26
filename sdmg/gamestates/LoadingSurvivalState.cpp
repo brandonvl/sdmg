@@ -24,8 +24,6 @@
 #include "engine\audio\AudioEngine.h"
 #include "TutorialState.h"
 #include "helperclasses\HUD.h"
-#include "engine\util\FileParser.h"
-#include "lib\JSONParser.h"
 #include "helperclasses\ConfigManager.h"
 #include "engine\ai\EasyAIMachine.h"
 #include <array>

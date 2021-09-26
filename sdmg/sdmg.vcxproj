@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SDMG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;vendor\SDL2\include;vendor\SDL2_image\include;vendor\SDL2_mixer\include;vendor\SDL2_ttf\include;vendor\JSONParser\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;vendor\SDL2\include;vendor\SDL2_image\include;vendor\SDL2_mixer\include;vendor\SDL2_ttf\include;vendor\JSON\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -68,7 +68,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>vendor\SDL2\lib\x64\SDL2.lib;vendor\SDL2\lib\x64\SDL2main.lib;vendor\SDL2_image\lib\x64\SDL2_image.lib;vendor\SDL2_mixer\lib\x64\SDL2_mixer.lib;vendor\SDL2_ttf\lib\x64\SDL2_ttf.lib;vendor\JSONParser\lib\JSONParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vendor\SDL2\lib\x64\SDL2.lib;vendor\SDL2\lib\x64\SDL2main.lib;vendor\SDL2_image\lib\x64\SDL2_image.lib;vendor\SDL2_mixer\lib\x64\SDL2_mixer.lib;vendor\SDL2_ttf\lib\x64\SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -76,7 +76,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SDMG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;vendor\SDL2\include;vendor\SDL2_image\include;vendor\SDL2_mixer\include;vendor\SDL2_ttf\include;vendor\JSONParser\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;vendor\SDL2\include;vendor\SDL2_image\include;vendor\SDL2_mixer\include;vendor\SDL2_ttf\include;vendor\JSON\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -89,7 +89,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>vendor\SDL2\lib\x64\SDL2.lib;vendor\SDL2\lib\x64\SDL2main.lib;vendor\SDL2_image\lib\x64\SDL2_image.lib;vendor\SDL2_mixer\lib\x64\SDL2_mixer.lib;vendor\SDL2_ttf\lib\x64\SDL2_ttf.lib;vendor\JSONParser\lib\JSONParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vendor\SDL2\lib\x64\SDL2.lib;vendor\SDL2\lib\x64\SDL2main.lib;vendor\SDL2_image\lib\x64\SDL2_image.lib;vendor\SDL2_mixer\lib\x64\SDL2_mixer.lib;vendor\SDL2_ttf\lib\x64\SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -198,7 +198,6 @@
     <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h" />
     <ClInclude Include="engine\physics\RayCastCallBack.h" />
     <ClInclude Include="engine\util\FileManager.h" />
-    <ClInclude Include="engine\util\FileParser.h" />
     <ClInclude Include="factories\CharacterFactory.h" />
     <ClInclude Include="gamestates\CharacterSelectionState.h" />
     <ClInclude Include="gamestates\CreateLevelState.h" />
@@ -238,7 +237,6 @@
     <ClInclude Include="helperclasses\RandomGenerator.h" />
     <ClInclude Include="helperclasses\Recorder.h" />
     <ClInclude Include="helperclasses\menuitems\MenuTextItem.h" />
-    <ClInclude Include="lib\JSONParser.h" />
     <ClInclude Include="model\AICharacter.h" />
     <ClInclude Include="model\Character.h" />
     <ClInclude Include="model\CharacterState.h" />
@@ -248,7 +246,6 @@
     <ClInclude Include="model\Weapon.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
-    <ClInclude Include="vendor\JSONParser\include\JSONParser.h" />
     <ClInclude Include="vendor\SDL2\include\SDL.h" />
     <ClInclude Include="vendor\SDL2\include\SDL_assert.h" />
     <ClInclude Include="vendor\SDL2\include\SDL_atomic.h" />
@@ -438,7 +435,6 @@
     <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp" />
     <ClCompile Include="engine\physics\RayCastCallBack.cpp" />
     <ClCompile Include="engine\util\FileManager.cpp" />
-    <ClCompile Include="engine\util\FileParser.cpp" />
     <ClCompile Include="factories\CharacterFactory.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamestates\CharacterSelectionState.cpp" />
