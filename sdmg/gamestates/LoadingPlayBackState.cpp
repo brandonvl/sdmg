@@ -12,7 +12,7 @@
 #include "MainMenuState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 #include "engine\physics\PhysicsEngine.h"
 #include "model\Platform.h"
 #include "model\MovablePlatform.h"
@@ -23,8 +23,6 @@
 #include "engine\World.h"
 #include "engine\audio\AudioEngine.h"
 #include "helperclasses\HUD.h"
-#include "engine\util\FileParser.h"
-#include "lib\JSONParser.h"
 #include "helperclasses\ConfigManager.h"
 #include <array>
 
@@ -172,70 +170,85 @@ namespace sdmg {
 
 		void LoadingPlayBackState::loadPlaybackSteps()
 		{
-			JSON::JSONDocument *doc = nullptr;
 			try
 			{
-				doc = JSON::JSONDocument::fromFile("assets/playbacks/" + *_fileName);
-				JSON::JSONObject &obj = doc->getRootObject();
+				auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/playbacks/" + *_fileName);
 
-				_level = new std::string(obj.getString("level"));
+				_level = new std::string(json["level"].get<std::string>());
 
-				int numberOfCharacters = obj.getArray("characters").size();
+				auto jsonCharacterArray = json["characters"].get<nlohmann::json>();
+				auto numberOfCharacters = jsonCharacterArray.size();
+
 				_characters = new std::vector<std::string*>(numberOfCharacters);
-				for (int i = 0; i < numberOfCharacters; i++)
+				for (auto& jsonCharacter : jsonCharacterArray)
 				{
-					(*_characters)[obj.getArray("characters").getObject(i).getInt("index")] = new std::string(obj.getArray("characters").getObject(i).getString("key"));
+					(*_characters)[jsonCharacter["index"].get<int>()] = new std::string(jsonCharacter["key"].get<std::string>());
 				}
-
 				loadLevel();
-
 
 				// load steps
 				_recordQueue = new std::queue<PlayBackState::RecordStep*>();
 
-				int numberOfSteps = obj.getArray("steps").size();
-				for (int i = 0; i < numberOfSteps; i++)
+				auto jsonStepsArray = json["steps"].get<nlohmann::json>();
+				auto numberOfSteps = jsonStepsArray.size();
+				for (auto& jsonStepObj : jsonStepsArray)
 				{
-					JSON::JSONObject &stepObj = obj.getArray("steps").getObject(i);
+					auto actionName = jsonStepObj["action"].get<std::string>();
+					auto timeStamp = jsonStepObj["timestamp"].get<int>();
 
-					PlayBackState::RecordStep *step;
+					PlayBackState::RecordStep* step;
 
-					if (stepObj.getString("action") != "GameOver") {
+					if (actionName != "GameOver")
+					{
+						auto characterIndex = jsonStepObj["character"].get<int>();
+						auto characterAction = actionName + std::to_string(characterIndex);
 
-						std::string name = stepObj.getString("action") + std::to_string(stepObj.getInt("character"));
+						// Fake SDL Event
+						auto keyState = jsonStepObj["keyDown"].get<bool>();
 
-						// create fake event
 						SDL_Event event;
-						event.type = stepObj.getBoolean("keyDown") ? SDL_KEYDOWN : SDL_KEYUP;
+						event.type = keyState ? SDL_KEYDOWN : SDL_KEYUP;
 
 						// create and run action
-						auto action = (*_recordMap)[name]->create(event);
+						auto action = (*_recordMap)[characterAction]->create(event);
 
-						auto player = (*_characterObjects)[stepObj.getInt("character")];
-						step = new PlayBackState::RecordStep(action, stepObj.getFloat("timestamp"), player);
+						auto player = (*_characterObjects)[characterIndex];
+						step = new PlayBackState::RecordStep(action, timeStamp, player);
 					}
-					else {
-						step = new PlayBackState::RecordStep(nullptr, stepObj.getFloat("timestamp"), nullptr);
+					else
+					{
+						// Make step for GameOver
+						step = new PlayBackState::RecordStep(nullptr, timeStamp, nullptr);
 					}
 
-					auto &players = stepObj.getArray("characters");
+					auto jsonStepCharacters = jsonStepObj["characters"].get<std::vector<nlohmann::json>>();
 
-					for (int i = 0; i < players.size(); i++) {
-						auto &player = players.getObject(i);
-						auto character = (*_characterObjects)[player.getInt("character")];
-						step->_playerData.push_back({ character, player.getInt("hp"), player.getInt("lives"), player.getInt("pp"), player.getFloat("x"), player.getFloat("y"), player.getFloat("velocityx"), player.getFloat("velocityy"), static_cast<MovableGameObject::Direction>(player.getInt("direction")) });
+					for (auto& stepCharacter : jsonStepCharacters)
+					{
+						auto stepCharacterIndex = stepCharacter["character"].get<int>();
+						auto character = (*_characterObjects)[stepCharacterIndex];
+						step->_playerData.push_back({
+														character,
+														stepCharacter["hp"].get<int>(),
+														stepCharacter["lives"].get<int>(),
+														stepCharacter["pp"].get<int>(),
+														stepCharacter["x"].get<float>(),
+														stepCharacter["y"].get<float>(),
+														stepCharacter["velocityx"].get<float>(),
+														stepCharacter["velocityy"].get<float>(),
+														static_cast<MovableGameObject::Direction>(stepCharacter["direction"].get<int>())
+													});
 					}
 
 					_recordQueue->push(step);
 				}
+
 				PlayBackState::getInstance().setPlaybackSteps(_recordQueue);
 			}
 			catch (...)
 			{
-				delete doc;
 				throw;
 			}
-			delete doc;
 		}
 
 		void LoadingPlayBackState::clearEventQueue() {

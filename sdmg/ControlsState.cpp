@@ -6,7 +6,6 @@
 #include "gamestates\OptionsState.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
-#include "lib\JSONParser.h"
 #include <iostream>
 #include <fstream>
 #include "helperclasses\ConfigManager.h"

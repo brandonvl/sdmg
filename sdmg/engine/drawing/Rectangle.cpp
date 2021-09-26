@@ -9,7 +9,7 @@
 
 
 #include "Rectangle.h"
-#include "..\..\sdl\include\SDL.h"
+#include <SDL.h>
 
 namespace sdmg {
 	namespace engine {

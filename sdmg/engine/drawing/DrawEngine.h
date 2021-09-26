@@ -10,8 +10,8 @@
 #pragma once
 #include <string>
 #include <map>
-#include "sdl\include\SDL.h"
-#include "sdl\include\SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 #include "Rectangle.h"
 #include <vector>
 #include "engine\GameObject.h"

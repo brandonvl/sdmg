@@ -9,10 +9,6 @@ namespace sdmg {
 	}
 	namespace engine{
 		class GameBase;
-
-		namespace util{
-			class FileParser;
-		}
 	}
 
 	namespace factories {

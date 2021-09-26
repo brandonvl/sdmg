@@ -9,7 +9,7 @@
 
 #pragma once
 #include "Action.h"
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 #include <map>
 
 namespace sdmg {

@@ -1,5 +1,5 @@
 #include "CreateLevelState.h"
-#include <sdl\include\SDL.h>
+#include <SDL.h>
 #include "engine\GameBase.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"

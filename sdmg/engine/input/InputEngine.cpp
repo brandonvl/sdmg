@@ -11,7 +11,7 @@
 #include <cmath>
 #include "InputEngine.h"
 #include "ControllerInputDeviceBinding.h"
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 #include "lib\JSONParser.h"
 #include <algorithm>
 

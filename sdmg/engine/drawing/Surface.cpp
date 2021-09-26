@@ -9,7 +9,7 @@
 
 #include "Surface.h"
 #include "Rectangle.h"
-#include "..\..\sdl\include\SDL_image.h"
+#include <SDL_image.h>
 #include "DrawEngine.h"
 #include "engine\GameObject.h"
 

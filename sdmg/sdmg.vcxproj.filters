@@ -1,757 +1,1252 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Box2D">
+      <UniqueIdentifier>{A434E80C-1049-10BE-D9CA-B31D459E0CEF}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Box2D\Collision">
+      <UniqueIdentifier>{BF8656BB-2B12-C47F-3423-4774A02D2080}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Box2D\Collision\Shapes">
+      <UniqueIdentifier>{92FC3F84-7EF6-68D6-6763-FFE653FCCE42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\actions">
-      <UniqueIdentifier>{5e24c187-e31c-42c7-b569-6df34a938b36}</UniqueIdentifier>
+    <Filter Include="Box2D\Common">
+      <UniqueIdentifier>{5C21A3F7-4884-329C-F109-6B52DD4BFE1E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\model">
-      <UniqueIdentifier>{0a3a4dbf-05a7-46bc-a9af-4e63d6fdd0a8}</UniqueIdentifier>
+    <Filter Include="Box2D\Dynamics">
+      <UniqueIdentifier>{8BFE735C-77CC-6762-6060-D8884CCD43C7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine">
-      <UniqueIdentifier>{29323887-866b-4423-ad2e-7b41fe06ad29}</UniqueIdentifier>
+    <Filter Include="Box2D\Dynamics\Contacts">
+      <UniqueIdentifier>{99CD235D-0505-6CF4-0E0F-D0177AC592ED}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\gamestates">
-      <UniqueIdentifier>{59782ecc-f706-4a8d-8f16-b9b323776627}</UniqueIdentifier>
+    <Filter Include="Box2D\Dynamics\Joints">
+      <UniqueIdentifier>{31D1ABEC-9D3D-67E7-6631-FF44D25C894F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\audio">
-      <UniqueIdentifier>{a68436c5-2751-4fc5-96b1-2c7400ef1fbf}</UniqueIdentifier>
+    <Filter Include="Box2D\Rope">
+      <UniqueIdentifier>{E918382C-D5D0-7979-3ED8-52D52AAF146A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\drawing">
-      <UniqueIdentifier>{d1eae4ab-a653-4eb7-afdb-451ba0901621}</UniqueIdentifier>
+    <Filter Include="actions">
+      <UniqueIdentifier>{D6EDED1D-42CD-6CB9-4BE5-F78FB743D31A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\input">
-      <UniqueIdentifier>{3878fb6b-254c-4b33-97fe-378382e70c29}</UniqueIdentifier>
+    <Filter Include="engine">
+      <UniqueIdentifier>{FBDB78FB-E77D-A3D1-D038-B725BC792A22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\physics">
-      <UniqueIdentifier>{f822fc03-f48d-4d25-a775-3f489fd3e21b}</UniqueIdentifier>
+    <Filter Include="engine\ai">
+      <UniqueIdentifier>{F4721961-60DD-CDD7-A91B-7F7D15C5AB2C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\actions">
-      <UniqueIdentifier>{d428b716-324f-4e5a-8018-bc4f38479a56}</UniqueIdentifier>
+    <Filter Include="engine\ai\aistates">
+      <UniqueIdentifier>{81DF04CB-6DC3-C520-D623-C073C226B0A2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\model">
-      <UniqueIdentifier>{550bdeee-a486-4e65-997c-5cdd40355a98}</UniqueIdentifier>
+    <Filter Include="engine\audio">
+      <UniqueIdentifier>{5C4A8AB5-48AD-195A-F132-5210DD74E5DC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine">
-      <UniqueIdentifier>{9b3f3f98-359d-444f-aeb5-5eba681bd081}</UniqueIdentifier>
+    <Filter Include="engine\drawing">
+      <UniqueIdentifier>{96E60621-82B4-FA26-6B48-6B4D57B5D68B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\gamestates">
-      <UniqueIdentifier>{220cac51-c139-4ba9-9bf4-385fe4b982e1}</UniqueIdentifier>
+    <Filter Include="engine\input">
+      <UniqueIdentifier>{5A6C17B6-46CF-A65A-EF54-DF10DB9672DD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\audio">
-      <UniqueIdentifier>{7a3c2d2a-a313-4484-906f-9065e1293b3a}</UniqueIdentifier>
+    <Filter Include="engine\particle">
+      <UniqueIdentifier>{7EE6CC5F-EA71-3A24-F382-BD185F8D9624}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\input">
-      <UniqueIdentifier>{90248200-07e5-43e0-b317-804a5158813a}</UniqueIdentifier>
+    <Filter Include="engine\physics">
+      <UniqueIdentifier>{8D421EA7-7910-12AD-62A4-82D34E11EE11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\physics">
-      <UniqueIdentifier>{bdc1cfa9-ed1a-4962-b5a9-f156a9640d2c}</UniqueIdentifier>
+    <Filter Include="engine\util">
+      <UniqueIdentifier>{48344D0D-B4E9-C502-3DDE-BFD9A992BC06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\util">
-      <UniqueIdentifier>{0c20421c-9028-4eaa-9e42-3c7469e9e5d3}</UniqueIdentifier>
+    <Filter Include="factories">
+      <UniqueIdentifier>{251118BC-917B-CC32-DAB9-7DD84663AA87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\util">
-      <UniqueIdentifier>{c7844baf-d3ae-4cf4-813e-63b35ae480f5}</UniqueIdentifier>
+    <Filter Include="gamestates">
+      <UniqueIdentifier>{53378204-3FEF-C351-A8F6-9CAD94CD5E42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\factories">
-      <UniqueIdentifier>{92e14692-45b6-4ec5-91bf-0f4cf9d5eeab}</UniqueIdentifier>
+    <Filter Include="helperclasses">
+      <UniqueIdentifier>{F3518FF5-5F12-0B2C-284D-54A994CC4F08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\factories">
-      <UniqueIdentifier>{2f6a620d-8711-4076-a05c-49aeeddbf37b}</UniqueIdentifier>
+    <Filter Include="helperclasses\menuitems">
+      <UniqueIdentifier>{796EAD19-E5A5-F5B0-EEAF-59D45A661CAA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\helperclasses">
-      <UniqueIdentifier>{45dea1e7-d206-4ca5-ab69-65cbeb2d5f50}</UniqueIdentifier>
+    <Filter Include="model">
+      <UniqueIdentifier>{F603F20F-6218-1AC1-2B9A-BD20976D16F2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\helperclasses">
-      <UniqueIdentifier>{a8c6550a-4274-49e5-b525-d962c81528d5}</UniqueIdentifier>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\helperclasses\menuitems">
-      <UniqueIdentifier>{f44ddd91-20ae-482b-9916-3413093e359e}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2">
+      <UniqueIdentifier>{F7E96DC1-639F-E6B6-EC93-E08D5848DDBA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\helperclasses\menuitems">
-      <UniqueIdentifier>{052c3cde-1d21-4705-ac35-d179f0629060}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2\include">
+      <UniqueIdentifier>{6A18E57F-D679-C28D-5FE7-0840CB47F94C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\particle">
-      <UniqueIdentifier>{3271e8ad-768a-4b3a-8691-fe95240521a9}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2_image">
+      <UniqueIdentifier>{79D72C4B-E5ED-2AE1-2E65-B6029ABAFB68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\particle">
-      <UniqueIdentifier>{2f9856b5-8593-4d99-bb22-f8e388de8e59}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2_image\include">
+      <UniqueIdentifier>{EC677243-582A-A6CD-A1DA-345A0DDC7EAB}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\ai">
-      <UniqueIdentifier>{627eba75-fae5-4de6-8882-2632aa3fd1a0}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2_mixer">
+      <UniqueIdentifier>{9B69734B-0780-71E1-50F7-FC02BC4C4269}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\engine\ai\aistates">
-      <UniqueIdentifier>{31d2f842-0fa1-4e92-b918-4474913be840}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2_mixer\include">
+      <UniqueIdentifier>{0EFCB19A-7ABE-E524-C36E-74B12F70BE02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\ai">
-      <UniqueIdentifier>{2d343cd7-60d7-4c4a-be12-028cca923a34}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2_ttf">
+      <UniqueIdentifier>{4422E639-B0AD-53FE-B9BE-D6F225C9AFFE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\engine\ai\aistates">
-      <UniqueIdentifier>{6303dcc3-89f3-464d-b014-20cb21ac9bb5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\engine\drawing">
-      <UniqueIdentifier>{c3f93732-958f-46ce-8af2-c30d1739b8e7}</UniqueIdentifier>
+    <Filter Include="vendor\SDL2_ttf\include">
+      <UniqueIdentifier>{B74D8332-2385-CBC9-2C8F-2FED9845F2C2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\LeftWalkAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\JumpAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\RightWalkAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="model\AICharacter.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="model\Character.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="model\Item.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="model\Platform.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="model\Weapon.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\CharacterSelectionState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\GameOverState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\IntroState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\LoadingState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\MainMenuState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\MenuState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\PauseState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\PlayState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\SelectionState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\audio\AudioEngine.cpp">
-      <Filter>Source Files\engine\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\drawing\DrawEngine.cpp">
-      <Filter>Source Files\engine\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\Engine.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\GameBase.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\GameObject.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\GameStateManager.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\GameTime.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\MovableGameObject.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\World.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\physics\PhysicsEngine.cpp">
-      <Filter>Source Files\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\input\InputEngine.cpp">
-      <Filter>Source Files\engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\input\InputDeviceBinding.cpp">
-      <Filter>Source Files\engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\drawing\Rectangle.cpp">
-      <Filter>Source Files\engine\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\LevelSelectionState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\drawing\Surface.cpp">
-      <Filter>Source Files\engine\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp">
-      <Filter>Source Files\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\physics\KinematicBody.cpp">
-      <Filter>Source Files\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\physics\ContactListener.cpp">
-      <Filter>Source Files\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\util\FileParser.cpp">
-      <Filter>Source Files\engine\util</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\drawing\TextSurface.cpp">
-      <Filter>Source Files\engine\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="factories\CharacterFactory.cpp">
-      <Filter>Source Files\factories</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp">
-      <Filter>Source Files\helperclasses\menuitems</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\Menu.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\MenuItem.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\CharacterAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\input\Joystick.cpp">
-      <Filter>Source Files\engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\RollAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\RespawnAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="model\MovablePlatform.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\CreditsState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\HelpState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\audio\SampleObject.cpp">
-      <Filter>Source Files\engine\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\audio\MusicObject.cpp">
-      <Filter>Source Files\engine\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="ControlsState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\OptionsState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\StatisticsState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\TutorialState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\drawing\DynamicTextSurface.cpp">
-      <Filter>Source Files\engine\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\MidRangeAttackAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\HUD.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\ConfigManager.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\input\Mouse.cpp">
-      <Filter>Source Files\engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\particle\ParticleEngine.cpp">
-      <Filter>Source Files\engine\particle</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\particle\Particle.cpp">
-      <Filter>Source Files\engine\particle</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\input\Mouse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\ProgressState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\ProgressManager.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\ProgressSaveState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\ProgressLoadState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\BlockAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\AIMachine.cpp">
-      <Filter>Source Files\engine\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\EasyAIMachine.cpp">
-      <Filter>Source Files\engine\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\util\FileManager.cpp">
-      <Filter>Source Files\engine\util</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\IdleAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\ProgressManager.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\particle\ParticleSet.cpp">
-      <Filter>Source Files\engine\particle</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\ProgressState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\ProgressDeleteState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\Editor.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\GameModeState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\particle\ParticleInstance.cpp">
-      <Filter>Source Files\engine\particle</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\physics\RayCastCallBack.cpp">
-      <Filter>Source Files\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\physics\AABBDetectionCallBack.cpp">
-      <Filter>Source Files\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\UnlockedState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\LoadingSurvivalState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\GameOverSurvivalState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\RandomGenerator.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\ShortAttackAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\TutorialMachine.cpp">
-      <Filter>Source Files\engine\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\MoveToPointAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\TutorialIdleAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\JumpingAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="helperclasses\Recorder.cpp">
-      <Filter>Source Files\helperclasses</Filter>
-    </ClCompile>
-    <ClCompile Include="actions\LongRangeAttackAction.cpp">
-      <Filter>Source Files\actions</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\ai\aistates\LongAttackAIState.cpp">
-      <Filter>Source Files\engine\ai\aistates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\PlayBackState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\HighScoreState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\LoadingPlayBackState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\input\ControllerInputDeviceBinding.cpp">
-      <Filter>Source Files\engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\HighScoreInputState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestates\CreateLevelState.cpp">
-      <Filter>Source Files\gamestates</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="actions\JumpAction.h">
-      <Filter>Header Files\actions</Filter>
+    <ClInclude Include="Box2D\Box2D.h">
+      <Filter>Box2D</Filter>
     </ClInclude>
-    <ClInclude Include="actions\LeftWalkAction.h">
-      <Filter>Header Files\actions</Filter>
+    <ClInclude Include="Box2D\Collision\Shapes\b2ChainShape.h">
+      <Filter>Box2D\Collision\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="actions\RightWalkAction.h">
-      <Filter>Header Files\actions</Filter>
+    <ClInclude Include="Box2D\Collision\Shapes\b2CircleShape.h">
+      <Filter>Box2D\Collision\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\CharacterSelectionState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\Shapes\b2EdgeShape.h">
+      <Filter>Box2D\Collision\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\IntroState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\Shapes\b2PolygonShape.h">
+      <Filter>Box2D\Collision\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\LoadingState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\Shapes\b2Shape.h">
+      <Filter>Box2D\Collision\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\MainMenuState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\b2BroadPhase.h">
+      <Filter>Box2D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\MenuState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\b2Collision.h">
+      <Filter>Box2D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\PauseState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\b2Distance.h">
+      <Filter>Box2D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\PlayState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\b2DynamicTree.h">
+      <Filter>Box2D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\SelectionState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Collision\b2TimeOfImpact.h">
+      <Filter>Box2D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="model\AICharacter.h">
-      <Filter>Header Files\model</Filter>
+    <ClInclude Include="Box2D\Common\b2BlockAllocator.h">
+      <Filter>Box2D\Common</Filter>
     </ClInclude>
-    <ClInclude Include="model\Character.h">
-      <Filter>Header Files\model</Filter>
+    <ClInclude Include="Box2D\Common\b2Draw.h">
+      <Filter>Box2D\Common</Filter>
     </ClInclude>
-    <ClInclude Include="model\Item.h">
-      <Filter>Header Files\model</Filter>
+    <ClInclude Include="Box2D\Common\b2GrowableStack.h">
+      <Filter>Box2D\Common</Filter>
     </ClInclude>
-    <ClInclude Include="model\Platform.h">
-      <Filter>Header Files\model</Filter>
+    <ClInclude Include="Box2D\Common\b2Math.h">
+      <Filter>Box2D\Common</Filter>
     </ClInclude>
-    <ClInclude Include="model\CharacterState.h">
-      <Filter>Header Files\model</Filter>
+    <ClInclude Include="Box2D\Common\b2Settings.h">
+      <Filter>Box2D\Common</Filter>
     </ClInclude>
-    <ClInclude Include="model\Weapon.h">
-      <Filter>Header Files\model</Filter>
+    <ClInclude Include="Box2D\Common\b2StackAllocator.h">
+      <Filter>Box2D\Common</Filter>
     </ClInclude>
-    <ClInclude Include="engine\audio\AudioEngine.h">
-      <Filter>Header Files\engine\audio</Filter>
+    <ClInclude Include="Box2D\Common\b2Timer.h">
+      <Filter>Box2D\Common</Filter>
     </ClInclude>
-    <ClInclude Include="engine\drawing\DrawEngine.h">
-      <Filter>Header Files\engine\drawing</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\drawing\Rectangle.h">
-      <Filter>Header Files\engine\drawing</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\drawing\Surface.h">
-      <Filter>Header Files\engine\drawing</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2CircleContact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\input\InputDeviceBinding.h">
-      <Filter>Header Files\engine\input</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2Contact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\input\InputEngine.h">
-      <Filter>Header Files\engine\input</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2ContactSolver.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\input\Action.h">
-      <Filter>Header Files\engine\input</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\physics\PhysicsEngine.h">
-      <Filter>Header Files\engine\physics</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\MovableGameObject.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\Engine.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2PolygonContact.h">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
     </ClInclude>
-    <ClInclude Include="engine\GameBase.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2DistanceJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\GameObject.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2FrictionJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\GameState.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2GearJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\GameStateManager.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2Joint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\GameTime.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2MotorJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\World.h">
-      <Filter>Header Files\engine</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2MouseJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\GameOverState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2PrismaticJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\LevelSelectionState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2PulleyJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2RevoluteJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h">
-      <Filter>Header Files\engine\physics</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2RopeJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\physics\ContactListener.h">
-      <Filter>Header Files\engine\physics</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2WeldJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\physics\KinematicBody.h">
-      <Filter>Header Files\engine\physics</Filter>
+    <ClInclude Include="Box2D\Dynamics\Joints\b2WheelJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="engine\util\FileParser.h">
-      <Filter>Header Files\engine\util</Filter>
+    <ClInclude Include="Box2D\Dynamics\b2Body.h">
+      <Filter>Box2D\Dynamics</Filter>
     </ClInclude>
-    <ClInclude Include="engine\drawing\TextSurface.h">
-      <Filter>Header Files\engine\drawing</Filter>
+    <ClInclude Include="Box2D\Dynamics\b2ContactManager.h">
+      <Filter>Box2D\Dynamics</Filter>
     </ClInclude>
-    <ClInclude Include="factories\CharacterFactory.h">
-      <Filter>Header Files\factories</Filter>
+    <ClInclude Include="Box2D\Dynamics\b2Fixture.h">
+      <Filter>Box2D\Dynamics</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\menuitems\MenuTextItem.h">
-      <Filter>Header Files\helperclasses\menuitems</Filter>
+    <ClInclude Include="Box2D\Dynamics\b2Island.h">
+      <Filter>Box2D\Dynamics</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\Menu.h">
-      <Filter>Header Files\helperclasses</Filter>
+    <ClInclude Include="Box2D\Dynamics\b2TimeStep.h">
+      <Filter>Box2D\Dynamics</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\MenuItem.h">
-      <Filter>Header Files\helperclasses</Filter>
+    <ClInclude Include="Box2D\Dynamics\b2World.h">
+      <Filter>Box2D\Dynamics</Filter>
     </ClInclude>
+    <ClInclude Include="Box2D\Dynamics\b2WorldCallbacks.h">
+      <Filter>Box2D\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Box2D\Rope\b2Rope.h">
+      <Filter>Box2D\Rope</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlsState.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="actions\Actions.h">
-      <Filter>Header Files\actions</Filter>
+      <Filter>actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\BlockAction.h">
+      <Filter>actions</Filter>
     </ClInclude>
     <ClInclude Include="actions\CharacterAction.h">
-      <Filter>Header Files\actions</Filter>
+      <Filter>actions</Filter>
     </ClInclude>
-    <ClInclude Include="engine\input\Joystick.h">
-      <Filter>Header Files\engine\input</Filter>
+    <ClInclude Include="actions\JumpAction.h">
+      <Filter>actions</Filter>
     </ClInclude>
-    <ClInclude Include="actions\RollAction.h">
-      <Filter>Header Files\actions</Filter>
-    </ClInclude>
-    <ClInclude Include="actions\RespawnAction.h">
-      <Filter>Header Files\actions</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\CreditsState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\HelpState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\audio\AudioObject.h">
-      <Filter>Header Files\engine\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\audio\MusicObject.h">
-      <Filter>Header Files\engine\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\audio\SampleObject.h">
-      <Filter>Header Files\engine\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlsState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\OptionsState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\StatisticsState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\TutorialState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\drawing\DynamicTextSurface.h">
-      <Filter>Header Files\engine\drawing</Filter>
-    </ClInclude>
-    <ClInclude Include="helperclasses\ConfigManager.h">
-      <Filter>Header Files\helperclasses</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\input\Mouse.h">
-      <Filter>Header Files\engine\input</Filter>
-    </ClInclude>
-    <ClInclude Include="actions\BlockAction.h">
-      <Filter>Header Files\actions</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\particle\Particle.h">
-      <Filter>Header Files\engine\particle</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\particle\ParticleEngine.h">
-      <Filter>Header Files\engine\particle</Filter>
-    </ClInclude>
-    <ClInclude Include="actions\BlockAction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="model\MovablePlatform.h">
-      <Filter>Header Files\model</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\input\Mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="helperclasses\Editor.h">
-      <Filter>Header Files\helperclasses</Filter>
-    </ClInclude>
-    <ClInclude Include="helperclasses\ProgressManager.h">
-      <Filter>Header Files\helperclasses</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\ProgressState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\ProgressSaveState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\ProgressLoadState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestates\LoadingSinglePlayerState.h">
-      <Filter>Header Files\gamestates</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\ai\AIMachine.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\ai\aistates\AIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\ai\EasyAIMachine.h">
-      <Filter>Header Files\engine\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\util\FileManager.h">
-      <Filter>Header Files\engine\util</Filter>
-    </ClInclude>
-    <ClInclude Include="helperclasses\HUD.h">
-      <Filter>Header Files\helperclasses</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\ai\aistates\IdleAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
+    <ClInclude Include="actions\LeftWalkAction.h">
+      <Filter>actions</Filter>
     </ClInclude>
     <ClInclude Include="actions\LongRangeAttackAction.h">
-      <Filter>Header Files\actions</Filter>
+      <Filter>actions</Filter>
     </ClInclude>
     <ClInclude Include="actions\MidRangeAttackAction.h">
-      <Filter>Header Files\actions</Filter>
+      <Filter>actions</Filter>
     </ClInclude>
-    <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
+    <ClInclude Include="actions\RespawnAction.h">
+      <Filter>actions</Filter>
     </ClInclude>
-    <ClInclude Include="engine\ai\aistates\MoveRightAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
+    <ClInclude Include="actions\RightWalkAction.h">
+      <Filter>actions</Filter>
     </ClInclude>
-    <ClInclude Include="engine\particle\ParticleSet.h">
-      <Filter>Header Files\engine\particle</Filter>
+    <ClInclude Include="actions\RollAction.h">
+      <Filter>actions</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\ProgressDeleteState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\Engine.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\GameModeState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\GameBase.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="engine\particle\ParticleInstance.h">
-      <Filter>Header Files\engine\particle</Filter>
+    <ClInclude Include="engine\GameObject.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="engine\physics\RayCastCallBack.h">
-      <Filter>Header Files\engine\physics</Filter>
+    <ClInclude Include="engine\GameState.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="engine\physics\AABBDetectionCallBack.h">
-      <Filter>Header Files\engine\physics</Filter>
+    <ClInclude Include="engine\GameStateManager.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\UnlockedState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\GameTime.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\LoadingSurvivalState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\MovableGameObject.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\GameOverSurvivalState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\World.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="helperclasses\RandomGenerator.h">
-      <Filter>Header Files\helperclasses</Filter>
+    <ClInclude Include="engine\ai\AIMachine.h">
+      <Filter>engine\ai</Filter>
     </ClInclude>
-    <ClInclude Include="engine\ai\aistates\ShortAttackAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
+    <ClInclude Include="engine\ai\EasyAIMachine.h">
+      <Filter>engine\ai</Filter>
     </ClInclude>
     <ClInclude Include="engine\ai\TutorialMachine.h">
-      <Filter>Header Files\engine\ai</Filter>
+      <Filter>engine\ai</Filter>
     </ClInclude>
-    <ClInclude Include="engine\ai\aistates\MoveToPointAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
+    <ClInclude Include="engine\ai\aistates\AIState.h">
+      <Filter>engine\ai\aistates</Filter>
     </ClInclude>
-    <ClInclude Include="engine\ai\aistates\TutorialIdleAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
+    <ClInclude Include="engine\ai\aistates\IdleAIState.h">
+      <Filter>engine\ai\aistates</Filter>
     </ClInclude>
     <ClInclude Include="engine\ai\aistates\JumpingAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
-    </ClInclude>
-    <ClInclude Include="helperclasses\Recorder.h">
-      <Filter>Header Files\helperclasses</Filter>
+      <Filter>engine\ai\aistates</Filter>
     </ClInclude>
     <ClInclude Include="engine\ai\aistates\LongAttackAIState.h">
-      <Filter>Header Files\engine\ai\aistates</Filter>
+      <Filter>engine\ai\aistates</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\PlayBackState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\ai\aistates\MoveLeftAIState.h">
+      <Filter>engine\ai\aistates</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\HighScoreState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\ai\aistates\MoveRightAIState.h">
+      <Filter>engine\ai\aistates</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\LoadingPlayBackState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\ai\aistates\MoveToPointAIState.h">
+      <Filter>engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\ShortAttackAIState.h">
+      <Filter>engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ai\aistates\TutorialIdleAIState.h">
+      <Filter>engine\ai\aistates</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\AudioEngine.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\AudioObject.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\MusicObject.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\audio\SampleObject.h">
+      <Filter>engine\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\DrawEngine.h">
+      <Filter>engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\DynamicTextSurface.h">
+      <Filter>engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\Rectangle.h">
+      <Filter>engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\Surface.h">
+      <Filter>engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\drawing\TextSurface.h">
+      <Filter>engine\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Action.h">
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="engine\input\ControllerInputDeviceBinding.h">
-      <Filter>Header Files\engine\input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
-    <ClInclude Include="gamestates\HighScoreInputState.h">
-      <Filter>Header Files\gamestates</Filter>
+    <ClInclude Include="engine\input\InputDeviceBinding.h">
+      <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\InputEngine.h">
+      <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Joystick.h">
+      <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Mouse.h">
+      <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\Particle.h">
+      <Filter>engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ParticleEngine.h">
+      <Filter>engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ParticleInstance.h">
+      <Filter>engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ParticleSet.h">
+      <Filter>engine\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\AABBDetectionCallBack.h">
+      <Filter>engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\ContactListener.h">
+      <Filter>engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\KinematicBody.h">
+      <Filter>engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\PhysicsEngine.h">
+      <Filter>engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\PhysicsEngineActionHandler.h">
+      <Filter>engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\physics\RayCastCallBack.h">
+      <Filter>engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\FileManager.h">
+      <Filter>engine\util</Filter>
+    </ClInclude>
+    <ClInclude Include="factories\CharacterFactory.h">
+      <Filter>factories</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\CharacterSelectionState.h">
+      <Filter>gamestates</Filter>
     </ClInclude>
     <ClInclude Include="gamestates\CreateLevelState.h">
-      <Filter>Header Files\gamestates</Filter>
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\CreditsState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\GameModeState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\GameOverState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\GameOverSurvivalState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\HelpState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\HighScoreInputState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\HighScoreState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\IntroState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LevelSelectionState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingPlayBackState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingSinglePlayerState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\LoadingSurvivalState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\MainMenuState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\MenuState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\OptionsState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\PauseState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\PlayBackState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\PlayState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressDeleteState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressLoadState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressSaveState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\ProgressState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\SelectionState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\StatisticsState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\TutorialState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestates\UnlockedState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\ConfigManager.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\Editor.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\HUD.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\Menu.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\MenuItem.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\ProgressManager.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\RandomGenerator.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\Recorder.h">
+      <Filter>helperclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="helperclasses\menuitems\MenuTextItem.h">
+      <Filter>helperclasses\menuitems</Filter>
+    </ClInclude>
+    <ClInclude Include="model\AICharacter.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Character.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\CharacterState.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Item.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\MovablePlatform.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Platform.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Weapon.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="vendor\SDL2\include\SDL.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_assert.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_atomic.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_audio.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_bits.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_blendmode.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_clipboard.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_android.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_iphoneos.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_macosx.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_minimal.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_pandora.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_psp.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_windows.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_winrt.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_config_wiz.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_copying.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_cpuinfo.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_egl.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_endian.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_error.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_events.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_filesystem.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_gamecontroller.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_gesture.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_haptic.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_hints.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_joystick.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_keyboard.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_keycode.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_loadso.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_locale.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_log.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_main.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_messagebox.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_metal.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_misc.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_mouse.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_mutex.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_name.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengl.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengl_glext.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengles.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengles2.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengles2_gl2.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengles2_gl2ext.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengles2_gl2platform.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_opengles2_khrplatform.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_pixels.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_platform.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_power.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_quit.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_rect.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_render.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_revision.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_rwops.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_scancode.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_sensor.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_shape.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_stdinc.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_surface.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_system.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_syswm.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_assert.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_common.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_compare.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_crc32.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_font.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_fuzzer.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_harness.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_images.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_log.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_md5.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_memory.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_test_random.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_thread.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_timer.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_touch.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_types.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_version.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_video.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\SDL_vulkan.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\begin_code.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2\include\close_code.h">
+      <Filter>vendor\SDL2\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2_image\include\SDL_image.h">
+      <Filter>vendor\SDL2_image\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2_mixer\include\SDL_mixer.h">
+      <Filter>vendor\SDL2_mixer\include</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\SDL2_ttf\include\SDL_ttf.h">
+      <Filter>vendor\SDL2_ttf\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="sdmg.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Deploy\favicon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ClCompile Include="Box2D\Collision\Shapes\b2ChainShape.cpp">
+      <Filter>Box2D\Collision\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\Shapes\b2CircleShape.cpp">
+      <Filter>Box2D\Collision\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\Shapes\b2EdgeShape.cpp">
+      <Filter>Box2D\Collision\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\Shapes\b2PolygonShape.cpp">
+      <Filter>Box2D\Collision\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2BroadPhase.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2CollideCircle.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2CollideEdge.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2CollidePolygon.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2Collision.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2Distance.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2DynamicTree.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Collision\b2TimeOfImpact.cpp">
+      <Filter>Box2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Common\b2BlockAllocator.cpp">
+      <Filter>Box2D\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Common\b2Draw.cpp">
+      <Filter>Box2D\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Common\b2Math.cpp">
+      <Filter>Box2D\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Common\b2Settings.cpp">
+      <Filter>Box2D\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Common\b2StackAllocator.cpp">
+      <Filter>Box2D\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Common\b2Timer.cpp">
+      <Filter>Box2D\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2CircleContact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2Contact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2ContactSolver.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2PolygonContact.cpp">
+      <Filter>Box2D\Dynamics\Contacts</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2DistanceJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2FrictionJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2GearJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2Joint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2MotorJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2MouseJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2PrismaticJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2PulleyJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2RevoluteJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2RopeJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2WeldJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\Joints\b2WheelJoint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\b2Body.cpp">
+      <Filter>Box2D\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\b2ContactManager.cpp">
+      <Filter>Box2D\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\b2Fixture.cpp">
+      <Filter>Box2D\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\b2Island.cpp">
+      <Filter>Box2D\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\b2World.cpp">
+      <Filter>Box2D\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Dynamics\b2WorldCallbacks.cpp">
+      <Filter>Box2D\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2D\Rope\b2Rope.cpp">
+      <Filter>Box2D\Rope</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlsState.cpp" />
+    <ClCompile Include="actions\BlockAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\CharacterAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\JumpAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LeftWalkAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\LongRangeAttackAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\MidRangeAttackAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\RespawnAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\RightWalkAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="actions\RollAction.cpp">
+      <Filter>actions</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Engine.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameBase.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameObject.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameStateManager.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\GameTime.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\MovableGameObject.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\World.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\AIMachine.cpp">
+      <Filter>engine\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\EasyAIMachine.cpp">
+      <Filter>engine\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\TutorialMachine.cpp">
+      <Filter>engine\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\IdleAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\JumpingAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\LongAttackAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveLeftAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveRightAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\MoveToPointAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\ShortAttackAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ai\aistates\TutorialIdleAIState.cpp">
+      <Filter>engine\ai\aistates</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\audio\AudioEngine.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\audio\MusicObject.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\audio\SampleObject.cpp">
+      <Filter>engine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\DrawEngine.cpp">
+      <Filter>engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\DynamicTextSurface.cpp">
+      <Filter>engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\Rectangle.cpp">
+      <Filter>engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\Surface.cpp">
+      <Filter>engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\drawing\TextSurface.cpp">
+      <Filter>engine\drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\ControllerInputDeviceBinding.cpp">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\InputDeviceBinding.cpp">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\InputEngine.cpp">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\Joystick.cpp">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\Mouse.cpp">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\Particle.cpp">
+      <Filter>engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ParticleEngine.cpp">
+      <Filter>engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ParticleInstance.cpp">
+      <Filter>engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ParticleSet.cpp">
+      <Filter>engine\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\AABBDetectionCallBack.cpp">
+      <Filter>engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\ContactListener.cpp">
+      <Filter>engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\KinematicBody.cpp">
+      <Filter>engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\PhysicsEngine.cpp">
+      <Filter>engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\PhysicsEngineActionHandler.cpp">
+      <Filter>engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\physics\RayCastCallBack.cpp">
+      <Filter>engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\util\FileManager.cpp">
+      <Filter>engine\util</Filter>
+    </ClCompile>
+    <ClCompile Include="factories\CharacterFactory.cpp">
+      <Filter>factories</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="gamestates\CharacterSelectionState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\CreateLevelState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\CreditsState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\GameModeState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\GameOverState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\GameOverSurvivalState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\HelpState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\HighScoreInputState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\HighScoreState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\IntroState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LevelSelectionState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingPlayBackState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingSinglePlayerState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\LoadingSurvivalState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\MainMenuState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\MenuState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\OptionsState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\PauseState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\PlayBackState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\PlayState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressDeleteState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressLoadState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressSaveState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\ProgressState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\SelectionState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\StatisticsState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\TutorialState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestates\UnlockedState.cpp">
+      <Filter>gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\ConfigManager.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\Editor.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\HUD.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\Menu.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\MenuItem.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\ProgressManager.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\RandomGenerator.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\Recorder.cpp">
+      <Filter>helperclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="helperclasses\menuitems\MenuTextItem.cpp">
+      <Filter>helperclasses\menuitems</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="model\AICharacter.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Character.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Item.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\MovablePlatform.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Platform.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Weapon.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

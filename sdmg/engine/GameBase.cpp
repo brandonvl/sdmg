@@ -14,7 +14,7 @@
 #include "GameStateManager.h"
 #include "GameTime.h"
 #include "GameState.h"
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 #include "drawing\DrawEngine.h"
 #include "gamestates\IntroState.h"
 #include "gamestates\MainMenuState.h"

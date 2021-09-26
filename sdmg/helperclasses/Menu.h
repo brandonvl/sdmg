@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <functional>
+#include <string>
 
 namespace sdmg {
 	namespace engine {

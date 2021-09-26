@@ -7,8 +7,8 @@
 #include "engine\input\Mouse.h"
 #include "engine\World.h"
 #include "engine\util\FileManager.h"
-#include <sdl\include\SDL_image.h>
-#include <sdl\include\SDL.h>
+#include <SDL_image.h>
+#include <SDL.h>
 #include "model\Platform.h"
 #include "lib\JSONParser.h"
 

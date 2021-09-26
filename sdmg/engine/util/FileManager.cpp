@@ -16,10 +16,27 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 
 namespace sdmg {
 	namespace engine {
 		namespace util {
+
+			nlohmann::json FileManager::loadFileContentsAsJson(const std::string& relativePath)
+			{
+				try
+				{ 
+					std::ifstream ifs(relativePath);
+					return nlohmann::json::parse(ifs);
+				}
+				catch (...)
+				{
+					std::cout << "Unable to load " + relativePath + ". Unlooky" << std::endl;
+					throw;
+				}				
+			}
 
 			const std::vector<std::string> FileManager::getFiles(std::string path)
 			{
@@ -36,7 +53,26 @@ namespace sdmg {
 				std::vector<std::string> list;
 
 				path = path + "*.*";
-				WIN32_FIND_DATA fd;
+
+				for (auto& entry : std::filesystem::directory_iterator(path))
+				{
+					if (type == Type::Folders)
+					{
+						if (std::filesystem::is_directory(entry))
+						{
+							list.push_back(entry.path().stem().string());
+						}
+					}
+					else if (type == Type::Files)
+					{
+						if (std::filesystem::is_regular_file(entry))
+						{
+							list.push_back(entry.path().stem().string());
+						}
+					}
+				}
+
+				/*WIN32_FIND_DATA fd;
 				HANDLE hFind = ::FindFirstFile(path.c_str(), &fd);
 				if (hFind != INVALID_HANDLE_VALUE)
 				{
@@ -47,7 +83,7 @@ namespace sdmg {
 							list.push_back(fd.cFileName);
 					} while (::FindNextFile(hFind, &fd));
 					::FindClose(hFind);
-				}
+				}*/
 
 				return list;
 			}

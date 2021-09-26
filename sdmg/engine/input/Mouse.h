@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <functional>
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 
 namespace sdmg {
 	namespace engine {

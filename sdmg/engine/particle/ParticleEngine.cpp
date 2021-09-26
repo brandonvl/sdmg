@@ -10,7 +10,7 @@
 #include "ParticleEngine.h"
 #include "ParticleSet.h"
 #include "ParticleInstance.h"
-#include "..\..\sdl\include\SDL_image.h"
+#include <SDL_image.h>
 #include "engine\MovableGameObject.h"
 #include <ctime>
 #include <string>
