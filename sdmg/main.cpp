@@ -1,5 +1,5 @@
 #include <iostream>
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 #include "Game.h"
 
 
@@ -15,8 +15,6 @@ using namespace sdmg;
 #include "gamestates\IntroState.h"
 #include "gamestates\LoadingState.h"
 #include "helperclasses\ConfigManager.h"
-
-#include "vld\include\vld.h"
 
 int main(int argc, char **argv)
 {

@@ -15,7 +15,7 @@
 #include "engine\GameObject.h"
 #include "engine\MovableGameObject.h"
 #include "engine\particle\Particle.h"
-#include "..\..\sdl\include\SDL_image.h"
+#include <SDL_image.h>
 
 namespace sdmg {
 	namespace engine {

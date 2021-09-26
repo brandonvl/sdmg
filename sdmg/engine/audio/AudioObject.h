@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "sdl\include\SDL_mixer.h"
+#include <SDL_mixer.h>
 
 namespace sdmg {
 	namespace engine {

@@ -12,7 +12,7 @@
 #include "PlayState.h"
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 #include "engine\physics\PhysicsEngine.h"
 #include "model\Platform.h"
 #include "model\MovablePlatform.h"

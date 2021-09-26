@@ -10,7 +10,8 @@
 #pragma once
 #include <map>
 #include <vector>
-#include "..\..\sdl\include\SDL.h"
+#include <string>
+#include <SDL.h>
 
 namespace sdmg {
 	namespace engine {

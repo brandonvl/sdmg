@@ -6,7 +6,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <sstream>
-#include <sdl\include\SDL.h>
+#include <SDL.h>
 
 struct tm newtime;
 __time32_t aclock;

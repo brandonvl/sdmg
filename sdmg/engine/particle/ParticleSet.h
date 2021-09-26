@@ -1,5 +1,5 @@
 #pragma once
-#include "..\..\sdl\include\SDL.h"
+#include <SDL.h>
 
 #include <vector>
 

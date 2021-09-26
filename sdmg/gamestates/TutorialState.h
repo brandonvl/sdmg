@@ -9,7 +9,7 @@
 
 #pragma once
 #include "PlayState.h"
-#include "sdl\include\SDL.h"
+#include <SDL.h>
 
 using namespace sdmg::engine;
 

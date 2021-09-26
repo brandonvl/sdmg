@@ -8,8 +8,8 @@
 //
 
 #include "Joystick.h"
-#include "sdl\include\SDL.h"
-#include "sdl\include\SDL_thread.h"
+#include <SDL.h>
+#include <SDL_thread.h>
 
 namespace sdmg {
 	namespace engine {

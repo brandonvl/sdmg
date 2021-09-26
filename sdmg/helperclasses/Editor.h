@@ -4,7 +4,7 @@
 #include "engine\GameObject.h"
 #include "engine\input\Mouse.h"
 #include <functional>
-#include <sdl\include\SDL_ttf.h>
+#include <SDL_ttf.h>
 
 using namespace sdmg::engine;
 

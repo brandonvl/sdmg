@@ -36,7 +36,7 @@ namespace sdmg {
 				std::vector<std::string> list;
 
 				path = path + "*.*";
-				WIN32_FIND_DATA fd;
+				/*WIN32_FIND_DATA fd;
 				HANDLE hFind = ::FindFirstFile(path.c_str(), &fd);
 				if (hFind != INVALID_HANDLE_VALUE)
 				{
@@ -47,7 +47,7 @@ namespace sdmg {
 							list.push_back(fd.cFileName);
 					} while (::FindNextFile(hFind, &fd));
 					::FindClose(hFind);
-				}
+				}*/
 
 				return list;
 			}
