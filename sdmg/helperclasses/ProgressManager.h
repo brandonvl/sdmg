@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
-#include "lib\JSONParser.h"
+#include <json.hpp>
 
-namespace JSON { class JSONDocument; }
 namespace sdmg {
 	namespace helperclasses {
 		class ProgressManager
@@ -17,10 +16,10 @@ namespace sdmg {
 			void cleanup();
 
 			void setStatistics(std::string name, std::string key, std::string value);
-			JSON::JSONArray &getStatistics();
+			nlohmann::json &getStatistics();
 
 			void setLevel(std::string name, std::string key, std::string value);
-			JSON::JSONArray &getLevels();
+			nlohmann::json &getLevels();
 
 			std::vector<std::vector<std::string>> *getHighscores();
 			void setHighscore(int index, std::string key, std::string value);
@@ -50,7 +49,7 @@ namespace sdmg {
 
 		private:
 			ProgressManager();
-			JSON::JSONDocument *_jsonDoc;
+			nlohmann::json _jsonDoc;
 
 			int getCharacterIndex(std::string name);
 			int getLevelIndex(std::string name);

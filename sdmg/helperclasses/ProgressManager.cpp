@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <sstream>
 #include <SDL.h>
+#include "engine/util/FileManager.h"
 
 struct tm newtime;
 __time32_t aclock;

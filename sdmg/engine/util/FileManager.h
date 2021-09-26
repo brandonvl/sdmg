@@ -11,12 +11,14 @@
 
 #include <string>
 #include <vector>
+#include <json.hpp>
 
 namespace sdmg {
 	namespace engine {
 		namespace util {
 			class FileManager {
 			public:
+				nlohmann::json loadFileContentsAsJson(const std::string &relativePath);
 				const std::vector<std::string> getFiles(std::string path);
 				const std::vector<std::string> getFolders(std::string path);
 				
