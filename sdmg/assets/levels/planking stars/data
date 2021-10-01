@@ -1,93 +1,217 @@
 {
-	name: "Planking Stars",
-	editable: false,
-	gravity: { left: 0, down: 200 },
-	platforms: 
-	[
-		{
-			size: { width: 80, height: 100 },
-			location: { x: 370, y: 435 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		{
-			size: { width: 80, height: 100 },
-			location: { x: 410, y: 340 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		{
-			size: { width: 80, height: 100 },
-			location: { x: 445, y: 515 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		
-		
-		{
-			size: { width: 130, height: 100 },
-			location: { x: 560, y: 285 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		{
-			size: { width: 70, height: 100 },
-			location: { x: 630, y: 230 },
-			bodyPadding: { x: 30, y: 20 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 130, height: 100 },
-			location: { x: 690, y: 285 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		
-		
-		{
-			size: { width: 80, height: 100 },
-			location: { x: 875, y: 435 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		{
-			size: { width: 80, height: 100 },
-			location: { x: 840, y: 340 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		{
-			size: { width: 80, height: 100 },
-			location: { x: 800, y: 515 },
-			bodyPadding: { x: 30, y: 20 }
-		},
-		
-		{
-			size: { width: 70, height: 100 },
-			location: { x: 250, y: 520 },
-			bodyPadding: { x: 30, y: 20 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 700, height: 94 },
-			location: { x: 625.5, y: 620 },
-			bodyPadding: { x: 30, y: 20 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 50, height: 100 },
-			location: { x: 965, y: 550 },
-			bodyPadding: { x: 30, y: 20 },
-			canMoveThroughIt: false
-		},
-		
-		{
-			size: { width: 150, height: 100 },
-			location: { x: 1030, y: 593 },
-			bodyPadding: { x: 30, y: 20 }
-		}
-	],
-	startingPositions: 
-	[
-		{ x: 307, y: -100 },
-		{ x: 1030, y: -100 },
-		{ x: 410, y: -100 },
-		{ x: 830, y: -100 }
-	],
-	bobs:
-	[
-	]
+   "name":"Planking Stars",
+   "editable":false,
+   "gravity":{
+      "left":0,
+      "down":200
+   },
+   "platforms":[
+      {
+         "size":{
+            "width":80,
+            "height":100
+         },
+         "location":{
+            "x":370,
+            "y":435
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":80,
+            "height":100
+         },
+         "location":{
+            "x":410,
+            "y":340
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":80,
+            "height":100
+         },
+         "location":{
+            "x":445,
+            "y":515
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":130,
+            "height":100
+         },
+         "location":{
+            "x":560,
+            "y":285
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":70,
+            "height":100
+         },
+         "location":{
+            "x":630,
+            "y":230
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":130,
+            "height":100
+         },
+         "location":{
+            "x":690,
+            "y":285
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":80,
+            "height":100
+         },
+         "location":{
+            "x":875,
+            "y":435
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":80,
+            "height":100
+         },
+         "location":{
+            "x":840,
+            "y":340
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":80,
+            "height":100
+         },
+         "location":{
+            "x":800,
+            "y":515
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      },
+      {
+         "size":{
+            "width":70,
+            "height":100
+         },
+         "location":{
+            "x":250,
+            "y":520
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":700,
+            "height":94
+         },
+         "location":{
+            "x":625.5,
+            "y":620
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":50,
+            "height":100
+         },
+         "location":{
+            "x":965,
+            "y":550
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":150,
+            "height":100
+         },
+         "location":{
+            "x":1030,
+            "y":593
+         },
+         "bodyPadding":{
+            "x":30,
+            "y":20
+         }
+      }
+   ],
+   "startingPositions":[
+      {
+         "x":307,
+         "y":-100
+      },
+      {
+         "x":1030,
+         "y":-100
+      },
+      {
+         "x":410,
+         "y":-100
+      },
+      {
+         "x":830,
+         "y":-100
+      }
+   ],
+   "bobs":[
+      
+   ]
 }

@@ -13,10 +13,10 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <json.hpp>
 
 using namespace sdmg::engine;
 
-namespace JSON { class JSONArray; }
 namespace sdmg {
 	namespace model {
 		class Platform;
@@ -49,8 +49,8 @@ namespace sdmg {
 			GameBase *_game;
 			void load();
 			void loadPlaybackSteps();
-			void loadCharacters(JSON::JSONArray &startingPositions);
-			void loadBulletBobs(JSON::JSONArray &bobs);
+			void loadCharacters(std::vector<nlohmann::json>& startingPositions);
+			void loadBulletBobs(std::vector<nlohmann::json>& bobs);
 			void loadLevel();
 			void loadKeybindings();
 			void clearEventQueue();

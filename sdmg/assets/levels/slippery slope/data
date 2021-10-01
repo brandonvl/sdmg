@@ -1,43 +1,101 @@
 {
-	name: "Slippery Slope",
-	editable: false,
-	gravity: { left: 0, down: 100 },
-	platforms: 
-	[
-		{
-			size: { width: 230, height: 80 },
-			location: { x: 100, y: 620 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 330, height: 80 },
-			location: { x: 130, y: 260 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 400, height: 80 },
-			location: { x: 640, y: 460 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 330, height: 80 },
-			location: { x: 1150, y: 260 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 230, height: 80 },
-			location: { x: 1180, y: 620 },
-			bodyPadding: { x: 0, y: 0 }
-		}		
-	],
-	startingPositions: 
-	[
-		{ x: 150, y: -100 },
-		{ x: 1130, y: -100 },
-		{ x: 150, y: 300 },
-		{ x: 1130, y: 300 }
-	],
-	bobs:
-	[
-	]
+   "name":"Slippery Slope",
+   "editable":false,
+   "gravity":{
+      "left":0,
+      "down":100
+   },
+   "platforms":[
+      {
+         "size":{
+            "width":230,
+            "height":80
+         },
+         "location":{
+            "x":100,
+            "y":620
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":330,
+            "height":80
+         },
+         "location":{
+            "x":130,
+            "y":260
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":400,
+            "height":80
+         },
+         "location":{
+            "x":640,
+            "y":460
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":330,
+            "height":80
+         },
+         "location":{
+            "x":1150,
+            "y":260
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":230,
+            "height":80
+         },
+         "location":{
+            "x":1180,
+            "y":620
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      }
+   ],
+   "startingPositions":[
+      {
+         "x":150,
+         "y":-100
+      },
+      {
+         "x":1130,
+         "y":-100
+      },
+      {
+         "x":150,
+         "y":300
+      },
+      {
+         "x":1130,
+         "y":300
+      }
+   ],
+   "bobs":[
+      
+   ]
 }

@@ -260,34 +260,41 @@ namespace sdmg {
 
 			_game->getStateManager()->draw();
 
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
-			JSON::JSONObject &levelObj = doc->getRootObject();
+			auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/levels/" + (*_level) + "/data");
 
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
-			pe->setWorldGravity(levelObj.getObject("gravity").getFloat("left"), levelObj.getObject("gravity").getFloat("down"));
+			auto jsonGravityObject = json["gravity"].get<nlohmann::json>();
 
-			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
+			pe->setWorldGravity(jsonGravityObject["left"].get<float>(), jsonGravityObject["down"].get<float>());
 
-			if (platformArr.size() > 0) {
-				int platformStep = (_loadingStep / 3) / platformArr.size();
+			auto jsonPlatforms = json["platforms"].get<std::vector<nlohmann::json>>();
 
-				for (int i = 0; i < platformArr.size(); i++) {
-					JSON::JSONObject &platformObj = platformArr.getObject(i);
+			if (jsonPlatforms.size() > 0)
+			{
+				int platformStep = (_loadingStep / 3) / jsonPlatforms.size();
 
-					Platform *platform = new model::Platform();
-					platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
-					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
-					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
-					if (platformObj.exists("canMoveThroughIt"))
+				for (auto& jsonPlatform : jsonPlatforms)
+				{
+					auto jsonSizeObject = jsonPlatform["size"].get<nlohmann::json>();
+					auto jsonLocationObject = jsonPlatform["location"].get<nlohmann::json>();
+					auto jsonBodyPaddingObject = jsonPlatform["bodyPadding"].get<nlohmann::json>();
+
+					Platform* platform = new model::Platform();
+					platform->setSize(jsonSizeObject["width"].get<float>(), jsonSizeObject["height"].get<float>());
+					platform->setLocation(jsonLocationObject["x"].get<float>(), jsonLocationObject["y"].get<float>());
+					pe->addBody(platform, jsonBodyPaddingObject["x"].get<float>(), jsonBodyPaddingObject["y"].get<float>());
+
+					if (jsonPlatform.contains("canMoveThroughIt"))
 						platform->setCanMoveThroughIt(false);
 					else
 						platform->setCanMoveThroughIt(true);
 
 					_game->getWorld()->addPlatform(platform);
-					if (platformObj.exists("image"))
-						de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
+
+					if (jsonPlatform.contains("image"))
+						de->load(platform, "assets/levels/" + (*_level) + "/" + jsonPlatform["image"].get<std::string>());
 
 					_loadingValue += platformStep;
 					_game->getStateManager()->draw();
@@ -301,18 +308,17 @@ namespace sdmg {
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			_game->getEngine()->getAudioEngine()->load("bgm", "assets/levels/" + (*_level) + "/bgm.mp3", AUDIOTYPE::MUSIC);
 
-			loadCharacters(levelObj.getArray("startingPositions"));
+			loadCharacters(json["startingPositions"].get<std::vector<nlohmann::json>>());
 
-			if (levelObj.exists("bobs"))
-				loadBulletBobs(levelObj.getArray("bobs"));
+			if (json.contains("bobs"))
+				loadBulletBobs(json["bobs"].get<std::vector<nlohmann::json>>());
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
 			de->loadDynamicText("speed", { 255, 255, 255 }, "arial", 18);
-			delete doc;
 		}
 
-		void LoadingPlayBackState::loadCharacters(JSON::JSONArray &startingPositions) {
+		void LoadingPlayBackState::loadCharacters(std::vector<nlohmann::json>& startingPositions) {
 
 			delete _recordMap;
 			_recordMap = new std::unordered_map<std::string, Action*>();
@@ -327,8 +333,7 @@ namespace sdmg {
 
 				int retries = 0;
 				do{
-					JSON::JSONObject &posObj = startingPositions.getObject(i);
-					(*_characterObjects)[i] = factories::CharacterFactory::create(*(*_characters)[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
+					(*_characterObjects)[i] = factories::CharacterFactory::create(*(*_characters)[i], *_game, startingPositions[i]["x"].get<float>(), startingPositions[i]["y"].get<float>());
 					_game->getWorld()->addPlayer((*_characterObjects)[i]);
 					if (retries++ > 10){
 						_isError = true;
@@ -352,9 +357,6 @@ namespace sdmg {
 
 			(*_characterObjects)[1]->setDirection(MovableGameObject::Direction::LEFT);
 			(*_characterObjects)[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
-
-
-
 
 			_game->getStateManager()->draw();
 
@@ -381,7 +383,7 @@ namespace sdmg {
 			_loadingValue += characterStep;
 		}
 
-		void LoadingPlayBackState::loadBulletBobs(JSON::JSONArray &bobs) {
+		void LoadingPlayBackState::loadBulletBobs(std::vector<nlohmann::json>& bobs) {
 
 			_game->getStateManager()->draw();
 
@@ -391,16 +393,24 @@ namespace sdmg {
 			else
 				bobStep = (_loadingStep / 3) / bobs.size();
 
-			for (int i = 0; i < bobs.size(); i++) {
-				JSON::JSONObject &bobObj = bobs.getObject(i);
+			for (auto& jsonBobObj : bobs)
+			{
+				auto jsonSizeObject = jsonBobObj["size"].get<nlohmann::json>();
+				auto jsonLocationObject = jsonBobObj["location"].get<nlohmann::json>();
+				auto jsonEndLocationObject = jsonBobObj["endLocation"].get<nlohmann::json>();
+				auto jsonSpeedObject = jsonBobObj["speed"].get<nlohmann::json>();
 
-				MovablePlatform *platform = new MovablePlatform();
-				platform->setSize(bobObj.getObject("size").getFloat("width"), bobObj.getObject("size").getFloat("height"));
-				platform->setLocation(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y"));
-				platform->setStartLocation(b2Vec2(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y")));
-				platform->setEndLocation(b2Vec2(bobObj.getObject("endLocation").getFloat("x"), bobObj.getObject("endLocation").getFloat("y")));
-				platform->setDirection(static_cast<MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
-				platform->setSpeed(bobObj.getObject("speed").getFloat("horizontal"), bobObj.getObject("speed").getFloat("vertical"));
+				auto direction = static_cast<MovableGameObject::Direction>(jsonBobObj["direction"].get<int>());
+				auto locationX = jsonLocationObject["x"].get<float>();
+				auto locationY = jsonLocationObject["x"].get<float>();
+
+				MovablePlatform* platform = new MovablePlatform();
+				platform->setSize(jsonSizeObject["width"].get<float>(), jsonSizeObject["height"].get<float>());
+				platform->setLocation(locationX, locationY);
+				platform->setStartLocation(b2Vec2(locationX, locationY));
+				platform->setEndLocation(b2Vec2(jsonEndLocationObject["x"].get<float>(), jsonEndLocationObject["y"].get<float>()));
+				platform->setDirection(direction);
+				platform->setSpeed(jsonSpeedObject["horizontal"].get<float>(), jsonSpeedObject["vertical"].get<float>());
 				platform->setDamageOnImpact(100);
 
 				_game->getWorld()->addPlatform(platform);
@@ -409,6 +419,7 @@ namespace sdmg {
 
 				_loadingValue += bobStep;
 				_game->getStateManager()->draw();
+
 			}
 		}
 
@@ -416,49 +427,6 @@ namespace sdmg {
 
 			_loadingValue += _loadingStep;
 			_game->getStateManager()->draw();
-
-			/*
-			try{
-				ConfigManager &manager = ConfigManager::getInstance();
-
-
-				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
-				InputDeviceBinding *binding = new InputDeviceBinding();
-				//  int controlStep = (_loadingStep / 3) / players.size();
-				int controlStep = 0;
-				if (controlStep <= 0)
-					_loadingValue += (_loadingStep / 3);
-				else
-					controlStep = (_loadingStep / 3) / players.size();
-
-				_game->getEngine()->getInputEngine()->clearBindings();
-
-				for (int i = 0; i < players.size(); i++)
-				{
-
-					Character *character = static_cast<Character*>(players[i]);
-					binding->setKeyBinding(manager.getKey(i, "walkRight"), new actions::RightWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "walkLeft"), new actions::LeftWalkAction(character));
-					binding->setKeyBinding(manager.getKey(i, "jump"), new actions::JumpAction(character));
-					binding->setKeyBinding(manager.getKey(i, "roll"), new actions::RollAction(character));
-					binding->setKeyBinding(manager.getKey(i, "midrange"), new actions::MidRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "longrange"), new actions::LongRangeAttackAction(character));
-					binding->setKeyBinding(manager.getKey(i, "block"), new actions::BlockAction(character));
-
-
-					_loadingValue += controlStep;
-					_game->getStateManager()->draw();
-
-				}
-
-				_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
-
-			}
-			catch (...)
-			{
-				std::cout << "Cannot load bindings.";
-			}
-			*/
 		}
 
 		void LoadingPlayBackState::loadAdvertisement()

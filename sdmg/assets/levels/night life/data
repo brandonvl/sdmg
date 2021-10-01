@@ -1,47 +1,105 @@
 {
-	name: "Night Life",
-	editable: false,
-	gravity: { left: 0, down: 100 },
-	platforms: 
-	[
-		{
-			size: { width: 150, height: 80 },
-			location: { x: 70, y: 400 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 250, height: 230 },
-			location: { x: 70, y: 630 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 361, height: 388 },
-			location: { x: 612, y: 605 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 173, height: 388 },
-			location: { x: 710, y: 540 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 276, height: 360 },
-			location: { x: 1150, y: 610 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		}
-	],
-	startingPositions: 
-	[
-		{ x: 75, y: -100 },
-		{ x: 1150, y: -100 },
-		{ x: 525, y: -100 },
-		{ x: 700, y: -100 }
-	],
-	bobs:
-	[
-	]
+   "name":"Night Life",
+   "editable":false,
+   "gravity":{
+      "left":0,
+      "down":100
+   },
+   "platforms":[
+      {
+         "size":{
+            "width":150,
+            "height":80
+         },
+         "location":{
+            "x":70,
+            "y":400
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":250,
+            "height":230
+         },
+         "location":{
+            "x":70,
+            "y":630
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":361,
+            "height":388
+         },
+         "location":{
+            "x":612,
+            "y":605
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":173,
+            "height":388
+         },
+         "location":{
+            "x":710,
+            "y":540
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":276,
+            "height":360
+         },
+         "location":{
+            "x":1150,
+            "y":610
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      }
+   ],
+   "startingPositions":[
+      {
+         "x":75,
+         "y":-100
+      },
+      {
+         "x":1150,
+         "y":-100
+      },
+      {
+         "x":525,
+         "y":-100
+      },
+      {
+         "x":700,
+         "y":-100
+      }
+   ],
+   "bobs":[
+      
+   ]
 }

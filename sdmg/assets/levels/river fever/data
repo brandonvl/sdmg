@@ -1,57 +1,133 @@
 {
-	name: "River Fever",
-	editable: false,
-	gravity: { left: 0, down: 100 },
-	platforms: 
-	[
-		{
-			size: { width: 100, height: 2000 },
-			location: { x: -50, y: 640 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 260, height: 80 },
-			location: { x: 95, y: 710 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 120, height: 80 },
-			location: { x: 435, y: 720 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 60, height: 80 },
-			location: { x: 660, y: 710 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 120, height: 80 },
-			location: { x: 850, y: 720 },
-			bodyPadding: { x: 0, y: 0 }
-		},
-		{
-			size: { width: 260, height: 80 },
-			location: { x: 1120, y: 710 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		},
-		{
-			size: { width: 100, height: 2000 },
-			location: { x: 1320, y: 640 },
-			bodyPadding: { x: 0, y: 0 },
-			canMoveThroughIt: false
-		}
-	],
-	startingPositions: 
-	[
-		{ x: 100, y: -100 },
-		{ x: 1180, y: -100 },
-		{ x: 440, y: 350 },
-		{ x: 830, y: -100 }
-	],
-	bobs:
-	[
-	]
+   "name":"River Fever",
+   "editable":false,
+   "gravity":{
+      "left":0,
+      "down":100
+   },
+   "platforms":[
+      {
+         "size":{
+            "width":100,
+            "height":2000
+         },
+         "location":{
+            "x":-50,
+            "y":640
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":260,
+            "height":80
+         },
+         "location":{
+            "x":95,
+            "y":710
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":120,
+            "height":80
+         },
+         "location":{
+            "x":435,
+            "y":720
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":60,
+            "height":80
+         },
+         "location":{
+            "x":660,
+            "y":710
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":120,
+            "height":80
+         },
+         "location":{
+            "x":850,
+            "y":720
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         }
+      },
+      {
+         "size":{
+            "width":260,
+            "height":80
+         },
+         "location":{
+            "x":1120,
+            "y":710
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      },
+      {
+         "size":{
+            "width":100,
+            "height":2000
+         },
+         "location":{
+            "x":1320,
+            "y":640
+         },
+         "bodyPadding":{
+            "x":0,
+            "y":0
+         },
+         "canMoveThroughIt":false
+      }
+   ],
+   "startingPositions":[
+      {
+         "x":100,
+         "y":-100
+      },
+      {
+         "x":1180,
+         "y":-100
+      },
+      {
+         "x":440,
+         "y":350
+      },
+      {
+         "x":830,
+         "y":-100
+      }
+   ],
+   "bobs":[
+      
+   ]
 }
