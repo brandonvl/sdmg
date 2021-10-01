@@ -12,7 +12,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "lib\JSONParser.h"
+#include <json.hpp>
 
 using namespace sdmg::engine;
 
@@ -39,7 +39,7 @@ namespace sdmg {
 			CharacterSelectionState() { }
 		private:
 			GameBase *_game;
-			std::map<std::string, JSON::JSONDocument*> *_characters, *_lockedCharacters;
+			std::map<std::string, nlohmann::json> *_characters, *_lockedCharacters;
 			std::vector<std::string> *_slots;
 			std::string *_currentCharacter;
 			std::map<std::string, int> *_slotKeyInput;
