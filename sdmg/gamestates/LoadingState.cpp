@@ -231,34 +231,30 @@ namespace sdmg {
 			*_progress = "Loading awesome level!";
 			_game->getStateManager()->draw();
 
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + (*_level) + "/data");
-			JSON::JSONObject &levelObj = doc->getRootObject();
-
+			std::string folder = "assets/levels/" + (*_level);
+			auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson(folder + "/data");
+			auto jsonGravityObject = json["gravity"];
 			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
 			DrawEngine *de = _game->getEngine()->getDrawEngine();
 
-			pe->setWorldGravity(levelObj.getObject("gravity").getFloat("left"), levelObj.getObject("gravity").getFloat("down"));
+			pe->setWorldGravity(jsonGravityObject["left"].get<float>(), jsonGravityObject["down"].get<float>());
 
-			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
+			auto &platformArr = json["platforms"];
 
 			if (platformArr.size() > 0) {
 				int platformStep = (_loadingStep / 3) / platformArr.size();
 
-				for (int i = 0; i < platformArr.size(); i++) {
-					JSON::JSONObject &platformObj = platformArr.getObject(i);
+				for (auto& platformObj : platformArr) {
 
 					Platform *platform = new model::Platform();
-					platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
-					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
-					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
-					if (platformObj.exists("canMoveThroughIt"))
-						platform->setCanMoveThroughIt(false);
-					else
-						platform->setCanMoveThroughIt(true);
-
+					platform->setSize(platformObj["size"]["width"].get<float>(), platformObj["size"]["height"].get<float>());
+					platform->setLocation(platformObj["location"]["x"].get<float>(), platformObj["location"]["y"].get<float>());
+					pe->addBody(platform, platformObj["bodyPadding"]["x"].get<float>(), platformObj["bodyPadding"]["y"].get<float>());
+					platform->setCanMoveThroughIt(platformObj.contains("canMoveThroughIt"));
+					
 					_game->getWorld()->addPlatform(platform);
-					if(platformObj.exists("image"))
-						de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj.getString("image"));
+					if(platformObj.contains("image"))
+						de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj["image"].get<std::string>());
 
 					_loadingValue += platformStep;
 					_game->getStateManager()->draw();
@@ -275,18 +271,17 @@ namespace sdmg {
 			//  _game->getEngine()->getAudioEngine()->load("level1_bgm", R"(assets/sounds/bgm/level1_bgm.mp3)", AUDIOTYPE::MUSIC);
 			_game->getEngine()->getAudioEngine()->load("bgm", "assets/levels/" + (*_level) + "/bgm.mp3", AUDIOTYPE::MUSIC);
 
-			loadCharacters(levelObj.getArray("startingPositions"));
+			loadCharacters(json["startingPositions"]);
 
-			if (levelObj.exists("bobs"))
-				loadBulletBobs(levelObj.getArray("bobs"));
+			if (json.contains("bobs"))
+				loadBulletBobs(json["bobs"]);
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
 			de->loadDynamicText("speed", { 255, 255, 255 }, "arial", 18);
-			delete doc;
 		}
 
-		void LoadingState::loadCharacters(JSON::JSONArray &startingPositions) {
+		void LoadingState::loadCharacters(nlohmann::json &startingPositions) {
 
 			if (_characters == nullptr) {
 				_characters = new std::vector<std::string>();
@@ -306,8 +301,8 @@ namespace sdmg {
 
 				int retries = 0;
 				do{
-					JSON::JSONObject &posObj = startingPositions.getObject(i);
-					characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, posObj.getFloat("x"), posObj.getFloat("y"));
+					auto &posObj = startingPositions[i];
+					characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, posObj["x"].get<float>(), posObj["y"].get<float>());
 					_game->getWorld()->addPlayer(characters[i]);
 					if (retries++ > 10){
 						_isError = true;
@@ -365,7 +360,7 @@ namespace sdmg {
 			_loadingValue += characterStep;
 		}
 
-		void LoadingState::loadBulletBobs(JSON::JSONArray &bobs) {
+		void LoadingState::loadBulletBobs(nlohmann::json &bobs) {
 
 			*_progress = "Loading Bullet Bobs";
 			_game->getStateManager()->draw();
@@ -377,15 +372,15 @@ namespace sdmg {
 				bobStep = (_loadingStep / 3) / bobs.size();
 
 			for (int i = 0; i < bobs.size(); i++) {
-				JSON::JSONObject &bobObj = bobs.getObject(i);
+				auto &bobObj = bobs[i];
 
 				MovablePlatform *platform = new MovablePlatform();
-				platform->setSize(bobObj.getObject("size").getFloat("width"), bobObj.getObject("size").getFloat("height"));
-				platform->setLocation(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y"));
-				platform->setStartLocation(b2Vec2(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y")));
-				platform->setEndLocation(b2Vec2(bobObj.getObject("endLocation").getFloat("x"), bobObj.getObject("endLocation").getFloat("y")));
-				platform->setDirection(static_cast<MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
-				platform->setSpeed(bobObj.getObject("speed").getFloat("horizontal"), bobObj.getObject("speed").getFloat("vertical"));
+				platform->setSize(bobObj["size"]["width"].get<float>(), bobObj["size"]["height"].get<float>());
+				platform->setLocation(bobObj["location"]["x"].get<float>(), bobObj["location"]["y"].get<float>());
+				platform->setStartLocation(b2Vec2(bobObj["location"]["x"].get<float>(), bobObj["location"]["y"].get<float>()));
+				platform->setEndLocation(b2Vec2(bobObj["endLocation"]["x"].get<float>(), bobObj["endLocation"]["y"].get<float>()));
+				platform->setDirection(static_cast<MovableGameObject::Direction>((int)bobObj["direction"].get<float>()));
+				platform->setSpeed(bobObj["speed"]["horizontal"].get<float>(), bobObj["speed"]["vertical"].get<float>());
 				platform->setDamageOnImpact(100);
 
 				_game->getWorld()->addPlatform(platform);

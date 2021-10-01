@@ -67,8 +67,8 @@ namespace sdmg {
 			SDL_Thread *thread;
 			static int loadThread(void *ptr);
 			void load();
-			void loadCharacters(JSON::JSONArray &startingPositions);
-			void loadBulletBobs(JSON::JSONArray &bobs);
+			void loadCharacters(nlohmann::json &startingPositions);
+			void loadBulletBobs(nlohmann::json &bobs);
 			void loadTutorial();
 			void loadLevel();
 			void loadKeybindings();
