@@ -12,6 +12,7 @@
 #include "engine\GameState.h"
 #include <string>
 #include <map>
+#include <json.hpp>
 struct SDL_Thread;
 
 using namespace sdmg::engine;
