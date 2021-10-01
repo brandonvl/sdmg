@@ -16,7 +16,6 @@ struct SDL_Thread;
 
 using namespace sdmg::engine;
 
-namespace JSON { class JSONArray; }
 namespace sdmg {
 	namespace model {
 		class Platform;
