@@ -1,39 +1,114 @@
 {
-	name: "Silence",
-	level: "night life",
-	size: { width: 110, height: 143 },
-	attack: {
-		size: { width: 30, height: 10 },
-		midPosition: 3.3,
-		longPosition: 3.3,
-		midCost: 10,
-		longCost: 15,
-		midDamage: 15,
-		longDamage: 5,
-		damageMultiplier: 1.1
-	},
-	speed: { horizontal: 27, vertical: 2.5 },
-	scale: 0.25,
-	idle: [368,522],
-	walking: [398,545],
-	jumping: [408,589],
-	jumpEnd: [408,589],
-	falling: [408,589],
-	forwardRoll: [714,557],
-	knockback: [385,566],
-	kneeling: [510,551],
-	midRangeAttackBegin: [484,534],
-	midRangeAttack: [484,534],
-	midRangeAttackEnd: [484,534],
-	midRangeAttackWalkBegin: [450,545],
-	midRangeAttackWalk: [450,545],
-	midRangeAttackWalkEnd: [450,545],
-	blocking: [423, 522],
-	longRangeAttackBegin: [419,522],
-	longRangeAttack: [419,522],
-	longRangeAttackEnd: [419,522],
-	longRangeAttackWalkBegin: [415,550],
-	longRangeAttackWalk: [415,550],
-	longRangeAttackWalkEnd: [415,550],
-	bullet: [22,22]
+   "name":"Silence",
+   "level":"night life",
+   "size":{
+      "width":110,
+      "height":143
+   },
+   "attack":{
+      "size":{
+         "width":30,
+         "height":10
+      },
+      "midPosition":3.3,
+      "longPosition":3.3,
+      "midCost":10,
+      "longCost":15,
+      "midDamage":15,
+      "longDamage":5,
+      "damageMultiplier":1.1
+   },
+   "speed":{
+      "horizontal":27,
+      "vertical":2.5
+   },
+   "scale":0.25,
+   "idle":[
+      368,
+      522
+   ],
+   "walking":[
+      398,
+      545
+   ],
+   "jumping":[
+      408,
+      589
+   ],
+   "jumpEnd":[
+      408,
+      589
+   ],
+   "falling":[
+      408,
+      589
+   ],
+   "forwardRoll":[
+      714,
+      557
+   ],
+   "knockback":[
+      385,
+      566
+   ],
+   "kneeling":[
+      510,
+      551
+   ],
+   "midRangeAttackBegin":[
+      484,
+      534
+   ],
+   "midRangeAttack":[
+      484,
+      534
+   ],
+   "midRangeAttackEnd":[
+      484,
+      534
+   ],
+   "midRangeAttackWalkBegin":[
+      450,
+      545
+   ],
+   "midRangeAttackWalk":[
+      450,
+      545
+   ],
+   "midRangeAttackWalkEnd":[
+      450,
+      545
+   ],
+   "blocking":[
+      423,
+      522
+   ],
+   "longRangeAttackBegin":[
+      419,
+      522
+   ],
+   "longRangeAttack":[
+      419,
+      522
+   ],
+   "longRangeAttackEnd":[
+      419,
+      522
+   ],
+   "longRangeAttackWalkBegin":[
+      415,
+      550
+   ],
+   "longRangeAttackWalk":[
+      415,
+      550
+   ],
+   "longRangeAttackWalkEnd":[
+      415,
+      550
+   ],
+   "bullet":[
+      22,
+      22
+   ]
 }

@@ -1,39 +1,114 @@
 {
-	name: "Lucky",
-	level: "jolly saloon",
-	size: { width: 110, height: 143 },
-	attack: {
-		size: { width: 30, height: 10 },
-		midPosition: 3.3,
-		longPosition: 3.3,
-		midCost: 5,
-		longCost: 10,
-		midDamage: 5,
-		longDamage: 15,
-		damageMultiplier: 1.0
-	},
-	speed: { horizontal: 25, vertical: 2.5 },
-	scale: 0.25,
-	idle: [418,580],
-	walking: [440,610],
-	jumping: [494,675],
-	jumpEnd: [494,675],
-	falling: [494,675],
-	forwardRoll: [860,709],
-	knockback: [526,655],
-	kneeling: [567,626],
-	midRangeAttackBegin: [491,595],
-	midRangeAttack: [491,595],
-	midRangeAttackEnd: [491,595],
-	midRangeAttackWalkBegin: [440,610],
-	midRangeAttackWalk: [440,610],
-	midRangeAttackWalkEnd: [440,610],
-	blocking: [419, 580],
-	longRangeAttackBegin: [433,580],
-	longRangeAttack: [433,580],
-	longRangeAttackEnd: [433,580],
-	longRangeAttackWalkBegin: [440,613],
-	longRangeAttackWalk: [440,613],
-	longRangeAttackWalkEnd: [440,613],
-	bullet: [12,12]
+   "name":"Lucky",
+   "level":"jolly saloon",
+   "size":{
+      "width":110,
+      "height":143
+   },
+   "attack":{
+      "size":{
+         "width":30,
+         "height":10
+      },
+      "midPosition":3.3,
+      "longPosition":3.3,
+      "midCost":5,
+      "longCost":10,
+      "midDamage":5,
+      "longDamage":15,
+      "damageMultiplier":1.0
+   },
+   "speed":{
+      "horizontal":25,
+      "vertical":2.5
+   },
+   "scale":0.25,
+   "idle":[
+      418,
+      580
+   ],
+   "walking":[
+      440,
+      610
+   ],
+   "jumping":[
+      494,
+      675
+   ],
+   "jumpEnd":[
+      494,
+      675
+   ],
+   "falling":[
+      494,
+      675
+   ],
+   "forwardRoll":[
+      860,
+      709
+   ],
+   "knockback":[
+      526,
+      655
+   ],
+   "kneeling":[
+      567,
+      626
+   ],
+   "midRangeAttackBegin":[
+      491,
+      595
+   ],
+   "midRangeAttack":[
+      491,
+      595
+   ],
+   "midRangeAttackEnd":[
+      491,
+      595
+   ],
+   "midRangeAttackWalkBegin":[
+      440,
+      610
+   ],
+   "midRangeAttackWalk":[
+      440,
+      610
+   ],
+   "midRangeAttackWalkEnd":[
+      440,
+      610
+   ],
+   "blocking":[
+      419,
+      580
+   ],
+   "longRangeAttackBegin":[
+      433,
+      580
+   ],
+   "longRangeAttack":[
+      433,
+      580
+   ],
+   "longRangeAttackEnd":[
+      433,
+      580
+   ],
+   "longRangeAttackWalkBegin":[
+      440,
+      613
+   ],
+   "longRangeAttackWalk":[
+      440,
+      613
+   ],
+   "longRangeAttackWalkEnd":[
+      440,
+      613
+   ],
+   "bullet":[
+      12,
+      12
+   ]
 }
