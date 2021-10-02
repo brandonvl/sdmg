@@ -29,13 +29,36 @@ namespace sdmg {
 				try
 				{ 
 					std::ifstream ifs(relativePath);
-					return nlohmann::json::parse(ifs);
+					auto json = nlohmann::json::parse(ifs);
+					ifs.close();
+					return json;
 				}
 				catch (...)
 				{
 					std::cout << "Unable to load " + relativePath + ". Unlooky" << std::endl;
 					throw;
 				}				
+			}
+
+			void FileManager::saveJsonContentToFile(const std::string& relativePath, const nlohmann::json& content)
+			{
+				try
+				{
+					// Overwrites file by default
+					std::ofstream ofs(relativePath);
+					ofs << content;
+					ofs.close();
+				}
+				catch (...)
+				{
+					std::cout << "Unable to save " + relativePath + ". Unlooky" << std::endl;
+					throw;
+				}
+			}
+
+			void FileManager::createFolder(const std::string& fullFolderPath)
+			{
+				std::filesystem::create_directories(fullFolderPath);
 			}
 
 			const std::vector<std::string> FileManager::getFiles(std::string path)

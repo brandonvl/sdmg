@@ -7,7 +7,6 @@
 #include "helperclasses\Menu.h"
 #include "LevelSelectionState.h"
 #include "LoadingState.h"
-#include <direct.h>
 #include <algorithm>
 #include "engine\util\FileManager.h"
 
@@ -135,34 +134,31 @@ namespace sdmg {
 				return;
 			}
 
-			_mkdir(path.c_str());
+			util::FileManager::getInstance().createFolder(path);
 
+			nlohmann::json levelContent;
 
-			JSON::JSONObject *rootObj = new JSON::JSONObject(nullptr);
-			rootObj->add("name", *_name);
-			rootObj->add("editable", true);
+			levelContent["name"] = *_name;
+			levelContent["editable"] = true;
 
-			JSON::JSONObject *gravityObj = new JSON::JSONObject(rootObj);
-			gravityObj->add("left", 0);
-			gravityObj->add("down", 100);
-			rootObj->add("gravity", *gravityObj);
+			levelContent["gravity"]["left"] = 0;
+			levelContent["gravity"]["down"] = 100;
 
-			JSON::JSONArray *startingArr = new JSON::JSONArray(rootObj);
-			
-			int xPositions[] = { 150, 450, 750, 1050 };
+			levelContent["startingPositions"][0]["x"] = 150;
+			levelContent["startingPositions"][0]["y"] = -100;
 
-			for (int i = 0; i < 4; i++){
-				JSON::JSONObject *startObj = new JSON::JSONObject(startingArr);
-				startObj->add("x", xPositions[i]);
-				startObj->add("y", -100);
-				startingArr->push(*startObj);
-			}
-			rootObj->add("startingPositions", *startingArr);
+			levelContent["startingPositions"][1]["x"] = 450;
+			levelContent["startingPositions"][1]["y"] = -100;
 
-			auto platformObj = new JSON::JSONArray(rootObj);
-			rootObj->add("platforms", *platformObj);
+			levelContent["startingPositions"][2]["x"] = 750;
+			levelContent["startingPositions"][2]["y"] = -100;
 
-			JSON::JSONDocument::fromRoot(*rootObj)->saveFile(path + "data");
+			levelContent["startingPositions"][3]["x"] = 1050;
+			levelContent["startingPositions"][3]["y"] = -100;
+
+			levelContent["platforms"] = nlohmann::json::array();
+
+			util::FileManager::getInstance().saveJsonContentToFile(path + "data", levelContent);
 
 			LoadingState::getInstance().setIsTutorial(false);
 			LoadingState::getInstance().setLevel(new std::string(*_name));

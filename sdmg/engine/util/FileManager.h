@@ -19,6 +19,8 @@ namespace sdmg {
 			class FileManager {
 			public:
 				nlohmann::json loadFileContentsAsJson(const std::string &relativePath);
+				void saveJsonContentToFile(const std::string& relativePath, const nlohmann::json& content);
+				void createFolder(const std::string& fullFolderPath);
 				const std::vector<std::string> getFiles(std::string path);
 				const std::vector<std::string> getFolders(std::string path);
 				
