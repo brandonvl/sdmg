@@ -1,8 +1,10 @@
 #include "ConfigManager.h"
-#include <lib/JSONParser.h>
+#include "engine/util/FileManager.h"
 
-namespace sdmg {
-	namespace helperclasses {
+namespace sdmg
+{
+	namespace helperclasses
+	{
 
 		ConfigManager::ConfigManager()
 		{
@@ -11,68 +13,47 @@ namespace sdmg {
 
 		void ConfigManager::cleanup()
 		{
-			delete _jsonDoc;
+
 		}
-		
-		void ConfigManager::load() {			
-			if (_jsonDoc == nullptr) {
-				_jsonDoc = JSON::JSONDocument::fromFile("assets/config");
+
+		void ConfigManager::load()
+		{
+			if (_jsonConfig.is_null())
+			{
+				_jsonConfig = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/config");
 			}
 		}
 
-		void ConfigManager::save() {
-			_jsonDoc->saveFile("assets/config");
+		void ConfigManager::save()
+		{
+			engine::util::FileManager::getInstance().saveJsonContentToFile("assets/config", _jsonConfig);
 		}
 
-		void ConfigManager::setUserConfig(std::string name, std::string value) {
-			JSON::JSONObject &keys = _jsonDoc->getRootObject().getObject("userconfig");
-			JSON::JSONVariable *var = new JSON::JSONVariable(&keys);
-			var->setValue(value);
-			var->setValueType(JSON::JSONVariable::ValueType::String);
-			keys.set(name, *var);
-			
+		void ConfigManager::setKey(int deviceIndex, std::string action, int key, std::string device)
+		{
+			_jsonConfig["keybindings"][deviceIndex]["keys"][action] = key;
 		}
 
-		const std::string ConfigManager::getUserConfig(std::string name) {
-			return _jsonDoc->getRootObject().getObject("userconfig").getString(name);
+		const int ConfigManager::getKey(int deviceIndex, std::string action)
+		{
+			return _jsonConfig["keybindings"][deviceIndex]["keys"][action].get<int>();
 		}
 
-		void ConfigManager::setKey(int playerIndex, std::string action, int key, std::string device) {
-			JSON::JSONObject &binding = _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex);
-			JSON::JSONObject &keys = binding.getObject("keys");
-			JSON::JSONVariable &deviceName = binding.getVariable("device");
-			keys.getVariable(action).setValue(std::to_string(key));
-			deviceName.setValue(device);
-			/*
-			JSON::JSONVariable *var = new JSON::JSONVariable(&keys);
-			var->setValue(std::to_string(key));
-			var->setValueType(JSON::JSONVariable::ValueType::Number);
-			keys.set(action, *var);*/
-		}
+		const int ConfigManager::getDeviceIndex(const std::string& deviceName)
+		{
+			auto &jsonKeyBindings = _jsonConfig["keybindings"];
 
-		const int ConfigManager::getKey(int playerIndex, std::string action) {
-			return _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getObject("keys").getInt(action);
-		}
-
-		const int ConfigManager::getDeviceIndex(const std::string &deviceName) {
-
-			JSON::JSONArray &jsArray = _jsonDoc->getRootObject().getArray("keybindings");
-
-			for (int i = 0; i < jsArray.size(); ++i) {
-				if (jsArray.getObject(i).getString("device") == deviceName)
+			for (int i = 0; i < jsonKeyBindings.size(); ++i)
+			{
+				if (jsonKeyBindings[i]["device"] == deviceName)
 					return i;
 			}
-
 			return -1;
-
 		}
 
-		const std::string ConfigManager::getDeviceName(int playerIndex){
-			return _jsonDoc->getRootObject().getArray("keybindings").getObject(playerIndex).getVariable("device").getString();
-		}
-
-		const std::string ConfigManager::getUnlockableCharacterName(std::string playerName) {
-			return _jsonDoc->getRootObject().getObject("unlockables").getString(playerName);
+		const std::string ConfigManager::getUnlockableCharacterName(std::string playerName)
+		{
+			return _jsonConfig["unlockables"][playerName].get<std::string>();
 		}
 	}
 }

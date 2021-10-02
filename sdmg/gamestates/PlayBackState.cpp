@@ -18,7 +18,6 @@
 #include "model\Character.h"
 #include "engine\input\InputEngine.h"
 #include "GameOverState.h"
-#include "lib\JSONParser.h"
 
 #include "PauseState.h"
 

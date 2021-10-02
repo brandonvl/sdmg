@@ -3,7 +3,6 @@
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
 #include "OptionsState.h"
-#include "lib\JSONParser.h"
 #include "helperclasses\ProgressManager.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
