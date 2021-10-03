@@ -21,7 +21,6 @@
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
-#include "lib\JSONParser.h"
 #include "engine\audio\AudioEngine.h"
 #include "LoadingSinglePlayerState.h"
 #include "engine\physics\PhysicsEngine.h"
@@ -31,28 +30,31 @@
 #include "helperclasses\ProgressManager.h"
 #include "helperclasses\Recorder.h"
 #include "engine\GameTime.h"
+#include <json.hpp>
 
 
-namespace sdmg {
-	namespace gamestates {
-		void GameOverState::init(GameBase &game)
+namespace sdmg
+{
+	namespace gamestates
+	{
+		void GameOverState::init(GameBase& game)
 		{
 			_game = &game;
 
 			_game->getEngine()->getPhysicsEngine()->pause();
-			
+
 			_isLoaded = false;
 			_savedReplay = false;
 			_enteredGameOverState = game.getGameTime()->getTotalSecondsRunning();
 
 			game.getEngine()->getAudioEngine()->stopMusic();
-			
+
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
-			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
+			const std::vector<GameObject*>& deadList = game.getWorld()->getDeadList();
 			bool unlocked = false;
 
-			model::Character *chas = nullptr;
+			model::Character* chas = nullptr;
 
 			if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 			{
@@ -80,7 +82,7 @@ namespace sdmg {
 				{
 					game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
 
-					ProgressManager &manager = ProgressManager::getInstance();
+					ProgressManager& manager = ProgressManager::getInstance();
 
 					if (!manager.isUnlockedCharacter(static_cast<Character*>(deadList[0])->getName()))
 					{
@@ -97,7 +99,10 @@ namespace sdmg {
 					game.getEngine()->getAudioEngine()->load("winner", "assets/sounds/effects/win.ogg", AUDIOTYPE::SOUND_EFFECT);
 					game.getEngine()->getAudioEngine()->play("winner", 0);
 				}
-				_menu->addMenuTextItem("Achievements", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
+				_menu->addMenuTextItem("Achievements", (std::function<void()>)[&]
+				{
+					_game->getStateManager()->pushState(StatisticsState::getInstance());
+				});
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Versus)
 			{
@@ -106,7 +111,10 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
 				_menu->addMenuTextItem("Play again", (std::function<void()>)std::bind(&GameOverState::replay, this));
 				_menu->addMenuTextItem("Save replay", (std::function<void()>)std::bind(&GameOverState::saveReplay, this));
-				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&] { _game->getStateManager()->pushState(StatisticsState::getInstance()); });
+				_menu->addMenuTextItem("Statistics", (std::function<void()>)[&]
+				{
+					_game->getStateManager()->pushState(StatisticsState::getInstance());
+				});
 			}
 			else if (game.getGameMode() == GameBase::GameMode::Playback)
 			{
@@ -115,14 +123,16 @@ namespace sdmg {
 				game.getEngine()->getDrawEngine()->load("gameoverbackground", "assets/screens/winner");
 			}
 
-			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
+			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&]
+			{
 				if (game.getGameMode() == GameBase::GameMode::SinglePlayer)
 					LoadingSinglePlayerState::getInstance().unloadAll();
 				changeState(*_game, MainMenuState::getInstance());
 			});
-		
+
 			Uint8 color = 255;
-			for (int i = deadList.size() - 1; i >= 0; i--) {
+			for (int i = deadList.size() - 1; i >= 0; i--)
+			{
 				int rank = (deadList.size() - i);
 				game.getEngine()->getDrawEngine()->loadText("rank" + std::to_string(rank), std::to_string(rank) + ". " + deadList[i]->getName(), { color, color, color }, "arial", 54);
 				std::string asd = deadList[i]->getName();
@@ -136,23 +146,34 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
 
 			// Update statistics
-			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
-			
-			for (size_t rank = 0, ranklen = deadList.size(); rank < ranklen; rank++) {
+			auto& jsonCharacterStatistics = ProgressManager::getInstance().getStatistics();
 
-				for (auto i = 0; i < statistics.size(); i++) {
-					JSON::JSONObject &characterObj = statistics.getObject(i);
+			auto findCharacterIndex = [](const std::string& characterName, nlohmann::json& jsonArray)
+			{
+				for (int i = 0; i < jsonArray.size(); i++)
+				{
+					if (jsonArray[i]["name"].get<std::string>() == characterName)
+						return i;
+				}
 
-					if (characterObj.getString("name") == deadList.at(rank)->getName()) {
-						if (rank == (deadList.size() - 1))
-							characterObj.getVariable("wins").setValue(std::to_string(1 + characterObj.getInt("wins")));
-						else
-							characterObj.getVariable("losses").setValue(std::to_string(1 + characterObj.getInt("losses")));
-						break;
-					}
+				return -1;
+			};
+
+			for (int i = 0; i < deadList.size(); i++)
+			{
+				auto characterIndex = findCharacterIndex(deadList[i]->getName(), jsonCharacterStatistics);
+				if (i == (deadList.size() - 1)) // very safe way to determine winner
+				{
+					auto incrementedWins = jsonCharacterStatistics[characterIndex]["wins"].get<int>() + 1;
+					jsonCharacterStatistics[characterIndex]["wins"] = incrementedWins;
+				}
+				else
+				{
+					auto incrementedLosses = jsonCharacterStatistics[characterIndex]["losses"].get<int>() + 1;
+					jsonCharacterStatistics[characterIndex]["losses"] = incrementedLosses;
 				}
 			}
-			
+
 			// Save progress if autosave is enabled
 			if (ProgressManager::getInstance().autosaveEnabled())
 				ProgressManager::getInstance().save();
@@ -166,9 +187,11 @@ namespace sdmg {
 			}
 		}
 
-		void GameOverState::saveReplay() {
+		void GameOverState::saveReplay()
+		{
 
-			if (!_savedReplay) {
+			if (!_savedReplay)
+			{
 				static_cast<helperclasses::menuitems::MenuTextItem*>(_menu->getSelectedMenuItem())->setText("Saving...", *_game);
 				redraw(*_game);
 
@@ -180,14 +203,15 @@ namespace sdmg {
 			}
 		}
 
-		void GameOverState::replay() {
+		void GameOverState::replay()
+		{
 			_game->getWorld()->resetWorld();
 			_game->getEngine()->getInputEngine()->enableAllDevices();
-			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
+			const std::vector<GameObject*>& aliveList = _game->getWorld()->getAliveList();
 
 			for (size_t i = 0, ilen = aliveList.size(); i < ilen; i++)
 			{
-				model::Character *character = static_cast<model::Character*>(aliveList[i]);
+				model::Character* character = static_cast<model::Character*>(aliveList[i]);
 				character->revive();
 				//  character->setState(MovableGameObject::State::RESPAWN);
 			}
@@ -199,13 +223,14 @@ namespace sdmg {
 			changeState(*_game, PlayState::getInstance());
 		}
 
-		void GameOverState::next() {
+		void GameOverState::next()
+		{
 			_replay = false;
 			changeState(*_game, LoadingSinglePlayerState::getInstance());
 			LoadingSinglePlayerState::getInstance().loadNextFight();
 		}
 
-		void GameOverState::cleanup(GameBase &game)
+		void GameOverState::cleanup(GameBase& game)
 		{
 			delete _menu;
 			_menu = nullptr;
@@ -214,7 +239,7 @@ namespace sdmg {
 
 			if (_replay)
 			{
-				DrawEngine *de = game.getEngine()->getDrawEngine();
+				DrawEngine* de = game.getEngine()->getDrawEngine();
 				de->unload("winner");
 				de->unload("gameoverbackground");
 				de->unloadText("replay");
@@ -223,7 +248,8 @@ namespace sdmg {
 
 				game.getEngine()->getAudioEngine()->unload("winner");
 
-				for (int i = 1; i <= _characterCount; i++) {
+				for (int i = 1; i <= _characterCount; i++)
+				{
 					std::string asd = "rank" + std::to_string(i);
 					de->unloadText("rank" + std::to_string(i));
 				}
@@ -245,10 +271,12 @@ namespace sdmg {
 
 				game.getWorld()->clearWorld();
 
-				std::vector<HUD*> *huds = game.getGameMode() == GameBase::GameMode::Playback ? PlayBackState::getInstance()._huds : PlayState::getInstance()._huds;
+				std::vector<HUD*>* huds = game.getGameMode() == GameBase::GameMode::Playback ? PlayBackState::getInstance()._huds : PlayState::getInstance()._huds;
 
-				if (huds) {
-					for (auto it : *huds) {
+				if (huds)
+				{
+					for (auto it : *huds)
+					{
 						delete it;
 					}
 					huds->clear();
@@ -256,9 +284,10 @@ namespace sdmg {
 
 				delete huds;
 				huds = nullptr;
-				
 
-				if (game.getGameMode() != GameBase::GameMode::Edit) {
+
+				if (game.getGameMode() != GameBase::GameMode::Edit)
+				{
 					delete PlayState::getInstance()._slotKeyInput;
 					PlayState::getInstance()._slotKeyInput = nullptr;
 					delete PlayState::getInstance()._keys;
@@ -269,7 +298,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
-		void GameOverState::handleEvents(GameBase &game, GameTime &gameTime)
+		void GameOverState::handleEvents(GameBase& game, GameTime& gameTime)
 		{
 			SDL_Event event;
 
@@ -281,59 +310,61 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_DOWN:
-						if (_isLoaded)
-							_menu->selectNext();
-						break;
-					case SDLK_UP:
-						if (_isLoaded)
-							_menu->selectPrevious();
-						break;
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-						if (_isLoaded)
-							_menu->doAction();
-						break;
+						case SDLK_DOWN:
+							if (_isLoaded)
+								_menu->selectNext();
+							break;
+						case SDLK_UP:
+							if (_isLoaded)
+								_menu->selectPrevious();
+							break;
+						case SDLK_KP_ENTER:
+						case SDLK_RETURN:
+							if (_isLoaded)
+								_menu->doAction();
+							break;
 					}
 				}
 				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
 				{
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_A:
-						if (_isLoaded)
-							_menu->doAction();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						if (_isLoaded)
-							_menu->selectPrevious();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						if (_isLoaded)
-							_menu->selectNext();
-						break;
+						case SDL_CONTROLLER_BUTTON_A:
+							if (_isLoaded)
+								_menu->doAction();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_UP:
+							if (_isLoaded)
+								_menu->selectPrevious();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+							if (_isLoaded)
+								_menu->selectNext();
+							break;
 					}
 				}
 			}
 		}
 
-		void GameOverState::update(GameBase &game, GameTime &gameTime)
+		void GameOverState::update(GameBase& game, GameTime& gameTime)
 		{
 			if (game.getGameTime()->getTotalSecondsRunning() - _enteredGameOverState > 3)
 				_isLoaded = true;
 		}
 
-		void GameOverState::draw(GameBase &game, GameTime &gameTime)
+		void GameOverState::draw(GameBase& game, GameTime& gameTime)
 		{
 			redraw(game);
 		}
 
-		void GameOverState::redraw(GameBase &game) {
+		void GameOverState::redraw(GameBase& game)
+		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("gameoverbackground");
 			game.getEngine()->getDrawEngine()->draw("winner", 190, 190);
 
-			for (int i = 1; i <= _characterCount; i++) {
+			for (int i = 1; i <= _characterCount; i++)
+			{
 				game.getEngine()->getDrawEngine()->drawText("rank" + std::to_string(i), 717, 280 + (i * 75));
 			}
 
