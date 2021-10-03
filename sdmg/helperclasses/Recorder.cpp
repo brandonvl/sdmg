@@ -1,27 +1,36 @@
 #include "helperclasses\Recorder.h"
-#include "lib\JSONParser.h"
 #include "model\Character.h"
 #include "engine\World.h"
 #include "engine\GameBase.h"
 #include "gamestates\LoadingState.h"
+#include "engine/util/FileManager.h"
 
 namespace sdmg
 {
-	namespace helperclasses {
-		Recorder::Recorder() { }
-		Recorder::~Recorder() { cleanup(); }
+	namespace helperclasses
+	{
+		Recorder::Recorder()
+		{
+		}
+		Recorder::~Recorder()
+		{
+			cleanup();
+		}
 
-		void Recorder::start(GameBase &game, const std::string &level) {
+		void Recorder::start(GameBase& game, const std::string& level)
+		{
 			init();
 			_level = new std::string(level);
 			_enabled = true;
 
-			for (auto player : game.getWorld()->getPlayers()) {
+			for (auto player : game.getWorld()->getPlayers())
+			{
 				registerCharacter(static_cast<model::Character&>(*player));
 			}
 		}
 
-		void Recorder::init() {
+		void Recorder::init()
+		{
 			cleanup();
 
 			_recordQueue = new std::queue<RecordItem*>();
@@ -29,8 +38,10 @@ namespace sdmg
 			_recordStartTime = new std::chrono::high_resolution_clock::time_point(std::chrono::high_resolution_clock::now());
 		}
 
-		void Recorder::cleanup() {
-			while (_recordQueue != nullptr && !_recordQueue->empty()) {
+		void Recorder::cleanup()
+		{
+			while (_recordQueue != nullptr && !_recordQueue->empty())
+			{
 				delete _recordQueue->front();
 				_recordQueue->pop();
 			}
@@ -43,19 +54,23 @@ namespace sdmg
 			_recordStartTime = nullptr;
 			delete _level;
 			_level = nullptr;
-			
+
 			_characterIndex = 0;
 		}
 
-		void Recorder::record(std::string action, model::Character &character, bool keyDown) {
-			if (_enabled) {
+		void Recorder::record(std::string action, model::Character& character, bool keyDown)
+		{
+			if (_enabled)
+			{
 				//  int timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
 				int timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
 
 				auto it = _characters->find(&character);
-				if (it != _characters->cend()) {
-					RecordItem *item = new RecordItem(action, it->second, timestamp, keyDown);
-					for (auto pair : *_characters) {						
+				if (it != _characters->cend())
+				{
+					RecordItem* item = new RecordItem(action, it->second, timestamp, keyDown);
+					for (auto pair : *_characters)
+					{
 						item->addPlayerData({ pair.second, pair.first->getHP(), pair.first->getLives(), pair.first->getPP(), pair.first->getX(), pair.first->getY(), pair.first->getBody()->GetLinearVelocity().x, pair.first->getBody()->GetLinearVelocity().y, static_cast<int>(pair.first->getDirection()) });
 					}
 
@@ -64,12 +79,15 @@ namespace sdmg
 			}
 		}
 
-		void Recorder::gameOver() {
-			if (_enabled) {
+		void Recorder::gameOver()
+		{
+			if (_enabled)
+			{
 				int timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - *_recordStartTime).count();
 
-				RecordItem *item = new RecordItem("GameOver", 0, timestamp, false);
-				for (auto pair : *_characters) {
+				RecordItem* item = new RecordItem("GameOver", 0, timestamp, false);
+				for (auto pair : *_characters)
+				{
 					item->addPlayerData({ pair.second, pair.first->getHP(), pair.first->getLives(), pair.first->getPP(), pair.first->getX(), pair.first->getY(), pair.first->getBody()->GetLinearVelocity().x, pair.first->getBody()->GetLinearVelocity().y });
 				}
 
@@ -77,76 +95,64 @@ namespace sdmg
 			}
 		}
 
-		void Recorder::registerCharacter(model::Character &character) {
+		void Recorder::registerCharacter(model::Character& character)
+		{
 			_characters->insert(std::make_pair(&character, _characterIndex++));
 		}
 
-		void Recorder::save(std::string path) {
+		void Recorder::save(std::string path)
+		{
 			_enabled = false;
 
-			JSON::JSONObject *recordingObj = new JSON::JSONObject(nullptr);
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromRoot(*recordingObj);
+			nlohmann::json jsonPlayBack;
 
-			JSON::JSONArray *characterArr = new JSON::JSONArray(recordingObj);
-			
-			std::map<int, model::Character*> characters;
+			for (auto& characterIterator : *_characters)
+			{
+				auto& character = characterIterator.first;
+				nlohmann::json characterObject;
+				characterObject["index"] = characterIterator.second;
+				characterObject["key"] = character->getKey();
 
-			for (auto it : *_characters) {
-				JSON::JSONObject *characterObj = new JSON::JSONObject(characterArr);
-				characterObj->add("index", it.second);
-				characterObj->add("key", it.first->getKey());
+				characterObject["position"]["x"] = character->getX();
+				characterObject["position"]["y"] = character->getY();
 
-				JSON::JSONObject *positionObj = new JSON::JSONObject(characterObj);
-				positionObj->add("x", it.first->getX());
-				positionObj->add("y", it.first->getY());
-				characterObj->add("position", *positionObj);
-				characterArr->push(*characterObj);
-				characters.insert({ it.second, it.first });
+				jsonPlayBack["characters"].push_back(characterObject);
 			}
 
-			recordingObj->add("characters", *characterArr);
-			recordingObj->add("level", *_level);
+			jsonPlayBack["level"] = *_level;
 
-			JSON::JSONArray *stepArr = new JSON::JSONArray(recordingObj);
-			
-			while (!_recordQueue->empty()) {
-				RecordItem *item = _recordQueue->front();
+			while (!_recordQueue->empty())
+			{
+				auto recordItem = _recordQueue->front();
 
-				JSON::JSONObject *stepObj = new JSON::JSONObject(stepArr);
+				nlohmann::json stepObject;
 
-				JSON::JSONArray *characterArr = new JSON::JSONArray(stepObj);
-
-				for (auto data : item->getPlayerData()) {
-					JSON::JSONObject *characterObj = new JSON::JSONObject(characterArr);
-					
-					characterObj->add("x", data->x);
-					characterObj->add("y", data->y);
-					characterObj->add("velocityx", data->velocityX);
-					characterObj->add("velocityy", data->velocityY);
-					characterObj->add("lives", data->lives);
-					characterObj->add("hp", data->hp);
-					characterObj->add("pp", data->pp);
-					characterObj->add("character", data->character);
-					characterObj->add("direction", data->direction);
-
-					characterArr->push(*characterObj);
+				auto& playerData = recordItem->getPlayerData();
+				for (int i = 0; i < playerData.size(); i++)
+				{
+					stepObject["characters"][i]["x"] = playerData[i]->x;
+					stepObject["characters"][i]["y"] = playerData[i]->y;
+					stepObject["characters"][i]["velocityx"] = playerData[i]->velocityX;
+					stepObject["characters"][i]["velocityy"] = playerData[i]->velocityY;
+					stepObject["characters"][i]["lives"] = playerData[i]->lives;
+					stepObject["characters"][i]["hp"] = playerData[i]->hp;
+					stepObject["characters"][i]["pp"] = playerData[i]->pp;
+					stepObject["characters"][i]["character"] = playerData[i]->character;
+					stepObject["characters"][i]["direction"] = playerData[i]->direction;
 				}
 
-				stepObj->add("characters", *characterArr);
-				stepObj->add("action", item->getAction());
-				stepObj->add("character", item->getCharacter());
-				stepObj->add("timestamp", item->getTimestamp());
-				stepObj->add("keyDown", item->getKeyDown());
+				stepObject["action"] = recordItem->getAction();
+				stepObject["character"] = recordItem->getCharacter();
+				stepObject["timestamp"] = recordItem->getTimestamp();
+				stepObject["keyDown"] = recordItem->getKeyDown();
 
-				stepArr->push(*stepObj);
+				jsonPlayBack["steps"].push_back(stepObject);
 
-				delete item;
+				delete recordItem;
 				_recordQueue->pop();
 			}
 
-			recordingObj->add("steps", *stepArr);
-			doc->saveFile(path);
-			delete doc;
+			engine::util::FileManager::getInstance().saveJsonContentToFile(path, jsonPlayBack);
 		}
 	}
 }
