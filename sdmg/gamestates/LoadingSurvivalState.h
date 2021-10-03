@@ -12,30 +12,39 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <json.hpp>
 
 using namespace sdmg::engine;
 
-namespace JSON { class JSONArray; }
-namespace sdmg {
-	namespace model {
+
+namespace sdmg
+{
+	namespace model
+	{
 		class Platform;
 		class Character;
 		class MovablePlatform;
 	}
-	namespace helperclasses{ class HUD; }
-	namespace gamestates {
-		class LoadingSurvivalState : public GameState {
+	namespace helperclasses
+	{
+		class HUD;
+	}
+	namespace gamestates
+	{
+		class LoadingSurvivalState : public GameState
+		{
 		public:
-			void init(GameBase &game);
-			void cleanup(GameBase &game);
+			void init(GameBase& game);
+			void cleanup(GameBase& game);
 
-			void pause(GameBase &game);
-			void resume(GameBase &game);
+			void pause(GameBase& game);
+			void resume(GameBase& game);
 
-			void handleEvents(GameBase &game, GameTime &gameTime);
-			void update(GameBase &game, GameTime &gameTime);
-			void draw(GameBase &game, GameTime &gameTime);
-			static LoadingSurvivalState& getInstance() {
+			void handleEvents(GameBase& game, GameTime& gameTime);
+			void update(GameBase& game, GameTime& gameTime);
+			void draw(GameBase& game, GameTime& gameTime);
+			static LoadingSurvivalState& getInstance()
+			{
 				static LoadingSurvivalState _instance;
 				return _instance;
 			}
@@ -43,28 +52,30 @@ namespace sdmg {
 			std::string getLevelName();
 			std::string getPlayerName();
 			void setPlayerName(std::string playerName);
-			void setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys);
-			
+			void setSlotKeyBinding(std::map<std::string, int>* input, std::vector<std::string>* keys);
+
 		protected:
-			LoadingSurvivalState() { }
+			LoadingSurvivalState()
+			{
+			}
 		private:
-			GameBase *_game;
+			GameBase* _game;
 			void load();
-			void loadCharacters(JSON::JSONArray &startingPositions);
-			void loadBulletBobs(JSON::JSONArray &bobs);
+			void loadCharacters(nlohmann::json& startingPositions);
+			void loadBulletBobs(nlohmann::json& bobs);
 			void loadLevel();
 			void loadKeybindings();
 			void clearEventQueue();
 			void setEnemies();
 			bool _isLoaded, _isError, _isTutorial;
 			std::string getSlotKeyInput(int slot);
-			std::vector<helperclasses::HUD*> *_huds;
+			std::vector<helperclasses::HUD*>* _huds;
 
-			std::string *_playerName, *_levelName;
-			std::vector<std::string*> *_enemyNames;
-			std::vector<model::Character*> *_enemies;
-			std::map<std::string, int> *_slotKeyInput;
-			std::vector<std::string> *_keys;
+			std::string* _playerName, * _levelName;
+			std::vector<std::string*>* _enemyNames;
+			std::vector<model::Character*>* _enemies;
+			std::map<std::string, int>* _slotKeyInput;
+			std::vector<std::string>* _keys;
 
 			// LoadingBar
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;

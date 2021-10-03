@@ -39,10 +39,12 @@
 #include <tchar.h>
 #include <stdio.h>
 
-namespace sdmg {
-	namespace gamestates {
+namespace sdmg
+{
+	namespace gamestates
+	{
 
-		void LoadingState::init(GameBase &game)
+		void LoadingState::init(GameBase& game)
 		{
 			_game = &game;
 			_game->getWorld()->clearWorld();
@@ -103,7 +105,7 @@ namespace sdmg {
 		*/
 		}
 
-		void LoadingState::cleanup(GameBase &game)
+		void LoadingState::cleanup(GameBase& game)
 		{
 			delete _level;
 			_level = nullptr;
@@ -121,25 +123,25 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unloadText("progress");
 		}
 
-		void LoadingState::pause(GameBase &game)
+		void LoadingState::pause(GameBase& game)
 		{
 		}
 
-		void LoadingState::resume(GameBase &game)
+		void LoadingState::resume(GameBase& game)
 		{
 		}
 
-		void LoadingState::handleEvents(GameBase &game, GameTime &gameTime)
+		void LoadingState::handleEvents(GameBase& game, GameTime& gameTime)
 		{
 			SDL_Event event;
 			while (SDL_PollEvent(&event));
 		}
 
-		void LoadingState::update(GameBase &game, GameTime &gameTime)
+		void LoadingState::update(GameBase& game, GameTime& gameTime)
 		{
 			if (_isLoaded)
 			{
-				PlayState &state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
+				PlayState& state = (_isTutorial ? TutorialState::getInstance() : PlayState::getInstance());
 				if (game.getGameMode() != GameBase::GameMode::Edit && !_isTutorial)
 					state.setSlotKeyBinding(_slotKeyInput, _keys);
 
@@ -147,7 +149,8 @@ namespace sdmg {
 				state.setHUDs(_huds);
 				changeState(game, state);
 			}
-			if (_isError) {
+			if (_isError)
+			{
 				// Clean uppen
 				changeState(game, MainMenuState::getInstance());
 			}
@@ -158,7 +161,7 @@ namespace sdmg {
 			_isTutorial = tutorial;
 		}
 
-		void LoadingState::draw(GameBase &game, GameTime &gameTime)
+		void LoadingState::draw(GameBase& game, GameTime& gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("loading");
@@ -181,12 +184,12 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->render();
 		}
 
-		void LoadingState::setLevel(std::string *level)
+		void LoadingState::setLevel(std::string* level)
 		{
 			_level = level;
 		}
 
-		void LoadingState::setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys)
+		void LoadingState::setSlotKeyBinding(std::map<std::string, int>* input, std::vector<std::string>* keys)
 		{
 			if (_slotKeyInput != nullptr)
 				delete _slotKeyInput;
@@ -198,13 +201,14 @@ namespace sdmg {
 			_keys = new std::vector<std::string>(*keys);
 		}
 
-		int LoadingState::loadThread(void *ptr)
+		int LoadingState::loadThread(void* ptr)
 		{
 			((LoadingState*)ptr)->load();
 			return 0;
 		}
 
-		void LoadingState::load() {
+		void LoadingState::load()
+		{
 			int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
 			_loadingStep = _isTutorial ? maxLoadingValue / 4 : maxLoadingValue / 3;
 
@@ -221,12 +225,14 @@ namespace sdmg {
 			clearEventQueue();
 		}
 
-		void LoadingState::clearEventQueue() {
+		void LoadingState::clearEventQueue()
+		{
 			SDL_Event event;
 			while (SDL_PollEvent(&event));
 		}
 
-		void LoadingState::loadLevel() {
+		void LoadingState::loadLevel()
+		{
 
 			*_progress = "Loading awesome level!";
 			_game->getStateManager()->draw();
@@ -234,36 +240,39 @@ namespace sdmg {
 			std::string folder = "assets/levels/" + (*_level);
 			auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson(folder + "/data");
 			auto jsonGravityObject = json["gravity"];
-			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
-			DrawEngine *de = _game->getEngine()->getDrawEngine();
+			PhysicsEngine* pe = _game->getEngine()->getPhysicsEngine();
+			DrawEngine* de = _game->getEngine()->getDrawEngine();
 
 			pe->setWorldGravity(jsonGravityObject["left"].get<float>(), jsonGravityObject["down"].get<float>());
 
-			auto &platformArr = json["platforms"];
+			auto& platformArr = json["platforms"];
 
-			if (platformArr.size() > 0) {
+			if (platformArr.size() > 0)
+			{
 				int platformStep = (_loadingStep / 3) / platformArr.size();
 
-				for (auto& platformObj : platformArr) {
+				for (auto& platformObj : platformArr)
+				{
 
-					Platform *platform = new model::Platform();
+					Platform* platform = new model::Platform();
 					platform->setSize(platformObj["size"]["width"].get<float>(), platformObj["size"]["height"].get<float>());
 					platform->setLocation(platformObj["location"]["x"].get<float>(), platformObj["location"]["y"].get<float>());
 					pe->addBody(platform, platformObj["bodyPadding"]["x"].get<float>(), platformObj["bodyPadding"]["y"].get<float>());
 					platform->setCanMoveThroughIt(platformObj.contains("canMoveThroughIt"));
-					
+
 					_game->getWorld()->addPlatform(platform);
-					if(platformObj.contains("image"))
+					if (platformObj.contains("image"))
 						de->load(platform, "assets/levels/" + (*_level) + "/" + platformObj["image"].get<std::string>());
 
 					_loadingValue += platformStep;
 					_game->getStateManager()->draw();
 				}
 			}
-			else {
+			else
+			{
 				_loadingValue += _loadingStep / 3;
 			}
-			
+
 			de->load("overlay", "assets/levels/" + (*_level) + "/overlay");
 			de->load("background", "assets/levels/" + (*_level) + "/background");
 			//  de->load("background", "assets/levels/" + level + "/data");
@@ -281,9 +290,11 @@ namespace sdmg {
 			de->loadDynamicText("speed", { 255, 255, 255 }, "arial", 18);
 		}
 
-		void LoadingState::loadCharacters(nlohmann::json &startingPositions) {
+		void LoadingState::loadCharacters(nlohmann::json& startingPositions)
+		{
 
-			if (_characters == nullptr) {
+			if (_characters == nullptr)
+			{
 				_characters = new std::vector<std::string>();
 				_characters->push_back("fiat");
 				_characters->push_back("nivek");
@@ -291,20 +302,23 @@ namespace sdmg {
 
 			auto loadCharacters = *_characters;
 			std::vector<Character*> characters(sizeof(loadCharacters));
-			
+
 			int characterStep = (_loadingStep / 3) / (*_characters).size();
 
-			for (int i = 0; i < (*_characters).size(); i++) {
+			for (int i = 0; i < (*_characters).size(); i++)
+			{
 
 				*_progress = "Loading " + loadCharacters[i];
 				_game->getStateManager()->draw();
 
 				int retries = 0;
-				do{
-					auto &posObj = startingPositions[i];
+				do
+				{
+					auto& posObj = startingPositions[i];
 					characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, posObj["x"].get<float>(), posObj["y"].get<float>());
 					_game->getWorld()->addPlayer(characters[i]);
-					if (retries++ > 10){
+					if (retries++ > 10)
+					{
 						_isError = true;
 						return;
 					}
@@ -334,33 +348,34 @@ namespace sdmg {
 			}
 			*/
 
-			*_progress = "Loading fancy hudjes";
+			* _progress = "Loading fancy hudjes";
 			_game->getStateManager()->draw();
 
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
-			
-			HUD *hud1 = new HUD(*characters[0], 10);
+
+			HUD* hud1 = new HUD(*characters[0], 10);
 			_huds->push_back(hud1);
 
-			HUD *hud2 = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
+			HUD* hud2 = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
 			_huds->push_back(hud2);
 
 			if ((*_characters).size() >= 3)
 			{
-				HUD *hud3 = new HUD(*characters[2], 20 + 230);
+				HUD* hud3 = new HUD(*characters[2], 20 + 230);
 				_huds->push_back(hud3);
 			}
 			if ((*_characters).size() >= 4)
 			{
-				HUD *hud4 = new HUD(*characters[3], _game->getEngine()->getDrawEngine()->getWindowWidth() - (230 * 2) - 20);
+				HUD* hud4 = new HUD(*characters[3], _game->getEngine()->getDrawEngine()->getWindowWidth() - (230 * 2) - 20);
 				_huds->push_back(hud4);
 			}
 
 			_loadingValue += characterStep;
 		}
 
-		void LoadingState::loadBulletBobs(nlohmann::json &bobs) {
+		void LoadingState::loadBulletBobs(nlohmann::json& bobs)
+		{
 
 			*_progress = "Loading Bullet Bobs";
 			_game->getStateManager()->draw();
@@ -371,10 +386,11 @@ namespace sdmg {
 			else
 				bobStep = (_loadingStep / 3) / bobs.size();
 
-			for (int i = 0; i < bobs.size(); i++) {
-				auto &bobObj = bobs[i];
+			for (int i = 0; i < bobs.size(); i++)
+			{
+				auto& bobObj = bobs[i];
 
-				MovablePlatform *platform = new MovablePlatform();
+				MovablePlatform* platform = new MovablePlatform();
 				platform->setSize(bobObj["size"]["width"].get<float>(), bobObj["size"]["height"].get<float>());
 				platform->setLocation(bobObj["location"]["x"].get<float>(), bobObj["location"]["y"].get<float>());
 				platform->setStartLocation(b2Vec2(bobObj["location"]["x"].get<float>(), bobObj["location"]["y"].get<float>()));
@@ -392,27 +408,30 @@ namespace sdmg {
 			}
 		}
 
-		void LoadingState::loadKeybindings() {
+		void LoadingState::loadKeybindings()
+		{
 
 			*_progress = "Loading controls";
 			_game->getStateManager()->draw();
 
-			try{
-				ConfigManager &manager = ConfigManager::getInstance();
-				
+			try
+			{
+				ConfigManager& manager = ConfigManager::getInstance();
+
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
 
 				_game->getEngine()->getInputEngine()->clearBindings();
-				
-				
+
+
 				int controlStep = (_loadingStep) / players.size();
 
-				if (_isTutorial) {
+				if (_isTutorial)
+				{
 					std::string keyBinding = "keyboardRIGHT";
-					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+					InputDeviceBinding* binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
 					int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
-					Character *character = static_cast<Character*>(players[1]);
+					Character* character = static_cast<Character*>(players[1]);
 
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
@@ -423,11 +442,12 @@ namespace sdmg {
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "block"), new actions::BlockAction(character));
 					_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding, binding);
 				}
-				else if (_game->getGameMode() == GameBase::GameMode::Edit) {
+				else if (_game->getGameMode() == GameBase::GameMode::Edit)
+				{
 					std::string keyBinding = "keyboardLEFT";
-					InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+					InputDeviceBinding* binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
 					int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
-					Character *character = static_cast<Character*>(players[0]);
+					Character* character = static_cast<Character*>(players[0]);
 
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
 					binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
@@ -439,9 +459,9 @@ namespace sdmg {
 					_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding, binding);
 
 					std::string keyBinding2 = "keyboardRIGHT";
-					InputDeviceBinding *binding2 = _game->getEngine()->getInputEngine()->createBinding(keyBinding2);
+					InputDeviceBinding* binding2 = _game->getEngine()->getInputEngine()->createBinding(keyBinding2);
 					int deviceIndexInFile2 = manager.getDeviceIndex(keyBinding2);
-					Character *character2 = static_cast<Character*>(players[1]);
+					Character* character2 = static_cast<Character*>(players[1]);
 
 					binding2->setKeyBinding(manager.getKey(deviceIndexInFile2, "walkRight"), new actions::RightWalkAction(character2));
 					binding2->setKeyBinding(manager.getKey(deviceIndexInFile2, "walkLeft"), new actions::LeftWalkAction(character2));
@@ -452,13 +472,14 @@ namespace sdmg {
 					binding2->setKeyBinding(manager.getKey(deviceIndexInFile2, "block"), new actions::BlockAction(character2));
 					_game->getEngine()->getInputEngine()->setDeviceBinding(keyBinding2, binding2);
 				}
-				else {
+				else
+				{
 					for (int i = 0; i < players.size(); i++)
 					{
 						std::string keyBinding = getSlotKeyInput(i);
-						InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+						InputDeviceBinding* binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
 						int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
-						Character *character = static_cast<Character*>(players[i]);
+						Character* character = static_cast<Character*>(players[i]);
 
 						binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
 						binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
@@ -475,7 +496,7 @@ namespace sdmg {
 				}
 
 				//_game->getEngine()->getInputEngine()->setDeviceBinding("keyboard", binding);
-				
+
 			}
 			catch (...)
 			{
@@ -483,13 +504,14 @@ namespace sdmg {
 			}
 		}
 
-		void LoadingState::loadTutorial() {
+		void LoadingState::loadTutorial()
+		{
 			*_progress = "Loading Tutorial";
 			_game->getStateManager()->draw();
 
-			DrawEngine *de = _game->getEngine()->getDrawEngine();
+			DrawEngine* de = _game->getEngine()->getDrawEngine();
 
-			ConfigManager &manager = ConfigManager::getInstance();
+			ConfigManager& manager = ConfigManager::getInstance();
 			//std::string fiatLeft = SDL_GetKeyName(manager.getKey(0, "walkLeft"));
 			//std::string fiatRight = SDL_GetKeyName(manager.getKey(0, "walkRight"));
 			//std::string fiatJump = SDL_GetKeyName(manager.getKey(0, "jump"));
@@ -548,13 +570,14 @@ namespace sdmg {
 				const std::array<int, 2> size = _game->getEngine()->getDrawEngine()->getImageSize("advertisement");
 				_advertisementX = _game->getEngine()->getDrawEngine()->getWindowWidth() - size[0] - 10;
 				_advertisementY = _game->getEngine()->getDrawEngine()->getWindowHeight() - size[1] - 10;
-				
+
 			}
 
 			_loadingValue += _loadingStep;
 		}
 
-		std::string LoadingState::getSlotKeyInput(int slot) {
+		std::string LoadingState::getSlotKeyInput(int slot)
+		{
 			std::string key = "slot_key_" + std::to_string(slot);
 			auto it = _slotKeyInput->find(key);
 			if (it != _slotKeyInput->end())
