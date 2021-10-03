@@ -2,13 +2,16 @@
 #include <string>
 #include <json.hpp>
 
-namespace sdmg {
-	namespace helperclasses {
+namespace sdmg
+{
+	namespace helperclasses
+	{
 		class ProgressManager
 		{
 		public:
 
-			static ProgressManager& getInstance() {
+			static ProgressManager& getInstance()
+			{
 				static ProgressManager _instance;
 				return _instance;
 			}
@@ -16,16 +19,16 @@ namespace sdmg {
 			void cleanup();
 
 			void setStatistics(std::string name, std::string key, std::string value);
-			nlohmann::json &getStatistics();
+			nlohmann::json& getStatistics();
 
 			void setLevel(std::string name, std::string key, std::string value);
-			nlohmann::json &getLevels();
+			nlohmann::json& getLevels();
 
-			std::vector<std::vector<std::string>> *getHighscores();
+			std::vector<std::vector<std::string>>* getHighscores();
 			void setHighscore(int index, std::string key, std::string value);
 			void addHighscore(std::string initials, int highscore);
 			int getLowestHighscore();
-			
+
 			void setAutosave(bool enable);
 			bool autosaveEnabled();
 

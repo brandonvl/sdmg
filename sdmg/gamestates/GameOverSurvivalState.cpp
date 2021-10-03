@@ -19,7 +19,6 @@
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
 #include "engine\World.h"
-#include "lib\JSONParser.h"
 #include "engine\audio\AudioEngine.h"
 #include "engine\physics\PhysicsEngine.h"
 #include "engine\particle\ParticleEngine.h"
@@ -28,9 +27,11 @@
 #include "HighScoreInputState.h"
 #include "engine\ai\EasyAIMachine.h"
 
-namespace sdmg {
-	namespace gamestates {
-		void GameOverSurvivalState::init(GameBase &game)
+namespace sdmg
+{
+	namespace gamestates
+	{
+		void GameOverSurvivalState::init(GameBase& game)
 		{
 			_game = &game;
 
@@ -46,8 +47,8 @@ namespace sdmg {
 
 			_menu = new Menu(game.getEngine()->getDrawEngine()->getWindowWidth() - (187.5f * 3), 50.0f, game);
 
-			const std::vector<GameObject*> &deadList = game.getWorld()->getDeadList();
-			
+			const std::vector<GameObject*>& deadList = game.getWorld()->getDeadList();
+
 			int playerID = 0, enemyID;
 
 			for (size_t i = 0; i < deadList.size(); i++)
@@ -56,17 +57,19 @@ namespace sdmg {
 				else
 					enemyID = i;
 
-			model::Character *enemy = static_cast<model::Character*>(deadList[enemyID]);
+			model::Character* enemy = static_cast<model::Character*>(deadList[enemyID]);
 			enemy->getAI()->pause();
 
-			model::Character *chas = static_cast<model::Character*>(deadList[playerID]);
+			model::Character* chas = static_cast<model::Character*>(deadList[playerID]);
 			game.getEngine()->getDrawEngine()->load("winner", "assets/characters/" + chas->getKey() + "/win");
-			
+
 			_menu->addMenuTextItem("Replay", (std::function<void()>)std::bind(&GameOverSurvivalState::replay, this));
-			_menu->addMenuTextItem("Highscores", (std::function<void()>)[&] {
+			_menu->addMenuTextItem("Highscores", (std::function<void()>)[&]
+			{
 				game.getStateManager()->pushState(HighScoreState::getInstance());
 			});
-			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&] {
+			_menu->addMenuTextItem("Main menu", (std::function<void()>)[&]
+			{
 				changeState(*_game, MainMenuState::getInstance());
 			});
 
@@ -92,22 +95,24 @@ namespace sdmg {
 				game.getEngine()->getAudioEngine()->play("winner", 0);
 			}
 
-			if (ProgressManager::getInstance().getLowestHighscore() < highscore) {
+			if (ProgressManager::getInstance().getLowestHighscore() < highscore)
+			{
 				HighScoreInputState::getInstance().setHighscore(highscore);
 				_game->getStateManager()->pushState(HighScoreInputState::getInstance());
 			}
-			
+
 		}
 
 		// Even checken of dit wel klopt voor survival mode
-		void GameOverSurvivalState::replay() {
+		void GameOverSurvivalState::replay()
+		{
 			_game->getWorld()->resetWorld();
 			_game->getEngine()->getInputEngine()->enableAllDevices();
-			const std::vector<GameObject*> &aliveList = _game->getWorld()->getAliveList();
+			const std::vector<GameObject*>& aliveList = _game->getWorld()->getAliveList();
 
 			for (size_t i = 0, ilen = aliveList.size(); i < ilen; i++)
 			{
-				model::Character *character = static_cast<model::Character*>(aliveList[i]);
+				model::Character* character = static_cast<model::Character*>(aliveList[i]);
 				character->revive();
 				character->setState(MovableGameObject::State::RESPAWN);
 
@@ -120,14 +125,14 @@ namespace sdmg {
 			changeState(*_game, PlayState::getInstance());
 		}
 
-		void GameOverSurvivalState::cleanup(GameBase &game)
+		void GameOverSurvivalState::cleanup(GameBase& game)
 		{
 			delete _menu;
 			_menu = nullptr;
 
 			if (_replay)
 			{
-				DrawEngine *de = game.getEngine()->getDrawEngine();
+				DrawEngine* de = game.getEngine()->getDrawEngine();
 				de->unload("winner");
 				de->unload("gameoversurvivalbackground");
 				de->unloadText("replay");
@@ -137,7 +142,7 @@ namespace sdmg {
 				de->unloadText("enemies");
 
 				game.getEngine()->getAudioEngine()->unload("winner");
-				
+
 				PlayState::getInstance().setEnemiesKilled(0);
 				PlayState::getInstance().resume(game);
 				_replay = false;
@@ -155,10 +160,12 @@ namespace sdmg {
 
 				delete PlayState::getInstance()._enemies;
 
-				std::vector<HUD*> *huds = PlayState::getInstance()._huds;
+				std::vector<HUD*>* huds = PlayState::getInstance()._huds;
 
-				if (huds) {
-					for (auto it : *huds) {
+				if (huds)
+				{
+					for (auto it : *huds)
+					{
 						delete it;
 					}
 					huds->clear();
@@ -175,7 +182,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
-		void GameOverSurvivalState::handleEvents(GameBase &game, GameTime &gameTime)
+		void GameOverSurvivalState::handleEvents(GameBase& game, GameTime& gameTime)
 		{
 			SDL_Event event;
 
@@ -187,51 +194,51 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_DOWN:
-						if (_isLoaded)
-							_menu->selectNext();
-						break;
-					case SDLK_UP:
-						if (_isLoaded)
-							_menu->selectPrevious();
-						break;
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-						if (_isLoaded)
-							_menu->doAction();
-						break;
+						case SDLK_DOWN:
+							if (_isLoaded)
+								_menu->selectNext();
+							break;
+						case SDLK_UP:
+							if (_isLoaded)
+								_menu->selectPrevious();
+							break;
+						case SDLK_KP_ENTER:
+						case SDLK_RETURN:
+							if (_isLoaded)
+								_menu->doAction();
+							break;
 					}
 				}
 				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
 				{
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_A:
-						if (_isLoaded)
-							_menu->doAction();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						if (_isLoaded)
-							_menu->selectPrevious();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						if (_isLoaded)
-							_menu->selectNext();
-						break;
+						case SDL_CONTROLLER_BUTTON_A:
+							if (_isLoaded)
+								_menu->doAction();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_UP:
+							if (_isLoaded)
+								_menu->selectPrevious();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+							if (_isLoaded)
+								_menu->selectNext();
+							break;
 					}
 				}
 			}
 		}
 
-		void GameOverSurvivalState::update(GameBase &game, GameTime &gameTime)
+		void GameOverSurvivalState::update(GameBase& game, GameTime& gameTime)
 		{
 			if (game.getGameTime()->getTotalSecondsRunning() - _enteredGameOverState > 3)
 				_isLoaded = true;
 		}
 
-		void GameOverSurvivalState::draw(GameBase &game, GameTime &gameTime)
+		void GameOverSurvivalState::draw(GameBase& game, GameTime& gameTime)
 		{
-			DrawEngine *de = game.getEngine()->getDrawEngine();
+			DrawEngine* de = game.getEngine()->getDrawEngine();
 
 			de->prepareForDraw();
 			de->draw("gameoversurvivalbackground");

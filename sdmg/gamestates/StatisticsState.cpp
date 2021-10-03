@@ -6,11 +6,14 @@
 #include "helperclasses\ProgressManager.h"
 #include "helperclasses\Menu.h"
 #include "helperclasses\menuitems\MenuTextItem.h"
+#include <json.hpp>
 
-namespace sdmg {
-	namespace gamestates {
-		
-		void StatisticsState::init(GameBase &game)
+namespace sdmg
+{
+	namespace gamestates
+	{
+
+		void StatisticsState::init(GameBase& game)
 		{
 			_game = &game;
 
@@ -21,12 +24,18 @@ namespace sdmg {
 
 			if (_backName)
 			{
-				_menu->addMenuTextItem("Back to " + *_backName, (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+				_menu->addMenuTextItem("Back to " + *_backName, (std::function<void()>)[&]
+				{
+					_game->getStateManager()->popState();
+				});
 				delete _backName;
 				_backName = nullptr;
 			}
 			else
-				_menu->addMenuTextItem("Back", (std::function<void()>)[&] { _game->getStateManager()->popState(); });
+				_menu->addMenuTextItem("Back", (std::function<void()>)[&]
+			{
+				_game->getStateManager()->popState();
+			});
 
 			game.getEngine()->getDrawEngine()->load("achievements_background", "assets/screens/mainmenu");
 			game.getEngine()->getDrawEngine()->load("achievements_bullet_grey", "assets/screens/bulletlist/bullet_grey");
@@ -41,33 +50,32 @@ namespace sdmg {
 			loadText("unlocked", "Unlocked", "trebucbd", 34);
 
 			// Load statistics
-			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
+			auto& jsonCharacterStatistics = ProgressManager::getInstance().getStatistics();
 
-			for (int i = 0; i < statistics.size(); i++) {
-				JSON::JSONObject &characterObj = statistics.getObject(i);
-				// Load character name text
-				loadText(characterObj.getString("name") + "name", characterObj.getString("name"), "trebucbd", 34);
+			for (auto& jsonCharacter : jsonCharacterStatistics)
+			{
+				auto characterName = jsonCharacter["name"].get<std::string>();
+				loadText(characterName + "name", characterName, "trebucbd", 34);
 
-				// Set character statistics
-				loadText(characterObj.getString("name") + "wins", std::to_string(characterObj.getInt("wins")), "trebuc", 34);
-				loadText(characterObj.getString("name") + "losses", std::to_string(characterObj.getInt("losses")), "trebuc", 34);
+				loadText(characterName + "name", std::to_string(jsonCharacter["wins"].get<int>()), "trebucbd", 34);
+				loadText(characterName + "name", std::to_string(jsonCharacter["losses"].get<int>()), "trebucbd", 34);
 
-				std::string unlocked = ProgressManager::getInstance().isUnlockedCharacter(characterObj.getString("name")) ? "Yes" : "No";
-				loadText(characterObj.getString("name") + "unlocked", unlocked, "trebuc", 34);
+				auto unlockedStatus = ProgressManager::getInstance().isUnlockedCharacter(characterName) ? "Yes" : "No";
+				loadText(characterName + "name", unlockedStatus, "trebucbd", 34);
 			}
 			// Screen 1 - Characters - End
 
 			// Screen 2 - Levels - Start
 			// Load levels
-			JSON::JSONArray &levels = ProgressManager::getInstance().getLevels();
+			auto& jsonLevelStatistics = ProgressManager::getInstance().getLevels();
 
-			for (int i = 0; i < levels.size(); i++) {
-				JSON::JSONObject &levelObj = levels.getObject(i);
-				// Load level name text
-				loadText(levelObj.getString("name") + "name_level", levelObj.getString("name"), "trebucbd", 34);
-				
-				std::string unlocked = ProgressManager::getInstance().isUnlockedLevel(levelObj.getString("name")) ? "Yes" : "No";
-				loadText(levelObj.getString("name") + "unlocked_level", unlocked, "trebuc", 34);
+			for (auto& jsonLevel : jsonLevelStatistics)
+			{
+				auto levelName = jsonLevel["name"].get<std::string>();
+				loadText(levelName + "name_level", levelName, "trebucbd", 34);
+
+				auto unlockedStatus = ProgressManager::getInstance().isUnlockableLevel(levelName) ? "Yes" : "No";
+				loadText(levelName + "unlocked_level", unlockedStatus, "trebuc", 34);
 			}
 			// Screen 2 - Levels - End
 
@@ -80,7 +88,7 @@ namespace sdmg {
 			_backName = new std::string(name);
 		}
 
-		void StatisticsState::cleanup(GameBase &game)
+		void StatisticsState::cleanup(GameBase& game)
 		{
 			delete _menu;
 			_menu = nullptr;
@@ -94,29 +102,31 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->unload("unlocked");
 
 			// Unload statistics
-			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
+			auto& jsonCharacterStatistics = ProgressManager::getInstance().getStatistics();
 
-			for (int i = 0; i < statistics.size(); i++) {
-				JSON::JSONObject &characterObj = statistics.getObject(i);
-				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "name");
-				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "wins");
-				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "losses");
-				game.getEngine()->getDrawEngine()->unload(characterObj.getString("name") + "unlocked");
+			for (auto& jsonCharacter : jsonCharacterStatistics)
+			{
+				auto characterName = jsonCharacter["name"].get<std::string>();
+				game.getEngine()->getDrawEngine()->unload(characterName + "name");
+				game.getEngine()->getDrawEngine()->unload(characterName + "wins");
+				game.getEngine()->getDrawEngine()->unload(characterName + "losses");
+				game.getEngine()->getDrawEngine()->unload(characterName + "unlocked");
 			}
 
 			// Unload levels
-			JSON::JSONArray &levels = ProgressManager::getInstance().getLevels();
+			auto& jsonLevelStatistics = ProgressManager::getInstance().getLevels();
 
-			for (int i = 0; i < levels.size(); i++) {
-				JSON::JSONObject &levelObj = levels.getObject(i);
-				game.getEngine()->getDrawEngine()->unload(levelObj.getString("name") + "name_level");
-				game.getEngine()->getDrawEngine()->unload(levelObj.getString("name") + "unlocked_level");
+			for (auto& jsonLevel : jsonLevelStatistics)
+			{
+				auto levelName = jsonLevel["name"].get<std::string>();
+				game.getEngine()->getDrawEngine()->unload(levelName + "name_level");
+				game.getEngine()->getDrawEngine()->unload(levelName + "unlocked_level");
 			}
 
 			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
-		void StatisticsState::handleEvents(GameBase &game, GameTime &gameTime)
+		void StatisticsState::handleEvents(GameBase& game, GameTime& gameTime)
 		{
 			SDL_Event event;
 
@@ -126,20 +136,20 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_LEFT:
-						if (_screenNumber > FIRST_SCREEN)
-							--_screenNumber;
-						break;
-					case SDLK_RIGHT:
-						if (_screenNumber < LAST_SCREEN)
-							++_screenNumber;
-						break;
-					case SDLK_ESCAPE:
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-					case 10:
-						_menu->doAction();
-						break;
+						case SDLK_LEFT:
+							if (_screenNumber > FIRST_SCREEN)
+								--_screenNumber;
+							break;
+						case SDLK_RIGHT:
+							if (_screenNumber < LAST_SCREEN)
+								++_screenNumber;
+							break;
+						case SDLK_ESCAPE:
+						case SDLK_KP_ENTER:
+						case SDLK_RETURN:
+						case 10:
+							_menu->doAction();
+							break;
 					}
 				}
 				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
@@ -166,20 +176,20 @@ namespace sdmg {
 			}
 		}
 
-		void StatisticsState::update(GameBase &game, GameTime &gameTime)
+		void StatisticsState::update(GameBase& game, GameTime& gameTime)
 		{
 		}
 
-		void StatisticsState::draw(GameBase &game, GameTime &gameTime)
+		void StatisticsState::draw(GameBase& game, GameTime& gameTime)
 		{
-			DrawEngine *drawEngine = _game->getEngine()->getDrawEngine();
+			DrawEngine* drawEngine = _game->getEngine()->getDrawEngine();
 			drawEngine->prepareForDraw();
 			drawEngine->draw("achievements_background");
 
 			// Load statistics and levels
-			JSON::JSONArray &statistics = ProgressManager::getInstance().getStatistics();
-			JSON::JSONArray &levels = ProgressManager::getInstance().getLevels();
-			
+			auto& jsonCharacterStatistics = ProgressManager::getInstance().getStatistics();
+			auto& jsonLevelStatistics = ProgressManager::getInstance().getLevels();
+
 			int vpos = 290;
 			int winspos = 680;
 			int lossespos = 900;
@@ -187,10 +197,11 @@ namespace sdmg {
 			int bulletxpos = (_windowWidth / 2) - (((BULLET_SIZE * LAST_SCREEN) + (BULLET_MARGIN * LAST_SCREEN - 1)) / 2);
 
 			// Draw bullets
-			for (int i = 1; i <= LAST_SCREEN; ++i) {
+			for (int i = 1; i <= LAST_SCREEN; ++i)
+			{
 				if (i == _screenNumber)
 					drawEngine->draw("achievements_bullet_white", bulletxpos, BULLET_YPOS);
-				else 
+				else
 					drawEngine->draw("achievements_bullet_grey", bulletxpos, BULLET_YPOS);
 
 				bulletxpos += BULLET_SIZE;
@@ -205,41 +216,43 @@ namespace sdmg {
 			drawEngine->drawText("unlocked", unlockedpos, 240);
 
 			// Draw screen content
-			switch (_screenNumber) {
-			case 1: // Screen 1 - Characters
-				drawEngine->drawText("wins", winspos, 240);
-				drawEngine->drawText("losses", lossespos, 240);
+			switch (_screenNumber)
+			{
+				case 1: // Screen 1 - Characters
+					drawEngine->drawText("wins", winspos, 240);
+					drawEngine->drawText("losses", lossespos, 240);
 
-				winspos += 10;
-				lossespos += 10;
-				unlockedpos += 10;
+					winspos += 10;
+					lossespos += 10;
+					unlockedpos += 10;
 
+					for (auto& jsonCharacter : jsonCharacterStatistics)
+					{
+						auto characterName = jsonCharacter["name"].get<std::string>();
+						drawEngine->drawText(characterName + "name", 50, vpos);
+						drawEngine->drawText(characterName + "wins", winspos, vpos);
+						drawEngine->drawText(characterName + "losses", lossespos, vpos);
+						drawEngine->drawText(characterName + "unlocked", unlockedpos, vpos);
 
-				for (int i = 0; i < statistics.size(); i++) {
-					JSON::JSONObject &characterObj = statistics.getObject(i);
-					drawEngine->drawText(characterObj.getString("name") + "name", 50, vpos);
-					drawEngine->drawText(characterObj.getString("name") + "wins", winspos, vpos);
-					drawEngine->drawText(characterObj.getString("name") + "losses", lossespos, vpos);
-					drawEngine->drawText(characterObj.getString("name") + "unlocked", unlockedpos, vpos);
+						vpos += 48;
+					}
+					break;
+				case 2: // Screen 2 - Levels
+					drawEngine->drawText("unlocked", unlockedpos, 240);
 
-					vpos += 48;
-				}
-				break;
-			case 2: // Screen 2 - Levels
-				drawEngine->drawText("unlocked", unlockedpos, 240);
-				
-				unlockedpos += 10;
+					unlockedpos += 10;
 
-				for (int i = 0; i < levels.size(); ++i) {
-					JSON::JSONObject &levelObj = levels.getObject(i);
-					drawEngine->drawText(levelObj.getString("name") + "name_level", 50, vpos);
-					drawEngine->drawText(levelObj.getString("name") + "unlocked_level", unlockedpos, vpos);
+					for (auto& jsonLevel : jsonLevelStatistics)
+					{
+						auto levelName = jsonLevel["name"].get<std::string>();
+						drawEngine->drawText(levelName + "name_level", 50, vpos);
+						drawEngine->drawText(levelName + "unlocked_level", unlockedpos, vpos);
 
-					vpos += 48;
-				}
-				break;
+						vpos += 48;
+					}
+					break;
 			}
-			
+
 			_menu->draw(_game);
 
 			drawEngine->render();

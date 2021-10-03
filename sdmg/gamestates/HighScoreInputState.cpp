@@ -4,7 +4,6 @@
 #include "engine\Engine.h"
 #include "engine\drawing\DrawEngine.h"
 #include "engine\input\InputEngine.h"
-#include "lib\JSONParser.h"
 #include "helperclasses\ProgressManager.h"
 #include "helperclasses\Menu.h"
 #include <sstream>
@@ -12,33 +11,40 @@
 #include <stdio.h>
 #include <ctype.h>
 
-namespace sdmg {
-	namespace gamestates {
-		void HighScoreInputState::init(GameBase &game)
+namespace sdmg
+{
+	namespace gamestates
+	{
+		void HighScoreInputState::init(GameBase& game)
 		{
 			_game = &game;
 			game.getEngine()->getDrawEngine()->load("highscoreinput_background", "assets/screens/mainmenu");
 
 			_highscoreInitials = new std::string();
 			_highscore = PlayState::getInstance().getEnemiesKilled();
-			
+
 			// Create menu
 			_menu = new Menu(50, 250, game);
-			_menu->addMenuTextItem("Confirm", (std::function<void()>)[&] {
-				if (!_highscoreInitials->empty()) {
+			_menu->addMenuTextItem("Confirm", (std::function<void()>)[&]
+			{
+				if (!_highscoreInitials->empty())
+				{
 					ProgressManager::getInstance().addHighscore(*_highscoreInitials, _highscore);
 					ProgressManager::getInstance().save();
 					game.getStateManager()->changeState(HighScoreState::getInstance());
 				}
-				else {
+				else
+				{
 					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Warning", "Empty input", NULL);
 				}
 			});
-			_menu->addMenuTextItem("Clear", (std::function<void()>)[&] {
+			_menu->addMenuTextItem("Clear", (std::function<void()>)[&]
+			{
 				_highscoreInitials = new std::string();
 			});
-			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&] { 
-				game.getStateManager()->popState(); 
+			_menu->addMenuTextItem("Cancel", (std::function<void()>)[&]
+			{
+				game.getStateManager()->popState();
 			});
 
 			// Load text
@@ -48,7 +54,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->setMouseEnabled();
 		}
 
-		void HighScoreInputState::cleanup(GameBase &game)
+		void HighScoreInputState::cleanup(GameBase& game)
 		{
 			delete _menu;
 			_menu = nullptr;
@@ -63,7 +69,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->getMouse().clear();
 		}
 
-		void HighScoreInputState::handleEvents(GameBase &game, GameTime &gameTime)
+		void HighScoreInputState::handleEvents(GameBase& game, GameTime& gameTime)
 		{
 			SDL_Event event;
 
@@ -71,110 +77,112 @@ namespace sdmg {
 			{
 				game.getEngine()->getInputEngine()->handleEvent(event);
 
-				switch (event.type) {
-				case SDL_CONTROLLERBUTTONDOWN:
-					switch (event.cbutton.button)
-					{
-					case SDL_CONTROLLER_BUTTON_A:
-						_menu->doAction();
-						break;
-					case SDL_CONTROLLER_BUTTON_B:
-						_game->getStateManager()->popState();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						_menu->selectPrevious();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						_menu->selectNext();
-						break;
-					}
-					break;
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym)
-					{
-					case SDLK_UP:
-						_menu->selectPrevious();
-						break;
-					case SDLK_DOWN:
-						_menu->selectNext();
-						break;
-					case SDLK_ESCAPE:
-						break;
-					case SDLK_BACKSPACE:
-						if (!_highscoreInitials->empty())
-							_highscoreInitials->pop_back();
-						break;
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-					case 10:
-						_menu->doAction();
-						break;
-					case SDLK_0:
-					case SDLK_1:
-					case SDLK_2:
-					case SDLK_3:
-					case SDLK_4:
-					case SDLK_5:
-					case SDLK_6:
-					case SDLK_7:
-					case SDLK_8:
-					case SDLK_9:
-					case SDLK_a:
-					case SDLK_b:
-					case SDLK_c:
-					case SDLK_d:
-					case SDLK_e:
-					case SDLK_f:
-					case SDLK_g:
-					case SDLK_h:
-					case SDLK_i:
-					case SDLK_j:
-					case SDLK_k:
-					case SDLK_l:
-					case SDLK_m:
-					case SDLK_n:
-					case SDLK_o:
-					case SDLK_p:
-					case SDLK_q:
-					case SDLK_r:
-					case SDLK_s:
-					case SDLK_t:
-					case SDLK_u:
-					case SDLK_v:
-					case SDLK_w:
-					case SDLK_x:
-					case SDLK_y:
-					case SDLK_z:
-						if (_highscoreInitials->size() < 3) {
-							int keypressed = event.key.keysym.sym;
-							std::stringstream ss;
-							std::string key;
-
-							ss << static_cast<char>(toupper(keypressed));
-							ss >> key;
-							_highscoreInitials->append(key);
+				switch (event.type)
+				{
+					case SDL_CONTROLLERBUTTONDOWN:
+						switch (event.cbutton.button)
+						{
+							case SDL_CONTROLLER_BUTTON_A:
+								_menu->doAction();
+								break;
+							case SDL_CONTROLLER_BUTTON_B:
+								_game->getStateManager()->popState();
+								break;
+							case SDL_CONTROLLER_BUTTON_DPAD_UP:
+								_menu->selectPrevious();
+								break;
+							case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+								_menu->selectNext();
+								break;
 						}
 						break;
-					default:
-						break;
-					}
+					case SDL_KEYDOWN:
+						switch (event.key.keysym.sym)
+						{
+							case SDLK_UP:
+								_menu->selectPrevious();
+								break;
+							case SDLK_DOWN:
+								_menu->selectNext();
+								break;
+							case SDLK_ESCAPE:
+								break;
+							case SDLK_BACKSPACE:
+								if (!_highscoreInitials->empty())
+									_highscoreInitials->pop_back();
+								break;
+							case SDLK_KP_ENTER:
+							case SDLK_RETURN:
+							case 10:
+								_menu->doAction();
+								break;
+							case SDLK_0:
+							case SDLK_1:
+							case SDLK_2:
+							case SDLK_3:
+							case SDLK_4:
+							case SDLK_5:
+							case SDLK_6:
+							case SDLK_7:
+							case SDLK_8:
+							case SDLK_9:
+							case SDLK_a:
+							case SDLK_b:
+							case SDLK_c:
+							case SDLK_d:
+							case SDLK_e:
+							case SDLK_f:
+							case SDLK_g:
+							case SDLK_h:
+							case SDLK_i:
+							case SDLK_j:
+							case SDLK_k:
+							case SDLK_l:
+							case SDLK_m:
+							case SDLK_n:
+							case SDLK_o:
+							case SDLK_p:
+							case SDLK_q:
+							case SDLK_r:
+							case SDLK_s:
+							case SDLK_t:
+							case SDLK_u:
+							case SDLK_v:
+							case SDLK_w:
+							case SDLK_x:
+							case SDLK_y:
+							case SDLK_z:
+								if (_highscoreInitials->size() < 3)
+								{
+									int keypressed = event.key.keysym.sym;
+									std::stringstream ss;
+									std::string key;
+
+									ss << static_cast<char>(toupper(keypressed));
+									ss >> key;
+									_highscoreInitials->append(key);
+								}
+								break;
+							default:
+								break;
+						}
 				}
 			}
 		}
-		
-		void HighScoreInputState::update(GameBase &game, GameTime &gameTime)
+
+		void HighScoreInputState::update(GameBase& game, GameTime& gameTime)
 		{
 
 		}
 
-		void HighScoreInputState::draw(GameBase &game, GameTime &gameTime)
+		void HighScoreInputState::draw(GameBase& game, GameTime& gameTime)
 		{
-			DrawEngine *drawEngine = game.getEngine()->getDrawEngine();
+			DrawEngine* drawEngine = game.getEngine()->getDrawEngine();
 			drawEngine->prepareForDraw();
 			drawEngine->draw("highscoreinput_background");
 			drawEngine->drawText("highscoreinput_title", 50, 70);
-			if (!_highscoreInitials->empty()) 
-				drawEngine->drawDynamicText("highscoreinput_initials", *_highscoreInitials, 840 - drawEngine->getDynamicTextWidth("highscoreinput_initials")/2, 200);
+			if (!_highscoreInitials->empty())
+				drawEngine->drawDynamicText("highscoreinput_initials", *_highscoreInitials, 840 - drawEngine->getDynamicTextWidth("highscoreinput_initials") / 2, 200);
 
 			_menu->draw(_game);
 

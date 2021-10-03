@@ -56,6 +56,11 @@ namespace sdmg {
 				}
 			}
 
+			bool FileManager::fileExists(const std::string& relativePath)
+			{
+				return std::filesystem::exists(relativePath);
+			}
+
 			void FileManager::createFolder(const std::string& fullFolderPath)
 			{
 				std::filesystem::create_directories(fullFolderPath);

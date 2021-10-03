@@ -1,305 +1,305 @@
 {
-	autosave:true,	
-	highscores:[
-		{
-			number:"1",
-			name:" ",
-			score:"0"
-		}
-		{
-			number:"2",
-			name:" ",
-			score:"0"
-		}
-		{
-			number:"3",
-			name:" ",
-			score:"0"
-		}
-		{
-			number:"4",
-			name:" ",
-			score:"0"
-		}
-		{
-			number:"5",
-			name:" ",
-			score:"0"
-		}
+	"autosave":true,
+	"highscores":[
+	   {
+		  "number":"1",
+		  "name":" ",
+		  "score":"0"
+	   },
+	   {
+		  "number":"2",
+		  "name":" ",
+		  "score":"0"
+	   },
+	   {
+		  "number":"3",
+		  "name":" ",
+		  "score":"0"
+	   },
+	   {
+		  "number":"4",
+		  "name":" ",
+		  "score":"0"
+	   },
+	   {
+		  "number":"5",
+		  "name":" ",
+		  "score":"0"
+	   }
 	],
-	savegame:[
-		{
-			characters:[
-				{
-					losses:0,
-					name:"Nivek",
-					key:"nivek",
-					unlocked:true,
-					wins:0,
-					persistant:true
-				},
-				{
-					losses:0,
-					name:"Silence",
-					key:"silence",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Fiat",
-					key:"fiat",
-					unlocked:true,
-					wins:0,
-					persistant:true
-				},
-				{
-					losses:0,
-					name:"Lucky",
-					key:"lucky",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Mind",
-					key:"mind",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Enrique",
-					key:"enrique",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				}
-			],
-			levels:[
-				{
-					name:"Night Life",
-					key:"night life",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Forest Rumble",
-					key:"forest rumble",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Jolly Saloon",
-					key:"jolly saloon",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Slippery Slope",
-					key:"slippery slope",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"River Fever",
-					key:"river fever",
-					unlocked:true,
-					persistant:true
-				},
-				{
-					name:"Planking Stars",
-					key:"planking stars",
-					unlocked:true,
-					persistant:true
-				}
-			],
-			timestamp:""
-		},
-		{
-			characters:[
-				{
-					losses:0,
-					name:"Nivek",
-					key:"nivek",
-					unlocked:true,
-					wins:0,
-					persistant:true
-				},
-				{
-					losses:0,
-					name:"Silence",
-					key:"silence",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Fiat",
-					key:"fiat",
-					unlocked:true,
-					wins:0,
-					persistant:true
-				},
-				{
-					losses:0,
-					name:"Lucky",
-					key:"lucky",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Mind",
-					key:"mind",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Enrique",
-					key:"enrique",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				}
-			],
-			levels:[
-				{
-					name:"Night Life",
-					key:"night life",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Forest Rumble",
-					key:"forest rumble",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Jolly Saloon",
-					key:"jolly saloon",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Slippery Slope",
-					key:"slippery slope",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"River Fever",
-					key:"river fever",
-					unlocked:true,
-					persistant:true
-				},
-				{
-					name:"Planking Stars",
-					key:"planking stars",
-					unlocked:true,
-					persistant:true
-				}
-			],
-			timestamp:""
-		},
-		{
-			characters:[
-				{
-					losses:0,
-					name:"Nivek",
-					key:"nivek",
-					unlocked:true,
-					wins:0,
-					persistant:true
-				},
-				{
-					losses:0,
-					name:"Silence",
-					key:"silence",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Fiat",
-					key:"fiat",
-					unlocked:true,
-					wins:0,
-					persistant:true
-				},
-				{
-					losses:0,
-					name:"Lucky",
-					key:"lucky",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Mind",
-					key:"mind",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				},
-				{
-					losses:0,
-					name:"Enrique",
-					key:"enrique",
-					unlocked:false,
-					wins:0,
-					persistant:false
-				}
-			],
-			levels:[
-				{
-					name:"Night Life",
-					key:"night life",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Forest Rumble",
-					key:"forest rumble",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Jolly Saloon",
-					key:"jolly saloon",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"Slippery Slope",
-					key:"slippery slope",
-					unlocked:false,
-					persistant:false
-				},
-				{
-					name:"River Fever",
-					key:"river fever",
-					unlocked:true,
-					persistant:true
-				},
-				{
-					name:"Planking Stars",
-					key:"planking stars",
-					unlocked:true,
-					persistant:true
-				}
-			],
-			timestamp:""
-		}
+	"savegame":[
+	   {
+		  "characters":[
+			 {
+				"losses":0,
+				"name":"Nivek",
+				"key":"nivek",
+				"unlocked":true,
+				"wins":0,
+				"persistant":true
+			 },
+			 {
+				"losses":0,
+				"name":"Silence",
+				"key":"silence",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Fiat",
+				"key":"fiat",
+				"unlocked":true,
+				"wins":0,
+				"persistant":true
+			 },
+			 {
+				"losses":0,
+				"name":"Lucky",
+				"key":"lucky",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Mind",
+				"key":"mind",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Enrique",
+				"key":"enrique",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 }
+		  ],
+		  "levels":[
+			 {
+				"name":"Night Life",
+				"key":"night life",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Forest Rumble",
+				"key":"forest rumble",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Jolly Saloon",
+				"key":"jolly saloon",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Slippery Slope",
+				"key":"slippery slope",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"River Fever",
+				"key":"river fever",
+				"unlocked":true,
+				"persistant":true
+			 },
+			 {
+				"name":"Planking Stars",
+				"key":"planking stars",
+				"unlocked":true,
+				"persistant":true
+			 }
+		  ],
+		  "timestamp":""
+	   },
+	   {
+		  "characters":[
+			 {
+				"losses":0,
+				"name":"Nivek",
+				"key":"nivek",
+				"unlocked":true,
+				"wins":0,
+				"persistant":true
+			 },
+			 {
+				"losses":0,
+				"name":"Silence",
+				"key":"silence",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Fiat",
+				"key":"fiat",
+				"unlocked":true,
+				"wins":0,
+				"persistant":true
+			 },
+			 {
+				"losses":0,
+				"name":"Lucky",
+				"key":"lucky",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Mind",
+				"key":"mind",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Enrique",
+				"key":"enrique",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 }
+		  ],
+		  "levels":[
+			 {
+				"name":"Night Life",
+				"key":"night life",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Forest Rumble",
+				"key":"forest rumble",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Jolly Saloon",
+				"key":"jolly saloon",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Slippery Slope",
+				"key":"slippery slope",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"River Fever",
+				"key":"river fever",
+				"unlocked":true,
+				"persistant":true
+			 },
+			 {
+				"name":"Planking Stars",
+				"key":"planking stars",
+				"unlocked":true,
+				"persistant":true
+			 }
+		  ],
+		  "timestamp":""
+	   },
+	   {
+		  "characters":[
+			 {
+				"losses":0,
+				"name":"Nivek",
+				"key":"nivek",
+				"unlocked":true,
+				"wins":0,
+				"persistant":true
+			 },
+			 {
+				"losses":0,
+				"name":"Silence",
+				"key":"silence",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Fiat",
+				"key":"fiat",
+				"unlocked":true,
+				"wins":0,
+				"persistant":true
+			 },
+			 {
+				"losses":0,
+				"name":"Lucky",
+				"key":"lucky",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Mind",
+				"key":"mind",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 },
+			 {
+				"losses":0,
+				"name":"Enrique",
+				"key":"enrique",
+				"unlocked":false,
+				"wins":0,
+				"persistant":false
+			 }
+		  ],
+		  "levels":[
+			 {
+				"name":"Night Life",
+				"key":"night life",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Forest Rumble",
+				"key":"forest rumble",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Jolly Saloon",
+				"key":"jolly saloon",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"Slippery Slope",
+				"key":"slippery slope",
+				"unlocked":false,
+				"persistant":false
+			 },
+			 {
+				"name":"River Fever",
+				"key":"river fever",
+				"unlocked":true,
+				"persistant":true
+			 },
+			 {
+				"name":"Planking Stars",
+				"key":"planking stars",
+				"unlocked":true,
+				"persistant":true
+			 }
+		  ],
+		  "timestamp":""
+	   }
 	]
-}
+ }

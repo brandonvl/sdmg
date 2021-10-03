@@ -14,8 +14,10 @@ __time32_t aclock;
 
 using namespace std;
 
-namespace sdmg {
-	namespace helperclasses {
+namespace sdmg
+{
+	namespace helperclasses
+	{
 
 		ProgressManager::ProgressManager()
 		{
@@ -25,7 +27,7 @@ namespace sdmg {
 
 		void ProgressManager::cleanup()
 		{
-			delete _jsonDoc;
+
 		}
 
 		void ProgressManager::reset()
@@ -37,106 +39,113 @@ namespace sdmg {
 			setTimestamp("");
 
 			// Reset characters
-			for (auto i = 0, ilen = getStatistics().size(); i < ilen; ++i) {
-				JSON::JSONObject &characterObj = getStatistics().getObject(i);
-				characterObj.getVariable("wins").setValue(std::to_string(0));
-				characterObj.getVariable("losses").setValue(std::to_string(0));
-				if (characterObj.getBoolean("persistant") == true)
-					characterObj.getVariable("unlocked").setValue(true);
+			for (auto& characterObject : getStatistics())
+			{
+				characterObject["wins"] = 0;
+				characterObject["losses"] = 0;
+
+				if (characterObject["persistant"].get<bool>() == true)
+					characterObject["unlocked"] = true;
 				else
-					characterObj.getVariable("unlocked").setValue(false);
+					characterObject["unlocked"] = false;
 			}
 
 			// Reset levels
-			for (auto i = 0, ilen = getLevels().size(); i < ilen; ++i) {
-				auto &levelObj = getLevels().getObject(i);
-				if (levelObj.getBoolean("persistant") == true)
-					levelObj.getVariable("unlocked").setValue(true);
+			for (auto& levelObject : getLevels())
+			{
+				if (levelObject["persistant"].get<bool>() == true)
+					levelObject["unlocked"] = true;
 				else
-					levelObj.getVariable("unlocked").setValue(false);
+					levelObject["unlocked"] = false;
 			}
 		}
 
 		void ProgressManager::load()
 		{
-			try{
-				delete _jsonDoc;
-				_jsonDoc = JSON::JSONDocument::fromFile("assets/progress");
+			try
+			{
+				auto progressExists = engine::util::FileManager::getInstance().fileExists("assets/progress");
+
+				if (progressExists)
+				{
+					_jsonDoc = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/progress");
+				}
+				else
+				{
+					_jsonDoc = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/defaultprogress");
+					engine::util::FileManager::getInstance().saveJsonContentToFile("assets/progress", _jsonDoc);
+				}
 			}
-			catch (...) {
-				try{
-					delete _jsonDoc;
-					_jsonDoc = JSON::JSONDocument::fromFile("assets/defaultprogress");
-					_jsonDoc->saveFile("assets/progress");
-				}
-				catch (...) {
-					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Cannot load progress", "Cannot load progress", NULL);
-				}
+			catch (...)
+			{
+				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Cannot load progress", "Cannot load progress", NULL);
 			}
 		}
 
 		void ProgressManager::save()
 		{
-			_jsonDoc->saveFile("assets/progress");
+			engine::util::FileManager::getInstance().saveJsonContentToFile("assets/progress", _jsonDoc);
 		}
 
 		void ProgressManager::setStatistics(std::string name, std::string key, std::string value)
 		{
-			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
-			JSON::JSONObject characterObj = characterArr.getObject(getCharacterIndex(name));
-			characterObj.getVariable(key).setValue(value);
+			_jsonDoc["savegame"][currentSavegame]["characters"][getLevelIndex(name)][key] = value;
 		}
 
-		JSON::JSONArray &ProgressManager::getStatistics()
+		nlohmann::json& ProgressManager::getStatistics()
 		{
-			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
+			return _jsonDoc["savegame"][currentSavegame]["characters"];
 		}
 
 		void ProgressManager::setLevel(std::string name, std::string key, std::string value)
 		{
-			JSON::JSONArray &levelArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
-			JSON::JSONObject levelObj = levelArr.getObject(getLevelIndex(name));
-			levelObj.getVariable(key).setValue(value);
+			_jsonDoc["savegame"][currentSavegame]["levels"][getLevelIndex(name)][key] = value;
 		}
 
-		JSON::JSONArray &ProgressManager::getLevels()
+		nlohmann::json& ProgressManager::getLevels()
 		{
-			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
+			return _jsonDoc["savegame"][currentSavegame]["levels"];
 		}
 
-		std::vector<std::vector<std::string>> *ProgressManager::getHighscores()
+		std::vector<std::vector<std::string>>* ProgressManager::getHighscores()
 		{
-			std::vector<std::vector<std::string>> *highscores = new std::vector<std::vector<std::string>>();
-			JSON::JSONArray &jHighscores = _jsonDoc->getRootObject().getArray("highscores");
-			for (auto i = 0, ilen = jHighscores.size(); i < ilen; ++i) {
-				highscores->push_back({ jHighscores.getObject(i).getString("number"), jHighscores.getObject(i).getString("name"), jHighscores.getObject(i).getString("score") });
+			std::vector<std::vector<std::string>>* highscores = new std::vector<std::vector<std::string>>();
+			auto& jsonHighScores = _jsonDoc["highscores"];
+
+			for (auto& jsonHighscore : jsonHighScores)
+			{
+				highscores->push_back({ jsonHighscore["number"].get<std::string>(), jsonHighscore["name"].get<std::string>(), jsonHighscore["score"].get<std::string>() });
 			}
+
 			return highscores;
 		}
 
 		void ProgressManager::setHighscore(int index, std::string key, std::string value)
 		{
-			JSON::JSONArray &highscoreArr = _jsonDoc->getRootObject().getArray("highscores");
-			JSON::JSONObject &highscoreObj = highscoreArr.getObject(index);
-			highscoreObj.getVariable(key).setValue(value);
+			_jsonDoc["highscores"][index][key] = value;
 		}
 
 		void ProgressManager::addHighscore(std::string initials, int highscore)
 		{
-			auto &highscoreArr = _jsonDoc->getRootObject().getArray("highscores");
+			auto& jsonHighScores = _jsonDoc["highscores"];
 
 			int index = -1;
 
-			for (int i = highscoreArr.size() - 2; i >= 0; --i) {
+			for (int i = jsonHighScores.size() - 2; i >= 0; --i)
+			{
 				// Down rank score
-				setHighscore(i + 1, "name", highscoreArr.getObject(i).getString("name"));
-				setHighscore(i + 1, "score", highscoreArr.getObject(i).getString("score"));
+				setHighscore(i + 1, "name", jsonHighScores[i]["name"]);
+				setHighscore(i + 1, "score", jsonHighScores[i]["score"]);
 
-				if (highscore < stoi(highscoreArr.getObject(i + 1).getString("score"))) { break; }
+				auto higherIndex = i + 1;
+				if (highscore < stoi(jsonHighScores[higherIndex]["score"].get<std::string>()))
+				{
+					break;
+				}
 
-				index = i;				
-			} 
-				
+				index = i;
+			}
+
 			// Set new highscore at current position
 			setHighscore(index, "name", initials);
 			setHighscore(index, "score", std::to_string(highscore));
@@ -144,7 +153,7 @@ namespace sdmg {
 
 		int ProgressManager::getLowestHighscore()
 		{
-			std::vector<std::vector<std::string>> *highscores = getHighscores();
+			std::vector<std::vector<std::string>>* highscores = getHighscores();
 			int lowest = stoi(highscores->back().back());
 			delete highscores;
 			return lowest;
@@ -152,57 +161,55 @@ namespace sdmg {
 
 		int ProgressManager::getCharacterIndex(std::string name)
 		{
-			int characterIndex = -1;
-			JSON::JSONArray &characterArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters");
-			for (int i = 0; i < characterArr.size(); i++) {
-				JSON::JSONObject &characterObj = characterArr.getObject(i);
-				if (name == characterObj.getString("name") || name == characterObj.getString("key")) {
-					characterIndex = i;
-					break;
-				}
+			auto& jsonCharacters = _jsonDoc["savegame"][currentSavegame]["characters"];
+
+			for (int i = 0; i < jsonCharacters.size(); i++)
+			{
+				if (jsonCharacters[i]["name"].get<std::string>() == name || jsonCharacters[i]["key"].get<std::string>() == name)
+					return i;
 			}
-			return characterIndex;
+
+			return -1;
 		}
 
 		int ProgressManager::getLevelIndex(std::string name)
 		{
-			int characterIndex = -1;
-			JSON::JSONArray &levelArr = _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels");
-			for (int i = 0; i < levelArr.size(); i++) {
-				JSON::JSONObject &levelObj = levelArr.getObject(i);
-				if (name == levelObj.getString("name") || name == levelObj.getString("key")) {
-					characterIndex = i;
-					break;
-				}
+			auto& jsonLevels = _jsonDoc["savegame"][currentSavegame]["levels"];
+
+			for (int i = 0; i < jsonLevels.size(); i++)
+			{
+				if (jsonLevels[i]["name"].get<std::string>() == name || jsonLevels[i]["key"].get<std::string>() == name)
+					return i;
 			}
-			return characterIndex;
+
+			return -1;
 		}
 
 		bool ProgressManager::autosaveEnabled()
 		{
-			return _jsonDoc->getRootObject().getBoolean("autosave");
+			return _jsonDoc["autosave"].get<bool>();
 		}
 
 		void ProgressManager::setAutosave(bool enable)
 		{
-			_jsonDoc->getRootObject().getVariable("autosave").setValue(enable ? true : false);
+			_jsonDoc["autosave"] = enable;
 		}
 
 		std::string ProgressManager::getTimestamp()
 		{
-			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getString("timestamp");
+			return _jsonDoc["savegame"][currentSavegame]["timestamp"].get<std::string>();
 		}
 
 		void ProgressManager::setTimestamp(std::string time)
 		{
-			_jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getVariable("timestamp").setValue(time);
+			_jsonDoc["savegame"][currentSavegame]["timestamp"] = time;
 		}
 
 		std::string ProgressManager::getSaveGameTimestamp(int savegame)
 		{
-			int numberOfSlots = _jsonDoc->getRootObject().getArray("savegame").size();
-			std::string timestamp = _jsonDoc->getRootObject().getArray("savegame").getObject(savegame).getString("timestamp");
-			return savegame < numberOfSlots && timestamp != "" ? timestamp : "";
+			int numberOfSlots = _jsonDoc["savegame"].size();
+			std::string timestamp = _jsonDoc["savegame"][savegame]["timestamp"].get<std::string>();
+			return savegame < numberOfSlots&& timestamp != "" ? timestamp : "";
 		}
 
 		std::string ProgressManager::getTimestampNow()
@@ -226,12 +233,12 @@ namespace sdmg {
 
 		bool ProgressManager::isUnlockedCharacter(std::string name)
 		{
-			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters").getObject(getCharacterIndex(name)).getBoolean("unlocked");
+			return _jsonDoc["savegame"][currentSavegame]["characters"][getCharacterIndex(name)]["unlocked"].get<bool>();
 		}
 
 		bool ProgressManager::isUnlockedLevel(std::string name)
 		{
-			return _jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels").getObject(getLevelIndex(name)).getBoolean("unlocked");
+			return _jsonDoc["savegame"][currentSavegame]["levels"][getLevelIndex(name)]["unlocked"].get<bool>();
 		}
 
 		bool ProgressManager::isUnlockableLevel(std::string name)
@@ -241,12 +248,12 @@ namespace sdmg {
 
 		void ProgressManager::setIsUnlockedCharacter(std::string name, bool unlocked)
 		{
-			_jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("characters").getObject(getCharacterIndex(name)).getVariable("unlocked").setValue(unlocked);
+			_jsonDoc["savegame"][currentSavegame]["characters"][getCharacterIndex(name)]["unlocked"] = unlocked;
 		}
 
 		void ProgressManager::setIsUnlockedLevel(std::string name, bool unlocked)
 		{
-			_jsonDoc->getRootObject().getArray("savegame").getObject(currentSavegame).getArray("levels").getObject(getLevelIndex(name)).getVariable("unlocked").setValue(unlocked);
+			_jsonDoc["savegame"][currentSavegame]["levels"][getLevelIndex(name)]["unlocked"] = unlocked;
 		}
 	}
 }
