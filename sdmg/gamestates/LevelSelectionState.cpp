@@ -23,25 +23,34 @@
 #include "engine\util\FileManager.h"
 #include "CreateLevelState.h"
 #include "helperclasses\ProgressManager.h"
+#include "engine/util/FileManager.h"
 
 #include <vector>
 #include <fstream>
 
-namespace sdmg {
-	namespace gamestates {
+namespace sdmg
+{
+	namespace gamestates
+	{
 
-		void LevelSelectionState::init(GameBase &game)
+		void LevelSelectionState::init(GameBase& game)
 		{
 			_game = &game;
 			_game->getEngine()->getDrawEngine()->loadText("levelselecttitle", game.getGameMode() == GameBase::GameMode::Edit ? "Select a level to edit" : "Select a level", { 255, 255, 255 }, "trebucbd", 48);
-			
+
 			// init menu
 			_menu = new Menu(895, 540, game);
 			_menu->addMenuTextItem(game.getGameMode() == GameBase::GameMode::Versus || game.getGameMode() == GameBase::GameMode::Edit ? "Select" : "Play", (std::function<void()>)std::bind(&LevelSelectionState::nextState, this));
 			if (game.getGameMode() == GameBase::GameMode::Edit)
-				_menu->addMenuTextItem("Back to main menu", (std::function<void()>)[&] { changeState(game, MainMenuState::getInstance()); });
+				_menu->addMenuTextItem("Back to main menu", (std::function<void()>)[&]
+			{
+				changeState(game, MainMenuState::getInstance());
+			});
 			else
-				_menu->addMenuTextItem("Back to characters", (std::function<void()>)[&] { changeState(game, CharacterSelectionState::getInstance()); });
+				_menu->addMenuTextItem("Back to characters", (std::function<void()>)[&]
+			{
+				changeState(game, CharacterSelectionState::getInstance());
+			});
 
 			_levels = new std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/levels/"));
 
@@ -53,15 +62,14 @@ namespace sdmg {
 
 				if (!ifile.fail())
 				{
-					JSON::JSONDocument *doc = nullptr;
 					try
 					{
-						if (levelFolder != "tutorial"){
-							doc = JSON::JSONDocument::fromFile("assets/levels/" + levelFolder + "/data");
-							JSON::JSONObject &obj = doc->getRootObject();
+						if (levelFolder != "tutorial")
+						{
+							auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/levels/" + levelFolder + "/data");
 
-							if (game.getGameMode() != GameBase::GameMode::Edit || obj.getBoolean("editable")) {
-
+							if (game.getGameMode() != GameBase::GameMode::Edit || json["editable"].get<bool>())
+							{
 								bool showLevel = true;
 								if (ProgressManager::getInstance().isUnlockableLevel(levelFolder))
 									showLevel = ProgressManager::getInstance().isUnlockedLevel(levelFolder);
@@ -69,8 +77,8 @@ namespace sdmg {
 								if (showLevel)
 								{
 									game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
-									std::string h = obj.getString("name");
-									game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", obj.getString("name"), { 255, 255, 255 }, "trebucbd", 48);
+									std::string name = json["name"].get<std::string>();
+									game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", name, { 255, 255, 255 }, "trebucbd", 48);
 								}
 								else
 								{
@@ -78,38 +86,34 @@ namespace sdmg {
 									i--;
 								}
 							}
-							else {
+							else
+							{
 								_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
 								i--;
 							}
 						}
-						else {
+						else
+						{
 							_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
 							i--;
 						}
 					}
-					catch (JSON::JSONException &ex)
+					catch (...)
 					{
 						_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
 						i--;
 						std::cout << "LevelSelection: Error bij laden " + levelFolder;
 					}
-					catch(...)
-					{
-						_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
-						i--;
-						std::cout << "LevelSelection: Error bij laden " + levelFolder;
-					}
-
-					delete doc;
 				}
-				else {
+				else
+				{
 					_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
 					i--;
 				}
 			}
 
-			if (game.getGameMode() == GameBase::GameMode::Edit) {
+			if (game.getGameMode() == GameBase::GameMode::Edit)
+			{
 				_levels->push_back("$newLevel");
 				game.getEngine()->getDrawEngine()->load("$newLevel_preview", "assets/screens/level_new");
 				game.getEngine()->getDrawEngine()->loadText("$newLevel_title", "Create new level", { 255, 255, 255 }, "trebucbd", 48);
@@ -132,7 +136,7 @@ namespace sdmg {
 			game.getEngine()->getInputEngine()->getMouse().setClickAction(_xStartPos + PREVIEW_WIDTH, PREVIEW_YPOS, windowWidth - _xStartPos - PREVIEW_WIDTH, 315, (std::function<void()>)std::bind(&LevelSelectionState::selectNext, this));
 		}
 
-		void LevelSelectionState::cleanup(GameBase &game)
+		void LevelSelectionState::cleanup(GameBase& game)
 		{
 			delete _menu;
 			_menu = nullptr;
@@ -142,8 +146,8 @@ namespace sdmg {
 			delete _levels;
 			_levels = nullptr;
 		}
-		
-		void LevelSelectionState::handleEvents(GameBase &game, GameTime &gameTime)
+
+		void LevelSelectionState::handleEvents(GameBase& game, GameTime& gameTime)
 		{
 			SDL_Event event;
 
@@ -155,64 +159,64 @@ namespace sdmg {
 				{
 					switch (event.key.keysym.sym)
 					{
-					case SDLK_ESCAPE:
-						if (game.getGameMode() == GameBase::GameMode::Edit) 
-							changeState(*_game, MainMenuState::getInstance());
-						else
-							changeState(*_game, CharacterSelectionState::getInstance());
-						break;
-					case SDLK_DOWN:
-					case 1:
-						_menu->selectNext();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
-						break;
-					case SDLK_UP:
-					case 0:
-						_menu->selectPrevious();
-						//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
-						break;
-					case SDLK_KP_ENTER:
-					case SDLK_RETURN:
-					case 10:
-						_menu->doAction();
-						break;
+						case SDLK_ESCAPE:
+							if (game.getGameMode() == GameBase::GameMode::Edit)
+								changeState(*_game, MainMenuState::getInstance());
+							else
+								changeState(*_game, CharacterSelectionState::getInstance());
+							break;
+						case SDLK_DOWN:
+						case 1:
+							_menu->selectNext();
+							//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+							break;
+						case SDLK_UP:
+						case 0:
+							_menu->selectPrevious();
+							//game.getEngine()->getAudioEngine()->play("menu_switch_effect", 0);
+							break;
+						case SDLK_KP_ENTER:
+						case SDLK_RETURN:
+						case 10:
+							_menu->doAction();
+							break;
 
-					case SDLK_LEFT:
-						selectPrevious();
-						break;
-					case SDLK_RIGHT:
-						selectNext();
-						break;
+						case SDLK_LEFT:
+							selectPrevious();
+							break;
+						case SDLK_RIGHT:
+							selectNext();
+							break;
 					}
 				}
 				else if (event.type == SDL_CONTROLLERBUTTONDOWN)
 				{
 					switch (event.cbutton.button)
 					{
-					case SDL_CONTROLLER_BUTTON_B:
-						changeState(*_game, CharacterSelectionState::getInstance());
-						break;
-					case SDL_CONTROLLER_BUTTON_A:
-						_menu->doAction();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_UP:
-						_menu->selectPrevious();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-						_menu->selectNext();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-						selectPrevious();
-						break;
-					case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-						selectNext();
-						break;
+						case SDL_CONTROLLER_BUTTON_B:
+							changeState(*_game, CharacterSelectionState::getInstance());
+							break;
+						case SDL_CONTROLLER_BUTTON_A:
+							_menu->doAction();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_UP:
+							_menu->selectPrevious();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+							_menu->selectNext();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+							selectPrevious();
+							break;
+						case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+							selectNext();
+							break;
 					}
 				}
 			}
 		}
 
-		void LevelSelectionState::update(GameBase &game, GameTime &gameTime)
+		void LevelSelectionState::update(GameBase& game, GameTime& gameTime)
 		{
 			auto curTime = std::chrono::high_resolution_clock::now();
 			float diff = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - _lastUpdate).count() / 1000.0f;
@@ -220,18 +224,22 @@ namespace sdmg {
 			_lastUpdate = curTime;
 			_accumulator += diff;
 
-			while (_accumulator > _step) {
-				if (_xPos < _xTargetPos) {
+			while (_accumulator > _step)
+			{
+				if (_xPos < _xTargetPos)
+				{
 					_xPos += _scrollStep;
 					if (_xPos > _xTargetPos)
 						_xPos = _xTargetPos;
 				}
-				else if (_xPos > _xTargetPos) {
+				else if (_xPos > _xTargetPos)
+				{
 					_xPos -= _scrollStep;
 					if (_xPos < _xTargetPos)
 						_xPos = _xTargetPos;
 				}
-				else {
+				else
+				{
 					_xPos = _xTargetPos;
 					_scrollStep = SCROLL_STEP_SLOW;
 				}
@@ -240,7 +248,7 @@ namespace sdmg {
 			}
 		}
 
-		void LevelSelectionState::draw(GameBase &game, GameTime &gameTime)
+		void LevelSelectionState::draw(GameBase& game, GameTime& gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("levelselect_background");
@@ -252,26 +260,32 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->render();
 		}
 
-		void LevelSelectionState::nextState() {
-			if (_game->getGameMode() == GameBase::GameMode::Edit && (*_levels)[_currentLevel] == "$newLevel") {
+		void LevelSelectionState::nextState()
+		{
+			if (_game->getGameMode() == GameBase::GameMode::Edit && (*_levels)[_currentLevel] == "$newLevel")
+			{
 				changeState(*_game, CreateLevelState::getInstance());
 			}
-			else {
+			else
+			{
 				play();
 			}
 		}
 
-		void LevelSelectionState::play() {
+		void LevelSelectionState::play()
+		{
 			LoadingState::getInstance().setIsTutorial(false);
 			LoadingState::getInstance().setLevel(new std::string((*_levels)[_currentLevel]));
 			changeState(*_game, LoadingState::getInstance());
 		}
 
-		void LevelSelectionState::selectNext() {
+		void LevelSelectionState::selectNext()
+		{
 
 			if (_xTargetPos > _xMinPos)
 				_xTargetPos -= PREVIEW_WIDTH + PREVIEW_PADDINGX;
-			else {
+			else
+			{
 				_xTargetPos = _xStartPos;
 				_scrollStep = SCROLL_STEP_QUICK;
 			}
@@ -280,7 +294,8 @@ namespace sdmg {
 			else _currentLevel = 0;
 		}
 
-		void LevelSelectionState::selectPrevious() {
+		void LevelSelectionState::selectPrevious()
+		{
 			if (_xTargetPos < _xStartPos)
 				_xTargetPos += PREVIEW_WIDTH + PREVIEW_PADDINGX;
 			else
@@ -293,11 +308,13 @@ namespace sdmg {
 			else _currentLevel = _levels->size() - 1;
 		}
 
-		void LevelSelectionState::drawLevel(GameBase &game) {
+		void LevelSelectionState::drawLevel(GameBase& game)
+		{
 
 			int x = _xPos;
 
-			for (auto level : *_levels) {
+			for (auto level : *_levels)
+			{
 				auto textSize = game.getEngine()->getDrawEngine()->getTextSize(level + "_title");
 
 				game.getEngine()->getDrawEngine()->draw(level + "_preview", x, PREVIEW_YPOS);

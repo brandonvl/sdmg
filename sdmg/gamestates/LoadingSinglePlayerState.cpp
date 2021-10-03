@@ -37,14 +37,16 @@
 #include <tchar.h>
 #include <stdio.h>
 
-namespace sdmg {
-	namespace gamestates {
+namespace sdmg
+{
+	namespace gamestates
+	{
 
-		void LoadingSinglePlayerState::init(GameBase &game)
+		void LoadingSinglePlayerState::init(GameBase& game)
 		{
 			_game = &game;
 			_game->getWorld()->clearWorld();
-			
+
 			// LoadingBar
 			_loadingValue = 0;
 			_marginInner = 3;
@@ -55,41 +57,42 @@ namespace sdmg {
 			_loadingBarY = 565;
 		}
 
-		void LoadingSinglePlayerState::cleanup(GameBase &game)
+		void LoadingSinglePlayerState::cleanup(GameBase& game)
 		{
 			game.getEngine()->getDrawEngine()->unload("loading");
 		}
 
-		void LoadingSinglePlayerState::pause(GameBase &game)
+		void LoadingSinglePlayerState::pause(GameBase& game)
 		{
 		}
 
-		void LoadingSinglePlayerState::resume(GameBase &game)
+		void LoadingSinglePlayerState::resume(GameBase& game)
 		{
 		}
 
-		void LoadingSinglePlayerState::handleEvents(GameBase &game, GameTime &gameTime)
+		void LoadingSinglePlayerState::handleEvents(GameBase& game, GameTime& gameTime)
 		{
 			SDL_Event event;
 			while (SDL_PollEvent(&event));
 		}
 
-		void LoadingSinglePlayerState::update(GameBase &game, GameTime &gameTime)
+		void LoadingSinglePlayerState::update(GameBase& game, GameTime& gameTime)
 		{
 			if (_isLoaded)
 			{
-				PlayState &state = PlayState::getInstance();
+				PlayState& state = PlayState::getInstance();
 				state.setSlotKeyBinding(_slotKeyInput, _keys);
 				state.setHUDs(_huds);
 				changeState(game, state);
 			}
-			if (_isError) {
+			if (_isError)
+			{
 				// Clean uppen
 				changeState(game, MainMenuState::getInstance());
 			}
 		}
 
-		void LoadingSinglePlayerState::draw(GameBase &game, GameTime &gameTime)
+		void LoadingSinglePlayerState::draw(GameBase& game, GameTime& gameTime)
 		{
 			game.getEngine()->getDrawEngine()->prepareForDraw();
 			game.getEngine()->getDrawEngine()->draw("loading");
@@ -104,7 +107,8 @@ namespace sdmg {
 			game.getEngine()->getDrawEngine()->render();
 		}
 
-		void LoadingSinglePlayerState::load() {
+		void LoadingSinglePlayerState::load()
+		{
 			int maxLoadingValue = _totalWidth - (_marginInner * 2) - (_marginValue * 2);
 			_loadingStep = maxLoadingValue / 3;
 
@@ -118,49 +122,50 @@ namespace sdmg {
 			clearEventQueue();
 		}
 
-		void LoadingSinglePlayerState::clearEventQueue() {
+		void LoadingSinglePlayerState::clearEventQueue()
+		{
 			SDL_Event event;
 			while (SDL_PollEvent(&event));
 		}
 
-		void LoadingSinglePlayerState::loadLevel(std::string level) {
+		void LoadingSinglePlayerState::loadLevel(std::string level)
+		{
 
 			_game->getStateManager()->draw();
 
-			JSON::JSONDocument *doc = JSON::JSONDocument::fromFile("assets/levels/" + level + "/data");
-			JSON::JSONObject &levelObj = doc->getRootObject();
+			std::string folder = "assets/levels/" + level;
+			auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson(folder + "/data");
+			auto& jsonGravityObject = json["gravity"];
+			PhysicsEngine* pe = _game->getEngine()->getPhysicsEngine();
+			DrawEngine* de = _game->getEngine()->getDrawEngine();
 
-			PhysicsEngine *pe = _game->getEngine()->getPhysicsEngine();
-			DrawEngine *de = _game->getEngine()->getDrawEngine();
+			pe->setWorldGravity(jsonGravityObject["left"].get<float>(), jsonGravityObject["down"].get<float>());
 
-			pe->setWorldGravity(levelObj.getObject("gravity").getFloat("left"), levelObj.getObject("gravity").getFloat("down"));
+			auto& jsonPlatforms = json["platforms"];
 
-			JSON::JSONArray &platformArr = levelObj.getArray("platforms");
+			if (jsonPlatforms.size() > 0)
+			{
+				int platformStep = (_loadingStep / 3) / jsonPlatforms.size();
 
-			if (platformArr.size() > 0) {
-				int platformStep = (_loadingStep / 3) / platformArr.size();
-
-				for (int i = 0; i < platformArr.size(); i++) {
-					JSON::JSONObject &platformObj = platformArr.getObject(i);
-
-					Platform *platform = new model::Platform();
-					platform->setSize(platformObj.getObject("size").getFloat("width"), platformObj.getObject("size").getFloat("height"));
-					platform->setLocation(platformObj.getObject("location").getFloat("x"), platformObj.getObject("location").getFloat("y"));
-					pe->addBody(platform, platformObj.getObject("bodyPadding").getFloat("x"), platformObj.getObject("bodyPadding").getFloat("y"));
-					if (platformObj.exists("canMoveThroughIt"))
-						platform->setCanMoveThroughIt(false);
-					else
-						platform->setCanMoveThroughIt(true);
+				for (auto& jsonPlatform : jsonPlatforms)
+				{
+					Platform* platform = new model::Platform();
+					platform->setSize(jsonPlatform["size"]["width"].get<float>(), jsonPlatform["size"]["height"].get<float>());
+					platform->setLocation(jsonPlatform["location"]["x"].get<float>(), jsonPlatform["location"]["y"].get<float>());
+					pe->addBody(platform, jsonPlatform["bodyPadding"]["x"].get<float>(), jsonPlatform["bodyPadding"]["y"].get<float>());
+					platform->setCanMoveThroughIt(jsonPlatform.contains("canMoveThroughIt"));
 
 					_game->getWorld()->addPlatform(platform);
-					if (platformObj.exists("image"))
-						de->load(platform, "assets/levels/" + level + "/" + platformObj.getString("image"));
+
+					if (jsonPlatform.contains("image"))
+						de->load(platform, folder + "/" + jsonPlatform["image"].get<std::string>());
 
 					_loadingValue += platformStep;
 					_game->getStateManager()->draw();
 				}
 			}
-			else {
+			else
+			{
 				_loadingValue += _loadingStep / 3;
 			}
 
@@ -169,23 +174,23 @@ namespace sdmg {
 			_game->getEngine()->getAudioEngine()->load("bgm", "assets/levels/" + level + "/bgm.mp3", AUDIOTYPE::MUSIC);
 
 			std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
-			
+
 			for (size_t i = 0; i < players.size(); i++)
 			{
-				JSON::JSONObject &posObj = levelObj.getArray("startingPositions").getObject(i);
+				auto& jsonCharacterStartingPosition = json["startingPositions"][i];
 
-				float xPos = posObj.getFloat("x"), yPos = posObj.getFloat("y");
+				auto xPos = jsonCharacterStartingPosition["x"].get<float>();
+				auto yPos = jsonCharacterStartingPosition["y"].get<float>();
 
 				players[i]->getBody()->SetTransform(b2Vec2(xPos / 20.0f, yPos / 20.0f), players[i]->getBody()->GetAngle());
 				players[i]->setSpawnLocation(xPos, yPos);
 			}
 
-			loadBulletBobs(levelObj.getArray("bobs"));
+			loadBulletBobs(json["bobs"]);
 
 			// Load fps text
 			de->loadDynamicText("fps", { 255, 255, 255 }, "arial", 18);
 			de->loadDynamicText("speed", { 255, 255, 255 }, "arial", 18);
-			delete doc;
 		}
 
 		void LoadingSinglePlayerState::unloadAll()
@@ -195,8 +200,10 @@ namespace sdmg {
 			delete _levelName;
 			_levelName = nullptr;
 
-			if (_enemies) {
-				for (auto it : *_enemies) {
+			if (_enemies)
+			{
+				for (auto it : *_enemies)
+				{
 					delete it;
 				}
 				_enemies->clear();
@@ -231,13 +238,14 @@ namespace sdmg {
 			setEnemies();
 		}
 
-		void LoadingSinglePlayerState::setSlotKeyBinding(std::map<std::string, int> *input, std::vector<std::string> *keys)
+		void LoadingSinglePlayerState::setSlotKeyBinding(std::map<std::string, int>* input, std::vector<std::string>* keys)
 		{
 			_slotKeyInput = new std::map<std::string, int>(*input);
 			_keys = new std::vector<std::string>(*keys);
 		}
 
-		std::string LoadingSinglePlayerState::getSlotKeyInput(int slot) {
+		std::string LoadingSinglePlayerState::getSlotKeyInput(int slot)
+		{
 			std::string key = "slot_key_" + std::to_string(slot);
 			auto it = _slotKeyInput->find(key);
 			if (it != _slotKeyInput->end())
@@ -248,8 +256,10 @@ namespace sdmg {
 
 		void LoadingSinglePlayerState::setEnemies()
 		{
-			if (_enemies) {
-				for (auto it : *_enemies) {
+			if (_enemies)
+			{
+				for (auto it : *_enemies)
+				{
 					delete it;
 				}
 				_enemies->clear();
@@ -275,7 +285,7 @@ namespace sdmg {
 				}
 			}
 			_enemies->push_back(new std::string(boss));
-			
+
 			_removeFirstEnemy = false;
 		}
 
@@ -308,7 +318,8 @@ namespace sdmg {
 			_game->getStateManager()->update();
 		}
 
-		void LoadingSinglePlayerState::loadCharacters() {
+		void LoadingSinglePlayerState::loadCharacters()
+		{
 			std::string loadCharacters[] = { *_playerName, *(*_enemies)[0] }, level;
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
@@ -318,19 +329,22 @@ namespace sdmg {
 			else
 				characterStep = (_loadingStep / 3) / (loadCharacters->size() + 1);
 
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++)
+			{
 
 				_game->getStateManager()->draw();
 
 				int retries = 0;
-				do{
-					if (i==0)
+				do
+				{
+					if (i == 0)
 						characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, 100.0f, -100.0f);
 					else
 						characters[i] = factories::CharacterFactory::create(loadCharacters[i], *_game, 1100.0f, -100.0f);
 					_game->getWorld()->addPlayer(characters[i]);
 					level = characters[i]->getLevel();
-					if (retries++ > 10){
+					if (retries++ > 10)
+					{
 						_isError = true;
 						return;
 					}
@@ -343,7 +357,7 @@ namespace sdmg {
 			characters[1]->setDirection(MovableGameObject::Direction::LEFT);
 			characters[1]->setSpawnDirection(MovableGameObject::Direction::LEFT);
 
-			engine::ai::AIMachine *machine = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
+			engine::ai::AIMachine* machine = new engine::ai::EasyAIMachine(*characters[1], *characters[0]);
 			characters[1]->setAI(*machine);
 			characters[1]->setLives(1);
 
@@ -352,10 +366,10 @@ namespace sdmg {
 			// Create a HUD for each player
 			_huds = new std::vector<helperclasses::HUD*>();
 
-			HUD *hudPanda = new HUD(*characters[0], 10);
+			HUD* hudPanda = new HUD(*characters[0], 10);
 			_huds->push_back(hudPanda);
 
-			HUD *hudNivek = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
+			HUD* hudNivek = new HUD(*characters[1], _game->getEngine()->getDrawEngine()->getWindowWidth() - 230 - 10);
 			_huds->push_back(hudNivek);
 
 			_loadingValue += characterStep;
@@ -364,7 +378,8 @@ namespace sdmg {
 			loadLevel(level);
 		}
 
-		void LoadingSinglePlayerState::loadBulletBobs(JSON::JSONArray &bobs) {
+		void LoadingSinglePlayerState::loadBulletBobs(nlohmann::json& bobs)
+		{
 			_game->getStateManager()->draw();
 
 			int bobStep = 0;
@@ -373,16 +388,17 @@ namespace sdmg {
 			else
 				bobStep = (_loadingStep / 3) / bobs.size();
 
-			for (int i = 0; i < bobs.size(); i++) {
-				JSON::JSONObject &bobObj = bobs.getObject(i);
+			for (int i = 0; i < bobs.size(); i++)
+			{
+				auto& jsonBobObject = bobs[i];
 
-				MovablePlatform *platform = new MovablePlatform();
-				platform->setSize(bobObj.getObject("size").getFloat("width"), bobObj.getObject("size").getFloat("height"));
-				platform->setLocation(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y"));
-				platform->setStartLocation(b2Vec2(bobObj.getObject("location").getFloat("x"), bobObj.getObject("location").getFloat("y")));
-				platform->setEndLocation(b2Vec2(bobObj.getObject("endLocation").getFloat("x"), bobObj.getObject("endLocation").getFloat("y")));
-				platform->setDirection(static_cast<MovableGameObject::Direction>((int)bobObj.getFloat("direction")));
-				platform->setSpeed(bobObj.getObject("speed").getFloat("horizontal"), bobObj.getObject("speed").getFloat("vertical"));
+				MovablePlatform* platform = new MovablePlatform();
+				platform->setSize(jsonBobObject["size"]["width"].get<float>(), jsonBobObject["size"]["height"].get<float>());
+				platform->setLocation(jsonBobObject["location"]["x"].get<float>(), jsonBobObject["location"]["y"].get<float>());
+				platform->setStartLocation(b2Vec2(jsonBobObject["location"]["x"].get<float>(), jsonBobObject["location"]["y"].get<float>()));
+				platform->setEndLocation(b2Vec2(jsonBobObject["endLocation"]["x"].get<float>(), jsonBobObject["endLocation"]["y"].get<float>()));
+				platform->setDirection(static_cast<MovableGameObject::Direction>((int)jsonBobObject["direction"].get<float>()));
+				platform->setSpeed(jsonBobObject["speed"]["horizontal"].get<float>(), jsonBobObject["speed"]["vertical"].get<float>());
 				platform->setDamageOnImpact(100);
 
 				_game->getWorld()->addPlatform(platform);
@@ -394,11 +410,13 @@ namespace sdmg {
 			}
 		}
 
-		void LoadingSinglePlayerState::loadKeybindings() {
+		void LoadingSinglePlayerState::loadKeybindings()
+		{
 			_game->getStateManager()->draw();
 
-			try{
-				ConfigManager &manager = ConfigManager::getInstance();
+			try
+			{
+				ConfigManager& manager = ConfigManager::getInstance();
 				//InputDeviceBinding *binding = new InputDeviceBinding();
 
 				const std::vector<MovableGameObject*> players = _game->getWorld()->getPlayers();
@@ -413,12 +431,12 @@ namespace sdmg {
 				_game->getEngine()->getInputEngine()->clearBindings();
 
 				int playerCharacterID = 0;
-				
+
 				std::string keyBinding = getSlotKeyInput(playerCharacterID);
-				InputDeviceBinding *binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
+				InputDeviceBinding* binding = _game->getEngine()->getInputEngine()->createBinding(keyBinding);
 				int deviceIndexInFile = manager.getDeviceIndex(keyBinding);
 
-				Character *character = static_cast<Character*>(players[playerCharacterID]);
+				Character* character = static_cast<Character*>(players[playerCharacterID]);
 				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkRight"), new actions::RightWalkAction(character));
 				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "walkLeft"), new actions::LeftWalkAction(character));
 				binding->setKeyBinding(manager.getKey(deviceIndexInFile, "jump"), new actions::JumpAction(character));

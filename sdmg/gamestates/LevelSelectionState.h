@@ -16,30 +16,37 @@
 
 using namespace sdmg::engine;
 
-namespace sdmg {
-	namespace engine {
+namespace sdmg
+{
+	namespace engine
+	{
 		class GameTime;
 	}
-	
-	namespace gamestates {
-		class LevelSelectionState : public SelectionState {
-		public:
-			void init(GameBase &game);
-			void cleanup(GameBase &game);
 
-			void handleEvents(GameBase &game, GameTime &gameTime);
-			void update(GameBase &game, GameTime &gameTime);
-			void draw(GameBase &game, GameTime &gameTime);
-			static LevelSelectionState& getInstance() {
+	namespace gamestates
+	{
+		class LevelSelectionState : public SelectionState
+		{
+		public:
+			void init(GameBase& game);
+			void cleanup(GameBase& game);
+
+			void handleEvents(GameBase& game, GameTime& gameTime);
+			void update(GameBase& game, GameTime& gameTime);
+			void draw(GameBase& game, GameTime& gameTime);
+			static LevelSelectionState& getInstance()
+			{
 				static LevelSelectionState _instance;
 				return _instance;
 			}
 
 		protected:
-			LevelSelectionState() { }
+			LevelSelectionState()
+			{
+			}
 		private:
-			GameBase *_game;
-			std::vector<std::string> *_levels;
+			GameBase* _game;
+			std::vector<std::string>* _levels;
 			int _currentLevel;
 
 			int _xPos, _xTargetPos, _xStartPos, _xMinPos, _scrollStep = 2;
@@ -55,7 +62,7 @@ namespace sdmg {
 				SCROLL_STEP_QUICK = 8,
 				TEXT_YPADDING = 30;
 
-			void drawLevel(GameBase &game);
+			void drawLevel(GameBase& game);
 			void selectNext();
 			void selectPrevious();
 			void nextState();
