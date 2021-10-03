@@ -11,13 +11,20 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
 #include <json.hpp>
 
 namespace sdmg {
 	namespace engine {
 		namespace util {
+
 			class FileManager {
 			public:
+				void setExecutablePath(const std::string executablePath)
+				{
+					_executablePath = executablePath;
+					_directoryPath = _executablePath.parent_path();
+				}
 				nlohmann::json loadFileContentsAsJson(const std::string &relativePath);
 				void saveJsonContentToFile(const std::string& relativePath, const nlohmann::json& content);
 				void createFolder(const std::string& fullFolderPath);
@@ -26,8 +33,8 @@ namespace sdmg {
 				const std::vector<std::string> getFolders(std::string path);
 				
 				static FileManager& getInstance() {
-					static FileManager _instance;
-					return _instance;
+					static FileManager s_Instance;
+					return s_Instance;
 				}
 
 			protected:
@@ -39,7 +46,10 @@ namespace sdmg {
 					Folders
 				};
 
+				std::filesystem::path combinePath(const std::string& relativePath);
 				const std::vector<std::string> getList(std::string path, Type type);
+				std::filesystem::path _executablePath;
+				std::filesystem::path _directoryPath;
 			};
 		}
 	}

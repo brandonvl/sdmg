@@ -16,19 +16,21 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 
-namespace sdmg {
-	namespace engine {
-		namespace util {
+namespace sdmg
+{
+	namespace engine
+	{
+		namespace util
+		{
 
 			nlohmann::json FileManager::loadFileContentsAsJson(const std::string& relativePath)
 			{
 				try
-				{ 
-					std::ifstream ifs(relativePath);
+				{
+					std::ifstream ifs(combinePath(relativePath));
 					auto json = nlohmann::json::parse(ifs);
 					ifs.close();
 					return json;
@@ -37,7 +39,7 @@ namespace sdmg {
 				{
 					std::cout << "Unable to load " + relativePath + ". Unlooky" << std::endl;
 					throw;
-				}				
+				}
 			}
 
 			void FileManager::saveJsonContentToFile(const std::string& relativePath, const nlohmann::json& content)
@@ -58,12 +60,12 @@ namespace sdmg {
 
 			bool FileManager::fileExists(const std::string& relativePath)
 			{
-				return std::filesystem::exists(relativePath);
+				return std::filesystem::exists(combinePath(relativePath));
 			}
 
 			void FileManager::createFolder(const std::string& fullFolderPath)
 			{
-				std::filesystem::create_directories(fullFolderPath);
+				std::filesystem::create_directories(combinePath(fullFolderPath));
 			}
 
 			const std::vector<std::string> FileManager::getFiles(std::string path)
@@ -76,13 +78,20 @@ namespace sdmg {
 				return getList(path, Type::Folders);
 			}
 
+			std::filesystem::path FileManager::combinePath(const std::string& relativePath)
+			{
+				auto intermediatePath = _directoryPath.string() + "/";
+				auto secondIntermediatePath = intermediatePath + relativePath;
+				return secondIntermediatePath;
+			}
+
 			const std::vector<std::string> FileManager::getList(std::string path, Type type)
 			{
 				std::vector<std::string> list;
 
-				path = path + "*.*";
+				auto searchPath = combinePath(path);
 
-				for (auto& entry : std::filesystem::directory_iterator(path))
+				for (auto& entry : std::filesystem::directory_iterator(searchPath))
 				{
 					if (type == Type::Folders)
 					{

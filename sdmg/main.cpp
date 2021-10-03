@@ -15,9 +15,11 @@ using namespace sdmg;
 #include "gamestates\IntroState.h"
 #include "gamestates\LoadingState.h"
 #include "helperclasses\ConfigManager.h"
+#include "engine/util/FileManager.h"
 
 int main(int argc, char **argv)
 {
+	engine::util::FileManager::getInstance().setExecutablePath(argv[0]);
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
 	Game *game = new Game();
 	game->start();

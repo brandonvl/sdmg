@@ -53,7 +53,7 @@ namespace sdmg {
 			_menu->addMenuTextItem("Options", (std::function<void()>)[&] { _game->getStateManager()->pushState(OptionsState::getInstance()); });
 			_menu->addMenuTextItem("Credits", (std::function<void()>)[&] { _game->getStateManager()->pushState(CreditsState::getInstance()); });
 			
-			auto files = util::FileManager::getInstance().getFiles("assets\\playbacks\\");
+			auto files = util::FileManager::getInstance().getFiles("assets/playbacks/");
 			auto file = std::find(files.begin(), files.end(), "recording");
 			if (file != files.end())
 			{
