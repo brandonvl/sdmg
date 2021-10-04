@@ -28,7 +28,7 @@ namespace sdmg
 			void gameOver();
 
 		private:
-			std::string *_level;
+			std::string *_level = nullptr;
 			class RecordItem {
 			public:
 				RecordItem(std::string action, int character, int timestamp, bool keyDown) : _action(action), _character(character), _timestamp(timestamp), _keyDown(keyDown) {}
@@ -65,9 +65,9 @@ namespace sdmg
 				//float _x, _y, _velocityX, _velocityY;
 			};
 
-			std::queue<RecordItem*> *_recordQueue;
-			std::map<model::Character*, int> *_characters;
-			std::chrono::high_resolution_clock::time_point *_recordStartTime;
+			std::queue<RecordItem*> *_recordQueue = nullptr;
+			std::map<model::Character*, int> *_characters = nullptr;
+			std::chrono::high_resolution_clock::time_point *_recordStartTime = nullptr;
 			int _characterIndex = 0;
 			bool _enabled;
 

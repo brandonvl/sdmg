@@ -27,9 +27,9 @@ namespace sdmg {
 				float getRenderWidth();
 				float getRenderHeight();
 			private:
-				SDL_Surface *_surface;
-				SDL_Texture *_texture;
-				TTF_Font *_font;
+				SDL_Surface *_surface = nullptr;
+				SDL_Texture *_texture = nullptr;
+				TTF_Font *_font = nullptr;
 				SDL_Color _fgColor;
 				SDL_Color _bgColor;
 

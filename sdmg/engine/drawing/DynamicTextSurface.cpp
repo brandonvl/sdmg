@@ -11,7 +11,7 @@ namespace sdmg {
 			}
 
 			SDL_Texture* DynamicTextSurface::drawTexture(SDL_Renderer *renderer, std::string text) {
-				if (_texture) {
+				if (_texture != nullptr) {
 					destroyTexture();
 					SDL_FreeSurface(_surface);
 				}
