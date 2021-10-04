@@ -47,7 +47,7 @@ namespace sdmg
 				try
 				{
 					// Overwrites file by default
-					std::ofstream ofs(relativePath);
+					std::ofstream ofs(combinePath(relativePath));
 					ofs << content;
 					ofs.close();
 				}

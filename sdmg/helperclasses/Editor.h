@@ -99,11 +99,11 @@ namespace sdmg {
 			GameObject *_curSelectedObject;
 			std::map<GameObject*, input::Mouse::Hitbox*> *_hitboxes;
 
-			SDL_Window *_window;
-			SDL_Renderer *_renderer;
-			GameBase *_game;
-			TTF_Font *_font;
-			PlatformDef* _currentPlatformDef;
+			SDL_Window *_window = nullptr;
+			SDL_Renderer *_renderer = nullptr;
+			GameBase *_game = nullptr;
+			TTF_Font* _font = nullptr;;
+			PlatformDef* _currentPlatformDef = nullptr;
 			ToolbarButton *_currentToolbarButton, *_editButton, *_moveButton, *_eraserButton, *_saveButton;
 
 			std::vector<PlatformDef*> _platformDefs;

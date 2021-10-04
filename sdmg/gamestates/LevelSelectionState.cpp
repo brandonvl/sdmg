@@ -52,7 +52,7 @@ namespace sdmg
 				changeState(game, CharacterSelectionState::getInstance());
 			});
 
-			_levels = new std::vector<std::string>(util::FileManager::getInstance().getFiles("assets/levels/"));
+			_levels = new std::vector<std::string>(util::FileManager::getInstance().getFolders("assets/levels/"));
 
 			for (size_t i = 0; i < _levels->size(); i++)
 			{
