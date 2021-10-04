@@ -57,11 +57,11 @@ namespace sdmg
 				auto characterName = jsonCharacter["name"].get<std::string>();
 				loadText(characterName + "name", characterName, "trebucbd", 34);
 
-				loadText(characterName + "name", std::to_string(jsonCharacter["wins"].get<int>()), "trebucbd", 34);
-				loadText(characterName + "name", std::to_string(jsonCharacter["losses"].get<int>()), "trebucbd", 34);
+				loadText(characterName + "wins", std::to_string(jsonCharacter["wins"].get<int>()), "trebucbd", 34);
+				loadText(characterName + "losses", std::to_string(jsonCharacter["losses"].get<int>()), "trebucbd", 34);
 
 				auto unlockedStatus = ProgressManager::getInstance().isUnlockedCharacter(characterName) ? "Yes" : "No";
-				loadText(characterName + "name", unlockedStatus, "trebucbd", 34);
+				loadText(characterName + "unlocked", unlockedStatus, "trebucbd", 34);
 			}
 			// Screen 1 - Characters - End
 
