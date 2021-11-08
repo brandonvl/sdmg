@@ -37,7 +37,7 @@ namespace sdmg {
 				void longRangeAttack(MovableGameObject *obj);
 				void longRangeAttackEnd(MovableGameObject *obj);
 			private:
-				Engine *_engine;
+				Engine *_engine = nullptr;
 			};
 		}
 	}

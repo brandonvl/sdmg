@@ -40,10 +40,10 @@ namespace sdmg {
 				Direction GetDirection();
 
 			private:
-				b2Body *_body;
-				b2Vec2 *_startLocation, *_endLocation;
+				b2Body *_body = nullptr;
+				b2Vec2 *_startLocation = nullptr, *_endLocation = nullptr;
 				KinematicBody::Direction _direction;
-				std::vector<b2Body*> *_bodies;
+				std::vector<b2Body*> *_bodies = nullptr;
 			};
 		};
 	}

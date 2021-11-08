@@ -45,7 +45,7 @@ namespace sdmg {
 			Direction _direction;
 			CharacterState _state;
 			int _armor;
-			ai::AIMachine *_aiMachine;
+			ai::AIMachine *_aiMachine = nullptr;
 		};
 	}
 }

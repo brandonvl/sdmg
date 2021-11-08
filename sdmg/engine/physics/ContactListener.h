@@ -18,7 +18,7 @@ namespace sdmg {
 				virtual void PreSolve(b2Contact* contact, const b2Manifold *oldManifold);
 				virtual void PostSolve(b2Contact* contact, const b2ContactImpulse *impulse);
 			private:
-				Engine *_engine;
+				Engine *_engine = nullptr;
 
 				void resetJump(b2Body *upper, b2Body *lower);
 				void ContactDynamicBodyWithKinematicBody(b2Body *dynamic, b2Body *kinematic, b2Contact *contact);

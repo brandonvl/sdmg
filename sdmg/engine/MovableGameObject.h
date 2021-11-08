@@ -129,7 +129,7 @@ namespace sdmg {
 			void triggerStateChangedCallbacks();
 		protected:
 			int _lives, _hp, _bp, _pp, _midCost, _longCost, _midDamage, _longDamage;
-			b2Body *_attackBody, *_shootBody;
+			b2Body *_attackBody = nullptr, *_shootBody = nullptr;
 			Direction _direction;
 			bool _isJumping, _isDead;
 			Speed _speed;

@@ -300,7 +300,7 @@ namespace sdmg
 				_characters->push_back("nivek");
 			}
 
-			auto loadCharacters = *_characters;
+			auto &loadCharacters = *_characters;
 			std::vector<Character*> characters(sizeof(loadCharacters));
 
 			int characterStep = (_loadingStep / 3) / (*_characters).size();

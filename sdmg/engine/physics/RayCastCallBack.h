@@ -15,8 +15,8 @@ namespace sdmg {
 			private:
 				b2Vec2 _pointOne;
 				b2Vec2 _pointTwo;
-				std::function<float32(b2Body*)> *_callBack;
-				PhysicsEngine *_engine;
+				std::function<float32(b2Body*)> *_callBack = nullptr;
+				PhysicsEngine *_engine = nullptr;
 				std::vector<b2Body*> _results;
 			public:
 				RayCastCallBack(float x1, float y1, float x2, float y2, std::function<float32(b2Body*)> *callBack);

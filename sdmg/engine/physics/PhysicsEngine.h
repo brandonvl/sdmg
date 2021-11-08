@@ -62,16 +62,16 @@ namespace sdmg {
 				};
 				void doAction(MovableGameObject *object, Action action);
 			private:
-				Engine *_engine;
-				b2World *_world;
+				Engine *_engine = nullptr;
+				b2World *_world = nullptr;
 				bool _enabled;
 				const float _M2P = 20.0f;
 				const float _P2M = 1.0f / _M2P;
 				const float _standardspeed = 1000.0f;
 
-				ContactListener *_contactListener;
-				b2ContactFilter *_contactFilter;
-				PhysicsEngineActionHandler *_actionHandler;
+				ContactListener *_contactListener = nullptr;
+				b2ContactFilter *_contactFilter = nullptr;
+				PhysicsEngineActionHandler *_actionHandler = nullptr;
 
 				b2Body *addBody(GameObject *object, bool dynamic, float paddingX, float paddingY);
 				void checkMovableBodies();
