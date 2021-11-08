@@ -16,7 +16,8 @@ namespace sdmg {
 		}
 
 		bool CharacterAction::run(engine::GameBase &game) {
-			game.getRecorder().record(_name, *_character, _event.type == SDL_KEYDOWN);
+			if (game.getGameMode() == GameBase::GameMode::Versus)
+				game.getRecorder().record(_name, *_character, _event.type == SDL_KEYDOWN);
 			return true;
 		}
 

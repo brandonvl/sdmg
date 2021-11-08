@@ -235,7 +235,8 @@ namespace sdmg
 			delete _menu;
 			_menu = nullptr;
 
-			game.getRecorder().reset();
+			if (game.getGameMode() == GameBase::GameMode::Versus)
+				game.getRecorder().reset();
 
 			if (_replay)
 			{

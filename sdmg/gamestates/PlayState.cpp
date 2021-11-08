@@ -262,7 +262,8 @@ namespace sdmg {
 		{
 			if (!_editor->isEnabled()) {
 				if (_canDie && game.getWorld()->isGameOver()) {
-					game.getRecorder().gameOver();
+					if (game.getGameMode() == GameBase::GameMode::Versus)
+						game.getRecorder().gameOver();
 
 					_multiplier = 1.0f;
 					setGameplaySpeed();
