@@ -26,8 +26,8 @@ namespace sdmg {
 			{
 				_channelPlaying = _audioEngine->getFreeChannel(_groupTag);
 
-				//if (_channelPlaying != -1)
-					//Mix_PlayChannel(_channelPlaying, _sample, 0);
+				if (_channelPlaying != -1)
+					Mix_PlayChannel(_channelPlaying, _sample, 0);
 			}
 
 			void SampleObject::donePlaying(int channel)
