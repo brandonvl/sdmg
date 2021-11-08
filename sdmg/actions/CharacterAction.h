@@ -15,7 +15,7 @@ namespace sdmg {
 			virtual ~CharacterAction();
 			virtual bool run(engine::GameBase &game) override;
 		protected:
-			Character *_character;
+			Character *_character = nullptr;
 			CharacterAction(Character *character, SDL_Event event, std::string name);
 		};
 	}

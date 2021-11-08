@@ -80,7 +80,7 @@ namespace sdmg {
 		private:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			std::chrono::high_resolution_clock::time_point _timeStart;
-			float _step, _accumulator, _multiplier;
+			float _step, _accumulator = 0, _multiplier;
 
 			PlayBackState() {
 				_recordQueue = new std::queue<RecordStep*>();

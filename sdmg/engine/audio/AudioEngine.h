@@ -59,7 +59,7 @@ namespace sdmg {
 				//SDL_mutex *_audioMutex;
 				bool _audioLoopRunning;
 
-				Engine *_engine;
+				Engine *_engine = nullptr;
 				std::unordered_map<std::string,AudioObject*> _audioObjects;
 				void audioLoop();
 			};

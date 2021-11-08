@@ -40,12 +40,12 @@ namespace sdmg {
 			InputEngine* getInputEngine();
 			ParticleEngine* getParticleEngine();
 		private:
-			DrawEngine *_drawEngine;
-			PhysicsEngine *_physicsEngine;
-			AudioEngine *_audioEngine;
-			InputEngine *_inputEngine;
-			ParticleEngine *_particleEngine;
-			GameBase *_game;
+			DrawEngine *_drawEngine = nullptr;
+			PhysicsEngine *_physicsEngine = nullptr;
+			AudioEngine *_audioEngine = nullptr;
+			InputEngine *_inputEngine = nullptr;
+			ParticleEngine *_particleEngine = nullptr;
+			GameBase *_game = nullptr;
 		};
 	}
 }

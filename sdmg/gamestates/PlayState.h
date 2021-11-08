@@ -69,7 +69,7 @@ namespace sdmg {
 			
 		protected:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
-			float _step, _accumulator;
+			float _step, _accumulator = 0;
 			std::string *_level;
 			PlayState() { }
 			std::vector<helperclasses::HUD*> *_huds;

@@ -38,7 +38,7 @@ namespace sdmg {
 			ai::AIMachine *getAI() { return _aiMachine; }
 			bool isAI()override { return _aiMachine; }
 		private:
-			Weapon *_currentWeapon;
+			Weapon *_currentWeapon = nullptr;
 			std::vector<Weapon*> _weapons;
 			std::string _key;
 			float _speed;

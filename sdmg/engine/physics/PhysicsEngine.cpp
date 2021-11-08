@@ -35,6 +35,7 @@ namespace sdmg {
 				_world->SetContactListener(_contactListener);
 				_world->SetContactFilter(_contactFilter);
 				_step = 1.0f / 60.0f;
+				_accumulator = 0;
 				_lastUpdate = std::chrono::high_resolution_clock::now();
 				_speed = _standardspeed;
 

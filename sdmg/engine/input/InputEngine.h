@@ -54,12 +54,12 @@ namespace sdmg {
 				std::string getDeviceNameByEvent(SDL_Event &event);
 				bool isDeviceEnabled(SDL_Event &event);
 			private:
-				Engine *_engine;
+				Engine *_engine = nullptr;
 				Mouse _mouse;
-				std::map<std::string,InputDeviceBinding*> *_deviceBindings;
+				std::map<std::string,InputDeviceBinding*> *_deviceBindings = nullptr;
 				
 				std::map<std::string, InputType> _devices;
-				std::vector<Action*> *_actions;
+				std::vector<Action*> *_actions = nullptr;
 				bool _active, _mouseEnabled;
 				std::vector<Joystick*> _gameControllers;
 				void initialize();

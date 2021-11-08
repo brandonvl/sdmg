@@ -77,7 +77,7 @@ namespace sdmg {
 				void checkMovableBodies();
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
-				float _step, _accumulator, _speed;
+				float _step, _accumulator = 0, _speed;
 
 				typedef void(PhysicsEngineActionHandler::*ActionFunction)(MovableGameObject*);
 				void addAction(Action action, ActionFunction function);

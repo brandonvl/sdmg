@@ -96,9 +96,9 @@ namespace sdmg {
 				void setFullscreen(bool fullscreen);
 
 			private:
-				Engine *_engine;
-				SDL_Window *_window;
-				SDL_Renderer *_renderer;
+				Engine *_engine = nullptr;
+				SDL_Window *_window = nullptr;
+				SDL_Renderer *_renderer = nullptr;
 				int _curRenderer;
 				
 				std::map<std::string, Surface*> _surfaces;
@@ -113,7 +113,7 @@ namespace sdmg {
 				std::map<GameObject*, int> _steps;
 
 				std::chrono::high_resolution_clock::time_point _lastUpdate;
-				float _step, _accumulator, _speed;
+				float _step, _accumulator = 0, _speed;
 				const float _standardspeed = 500.0f;
 				bool _preparing;
 

@@ -51,7 +51,7 @@ namespace sdmg {
 				int _maxSliceIndex;
 				std::vector<SDL_Texture*> _textures;
 				AnimationType _animationType;
-				DrawEngine *_drawEngine;
+				DrawEngine *_drawEngine = nullptr;
 
 				void load(SDL_Renderer *renderer);
 				void loadMap(SDL_Surface *surface, SDL_Renderer *renderer);

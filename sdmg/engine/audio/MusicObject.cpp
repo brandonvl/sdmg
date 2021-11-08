@@ -24,7 +24,7 @@ namespace sdmg {
 
 			void MusicObject::play()
 			{
-				Mix_PlayMusic(_music, -1);
+				//Mix_PlayMusic(_music, -1);
 			}
 		}
 	}

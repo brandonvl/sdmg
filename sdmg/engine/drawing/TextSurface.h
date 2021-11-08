@@ -27,7 +27,7 @@ namespace sdmg {
 				float getRenderWidth();
 				float getRenderHeight();
 			private:
-				SDL_Texture *_texture;
+				SDL_Texture *_texture = nullptr;
 
 				float _renderWidth;
 				float _renderHeight;

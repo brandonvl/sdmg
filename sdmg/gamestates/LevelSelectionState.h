@@ -50,7 +50,7 @@ namespace sdmg
 			int _currentLevel;
 
 			int _xPos, _xTargetPos, _xStartPos, _xMinPos, _scrollStep = 2;
-			float _step, _accumulator;
+			float _step, _accumulator = 0;
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 
 			const int
