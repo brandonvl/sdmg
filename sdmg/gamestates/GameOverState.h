@@ -44,7 +44,7 @@ namespace sdmg {
 			GameOverState() { }
 		private:
 			int _characterCount;
-			GameBase *_game;
+			GameBase *_game = nullptr;
 			long _enteredGameOverState;
 			bool _isLoaded;
 			bool _replay;

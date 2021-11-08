@@ -55,16 +55,16 @@ namespace sdmg {
 			virtual void draw(GameState *gameState, GameTime *gameTime) = 0;
 			virtual void initialize() = 0;
 		private:
-			GameStateManager *_gameStateManager;
-			helperclasses::RandomGenerator *_randomGenerator;
-			GameTime *_gameTime;
-			Engine *_engine;
-			helperclasses::Recorder *_recorder;
+			GameStateManager *_gameStateManager = nullptr;
+			helperclasses::RandomGenerator *_randomGenerator = nullptr;
+			GameTime *_gameTime = nullptr;
+			Engine *_engine = nullptr;
+			helperclasses::Recorder *_recorder = nullptr;
 			bool _running;
 			bool _calculateFPS;
 			GameMode _gameMode;
 			float _avgFPS;
-			World *_world;
+			World *_world = nullptr;
 			void internalUpdate();
 			void doGameLoop();
 			void internalInitialize();

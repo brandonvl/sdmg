@@ -30,7 +30,7 @@ namespace sdmg {
 			void draw();
 		private:
 			std::vector<GameState*> _states;
-			GameBase *_engine;
+			GameBase *_engine = nullptr;
 		};
 	}
 }

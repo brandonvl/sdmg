@@ -13,11 +13,8 @@ namespace sdmg {
 				void load(const std::string &fileName, const int &tag) override;
 				void play() override;
 			private:
-				Mix_Music *_music;
+				Mix_Music *_music = nullptr;
 			};
 		}
 	}
 }
-
-
-

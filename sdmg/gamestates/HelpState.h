@@ -34,11 +34,11 @@ namespace sdmg {
 		protected:
 			HelpState() { }
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 
-			std::vector<std::string> *_text;
+			std::vector<std::string> *_text = nullptr;
 
 			/*std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
 			std::vector<std::string> split(const std::string &s, char delim);*/

@@ -37,7 +37,7 @@ namespace sdmg {
 		protected:
 			GameModeState() { }
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 		};
 	}
 }

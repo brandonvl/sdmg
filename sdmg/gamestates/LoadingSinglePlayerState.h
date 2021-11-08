@@ -61,7 +61,7 @@ namespace sdmg
 			{
 			}
 		private:
-			GameBase* _game;
+			GameBase* _game = nullptr;
 			void load();
 			void loadCharacters();
 			void loadBulletBobs(nlohmann::json& bobs);
@@ -70,12 +70,12 @@ namespace sdmg
 			void clearEventQueue();
 			void setEnemies();
 			bool _isLoaded, _isError;
-			std::vector<helperclasses::HUD*>* _huds;
+			std::vector<helperclasses::HUD*>* _huds = nullptr;
 			std::map<std::string, int>* _slotKeyInput;
-			std::vector<std::string>* _keys;
+			std::vector<std::string>* _keys = nullptr;
 
-			std::string* _playerName, * _levelName;
-			std::vector<std::string*>* _enemies;
+			std::string* _playerName = nullptr, * _levelName = nullptr;
+			std::vector<std::string*>* _enemies = nullptr;
 
 			int _advertisementX, _advertisementY;
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;

@@ -24,9 +24,9 @@ namespace sdmg {
 			}
 			
 		private:
-			std::string *_name;
-			GameBase *_game;
-			std::string *_error;
+			std::string *_name = nullptr;
+			GameBase *_game = nullptr;
+			std::string *_error = nullptr;
 
 			void create();
 		};

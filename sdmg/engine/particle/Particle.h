@@ -27,7 +27,7 @@ namespace sdmg {
 				void resetLife();
 
 			private:
-				SDL_Surface *_surface;
+				SDL_Surface *_surface = nullptr;
 				//SDL_Surface *_image;
 				float _x, _y, _xVel, _yVel;
 				int _endTime;

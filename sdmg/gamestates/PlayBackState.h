@@ -86,15 +86,15 @@ namespace sdmg {
 				_recordQueue = new std::queue<RecordStep*>();
 			}
 
-			std::vector<helperclasses::HUD*> *_huds;
+			std::vector<helperclasses::HUD*> *_huds = nullptr;
 			
-			std::queue<RecordStep*> *_recordQueue;
+			std::queue<RecordStep*> *_recordQueue = nullptr;
 
 			friend class GameOverState;
 
 			bool _particlesSet, _isPaused, _threadSpawned, _running = true;
 
-			GameBase *_game;
+			GameBase *_game = nullptr;
 
 			friend class LoadingPlayBackState;
 

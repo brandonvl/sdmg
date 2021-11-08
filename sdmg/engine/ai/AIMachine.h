@@ -37,11 +37,11 @@ namespace sdmg {
 					std::map<std::string, aistate::AIState*> _states;
 					int _concentration;
 					const int Concentration_SPAN = 100;
-					aistate::AIState *_defaultState;
-					aistate::AIState *_activeState;
-					aistate::AIState *_previousState;
-					model::Character *_controlled;
-					model::Character *_enemy;
+					aistate::AIState *_defaultState = nullptr;
+					aistate::AIState *_activeState = nullptr;
+					aistate::AIState *_previousState = nullptr;
+					model::Character *_controlled = nullptr;
+					model::Character *_enemy = nullptr;
 					bool _paused = false;
 			};
 		}

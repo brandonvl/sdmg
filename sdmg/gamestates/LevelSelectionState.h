@@ -45,8 +45,8 @@ namespace sdmg
 			{
 			}
 		private:
-			GameBase* _game;
-			std::vector<std::string>* _levels;
+			GameBase* _game = nullptr;
+			std::vector<std::string>* _levels = nullptr;
 			int _currentLevel;
 
 			int _xPos, _xTargetPos, _xStartPos, _xMinPos, _scrollStep = 2;

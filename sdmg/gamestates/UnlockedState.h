@@ -46,9 +46,9 @@ namespace sdmg {
 		protected:
 			UnlockedState() { }
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 
-			std::string *_playerName, *_levelName;
+			std::string *_playerName = nullptr, *_levelName = nullptr;
 		};
 	}
 }

@@ -38,7 +38,7 @@ namespace sdmg {
 			OptionsState() { }
 
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 		};
 	}
 }

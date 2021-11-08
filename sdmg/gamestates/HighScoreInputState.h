@@ -37,13 +37,13 @@ namespace sdmg {
 			HighScoreInputState() { }
 
 		private:
-			GameBase *_game;
-			Menu *_menu;
+			GameBase *_game = nullptr;
+			Menu *_menu = nullptr;
 			int _highscore;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 
-			std::string *_highscoreInitials;
+			std::string *_highscoreInitials = nullptr;
 		};
 	}
 }

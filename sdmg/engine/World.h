@@ -47,8 +47,8 @@ namespace sdmg {
 			std::vector<GameObject*> _gameObjects, _deadList, _aliveList, _platforms;
 			std::vector<std::function<void(GameObject *gameObject)>> _deadCallBacks;
 			std::vector<MovableGameObject*> _players;
-			GameBase *_game;
-			b2World *_physicsWorld;
+			GameBase *_game = nullptr;
+			b2World *_physicsWorld = nullptr;
 		};
 	}
 }

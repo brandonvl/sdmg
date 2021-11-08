@@ -43,7 +43,7 @@ namespace sdmg {
 		private:
 			void returnToMainMenu();
 			void returnToLevelSelection();
-			GameBase *_game;
+			GameBase *_game = nullptr;
 		};
 	}
 }

@@ -37,8 +37,8 @@ namespace sdmg {
 		protected:
 			TutorialState() { }
 		private:
-			std::vector<std::pair<SDL_Keycode, std::string>> *_tutorial;
-			std::vector<std::string> *_toDraw;
+			std::vector<std::pair<SDL_Keycode, std::string>> *_tutorial = nullptr;
+			std::vector<std::string> *_toDraw = nullptr;
 		};
 	}
 }

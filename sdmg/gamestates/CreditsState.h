@@ -33,7 +33,7 @@ namespace sdmg {
 		protected:
 			CreditsState() { }
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 			void returnToMainMenu();

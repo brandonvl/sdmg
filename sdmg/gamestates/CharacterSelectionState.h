@@ -38,12 +38,12 @@ namespace sdmg {
 		protected:
 			CharacterSelectionState() { }
 		private:
-			GameBase *_game;
-			std::map<std::string, nlohmann::json> *_characters, *_lockedCharacters;
-			std::vector<std::string> *_slots;
+			GameBase *_game = nullptr;
+			std::map<std::string, nlohmann::json> *_characters = nullptr, *_lockedCharacters = nullptr;
+			std::vector<std::string> *_slots = nullptr;
 			std::string *_currentCharacter;
-			std::map<std::string, int> *_slotKeyInput;
-			std::vector<std::string> *_keys;
+			std::map<std::string, int> *_slotKeyInput = nullptr;
+			std::vector<std::string> *_keys = nullptr;
 
 			void loadKeys();
 			void drawCharacters(GameBase &game);

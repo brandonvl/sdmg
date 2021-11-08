@@ -32,8 +32,8 @@ namespace sdmg {
 		private:
 			std::vector<MenuItem*> _menuItems;
 			int _startingX, _startingY, _currentY, _itemPaddingY = 5, _width = 375;
-			MenuItem *_selected;
-			GameBase *_game;
+			MenuItem *_selected = nullptr;
+			GameBase *_game = nullptr;
 
 			void buildHitbox(MenuItem *item, int y);
 		};

@@ -43,7 +43,7 @@ namespace sdmg {
 		protected:
 			GameOverSurvivalState() { }
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 
 			bool _replay, _isLoaded;
 			long _enteredGameOverState;

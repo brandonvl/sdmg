@@ -47,11 +47,11 @@ namespace sdmg {
 			void readKeys();
 			void setKeys();
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 			int _currentdevice;
-			std::vector<std::string> *_keys;
-			std::vector<std::string> *_deviceKeys;
-			std::string *_info, *_info2, *_devicename, *_walkright, *_walkleft, *_jump, *_roll, *_midrange, *_longrange, *_block, *_current, *_oldkey;
+			std::vector<std::string> *_keys = nullptr;
+			std::vector<std::string> *_deviceKeys = nullptr;
+			std::string *_info = nullptr, *_info2 = nullptr, *_devicename = nullptr, *_walkright = nullptr, *_walkleft = nullptr, *_jump = nullptr, *_roll = nullptr, *_midrange = nullptr, *_longrange = nullptr, *_block = nullptr, *_current = nullptr, *_oldkey = nullptr;
 		};
 	}
 }

@@ -20,9 +20,8 @@ namespace sdmg {
 					virtual Action* createAction(SDL_Event &action) override;
 					Joystick *getController() { return _controller; }
 			private:
-				Joystick *_controller;
+				Joystick *_controller = nullptr;
 			};
 		}
 	}
 };
-

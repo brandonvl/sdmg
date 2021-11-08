@@ -22,7 +22,7 @@ namespace sdmg {
 		private:
 			int _cooldown;
 			int _damage;
-			Character *_character;
+			Character *_character = nullptr;
 		};
 	}
 }

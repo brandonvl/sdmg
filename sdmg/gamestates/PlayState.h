@@ -70,9 +70,9 @@ namespace sdmg {
 		protected:
 			std::chrono::high_resolution_clock::time_point _lastUpdate;
 			float _step, _accumulator = 0;
-			std::string *_level;
+			std::string *_level = nullptr;
 			PlayState() { }
-			std::vector<helperclasses::HUD*> *_huds;
+			std::vector<helperclasses::HUD*> *_huds = nullptr;
 
 			bool _showFPS, _showHitBoxes, _showClickBoxes, _canDie;
 			long _fps;
@@ -84,9 +84,9 @@ namespace sdmg {
 			friend class GameOverState;
 			friend class GameOverSurvivalState;
 
-			helperclasses::Editor *_editor;
+			helperclasses::Editor *_editor = nullptr;
 
-			GameBase *_game;
+			GameBase *_game = nullptr;
 		};
 	}
 }

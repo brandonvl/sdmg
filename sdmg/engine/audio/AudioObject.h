@@ -17,7 +17,7 @@ namespace sdmg {
 			protected:
 				int _channelPlaying;
 				int _groupTag;
-				AudioEngine *_audioEngine;
+				AudioEngine *_audioEngine = nullptr;
 				AudioObject(AudioEngine &engine) : _audioEngine(&engine) { }
 				
 			};

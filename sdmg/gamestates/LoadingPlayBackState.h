@@ -46,7 +46,7 @@ namespace sdmg {
 		protected:
 			LoadingPlayBackState() { }
 		private:
-			GameBase *_game;
+			GameBase *_game = nullptr;
 			void load();
 			void loadPlaybackSteps();
 			void loadCharacters(std::vector<nlohmann::json>& startingPositions);
@@ -55,12 +55,12 @@ namespace sdmg {
 			void loadKeybindings();
 			void clearEventQueue();
 			bool _isLoaded, _isError;
-			std::vector<helperclasses::HUD*> *_huds;
-			std::string *_level, *_fileName;
-			std::vector<std::string*> *_characters;
-			std::vector<Character*> *_characterObjects;
+			std::vector<helperclasses::HUD*> *_huds = nullptr;
+			std::string *_level, *_fileName = nullptr;
+			std::vector<std::string*> *_characters = nullptr;
+			std::vector<Character*> *_characterObjects = nullptr;
 
-			std::queue<PlayBackState::RecordStep*> *_recordQueue;
+			std::queue<PlayBackState::RecordStep*> *_recordQueue = nullptr;
 
 			// LoadingBar
 			int _loadingValue, _loadingStep, _marginInner, _marginValue, _totalWidth, _totalHeight, _loadingBarX, _loadingBarY;

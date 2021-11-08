@@ -24,8 +24,8 @@ namespace sdmg {
 			void changeOwner(Character *owner);
 		private:
 			void init(DrawEngine &drawEngine);
-			Character *_character;
-			DrawEngine *_drawengine;
+			Character *_character = nullptr;
+			DrawEngine *_drawengine = nullptr;
 			bool _isInitialized;
 			std::string _spriteKeyPrefix;
 			Rectangle _rectangle;

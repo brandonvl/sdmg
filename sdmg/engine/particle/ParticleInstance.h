@@ -14,9 +14,8 @@ namespace sdmg {
 				int GetY();
 			private:
 				int _x, _y;
-				ParticleSet* _particleSet;
+				ParticleSet* _particleSet = nullptr;
 			};
 		}
 	}
 }
-

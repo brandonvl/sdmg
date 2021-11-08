@@ -35,9 +35,9 @@ namespace sdmg {
 			HighScoreState() { }
 
 		private:
-			GameBase *_game;
-			Menu *_menu;
-			std::vector<std::vector<std::string>> *_highscores;
+			GameBase *_game = nullptr;
+			Menu *_menu = nullptr;
+			std::vector<std::vector<std::string>> *_highscores = nullptr;
 
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 		};

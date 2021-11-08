@@ -14,11 +14,8 @@ namespace sdmg {
 				void play() override;
 				void donePlaying(int channel) override;
 			private:
-				Mix_Chunk *_sample;
+				Mix_Chunk *_sample = nullptr;
 			};
 		}
 	}
 }
-
-
-

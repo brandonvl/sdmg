@@ -41,7 +41,7 @@ namespace sdmg {
 			ProgressState() { }
 			void loadText(std::string key, std::string text, std::string fontName, int fontSize);
 
-			GameBase *_game;
+			GameBase *_game = nullptr;
 
 			bool _isEnabled;
 			bool _hasChanged;

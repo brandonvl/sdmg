@@ -28,8 +28,6 @@ namespace sdmg {
 			~ConfigManager() = default;
 			nlohmann::json _jsonConfig;
 			void load();
-
-			
 		};
 	}
 }

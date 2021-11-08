@@ -26,7 +26,7 @@ namespace sdmg {
 						virtual void update(model::Character &controlled, GameTime &gameTime, GameBase &game) = 0;
 						virtual void exit(model::Character &controlled, GameTime &gameTime, GameBase &game) = 0;
 					protected:
-						AIMachine *_machine;
+						AIMachine *_machine = nullptr;
 						std::string _transition = "";
 						std::string _key;
 				};

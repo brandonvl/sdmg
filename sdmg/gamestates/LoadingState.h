@@ -63,8 +63,8 @@ namespace sdmg {
 		protected:
 			LoadingState() { }
 		private:
-			GameBase *_game;
-			SDL_Thread *thread;
+			GameBase *_game = nullptr;
+			SDL_Thread *thread = nullptr;
 			static int loadThread(void *ptr);
 			void load();
 			void loadCharacters(nlohmann::json &startingPositions);
@@ -74,9 +74,9 @@ namespace sdmg {
 			void loadKeybindings();
 			void clearEventQueue();
 			bool _isLoaded, _isError, _isTutorial;
-			std::vector<helperclasses::HUD*> *_huds;
-			std::vector<std::string> *_characters;
-			std::string *_level, *_progress;
+			std::vector<helperclasses::HUD*> *_huds = nullptr;
+			std::vector<std::string> *_characters = nullptr;
+			std::string *_level, *_progress = nullptr;
 			std::map<std::string, int> *_slotKeyInput = nullptr;
 			std::vector<std::string> *_keys = nullptr;
 

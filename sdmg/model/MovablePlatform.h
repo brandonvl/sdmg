@@ -45,7 +45,7 @@ namespace sdmg {
 		private:
 			int _damageOnImpact;
 			Moveing _moveing;
-			MovableGameObject *_owner;
+			MovableGameObject *_owner = nullptr;
 			b2Vec2 _startLocation, _endLocation;
 			bool _mustBeDestroyed;
 			void checkStartHigherThanEnd();

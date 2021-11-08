@@ -24,7 +24,6 @@ namespace sdmg {
 				Joystick(int id, SDL_GameController *pad, std::string name = "");
 				~Joystick();
 
-
 				int getID();
 				int getSDLID();
 				std::string getName() const;
@@ -33,7 +32,7 @@ namespace sdmg {
 			private:
 				int _id;
 				std::string _name;
-				SDL_GameController *_pad;
+				SDL_GameController *_pad = nullptr;
 				void initialize();
 			};
 		}

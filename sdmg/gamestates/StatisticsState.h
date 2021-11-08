@@ -35,8 +35,8 @@ namespace sdmg {
 		protected:
 			StatisticsState() { }
 		private:
-			GameBase *_game;
-			std::string *_backName;
+			GameBase *_game = nullptr;
+			std::string *_backName = nullptr;
 
 			int _screenNumber;
 			int _windowWidth;

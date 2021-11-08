@@ -32,7 +32,7 @@ namespace sdmg {
 				virtual Action* createAction(SDL_Event &action);
 			protected:
 				bool _enabled = true;
-				std::map<const int, Action*> *_keyBindings;
+				std::map<const int, Action*> *_keyBindings = nullptr;
 			};
 		}
 	}

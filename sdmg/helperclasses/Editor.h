@@ -39,9 +39,9 @@ namespace sdmg {
 			private:
 				std::string _name;
 				void load();
-				SDL_Texture *_texture, *_textTexture;
+				SDL_Texture *_texture = nullptr, *_textTexture = nullptr;
 				std::map<std::string, SDL_Surface*> _blocks;
-				Editor *_editor;
+				Editor *_editor = nullptr;
 				int _width, _height;
 			};
 
@@ -61,8 +61,8 @@ namespace sdmg {
 				void mouseUpOnLevel() { if (_mouseUpOnLevelAction) _mouseUpOnLevelAction(); }
 
 			private:
-				SDL_Texture *_texture;
-				Editor *_editor;
+				SDL_Texture *_texture = nullptr;
+				Editor *_editor = nullptr;
 				std::function<void()> _clickAction, _mouseDownOnLevelAction, _mouseUpOnLevelAction;
 				std::function<void(int x, int y)> _mouseMoveOnLevelAction;
 			};
@@ -96,15 +96,15 @@ namespace sdmg {
 			std::string _levelName;
 			bool _enabled = false;
 			int _mouseDownX, _mouseDownY;
-			GameObject *_curSelectedObject;
-			std::map<GameObject*, input::Mouse::Hitbox*> *_hitboxes;
+			GameObject *_curSelectedObject = nullptr;
+			std::map<GameObject*, input::Mouse::Hitbox*> *_hitboxes = nullptr;
 
 			SDL_Window *_window = nullptr;
 			SDL_Renderer *_renderer = nullptr;
 			GameBase *_game = nullptr;
 			TTF_Font* _font = nullptr;;
 			PlatformDef* _currentPlatformDef = nullptr;
-			ToolbarButton *_currentToolbarButton, *_editButton, *_moveButton, *_eraserButton, *_saveButton;
+			ToolbarButton *_currentToolbarButton = nullptr, *_editButton = nullptr, *_moveButton = nullptr, *_eraserButton = nullptr, *_saveButton = nullptr;
 
 			std::vector<PlatformDef*> _platformDefs;
 			std::vector<ToolbarButton*> _buttons;

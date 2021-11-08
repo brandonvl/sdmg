@@ -35,7 +35,7 @@ namespace sdmg {
 		protected:
 			MenuState() { }
 			virtual void menuAction() {};
-			Menu *_menu;
+			Menu *_menu = nullptr;
 		private:
 		};
 	}

@@ -26,11 +26,10 @@ namespace sdmg {
 				int getYVel();
 			private:
 				int _x, _y, _max, _width, _height, _xVel, _yVel;
-				SDL_Surface* _surface;
-				SDL_Surface* _image;
+				SDL_Surface* _surface = nullptr;
+				SDL_Surface* _image = nullptr;
 				std::vector<Particle*> _particles;
 			};
 		}
 	}
 }
-

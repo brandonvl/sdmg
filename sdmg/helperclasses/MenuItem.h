@@ -26,7 +26,7 @@ namespace sdmg {
 		protected:
 			bool _isSelected = false;
 			int _height, _index;
-			Engine *_engine;
+			Engine *_engine = nullptr;
 			std::function<void()> _callback;
 		};
 	}
