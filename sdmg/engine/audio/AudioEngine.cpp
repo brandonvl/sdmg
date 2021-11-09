@@ -34,12 +34,13 @@ namespace sdmg {
 				Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
 
 				Mix_AllocateChannels(16);
+				Mix_Volume(-1, 5);
 				Mix_GroupChannels(0, SOUND_EFFECT_CHANNELS-1, SOUND_EFFECT_GROUP_TAG);
 				Mix_GroupChannels(SOUND_EFFECT_CHANNELS, VOICE_OVER_CHANNELS-1, VOICE_OVER_GROUP_TAG);
 
-				setVolume(MIX_MAX_VOLUME / 8, AUDIOTYPE::SOUND_EFFECT);
-				setVolume(MIX_MAX_VOLUME / 3, AUDIOTYPE::VOICE_OVER);
-				setVolume(MIX_MAX_VOLUME / 3, AUDIOTYPE::MUSIC);
+				setVolume(5, AUDIOTYPE::SOUND_EFFECT);
+				setVolume(5, AUDIOTYPE::VOICE_OVER);
+				setVolume(5, AUDIOTYPE::MUSIC);
 
 				Mix_ChannelFinished(donePlayingOut);
 

@@ -65,11 +65,22 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SDMG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;vendor\SDL2\include;vendor\SDL2_image\include;vendor\SDL2_mixer\include;vendor\SDL2_ttf\include;vendor\JSON\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>vendor\SDL2\lib\x64\SDL2.lib;vendor\SDL2\lib\x64\SDL2main.lib;vendor\SDL2_image\lib\x64\SDL2_image.lib;vendor\SDL2_mixer\lib\x64\SDL2_mixer.lib;vendor\SDL2_ttf\lib\x64\SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)\assets $(OutDirFullPath)\assets /D /Y /E /I
+xcopy $(ProjectDir)\vendor\SDL2\lib\x64\dll $(OutDirFullPath) /D /Y /E
+xcopy $(ProjectDir)\vendor\SDL2_image\lib\x64\dll $(OutDirFullPath) /D /Y /E
+xcopy $(ProjectDir)\vendor\SDL2_mixer\lib\x64\dll $(OutDirFullPath) /D /Y /E
+xcopy $(ProjectDir)\vendor\SDL2_ttf\lib\x64\dll $(OutDirFullPath) /D /Y /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -85,12 +96,23 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SDMG_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;vendor\SDL2\include;vendor\SDL2_image\include;vendor\SDL2_mixer\include;vendor\SDL2_ttf\include;vendor\JSON\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>vendor\SDL2\lib\x64\SDL2.lib;vendor\SDL2\lib\x64\SDL2main.lib;vendor\SDL2_image\lib\x64\SDL2_image.lib;vendor\SDL2_mixer\lib\x64\SDL2_mixer.lib;vendor\SDL2_ttf\lib\x64\SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)\assets $(OutDirFullPath)\assets /D /Y /E /I
+xcopy $(ProjectDir)\vendor\SDL2\lib\x64\dll $(OutDirFullPath) /D /Y /E
+xcopy $(ProjectDir)\vendor\SDL2_image\lib\x64\dll $(OutDirFullPath) /D /Y /E
+xcopy $(ProjectDir)\vendor\SDL2_mixer\lib\x64\dll $(OutDirFullPath) /D /Y /E
+xcopy $(ProjectDir)\vendor\SDL2_ttf\lib\x64\dll $(OutDirFullPath) /D /Y /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Box2D\Box2D.h" />
@@ -482,6 +504,9 @@
     <ClCompile Include="model\MovablePlatform.cpp" />
     <ClCompile Include="model\Platform.cpp" />
     <ClCompile Include="model\Weapon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sdmg.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

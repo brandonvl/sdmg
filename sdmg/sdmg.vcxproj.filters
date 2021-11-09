@@ -1249,4 +1249,7 @@
       <Filter>model</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="sdmg.rc" />
+  </ItemGroup>
 </Project>

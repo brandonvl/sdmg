@@ -20,7 +20,7 @@ IncludeDir["JSON"] = "sdmg/vendor/JSON/include"
 
 project "sdmg"
     location "sdmg"
-    kind "ConsoleApp"
+    kind "WindowedApp"
     language "C++"
     cppdialect "C++17"
     staticruntime "on"
@@ -31,7 +31,8 @@ project "sdmg"
     files
     {
         "%{prj.name}/**.h",
-        "%{prj.name}/**.cpp"
+        "%{prj.name}/**.cpp",
+        "%{prj.name}/sdmg.rc"
     }
 
     defines
@@ -56,6 +57,15 @@ project "sdmg"
         "sdmg/vendor/SDL2_image/lib/x64/SDL2_image.lib",
         "sdmg/vendor/SDL2_mixer/lib/x64/SDL2_mixer.lib",
         "sdmg/vendor/SDL2_ttf/lib/x64/SDL2_ttf.lib"
+    }
+
+    postbuildcommands
+    {
+        "xcopy $(ProjectDir)\\assets $(OutDirFullPath)\\assets /D /Y /E /I",
+        "xcopy $(ProjectDir)\\vendor\\SDL2\\lib\\x64\\dll $(OutDirFullPath) /D /Y /E",
+        "xcopy $(ProjectDir)\\vendor\\SDL2_image\\lib\\x64\\dll $(OutDirFullPath) /D /Y /E",
+        "xcopy $(ProjectDir)\\vendor\\SDL2_mixer\\lib\\x64\\dll $(OutDirFullPath) /D /Y /E",
+        "xcopy $(ProjectDir)\\vendor\\SDL2_ttf\\lib\\x64\\dll $(OutDirFullPath) /D /Y /E"
     }
 
     filter "system:windows"

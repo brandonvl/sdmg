@@ -320,7 +320,6 @@ namespace sdmg {
 			}
 			helperclasses::ConfigManager::getInstance().save();			
 		}
-
 		void ControlsState::update(GameBase &game, GameTime &gameTime)
 		{
 		}
