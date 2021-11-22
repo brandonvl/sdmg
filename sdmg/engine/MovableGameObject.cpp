@@ -476,8 +476,15 @@ namespace sdmg {
 			return _state == State::FALLING || _state == State::FALLINGLEFT || _state == State::FALLINGRIGHT;
 		}
 
-		MovableGameObject::Direction MovableGameObject::getDirection() { return _direction; }
-		void MovableGameObject::setDirection(Direction direction) { _direction = direction; }
+		MovableGameObject::Direction MovableGameObject::getDirection()
+		{
+			return _direction;
+		}
+
+		void MovableGameObject::setDirection(Direction direction)
+		{
+			_direction = direction;
+		}
 
 		float MovableGameObject::getAttackWidth()
 		{

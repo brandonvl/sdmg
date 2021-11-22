@@ -124,7 +124,7 @@ namespace sdmg {
 			float _midAttackY, _longAttackY;
 			std::vector<std::function<void(MovableGameObject *gameObject)>> _stateChangedCallbacks;
 			std::vector<std::function<void(MovableGameObject *gameObject)>> _hitCallbacks;
-			bool _shouldTurnArround;
+			bool _shouldTurnArround = false;
 
 			void triggerStateChangedCallbacks();
 		protected:

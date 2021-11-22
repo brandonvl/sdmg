@@ -374,14 +374,13 @@ namespace sdmg
 			_height = textSurface->h;
 			SDL_FreeSurface(textSurface);
 
-
 			std::vector<std::string> files = util::FileManager::getInstance().getFiles(_editor->PLATFORM_FOLDER + _name + "/");
 
 			for (auto file : files)
 			{
-				if (file.size() > 6 && file.substr(file.size() - 6, 6) == ".block")
+				if (file != "preview")
 				{
-					_blocks.insert(std::make_pair(file.substr(0, file.size() - 6), IMG_Load((_editor->PLATFORM_FOLDER + _name + "/" + file).c_str())));
+					_blocks.insert(std::make_pair(file.substr(0, file.size() - 6), IMG_Load((_editor->PLATFORM_FOLDER + _name + "/" + file + ".block").c_str())));
 				}
 			}
 

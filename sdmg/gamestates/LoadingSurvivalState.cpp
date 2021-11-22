@@ -222,7 +222,11 @@ namespace sdmg
 					platform->setSize(jsonPlatform["size"]["width"].get<float>(), jsonPlatform["size"]["height"].get<float>());
 					platform->setLocation(jsonPlatform["location"]["x"].get<float>(), jsonPlatform["location"]["y"].get<float>());
 					pe->addBody(platform, jsonPlatform["bodyPadding"]["x"].get<float>(), jsonPlatform["bodyPadding"]["y"].get<float>());
-					platform->setCanMoveThroughIt(jsonPlatform.contains("canMoveThroughIt"));
+
+					if (jsonPlatform.contains("canMoveThroughIt"))
+						platform->setCanMoveThroughIt(false);
+					else
+						platform->setCanMoveThroughIt(true);
 
 					_game->getWorld()->addPlatform(platform);
 

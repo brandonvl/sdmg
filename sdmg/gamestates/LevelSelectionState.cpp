@@ -60,31 +60,23 @@ namespace sdmg
 
 				std::ifstream ifile("assets/levels/" + levelFolder + "/data");
 
-				if (!ifile.fail())
+				try
 				{
-					try
+					if (levelFolder != "tutorial")
 					{
-						if (levelFolder != "tutorial")
+						auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/levels/" + levelFolder + "/data");
+
+						if (game.getGameMode() != GameBase::GameMode::Edit || json["editable"].get<bool>())
 						{
-							auto json = engine::util::FileManager::getInstance().loadFileContentsAsJson("assets/levels/" + levelFolder + "/data");
+							bool showLevel = true;
+							if (ProgressManager::getInstance().isUnlockableLevel(levelFolder))
+								showLevel = ProgressManager::getInstance().isUnlockedLevel(levelFolder);
 
-							if (game.getGameMode() != GameBase::GameMode::Edit || json["editable"].get<bool>())
+							if (showLevel)
 							{
-								bool showLevel = true;
-								if (ProgressManager::getInstance().isUnlockableLevel(levelFolder))
-									showLevel = ProgressManager::getInstance().isUnlockedLevel(levelFolder);
-
-								if (showLevel)
-								{
-									game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
-									std::string name = json["name"].get<std::string>();
-									game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", name, { 255, 255, 255 }, "trebucbd", 48);
-								}
-								else
-								{
-									_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
-									i--;
-								}
+								game.getEngine()->getDrawEngine()->load(levelFolder + "_preview", "assets/levels/" + levelFolder + "/preview_big");
+								std::string name = json["name"].get<std::string>();
+								game.getEngine()->getDrawEngine()->loadText(levelFolder + "_title", name, { 255, 255, 255 }, "trebucbd", 48);
 							}
 							else
 							{
@@ -98,17 +90,17 @@ namespace sdmg
 							i--;
 						}
 					}
-					catch (...)
+					else
 					{
 						_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
 						i--;
-						std::cout << "LevelSelection: Error bij laden " + levelFolder;
 					}
 				}
-				else
+				catch (...)
 				{
 					_levels->erase(std::remove(_levels->begin(), _levels->end(), levelFolder), _levels->end());
 					i--;
+					std::cout << "LevelSelection: Error bij laden " + levelFolder;
 				}
 			}
 

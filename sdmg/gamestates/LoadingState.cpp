@@ -258,7 +258,11 @@ namespace sdmg
 					platform->setSize(platformObj["size"]["width"].get<float>(), platformObj["size"]["height"].get<float>());
 					platform->setLocation(platformObj["location"]["x"].get<float>(), platformObj["location"]["y"].get<float>());
 					pe->addBody(platform, platformObj["bodyPadding"]["x"].get<float>(), platformObj["bodyPadding"]["y"].get<float>());
-					platform->setCanMoveThroughIt(platformObj.contains("canMoveThroughIt"));
+
+					if (platformObj.contains("canMoveThroughIt"))
+						platform->setCanMoveThroughIt(false);
+					else
+						platform->setCanMoveThroughIt(true);
 
 					_game->getWorld()->addPlatform(platform);
 					if (platformObj.contains("image"))
